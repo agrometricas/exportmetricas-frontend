@@ -1,0 +1,148 @@
+# Coding Standards
+
+Frontend conventions. The domain rules live in `agent/features/*.md`; this file
+is about how code is written.
+
+## The backend owns the math
+
+This is the rule every change moves toward. It does not describe the whole
+codebase yet: the settlement forms compute `subtotal1`, `subtotal2`, `total` and
+`amount` in the browser and send them, and the default price per box is a
+constant inside `SelectBoxBrand`.
+
+- **Do not add a new calculation to the client.** A figure the backend does not
+  return is a backend change, not a `useMemo`.
+- Client-side derivations are limited to presentation: formatting, and summing
+  values that are already final (a table footer, a selection total).
+- When you edit a form that computes an amount today, move the formula to the
+  backend instead of extending it. Do not copy the pattern into a new form.
+- Business rules (stock limits, eligibility, validation that decides whether
+  something can be saved) belong to the backend. A Yup schema may check the same
+  rule for immediate feedback; the backend is the one that enforces it.
+- Prices, rates and other configuration constants come from the API. Do not add
+  another hardcoded one.
+
+## One implementation per formula
+
+- A formula lives in one function, in `utils/`. If the same calculation appears
+  in two components, extract it before adding the third.
+- The dashboard aggregates (boxes per day, totals per farm, producer vs. client
+  totals) are computed inline in components today. Extract before reusing.
+
+## Data fetching: react-query v3
+
+- One hook per endpoint, in `hooks/<dominio>/` (`getX`, `createX`, `updateX`,
+  `uploadX`). The file exports the plain request function and the `useX` hook.
+- All requests go through the shared instance in `lib/axios.ts`. Do not call
+  `fetch` with a hand-built `Authorization` header from a client component.
+- List hooks return through `serializeQueryResult`, so `data` is already the
+  response body, not the Axios response.
+- **The live `QueryClient` is the one created in `components/Providers.tsx`**,
+  with `staleTime: Infinity` and no automatic refetch. Nothing refreshes by
+  itself: every mutation must invalidate the keys it affects, including the
+  `…Pending` lists that feed the sidebar badges. The `queryClient` exported from
+  `lib/react-query.ts` is not mounted — get the client with `useQueryClient()`.
+- The backend answers **404 for an empty list** on many endpoints. List hooks
+  catch that 404 and return `[]`. Keep that when you add a list hook against an
+  existing endpoint.
+- The backend does not paginate. `search`, `page` and `limit` travel as query
+  params and are ignored; tables paginate and filter in the browser.
+
+## Mutations
+
+- Expose `mutation.mutateAsync` when the caller `await`s the mutation. `mutate`
+  is fire-and-forget: it returns nothing and never throws, so a `try/catch`
+  around it never runs.
+- `mutation.mutate` is fine when the caller handles the outcome through
+  `onSuccess` / `onError`.
+- Error bodies arrive as `ServerErrorResponse` (`types/errorResponse.ts`). For a
+  400 the readable detail is in `errors`, and `message` is a fixed generic
+  string; for every other status the detail is in `message`. Show the one that
+  carries the text.
+- On a `401`, send the user to `/api/auth/signout`.
+
+## Forms
+
+- Formik + Yup. The schema and the initial values live next to the form, in
+  `components/<dominio>/schemas/` when they are shared.
+- Reuse the field components in `components/ui/form/` (`InputFieldText`,
+  `InputFieldNumber`, `InputFieldDate`, `InputFieldSelector`, …) and the
+  `SelectX` / `XSelectBase` pairs of each domain instead of wiring a new input.
+- Submit logic that is more than a single call goes in a `useSubmitX` hook under
+  `components/<dominio>/hooks/`.
+
+## Pages
+
+- `app/dashboard/**/page.tsx` is a thin client component that renders one
+  component from `components/` and is exported wrapped in `IsOnboarding(...)`.
+- A new section needs its entry in `components/ui/sidenav/navMenus.ts` and, if
+  it is a new top-level group, in `SideNavItems.ts` with its `allowedRoles`.
+
+## UI
+
+- Chakra UI is the base. MUI is present only as the engine of Material React
+  Table, bridged through `THEME_ID` in `Providers.tsx`. Do not build layout with
+  MUI components. Date inputs are the native ones wrapped in
+  `components/ui/form/InputFieldDate*.tsx`.
+- Tables use Material React Table.
+- The theme under `src/theme/` is **not mounted**: `Providers.tsx` runs on
+  Chakra's default `extendTheme()`. Use Chakra tokens (`gray.700`, `green.500`)
+  and `useColorModeValue`; do not add hex literals.
+
+## Dates
+
+- Every date a user sees is `DD/MM/AAAA`, zero-padded. A native
+  `<input type="date">` follows the browser language and
+  `toLocaleDateString()` drops the zeros. Both are in use today
+  (`components/ui/form/InputFieldDate.tsx` and several detail views). Do not
+  add new ones.
+- A date field holds **local midnight as an ISO string**: `InputFieldDate`
+  shifts the picked day by the browser's timezone offset before calling
+  `toISOString()`. Build dates through that component; a bare
+  `new Date('2025-06-02')` is UTC midnight and lands on the previous day in
+  Ecuador.
+- The week of an export comes from `getWeekInfo()` (`utils/getWeekInfo.ts`):
+  ISO week, Monday to Sunday.
+
+## TypeScript
+
+- Path alias `@/*` → `src/*`. Prefer it over long relative imports.
+- Response and entity types live in `types/`, one folder or file per domain.
+- `no-explicit-any` and missing return types are lint warnings. Do not add a
+  file-level `eslint-disable` to silence them in new files.
+
+## Secrets and logging
+
+- Never commit an `.env*` file or a secret. `NEXTAUTH_SECRET` comes from the
+  environment, never from a literal.
+- No `console.log` in new code. Never log the session, a token or a response
+  that contains them.
+
+## Comments
+
+- **Write comments in English**, regardless of the language used in docs.
+- Write the **minimum** number of comments. Default to none.
+- Never describe _what_ the code does or narrate its steps — the code says it.
+- Comment only a non-obvious **why**: a decision, a workaround, an external
+  constraint, or something easy to break by accident.
+- Prefer a clear name over a comment. When in doubt, no comment.
+
+## Testing
+
+- There is no test runner configured. Do not claim a change is tested: say how
+  it was exercised.
+- When tests are introduced, pure helpers (`utils/`) and the functions that
+  build a request body are the first candidates, with expected values
+  calculated by hand.
+
+## Agent documentation
+
+- `agent/features/*.md` and `agent/project-overview.md` — **Spanish**. They
+  describe how a module works _today_: models, rules, formulas, file map. Never
+  a changelog: no "antes de esto…", no "se corrigió", no references to a PR or a
+  past bug.
+- `coding-standards.md` — **English**.
+- Cross-cutting rules about _how code must be written_ belong here, not in a
+  feature doc. If a rule applies to more than one module, it goes here.
+- This repository is public. Docs describe the web client; they do not list
+  weaknesses of the backend.
