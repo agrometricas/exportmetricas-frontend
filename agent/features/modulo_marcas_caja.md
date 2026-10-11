@@ -22,6 +22,10 @@ Pesticidas, insecticidas, stickers y hojas no van como un id sino como lista
 (*cóctel*): `pesticides[]`, `insecticides[]`, `stickers[]`, `sheets[]`, cada
 elemento con el id del material y su `quantity`.
 
+En el formulario `name` se rotula *Nickname* —el nombre con que la exportadora
+identifica la caja—, `boxQuantity` es *Número de Cajas/Contenedor* y los dos
+pesos van en libras.
+
 **Marca (`brand`):** `name`. **Certificado requerido:** `name`.
 
 ---
