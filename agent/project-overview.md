@@ -206,6 +206,9 @@ cada grupo por `allowedRoles`. `MASTER` ve todo.
 | Calidad | `QUALITY` |
 | Liquidación, Bodega, Configuraciones | `ADMINISTRATIVE` |
 
+Es el reparto de menús por área que definió la operación al pedir el sistema,
+más Bodega, que se agregó después.
+
 El filtro es del menú, no de las rutas. Los contadores rojos
 salen de `hooks/useMenuCounts.tsx`, que consulta las cinco listas de pendientes.
 

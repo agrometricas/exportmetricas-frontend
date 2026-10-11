@@ -55,7 +55,9 @@ completas en memoria.
 Este módulo es donde más aritmética hay en el navegador:
 
 - Cajas por día y por semana, sumando `weekBoxesOfDay`.
-- Total de contenedores de la semana.
+- Total de contenedores de la semana: por cada exportación, sus cajas divididas
+  para las cajas por contenedor de la alícuota (`boxBrand.boxQuantity`),
+  redondeando hacia arriba.
 - Total cobrado al cliente y total pagado al productor por envío.
 - Monto por productor en contratos `SPOT`: `price × boxQuantity` del pago.
 
