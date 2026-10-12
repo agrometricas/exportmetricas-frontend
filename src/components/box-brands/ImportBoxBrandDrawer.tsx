@@ -237,8 +237,8 @@ const ImportFilesDrawer: React.FC = () => {
     try {
       const url =
         type === 'boxBrand'
-          ? '/firebase/download/ImportarMarcasDeCaja.xlsm'
-          : '/firebase/download/ImportarMateriales.xlsm';
+          ? '/storage/download/ImportarMarcasDeCaja.xlsm'
+          : '/storage/download/ImportarMateriales.xlsm';
       const { data } = await axios.get(url);
       if (data.url) {
         window.open(data.url, '_blank');

@@ -73,8 +73,8 @@ el envío sale de pendientes; la hoja aparece en "Hojas de Corte"
 - Generar la hoja invalida `cuttingSheets` y `cuttingSheetsPending`.
 - `hooks/export/cuttingSheet/getExportsSentPending.ts` exporta
   `useCuttingSheetsPending`: el nombre del archivo no coincide con el del hook.
-- `next.config.js` permite imágenes de `storage.googleapis.com`, de donde vienen
-  logos y artes.
+- `next.config.js` permite imágenes de `*.r2.cloudflarestorage.com`, de donde
+  vienen logos y artes como URLs firmadas que caducan a las dos horas.
 
 > En el menú este módulo es *Calidad*. Sus pantallas están repartidas entre
 > `/dashboard/export/` (hojas) y `/dashboard/box-brands/` (tipos de corte y
