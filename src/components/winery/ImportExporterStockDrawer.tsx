@@ -258,8 +258,8 @@ const ImportExporterStockDrawer: React.FC = () => {
     try {
       const url =
         type === 'exporter'
-          ? '/firebase/download/ImportarStockExportadora.xlsm'
-          : '/firebase/download/ImportarStockFincas.xlsm';
+          ? '/storage/download/ImportarStockExportadora.xlsm'
+          : '/storage/download/ImportarStockFincas.xlsm';
       const { data } = await axios.get(url);
       if (data.url) {
         window.open(data.url, '_blank');
