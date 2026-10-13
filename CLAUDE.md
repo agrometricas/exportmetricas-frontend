@@ -18,11 +18,8 @@ No hay app móvil: esta web es el único cliente del backend
 ## La lógica de negocio vive en el backend
 
 **Esta app captura y muestra; el backend calcula y valida.** Es la regla de la
-casa y la dirección de todo cambio.
-
-Hoy no se cumple en todas partes: los montos de la liquidación se calculan en
-el formulario y se envían ya hechos, y el precio por caja inicial es una
-constante de un componente. Eso es deuda, no un patrón a copiar.
+casa. La liquidación es el modelo: el formulario manda los insumos, pide los
+montos a una ruta de cotización y los muestra sin recalcularlos.
 
 - **No agregar un cálculo nuevo del lado del cliente.** Si una pantalla necesita
   un número que el backend no da, se pide al backend.
@@ -31,8 +28,8 @@ constante de un componente. Eso es deuda, no un patrón a copiar.
 - Las reglas que deciden si algo se puede guardar las hace cumplir el backend.
   La web puede chequear lo mismo para dar feedback inmediato, pero no es la que
   manda.
-- Al tocar un formulario que hoy calcula un monto, mover la fórmula al backend
-  en vez de extenderla.
+- Un formulario que necesita ver un monto antes de guardar lo pide al backend
+  (como `usePaymentQuote`), no lo calcula.
 
 ## Archivos de contexto
 

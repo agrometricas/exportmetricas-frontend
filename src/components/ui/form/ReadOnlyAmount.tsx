@@ -1,0 +1,40 @@
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
+import React from 'react';
+
+interface ReadOnlyAmountProps {
+  label: string;
+  value?: number;
+}
+
+const ReadOnlyAmount: React.FC<ReadOnlyAmountProps> = ({ label, value }) => {
+  return (
+    <FormControl w='100%'>
+      <FormLabel fontSize='sm' mb={'8px'}>
+        {label}
+      </FormLabel>
+      <InputGroup w='100%'>
+        <InputLeftElement
+          pointerEvents='none'
+          color='gray.400'
+          fontSize='1.2em'
+        >
+          $
+        </InputLeftElement>
+        <Input
+          isReadOnly
+          textAlign='right'
+          placeholder={label}
+          value={value === undefined ? '' : value.toFixed(2)}
+        />
+      </InputGroup>
+    </FormControl>
+  );
+};
+
+export default ReadOnlyAmount;

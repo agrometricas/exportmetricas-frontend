@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Button,
@@ -8,7 +7,7 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
@@ -16,10 +15,12 @@ import * as Yup from 'yup';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { useCreateProducerPayment } from '../../../hooks/export/producerPayment/createProducerPayment';
 import { useUploadTransferImage } from '../../../hooks/export/producerPayment/uploadTransferImage';
+import { useProducerPaymentQuote } from '../../../hooks/export/producerPayment/useProducerPaymentQuote';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
 import { ExportSentType } from '../../../types/exportSent';
 import { HarborType } from '../../../types/harbor';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
 import SelectHarbor from '../../harbor/SelectHarbor';
 import SelectProducer from '../../producer/SelectProducer';
@@ -27,6 +28,7 @@ import UploadLogoFile from '../../producer/UploadLogoFile';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldNumber from '../../ui/form/InputFieldNumber';
 import InputFieldTextArea from '../../ui/form/InputFieldTextArea';
+import ReadOnlyAmount from '../../ui/form/ReadOnlyAmount';
 
 const SUPPORTED_FORMATS = [
   'image/jpeg',
@@ -45,19 +47,15 @@ interface ValuesProps {
   destinationHarborId: number | '';
   boxQuantity: number | '';
   boxBrandId: number | '';
-  subtotal1: number | '';
   price: number | '';
   // expenses
   transport: number | '';
   materials: number | '';
   others: number | '';
   description: string;
-  subtotal2: number | '';
-  total: number | '';
 
   sourceBankAccountId: number | '';
   destinationBankAccountId: number | '';
-  amount: number | '';
   dataReviewed: boolean;
   transferFile: File | null;
 }
@@ -70,19 +68,15 @@ const initialValues: ValuesProps = {
   destinationHarborId: '',
   boxQuantity: '',
   boxBrandId: '',
-  subtotal1: '',
   price: '',
   // expenses
   transport: '',
   materials: '',
   others: '',
   description: '',
-  subtotal2: '',
-  total: '',
 
   sourceBankAccountId: '',
   destinationBankAccountId: '',
-  amount: '',
   dataReviewed: false,
   transferFile: null,
 };
@@ -111,14 +105,6 @@ const validationSchema = Yup.object({
   boxBrandId: Yup.number()
     .integer('Debe ser un número entero')
     .min(0, 'Debe ser mayor que 0')
-    .required('Requerido'),
-  subtotal1: Yup.number()
-    .moreThan(0, 'Debe ser mayor que 0')
-    .test(
-      'is-decimal',
-      'Debe tener como máximo 2 decimales',
-      (value) => (value + '').match(/^\d+(\.\d{1,2})?$/) !== null
-    )
     .required('Requerido'),
   price: Yup.number()
     .moreThan(0, 'Debe ser mayor que 0')
@@ -154,15 +140,6 @@ const validationSchema = Yup.object({
     )
     .required('Requerido'),
   description: Yup.string().required('Required'),
-  subtotal2: Yup.number()
-    .moreThan(0, 'Debe ser mayor que 0')
-    .test(
-      'is-decimal',
-      'Debe tener como máximo 2 decimales',
-      (value) => (value + '').match(/^\d+(\.\d{1,2})?$/) !== null
-    )
-    .required('Requerido'),
-  total: Yup.number().moreThan(0, 'Debe ser mayor que 0').required('Requerido'),
 
   sourceBankAccountId: Yup.number()
     .integer('Debe ser un número entero')
@@ -171,14 +148,6 @@ const validationSchema = Yup.object({
   destinationBankAccountId: Yup.number()
     .integer('Debe ser un número entero')
     .min(0, 'Debe ser mayor que 0')
-    .required('Requerido'),
-  amount: Yup.number()
-    .moreThan(0, 'Debe ser mayor que 0')
-    .test(
-      'is-decimal',
-      'Debe tener como máximo 2 decimales',
-      (value) => (value + '').match(/^\d+(\.\d{1,2})?$/) !== null
-    )
     .required('Requerido'),
   dataReviewed: Yup.boolean()
     .oneOf([true], 'Debes revisar los datos antes de enviar')
@@ -190,14 +159,17 @@ const validationSchema = Yup.object({
     }),
 });
 
-const PendingPaymentForm = ({
+const typed = (value: number | ''): number | undefined =>
+  value === '' ? undefined : value;
+
+const PendingPaymentFields = ({
   paymentSelected,
+  isSubmitting,
 }: {
   paymentSelected: Partial<ExportSentType>;
-  pathname?: string;
+  isSubmitting: boolean;
 }): React.JSX.Element => {
-  const [initialValuesPayment, setInitialValuesPayment] =
-    useState<ValuesProps>(initialValues);
+  const { values } = useFormikContext<ValuesProps>();
   const [producerSelect, setProducerSelect] =
     useState<Partial<MerchantResponse> | null>(
       paymentSelected?.export!.merchant || null
@@ -213,6 +185,165 @@ const PendingPaymentForm = ({
   const [boxBrand, setBoxBrand] = useState<Partial<BoxBrandType> | null>(
     paymentSelected?.export!.boxBrand || null
   );
+
+  const sale =
+    values.merchantId === '' || values.boxQuantity === ''
+      ? null
+      : { merchantId: values.merchantId, boxQuantity: values.boxQuantity };
+  // Asked without a price, the backend answers with the one it proposes for
+  // this producer.
+  const { quote: proposal } = useProducerPaymentQuote(sale);
+  const { quote, isSettled } = useProducerPaymentQuote(
+    sale && {
+      ...sale,
+      price: typed(values.price),
+      transport: typed(values.transport),
+      materials: typed(values.materials),
+      others: typed(values.others),
+    }
+  );
+
+  return (
+    <Flex flexDirection='column' gap={3}>
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Productor
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectProducer
+        name={'merchantId'}
+        setProducerSelect={setProducerSelect}
+        producerSelect={producerSelect as Partial<MerchantResponse>}
+      />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Puerto de Salida
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectHarbor
+        name={'departureHarborId'}
+        harborSelect={departureHarbor as Partial<HarborType>}
+        setHarborSelect={setDepartureHarbor}
+        type={'Nacional'}
+      />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Puerto de Destino
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectHarbor
+        name={'destinationHarborId'}
+        harborSelect={destinationHarbor as Partial<HarborType>}
+        setHarborSelect={setDestinationHarbor}
+        type={'Internacional'}
+      />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Compra
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBoxBrand
+        name={'boxBrandId'}
+        name2={'boxQuantity'}
+        boxQuantity={Number(values.boxQuantity)}
+        boxBrandSelect={boxBrand as Partial<BoxBrandType>}
+        setBoxBrandSelect={setBoxBrand}
+      >
+        <InputFieldNumber
+          name={'price'}
+          label={'Precio'}
+          value={proposal?.price ?? ''}
+          isDecimal
+          isDolar
+        />
+        <Box></Box>
+        <ReadOnlyAmount label={'Subtotal1'} value={quote?.subtotal1} />
+      </SelectBoxBrand>
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Gastos
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+        <InputFieldNumber
+          name={'transport'}
+          label={'Transporte'}
+          isDecimal
+          isDolar
+        />
+        <InputFieldNumber
+          name={'materials'}
+          label={'Materiales'}
+          isDecimal
+          isDolar
+        />
+        <InputFieldNumber name={'others'} label={'Varios'} isDecimal isDolar />
+        <ReadOnlyAmount label={'Subtotal2'} value={quote?.subtotal2} />
+        <Box></Box>
+        <ReadOnlyAmount label={'Total'} value={quote?.total} />
+      </SimpleGrid>
+
+      <InputFieldTextArea
+        name={'description'}
+        label={'Descripción de los gastos'}
+      />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cuenta Bancaria Origen
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBankAccount name={'sourceBankAccountId'} />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cuenta Bancaria Destino
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBankAccount name={'destinationBankAccountId'} />
+
+      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+        <Box></Box>
+        <ReadOnlyAmount label={'Monto'} value={quote?.amount} />
+      </SimpleGrid>
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Subir Transferencia
+      </Heading>
+      <Divider mb={'16px'} />
+      <UploadLogoFile name={'transferFile'} />
+      <SimpleGrid columns={{ base: 1, sm: 1 }}>
+        <CheckboxForm
+          name='dataReviewed'
+          label='He revisado los datos agregados'
+        />
+        <Button
+          mt='12px'
+          py='8px'
+          px='16px'
+          type='submit'
+          colorScheme='teal'
+          isLoading={isSubmitting}
+          isDisabled={!isSettled}
+        >
+          Enviar
+        </Button>
+      </SimpleGrid>
+    </Flex>
+  );
+};
+
+const PendingPaymentForm = ({
+  paymentSelected,
+}: {
+  paymentSelected: Partial<ExportSentType>;
+  pathname?: string;
+}): React.JSX.Element => {
+  const [initialValuesPayment, setInitialValuesPayment] =
+    useState<ValuesProps>(initialValues);
   const { createProducerPayment, isLoading: createLoading } =
     useCreateProducerPayment();
   const { uploadTransferImage, isLoading } = useUploadTransferImage();
@@ -221,7 +352,6 @@ const PendingPaymentForm = ({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log('paymentSelected: ', paymentSelected);
     if (paymentSelected) {
       setInitialValuesPayment((prevValues) => ({
         ...prevValues,
@@ -244,14 +374,10 @@ const PendingPaymentForm = ({
     try {
       const {
         transferFile,
-        amount,
         boxQuantity,
         materials,
         others,
         price,
-        subtotal1,
-        subtotal2,
-        total,
         transport,
         dataReviewed,
         ...paymentData
@@ -259,14 +385,10 @@ const PendingPaymentForm = ({
       void dataReviewed;
       const { producerPaymentId } = await createProducerPayment({
         ...paymentData,
-        amount: Number(amount),
         boxQuantity: Number(boxQuantity),
         materials: Number(materials),
         others: Number(others),
         price: Number(price),
-        subtotal1: Number(subtotal1),
-        subtotal2: Number(subtotal2),
-        total: Number(total),
         transport: Number(transport),
       });
 
@@ -289,10 +411,10 @@ const PendingPaymentForm = ({
       queryClient.invalidateQueries('exportsSentPending');
       actions.resetForm();
       router.push('/dashboard/liquidation/producer-payments');
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error?.response?.data?.message || 'Ocurrió un error',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -307,159 +429,12 @@ const PendingPaymentForm = ({
       onSubmit={sentPayment}
       validationSchema={validationSchema}
     >
-      {({ values }) => (
-        <Form>
-          <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Productor
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectProducer
-              name={'merchantId'}
-              setProducerSelect={setProducerSelect}
-              producerSelect={producerSelect as Partial<MerchantResponse>}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Puerto de Salida
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectHarbor
-              name={'departureHarborId'}
-              harborSelect={departureHarbor as Partial<HarborType>}
-              setHarborSelect={setDepartureHarbor}
-              type={'Nacional'}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Puerto de Destino
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectHarbor
-              name={'destinationHarborId'}
-              harborSelect={destinationHarbor as Partial<HarborType>}
-              setHarborSelect={setDestinationHarbor}
-              type={'Internacional'}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Compra
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBoxBrand
-              name={'boxBrandId'}
-              name2={'boxQuantity'}
-              namePrice={'price'}
-              nameSubtotal1={'subtotal1'}
-              boxQuantity={Number(values.boxQuantity)}
-              price={Number(values.price)}
-              contractType={producerSelect?.contractType}
-              boxBrandSelect={boxBrand as Partial<BoxBrandType>}
-              setBoxBrandSelect={setBoxBrand}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Gastos
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-              <InputFieldNumber
-                name={'transport'}
-                label={'Transporte'}
-                isDecimal
-                isDolar
-              />
-              <InputFieldNumber
-                name={'materials'}
-                label={'Materiales'}
-                isDecimal
-                isDolar
-              />
-              <InputFieldNumber
-                name={'others'}
-                label={'Varios'}
-                isDecimal
-                isDolar
-              />
-              <InputFieldNumber
-                name={'subtotal2'}
-                label={'Subtotal2'}
-                value={
-                  Number(values.transport) +
-                  Number(values.materials) +
-                  Number(values.others)
-                }
-                isDecimal
-                isDolar
-              />
-              <Box></Box>
-              <InputFieldNumber
-                name={'total'}
-                label={'Total'}
-                isDecimal
-                isDolar
-                value={Number(values.subtotal1) - Number(values.subtotal2)}
-              />
-            </SimpleGrid>
-
-            <InputFieldTextArea
-              name={'description'}
-              label={'Descripción de los gastos'}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cuenta Bancaria Origen
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBankAccount name={'sourceBankAccountId'} />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cuenta Bancaria Destino
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBankAccount name={'destinationBankAccountId'} />
-
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-              <Box></Box>
-              <InputFieldNumber
-                name={'amount'}
-                label={'Monto'}
-                isDecimal
-                isDolar
-                value={values.total}
-              />
-            </SimpleGrid>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Subir Transferencia
-            </Heading>
-            <Divider mb={'16px'} />
-            <UploadLogoFile name={'transferFile'} />
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
-                type='submit'
-                colorScheme='teal'
-                isLoading={createLoading || isLoading}
-              >
-                Enviar
-              </Button>
-            </SimpleGrid>
-          </Flex>
-        </Form>
-      )}
+      <Form>
+        <PendingPaymentFields
+          paymentSelected={paymentSelected}
+          isSubmitting={createLoading || isLoading}
+        />
+      </Form>
     </Formik>
   );
 };

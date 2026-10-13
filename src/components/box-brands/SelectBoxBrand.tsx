@@ -7,25 +7,19 @@ import InputFieldNumber from '../ui/form/InputFieldNumber';
 interface SelectBoxBrandProps {
   name: string;
   name2?: string;
-  namePrice?: string;
   boxQuantity?: number;
-  price?: number;
-  nameSubtotal1?: string;
   boxBrandSelect?: Partial<BoxBrandType>;
-  contractType?: string;
   setBoxBrandSelect?: (boxBran: Partial<BoxBrandType> | null) => void;
+  children?: React.ReactNode;
 }
 
 const SelectBoxBrand: React.FC<SelectBoxBrandProps> = ({
   name,
   name2,
-  namePrice,
   boxQuantity,
-  price,
-  nameSubtotal1,
   boxBrandSelect,
-  contractType,
   setBoxBrandSelect,
+  children,
 }) => {
   const [boxBrand, setBoxBrand] = useState<Partial<BoxBrandType> | null>(null);
 
@@ -64,25 +58,7 @@ const SelectBoxBrand: React.FC<SelectBoxBrandProps> = ({
           />
         )}
 
-        {!!namePrice && !!nameSubtotal1 && (
-          <>
-            <InputFieldNumber
-              name={namePrice}
-              label={'Precio'}
-              value={contractType === 'FAS' ? 6.85 : 10.5}
-              isDecimal
-              isDolar
-            />
-            <Box></Box>
-            <InputFieldNumber
-              name={nameSubtotal1}
-              label={contractType ? 'Subtotal1' : 'Total'}
-              value={Number(boxQuantity) * Number(price)}
-              isDecimal
-              isDolar
-            />
-          </>
-        )}
+        {children}
       </SimpleGrid>
     </>
   );
