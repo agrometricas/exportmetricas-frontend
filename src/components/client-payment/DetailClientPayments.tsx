@@ -138,9 +138,9 @@ const DetailClientPayments = ({
           <p>
             <strong>Evidencia:</strong>
           </p>
-          {clientPayment.transferKey ? (
+          {clientPayment.transferUrl ? (
             <a
-              href={clientPayment.transferKey}
+              href={clientPayment.transferUrl}
               target='_blank'
               rel='noopener noreferrer'
             >

@@ -10,6 +10,7 @@ export interface ClientPayment {
   total: string;
   description?: string;
   transferKey?: string;
+  transferUrl?: string;
   client: {
     id: number;
     businessName: string;
