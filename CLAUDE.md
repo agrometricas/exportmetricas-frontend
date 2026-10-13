@@ -49,22 +49,26 @@ npm run dev            # servidor de desarrollo (:3000)
 npm run build          # build de producción
 npm run start          # sirve el build
 npm run lint           # ESLint (next lint)
+npm run test           # Vitest (src/**/*.spec.ts)
 npm run format         # Prettier, solo verifica
 npm run format:fix     # Prettier, corrige
 ```
 
-No hay tests: ni unitarios ni E2E.
+Las pruebas cubren utilidades puras. No hay pruebas de componentes ni E2E.
 
 ## Verificación
 
 ```bash
 npx tsc --noEmit       # tipos
 npm run lint
+npm run test
 npm run build
 ```
 
-Sin tests, la verificación real es abrir la pantalla y ejercitar el flujo contra
-un backend.
+`.github/workflows/ci.yml` corre esos cuatro en cada pull request a `main-2`.
+
+Las pruebas no cubren pantallas: para un cambio de interfaz, la verificación
+real sigue siendo abrir la pantalla y ejercitar el flujo contra un backend.
 
 ## Variables de entorno
 

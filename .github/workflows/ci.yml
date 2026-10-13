@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main-2
+
+jobs:
+  checks:
+    name: Tipos, lint, pruebas y build
+    runs-on: ubuntu-latest
+    env:
+      # src/lib/env.ts stops the build when one of these is missing. They are
+      # placeholders: nothing in this job talks to a backend.
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: placeholder-for-ci-only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - name: Tipos
+        run: npx tsc --noEmit
+      - name: Lint
+        run: npm run lint
+      - name: Pruebas
+        run: npm run test
+      - name: Build
+        run: npm run build

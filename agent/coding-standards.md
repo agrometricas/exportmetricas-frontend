@@ -129,11 +129,14 @@ constant inside `SelectBoxBrand`.
 
 ## Testing
 
-- There is no test runner configured. Do not claim a change is tested: say how
-  it was exercised.
-- When tests are introduced, pure helpers (`utils/`) and the functions that
-  build a request body are the first candidates, with expected values
-  calculated by hand.
+- Vitest, files named `*.spec.ts` next to what they test. Import `describe`,
+  `it` and `expect` from `vitest`: there are no globals.
+- What is covered today is pure helpers in `utils/`. A new pure helper, or a
+  function that builds a request body, ships with its spec.
+- Expected values are calculated by hand, never pasted from a run. A test name
+  is a sentence in Spanish that states the rule.
+- Components and screens have no tests. For a change there, do not claim it is
+  tested: say how it was exercised.
 
 ## Agent documentation
 

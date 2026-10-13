@@ -222,7 +222,9 @@ claro y oscuro con `useColorModeValue`.
 
 ## Tests
 
-No hay. Ver [`coding-standards.md`](coding-standards.md) § _Testing_.
+Vitest sobre utilidades puras (`src/**/*.spec.ts`); no hay pruebas de
+componentes ni E2E. Ver [`coding-standards.md`](coding-standards.md) §
+_Testing_.
 
 ---
 
