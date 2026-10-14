@@ -14,23 +14,7 @@ function listBankAccountByMerchantId(
   params: Params,
   body: Body
 ): Promise<AxiosResponse> {
-  return axios
-    .get(`/bank-account/merchant/${body.id}`, { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get(`/bank-account/merchant/${body.id}`, { params });
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type

@@ -43,9 +43,9 @@ the backend proposes.
   itself: every mutation must invalidate the keys it affects, including the
   `…Pending` lists that feed the sidebar badges. The `queryClient` exported from
   `lib/react-query.ts` is not mounted — get the client with `useQueryClient()`.
-- The backend answers **404 for an empty list** on many endpoints. List hooks
-  catch that 404 and return `[]`. Keep that when you add a list hook against an
-  existing endpoint.
+- The backend answers **200 with `[]` for an empty list**. Do not catch a 404
+  in a list hook to return `[]`: it hides a mistyped route, which is how two
+  hooks pointed at endpoints that never existed.
 - The backend does not paginate. `search`, `page` and `limit` travel as query
   params and are ignored; tables paginate and filter in the browser.
 

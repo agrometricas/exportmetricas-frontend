@@ -21,21 +21,12 @@ const updateExporter = async ({
   address,
   exporterId,
 }: UpdateExporterDTO): Promise<AxiosResponse> => {
-  try {
-    return await axios.post(`/exporter/update/${exporterId}`, {
-      cityId,
-      countryId,
-      provinceId,
-      address,
-    });
-  } catch (error: any) {
-    console.error(`Error: :'c =>`, error);
-    if (error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
-  }
+  return await axios.post(`/exporter/update/${exporterId}`, {
+    cityId,
+    countryId,
+    provinceId,
+    address,
+  });
 };
 
 type UseUpdateExporterOptions = {

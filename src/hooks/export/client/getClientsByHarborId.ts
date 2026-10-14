@@ -16,23 +16,7 @@ function listClientsByHarborId(
   params: Params,
   body: Body
 ): Promise<AxiosResponse> {
-  return axios
-    .get(`/client/harbor/${body.id}`, { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get(`/client/harbor/${body.id}`, { params });
 }
 
 export function useClientsByHarborId(

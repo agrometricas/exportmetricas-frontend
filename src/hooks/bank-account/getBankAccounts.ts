@@ -7,23 +7,7 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listBankAccount(params: Params): Promise<AxiosResponse> {
-  return axios
-    .get('/bank-account', { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/bank-account', { params });
 }
 
 export function useBankAccounts({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

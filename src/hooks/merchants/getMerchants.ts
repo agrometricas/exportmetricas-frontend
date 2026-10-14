@@ -8,21 +8,7 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listMerchants(params: Params): Promise<AxiosResponse<MerchantResponse[]>> {
-  return axios
-    .get<MerchantResponse[]>('/merchant', { params })
-    .then((response) => response)
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse<MerchantResponse[]>;
-      }
-      throw error;
-    });
+  return axios.get<MerchantResponse[]>('/merchant', { params });
 }
 
 export function useMerchants({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

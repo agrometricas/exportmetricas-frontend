@@ -20,20 +20,11 @@ const uploadTransferImage = async ({
   const formData = new FormData();
   formData.append('file', file);
 
-  try {
-    return await axios.post(
-      `/export/producer-payment/${producerPaymentId}/merchant/${merchantId}/transfer`,
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
-    );
-  } catch (error: any) {
-    console.error(`Error: :'c =>`, error);
-    if (error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
-  }
+  return await axios.post(
+    `/export/producer-payment/${producerPaymentId}/merchant/${merchantId}/transfer`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
 };
 
 type UseUploadTransferImageOptions = {

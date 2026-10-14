@@ -18,18 +18,9 @@ const uploadBoxBrandLogo = async ({
   const formData = new FormData();
   formData.append('file', logoImg);
 
-  try {
-    return await axios.post(`/box-brand/${boxBrandId}/logo`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-  } catch (error: any) {
-    console.error(`Error: :'c =>`, error);
-    if (!!error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
-  }
+  return await axios.post(`/box-brand/${boxBrandId}/logo`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 type UseUploadBoxBrandLogoOptions = {

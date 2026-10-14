@@ -1498,7 +1498,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   type='submit'
                   colorScheme='teal'
                   isLoading={isSubmitting || isLoading}
-                  onClick={() => console.log('values: ', values)}
                 >
                   Enviar
                 </Button>

@@ -239,7 +239,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
       onSubmit={addBankAccount}
       validationSchema={validationSchema}
     >
-      {({ errors, values }) => (
+      {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
             {isProducerPath && (
@@ -295,10 +295,6 @@ const AddBankAccountForm = (): React.JSX.Element => {
                 type='submit'
                 colorScheme='teal'
                 isLoading={isLoading}
-                onClick={() => {
-                  console.log('errors: ', errors);
-                  console.log('values: ', values);
-                }}
               >
                 Enviar
               </Button>
