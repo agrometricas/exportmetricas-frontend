@@ -93,6 +93,7 @@ consulta para pintar los contadores del menú lateral.
 | Bodega | `winery/`, `/ajuste-materiales/*` | Bodega | [modulo_bodega](features/modulo_bodega.md) |
 | Liquidación | `liquidation/` | Liquidación | [modulo_liquidacion](features/modulo_liquidacion.md) |
 | Inicio | `/dashboard` (raíz) | — | [modulo_dashboard](features/modulo_dashboard.md) |
+| Errores del navegador | `api/client-errors`, `error.tsx`, `global-error.tsx` | — | [observabilidad_logs](features/observabilidad_logs.md) |
 
 **La ruta no siempre coincide con el menú.** Envíos de insumos vive bajo
 `liquidation/` pero se muestra en *Exportaciones*; verificadoras y tipos de
@@ -170,8 +171,10 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
 - Instancia única, `baseURL = env.NEXT_PUBLIC_API_URL`, timeout de 10 s.
 - El interceptor llama a `getSession()` en **cada** petición y pone el refresh
   token como Bearer.
-- No hay interceptor de respuesta: cada hook o formulario maneja su error. Ante
-  un 401 el patrón es redirigir a `/api/auth/signout`.
+- El interceptor de respuesta solo reporta el error (ver
+  [observabilidad_logs](features/observabilidad_logs.md)) y lo deja pasar: cada
+  hook o formulario sigue manejando el suyo. Ante un 401 el patrón es redirigir
+  a `/api/auth/signout`.
 - Las páginas públicas y algunas de servidor usan `fetch` directo
   (`lib/export/export.ts`, recuperación de contraseña, ajuste de materiales).
 

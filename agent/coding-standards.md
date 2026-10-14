@@ -118,6 +118,9 @@ the backend proposes.
   environment, never from a literal.
 - No `console.log` in new code. Never log the session, a token or a response
   that contains them.
+- A browser error worth knowing about goes through `reportClientError`
+  (`lib/error-reporter.ts`), which is what makes it visible in Vercel. The one
+  `console.error` in the codebase is the server route that writes those lines.
 
 ## Comments
 
