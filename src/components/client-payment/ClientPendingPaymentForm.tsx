@@ -7,17 +7,18 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
+import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { ClientType } from '../../types/client';
 import { ExportSentType } from '../../types/exportSent';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
 import SelectClient from '../client/SelectClient';
 import SelectBankAccount from '../export/export-payments/bank-account/SelectBankAccount';
@@ -25,6 +26,7 @@ import UploadLogoFile from '../producer/UploadLogoFile';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldTextArea from '../ui/form/InputFieldTextArea';
+import ReadOnlyAmount from '../ui/form/ReadOnlyAmount';
 
 const SUPPORTED_FORMATS = [
   'image/jpeg',
@@ -40,7 +42,6 @@ interface ValuesProps {
   clientId: number | '';
   boxQuantity: number | '';
   boxBrandId: number | '';
-  total: number | '';
   price: number | '';
   description: string;
   sourceBankAccountId: number | '';
@@ -56,7 +57,6 @@ const initialValues: ValuesProps = {
   boxBrandId: '',
   price: '',
   description: '',
-  total: '',
   sourceBankAccountId: '',
   destinationBankAccountId: '',
   dataReviewed: false,
@@ -80,8 +80,15 @@ const validationSchema = Yup.object({
     .integer('Debe ser un número entero')
     .min(0, 'Debe ser mayor que 0')
     .required('Requerido'),
+  price: Yup.number()
+    .min(0, 'No puede ser negativo')
+    .test(
+      'is-decimal',
+      'Debe tener como máximo 2 decimales',
+      (value) => (value + '').match(/^\d+(\.\d{1,2})?$/) !== null
+    )
+    .required('Requerido'),
   description: Yup.string().max(500, 'Debe tener 500 caracteres o menos'),
-  total: Yup.number().moreThan(0, 'Debe ser mayor que 0').required('Requerido'),
   sourceBankAccountId: Yup.number()
     .integer('Debe ser un número entero')
     .min(0, 'Debe ser mayor que 0')
@@ -100,6 +107,120 @@ const validationSchema = Yup.object({
     }),
 });
 
+const ClientPendingPaymentFields = ({
+  paymentSelected,
+  isSubmitting,
+}: {
+  paymentSelected: Partial<ExportSentType>;
+  isSubmitting: boolean;
+}): React.JSX.Element => {
+  const { values } = useFormikContext<ValuesProps>();
+  const [clientSelect, setClientSelect] = useState<Partial<ClientType> | null>(
+    paymentSelected?.export!.client || null
+  );
+  const [boxBrand, setBoxBrand] = useState<Partial<BoxBrandType> | null>(
+    paymentSelected?.export!.boxBrand || null
+  );
+
+  const sale =
+    values.boxQuantity === '' ? null : { boxQuantity: values.boxQuantity };
+  // Asked without a price, the backend answers with the one it proposes.
+  const { quote: proposal } = useClientPaymentQuote(sale);
+  const { quote, isSettled } = useClientPaymentQuote(
+    sale && {
+      ...sale,
+      price: values.price === '' ? undefined : values.price,
+    }
+  );
+
+  return (
+    <Flex flexDirection='column' gap={3}>
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cliente
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectClient
+        name={'clientId'}
+        setClientSelect={setClientSelect}
+        clientSelect={clientSelect as Partial<ClientType>}
+      />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cobro
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBoxBrand
+        name={'boxBrandId'}
+        name2={'boxQuantity'}
+        boxQuantity={Number(values.boxQuantity)}
+        boxBrandSelect={boxBrand as Partial<BoxBrandType>}
+        setBoxBrandSelect={setBoxBrand}
+      >
+        <InputFieldNumber
+          name={'price'}
+          label={'Precio'}
+          value={proposal?.price ?? ''}
+          isDecimal
+          isDolar
+        />
+        <Box></Box>
+        <ReadOnlyAmount label={'Total'} value={quote?.total} />
+      </SelectBoxBrand>
+
+      <InputFieldTextArea name={'description'} label={'Detalles del cobro'} />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cuenta Bancaria Origen
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBankAccount name={'sourceBankAccountId'} label='Razón Social' />
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Cuenta Bancaria Destino
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <SelectBankAccount
+        name={'destinationBankAccountId'}
+        label='Razón Social'
+      />
+
+      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+        <Box></Box>
+        <ReadOnlyAmount label={'Monto'} value={quote?.total} />
+      </SimpleGrid>
+
+      <Heading fontSize={'2xl'} p={'12px'}>
+        Subir Transferencia
+      </Heading>
+      <Divider mb={'16px'} />
+
+      <UploadLogoFile name={'transferFile'} />
+
+      <SimpleGrid columns={{ base: 1, sm: 1 }}>
+        <CheckboxForm
+          name='dataReviewed'
+          label='He revisado los datos agregados'
+        />
+        <Button
+          mt='12px'
+          py='8px'
+          px='16px'
+          type='submit'
+          colorScheme='teal'
+          isLoading={isSubmitting}
+          isDisabled={!isSettled}
+        >
+          Enviar
+        </Button>
+      </SimpleGrid>
+    </Flex>
+  );
+};
+
 const ClientPendingPaymentForm = ({
   paymentSelected,
 }: {
@@ -108,12 +229,6 @@ const ClientPendingPaymentForm = ({
 }): React.JSX.Element => {
   const [initialValuesPayment, setInitialValuesPayment] =
     useState<ValuesProps>(initialValues);
-  const [clientSelect, setClientSelect] = useState<Partial<ClientType> | null>(
-    paymentSelected?.export!.client || null
-  );
-  const [boxBrand, setBoxBrand] = useState<Partial<BoxBrandType> | null>(
-    paymentSelected?.export!.boxBrand || null
-  );
   const { mutateAsync: createClientPayment, isLoading: createLoading } =
     useCreateClientPayment();
   const { uploadTransferImage, isLoading } = useUploadTransferImage();
@@ -122,7 +237,6 @@ const ClientPendingPaymentForm = ({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log('paymentSelected: ', paymentSelected);
     if (paymentSelected) {
       setInitialValuesPayment((prevValues) => ({
         ...prevValues,
@@ -139,20 +253,13 @@ const ClientPendingPaymentForm = ({
     actions: { resetForm: () => void }
   ): Promise<void> => {
     try {
-      const {
-        transferFile,
-        boxQuantity,
-        price,
-        total,
-        dataReviewed,
-        ...paymentData
-      } = values;
+      const { transferFile, boxQuantity, price, dataReviewed, ...paymentData } =
+        values;
       void dataReviewed;
       const { clientPaymentId } = await createClientPayment({
         ...paymentData,
         boxQuantity: Number(boxQuantity),
         price: Number(price),
-        total: Number(total),
       });
 
       if (transferFile) {
@@ -176,15 +283,9 @@ const ClientPendingPaymentForm = ({
       actions.resetForm();
       router.push('/dashboard/liquidation/client-payments');
     } catch (error: unknown) {
-      let errorMessage = 'Ocurrió un error';
-      if (isAxiosError(error) && error.response) {
-        errorMessage = error.response.data?.message || errorMessage;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      }
       toast({
         title: 'Error',
-        description: errorMessage,
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -199,95 +300,12 @@ const ClientPendingPaymentForm = ({
       onSubmit={sentPayment}
       validationSchema={validationSchema}
     >
-      {({ values }) => (
-        <Form>
-          <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cliente
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectClient
-              name={'clientId'}
-              setClientSelect={setClientSelect}
-              clientSelect={clientSelect as Partial<ClientType>}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cobro
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBoxBrand
-              name={'boxBrandId'}
-              name2={'boxQuantity'}
-              namePrice={'price'}
-              nameSubtotal1={'total'}
-              boxQuantity={Number(values.boxQuantity)}
-              price={Number(values.price)}
-              boxBrandSelect={boxBrand as Partial<BoxBrandType>}
-              setBoxBrandSelect={setBoxBrand}
-            />
-
-            <InputFieldTextArea
-              name={'description'}
-              label={'Detalles del cobro'}
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cuenta Bancaria Origen
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBankAccount
-              name={'sourceBankAccountId'}
-              label='Razón Social'
-            />
-
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cuenta Bancaria Destino
-            </Heading>
-            <Divider mb={'16px'} />
-
-            <SelectBankAccount
-              name={'destinationBankAccountId'}
-              label='Razón Social'
-            />
-
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-              <Box></Box>
-              <InputFieldNumber
-                name={'total'}
-                label={'Monto'}
-                isDecimal
-                isDolar
-                value={values.total}
-              />
-            </SimpleGrid>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Subir Transferencia
-            </Heading>
-            <Divider mb={'16px'} />
-            <UploadLogoFile name={'transferFile'} />
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
-                type='submit'
-                colorScheme='teal'
-                isLoading={createLoading || isLoading}
-              >
-                Enviar
-              </Button>
-            </SimpleGrid>
-          </Flex>
-        </Form>
-      )}
+      <Form>
+        <ClientPendingPaymentFields
+          paymentSelected={paymentSelected}
+          isSubmitting={createLoading || isLoading}
+        />
+      </Form>
     </Formik>
   );
 };

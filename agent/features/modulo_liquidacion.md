@@ -50,31 +50,38 @@ unitario editable. Al guardar:
 | Campo | Origen en el formulario |
 |-------|-------------------------|
 | `exportSentId`, `merchantId`, `departureHarborId`, `destinationHarborId`, `boxBrandId`, `boxQuantity` | Precargados del envío elegido |
-| `price` | Propuesto según el contrato del productor, editable |
-| `subtotal1` | `boxQuantity × price` |
+| `price` | Propuesto por el backend según el contrato del productor, editable |
 | `transport`, `materials`, `others` | Los escribe el usuario |
 | `description` | Descripción de los gastos |
-| `subtotal2` | `transport + materials + others` |
-| `total` | `subtotal1 − subtotal2` |
-| `amount` | Igual a `total` |
 | `sourceBankAccountId`, `destinationBankAccountId` | Selectores de cuenta |
 
 ### Cobro a cliente (campos que envía la web)
 
 `exportSentId`, `clientId`, `boxBrandId`, `boxQuantity`, `price`,
-`total` (`boxQuantity × price`), `description?`, `sourceBankAccountId`,
-`destinationBankAccountId`.
+`description?`, `sourceBankAccountId`, `destinationBankAccountId`.
 
 ---
 
 ### Dónde se calculan los montos
 
-**En el formulario.** `SelectBoxBrand` calcula `boxQuantity × price` y
-`PendingPaymentForm` calcula `subtotal2` y `total` en el render; los valores
-viajan en el body y el backend los guarda como llegan.
+**En el backend.** El body solo lleva insumos. Mientras el usuario llena el
+formulario, `usePaymentQuote` (`hooks/liquidation/`) pide los montos a la ruta
+de cotización y el formulario los muestra en campos de solo lectura
+(`ReadOnlyAmount`):
 
-El precio por caja inicial es una constante de `SelectBoxBrand`: un valor para
-el contrato `FAS` y otro para el resto.
+| Formulario | Ruta | Devuelve |
+|------------|------|----------|
+| Pago a productor | `GET /export/producer-payment/quote` | `price`, `subtotal1`, `subtotal2`, `total`, `amount` |
+| Cobro a cliente | `GET /client-payment/quote` | `price`, `total` |
+
+- La cotización se pide 300 ms después de la última tecla
+- Pedida sin `price`, devuelve el precio que el backend propone; ese valor
+  llena el campo *Precio*, que el usuario puede cambiar
+- Con un insumo que el backend rechaza (un precio con tres decimales, por
+  ejemplo) los montos quedan vacíos
+- *Enviar* está deshabilitado mientras los montos en pantalla no correspondan
+  a lo que está escrito (`isSettled`): lo que se guarda se calcula de los
+  insumos, y el usuario tiene que haber visto esa cifra
 
 El gasto `materials` lo escribe el usuario: no se trae de los costos validados
 del mismo envío.
@@ -108,7 +115,7 @@ moviéndolos al backend, no editando el componente.
 | Pagos a productor realizados | `components/liquidation/producer-payments/` |
 | Cobro a cliente | `components/client-payment/` |
 | Selector de cuenta | `components/export/export-payments/bank-account/` |
-| Precio y subtotal | `components/box-brands/SelectBoxBrand.tsx` |
+| Montos cotizados | `hooks/liquidation/usePaymentQuote.ts`, `hooks/export/producerPayment/useProducerPaymentQuote.ts`, `hooks/client-payment/useClientPaymentQuote.ts`, `components/ui/form/ReadOnlyAmount.tsx` |
 | Páginas | `app/dashboard/liquidation/{export-costs, add-export-cost, add-export-cost/[id], producer-payments, producer-pending-payments, producer-pending-payments/[id], client-payments, client-pending-payments, client-pending-payments/[id]}/page.tsx` |
 | Tipos | `types/producerPayment.ts`, `types/client-payment/`, `types/export-sent/` |
 | Hooks | `hooks/export/export-sent/`, `hooks/export/producerPayment/`, `hooks/liquidation/`, `hooks/client-payment/` |

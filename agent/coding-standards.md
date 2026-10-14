@@ -5,17 +5,18 @@ is about how code is written.
 
 ## The backend owns the math
 
-This is the rule every change moves toward. It does not describe the whole
-codebase yet: the settlement forms compute `subtotal1`, `subtotal2`, `total` and
-`amount` in the browser and send them, and the default price per box is a
-constant inside `SelectBoxBrand`.
+The settlement forms are the reference: they send inputs (boxes, price,
+expenses), ask a quote endpoint for the amounts through `usePaymentQuote`, and
+show what comes back read-only. The price per box they start with is the one
+the backend proposes.
 
 - **Do not add a new calculation to the client.** A figure the backend does not
   return is a backend change, not a `useMemo`.
 - Client-side derivations are limited to presentation: formatting, and summing
   values that are already final (a table footer, a selection total).
-- When you edit a form that computes an amount today, move the formula to the
-  backend instead of extending it. Do not copy the pattern into a new form.
+- A form that has to show an amount before saving asks the backend for it and
+  disables its submit button until the figure on screen answers the current
+  inputs (`isSettled`). It never sends a computed amount in the body.
 - Business rules (stock limits, eligibility, validation that decides whether
   something can be saved) belong to the backend. A Yup schema may check the same
   rule for immediate feedback; the backend is the one that enforces it.
@@ -58,7 +59,7 @@ constant inside `SelectBoxBrand`.
 - Error bodies arrive as `ServerErrorResponse` (`types/errorResponse.ts`). For a
   400 the readable detail is in `errors`, and `message` is a fixed generic
   string; for every other status the detail is in `message`. Show the one that
-  carries the text.
+  carries the text: `serverErrorMessage(error)` (`utils/`) picks it.
 - On a `401`, send the user to `/api/auth/signout`.
 
 ## Forms

@@ -99,8 +99,9 @@ En el CSV de materiales la columna `material_type` va **en español** (`fondo`,
 - `utils/materialTypeLabels.ts` traduce cada `MaterialType` a su nombre en
   pantalla (`MATERIAL_TYPE_LABELS`) y fija el orden en que se listan
   (`MATERIAL_TYPE_ORDER`); lo usan las pantallas de Bodega.
-- `SelectBoxBrand` sirve a dos formularios: en el de exportación solo elige la
-  alícuota; en el de pago a productor muestra además precio y subtotal.
+- `SelectBoxBrand` elige la alícuota y, si recibe `name2`, pide el número de
+  cajas. Los formularios de liquidación le pasan como `children` el precio y el
+  monto, para que queden en la misma grilla.
 
 > No hay pantalla para editar una alícuota. En el menú este módulo se llama
 > *Materiales* y sus ítems *Alícuotas*.
