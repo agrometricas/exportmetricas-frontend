@@ -9,23 +9,7 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listRequiredCertificates(params: Params): Promise<AxiosResponse> {
-  return axios
-    .get('/box-brand/certificate', { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/box-brand/certificate', { params });
 }
 
 export function useRequiredCertificates({

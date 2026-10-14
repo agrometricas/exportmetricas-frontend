@@ -8,23 +8,7 @@ import { ClientResponse } from '../../../types/client.response';
 type Params = PaginationParams;
 
 function listClients(params: Params): Promise<AxiosResponse<ClientResponse[]>> {
-  return axios
-    .get<ClientResponse[]>('/client', { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse<ClientResponse[]>;
-      }
-      throw error;
-    });
+  return axios.get<ClientResponse[]>('/client', { params });
 }
 
 export function useClients({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

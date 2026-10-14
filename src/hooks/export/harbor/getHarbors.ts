@@ -8,23 +8,7 @@ import { HarborResponse } from '../../../types/harbor.response';
 type Params = PaginationParams;
 
 function listHarbors(params: Params): Promise<AxiosResponse<HarborResponse[]>> {
-  return axios
-    .get('/harbor', { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/harbor', { params });
 }
 
 export function useHarbors({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

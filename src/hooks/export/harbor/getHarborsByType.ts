@@ -17,23 +17,7 @@ function listHarborsByType({
   params,
   type,
 }: listHarborsProps): Promise<AxiosResponse> {
-  return axios
-    .get(`/harbor/type/${type}`, { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get(`/harbor/type/${type}`, { params });
 }
 
 interface useHarborsProps extends Params {

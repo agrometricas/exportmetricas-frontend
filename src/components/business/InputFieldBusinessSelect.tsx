@@ -22,7 +22,6 @@ const InputFieldBusinessSelect: React.FC<InputFieldBusinessSelectProps> = ({
   const [field, meta, helpers] = useField(name);
 
   useEffect(() => {
-    // console.log('InputFieldBusinessSelect merchant: ', merchant);
     helpers.setValue(null);
   }, [helpers, merchant]);
 

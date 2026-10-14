@@ -8,23 +8,7 @@ import { DepositResponse } from '../../types/deposit/deposit.response';
 type Params = PaginationParams;
 
 function listDeposits(params: Params): Promise<AxiosResponse<DepositResponse[]>> {
-    return axios
-        .get('/deposit', { params })
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            if (error.response?.status === 404) {
-                return {
-                    data: [],
-                    status: 404,
-                    statusText: 'Not Found',
-                    headers: {},
-                    config: error.config,
-                } as AxiosResponse;
-            }
-            throw error;
-        });
+    return axios.get('/deposit', { params });
 }
 
 export function useDeposits({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

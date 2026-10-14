@@ -16,8 +16,6 @@ const DetailProducerPayment = ({
   width,
   pendingPayment,
 }: props): React.JSX.Element | undefined => {
-  console.log('pendingPayment', pendingPayment);
-
   if (pendingPayment) return;
 
   return (

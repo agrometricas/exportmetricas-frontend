@@ -1,5 +1,5 @@
 import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import InputFieldExportSelect from './InputFieldExportSelect';
 import { ExportType } from '../../types/export';
 
@@ -10,10 +10,6 @@ interface SelectExportProps {
 const SelectExport: React.FC<SelectExportProps> = ({ name }) => {
   const [exportSelected, setExportSelected] =
     useState<Partial<ExportType> | null>(null);
-
-  useEffect(() => {
-    console.log('SentMaterialsExportForm exportSelected: ', exportSelected);
-  }, [exportSelected]);
 
   return (
     <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>

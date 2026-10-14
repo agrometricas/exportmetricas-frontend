@@ -1,4 +1,4 @@
-import { AxiosResponse, AxiosError, isAxiosError } from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 import { useMutation, UseMutationResult } from 'react-query';
 import axiosInstance from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
@@ -17,21 +17,12 @@ export const uploadTransferImage = async ({
   const formData = new FormData();
   formData.append('file', file);
 
-  try {
-    const response = await axiosInstance.post(
-      `/client-payment/${clientPaymentId}/client/${clientId}/transfer`,
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
-    );
-    return response;
-  } catch (error: unknown) {
-    console.error("Error: :'c =>", error);
-    if (isAxiosError(error) && error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
-  }
+  const response = await axiosInstance.post(
+    `/client-payment/${clientPaymentId}/client/${clientId}/transfer`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+  return response;
 };
 
 export type UseUploadTransferImageOptions = {

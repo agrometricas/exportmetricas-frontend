@@ -9,21 +9,7 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listCovers(params: Params): Promise<AxiosResponse> {
-  return axios
-    .get('/box-brand/cover', { params })
-    .then((response) => response)
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/box-brand/cover', { params });
 }
 
 export function useCovers({ search = '', page = 1, limit = 10 }: Params) {

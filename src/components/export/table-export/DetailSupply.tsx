@@ -114,8 +114,6 @@ const DetailSupply = ({
     boxBrandObject: boxBrand,
   });
 
-  console.log('list', list);
-
   return (
     <Box p={'16px'} width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
       <VStack spacing={4} pl={'20px'} alignItems={'start'} width={'100%'}>

@@ -13,23 +13,7 @@ interface Body {
 }
 
 function listBusinesses(params: Params, body: Body): Promise<AxiosResponse> {
-  return axios
-    .get(`/merchant/${body.id}/business`, { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get(`/merchant/${body.id}/business`, { params });
 }
 
 export function useBusinessesByMerchantId(

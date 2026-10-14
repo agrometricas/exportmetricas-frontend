@@ -131,10 +131,11 @@ hasta que sus costos de materiales están confirmados en *Costos Validados*.
 `lib/axios.ts` manda `session.refreshToken`, no el access token. Es lo que el
 backend valida.
 
-### 5. Lista vacía = 404
+### 5. Una lista vacía es `[]`
 
-Muchas listas del backend responden 404 cuando no hay registros. Los hooks lo
-convierten en `[]`.
+Los listados del backend responden 200 con `[]` cuando no hay registros. Un
+404 en un listado significa que el recurso padre de la URL no existe (un
+productor, un puerto) y se trata como error.
 
 ### 6. Fecha de corte y semana
 
@@ -176,7 +177,7 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
   hook o formulario sigue manejando el suyo. Ante un 401 el patrón es redirigir
   a `/api/auth/signout`.
 - Las páginas públicas y algunas de servidor usan `fetch` directo
-  (`lib/export/export.ts`, recuperación de contraseña, ajuste de materiales).
+  (el login de next-auth, recuperación de contraseña, ajuste de materiales).
 
 ### Auth: next-auth (`app/api/auth/[...nextauth]/`)
 
@@ -237,7 +238,7 @@ _Testing_.
 - Olvidar invalidar una clave después de una mutación: con `staleTime: Infinity`
   la pantalla se queda con el dato viejo hasta recargar.
 - Olvidar invalidar las listas `…Pending`: el contador del menú no baja.
-- Tratar un 404 de una lista como error en vez de lista vacía.
+- Atrapar el 404 de un listado para devolver `[]`: tapa una ruta mal escrita.
 - Leer el detalle de un 400 en `message`: está en `errors`.
 - Usar el access token como Bearer.
 - Mandar un campo en el body que el DTO del backend aún no acepta.

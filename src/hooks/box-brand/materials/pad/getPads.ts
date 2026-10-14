@@ -9,21 +9,7 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listPads(params: Params): Promise<AxiosResponse> {
-  return axios
-    .get('/box-brand/pad', { params })
-    .then((response) => response)
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/box-brand/pad', { params });
 }
 
 export function usePads({ search = '', page = 1, limit = 10 }: Params) {

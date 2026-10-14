@@ -318,8 +318,6 @@ const ExpandDetail = ({
   }
 
   if (isInsecticideCocktailPartArray(detail)) {
-    console.log('detail: ', detail);
-
     return (
       <VStack>
         {detail.map((insecticide) => (

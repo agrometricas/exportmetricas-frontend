@@ -9,23 +9,7 @@ import { serializeQueryResult } from '../../utils/serializeQueryResult';
 type Params = PaginationParams;
 
 function listExports(params: Params): Promise<AxiosResponse> {
-  return axios
-    .get('/export', { params })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      if (error.response?.status === 404) {
-        return {
-          data: [],
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: error.config,
-        } as AxiosResponse;
-      }
-      throw error;
-    });
+  return axios.get('/export', { params });
 }
 
 export function useExports({ search = '', page = 1, limit = 10 }: Params) {

@@ -28,11 +28,6 @@ const SelectInsecticideBanContainer = ({
     if (isBan && !firstChange) {
       setFirstChange(true);
     }
-    if (isBan) {
-      console.log('bloqueado');
-    } else {
-      console.log('no bloqueado');
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBan]);
 

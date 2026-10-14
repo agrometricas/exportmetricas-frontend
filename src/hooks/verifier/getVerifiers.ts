@@ -8,23 +8,7 @@ import { VerifierResponse } from '../../types/verifier/verifier.response';
 type Params = PaginationParams;
 
 function listVerifiers(params: Params): Promise<AxiosResponse<VerifierResponse[]>> {
-    return axios
-        .get('/verifier', { params })
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            if (error.response?.status === 404) {
-                return {
-                    data: [],
-                    status: 404,
-                    statusText: 'Not Found',
-                    headers: {},
-                    config: error.config,
-                } as AxiosResponse;
-            }
-            throw error;
-        });
+    return axios.get('/verifier', { params });
 }
 
 export function useVerifiers({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {

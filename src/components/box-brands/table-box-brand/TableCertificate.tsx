@@ -15,7 +15,6 @@ const TableCertificate = ({
 }: {
   certificates: CertificateType[];
 }): React.JSX.Element => {
-  console.log(certificates);
   const columns = useMemo<MRT_ColumnDef<Partial<CertificateType>>[]>(
     () => [{ accessorKey: 'name', header: 'Nombre' }],
     []

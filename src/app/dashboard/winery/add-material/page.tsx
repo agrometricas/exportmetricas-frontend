@@ -31,9 +31,7 @@ function AddMaterialPage(): React.JSX.Element {
   return (
     <Formik
       initialValues={{ 'import-exporter-stock': null }}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={() => undefined}
     >
       {() => (
         <Box minH="100vh" w="100%" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
