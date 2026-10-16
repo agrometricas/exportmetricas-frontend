@@ -53,7 +53,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
             <strong>Tiempo Estimado:</strong> {data.estimatedTravelTime}
           </Text>
           <Text>
-            <strong>Fecha de Embarque:</strong> {data.shippingDateTime}
+            <strong>Fecha Máxima de Ingreso:</strong> {data.shippingDateTime}
           </Text>
         </AccordionPanel>
       </AccordionItem>

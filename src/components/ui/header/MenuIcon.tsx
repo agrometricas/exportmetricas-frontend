@@ -14,7 +14,6 @@ import {
   Icon,
   useColorModeValue,
   HStack,
-  Badge,
   SkeletonCircle,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
@@ -124,14 +123,6 @@ export default function MenuIcon(): React.JSX.Element {
                 {session?.user.email}
               </Text>
             </Box>
-            <Badge
-              colorScheme='green'
-              variant='subtle'
-              borderRadius='full'
-              px={4}
-            >
-              En línea
-            </Badge>
           </HStack>
         </Box>
 

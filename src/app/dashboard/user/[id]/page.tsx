@@ -100,7 +100,9 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                   borderRadius="full"
                   px={2}
                 >
-                  {onboardingUserDone ? 'En Línea' : 'Pendiente'}
+                  {onboardingUserDone
+                    ? 'Configuración completa'
+                    : 'Configuración pendiente'}
                 </Badge>
               </HStack>
 

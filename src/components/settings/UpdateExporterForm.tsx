@@ -142,7 +142,7 @@ const UpdateExporterForm = ({
                   <strong>Email:</strong> {exporterDetails.email}
                 </Text>
                 <Text>
-                  <strong>Estado de Onboarding:</strong>{' '}
+                  <strong>Configuración inicial:</strong>{' '}
                   <Badge
                     ml={2}
                     colorScheme={
@@ -152,7 +152,7 @@ const UpdateExporterForm = ({
                     }
                   >
                     {exporterDetails.onboardingStatus === 'done'
-                      ? 'En Línea'
+                      ? 'Completa'
                       : 'Pendiente'}
                   </Badge>
                 </Text>
