@@ -50,7 +50,7 @@ const TableExport = ({
           { accessorKey: 'boxBrand.brandCode', header: 'Código Marca' },
           { accessorKey: 'shipName', header: 'Barco' },
           { accessorKey: 'bookingNumber', header: 'Booking' },
-          { accessorKey: 'shippingDateTime', header: 'Fecha de Embarque' },
+          { accessorKey: 'shippingDateTime', header: 'Fecha Máxima de Ingreso' },
         ],
       },
       {

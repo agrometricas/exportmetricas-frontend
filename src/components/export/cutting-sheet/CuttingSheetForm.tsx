@@ -422,7 +422,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.bookingNumber}
           />
           <DisplayField
-            label='Fecha Maxíma de Embarque'
+            label='Fecha Máxima de Ingreso'
             value={
               finalValues.exportData?.shippingDateTime
                 ? format(

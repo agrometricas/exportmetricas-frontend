@@ -104,8 +104,8 @@ const AddExportForm: React.FC = () => {
               )}
               <InputFieldDateTime
                 name='shippingDateTime'
-                label='Fecha Máxima de Embarque'
-                placeholder='Fecha y Hora de Embarque'
+                label='Fecha Máxima de Ingreso'
+                placeholder='Fecha y Hora Máxima de Ingreso'
                 flexDirection='row'
               />
             </SimpleGrid>
