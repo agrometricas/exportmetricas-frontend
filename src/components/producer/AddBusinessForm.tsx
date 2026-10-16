@@ -48,6 +48,16 @@ export default function AddBusinessForm(): React.JSX.Element {
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldNumber name={'area'} label={'Área'} unit='ha' />
+              <InputFieldNumber
+                name={'approvedHectares'}
+                label={'Hectáreas Aprobadas'}
+                unit='ha'
+              />
+              <InputFieldNumber
+                name={'approvedBoxesPerHectare'}
+                label={'Cajas Aprobadas por Hectárea'}
+                unit='cajas/ha'
+              />
               <InputFieldText name={'codeMAGAP'} label={'Código MAGAP'} />
               <InputFieldText
                 name={'codeAGROCALIDAD'}

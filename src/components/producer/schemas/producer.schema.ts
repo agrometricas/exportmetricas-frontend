@@ -19,6 +19,8 @@ export interface BusinessesProps {
     address: string;
     fruitType: string;
     area: number;
+    approvedHectares: number | '';
+    approvedBoxesPerHectare: number | '';
     latitude: number | 0;
     longitude: number | 0;
     codeMAGAP: string;
@@ -59,6 +61,8 @@ export const initialValues: ValuesProps = {
             address: '',
             fruitType: '',
             area: 0,
+            approvedHectares: '',
+            approvedBoxesPerHectare: '',
             latitude: 0,
             longitude: 0,
             codeMAGAP: '',
@@ -110,6 +114,16 @@ const businessSchema = Yup.object().shape({
         .oneOf(['Orgánica', 'Convencional'])
         .required('Requerido'),
     area: Yup.number().moreThan(0).required('Requerido'),
+    approvedHectares: Yup.number()
+        .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+        .moreThan(0, 'Debe ser mayor que 0')
+        .test('dos-decimales', 'Máximo dos decimales', (v) => v === undefined || /^\d+(\.\d{1,2})?$/.test(String(v)))
+        .notRequired(),
+    approvedBoxesPerHectare: Yup.number()
+        .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+        .integer('Debe ser un número entero')
+        .moreThan(0, 'Debe ser mayor que 0')
+        .notRequired(),
     latitude: Yup.number().min(-90).max(90).notRequired(),
     longitude: Yup.number().min(-180).max(180).notRequired(),
     provinceId: Yup.number()

@@ -5,6 +5,8 @@ export type BusinessType = {
   id: number | '';
   name: string;
   area: number;
+  approvedHectares?: number;
+  approvedBoxesPerHectare?: number;
   countryId: number | '';
   provinceId: number | '';
   city: { id: number, name: string };

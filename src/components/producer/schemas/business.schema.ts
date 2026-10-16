@@ -14,6 +14,8 @@ export interface BusinessCodesProps {
 export interface ValuesProps {
     name: string;
     area: number;
+    approvedHectares: number | '';
+    approvedBoxesPerHectare: number | '';
     codeMAGAP: string;
     codeAGROCALIDAD: string;
     fruitType: string;
@@ -65,6 +67,8 @@ const businessCodeSchema = Yup.object().shape({
 export const initialValues: ValuesProps = {
     name: '',
     area: 0,
+    approvedHectares: '',
+    approvedBoxesPerHectare: '',
     codeMAGAP: '',
     codeAGROCALIDAD: '',
     fruitType: '',
@@ -89,6 +93,16 @@ export const validationSchema = Yup.object({
         .transform((v) => v.trim())
         .required('Requerido'),
     area: Yup.number().moreThan(0, 'Debe ser mayor que 0').required('Requerido'),
+    approvedHectares: Yup.number()
+        .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+        .moreThan(0, 'Debe ser mayor que 0')
+        .test('dos-decimales', 'Máximo dos decimales', (v) => v === undefined || /^\d+(\.\d{1,2})?$/.test(String(v)))
+        .notRequired(),
+    approvedBoxesPerHectare: Yup.number()
+        .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+        .integer('Debe ser un número entero')
+        .moreThan(0, 'Debe ser mayor que 0')
+        .notRequired(),
     codeMAGAP: Yup.string()
         .min(5, 'Debe tener al menos 5 caracteres')
         .max(50, 'Debe tener 50 caracteres o menos')

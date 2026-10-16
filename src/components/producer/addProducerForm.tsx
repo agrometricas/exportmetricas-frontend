@@ -87,6 +87,16 @@ export default function AddProducerForm(): React.JSX.Element {
                 label={'Área'}
                 unit='ha'
               />
+              <InputFieldNumber
+                name={'businesses[0].approvedHectares'}
+                label={'Hectáreas Aprobadas'}
+                unit='ha'
+              />
+              <InputFieldNumber
+                name={'businesses[0].approvedBoxesPerHectare'}
+                label={'Cajas Aprobadas por Hectárea'}
+                unit='cajas/ha'
+              />
               <InputFieldText
                 name={'businesses[0].codeMAGAP'}
                 label={'Código MAGAP'}

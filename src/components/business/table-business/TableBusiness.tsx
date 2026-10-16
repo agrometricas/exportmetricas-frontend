@@ -64,6 +64,14 @@ const TableBusiness = ({
             },
           },
           {
+            accessorKey: 'approvedBoxes',
+            header: 'Cajas Aprobadas',
+            Cell: ({ cell }): React.JSX.Element => {
+              const value = cell.getValue<number | null>();
+              return <span>{value != null ? value : 'N/A'}</span>;
+            },
+          },
+          {
             accessorKey: 'latitude',
             header: 'Latitud',
           },

@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useQueryClient } from 'react-query';
 import { useCreateOnboarding } from '../../../hooks/merchants/createOnboarding';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { optionalNumber } from '../../../utils/optionalNumber';
 import {
     ValuesProps,
     validationSchema,
@@ -29,12 +30,19 @@ export function useSubmitOnboarding(): {
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
         const { dataReviewed, businesses, ...producerData } = values;
-        const { area, ...businessData } = businesses[0];
+        const { area, approvedHectares, approvedBoxesPerHectare, ...businessData } = businesses[0];
         void dataReviewed;
         createOnboarding(
             {
                 ...producerData,
-                businesses: [{ area: Number(area), ...businessData }],
+                businesses: [
+                    {
+                        area: Number(area),
+                        approvedHectares: optionalNumber(approvedHectares),
+                        approvedBoxesPerHectare: optionalNumber(approvedBoxesPerHectare),
+                        ...businessData,
+                    },
+                ],
             },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {

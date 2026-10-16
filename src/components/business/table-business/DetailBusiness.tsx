@@ -52,6 +52,20 @@ const DetailBusiness = ({
             <Text>
               <strong>Tipo de Fruta:</strong> {business.fruitType}
             </Text>
+            <Text>
+              <strong>Hectáreas Aprobadas:</strong>{' '}
+              {business.approvedHectares != null
+                ? `${business.approvedHectares} ha`
+                : 'N/A'}
+            </Text>
+            <Text>
+              <strong>Cajas Aprobadas por Hectárea:</strong>{' '}
+              {business.approvedBoxesPerHectare ?? 'N/A'}
+            </Text>
+            <Text>
+              <strong>Cajas Totales Aprobadas:</strong>{' '}
+              {business.approvedBoxes ?? 'N/A'}
+            </Text>
           </Box>
         </AccordionPanel>
       </AccordionItem>

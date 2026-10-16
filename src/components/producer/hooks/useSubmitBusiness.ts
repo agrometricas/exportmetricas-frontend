@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
 import { useCreateBusiness } from '../../../hooks/business/createBusiness';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { optionalNumber } from '../../../utils/optionalNumber';
 import { ValuesProps, validationSchema, initialValues } from '../schemas/business.schema';
 
 export function useSubmitBusiness(): {
@@ -25,7 +26,12 @@ export function useSubmitBusiness(): {
         const { dataReviewed, ...businessData } = values;
         void dataReviewed;
         createBusiness(
-            { ...businessData, area: Number(businessData.area) },
+            {
+                ...businessData,
+                area: Number(businessData.area),
+                approvedHectares: optionalNumber(businessData.approvedHectares),
+                approvedBoxesPerHectare: optionalNumber(businessData.approvedBoxesPerHectare),
+            },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
                     const data = error.response?.data;

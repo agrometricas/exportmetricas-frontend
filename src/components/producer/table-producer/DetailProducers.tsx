@@ -62,6 +62,18 @@ const DetailProducers = ({
               <Text><strong>Nombre:</strong> {biz.name}</Text>
               <Text><strong>Tipo de Fruta:</strong> {biz.fruitType}</Text>
               <Text><strong>Área:</strong> {biz.area} hectáreas</Text>
+              <Text>
+                <strong>Hectáreas Aprobadas:</strong>{' '}
+                {biz.approvedHectares != null ? `${biz.approvedHectares} ha` : 'N/A'}
+              </Text>
+              <Text>
+                <strong>Cajas Aprobadas por Hectárea:</strong>{' '}
+                {biz.approvedBoxesPerHectare ?? 'N/A'}
+              </Text>
+              <Text>
+                <strong>Cajas Totales Aprobadas:</strong>{' '}
+                {biz.approvedBoxes ?? 'N/A'}
+              </Text>
               <Text><strong>Provincia:</strong> {biz.province.name}</Text>
               <Text><strong>Ciudad:</strong> {biz.city.name}</Text>
               <Text><strong>Dirección:</strong> {biz.address}</Text>

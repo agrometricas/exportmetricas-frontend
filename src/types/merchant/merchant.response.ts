@@ -20,6 +20,9 @@ export interface BusinessResponse {
     id: number;
     name: string;
     area: number;
+    approvedHectares: string | null;
+    approvedBoxesPerHectare: number | null;
+    approvedBoxes: number | null;
     latitude: number;
     longitude: number;
     codeMAGAP: string;
