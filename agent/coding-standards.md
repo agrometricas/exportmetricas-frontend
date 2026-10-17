@@ -96,10 +96,12 @@ the backend proposes.
   `<input type="date">` follows the browser language and
   `toLocaleDateString()` drops the zeros. Both are in use today
   (`components/ui/form/InputFieldDate.tsx` and several detail views). Do not
-  add new ones.
+  add new ones: a new date field uses `InputFieldDayDate`, and a date shown in
+  a table or a detail goes through `formatDayMonthYear` (`utils/dayMonthYear.ts`).
 - A date field holds **local midnight as an ISO string**: `InputFieldDate`
   shifts the picked day by the browser's timezone offset before calling
-  `toISOString()`. Build dates through that component; a bare
+  `toISOString()`, and `InputFieldDayDate` builds the date with
+  `parseDayMonthYear`. Build dates through those components; a bare
   `new Date('2025-06-02')` is UTC midnight and lands on the previous day in
   Ecuador.
 - The week of an export comes from `getWeekInfo()` (`utils/getWeekInfo.ts`):
