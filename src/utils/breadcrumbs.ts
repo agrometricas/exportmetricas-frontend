@@ -45,6 +45,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/client/bank-accounts': 'Cuentas Bancarias',
 
   '/dashboard/settings/upload-logo': 'Logo Exportadora',
+  '/dashboard/settings/material-units': 'Unidades de Materiales',
   '/dashboard/producer/upload-logo': 'Logo Productores',
 };
 

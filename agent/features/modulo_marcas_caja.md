@@ -66,6 +66,22 @@ queda disponible para elegir.
 - El nombre de un material no se repite.
 - Etiqueta, bolsa de clúster y etiqueta metto llevan una imagen de arte.
 
+### Unidades de los materiales
+
+Configuraciones > **Unidades de Materiales** (`/dashboard/settings/material-units`)
+elige en qué unidad se mide cada tipo de material. La lista de unidades, la
+unidad de cada tipo y si es la de por defecto vienen del backend
+(`GET /settings/material-units`); guardar manda los 32 tipos (`PUT`).
+
+- El formulario de alícuota rotula cada cantidad con esa unidad, abreviada y
+  contra lo que se cuenta: `u/caja`, `ml/caja`, `rollo/cont.`. Qué tipo y qué
+  base (caja o contenedor) tiene cada campo `…Quantity` está en
+  `QUANTITY_FIELDS` (`utils/materialUnits.ts`).
+- El detalle de la alícuota muestra el tipo y la unidad de cada material.
+- La unidad es un rótulo: no cambia ningún número ni convierte cantidades.
+- Las filas de materiales del formulario van en una columna hasta pantallas
+  `xl`; en dos columnas el selector y la cantidad no entran lado a lado.
+
 ---
 
 ### Importación CSV
@@ -95,6 +111,7 @@ En el CSV de materiales la columna `material_type` va **en español** (`fondo`,
 | Tipos | `types/box-brand/` |
 | Hooks | `hooks/box-brand/` |
 | Etiquetas y orden de tipos | `utils/materialTypeLabels.ts` |
+| Unidades | `components/settings/material-units/`, `hooks/settings/materialUnits.ts`, `utils/materialUnits.ts` |
 
 - `utils/materialTypeLabels.ts` traduce cada `MaterialType` a su nombre en
   pantalla (`MATERIAL_TYPE_LABELS`) y fija el orden en que se listan

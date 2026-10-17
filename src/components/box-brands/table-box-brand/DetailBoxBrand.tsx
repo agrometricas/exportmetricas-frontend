@@ -2,12 +2,16 @@
 import { Box, VStack } from '@chakra-ui/react';
 import React from 'react';
 import TableBoxBrandDetail from './TableBoxBrandDetail';
+import { useMaterialUnits } from '../../../hooks/settings/materialUnits';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
 import { SheetCocktail } from '../../../types/box-brand/additions/sheet';
 import { StickerCocktail } from '../../../types/box-brand/additions/sticker';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
 import { PesticideCocktailPart } from '../../../types/box-brand/post-harvest/pesticideCocktailPart';
 import { RequiredCertificateType } from '../../../types/box-brand/specifications/requiredCertificate';
+import { MaterialUnitsResponse } from '../../../types/materialUnits';
+import { MATERIAL_TYPE_LABELS } from '../../../utils/materialTypeLabels';
+import { QUANTITY_FIELDS, quantityUnit } from '../../../utils/materialUnits';
 
 const DetailBoxBrand = ({
   detail,
@@ -18,6 +22,12 @@ const DetailBoxBrand = ({
   width: { sm: number; md: number };
   windowSize: { width: number | null; height: number | null };
 }): React.JSX.Element => {
+  const { data: unitsConfig } = useMaterialUnits();
+  const unitOf = (type: string): string | undefined =>
+    (unitsConfig as MaterialUnitsResponse | undefined)?.materials.find(
+      (material) => material.materialType === type
+    )?.unit;
+
   const convertObjectToArray = (inputObject: Partial<BoxBrandType>): any[] => {
     const outputArray: any[] = [];
 
@@ -30,9 +40,14 @@ const DetailBoxBrand = ({
         quantityKey in inputObject
       ) {
         if (typeof inputObject[key] === 'object' && inputObject[key] !== null) {
+          const field = QUANTITY_FIELDS[quantityKey];
           outputArray.push({
-            ['name']: (inputObject[key] as any).name,
-            ['quantity']: inputObject[quantityKey],
+            ['name']: field
+              ? `${MATERIAL_TYPE_LABELS[field.type] ?? field.type}: ${(inputObject[key] as any).name}`
+              : (inputObject[key] as any).name,
+            ['quantity']: field
+              ? `${inputObject[quantityKey]} ${quantityUnit(unitOf(field.type), field.base)}`
+              : inputObject[quantityKey],
             ['object']: inputObject[key],
           });
         } else if (inputObject[key] !== null && inputObject[key] !== 'N/A') {

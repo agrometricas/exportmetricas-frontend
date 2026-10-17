@@ -114,7 +114,8 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
               pointerEvents='none'
               color='gray.500'
               fontSize='1em'
-              mr={'8px'}
+              width='auto'
+              pr={'12px'}
             >
               {unit}
             </InputRightElement>
@@ -138,6 +139,7 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
                 {...field}
                 placeholder={placeholder || label}
                 width={'100%'}
+                pr={unit ? '96px' : undefined}
               />
             </NumberInput>
           </Flex>

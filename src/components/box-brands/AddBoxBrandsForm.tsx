@@ -51,6 +51,9 @@ import SpongeSelectBanContainer from './materials/sponge/SpongeSelectBanContaine
 import SelectPesticide from './post-harvest/pesticide/SelectPesticide';
 import InputFieldBrandSelect from './specifications/brand/InputFieldBrandSelect';
 import InputFieldRequiredCertificateMultiSelect from './specifications/requiredCertificate/InputFieldRequiredCertificateMultiSelect';
+import { useMaterialUnits } from '../../hooks/settings/materialUnits';
+import { MaterialUnitsResponse } from '../../types/materialUnits';
+import { quantityUnit } from '../../utils/materialUnits';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -994,6 +997,14 @@ const specificationsInputFieldsNumber: InputFieldProps[] = [
 export default function AddBoxBrandsForm(): React.JSX.Element {
   const router = useRouter();
   const toast = useToast();
+  const { data: unitsConfig } = useMaterialUnits();
+  const unitOf = (type: string): string | undefined =>
+    (unitsConfig as MaterialUnitsResponse | undefined)?.materials.find(
+      (material) => material.materialType === type
+    )?.unit;
+  const perBox = (type: string): string => quantityUnit(unitOf(type), 'caja');
+  const perContainer = (type: string): string =>
+    quantityUnit(unitOf(type), 'contenedor');
   const { createBoxBrand, isLoading } = useCreateBoxBrand();
   const queryClient = useQueryClient();
 
@@ -1148,7 +1159,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 Materiales por caja
               </Heading>
               <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
                 <BottomSelectBanContanier
                   name1={'bottomTypeId'}
                   label1={'Fondo'}
@@ -1157,7 +1168,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   label2={'Fondos/Caja'}
                   placeholder2={'Cantidad'}
                   quantity={values.boxQuantity}
-                  unit='U/C'
+                  unit={perBox('BOTTOM')}
                 />
 
                 <LidSelectBanContanier
@@ -1168,7 +1179,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   label2={'Tapas/Caja'}
                   placeholder2={'Cantidad'}
                   quantity={values.boxQuantity}
-                  unit='U/C'
+                  unit={perBox('LID')}
                 />
 
                 <CoverSelectBanContanier
@@ -1179,7 +1190,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   label2={'Fundas/Caja'}
                   placeholder2={'Cantidad'}
                   quantity={values.boxQuantity}
-                  unit='U/C'
+                  unit={perBox('COVER')}
                 />
 
                 <CardboardSelectBanContanier
@@ -1190,7 +1201,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   label2={'Cartulinas/Caja'}
                   placeholder2={'Cantidad'}
                   quantity={values.boxQuantity}
-                  unit='U/C'
+                  unit={perBox('CARDBOARD')}
                 />
 
                 <ParasealSelectBanContainer
@@ -1200,7 +1211,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'parasealTypeQuantity'}
                   label2={'ParaSeals/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('PARASEAL')}
                 />
 
                 <PadSelectBanContainer
@@ -1210,7 +1221,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'padTypeQuantity'}
                   label2={'Pads/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('PAD')}
                 />
 
                 <SpongeSelectBanContainer
@@ -1220,7 +1231,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'spongeTypeQuantity'}
                   label2={'Esponjas/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('SPONGE')}
                 />
 
                 <LabelSelectBanContainer
@@ -1230,7 +1241,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'labelQuantity'}
                   label2={'Etiquetas/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('LABEL')}
                 />
                 <BandSelectBanContanier
                   name1={'bandId'}
@@ -1239,7 +1250,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'bandQuantity'}
                   label2={'Bandas/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('BAND')}
                 />
                 <SachetSelectBanContainer
                   name1={'sachetId'}
@@ -1248,7 +1259,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'sachetQuantity'}
                   label2={'Sachets/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('SACCHET')}
                 />
                 <RubberSelectBanContainer
                   name1={'rubberId'}
@@ -1257,7 +1268,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'rubberQuantity'}
                   label2={'Ligas/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('RUBBER')}
                 />
                 <ProtectorSelectBanContainer
                   name1={'protectorId'}
@@ -1266,7 +1277,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'protectorQuantity'}
                   label2={'Protectores/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('PROTECTOR')}
                 />
                 <ClusterBagSelectBanContainer
                   name1={'clusterBagId'}
@@ -1275,7 +1286,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'clusterBagQuantity'}
                   label2={'Cluster Bags/Caja'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perBox('CLUSTER_BAG')}
                 />
               </SimpleGrid>
 
@@ -1311,7 +1322,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                         />
                       </div>
                     ))}
-                    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                    <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
                       <Box></Box>
                       <Button
                         onClick={() => push({ pesticideId: '', quantity: '' })}
@@ -1327,7 +1338,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 Materiales por contenedor
               </Heading>
               <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
                 <PalletSelectBanContanier
                   name1={'palletsTypeId'}
                   label1={'Pallet'}
@@ -1335,7 +1346,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'palletsTypeQuantity'}
                   label2={'Pallets/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit={'U/C'}
+                  unit={perContainer('PALLET')}
                 />
 
                 <MiniPalletSelectBanContanier
@@ -1345,7 +1356,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'miniPalletsTypeQuantity'}
                   label2={'Mini Pallets/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit={'U/C'}
+                  unit={perContainer('MINI_PALLET')}
                 />
 
                 <CornerSelectBanContainer
@@ -1355,7 +1366,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'cornerTypeQuantity'}
                   label2={'Esquineros/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('CORNER')}
                 />
 
                 <ReinforcementSelectBanContainer
@@ -1365,7 +1376,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'reinforcementTypeQuantity'}
                   label2={'Refuerzos/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('REINFORCEMENT')}
                 />
 
                 <StapleSelectBanContainer
@@ -1375,7 +1386,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'stapleQuantity'}
                   label2={'Grapas/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('STAPLE')}
                 />
                 <StrippingSelectBanContainer
                   name1={'strippingId'}
@@ -1384,7 +1395,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'strippingQuantity'}
                   label2={'Zunchos/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('STRIPPING')}
                 />
                 <ThermographSelectBanContainer
                   name1={'thermographId'}
@@ -1393,7 +1404,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'thermographQuantity'}
                   label2={'Termografos/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('THERMOGRAPH')}
                 />
                 <SealSelectBanContainer
                   name1={'sealId'}
@@ -1402,7 +1413,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'sealQuantity'}
                   label2={'Sellos/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('SEAL')}
                 />
                 <MettoLabelSelectBanContainer
                   name1={'mettoLabelId'}
@@ -1411,7 +1422,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'mettoLabelQuantity'}
                   label2={'Etiquetas Metto/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='C/C'
+                  unit={perContainer('METTO_LABEL')}
                 />
               </SimpleGrid>
 
@@ -1419,7 +1430,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 Adicionales
               </Heading>
               <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
                 <PackingTapeSelectBanContanier
                   name1={'packingTapeTypeId'}
                   label1={'Cinta de embalaje'}
@@ -1427,7 +1438,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'packingTapeTypeQuantity'}
                   label2={'Cintas/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('PACKING_TAPE')}
                 />
 
                 <LatexRemoverSelectBanContainer
@@ -1437,7 +1448,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'latexRemoverQuantity'}
                   label2={'Removedores/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('LATEX_REMOVER')}
                 />
                 <BlockingSheetSelectBanContainer
                   name1={'blockingSheetId'}
@@ -1446,7 +1457,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'blockingSheetQuantity'}
                   label2={'Laminas/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('BLOCKING_SHEET')}
                 />
                 <ContainerSealPlasticSelectBanContainer
                   name1={'containerSealPlasticId'}
@@ -1455,7 +1466,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'containerSealPlasticQuantity'}
                   label2={'Plásticos de Cierre Contenedor/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('CONTAINER_SEAL_PLASTIC')}
                 />
                 <SecurityKitSelectBanContainer
                   name1={'securityKitId'}
@@ -1464,7 +1475,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'securityKitQuantity'}
                   label2={'Kits de Seguridad/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('SECURITY_KIT')}
                 />
                 <BoardingCardSelectBanContainer
                   name1={'boardingCardId'}
@@ -1473,7 +1484,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'boardingCardQuantity'}
                   label2={'Tarjetas de Embarque/Contenedor'}
                   placeholder2={'Cantidad'}
-                  unit='U/C'
+                  unit={perContainer('BOARDING_CARD')}
                 />
               </SimpleGrid>
               <StickerSelectBanContainer

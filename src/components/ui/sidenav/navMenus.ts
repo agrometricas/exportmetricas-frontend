@@ -128,6 +128,10 @@ export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
   return [
     { label: 'Logo Exportadora', to: '/dashboard/settings/upload-logo' },
     {
+      label: 'Unidades de Materiales',
+      to: '/dashboard/settings/material-units',
+    },
+    {
       label: 'Modificar Ubicación',
       to: `/dashboard/user/update-user/${exporterId}`,
     },
