@@ -6,7 +6,6 @@ import { useSubmitShippingCompany } from './hooks/useSubmitShippingCompany';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import CheckboxForm from '../ui/form/CheckboxForm';
-import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 
@@ -74,7 +73,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                   {values.harbors.map((_, index) => (
                     <SimpleGrid
                       key={index}
-                      columns={{ base: 1, sm: 5 }}
+                      columns={{ base: 1, sm: 4 }}
                       spacing={5}
                     >
                       <InputFieldHarborSelect
@@ -92,12 +91,6 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                       <InputFieldText
                         name={`harbors[${index}].estDuration`}
                         label='Tiempo Estimado'
-                      />
-                      <InputFieldNumber
-                        name={`harbors[${index}].cost`}
-                        label='Costo'
-                        isDecimal
-                        unit='$'
                       />
                       <Flex alignSelf='end'>
                         <Button
@@ -118,7 +111,6 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                         harborDepartureId: '',
                         harborDestinationId: '',
                         estDuration: '',
-                        cost: '',
                       })
                     }
                     mb='10px'

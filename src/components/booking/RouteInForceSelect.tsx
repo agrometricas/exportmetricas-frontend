@@ -1,0 +1,115 @@
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Link,
+  Select,
+  Text,
+} from '@chakra-ui/react';
+import { useFormikContext } from 'formik';
+import Link_Next from 'next/link';
+import React from 'react';
+import { ValuesProps } from './schemas/booking.schema';
+import { useRoutesInForce } from '../../hooks/shipping-contract/getRoutesInForce';
+import { RouteInForce } from '../../types/booking';
+import { atHourMinute, formatDayMonthYear } from '../../utils/dayMonthYear';
+
+const routeKey = (departure: number | '', destination: number | ''): string =>
+  departure && destination ? `${departure}-${destination}` : '';
+
+// The routes offered are the ones whose contract is in force on the departure
+// day; the price shown is the one the backend will freeze in the booking.
+export default function RouteInForceSelect(): React.JSX.Element {
+  const { values, errors, touched, setFieldValue } =
+    useFormikContext<ValuesProps>();
+  const day = values.etdDay || null;
+  const when = (day && atHourMinute(day, values.etdTime)) || day;
+  const { data, isLoading } = useRoutesInForce(values.shippingCompanyId, when);
+  const routes = (data ?? []) as RouteInForce[];
+
+  const selected = routes.find(
+    (route) =>
+      route.harborDeparture.id === values.harborDepartureId &&
+      route.harborDestination.id === values.harborDestinationId
+  );
+  const invalid = !!errors.harborDepartureId && !!touched.harborDepartureId;
+
+  if (!values.shippingCompanyId || !day) {
+    return (
+      <Text fontSize='sm' color='gray.500'>
+        Elija la naviera y el día de zarpe para ver las rutas con contrato
+        vigente.
+      </Text>
+    );
+  }
+
+  if (!isLoading && routes.length === 0) {
+    return (
+      <Alert status='warning' borderRadius='md'>
+        <AlertIcon />
+        <AlertDescription fontSize='sm'>
+          Esta naviera no tiene un contrato vigente ese día.{' '}
+          <Link
+            as={Link_Next}
+            href='/dashboard/client/add-shipping-contract'
+            fontWeight='semibold'
+            textDecoration='underline'
+          >
+            Regístralo en Contratos Navieros
+          </Link>
+          .
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  return (
+    <FormControl isInvalid={invalid}>
+      <FormLabel fontSize='sm' mb='8px'>
+        Ruta
+      </FormLabel>
+      <Select
+        placeholder={isLoading ? 'Cargando rutas…' : 'Seleccione la ruta'}
+        value={routeKey(values.harborDepartureId, values.harborDestinationId)}
+        onChange={(event) => {
+          const route = routes.find(
+            (r) =>
+              routeKey(r.harborDeparture.id, r.harborDestination.id) ===
+              event.target.value
+          );
+          setFieldValue('harborDepartureId', route?.harborDeparture.id ?? '');
+          setFieldValue(
+            'harborDestinationId',
+            route?.harborDestination.id ?? ''
+          );
+        }}
+      >
+        {routes.map((route) => (
+          <option
+            key={route.id}
+            value={routeKey(
+              route.harborDeparture.id,
+              route.harborDestination.id
+            )}
+          >
+            {route.harborDeparture.name} → {route.harborDestination.name}
+          </option>
+        ))}
+      </Select>
+      <FormErrorMessage>{errors.harborDepartureId}</FormErrorMessage>
+      {selected && (
+        <Text fontSize='sm' color='gray.600' mt={2}>
+          ${Number(selected.costPerContainer).toFixed(2)} por contenedor
+          {selected.transitDays
+            ? ` · ${selected.transitDays} días de tránsito`
+            : ''}{' '}
+          · contrato {selected.contract.reference ?? 'sin referencia'}, vigente
+          hasta el {formatDayMonthYear(selected.contract.endDate)}
+        </Text>
+      )}
+    </FormControl>
+  );
+}

@@ -10,7 +10,6 @@ export interface HarborInfo {
   harborDepartureId: number | '';
   harborDestinationId: number | '';
   estDuration: string;
-  cost: number | '';
 }
 
 export interface ValuesProps {
@@ -37,7 +36,6 @@ export const initialValues: ValuesProps = {
       harborDepartureId: '',
       harborDestinationId: '',
       estDuration: '',
-      cost: '',
     },
   ],
   contacts: [{ name: '', email: '', phone: '' }],
@@ -82,17 +80,6 @@ export const validationSchema = Yup.object({
           .min(2, 'Mínimo 2 caracteres')
           .trim()
           .required('Tiempo estimado requerido'),
-        cost: Yup.number()
-          .typeError('Debe ser un número válido con punto decimal')
-          .positive('Debe ser positivo')
-          .test(
-            'no-comma',
-            'Usa punto como separador decimal (ej. 1.23)',
-            (_, context) => {
-              const value = context.originalValue as string | number;
-              return !(typeof value === 'string' && value.includes(','));
-            }
-          ),
       })
     )
     .min(1, 'Debe ingresar al menos un par de puertos')

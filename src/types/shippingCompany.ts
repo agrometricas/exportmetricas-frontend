@@ -1,7 +1,6 @@
 export type HarborInfo = {
   harborId: number | '';
   estDuration: string;
-  cost: number | '';
 };
 
 export type ContactType = {
@@ -22,7 +21,7 @@ export type ShippingCompanyType = {
     harborDeparture: { id: number | ''; name: string };
     harborDestination: { id: number | ''; name: string };
     estDuration: string;
-    cost: number;
+    cost: number | null;
   }>;
   contacts: Partial<ContactType>[];
 };

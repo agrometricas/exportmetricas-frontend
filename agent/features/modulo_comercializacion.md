@@ -25,7 +25,8 @@ formulario de exportación elige.
 
 **Naviera:** `name`, `code`, `countryId`, `frequencies`, `cargoType`,
 `trackingPlatform?`, `contacts[]`, `harbors[]` — cada elemento es una ruta
-`{ harborDepartureId, harborDestinationId, estDuration, cost }`.
+`{ harborDepartureId, harborDestinationId, estDuration }`. El formulario ya no
+pide costo: el precio de una ruta está en el contrato naviero.
 
 **Contrato naviero:** `shippingCompanyId` (solo al crear), `reference?`,
 `startDate`, `endDate` y `routes[]`, cada una
@@ -63,8 +64,9 @@ contenedor en USD y, si se conoce, los días de tránsito.
   otro, y la web muestra ese mensaje.
 - Editar manda todas las rutas: las que se quitan del formulario se borran.
 - Para dar por terminado un contrato sin perder el historial de precios se
-  cambia la fecha de fin; eliminarlo borra también sus rutas.
-- Los campos de texto del formulario son `Input` simples: `InputFieldNumber`
+  cambia la fecha de fin; eliminarlo borra también sus rutas. Un contrato con
+  bookings no se puede eliminar (409).
+- Los campos de texto del formulario usan `InputFieldPlain`: `InputFieldNumber`
   pierde el valor de una fila cuando se quita otra de la lista, y
   `InputFieldQuantity` no deja escribir el punto decimal.
 

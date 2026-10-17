@@ -1,8 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
+  atHourMinute,
   formatDayMonthYear,
+  formatDayMonthYearTime,
+  isHourMinute,
   maskDayMonthYear,
   parseDayMonthYear,
+  startOfLocalDay,
 } from './dayMonthYear';
 
 describe('fecha en DD/MM/AAAA', () => {
@@ -31,5 +35,37 @@ describe('fecha en DD/MM/AAAA', () => {
     expect(maskDayMonthYear('0501')).toBe('05/01');
     expect(maskDayMonthYear('05012026')).toBe('05/01/2026');
     expect(maskDayMonthYear('05/01/20269')).toBe('05/01/2026');
+  });
+});
+
+describe('fecha y hora', () => {
+  it('se muestra como DD/MM/AAAA HH:mm, en hora local', () => {
+    expect(formatDayMonthYearTime(new Date(2026, 2, 12, 15, 5))).toBe(
+      '12/03/2026 15:05'
+    );
+    expect(formatDayMonthYearTime(null)).toBe('');
+  });
+
+  it('un día y una hora HH:mm forman ese momento en hora local', () => {
+    const day = new Date(2026, 2, 12).toISOString();
+
+    expect(atHourMinute(day, '15:30')).toBe(
+      new Date(2026, 2, 12, 15, 30).toISOString()
+    );
+  });
+
+  it('sin una hora válida no hay momento', () => {
+    const day = new Date(2026, 2, 12).toISOString();
+
+    expect(atHourMinute(day, '25:00')).toBeNull();
+    expect(atHourMinute(day, '3:30')).toBeNull();
+    expect(atHourMinute('', '15:30')).toBeNull();
+    expect(isHourMinute('09:45')).toBe(true);
+  });
+
+  it('el día de un momento es su medianoche local', () => {
+    const moment = new Date(2026, 2, 12, 15, 30).toISOString();
+
+    expect(startOfLocalDay(moment)).toBe(new Date(2026, 2, 12).toISOString());
   });
 });

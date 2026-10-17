@@ -36,6 +36,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/winery/adjust-weekly': 'Ajuste Semanal',
 
   '/dashboard/export/search': 'Exportaciones',
+  '/dashboard/export/bookings': 'Bookings',
   '/dashboard/liquidation/exports-sent': 'Envíos de Insumos',
 
   '/dashboard/export/cutting-sheets': 'Hojas de Corte',
@@ -135,6 +136,12 @@ const ADD_ROUTES: AddMap = {
     parentHref: '/dashboard/liquidation/exports-sent',
   },
 
+  '/dashboard/export/add-booking': {
+    parent: 'Bookings',
+    addLabel: 'Agregar Booking',
+    parentHref: '/dashboard/export/bookings',
+  },
+
   '/dashboard/export/add-cutting-sheet': {
     parent: 'Hojas de Corte',
     addLabel: 'Agregar Hoja de Corte',
@@ -175,6 +182,7 @@ const SEGMENT_ES: Record<string, string> = {
   harbors: 'Puertos',
   'shipping-companies': 'Navieras',
   'shipping-contracts': 'Contratos Navieros',
+  bookings: 'Bookings',
   deposits: 'Depósitos',
   transports: 'Transportes',
   'box-brands': 'Marcas de Caja',
@@ -276,6 +284,12 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
       cleanPath,
       true
     );
+    return crumbs;
+  }
+
+  if (/^\/dashboard\/export\/bookings\/\d+$/.test(cleanPath)) {
+    push('Bookings', '/dashboard/export/bookings', false);
+    push('Editar Booking', cleanPath, true);
     return crumbs;
   }
 

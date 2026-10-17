@@ -32,9 +32,6 @@ export function useSubmitShippingCompany(): {
   ): Promise<void> => {
     const { dataReviewed, harbors, contacts, ...rest } = values;
     dataReviewed;
-    const toNumberOrZero = (v: number | '' | null | undefined): number =>
-      v === '' || v == null ? 0 : Number(v);
-
     const toNumber = (v: number | '' | null | undefined): number | null =>
       v === '' || v == null ? null : Number(v);
 
@@ -44,7 +41,6 @@ export function useSubmitShippingCompany(): {
           harborDepartureId: toNumber(h.harborDepartureId),
           harborDestinationId: toNumber(h.harborDestinationId),
           estDuration: (h.estDuration || '').trim(),
-          cost: toNumberOrZero(h.cost),
         }))
         .filter(
           (h) =>
@@ -56,7 +52,6 @@ export function useSubmitShippingCompany(): {
           harborDepartureId: h.harborDepartureId as number,
           harborDestinationId: h.harborDestinationId as number,
           estDuration: h.estDuration,
-          cost: h.cost,
         })) || undefined;
 
     const normalizedContacts = (contacts || []).map((c) => ({

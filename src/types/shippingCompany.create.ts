@@ -1,7 +1,6 @@
 export type HarborInfo = {
   harborId: number | '';
   estDuration: string;
-  cost: number | '';
 };
 
 export type ContactType = {

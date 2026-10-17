@@ -58,6 +58,39 @@ la exportación sale de la lista de pendientes y el envío entra a
 
 ---
 
+### Bookings
+
+*Exportaciones → Bookings*. Un booking es la reserva con la naviera: número,
+naviera, nave, día y hora de zarpe (ETD), ruta y contenedores reservados, con
+sus números si ya se conocen.
+
+- La ruta se elige entre las del **contrato naviero vigente el día del
+  zarpe** (`GET /shipping-contracts/routes?shippingCompanyId=&date=`). Al
+  elegirla la web muestra el costo por contenedor, los días de tránsito y el
+  contrato; si la naviera no tiene contrato vigente ese día, avisa y enlaza a
+  *Contratos Navieros*.
+- El día de zarpe se escribe en `DD/MM/AAAA` y la hora en `HH:mm` (24 horas);
+  `bookingBody()` los une en un momento de hora local con `atHourMinute()`.
+- El backend congela el costo al reservar y responde el flete estimado
+  (`estimatedFreight`) y la llegada (`eta`); la web los muestra tal cual.
+- Los números de contenedor (`MSKU1234567`) se pueden cargar después; no
+  pueden ser más que los reservados. Se mandan sin espacios ni guiones y en
+  mayúsculas.
+- Todavía no se elige un booking al crear la exportación: el número de booking
+  de la exportación sigue siendo texto libre.
+
+| Pieza | Archivo |
+|-------|---------|
+| Formulario y ruta vigente | `components/booking/{BookingForm, RouteInForceSelect}.tsx` |
+| Esquema, body y envío | `components/booking/schemas/booking.schema.ts`, `components/booking/bookingBody.ts`, `components/booking/hooks/useSubmitBooking.ts` |
+| Tabla | `components/booking/TableBookings.tsx` |
+| Páginas | `app/dashboard/export/{bookings, add-booking, bookings/[id]}/page.tsx` |
+| Hooks y tipos | `hooks/booking/`, `hooks/shipping-contract/getRoutesInForce.ts`, `types/booking.ts` |
+
+Invalidaciones: guardar o eliminar un booking invalida `bookings` y `booking`.
+
+---
+
 ### Editar, duplicar y cancelar
 
 Desde el menú de acciones de cada fila en *Exportaciones*:
