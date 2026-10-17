@@ -1,5 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Center } from '@chakra-ui/react';
+import {
+  Badge,
+  Center,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+} from '@chakra-ui/react';
 import { Box } from '@mui/material';
 import {
   MRT_ColumnDef,
@@ -8,12 +17,15 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BsFillSendCheckFill, BsFillSendDashFill } from 'react-icons/bs';
+import { FiMoreVertical } from 'react-icons/fi';
+import { MdBlock, MdContentCopy, MdEdit } from 'react-icons/md';
 import DetailExport from './DetailExport';
 import { useExports } from '../../../hooks/export/getExports';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportResponse } from '../../../types/export.response';
+import CancelExportModal from '../CancelExportModal';
 
 const TableExport = ({
   width,
@@ -25,6 +37,7 @@ const TableExport = ({
   const { paginationParams } = usePagination();
   const { data = [], error } = useExports(paginationParams);
   const router = useRouter();
+  const [toCancel, setToCancel] = useState<ExportResponse | null>(null);
 
   useEffect(() => {
     if (!!error) {
@@ -91,11 +104,13 @@ const TableExport = ({
         columns: [
           {
             id: 'enviado',
-            header: 'Enviado',
+            header: 'Estado',
             accessorFn: (row) => `${row.pendingExportSent}`,
-            Cell: ({ renderedCellValue }) => (
+            Cell: ({ renderedCellValue, row }) => (
               <Center>
-                {renderedCellValue === 'false' ? (
+                {row.original.cancelledAt ? (
+                  <Badge colorScheme='red'>Cancelada</Badge>
+                ) : renderedCellValue === 'false' ? (
                   <BsFillSendCheckFill color='green' />
                 ) : (
                   <BsFillSendDashFill color='orange' />
@@ -105,7 +120,62 @@ const TableExport = ({
           },
         ],
       },
+      {
+        id: 'acciones',
+        header: 'Acciones',
+        size: 90,
+        enableSorting: false,
+        Cell: ({ row }): React.JSX.Element => {
+          const { id, cancelledAt, pendingExportSent } = row.original;
+          const canEdit = !cancelledAt && pendingExportSent !== false;
+          return (
+            <Center>
+              <Menu isLazy placement='bottom-end'>
+                <MenuButton
+                  as={IconButton}
+                  icon={<FiMoreVertical />}
+                  aria-label='Acciones de la exportación'
+                  size='sm'
+                  variant='ghost'
+                />
+                <Portal>
+                  <MenuList zIndex='popover'>
+                    <MenuItem
+                      icon={<MdEdit />}
+                      isDisabled={!canEdit}
+                      onClick={() => router.push(`/dashboard/export/${id}/edit`)}
+                    >
+                      {canEdit
+                        ? 'Editar'
+                        : cancelledAt
+                          ? 'Editar (está cancelada)'
+                          : 'Editar (ya tiene envío de insumos)'}
+                    </MenuItem>
+                    <MenuItem
+                      icon={<MdContentCopy />}
+                      onClick={() =>
+                        router.push(`/dashboard/export/${id}/duplicate`)
+                      }
+                    >
+                      Duplicar
+                    </MenuItem>
+                    <MenuItem
+                      icon={<MdBlock />}
+                      color='red.500'
+                      isDisabled={!!cancelledAt}
+                      onClick={() => setToCancel(row.original)}
+                    >
+                      Cancelar
+                    </MenuItem>
+                  </MenuList>
+                </Portal>
+              </Menu>
+            </Center>
+          );
+        },
+      },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -123,7 +193,7 @@ const TableExport = ({
       pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand', 'boxQuantity'],
-        right: ['pendingExportSent'],
+        right: ['enviado', 'acciones'],
       },
       density: 'compact',
     },
@@ -163,7 +233,15 @@ const TableExport = ({
     localization: MRT_Localization_ES,
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <MaterialReactTable table={table} />
+      <CancelExportModal
+        exportToCancel={toCancel}
+        onClose={() => setToCancel(null)}
+      />
+    </>
+  );
 };
 
 export default TableExport;

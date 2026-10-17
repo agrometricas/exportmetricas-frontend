@@ -21,7 +21,6 @@ interface InputFieldHarborShippingCompanyProps {
 const InputFieldHarborShippingCompany: React.FC<
   InputFieldHarborShippingCompanyProps
 > = ({ name, label, placeholder, type, shippingCompany, setHarbor }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [field, meta, helpers] = useField(name);
 
   return (
@@ -34,6 +33,7 @@ const InputFieldHarborShippingCompany: React.FC<
         placeholder={placeholder}
         type={type}
         shippingCompany={shippingCompany}
+        value={field.value}
         onChange={(newValue) => helpers.setValue(newValue?.id)}
         setHarbor={setHarbor}
       />

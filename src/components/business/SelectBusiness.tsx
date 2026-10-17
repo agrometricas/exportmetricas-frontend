@@ -1,15 +1,26 @@
 import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputFieldBusinessSelect from './InputFieldBusinessSelect';
 import { BusinessType } from '../../types/merchant/business';
 
 interface SelectBusinessProps {
   name: string;
   merchant?: number;
+  businessSelect?: Partial<BusinessType>;
 }
 
-const SelectBusiness: React.FC<SelectBusinessProps> = ({ name, merchant }) => {
+const SelectBusiness: React.FC<SelectBusinessProps> = ({
+  name,
+  merchant,
+  businessSelect,
+}) => {
   const [business, setBusiness] = useState<Partial<BusinessType> | null>(null);
+
+  useEffect(() => {
+    if (!!businessSelect) {
+      setBusiness(businessSelect);
+    }
+  }, [businessSelect]);
 
   return (
     <>

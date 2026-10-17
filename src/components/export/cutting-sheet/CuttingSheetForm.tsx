@@ -164,6 +164,8 @@ const emptyExportData: ExportResponse = {
   shippingDateTime: '',
   numberOfVerifiers: 0,
   contractType: '',
+  cancelledAt: null,
+  cancellationReason: null,
   shippingCompany: { id: 0, name: '', code: '', contacts: [] },
   deposit: {
     id: 0,

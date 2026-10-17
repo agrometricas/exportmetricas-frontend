@@ -79,6 +79,7 @@ export function AddMaterialForm({
     TRANSFER: 'TRANSFERIDO',
     CONSUMPTION: 'CONSUMIDO',
     ADJUSTMENT: 'ASIGNADO',
+    RETURN: 'DEVUELTO',
   };
 
   const getMovementIcon = (type: string): JSX.Element | null => {
@@ -89,6 +90,8 @@ export function AddMaterialForm({
         return <MdArrowUpward color='red' size={18} />;
       case 'ADJUSTMENT':
         return <MdArrowDownward color='green' size={18} />;
+      case 'RETURN':
+        return <MdArrowDownward color='teal' size={18} />;
       default:
         return null;
     }

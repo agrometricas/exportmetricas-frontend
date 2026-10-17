@@ -1,0 +1,5 @@
+export const STOCK_MOVEMENT_LABELS: Record<string, string> = {
+  TRANSFER: 'TRANSFERENCIA',
+  CONSUMPTION: 'CONSUMIDO',
+  RETURN: 'DEVOLUCIÓN',
+};

@@ -28,6 +28,11 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `weekTotal` | Igual a `boxQuantity` |
 
 `dataReviewed` es la casilla de confirmación del formulario; no se envía.
+`exportBody()` arma el body a partir de los valores del formulario; crear y
+editar mandan el mismo.
+
+La respuesta trae además `cancelledAt` y `cancellationReason`: una exportación
+con `cancelledAt` está cancelada.
 
 ### Modelo: envío de insumos
 
@@ -50,6 +55,31 @@ Agregar Envíos de Insumos: lista GET /export/pending
 la exportación sale de la lista de pendientes y el envío entra a
 "Agregar Hojas de Corte" y "Agregar Costos Validados"
 ```
+
+---
+
+### Editar, duplicar y cancelar
+
+Desde el menú de acciones de cada fila en *Exportaciones*:
+
+| Acción | Ruta / endpoint | Cuándo |
+|--------|-----------------|--------|
+| Editar | `/dashboard/export/[id]/edit` → `PUT /export/:id` | Mientras no tenga envío de insumos ni esté cancelada |
+| Duplicar | `/dashboard/export/[id]/duplicate` → `POST /export` | Siempre: crea una exportación nueva |
+| Cancelar | modal → `POST /export/:id/cancel` con `{ reason? }` | Mientras no esté cancelada |
+
+- Editar y duplicar usan el mismo `AddExportForm` prellenado con
+  `exportFormValues()`. La casilla de "He revisado los datos" vuelve a
+  desmarcarse
+- Cambiar algo de una exportación que ya tiene envío de insumos es cancelarla y
+  duplicarla. La pantalla de edición lo dice y ofrece el botón de duplicar
+- El modal de cancelar avisa si el material del envío vuelve a la finca. El
+  backend rechaza la cancelación si ya hay pago al productor o cobro al
+  cliente, y la web muestra su mensaje
+- Una cancelada queda en la tabla con la etiqueta *Cancelada* y el motivo en
+  el detalle; las listas de pendientes ya no la traen
+- La naviera y los puertos se muestran a partir del valor del formulario: los
+  puertos se eligen entre las rutas de la naviera seleccionada
 
 ---
 
@@ -87,6 +117,8 @@ validación se arma según qué materiales tiene la alícuota.
   el backend rechaza el envío completo con un mensaje que nombra el tipo de
   material; nada se guarda.
 - El envío descuenta el stock de la finca al instante.
+- Una exportación con envío de insumos ya no se edita; cancelarla devuelve a
+  la finca lo enviado (movimiento `RETURN`, *Devolución* en Trazabilidad).
 
 ---
 
@@ -95,26 +127,29 @@ validación se arma según qué materiales tiene la alícuota.
 | Pieza | Archivo |
 |-------|---------|
 | Formulario de exportación | `components/export/AddExportForm.tsx` |
-| Envío y esquema | `components/export/hooks/useSubmitExport.ts`, `components/export/schemas/export.schema.ts` |
+| Envío y esquema | `components/export/hooks/useSubmitExport.ts`, `components/export/schemas/export.schema.ts`, `components/export/exportBody.ts` |
+| Editar y duplicar | `components/export/ExportFormPage.tsx`, `components/export/exportFormValues.ts` |
+| Cancelar | `components/export/CancelExportModal.tsx` |
 | Tabla y detalle | `components/export/table-export/` |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
 | Envíos realizados | `components/liquidation/exports-sent/` |
 | Grilla de días de corte | `components/export/cutting-sheet/DateGrid.tsx`, `utils/getWeekInfo.ts` |
-| Páginas | `app/dashboard/export/{search, add-export}/page.tsx`, `app/dashboard/liquidation/{exports-sent, add-supply-shipment, add-supply-shipment/[id]}/page.tsx` |
+| Páginas | `app/dashboard/export/{search, add-export, [id]/edit, [id]/duplicate}/page.tsx`, `app/dashboard/liquidation/{exports-sent, add-supply-shipment, add-supply-shipment/[id]}/page.tsx` |
 | Lectura en servidor | `lib/export/export.ts` (`fetchExport`) |
 | Tipos | `types/export*.ts`, `types/exportSent*.ts`, `types/export-sent/` |
-| Hooks | `hooks/export/{createExport, getExport, getExports, getExportsPending}.ts`, `hooks/export/export-sent/` |
+| Hooks | `hooks/export/{createExport, updateExport, cancelExport, getExport, getExports, getExportsPending}.ts`, `hooks/export/export-sent/` |
 
 Invalidaciones:
 
-- Crear una exportación: `exports`, `exportsPending`, `cuttingSheets`,
-  `cuttingSheetsPending`.
+- Crear o editar una exportación: `exports`, `exportsPending`, `cuttingSheets`,
+  `cuttingSheetsPending`; al editar, también `['export', id]`.
+- Cancelar: las listas de exportaciones y de pendientes, `export`, y las de
+  stock (`exporterMaterialStock`, `businessStock`, `stockMovements`).
 - Crear un envío: `exports`, `exportsSent`, `exportsSentPending`,
   `exportsPending`, `clientPaymentsPending`, `cuttingSheets`,
   `cuttingSheetsPending`, `exportSentCostsPending`.
 
 > Las pantallas de envío de insumos están bajo `/dashboard/liquidation/` aunque
-> el menú las muestra en *Exportaciones*. No hay pantalla para editar ni anular
-> una exportación o un envío.
+> el menú las muestra en *Exportaciones*. Un envío de insumos no se edita.

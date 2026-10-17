@@ -22,6 +22,7 @@ interface HarborSelectBaseShippingProps {
       harborDestination: Partial<HarborType>;
     }>;
   } | null;
+  value?: number;
   onChange: (newValue: Partial<HarborType> | null) => void;
   setHarbor?: (harbor: Partial<HarborType>) => void;
 }
@@ -60,6 +61,7 @@ const HarborSelectBaseShipping: React.FC<HarborSelectBaseShippingProps> = ({
   placeholder,
   type,
   shippingCompany,
+  value,
   onChange,
   setHarbor,
 }) => {
@@ -108,6 +110,7 @@ const HarborSelectBaseShipping: React.FC<HarborSelectBaseShippingProps> = ({
         opt.id ? opt.id.toString() : ''
       }
       onChange={(newValue) => handleChange(newValue)}
+      value={options.find((opt) => opt.id === value) ?? null}
       placeholder={placeholder}
       components={harborComponents}
     />
