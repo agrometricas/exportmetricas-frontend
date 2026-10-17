@@ -27,6 +27,11 @@ formulario de exportación elige.
 `trackingPlatform?`, `contacts[]`, `harbors[]` — cada elemento es una ruta
 `{ harborDepartureId, harborDestinationId, estDuration, cost }`.
 
+**Contrato naviero:** `shippingCompanyId` (solo al crear), `reference?`,
+`startDate`, `endDate` y `routes[]`, cada una
+`{ harborDepartureId, harborDestinationId, costPerContainer, transitDays }`. La
+respuesta trae `costPerContainer` como texto decimal y `active` (vigente hoy).
+
 **Depósito:** `name`, `code`, `cityId`, `address`, `openTime`, `closeTime`,
 `contacts[]`.
 
@@ -45,6 +50,24 @@ formulario de exportación elige.
 - Incoterms, certificaciones de transporte y ubicaciones son catálogos fijos del
   backend; la web solo los lista.
 
+### Contratos navieros
+
+*Comercialización → Contratos Navieros*. Cada contrato es de una naviera, con
+vigencia (inicio y fin, `DD/MM/AAAA`) y una o más rutas con su costo por
+contenedor en USD y, si se conoce, los días de tránsito.
+
+- El costo acepta coma o punto decimal y hasta dos decimales;
+  `shippingContractBody()` lo manda como número.
+- Una ruta no puede tener dos precios el mismo día en la misma naviera: si se
+  cruza con otro contrato, el backend responde 409 con la ruta y las fechas del
+  otro, y la web muestra ese mensaje.
+- Editar manda todas las rutas: las que se quitan del formulario se borran.
+- Para dar por terminado un contrato sin perder el historial de precios se
+  cambia la fecha de fin; eliminarlo borra también sus rutas.
+- Los campos de texto del formulario son `Input` simples: `InputFieldNumber`
+  pierde el valor de una fila cuando se quita otra de la lista, y
+  `InputFieldQuantity` no deja escribir el punto decimal.
+
 ---
 
 ### Importación CSV
@@ -61,12 +84,13 @@ respuesta trae una entrada por fila con `status: 'success' | 'error'`.
 | Cliente | `components/settings/{AddClientForm, ImportClientDrawer}.tsx`, `components/settings/hooks/useSubmitClient.ts`, `components/settings/schemas/client.schema.ts` |
 | Puerto | `components/settings/AddHarborForm.tsx`, `components/settings/hooks/useSubmitHarbor.ts`, `components/settings/schemas/harbor.schema.ts`, `components/harbor/` |
 | Naviera | `components/shipping-company/` |
+| Contrato naviero | `components/shipping-contract/`, `hooks/shipping-contract/`, `types/shippingContract.ts` |
 | Depósito | `components/deposit/` |
 | Transporte | `components/transport/` |
 | Tablas y detalle | `components/client/table-client/`, `components/harbor/table-harbor/`, `components/<dominio>/table-<dominio>/` |
 | Selectores | `Select<X>.tsx` + `<X>SelectBase.tsx` + `InputField<X>Select.tsx` en cada dominio |
 | Cuentas bancarias | `components/client/table-bank-accounts/`, `components/producer/AddBankAccountForm.tsx` |
-| Páginas | `app/dashboard/client/{clients, add-client, harbors, add-harbor, shipping-companies, add-shipping-company, deposits, add-deposit, transports, add-transport, bank-accounts, add-bank-account}/page.tsx` |
+| Páginas | `app/dashboard/client/{clients, add-client, harbors, add-harbor, shipping-companies, add-shipping-company, shipping-contracts, shipping-contracts/[id], add-shipping-contract, deposits, add-deposit, transports, add-transport, bank-accounts, add-bank-account}/page.tsx` |
 | Tipos | `types/client*.ts`, `types/harbor*.ts`, `types/shippingCompany*.ts`, `types/deposit/`, `types/transport/` |
 | Hooks | `hooks/export/client/`, `hooks/export/harbor/`, `hooks/export/shippingCompany/`, `hooks/deposit/`, `hooks/transport/` |
 
