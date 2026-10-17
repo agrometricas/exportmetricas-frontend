@@ -168,7 +168,7 @@ export default function SidenavBar({
         >
           {!isCollapsed && (
             <Text fontSize='xs' color={borderColor} textAlign='center'>
-              © 2025 ExportTech
+              © 2025 Exportmétricas
             </Text>
           )}
         </Box>
@@ -285,7 +285,7 @@ export default function SidenavBar({
                 color={useColorModeValue('gray.500', 'gray.400')}
                 textAlign='center'
               >
-                © 2025 ExportTech
+                © 2025 Exportmétricas
               </Text>
             </Box>
           </DrawerBody>
