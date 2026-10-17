@@ -17,6 +17,7 @@ type AddMap = Record<
 const VIEW_ROUTES: ViewMap = {
   '/dashboard/producer/producers': 'Productores',
   '/dashboard/producer/fincas': 'Fincas',
+  '/dashboard/producer/contracts': 'Contratos',
 
   '/dashboard/client/clients': 'Clientes',
   '/dashboard/client/harbors': 'Puertos',
@@ -57,6 +58,11 @@ const ADD_ROUTES: AddMap = {
     parent: 'Fincas',
     addLabel: 'Agregar Finca',
     parentHref: '/dashboard/producer/fincas',
+  },
+  '/dashboard/producer/add-contract': {
+    parent: 'Contratos',
+    addLabel: 'Agregar Contrato',
+    parentHref: '/dashboard/producer/contracts',
   },
   '/dashboard/producer/add-bank-account': {
     parent: 'Cuentas Bancarias',
@@ -156,6 +162,7 @@ const SEGMENT_ES: Record<string, string> = {
   producer: 'Productores',
   producers: 'Productores',
   fincas: 'Fincas',
+  contracts: 'Contratos',
   client: 'Clientes',
   clients: 'Clientes',
   harbors: 'Puertos',
