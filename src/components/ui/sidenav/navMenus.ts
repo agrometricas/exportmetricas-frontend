@@ -56,6 +56,9 @@ export function getExportMenu(counts: {
     { label: 'Exportaciones', to: '/dashboard/export/search' },
     { label: 'Agregar Exportaciones', to: '/dashboard/export/add-export' },
 
+    { label: 'Bookings', to: '/dashboard/export/bookings' },
+    { label: 'Agregar Bookings', to: '/dashboard/export/add-booking' },
+
     { label: 'Envíos de Insumos', to: '/dashboard/liquidation/exports-sent' },
     {
       label: 'Agregar Envíos de Insumos',

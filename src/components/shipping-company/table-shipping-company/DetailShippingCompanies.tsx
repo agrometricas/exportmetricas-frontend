@@ -80,9 +80,6 @@ const DetailShippingCompanies = ({
               <Text>
                 <strong>Duración Estimada:</strong> {harbor.estDuration}
               </Text>
-              <Text>
-                <strong>Costo:</strong> ${harbor.cost}
-              </Text>
             </Box>
           ))}
         </AccordionPanel>

@@ -26,7 +26,7 @@ export interface ShippingCompanyResponse {
       name: string;
     };
     estDuration: string;
-    cost: number;
+    cost: number | null;
   }[];
   createdAt: string;
   updatedAt: string;

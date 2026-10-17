@@ -14,7 +14,9 @@ export function parseDayMonthYear(text: string): Date | null {
   return sameDay ? date : null;
 }
 
-export function formatDayMonthYear(value: string | Date | null | undefined): string {
+export function formatDayMonthYear(
+  value: string | Date | null | undefined
+): string {
   if (!value) return '';
   const date = typeof value === 'string' ? new Date(value) : value;
   if (Number.isNaN(date.getTime())) return '';
@@ -28,4 +30,44 @@ export function maskDayMonthYear(input: string): string {
   return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)]
     .filter(Boolean)
     .join('/');
+}
+
+const HOUR_MINUTE = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+export function isHourMinute(text: string): boolean {
+  return HOUR_MINUTE.test(text.trim());
+}
+
+export function formatHourMinute(
+  value: string | Date | null | undefined
+): string {
+  if (!value) return '';
+  const date = typeof value === 'string' ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return '';
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+export function formatDayMonthYearTime(
+  value: string | Date | null | undefined
+): string {
+  const day = formatDayMonthYear(value);
+  return day ? `${day} ${formatHourMinute(value)}` : '';
+}
+
+// The day comes from a day field (local midnight) and the time from a separate
+// HH:mm field; the moment they name is local time, sent as an ISO string.
+export function atHourMinute(day: string, time: string): string | null {
+  const match = HOUR_MINUTE.exec(time.trim());
+  const date = day ? new Date(day) : null;
+  if (!match || !date || Number.isNaN(date.getTime())) return null;
+  date.setHours(Number(match[1]), Number(match[2]), 0, 0);
+  return date.toISOString();
+}
+
+export function startOfLocalDay(value: string): string {
+  const date = new Date(value);
+  date.setHours(0, 0, 0, 0);
+  return date.toISOString();
 }

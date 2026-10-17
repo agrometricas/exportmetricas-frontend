@@ -9,21 +9,17 @@ import {
   Button,
   Divider,
   Flex,
-  FormControl,
-  FormErrorMessage,
   FormLabel,
   Heading,
   HStack,
   IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   SimpleGrid,
   Text,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FieldArray, Form, Formik, useField } from 'formik';
+import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useSubmitShippingContract } from './hooks/useSubmitShippingContract';
@@ -32,50 +28,7 @@ import { ShippingContractResponse } from '../../types/shippingContract';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
-
-// A plain text input: the shared number fields drop the decimal point while
-// typing and lose their value when a row of the list above them is removed.
-function TextField({
-  name,
-  label,
-  unit,
-  inputMode,
-  placeholder,
-}: {
-  name: string;
-  label: string;
-  unit?: string;
-  inputMode?: 'decimal' | 'numeric' | 'text';
-  placeholder?: string;
-}): React.JSX.Element {
-  const [field, meta] = useField<string>(name);
-  return (
-    <FormControl isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px'>
-        {label}
-      </FormLabel>
-      <InputGroup>
-        <Input
-          {...field}
-          inputMode={inputMode}
-          placeholder={placeholder ?? label}
-          pr={unit ? '110px' : undefined}
-        />
-        {unit && (
-          <InputRightElement
-            pointerEvents='none'
-            color='gray.500'
-            width='auto'
-            pr='12px'
-          >
-            {unit}
-          </InputRightElement>
-        )}
-      </InputGroup>
-      <FormErrorMessage>{meta.error}</FormErrorMessage>
-    </FormControl>
-  );
-}
+import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 export default function ShippingContractForm({
   contract,
@@ -121,7 +74,7 @@ export default function ShippingContractForm({
                   placeholder='Seleccione la naviera'
                 />
               )}
-              <TextField
+              <InputFieldPlain
                 name='reference'
                 label='Referencia (opcional)'
                 placeholder='Número o nombre del contrato'
@@ -178,13 +131,13 @@ export default function ShippingContractForm({
                           label='Puerto de Destino'
                           placeholder='Seleccione el destino'
                         />
-                        <TextField
+                        <InputFieldPlain
                           name={`routes[${index}].costPerContainer`}
                           label='Costo por Contenedor'
                           unit='USD/cont.'
                           inputMode='decimal'
                         />
-                        <TextField
+                        <InputFieldPlain
                           name={`routes[${index}].transitDays`}
                           label='Días de Tránsito (opcional)'
                           unit='días'
