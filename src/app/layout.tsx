@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ExporTech - Exportmétricas',
+  title: 'Exportmétricas',
   description: 'App Generada en Next',
 };
 
