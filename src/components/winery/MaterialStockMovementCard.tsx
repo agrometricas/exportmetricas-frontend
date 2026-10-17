@@ -20,6 +20,7 @@ import {
   MATERIAL_TYPE_ORDER,
 } from '@/utils/materialTypeLabels';
 import { ExporterBusinessMaterialStock } from '../../types/winery/exporterBusinessMaterialStock';
+import { STOCK_MOVEMENT_LABELS } from '../../utils/stockMovementLabels';
 import WeekSelect from '../ui/form/WeekSelect';
 
 const months = [
@@ -76,11 +77,6 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
       return week === selectedWeek && month === selectedMonth;
     }
     return month === selectedMonth;
-  };
-
-  const MOVEMENT_TYPE_LABELS: Record<string, string> = {
-    TRANSFER: 'TRANSFERENCIA',
-    CONSUMPTION: 'CONSUMIDO',
   };
 
   return (
@@ -192,10 +188,15 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                       {filteredTransfers.map((movement) => (
                         <Box key={movement.id}>
                           <Badge colorScheme='green'>
-                            {MOVEMENT_TYPE_LABELS[movement.type] ??
+                            {STOCK_MOVEMENT_LABELS[movement.type] ??
                               movement.type}
                           </Badge>{' '}
-                          {movement.quantity} unidades - (
+                          {movement.quantity} unidades{' '}
+                          {movement.type === 'RETURN' &&
+                            movement.exportSentId && (
+                              <>- (Envío #{movement.exportSentId}) </>
+                            )}
+                          - (
                           {format(new Date(movement.createdAt), 'dd/MM/yyyy')})
                         </Box>
                       ))}
@@ -216,7 +217,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                           <Badge colorScheme='red'>
                             {!movement.exportSentId
                               ? 'DESCONTADO'
-                              : (MOVEMENT_TYPE_LABELS[movement.type] ??
+                              : (STOCK_MOVEMENT_LABELS[movement.type] ??
                                 movement.type)}
                           </Badge>{' '}
                           {movement.quantity} unidades{' '}

@@ -106,6 +106,8 @@ export interface ExportResponse {
   weekTotal: number;
   numberOfVerifiers: number;
   contractType: string;
+  cancelledAt: string | null;
+  cancellationReason: string | null;
   merchant: {
     id: number;
     businessName: string;

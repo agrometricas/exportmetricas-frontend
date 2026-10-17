@@ -9,9 +9,18 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import DateGrid from './cutting-sheet/DateGrid';
+import { exportFormValues } from './exportFormValues';
 import { useSubmitExport } from './hooks/useSubmitExport';
+import { initialValues as emptyValues } from './schemas/export.schema';
+import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
+import { usePagination } from '../../hooks/usePagination';
+import { BoxBrandType } from '../../types/box-brand/boxBrand';
+import { ClientType } from '../../types/client';
+import { ExportResponse } from '../../types/export.response';
+import { BusinessType } from '../../types/merchant/business';
+import { MerchantResponse } from '../../types/merchant/merchant.response';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
@@ -30,16 +39,33 @@ import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
 
-const AddExportForm: React.FC = () => {
-  const { onSubmit, initialValues, validationSchema, isLoading } =
-    useSubmitExport();
+interface AddExportFormProps {
+  source?: ExportResponse;
+  editing?: boolean;
+}
+
+const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
+  const { onSubmit, validationSchema, isLoading } = useSubmitExport({
+    exportId: editing ? source?.id : undefined,
+  });
+  const initialValues = useMemo(
+    () => (source ? exportFormValues(source) : emptyValues),
+    [source]
+  );
+  const { paginationParams } = usePagination();
+  const { data: shippingCompanies = [] } =
+    useShippingCompanies(paginationParams);
+  const shippingCompanyById = (
+    id: number
+  ): Partial<ShippingCompanyType> | null =>
+    (shippingCompanies as Partial<ShippingCompanyType>[]).find(
+      (company) => company.id === id
+    ) ?? null;
   const ContractOpt = [
     { name: 'FOB (FREE ON BOARD)', id: 'FOB' },
     { name: 'FAS (FREE ALONGSIDE SHIP)', id: 'FAS' },
     { name: 'SPOT (ES VENTA AL CORTO PLAZO)', id: 'SPOT' },
   ];
-  const [selectedShippingCompany, setSelectedShippingCompany] =
-    useState<Partial<ShippingCompanyType> | null>(null);
 
   return (
     <Formik
@@ -54,7 +80,12 @@ const AddExportForm: React.FC = () => {
               Productor
             </Heading>
             <Divider mb='16px' />
-            <SelectProducer name='merchantId' />
+            <SelectProducer
+              name='merchantId'
+              producerSelect={
+                source?.merchant as Partial<MerchantResponse> | undefined
+              }
+            />
             <Heading fontSize='2xl' p='12px'>
               Finca
             </Heading>
@@ -62,17 +93,26 @@ const AddExportForm: React.FC = () => {
             <SelectBusiness
               name='businessId'
               merchant={values.merchantId || undefined}
+              businessSelect={
+                source?.business as Partial<BusinessType> | undefined
+              }
             />
             <Heading fontSize='2xl' p='12px'>
               Marca de Caja
             </Heading>
             <Divider mb='16px' />
-            <SelectBoxBrand name='boxBrandId' />
+            <SelectBoxBrand
+              name='boxBrandId'
+              boxBrandSelect={
+                source?.boxBrand as Partial<BoxBrandType> | undefined
+              }
+            />
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
               <InputFieldNumber
                 name='boxQuantity'
                 label='Cantidad de Cajas'
                 unit='cajas'
+                value={source ? initialValues.boxQuantity : ''}
               />
               <InputFieldSelector
                 name={'contractType'}
@@ -129,7 +169,10 @@ const AddExportForm: React.FC = () => {
               Cliente
             </Heading>
             <Divider mb='16px' />
-            <SelectClient name={'clientId'} />
+            <SelectClient
+              name={'clientId'}
+              clientSelect={source?.client as Partial<ClientType> | undefined}
+            />
             <Heading fontSize={'2xl'} p={'12px'}>
               Naviera
             </Heading>
@@ -138,38 +181,48 @@ const AddExportForm: React.FC = () => {
               name='shippingCompanyId'
               label='Naviera'
               placeholder='Seleccione una Naviera'
-              onSelect={(company) => {
-                setSelectedShippingCompany(company);
+              onSelect={() => {
                 setFieldValue('departureHarborId', '');
                 setFieldValue('destinationHarborId', '');
               }}
             />
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
               <InputFieldHarborShippingCompany
-                key={`departure-${selectedShippingCompany?.id || 'none'}`}
+                key={`departure-${values.shippingCompanyId || 'none'}`}
                 name='departureHarborId'
                 label='Puerto de Salida'
                 type='departure'
                 placeholder='Selecciona un puerto de Salida'
-                shippingCompany={selectedShippingCompany}
+                shippingCompany={shippingCompanyById(values.shippingCompanyId)}
               />
               <InputFieldHarborShippingCompany
-                key={`destination-${selectedShippingCompany?.id || 'none'}`}
+                key={`destination-${values.shippingCompanyId || 'none'}`}
                 name='destinationHarborId'
                 label='Puerto de Destino'
                 type='destination'
                 placeholder='Selecciona un puerto de Destino'
-                shippingCompany={selectedShippingCompany}
+                shippingCompany={shippingCompanyById(values.shippingCompanyId)}
               />
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
-              <InputFieldText name='shipName' label='Nombre de la Nave' />
+              <InputFieldText
+                name='shipName'
+                label='Nombre de la Nave'
+                defaultValue={source ? initialValues.shipName : undefined}
+              />
               <InputFieldText
                 name='estimatedTravelTime'
                 label='Tiempo estimado de viaje'
+                defaultValue={
+                  source ? initialValues.estimatedTravelTime : undefined
+                }
               />
-              <InputFieldText name='bookingNumber' label='Número de Booking' />
+              <InputFieldText
+                name='bookingNumber'
+                label='Número de Booking'
+                defaultValue={source ? initialValues.bookingNumber : undefined}
+              />
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
@@ -191,6 +244,7 @@ const AddExportForm: React.FC = () => {
               <InputFieldNumber
                 name='numberOfVerifiers'
                 label='Número de Verificadores'
+                value={source ? initialValues.numberOfVerifiers : ''}
               />
             </SimpleGrid>
 
@@ -207,7 +261,7 @@ const AddExportForm: React.FC = () => {
               colorScheme='teal'
               isLoading={isLoading}
             >
-              Enviar
+              {editing ? 'Guardar cambios' : 'Enviar'}
             </Button>
           </Flex>
         </Form>

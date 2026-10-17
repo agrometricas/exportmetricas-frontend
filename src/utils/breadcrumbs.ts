@@ -249,6 +249,21 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     return crumbs;
   }
 
+  const exportAction = cleanPath.match(
+    /^\/dashboard\/export\/\d+\/(edit|duplicate)$/
+  );
+  if (exportAction) {
+    push('Exportaciones', '/dashboard/export/search', false);
+    push(
+      exportAction[1] === 'edit'
+        ? 'Editar Exportación'
+        : 'Duplicar Exportación',
+      cleanPath,
+      true
+    );
+    return crumbs;
+  }
+
   if (/^\/dashboard\/user\/[^/]+$/.test(cleanPath)) {
     push('Perfil', cleanPath, true);
     return crumbs;

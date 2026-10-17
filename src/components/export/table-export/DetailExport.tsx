@@ -5,10 +5,14 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Heading,
   Text,
 } from '@chakra-ui/react';
+import { format } from 'date-fns';
 import React from 'react';
 import { ExportResponse } from '../../../types/export.response';
 interface DetailExportsProps {
@@ -33,6 +37,21 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
   return (
     <Accordion defaultIndex={[0]} allowMultiple>
+      {data.cancelledAt && (
+        <Alert
+          status='error'
+          variant='left-accent'
+          width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
+        >
+          <AlertIcon />
+          <AlertDescription>
+            <strong>
+              Cancelada el {format(new Date(data.cancelledAt), 'dd/MM/yyyy')}.
+            </strong>{' '}
+            {data.cancellationReason ?? 'Sin motivo registrado.'}
+          </AlertDescription>
+        </Alert>
+      )}
       <AccordionItem>
         <Heading>
           <AccordionButton width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>

@@ -1,4 +1,8 @@
-export type StockMovementType = 'TRANSFER' | 'CONSUMPTION' | 'ADJUSTMENT';
+export type StockMovementType =
+  | 'TRANSFER'
+  | 'CONSUMPTION'
+  | 'ADJUSTMENT'
+  | 'RETURN';
 
 export interface StockMovement {
   id: number;

@@ -127,7 +127,7 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<BusinessType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<BusinessType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

@@ -21,6 +21,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
 import { useStockMovementsByBusiness } from '../../hooks/winery/useStockMovementsByBusiness';
+import { STOCK_MOVEMENT_LABELS } from '../../utils/stockMovementLabels';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
@@ -28,11 +29,6 @@ interface AdjustWeeklyFormProps {
   businessId: number;
   week: number;
 }
-
-const MOVEMENT_TYPE_LABELS: Record<string, string> = {
-  TRANSFER: 'TRANSFERENCIA',
-  CONSUMPTION: 'CONSUMIDO',
-};
 
 const clamp = (x: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, x));
@@ -321,7 +317,8 @@ const AdjustWeeklyForm = ({
                                   {item.transfers.map((m) => (
                                     <Box key={m.id}>
                                       <Badge colorScheme='green'>
-                                        {MOVEMENT_TYPE_LABELS[m.type] ?? m.type}
+                                        {STOCK_MOVEMENT_LABELS[m.type] ??
+                                          m.type}
                                       </Badge>{' '}
                                       {m.quantity} unidades - (
                                       {new Date(
@@ -346,7 +343,7 @@ const AdjustWeeklyForm = ({
                                       <Badge colorScheme='red'>
                                         {!m.exportSentId
                                           ? 'DESCONTADO'
-                                          : (MOVEMENT_TYPE_LABELS[m.type] ??
+                                          : (STOCK_MOVEMENT_LABELS[m.type] ??
                                             m.type)}
                                       </Badge>{' '}
                                       {m.quantity} unidades{' '}

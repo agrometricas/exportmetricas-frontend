@@ -19,6 +19,7 @@ import { ShippingCompanyType } from '../../types/shippingCompany';
 interface ShippingCompanySelectBaseProps {
   name: string;
   placeholder: string;
+  value?: number;
   onChange: (newValue: Partial<ShippingCompanyType> | null) => void;
 }
 
@@ -54,6 +55,7 @@ const shippingCompanyComponents = {
 const ShippingCompanySelectBase: React.FC<ShippingCompanySelectBaseProps> = ({
   name,
   placeholder,
+  value,
   onChange,
 }) => {
   const { paginationParams } = usePagination();
@@ -104,6 +106,10 @@ const ShippingCompanySelectBase: React.FC<ShippingCompanySelectBaseProps> = ({
         opt.id ? opt.id.toString() : ''
       }
       onChange={(newValue) => handleChange(newValue)}
+      value={
+        data.find((opt: Partial<ShippingCompanyType>) => opt.id === value) ??
+        null
+      }
       placeholder={placeholder}
       components={shippingCompanyComponents}
     />

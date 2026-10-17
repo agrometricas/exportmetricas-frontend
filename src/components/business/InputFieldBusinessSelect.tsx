@@ -1,6 +1,6 @@
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import BusinessSelectBase from './BusinessSelectBase';
 import { BusinessType } from '../../types/merchant/business';
 
@@ -20,8 +20,13 @@ const InputFieldBusinessSelect: React.FC<InputFieldBusinessSelectProps> = ({
   setBusiness,
 }) => {
   const [field, meta, helpers] = useField(name);
+  const previousMerchant = useRef(merchant);
 
+  // Only a change of producer invalidates the farm: on mount the value may
+  // come prefilled from an export being edited or duplicated.
   useEffect(() => {
+    if (previousMerchant.current === merchant) return;
+    previousMerchant.current = merchant;
     helpers.setValue(null);
   }, [helpers, merchant]);
 

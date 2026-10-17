@@ -15,7 +15,6 @@ const InputFieldShippingCompanySelect: React.FC<
   InputFieldShippingCompanySelectProps
 > = ({ name, label, placeholder, onSelect }) => {
   const [field, meta, helpers] = useField(name);
-  field;
   return (
     <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
       <FormLabel fontSize='sm' mb='8px'>
@@ -24,6 +23,7 @@ const InputFieldShippingCompanySelect: React.FC<
       <ShippingCompanySelectBase
         name={name}
         placeholder={placeholder}
+        value={field.value}
         onChange={(newValue) => {
           helpers.setValue(newValue?.id);
           if (onSelect) {

@@ -25,8 +25,11 @@ stock real.
 `assignedStock`, `currentCost`, `materialDetail`, `stockMovementsFromExporter[]`
 y `stockMovementsConsumption[]`.
 
-**Movimiento:** `type` (`TRANSFER`, `CONSUMPTION`, `ADJUSTMENT`), `quantity`,
-`unitCost`, `createdAt`.
+**Movimiento:** `type` (`TRANSFER`, `CONSUMPTION`, `ADJUSTMENT`, `RETURN`),
+`quantity`, `unitCost`, `createdAt`. `RETURN` es lo que vuelve a la finca al
+cancelar una exportación con envío de insumos: llega en
+`stockMovementsFromExporter[]` y se muestra como *Devolución*, con el número de
+envío. Las etiquetas están en `utils/stockMovementLabels.ts`.
 
 Lectura de las cifras:
 
