@@ -22,6 +22,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/client/clients': 'Clientes',
   '/dashboard/client/harbors': 'Puertos',
   '/dashboard/client/shipping-companies': 'Navieras',
+  '/dashboard/client/shipping-contracts': 'Contratos Navieros',
   '/dashboard/client/deposits': 'Depósitos',
   '/dashboard/client/transports': 'Transportes',
 
@@ -85,6 +86,11 @@ const ADD_ROUTES: AddMap = {
     parent: 'Navieras',
     addLabel: 'Agregar Naviera',
     parentHref: '/dashboard/client/shipping-companies',
+  },
+  '/dashboard/client/add-shipping-contract': {
+    parent: 'Contratos Navieros',
+    addLabel: 'Agregar Contrato Naviero',
+    parentHref: '/dashboard/client/shipping-contracts',
   },
   '/dashboard/client/add-deposit': {
     parent: 'Depósitos',
@@ -168,6 +174,7 @@ const SEGMENT_ES: Record<string, string> = {
   clients: 'Clientes',
   harbors: 'Puertos',
   'shipping-companies': 'Navieras',
+  'shipping-contracts': 'Contratos Navieros',
   deposits: 'Depósitos',
   transports: 'Transportes',
   'box-brands': 'Marcas de Caja',

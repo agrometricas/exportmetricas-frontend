@@ -22,6 +22,11 @@ export const CLIENT_MENU: SidenavMenuItem[] = [
 
   { label: 'Navieras', to: '/dashboard/client/shipping-companies' },
   { label: 'Agregar Navieras', to: '/dashboard/client/add-shipping-company' },
+  { label: 'Contratos Navieros', to: '/dashboard/client/shipping-contracts' },
+  {
+    label: 'Agregar Contratos Navieros',
+    to: '/dashboard/client/add-shipping-contract',
+  },
 
   { label: 'Depósitos', to: '/dashboard/client/deposits' },
   { label: 'Agregar Depósitos', to: '/dashboard/client/add-deposit' },
