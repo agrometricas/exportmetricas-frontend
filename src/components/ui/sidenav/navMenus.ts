@@ -33,6 +33,10 @@ export const CLIENT_MENU: SidenavMenuItem[] = [
 
   { label: 'Transportes', to: '/dashboard/client/transports' },
   { label: 'Agregar Transportes', to: '/dashboard/client/add-transport' },
+  {
+    label: 'Tarifas de Transporte',
+    to: '/dashboard/client/transport-rates',
+  },
 ];
 
 export const BOX_BRANDS_MENU: SidenavMenuItem[] = [

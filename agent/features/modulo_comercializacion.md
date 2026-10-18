@@ -51,6 +51,20 @@ respuesta trae `costPerContainer` como texto decimal y `active` (vigente hoy).
 - Incoterms, certificaciones de transporte y ubicaciones son catálogos fijos del
   backend; la web solo los lista.
 
+### Tarifas de transporte
+
+*Comercialización → Tarifas de Transporte*
+(`components/transport-rate/TransportRatesManager.tsx`, una sola pantalla con
+el formulario arriba y la tabla debajo). Cada tarifa es el costo por
+contenedor de un transportista para una provincia de Ecuador: el servicio
+depósito o puerto → finca → puerto.
+
+- Un transportista tiene una tarifa por provincia; repetirla responde 409.
+- Editar solo cambia el costo; para cambiar transportista o provincia se
+  elimina y se crea otra.
+- La usa el pago a productor para proponer el gasto de transporte (ver
+  [modulo_liquidacion](modulo_liquidacion.md)).
+
 ### Contratos navieros
 
 *Comercialización → Contratos Navieros*. Cada contrato es de una naviera, con
