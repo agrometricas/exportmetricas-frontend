@@ -23,6 +23,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/client/harbors': 'Puertos',
   '/dashboard/client/shipping-companies': 'Navieras',
   '/dashboard/client/shipping-contracts': 'Contratos Navieros',
+  '/dashboard/client/transport-rates': 'Tarifas de Transporte',
   '/dashboard/client/deposits': 'Depósitos',
   '/dashboard/client/transports': 'Transportes',
 

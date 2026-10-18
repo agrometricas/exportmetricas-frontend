@@ -6,14 +6,25 @@ import {
 export interface ProducerPaymentQuoteParams {
   merchantId: number;
   boxQuantity: number;
+  exportSentId?: number;
   price?: number;
   transport?: number;
   materials?: number;
   others?: number;
 }
 
+export interface TransportProposal {
+  amount: number;
+  containers: number;
+  costPerContainer: string;
+  transport: string;
+  province: string;
+}
+
 export interface ProducerPaymentQuote {
   price: number;
+  transport: number;
+  transportProposal: TransportProposal | null;
   subtotal1: number;
   subtotal2: number;
   total: number;

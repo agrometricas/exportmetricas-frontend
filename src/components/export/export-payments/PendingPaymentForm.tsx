@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   SimpleGrid,
+  Text,
   useToast,
 } from '@chakra-ui/react';
 import { Form, Formik, useFormikContext } from 'formik';
@@ -189,9 +190,13 @@ const PendingPaymentFields = ({
   const sale =
     values.merchantId === '' || values.boxQuantity === ''
       ? null
-      : { merchantId: values.merchantId, boxQuantity: values.boxQuantity };
-  // Asked without a price, the backend answers with the one it proposes for
-  // this producer.
+      : {
+          merchantId: values.merchantId,
+          boxQuantity: values.boxQuantity,
+          exportSentId: typed(values.exportSentId),
+        };
+  // Asked without a price or a transport, the backend answers with the ones
+  // it proposes: the producer's price and the carrier's rate for the farm.
   const { quote: proposal } = useProducerPaymentQuote(sale);
   const { quote, isSettled } = useProducerPaymentQuote(
     sale && {
@@ -269,12 +274,23 @@ const PendingPaymentFields = ({
       <Divider mb={'16px'} />
 
       <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-        <InputFieldNumber
-          name={'transport'}
-          label={'Transporte'}
-          isDecimal
-          isDolar
-        />
+        <Box>
+          <InputFieldNumber
+            name={'transport'}
+            label={'Transporte'}
+            value={proposal?.transportProposal ? proposal.transport : ''}
+            isDecimal
+            isDolar
+          />
+          {proposal?.transportProposal && (
+            <Text fontSize='sm' color='gray.600' mt={1}>
+              Tarifa de {proposal.transportProposal.transport} para{' '}
+              {proposal.transportProposal.province}:{' '}
+              {proposal.transportProposal.containers} contenedor(es) × $
+              {proposal.transportProposal.costPerContainer}
+            </Text>
+          )}
+        </Box>
         <InputFieldNumber
           name={'materials'}
           label={'Materiales'}
