@@ -11,6 +11,7 @@ import {
 import { Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
 import DateGrid from './cutting-sheet/DateGrid';
+import ExportBookingSelect from './ExportBookingSelect';
 import { exportFormValues } from './exportFormValues';
 import { useSubmitExport } from './hooks/useSubmitExport';
 import { initialValues as emptyValues } from './schemas/export.schema';
@@ -49,8 +50,11 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
     exportId: editing ? source?.id : undefined,
   });
   const initialValues = useMemo(
-    () => (source ? exportFormValues(source) : emptyValues),
-    [source]
+    () =>
+      source
+        ? exportFormValues(source, { withContainers: !!editing })
+        : emptyValues,
+    [source, editing]
   );
   const { paginationParams } = usePagination();
   const { data: shippingCompanies = [] } =
@@ -177,53 +181,66 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
               Naviera
             </Heading>
             <Divider mb={'16px'} />
-            <InputFieldShippingCompanySelect
-              name='shippingCompanyId'
-              label='Naviera'
-              placeholder='Seleccione una Naviera'
-              onSelect={() => {
-                setFieldValue('departureHarborId', '');
-                setFieldValue('destinationHarborId', '');
-              }}
+            <ExportBookingSelect
+              editingExportId={editing ? source?.id : undefined}
             />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-              <InputFieldHarborShippingCompany
-                key={`departure-${values.shippingCompanyId || 'none'}`}
-                name='departureHarborId'
-                label='Puerto de Salida'
-                type='departure'
-                placeholder='Selecciona un puerto de Salida'
-                shippingCompany={shippingCompanyById(values.shippingCompanyId)}
-              />
-              <InputFieldHarborShippingCompany
-                key={`destination-${values.shippingCompanyId || 'none'}`}
-                name='destinationHarborId'
-                label='Puerto de Destino'
-                type='destination'
-                placeholder='Selecciona un puerto de Destino'
-                shippingCompany={shippingCompanyById(values.shippingCompanyId)}
-              />
-            </SimpleGrid>
+            {!values.bookingId && (
+              <>
+                <InputFieldShippingCompanySelect
+                  name='shippingCompanyId'
+                  label='Naviera'
+                  placeholder='Seleccione una Naviera'
+                  onSelect={() => {
+                    setFieldValue('departureHarborId', '');
+                    setFieldValue('destinationHarborId', '');
+                  }}
+                />
+                <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <InputFieldHarborShippingCompany
+                    key={`departure-${values.shippingCompanyId || 'none'}`}
+                    name='departureHarborId'
+                    label='Puerto de Salida'
+                    type='departure'
+                    placeholder='Selecciona un puerto de Salida'
+                    shippingCompany={shippingCompanyById(
+                      values.shippingCompanyId
+                    )}
+                  />
+                  <InputFieldHarborShippingCompany
+                    key={`destination-${values.shippingCompanyId || 'none'}`}
+                    name='destinationHarborId'
+                    label='Puerto de Destino'
+                    type='destination'
+                    placeholder='Selecciona un puerto de Destino'
+                    shippingCompany={shippingCompanyById(
+                      values.shippingCompanyId
+                    )}
+                  />
+                </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
-              <InputFieldText
-                name='shipName'
-                label='Nombre de la Nave'
-                defaultValue={source ? initialValues.shipName : undefined}
-              />
-              <InputFieldText
-                name='estimatedTravelTime'
-                label='Tiempo estimado de viaje'
-                defaultValue={
-                  source ? initialValues.estimatedTravelTime : undefined
-                }
-              />
-              <InputFieldText
-                name='bookingNumber'
-                label='Número de Booking'
-                defaultValue={source ? initialValues.bookingNumber : undefined}
-              />
-            </SimpleGrid>
+                <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
+                  <InputFieldText
+                    name='shipName'
+                    label='Nombre de la Nave'
+                    defaultValue={source ? initialValues.shipName : undefined}
+                  />
+                  <InputFieldText
+                    name='estimatedTravelTime'
+                    label='Tiempo estimado de viaje'
+                    defaultValue={
+                      source ? initialValues.estimatedTravelTime : undefined
+                    }
+                  />
+                  <InputFieldText
+                    name='bookingNumber'
+                    label='Número de Booking'
+                    defaultValue={
+                      source ? initialValues.bookingNumber : undefined
+                    }
+                  />
+                </SimpleGrid>
+              </>
+            )}
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
               <InputFieldDepositSelect

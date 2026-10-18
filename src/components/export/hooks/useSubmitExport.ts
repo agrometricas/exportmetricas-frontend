@@ -65,6 +65,7 @@ export function useSubmitExport({ exportId }: { exportId?: number } = {}): {
         queryClient.invalidateQueries('exportsPending');
         queryClient.invalidateQueries('cuttingSheets');
         queryClient.invalidateQueries('cuttingSheetsPending');
+        queryClient.invalidateQueries('bookings');
         if (exportId) {
           queryClient.invalidateQueries(['export', String(exportId)]);
         }

@@ -48,7 +48,7 @@ describe('body del booking', () => {
       shippingContract: { id: 80, reference: 'MAEU-2026' },
       harborDeparture: { id: 61, name: 'Guayaquil', code: 'ECGYE' },
       harborDestination: { id: 62, name: 'Róterdam', code: 'NLRTM' },
-      containers: [{ id: 1, number: 'MSKU1234567' }],
+      containers: [{ id: 1, number: 'MSKU1234567', exportId: null }],
     } satisfies BookingResponse;
 
     expect(valuesFromBooking(booking)).toMatchObject({

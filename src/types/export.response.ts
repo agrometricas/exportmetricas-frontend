@@ -108,6 +108,8 @@ export interface ExportResponse {
   contractType: string;
   cancelledAt: string | null;
   cancellationReason: string | null;
+  booking?: { id: number; bookingNumber: string } | null;
+  containers?: { id: number; number: string }[];
   merchant: {
     id: number;
     businessName: string;

@@ -18,7 +18,7 @@ export interface BookingResponse {
   shippingContract: { id: number; reference: string | null };
   harborDeparture: HarborSummary;
   harborDestination: HarborSummary;
-  containers: { id: number; number: string }[];
+  containers: { id: number; number: string; exportId: number | null }[];
 }
 
 export interface BookingBody {

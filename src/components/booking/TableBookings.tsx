@@ -90,6 +90,7 @@ const TableBookings = (): React.JSX.Element => {
                 {row.original.containers.map((container) => (
                   <Text key={container.id} fontSize='xs' color='gray.600'>
                     {container.number}
+                    {container.exportId ? ` · exp. ${container.exportId}` : ''}
                   </Text>
                 ))}
               </VStack>

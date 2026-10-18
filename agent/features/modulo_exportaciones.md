@@ -26,6 +26,7 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `weekDescription` | Texto de `getWeekInfo(cuttingDate).week` |
 | `weekDaysOfWeek[]`, `weekBoxesOfDay[]` | Cajas por día de la semana de corte |
 | `weekTotal` | Igual a `boxQuantity` |
+| `bookingId`, `bookingContainerIds` | Booking opcional y los contenedores de él que carga la exportación; sin booking va `null` y `[]` |
 
 `dataReviewed` es la casilla de confirmación del formulario; no se envía.
 `exportBody()` arma el body a partir de los valores del formulario; crear y
@@ -76,8 +77,26 @@ sus números si ya se conocen.
 - Los números de contenedor (`MSKU1234567`) se pueden cargar después; no
   pueden ser más que los reservados. Se mandan sin espacios ni guiones y en
   mayúsculas.
-- Todavía no se elige un booking al crear la exportación: el número de booking
-  de la exportación sigue siendo texto libre.
+- En la tabla de bookings, cada contenedor asignado muestra su exportación.
+
+### Booking en la exportación
+
+En la sección *Naviera* del formulario de exportación hay un selector
+**Booking (opcional)** (`components/export/ExportBookingSelect.tsx`):
+
+- Al elegir uno, la naviera, los puertos, la nave, el número de booking y el
+  tiempo de viaje se llenan con los del booking y los campos manuales se
+  esconden; se muestra un resumen con zarpe, llegada y tránsito. El backend
+  los copia del booking de todas formas.
+- Debajo se marcan los contenedores del booking que carga esta exportación.
+  Los que ya están en otra exportación aparecen deshabilitados con su número
+  de exportación.
+- Sin booking se llenan a mano como antes. Con booking, el tiempo de viaje
+  puede quedar vacío si el contrato no tiene días de tránsito.
+- Editar conserva los contenedores de la exportación; duplicar conserva el
+  booking pero no los contenedores (`exportFormValues(source, { withContainers })`).
+- El detalle de la exportación lista sus contenedores. Guardar o cancelar una
+  exportación invalida también `bookings`.
 
 | Pieza | Archivo |
 |-------|---------|

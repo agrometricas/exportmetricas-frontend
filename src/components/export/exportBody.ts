@@ -1,6 +1,10 @@
 import { ValuesProps } from './schemas/export.schema';
 
-export type ExportBody = Omit<ValuesProps, 'weekCutting' | 'dataReviewed'> & {
+export type ExportBody = Omit<
+  ValuesProps,
+  'weekCutting' | 'dataReviewed' | 'bookingId'
+> & {
+  bookingId: number | null;
   weekDescription: string;
   weekDaysOfWeek: string[];
   weekBoxesOfDay: number[];
@@ -9,9 +13,10 @@ export type ExportBody = Omit<ValuesProps, 'weekCutting' | 'dataReviewed'> & {
 
 export function exportBody(values: ValuesProps): ExportBody {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { weekCutting, boxQuantity, dataReviewed, ...rest } = values;
+  const { weekCutting, boxQuantity, dataReviewed, bookingId, ...rest } = values;
   return {
     ...rest,
+    bookingId: bookingId ? Number(bookingId) : null,
     weekDescription: weekCutting.description,
     weekDaysOfWeek: weekCutting.daysOfWeek,
     weekBoxesOfDay: weekCutting.boxesOfDay,
