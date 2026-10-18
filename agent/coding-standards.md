@@ -104,6 +104,13 @@ the backend proposes.
   `parseDayMonthYear`. Build dates through those components; a bare
   `new Date('2025-06-02')` is UTC midnight and lands on the previous day in
   Ecuador.
+- A date with a time (the export's cut-off) uses `InputFieldDayDateTime`:
+  `DD/MM/AAAA` plus `HH:mm`, held as the ISO string of that moment in local
+  time, and shown with `formatDayMonthYearTime`. A native `datetime-local`
+  input is not used: its wrapper shifted the hour.
+- While a day is half typed, `InputFieldDayDate` and `InputFieldDayDateTime`
+  hold the marker `INVALID_DAY_DATE`, not a date. Anything derived from the
+  field (the export's week and its grid) waits for a complete one.
 - The week of an export comes from `getWeekInfo()` (`utils/getWeekInfo.ts`):
   ISO week, Monday to Sunday.
 

@@ -71,3 +71,10 @@ export function startOfLocalDay(value: string): string {
   date.setHours(0, 0, 0, 0);
   return date.toISOString();
 }
+
+export function maskHourMinute(input: string): string {
+  const digits = input.replace(/\D/g, '').slice(0, 4);
+  return digits.length > 2
+    ? `${digits.slice(0, 2)}:${digits.slice(2)}`
+    : digits;
+}

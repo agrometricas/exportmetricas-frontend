@@ -15,6 +15,7 @@ import {
 import { format } from 'date-fns';
 import React from 'react';
 import { ExportResponse } from '../../../types/export.response';
+import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
 interface DetailExportsProps {
   data: ExportResponse;
   width: { sm: number; md: number };
@@ -78,7 +79,8 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
             <strong>Tiempo Estimado:</strong> {data.estimatedTravelTime}
           </Text>
           <Text>
-            <strong>Fecha Máxima de Ingreso:</strong> {data.shippingDateTime}
+            <strong>Fecha Máxima de Ingreso:</strong>{' '}
+            {formatDayMonthYearTime(data.shippingDateTime)}
           </Text>
         </AccordionPanel>
       </AccordionItem>

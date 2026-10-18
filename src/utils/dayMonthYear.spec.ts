@@ -5,6 +5,7 @@ import {
   formatDayMonthYearTime,
   isHourMinute,
   maskDayMonthYear,
+  maskHourMinute,
   parseDayMonthYear,
   startOfLocalDay,
 } from './dayMonthYear';
@@ -67,5 +68,14 @@ describe('fecha y hora', () => {
     const moment = new Date(2026, 2, 12, 15, 30).toISOString();
 
     expect(startOfLocalDay(moment)).toBe(new Date(2026, 2, 12).toISOString());
+  });
+});
+
+describe('hora en HH:mm', () => {
+  it('al escribir solo números pone los dos puntos', () => {
+    expect(maskHourMinute('15')).toBe('15');
+    expect(maskHourMinute('153')).toBe('15:3');
+    expect(maskHourMinute('15:30')).toBe('15:30');
+    expect(maskHourMinute('153099')).toBe('15:30');
   });
 });

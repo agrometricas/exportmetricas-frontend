@@ -33,12 +33,19 @@ import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarbo
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
 import CheckboxForm from '../ui/form/CheckboxForm';
-import InputFieldDate from '../ui/form/InputFieldDate';
-import InputFieldDateTime from '../ui/form/InputFieldDateTime';
+import InputFieldDayDate, {
+  INVALID_DAY_DATE,
+} from '../ui/form/InputFieldDayDate';
+import InputFieldDayDateTime from '../ui/form/InputFieldDayDateTime';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
+
+// While the day is being typed the field holds a marker, not a date: the week
+// and its grid wait for a complete one.
+const cuttingDay = (value: Date | string | ''): Date | null =>
+  value && value !== INVALID_DAY_DATE ? new Date(value) : null;
 
 interface AddExportFormProps {
   source?: ExportResponse;
@@ -130,39 +137,41 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
             </Heading>
             <Divider mb={'16px'} />
             <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
-              <InputFieldDate
+              <InputFieldDayDate
                 name={'cuttingDate'}
                 label={'Fecha de Corte'}
-                flexDirection='row'
               />
-              {values.cuttingDate && (
+              {cuttingDay(values.cuttingDate) && (
                 <Box w={{ base: '98%' }}>
                   <InputFieldText
                     name={'weekCutting.description'}
                     isReadOnly
                     defaultValue={
-                      getWeekInfo({ date: values.cuttingDate }).week
+                      getWeekInfo({
+                        date: cuttingDay(values.cuttingDate) as Date,
+                      }).week
                     }
                   />
                 </Box>
               )}
-              <InputFieldDateTime
+              <InputFieldDayDateTime
                 name='shippingDateTime'
                 label='Fecha Máxima de Ingreso'
-                placeholder='Fecha y Hora Máxima de Ingreso'
-                flexDirection='row'
               />
             </SimpleGrid>
-            {values.cuttingDate && values.weekCutting && (
+            {cuttingDay(values.cuttingDate) && values.weekCutting && (
               <DateGrid
                 nameWeek={'weekCutting.daysOfWeek'}
                 nameBoxes={'weekCutting.boxesOfDay'}
                 boxQuantity={Number(values.boxQuantity)}
-                dateSelected={values.cuttingDate}
-                startDate={getWeekInfo({ date: values.cuttingDate }).startDate}
+                dateSelected={cuttingDay(values.cuttingDate) as Date}
+                startDate={
+                  getWeekInfo({ date: cuttingDay(values.cuttingDate) as Date })
+                    .startDate
+                }
               />
             )}
-            {values.cuttingDate &&
+            {cuttingDay(values.cuttingDate) &&
               errors.weekCutting &&
               typeof errors.weekCutting === 'string' && (
                 <Text color={'#E53E3E'} fontSize={'14px'}>

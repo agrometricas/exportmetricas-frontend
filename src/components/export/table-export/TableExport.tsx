@@ -25,6 +25,7 @@ import DetailExport from './DetailExport';
 import { useExports } from '../../../hooks/export/getExports';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportResponse } from '../../../types/export.response';
+import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
 import CancelExportModal from '../CancelExportModal';
 
 const TableExport = ({
@@ -63,7 +64,13 @@ const TableExport = ({
           { accessorKey: 'boxBrand.brandCode', header: 'Código Marca' },
           { accessorKey: 'shipName', header: 'Barco' },
           { accessorKey: 'bookingNumber', header: 'Booking' },
-          { accessorKey: 'shippingDateTime', header: 'Fecha Máxima de Ingreso' },
+          {
+            accessorKey: 'shippingDateTime',
+            header: 'Fecha Máxima de Ingreso',
+            Cell: ({ cell }) => (
+              <span>{formatDayMonthYearTime(cell.getValue<string>())}</span>
+            ),
+          },
         ],
       },
       {
