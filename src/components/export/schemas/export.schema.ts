@@ -94,10 +94,12 @@ export const validationSchema = Yup.object({
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
     .required('Requerido'),
-  cuttingDate: Yup.date().required('Requerido'),
+  cuttingDate: Yup.date()
+    .typeError('Fecha inválida, use DD/MM/AAAA')
+    .required('Requerido'),
   shippingDateTime: Yup.date()
     .required('Requerido')
-    .typeError('Debe ser una fecha y hora válida')
+    .typeError('Fecha y hora inválidas: DD/MM/AAAA y HH:mm (24 horas)')
     .test(
       'is-after-cutting',
       'La fecha de envío no puede ser anterior a la fecha de corte',

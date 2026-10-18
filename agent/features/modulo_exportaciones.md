@@ -22,7 +22,8 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `departureHarborId`, `destinationHarborId` | Puerto `Nacional` y puerto `Internacional` |
 | `shippingCompanyId`, `depositId`, `transportId`, `verifierId` | Opcionales |
 | `numberOfVerifiers`, `shipName`, `bookingNumber`, `estimatedTravelTime` | Opcionales |
-| `cuttingDate`, `shippingDateTime` | |
+| `cuttingDate` | Día de corte en `DD/MM/AAAA`, a medianoche local |
+| `shippingDateTime` | Fecha Máxima de Ingreso: `DD/MM/AAAA` y `HH:mm`, el momento real en ISO. Las exportaciones guardadas antes de este campo quedaron 5 horas adelantadas y se muestran así |
 | `weekDescription` | Texto de `getWeekInfo(cuttingDate).week` |
 | `weekDaysOfWeek[]`, `weekBoxesOfDay[]` | Cajas por día de la semana de corte |
 | `weekTotal` | Igual a `boxQuantity` |
