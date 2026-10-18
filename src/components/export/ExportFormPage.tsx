@@ -134,6 +134,24 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
             )}
             {data && !blocked && (
               <>
+                {mode === 'edit' && data.purchaseOrderLine && (
+                  <Alert status='info' borderRadius='md' mb={4}>
+                    <AlertIcon />
+                    <AlertDescription flex='1'>
+                      Nació de una orden de compra: la finca y la alícuota son
+                      las de su línea y no cambian.
+                    </AlertDescription>
+                    <Button
+                      as={Link_Next}
+                      href={`/dashboard/export/purchase-orders/${data.purchaseOrderLine.purchaseOrderId}`}
+                      size='sm'
+                      variant='outline'
+                      colorScheme='green'
+                    >
+                      Ver la orden
+                    </Button>
+                  </Alert>
+                )}
                 {mode === 'duplicate' && (
                   <Alert status='info' borderRadius='md' mb={4}>
                     <AlertIcon />

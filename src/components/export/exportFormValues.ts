@@ -1,5 +1,6 @@
-import { ValuesProps } from './schemas/export.schema';
+import { initialValues, ValuesProps } from './schemas/export.schema';
 import { ExportResponse } from '../../types/export.response';
+import { PurchaseOrderLine } from '../../types/purchaseOrder';
 
 const WEEK_DAYS = 7;
 
@@ -8,7 +9,9 @@ function weekOf<T>(values: T[] | null | undefined, empty: T): T[] {
 }
 
 // A duplicate travels on the same booking but not in the same containers:
-// those are already loaded by the original export.
+// those are already loaded by the original export. Neither an edit nor a
+// duplicate sends the purchase order line: the link is set when the export is
+// created from it, and a line has a single export.
 export function exportFormValues(
   source: ExportResponse,
   { withContainers = true }: { withContainers?: boolean } = {}
@@ -44,6 +47,21 @@ export function exportFormValues(
     bookingContainerIds: withContainers
       ? (source.containers ?? []).map((container) => container.id)
       : [],
+    purchaseOrderLineId: '',
     dataReviewed: false,
+  };
+}
+
+export function exportFromLineValues(
+  merchantId: number,
+  line: PurchaseOrderLine
+): ValuesProps {
+  return {
+    ...initialValues,
+    merchantId,
+    businessId: line.business.id,
+    boxBrandId: line.boxBrand.id,
+    boxQuantity: line.boxQuantity,
+    purchaseOrderLineId: line.id,
   };
 }

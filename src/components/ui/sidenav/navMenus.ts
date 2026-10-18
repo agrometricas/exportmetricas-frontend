@@ -57,6 +57,12 @@ export function getExportMenu(counts: {
   addSupplyShipment: number;
 }): SidenavMenuItem[] {
   return [
+    { label: 'Órdenes de Compra', to: '/dashboard/export/purchase-orders' },
+    {
+      label: 'Agregar Órdenes de Compra',
+      to: '/dashboard/export/add-purchase-order',
+    },
+
     { label: 'Exportaciones', to: '/dashboard/export/search' },
     { label: 'Agregar Exportaciones', to: '/dashboard/export/add-export' },
 

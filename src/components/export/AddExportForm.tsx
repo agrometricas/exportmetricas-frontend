@@ -1,5 +1,8 @@
 'use client';
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Button,
   Divider,
   Flex,
@@ -12,7 +15,7 @@ import { Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
 import DateGrid from './cutting-sheet/DateGrid';
 import ExportBookingSelect from './ExportBookingSelect';
-import { exportFormValues } from './exportFormValues';
+import { exportFormValues, exportFromLineValues } from './exportFormValues';
 import { useSubmitExport } from './hooks/useSubmitExport';
 import { initialValues as emptyValues } from './schemas/export.schema';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
@@ -22,6 +25,7 @@ import { ClientType } from '../../types/client';
 import { ExportResponse } from '../../types/export.response';
 import { BusinessType } from '../../types/merchant/business';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
+import { PurchaseOrderLine } from '../../types/purchaseOrder';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
@@ -47,22 +51,37 @@ import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
 const cuttingDay = (value: Date | string | ''): Date | null =>
   value && value !== INVALID_DAY_DATE ? new Date(value) : null;
 
+export interface ExportFromLine {
+  orderId: number;
+  week: string;
+  line: PurchaseOrderLine;
+  merchant: Partial<MerchantResponse>;
+  business?: Partial<BusinessType>;
+  boxBrand?: Partial<BoxBrandType>;
+}
+
 interface AddExportFormProps {
   source?: ExportResponse;
   editing?: boolean;
+  fromLine?: ExportFromLine;
 }
 
-const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
+const AddExportForm: React.FC<AddExportFormProps> = ({
+  source,
+  editing,
+  fromLine,
+}) => {
   const { onSubmit, validationSchema, isLoading } = useSubmitExport({
     exportId: editing ? source?.id : undefined,
+    purchaseOrderId: fromLine?.orderId,
   });
-  const initialValues = useMemo(
-    () =>
-      source
-        ? exportFormValues(source, { withContainers: !!editing })
-        : emptyValues,
-    [source, editing]
-  );
+  const initialValues = useMemo(() => {
+    if (source) return exportFormValues(source, { withContainers: !!editing });
+    if (fromLine) {
+      return exportFromLineValues(Number(fromLine.merchant.id), fromLine.line);
+    }
+    return emptyValues;
+  }, [source, editing, fromLine]);
   const { paginationParams } = usePagination();
   const { data: shippingCompanies = [] } =
     useShippingCompanies(paginationParams);
@@ -87,6 +106,19 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
       {({ values, errors, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
+            {fromLine && (
+              <Alert status='info' borderRadius='md'>
+                <AlertIcon />
+                <AlertDescription>
+                  Nace de la orden de compra de la {fromLine.week}:{' '}
+                  {fromLine.line.business.name}, {fromLine.line.boxBrand.name},{' '}
+                  {fromLine.line.boxQuantity} cajas de{' '}
+                  {fromLine.line.type === 'CONTRACT' ? 'contrato' : 'spot'}. La
+                  finca y la alícuota son las de la línea; las cajas se pueden
+                  ajustar.
+                </AlertDescription>
+              </Alert>
+            )}
             <Heading fontSize='2xl' p='12px'>
               Productor
             </Heading>
@@ -94,7 +126,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
             <SelectProducer
               name='merchantId'
               producerSelect={
-                source?.merchant as Partial<MerchantResponse> | undefined
+                (source?.merchant as Partial<MerchantResponse> | undefined) ??
+                fromLine?.merchant
               }
             />
             <Heading fontSize='2xl' p='12px'>
@@ -105,7 +138,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
               name='businessId'
               merchant={values.merchantId || undefined}
               businessSelect={
-                source?.business as Partial<BusinessType> | undefined
+                (source?.business as Partial<BusinessType> | undefined) ??
+                fromLine?.business
               }
             />
             <Heading fontSize='2xl' p='12px'>
@@ -115,7 +149,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
             <SelectBoxBrand
               name='boxBrandId'
               boxBrandSelect={
-                source?.boxBrand as Partial<BoxBrandType> | undefined
+                (source?.boxBrand as Partial<BoxBrandType> | undefined) ??
+                fromLine?.boxBrand
               }
             />
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
@@ -123,7 +158,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
                 name='boxQuantity'
                 label='Cantidad de Cajas'
                 unit='cajas'
-                value={source ? initialValues.boxQuantity : ''}
+                value={source || fromLine ? initialValues.boxQuantity : ''}
               />
               <InputFieldSelector
                 name={'contractType'}
