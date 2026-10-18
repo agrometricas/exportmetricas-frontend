@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { exportBody } from './exportBody';
 import { exportFormValues } from './exportFormValues';
+import { validationSchema } from './schemas/export.schema';
 import { ExportResponse } from '../../types/export.response';
 
 function exportResponse(
@@ -31,6 +32,8 @@ function exportResponse(
     contractType: 'FOB',
     cancelledAt: null,
     cancellationReason: null,
+    booking: null,
+    containers: [],
     merchant: { id: 3 },
     business: { id: 5 },
     boxBrand: { id: 11 },
@@ -121,6 +124,8 @@ describe('formulario prellenado desde una exportación', () => {
       depositId: 32,
       transportId: 33,
       verifierId: 34,
+      bookingId: null,
+      bookingContainerIds: [],
       weekDescription: 'Semana 23 // 02 junio al 08 junio 2025',
       weekDaysOfWeek: [
         'lunes/02',
@@ -134,5 +139,40 @@ describe('formulario prellenado desde una exportación', () => {
       weekBoxesOfDay: [0, 0, 540, 540, 0, 0, 0],
       weekTotal: 1080,
     });
+  });
+
+  it('con booking toma sus contenedores al editar, pero no al duplicar', () => {
+    const source = exportResponse({
+      booking: { id: 90, bookingNumber: 'MAE260431' },
+      containers: [{ id: 1, number: 'MSKU1234567' }],
+    });
+
+    expect(exportFormValues(source)).toMatchObject({
+      bookingId: 90,
+      bookingContainerIds: [1],
+    });
+    expect(exportFormValues(source, { withContainers: false })).toMatchObject({
+      bookingId: 90,
+      bookingContainerIds: [],
+    });
+    expect(exportBody(exportFormValues(source)).bookingId).toBe(90);
+  });
+
+  it('con booking el tiempo de viaje puede quedar vacío; sin booking es obligatorio', async () => {
+    const values = {
+      ...exportFormValues(exportResponse()),
+      estimatedTravelTime: '',
+      dataReviewed: true,
+    };
+
+    await expect(
+      validationSchema.validateAt('estimatedTravelTime', values)
+    ).rejects.toThrow();
+    await expect(
+      validationSchema.validateAt('estimatedTravelTime', {
+        ...values,
+        bookingId: 90,
+      })
+    ).resolves.toBe('');
   });
 });

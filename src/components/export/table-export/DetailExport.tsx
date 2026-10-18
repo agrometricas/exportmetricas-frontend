@@ -65,6 +65,12 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
           <Text>
             <strong>Booking:</strong> {data.bookingNumber}
           </Text>
+          {!!data.containers?.length && (
+            <Text>
+              <strong>Contenedores:</strong>{' '}
+              {data.containers.map((container) => container.number).join(', ')}
+            </Text>
+          )}
           <Text>
             <strong>Nombre del Barco:</strong> {data.shipName}
           </Text>

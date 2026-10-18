@@ -26,6 +26,8 @@ export interface ValuesProps {
   depositId: number;
   transportId: number;
   verifierId: number;
+  bookingId: number | '';
+  bookingContainerIds: number[];
   dataReviewed: boolean;
 }
 
@@ -54,6 +56,8 @@ export const initialValues: ValuesProps = {
   depositId: 0,
   transportId: 0,
   verifierId: 0,
+  bookingId: '',
+  bookingContainerIds: [],
   dataReviewed: false,
 };
 
@@ -119,11 +123,18 @@ export const validationSchema = Yup.object({
     .min(2, 'Debe tener 2 caracteres o más')
     .trim()
     .required('Requerido'),
-  estimatedTravelTime: Yup.string()
-    .max(50, 'Debe tener 50 caracteres o menos')
-    .min(2, 'Debe tener 2 caracteres o más')
-    .trim()
-    .required('Requerido'),
+  // With a booking the travel time comes from its contract, which may not
+  // have one.
+  estimatedTravelTime: Yup.string().when('bookingId', {
+    is: (bookingId: number | '') => !bookingId,
+    then: (schema) =>
+      schema
+        .max(50, 'Debe tener 50 caracteres o menos')
+        .min(2, 'Debe tener 2 caracteres o más')
+        .trim()
+        .required('Requerido'),
+    otherwise: (schema) => schema.max(50, 'Debe tener 50 caracteres o menos'),
+  }),
   bookingNumber: Yup.string()
     .max(50, 'Debe tener 50 caracteres o menos')
     .min(2, 'Debe tener 2 caracteres o más')

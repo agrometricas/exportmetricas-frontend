@@ -7,7 +7,12 @@ function weekOf<T>(values: T[] | null | undefined, empty: T): T[] {
   return Array.from({ length: WEEK_DAYS }, (_, i) => values?.[i] ?? empty);
 }
 
-export function exportFormValues(source: ExportResponse): ValuesProps {
+// A duplicate travels on the same booking but not in the same containers:
+// those are already loaded by the original export.
+export function exportFormValues(
+  source: ExportResponse,
+  { withContainers = true }: { withContainers?: boolean } = {}
+): ValuesProps {
   return {
     boxQuantity: source.boxQuantity,
     boxBrandId: source.boxBrand.id,
@@ -35,6 +40,10 @@ export function exportFormValues(source: ExportResponse): ValuesProps {
     depositId: source.deposit?.id ?? 0,
     transportId: source.transport?.id ?? 0,
     verifierId: source.verifier?.id ?? 0,
+    bookingId: source.booking?.id ?? '',
+    bookingContainerIds: withContainers
+      ? (source.containers ?? []).map((container) => container.id)
+      : [],
     dataReviewed: false,
   };
 }
