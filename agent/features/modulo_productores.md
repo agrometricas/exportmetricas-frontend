@@ -58,6 +58,25 @@ aprobadas por hectárea a la semana, con fecha de inicio y una de fin opcional
 
 ---
 
+### Cupos de la semana
+
+Productor → **Cupos de la Semana** (`/dashboard/producer/contract-usage`):
+cada finca con contrato vigente o con exportaciones en la semana elegida, con
+su cupo semanal, lo exportado y lo que queda. Sale de `GET
+/contract-usage?week=` y no se calcula nada en el navegador.
+
+- Cuentan todas las cajas exportadas de la finca: de contrato, spot o sin orden
+  de compra; debajo del total se ve esa división.
+- Las fincas que pasaron su cupo van primero, con la alerta del backend. Una
+  finca sin contrato vigente dice *Sin contrato* y no alerta.
+- La misma alerta, de la semana en curso, sale en Inicio para `MASTER`,
+  `LOGISTICS` y `EXPORT` (`ContractUsageAlerts`), y al crear o editar una
+  exportación (ver [modulo_exportaciones](modulo_exportaciones.md)).
+- Crear, editar o cancelar una exportación invalida `contractUsage` y
+  `contractUsageCheck`.
+
+---
+
 ### Editar una finca
 
 Productor → Fincas → **Editar** (`/dashboard/producer/fincas/[id]`) abre la
@@ -98,6 +117,7 @@ filas entraron y el detalle de las que fallaron.
 | Logo del productor | `components/producer/{UploadLogoForm, UploadLogoFile}.tsx`, `hooks/merchants/uploadMerchantLogo.ts` |
 | Páginas | `app/dashboard/producer/{producers, add-producer, fincas, fincas/[id], add-fincas, contracts, contracts/[id], add-contract, add-bank-account, upload-logo}/page.tsx` |
 | Contratos | `components/producer-contract/` (formulario de alta y edición, tabla, `producerContractBody.ts`), `hooks/producer-contract/`, `types/producerContract.ts` |
+| Cupos de la semana | `components/contract-usage/`, `hooks/contract-usage/contractUsage.ts`, `types/contractUsage.ts`, `app/dashboard/producer/contract-usage/page.tsx` |
 | Tipos | `types/merchant/`, `types/bankAccount*.ts` |
 | Hooks | `hooks/merchants/`, `hooks/business/`, `hooks/bank-account/` |
 | Ubicación | `components/location/`, `hooks/location/` |

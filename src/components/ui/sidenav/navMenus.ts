@@ -7,6 +7,7 @@ export const PRODUCER_MENU: SidenavMenuItem[] = [
   { label: 'Agregar Finca', to: '/dashboard/producer/add-fincas' },
   { label: 'Contratos', to: '/dashboard/producer/contracts' },
   { label: 'Agregar Contrato', to: '/dashboard/producer/add-contract' },
+  { label: 'Cupos de la Semana', to: '/dashboard/producer/contract-usage' },
   {
     label: 'Agregar Cuenta Bancaria',
     to: '/dashboard/producer/add-bank-account',

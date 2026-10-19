@@ -71,6 +71,8 @@ export function useSubmitExport({
         queryClient.invalidateQueries('bookings');
         queryClient.invalidateQueries('purchaseOrders');
         queryClient.invalidateQueries('purchaseOrder');
+        queryClient.invalidateQueries('contractUsage');
+        queryClient.invalidateQueries('contractUsageCheck');
         if (exportId) {
           queryClient.invalidateQueries(['export', String(exportId)]);
         }
