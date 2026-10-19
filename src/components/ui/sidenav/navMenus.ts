@@ -107,6 +107,8 @@ export function getLiquidationMenu(counts: {
   exportSentCostsPending: number;
 }): SidenavMenuItem[] {
   return [
+    { label: 'Hoja de Precios', to: '/dashboard/liquidation/price-sheet' },
+
     { label: 'Costos Validados', to: '/dashboard/liquidation/export-costs' },
     {
       label: 'Agregar Costos Validados',
@@ -149,6 +151,7 @@ export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
       label: 'Unidades de Materiales',
       to: '/dashboard/settings/material-units',
     },
+    { label: 'Precio Mínimo', to: '/dashboard/settings/minimum-box-price' },
     {
       label: 'Modificar Ubicación',
       to: `/dashboard/user/update-user/${exporterId}`,

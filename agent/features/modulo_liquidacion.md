@@ -50,7 +50,7 @@ unitario editable. Al guardar:
 | Campo | Origen en el formulario |
 |-------|-------------------------|
 | `exportSentId`, `merchantId`, `departureHarborId`, `destinationHarborId`, `boxBrandId`, `boxQuantity` | Precargados del envío elegido |
-| `price` | Propuesto por el backend según el contrato del productor, editable |
+| `price` | Propuesto por el backend (hoja de precios de la semana o precio mínimo), editable |
 | `transport`, `materials`, `others` | Los escribe el usuario |
 | `description` | Descripción de los gastos |
 | `sourceBankAccountId`, `destinationBankAccountId` | Selectores de cuenta |
@@ -71,12 +71,15 @@ de cotización y el formulario los muestra en campos de solo lectura
 
 | Formulario | Ruta | Devuelve |
 |------------|------|----------|
-| Pago a productor | `GET /export/producer-payment/quote` | `price`, `transport`, `transportProposal`, `subtotal1`, `subtotal2`, `total`, `amount` |
+| Pago a productor | `GET /export/producer-payment/quote` | `price`, `priceProposal`, `transport`, `transportProposal`, `subtotal1`, `subtotal2`, `total`, `amount` |
 | Cobro a cliente | `GET /client-payment/quote` | `price`, `total` |
 
 - La cotización se pide 300 ms después de la última tecla
 - Pedida sin `price`, devuelve el precio que el backend propone; ese valor
-  llena el campo *Precio*, que el usuario puede cambiar
+  llena el campo *Precio*, que el usuario puede cambiar. En el pago a
+  productor, debajo se dice de dónde sale (`priceProposal.source`): de la
+  hoja de precios de la semana, si la exportación nació de una línea con
+  precio, o el precio mínimo de la exportadora
 - El pago a productor manda también el `exportSentId`. Pedida sin `transport`,
   la cotización propone el transporte con la tarifa del transportista para la
   provincia de la finca por contenedor, y trae el detalle en
@@ -94,6 +97,33 @@ del mismo envío.
 Todo esto es deuda frente a la regla de la casa (`agent/coding-standards.md` §
 _The backend owns the math_). Un cambio en estas fórmulas o en el precio se hace
 moviéndolos al backend, no editando el componente.
+
+---
+
+### Hoja de precios
+
+Liquidación → **Hoja de Precios** (`/dashboard/liquidation/price-sheet`): las
+líneas de las órdenes de compra de la semana con su precio por caja.
+
+- Se elige cualquier día de la semana (`DD/MM/AAAA`); arranca en la de hoy.
+  La hoja sale de `GET /price-sheet?week=`.
+- Cada línea tiene su campo de precio. Vacío usa el mínimo del contrato de su
+  productor, que se ve como ejemplo en el campo.
+- Los totales por línea y de la semana, y los avisos de líneas de contrato
+  bajo el mínimo, los da el backend: mientras se escribe, la hoja se pide a
+  `POST /price-sheet/quote` con los precios escritos, 300 ms después de la
+  última tecla (`usePriceSheetQuote`). *Guardar Precios* está apagado hasta
+  que lo que se ve responde a lo escrito.
+- Guardar manda `PUT /price-sheet` con cada línea y su precio (`null` si está
+  vacía). Un aviso de bajo mínimo no impide guardar.
+- La línea muestra su exportación y, si ya se pagó, el precio del pago.
+
+### Precio mínimo
+
+Configuraciones → **Precio Mínimo** (`/dashboard/settings/minimum-box-price`):
+el FAS y el FOB por caja de la exportadora (`GET` y `PUT
+/settings/minimum-box-price`). Mientras no se guarda rige el de 2026 y la
+pantalla lo dice. Guardar invalida la hoja y las cotizaciones del pago.
 
 ---
 
@@ -120,6 +150,8 @@ moviéndolos al backend, no editando el componente.
 | Pagos a productor realizados | `components/liquidation/producer-payments/` |
 | Cobro a cliente | `components/client-payment/` |
 | Selector de cuenta | `components/export/export-payments/bank-account/` |
+| Hoja de precios | `components/price-sheet/`, `hooks/price-sheet/priceSheet.ts`, `types/priceSheet.ts` |
+| Precio mínimo | `components/settings/minimum-box-price/`, `hooks/settings/minimumBoxPrice.ts` |
 | Montos cotizados | `hooks/liquidation/usePaymentQuote.ts`, `hooks/export/producerPayment/useProducerPaymentQuote.ts`, `hooks/client-payment/useClientPaymentQuote.ts`, `components/ui/form/ReadOnlyAmount.tsx` |
 | Páginas | `app/dashboard/liquidation/{export-costs, add-export-cost, add-export-cost/[id], producer-payments, producer-pending-payments, producer-pending-payments/[id], client-payments, client-pending-payments, client-pending-payments/[id]}/page.tsx` |
 | Tipos | `types/producerPayment.ts`, `types/client-payment/`, `types/export-sent/` |

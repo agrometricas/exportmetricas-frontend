@@ -97,6 +97,7 @@ describe('formulario de la orden', () => {
           id: 300,
           type: 'SPOT',
           boxQuantity: 540,
+          price: null,
           business: { id: 5, name: 'Hacienda San Pedro' },
           boxBrand: { id: 12, name: 'Segunda', brandCode: 'S22' },
           export: null,

@@ -183,6 +183,7 @@ describe('exportación que nace de una línea de orden de compra', () => {
     id: 300,
     type: 'CONTRACT',
     boxQuantity: 1080,
+    price: null,
     business: { id: 5, name: 'Hacienda San Pedro' },
     boxBrand: { id: 11, name: 'Premium 22XU', brandCode: 'P22XU' },
     export: null,

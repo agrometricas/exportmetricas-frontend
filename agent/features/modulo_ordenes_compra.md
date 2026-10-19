@@ -64,6 +64,15 @@ línea, y manda `purchaseOrderLineId`. Al guardar vuelve a la orden.
 
 ---
 
+### Precios
+
+El precio de cada línea no se escribe en la orden: va en la **Hoja de
+Precios** de Liquidación (ver [modulo_liquidacion](modulo_liquidacion.md)),
+que reúne las líneas de todas las órdenes de la semana. El pago al productor
+de la exportación de una línea propone ese precio.
+
+---
+
 ### Claves de react-query
 
 `purchaseOrders` (lista) y `purchaseOrder` (detalle). Las invalidan guardar o
