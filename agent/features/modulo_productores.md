@@ -58,6 +58,25 @@ aprobadas por hectárea a la semana, con fecha de inicio y una de fin opcional
 
 ---
 
+### Editar una finca
+
+Productor → Fincas → **Editar** (`/dashboard/producer/fincas/[id]`) abre la
+finca con lo guardado: datos, ubicación, certificados, códigos y contactos. El
+productor se muestra pero no cambia.
+
+- Guardar manda `PATCH /merchant/business/:id` con todo. Los códigos y
+  contactos guardados viajan con su `id` (se actualizan), los nuevos sin `id`
+  (se crean) y los que se quitaron no van (el backend los quita). Una lista
+  vacía no se manda: una finca guardada sin códigos o sin contactos sigue así.
+- Un lugar o una coordenada vacíos van como `null` y se borran.
+- No se puede quitar el último código o contacto guardado.
+- Las reglas del formulario son las del backend, no las del alta: aceptan
+  tildes y lo que trajo una importación. Un código MAGAP o AGROCALIDAD de otra
+  finca vuelve como error del campo.
+- Al guardar invalida `businesses` y `business`, y vuelve a la lista.
+
+---
+
 ### Importación CSV
 
 `ImportProducerDrawer` sube un CSV a `POST /merchant/business/import`: una fila
@@ -70,14 +89,14 @@ filas entraron y el detalle de las que fallaron.
 
 | Pieza | Archivo |
 |-------|---------|
-| Formularios | `components/producer/addProducerForm.tsx`, `AddBusinessForm.tsx`, `AddBankAccountForm.tsx` |
+| Formularios | `components/producer/addProducerForm.tsx`, `AddBusinessForm.tsx`, `AddBankAccountForm.tsx`; edición de finca en `components/business/edit/` (`EditBusinessForm.tsx`, `editBusiness.ts`) |
 | Envío | `components/producer/hooks/{useSubmitProducer, useSubmitBusiness}.ts` |
 | Esquemas | `components/producer/schemas/{producer, business}.schema.ts` |
 | Tablas y detalle | `components/producer/table-producer/`, `components/business/table-business/` |
 | Selectores | `components/producer/{SelectProducer, ProducerSelectBase, InputFieldProducerSelect}.tsx`, `components/business/{SelectBusiness, …}.tsx` |
 | Importación | `components/producer/ImportProducerDrawer.tsx`, `hooks/merchants/uploadMerchants.ts` |
 | Logo del productor | `components/producer/{UploadLogoForm, UploadLogoFile}.tsx`, `hooks/merchants/uploadMerchantLogo.ts` |
-| Páginas | `app/dashboard/producer/{producers, add-producer, fincas, add-fincas, contracts, contracts/[id], add-contract, add-bank-account, upload-logo}/page.tsx` |
+| Páginas | `app/dashboard/producer/{producers, add-producer, fincas, fincas/[id], add-fincas, contracts, contracts/[id], add-contract, add-bank-account, upload-logo}/page.tsx` |
 | Contratos | `components/producer-contract/` (formulario de alta y edición, tabla, `producerContractBody.ts`), `hooks/producer-contract/`, `types/producerContract.ts` |
 | Tipos | `types/merchant/`, `types/bankAccount*.ts` |
 | Hooks | `hooks/merchants/`, `hooks/business/`, `hooks/bank-account/` |
@@ -88,5 +107,5 @@ filas entraron y el detalle de las que fallaron.
 - Los selectores de país, provincia y ciudad son encadenados: cada uno pide su
   lista con el id del anterior (`hooks/location/`).
 
-> No hay pantalla de edición de productor, finca ni cuenta: los hooks
-> `update*` existen pero ninguna pantalla los usa.
+> No hay pantalla de edición de productor ni de cuenta: sus hooks `update*`
+> existen pero ninguna pantalla los usa.

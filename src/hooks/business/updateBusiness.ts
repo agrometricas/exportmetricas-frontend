@@ -1,34 +1,25 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { AxiosResponse } from 'axios';
-import { useMutation } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useMutation, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
-import { MutationConfig } from '@/lib/react-query';
-import { BusinessType } from '../../types/merchant/business';
+import { ServerErrorResponse } from '@/types/errorResponse';
+import {
+  BusinessDetail,
+  BusinessUpdateBody,
+} from '@/types/merchant/businessDetail';
 
-type updateBusinessDTO = {
-  data: Partial<BusinessType>;
-  businessId: string;
-};
+type UpdateInput = { businessId: number; body: BusinessUpdateBody };
 
-const updateBusiness = ({
-  data,
+function updateBusiness({
   businessId,
-}: updateBusinessDTO): Promise<AxiosResponse> => {
-  return axios.post(`/merchant/business/${businessId}`, data);
-};
+  body,
+}: UpdateInput): Promise<AxiosResponse<BusinessDetail>> {
+  return axios.patch(`/merchant/business/${businessId}`, body);
+}
 
-type UseUpdateBusinessOptions = {
-  config?: MutationConfig<typeof updateBusiness>;
-};
-
-export const useUpdateBusiness = ({
-  config,
-}: UseUpdateBusinessOptions = {}) => {
-  const mutation = useMutation({
-    ...config,
-    mutationFn: updateBusiness,
-  });
-
-  return { ...mutation, updateBusiness: mutation.mutateAsync };
-};
+export function useUpdateBusiness(): UseMutationResult<
+  AxiosResponse<BusinessDetail>,
+  AxiosError<ServerErrorResponse>,
+  UpdateInput
+> {
+  return useMutation(updateBusiness);
+}

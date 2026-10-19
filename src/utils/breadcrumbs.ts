@@ -297,6 +297,12 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     return crumbs;
   }
 
+  if (/^\/dashboard\/producer\/fincas\/\d+$/.test(cleanPath)) {
+    push('Fincas', '/dashboard/producer/fincas', false);
+    push('Editar Finca', cleanPath, true);
+    return crumbs;
+  }
+
   const orderLine = cleanPath.match(
     /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+)?$/
   );

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
@@ -6,6 +6,7 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
+import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import DetailBusiness from './DetailBusiness';
@@ -95,6 +96,28 @@ const TableBusiness = ({
           },
         ],
       },
+      {
+        id: 'actions',
+        header: '',
+        columns: [
+          {
+            id: 'edit',
+            size: 90,
+            header: '',
+            Cell: ({ row }): React.JSX.Element => (
+              <Button
+                as={Link_Next}
+                href={`/dashboard/producer/fincas/${row.original.id}`}
+                size='sm'
+                variant='outline'
+                colorScheme='green'
+              >
+                Editar
+              </Button>
+            ),
+          },
+        ],
+      },
     ],
     []
   );
@@ -113,7 +136,7 @@ const TableBusiness = ({
       pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand'],
-        right: ['fruitType'],
+        right: ['edit'],
       },
       density: 'compact',
     },
