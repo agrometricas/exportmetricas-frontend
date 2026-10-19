@@ -28,6 +28,7 @@ export interface ValuesProps {
   verifierId: number;
   bookingId: number | '';
   bookingContainerIds: number[];
+  purchaseOrderLineId: number | '';
   dataReviewed: boolean;
 }
 
@@ -58,6 +59,7 @@ export const initialValues: ValuesProps = {
   verifierId: 0,
   bookingId: '',
   bookingContainerIds: [],
+  purchaseOrderLineId: '',
   dataReviewed: false,
 };
 

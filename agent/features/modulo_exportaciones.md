@@ -28,6 +28,7 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `weekDaysOfWeek[]`, `weekBoxesOfDay[]` | Cajas por día de la semana de corte |
 | `weekTotal` | Igual a `boxQuantity` |
 | `bookingId`, `bookingContainerIds` | Booking opcional y los contenedores de él que carga la exportación; sin booking va `null` y `[]` |
+| `purchaseOrderLineId` | Solo cuando la exportación nace de una línea de orden de compra, y solo al crear. Ver [modulo_ordenes_compra](modulo_ordenes_compra.md) |
 
 `dataReviewed` es la casilla de confirmación del formulario; no se envía.
 `exportBody()` arma el body a partir de los valores del formulario; crear y

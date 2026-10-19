@@ -110,6 +110,7 @@ export interface ExportResponse {
   cancellationReason: string | null;
   booking?: { id: number; bookingNumber: string } | null;
   containers?: { id: number; number: string }[];
+  purchaseOrderLine?: { id: number; purchaseOrderId: number } | null;
   merchant: {
     id: number;
     businessName: string;

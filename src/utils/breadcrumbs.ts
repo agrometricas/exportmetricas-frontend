@@ -38,6 +38,7 @@ const VIEW_ROUTES: ViewMap = {
 
   '/dashboard/export/search': 'Exportaciones',
   '/dashboard/export/bookings': 'Bookings',
+  '/dashboard/export/purchase-orders': 'Órdenes de Compra',
   '/dashboard/liquidation/exports-sent': 'Envíos de Insumos',
 
   '/dashboard/export/cutting-sheets': 'Hojas de Corte',
@@ -142,6 +143,11 @@ const ADD_ROUTES: AddMap = {
     addLabel: 'Agregar Booking',
     parentHref: '/dashboard/export/bookings',
   },
+  '/dashboard/export/add-purchase-order': {
+    parent: 'Órdenes de Compra',
+    addLabel: 'Agregar Orden de Compra',
+    parentHref: '/dashboard/export/purchase-orders',
+  },
 
   '/dashboard/export/add-cutting-sheet': {
     parent: 'Hojas de Corte',
@@ -184,6 +190,7 @@ const SEGMENT_ES: Record<string, string> = {
   'shipping-companies': 'Navieras',
   'shipping-contracts': 'Contratos Navieros',
   bookings: 'Bookings',
+  'purchase-orders': 'Órdenes de Compra',
   deposits: 'Depósitos',
   transports: 'Transportes',
   'box-brands': 'Marcas de Caja',
@@ -285,6 +292,17 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
       cleanPath,
       true
     );
+    return crumbs;
+  }
+
+  const orderLine = cleanPath.match(
+    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+)?$/
+  );
+  if (orderLine) {
+    const orderHref = `/dashboard/export/purchase-orders/${orderLine[1]}`;
+    push('Órdenes de Compra', '/dashboard/export/purchase-orders', false);
+    push('Orden de Compra', orderHref, !orderLine[2]);
+    if (orderLine[2]) push('Crear Exportación', cleanPath, true);
     return crumbs;
   }
 
