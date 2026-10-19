@@ -21,8 +21,15 @@ export interface TransportProposal {
   province: string;
 }
 
+export interface PriceProposal {
+  price: number;
+  source: 'PRICE_SHEET' | 'MINIMUM';
+  weekStart: string | null;
+}
+
 export interface ProducerPaymentQuote {
   price: number;
+  priceProposal: PriceProposal;
   transport: number;
   transportProposal: TransportProposal | null;
   subtotal1: number;

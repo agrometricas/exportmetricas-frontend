@@ -9,6 +9,7 @@ export interface PurchaseOrderLine {
   id: number;
   type: PurchaseOrderLineType;
   boxQuantity: number;
+  price: string | null;
   business: Named;
   boxBrand: Named & { brandCode: string };
   export: {

@@ -16,11 +16,15 @@ import * as Yup from 'yup';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { useCreateProducerPayment } from '../../../hooks/export/producerPayment/createProducerPayment';
 import { useUploadTransferImage } from '../../../hooks/export/producerPayment/uploadTransferImage';
-import { useProducerPaymentQuote } from '../../../hooks/export/producerPayment/useProducerPaymentQuote';
+import {
+  PriceProposal,
+  useProducerPaymentQuote,
+} from '../../../hooks/export/producerPayment/useProducerPaymentQuote';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
 import { ExportSentType } from '../../../types/exportSent';
 import { HarborType } from '../../../types/harbor';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
+import { getWeekInfo } from '../../../utils/getWeekInfo';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
 import SelectHarbor from '../../harbor/SelectHarbor';
@@ -160,6 +164,13 @@ const validationSchema = Yup.object({
     }),
 });
 
+const priceProposalText = (proposal: PriceProposal): string =>
+  proposal.source === 'PRICE_SHEET' && proposal.weekStart
+    ? `Propuesto: $${proposal.price.toFixed(2)} de la hoja de precios de la ${
+        getWeekInfo({ date: new Date(proposal.weekStart) }).week.split(' //')[0]
+      }`
+    : `Propuesto: $${proposal.price.toFixed(2)}, el precio mínimo de la exportadora`;
+
 const typed = (value: number | ''): number | undefined =>
   value === '' ? undefined : value;
 
@@ -257,13 +268,20 @@ const PendingPaymentFields = ({
         boxBrandSelect={boxBrand as Partial<BoxBrandType>}
         setBoxBrandSelect={setBoxBrand}
       >
-        <InputFieldNumber
-          name={'price'}
-          label={'Precio'}
-          value={proposal?.price ?? ''}
-          isDecimal
-          isDolar
-        />
+        <Box>
+          <InputFieldNumber
+            name={'price'}
+            label={'Precio'}
+            value={proposal?.price ?? ''}
+            isDecimal
+            isDolar
+          />
+          {proposal?.priceProposal && (
+            <Text fontSize='sm' color='gray.600' mt={1}>
+              {priceProposalText(proposal.priceProposal)}
+            </Text>
+          )}
+        </Box>
         <Box></Box>
         <ReadOnlyAmount label={'Subtotal1'} value={quote?.subtotal1} />
       </SelectBoxBrand>
