@@ -27,6 +27,7 @@ import { usePagination } from '../../../hooks/usePagination';
 import { ExportResponse } from '../../../types/export.response';
 import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
 import CancelExportModal from '../CancelExportModal';
+import ExportDocumentsMenuItems from '../ExportDocumentsMenuItems';
 
 const TableExport = ({
   width,
@@ -174,6 +175,10 @@ const TableExport = ({
                     >
                       Cancelar
                     </MenuItem>
+                    <ExportDocumentsMenuItems
+                      exportId={id}
+                      isCancelled={!!cancelledAt}
+                    />
                   </MenuList>
                 </Portal>
               </Menu>
