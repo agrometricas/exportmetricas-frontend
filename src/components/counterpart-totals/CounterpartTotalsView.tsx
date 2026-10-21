@@ -26,6 +26,7 @@ import { useCounterpartTotals } from '../../hooks/reports/counterpartTotals';
 import {
   CounterpartCounts,
   CounterpartReport,
+  ProducerTotals,
 } from '../../types/counterpartTotals';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
@@ -109,6 +110,18 @@ const containersColumn = <T extends CounterpartCounts>(): Column<T> => ({
   numeric: true,
   value: (row) => row.containers,
 });
+const paidColumn = <T extends ProducerTotals>(): Column<T> => ({
+  header: 'Pagado',
+  numeric: true,
+  value: (row) => (
+    <>
+      <Text fontWeight='semibold'>{usd(row.paid)}</Text>
+      <Text fontSize='xs' color='gray.600'>
+        {of(row.paidExports, row.exports)} pagadas
+      </Text>
+    </>
+  ),
+});
 
 function ReportTabs({
   report,
@@ -120,6 +133,7 @@ function ReportTabs({
       <TabList overflowX='auto' overflowY='hidden'>
         <Tab>Clientes</Tab>
         <Tab>Productores</Tab>
+        <Tab>Fincas</Tab>
         <Tab>Puertos</Tab>
         <Tab>Navieras</Tab>
         <Tab>Depósitos</Tab>
@@ -168,18 +182,21 @@ function ReportTabs({
               name('Productor'),
               exportsColumn(),
               boxesColumn(),
-              {
-                header: 'Pagado',
-                numeric: true,
-                value: (row) => (
-                  <>
-                    <Text fontWeight='semibold'>{usd(row.paid)}</Text>
-                    <Text fontSize='xs' color='gray.600'>
-                      {of(row.paidExports, row.exports)} pagadas
-                    </Text>
-                  </>
-                ),
-              },
+              paidColumn(),
+            ]}
+          />
+        </TabPanel>
+        <TabPanel px={0}>
+          <TotalsTable
+            rows={report.farms}
+            empty='Ninguna exportación en el período.'
+            columns={[
+              name('Finca'),
+              { header: 'Productor', value: (row) => row.producer ?? '—' },
+              exportsColumn(),
+              boxesColumn(),
+              containersColumn(),
+              paidColumn(),
             ]}
           />
         </TabPanel>
