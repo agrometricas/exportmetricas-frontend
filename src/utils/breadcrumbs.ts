@@ -53,6 +53,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/settings/upload-logo': 'Logo Exportadora',
   '/dashboard/settings/material-units': 'Unidades de Materiales',
   '/dashboard/settings/minimum-box-price': 'Precio Mínimo',
+  '/dashboard/settings/box-types': 'Tipos de Caja',
   '/dashboard/liquidation/price-sheet': 'Hoja de Precios',
   '/dashboard/producer/upload-logo': 'Logo Productores',
 };
@@ -306,13 +307,14 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   }
 
   const orderLine = cleanPath.match(
-    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+)?$/
+    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+|\/plan)?$/
   );
   if (orderLine) {
     const orderHref = `/dashboard/export/purchase-orders/${orderLine[1]}`;
     push('Órdenes de Compra', '/dashboard/export/purchase-orders', false);
     push('Orden de Compra', orderHref, !orderLine[2]);
-    if (orderLine[2]) push('Crear Exportación', cleanPath, true);
+    if (orderLine[2] === '/plan') push('Plan Semanal', cleanPath, true);
+    else if (orderLine[2]) push('Crear Exportación', cleanPath, true);
     return crumbs;
   }
 

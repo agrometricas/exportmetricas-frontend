@@ -20,6 +20,7 @@ exportación.
 | `export/add-purchase-order` | Crea la orden. Al guardar abre su página |
 | `export/purchase-orders/[id]` | Edita la orden; cada línea guardada tiene su botón **Crear exportación** o muestra la exportación que ya tiene |
 | `export/purchase-orders/[id]/export/[lineId]` | Formulario de exportación prellenado con la línea |
+| `export/purchase-orders/[id]/plan` | Plan semanal: crea de una vez las exportaciones de varias líneas |
 
 En el menú están bajo *Exportaciones*.
 
@@ -64,6 +65,25 @@ línea, y manda `purchaseOrderLineId`. Al guardar vuelve a la orden.
 
 ---
 
+### Plan semanal
+
+Desde la orden, **Plan semanal** abre un formulario con las líneas que aún no
+son exportación. Cada una se marca o se deja fuera, con su día de corte, sus
+cajas (arrancan con las pedidas) y, si hay booking, sus contenedores; un
+contenedor elegido en una línea queda deshabilitado en las otras. Los datos
+comunes —cliente, booking o naviera y puertos, nave, fecha máxima de ingreso,
+depósito, transporte y verificadora— se llenan una sola vez.
+
+- Manda `POST /export/plan` con el body de `exportPlanBody`
+  (`components/purchase-order/exportPlan.ts`): solo las líneas marcadas, y los
+  contenedores solo con booking.
+- El backend arma cada exportación y su grilla de la semana, valida que el día
+  sea de la semana de la orden y crea todas o ninguna; el mensaje de error dice
+  qué línea falló.
+- Al terminar vuelve a la orden. Invalida lo mismo que crear una exportación.
+
+---
+
 ### Precios
 
 El precio de cada línea no se escribe en la orden: va en la **Hoja de
@@ -76,4 +96,5 @@ de la exportación de una línea propone ese precio.
 ### Claves de react-query
 
 `purchaseOrders` (lista) y `purchaseOrder` (detalle). Las invalidan guardar o
-eliminar la orden, crear o editar una exportación y cancelarla.
+eliminar la orden, crear o editar una exportación, cancelarla y el plan
+semanal.

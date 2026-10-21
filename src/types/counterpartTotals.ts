@@ -18,6 +18,10 @@ export interface ProducerTotals extends Counts {
   paidExports: number;
 }
 
+export interface FarmTotals extends ProducerTotals {
+  producer: string | null;
+}
+
 export interface CarrierTotals extends Counts {
   freight: string;
   exportsWithFreight: number;
@@ -29,6 +33,7 @@ export interface CounterpartReport {
   totals: { exports: number; boxes: number; containers: number };
   clients: ClientTotals[];
   producers: ProducerTotals[];
+  farms: FarmTotals[];
   departureHarbors: Counts[];
   destinationHarbors: Counts[];
   shippingCompanies: CarrierTotals[];

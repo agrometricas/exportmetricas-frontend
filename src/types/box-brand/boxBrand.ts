@@ -31,6 +31,7 @@ import { SachetType } from './materials/sachet';
 import { SpongeType } from './materials/sponge';
 import { PesticideCocktailPart } from './post-harvest/pesticideCocktailPart';
 import { BrandType } from './specifications/brand';
+import { CargoType } from '../boxType';
 
 export type BoxBrandType = {
   id?: number | '';
@@ -42,6 +43,9 @@ export type BoxBrandType = {
   boxQuantity: number | '';
   netWeightBox: number | '';
   grossWeightBox: number | '';
+  cargoType?: CargoType;
+  boxTypeId?: number | null;
+  boxType?: { id: number; name: string } | null;
   requiredCertificates: number[] | null | string[];
   // materials
   bottomType?: Partial<BottomType>;
