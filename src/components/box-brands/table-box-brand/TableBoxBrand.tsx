@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, HStack, Text } from '@chakra-ui/react';
 import { Box } from '@mui/material';
 import {
   type MRT_ColumnDef,
@@ -7,11 +8,13 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import DetailBoxBrand from './DetailBoxBrand';
 import { useBoxBrands } from '../../../hooks/box-brand/getBoxBrands';
 import { usePagination } from '../../../hooks/usePagination';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
+import { cargoTypeLabel } from '../../../utils/cargoType';
+import BoxBrandCargoModal, { CargoTarget } from '../BoxBrandCargoModal';
 
 const TableBoxBrand = ({
   width,
@@ -23,6 +26,7 @@ const TableBoxBrand = ({
   const { paginationParams } = usePagination();
   const { data = [], error } = useBoxBrands(paginationParams);
   const router = useRouter();
+  const [cargoTarget, setCargoTarget] = useState<CargoTarget | null>(null);
 
   useEffect(() => {
     if (!!error) {
@@ -60,6 +64,33 @@ const TableBoxBrand = ({
           {
             accessorKey: 'boxQuantity',
             header: 'Cantidad de Cajas',
+          },
+          {
+            id: 'cargo',
+            header: 'Carga y Tipo de Caja',
+            Cell: ({ row }): React.JSX.Element => (
+              <HStack spacing={3}>
+                <Text fontSize='sm'>
+                  {cargoTypeLabel(row.original.cargoType)} ·{' '}
+                  {row.original.boxType?.name ?? 'Sin tipo'}
+                </Text>
+                <Button
+                  size='xs'
+                  variant='outline'
+                  colorScheme='green'
+                  onClick={() =>
+                    setCargoTarget({
+                      id: Number(row.original.id),
+                      name: row.original.name ?? '',
+                      cargoType: row.original.cargoType,
+                      boxType: row.original.boxType,
+                    })
+                  }
+                >
+                  Cambiar
+                </Button>
+              </HStack>
+            ),
           },
           {
             accessorKey: 'netWeightBox',
@@ -161,7 +192,15 @@ const TableBoxBrand = ({
     localization: MRT_Localization_ES,
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <MaterialReactTable table={table} />
+      <BoxBrandCargoModal
+        boxBrand={cargoTarget}
+        onClose={() => setCargoTarget(null)}
+      />
+    </>
+  );
 };
 
 export default TableBoxBrand;
