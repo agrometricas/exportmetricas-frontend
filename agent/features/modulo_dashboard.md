@@ -15,8 +15,8 @@ cómo se compara con el precio spot.
 
 | Rol | Contenido |
 |-----|-----------|
-| `MASTER` | Calendario y resumen semanal (`CalendarSummaryContainer`) |
-| `LOGISTICS`, `EXPORT` | Una tarjeta con texto de relleno |
+| `MASTER` | Alertas de cupo de la semana (`ContractUsageAlerts`), calendario y resumen semanal (`CalendarSummaryContainer`) |
+| `LOGISTICS`, `EXPORT` | Alertas de cupo de la semana y una tarjeta con texto de relleno |
 | `QUALITY`, `ADMINISTRATIVE` | El mensaje "No tienes acceso a contenido del dashboard" |
 
 Todos ven el saludo con su nombre y el menú lateral de su rol.
@@ -31,6 +31,7 @@ Todos ven el saludo con su nombre y el menú lateral de su rol.
 | Envíos de insumos con sus pagos | `useExportsSent` | `GET /export-sent` |
 | Precios spot | `useSpotPrices` | `GET /spot-prices` (últimos 10) |
 | Excel de materiales | `useDownloadMaterialsSummaryReport` | `GET /reports/materials-summary?date=` |
+| Fincas que pasaron su cupo esta semana | `useContractUsage` | `GET /contract-usage?week=` |
 
 `CalendarSummaryContainer` mantiene la semana seleccionada y filtra las listas
 completas en memoria.

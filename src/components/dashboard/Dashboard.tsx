@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import CalendarSummaryContainer from './CalendarSummaryContainer';
+import ContractUsageAlerts from '../contract-usage/ContractUsageAlerts';
 
 const Dashboard = (): JSX.Element => {
   const { data: session, status } = useSession();
@@ -50,6 +51,12 @@ const Dashboard = (): JSX.Element => {
       >
         Bienvenido {session?.user?.name}
       </Heading>
+
+      {(role === 'MASTER' || role === 'LOGISTICS' || role === 'EXPORT') && (
+        <Box mb={6}>
+          <ContractUsageAlerts />
+        </Box>
+      )}
 
       {role === 'MASTER' && (
         <Box mb={6}>

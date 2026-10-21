@@ -31,6 +31,8 @@ import { getWeekInfo } from '../../utils/getWeekInfo';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
 import SelectBusiness from '../business/SelectBusiness';
 import SelectClient from '../client/SelectClient';
+import ExportQuotaCheck from '../contract-usage/ExportQuotaCheck';
+import { exportQuotaParams } from '../contract-usage/exportQuotaParams';
 import InputFieldDepositSelect from '../deposit/InputFieldDepositSelect';
 import SelectProducer from '../producer/SelectProducer';
 import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarborShippingCompany';
@@ -213,6 +215,12 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   {errors.weekCutting ? (errors.weekCutting as string) : ''}
                 </Text>
               )}
+            <ExportQuotaCheck
+              params={exportQuotaParams(
+                values,
+                editing ? source?.id : undefined
+              )}
+            />
             <Heading fontSize='2xl' p='12px'>
               Cliente
             </Heading>

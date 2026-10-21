@@ -30,6 +30,12 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `bookingId`, `bookingContainerIds` | Booking opcional y los contenedores de él que carga la exportación; sin booking va `null` y `[]` |
 | `purchaseOrderLineId` | Solo cuando la exportación nace de una línea de orden de compra, y solo al crear. Ver [modulo_ordenes_compra](modulo_ordenes_compra.md) |
 
+Con la finca, la fecha de corte y las cajas puestas, el formulario pregunta a
+`GET /contract-usage/check` cómo queda la semana de la finca con esta
+exportación (al editar manda su `exportId` para no contarla dos veces) y lo
+dice debajo de la semana. Si pasa el cupo del contrato muestra el aviso del
+backend, sin bloquear el envío (`ExportQuotaCheck`).
+
 `dataReviewed` es la casilla de confirmación del formulario; no se envía.
 `exportBody()` arma el body a partir de los valores del formulario; crear y
 editar mandan el mismo.

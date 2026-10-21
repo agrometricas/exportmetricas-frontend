@@ -17,6 +17,7 @@ type AddMap = Record<
 const VIEW_ROUTES: ViewMap = {
   '/dashboard/producer/producers': 'Productores',
   '/dashboard/producer/fincas': 'Fincas',
+  '/dashboard/producer/contract-usage': 'Cupos de la Semana',
   '/dashboard/producer/contracts': 'Contratos',
 
   '/dashboard/client/clients': 'Clientes',
