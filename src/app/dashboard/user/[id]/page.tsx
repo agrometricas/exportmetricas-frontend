@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { getServerSession } from 'next-auth';
 import { MdPerson, MdBusiness } from 'react-icons/md';
+import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 import { env } from '../../../../lib/env';
 import { authOptions } from '../../../api/auth/[...nextauth]/authOptions';
 
@@ -52,7 +53,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
   const accountActive = user?.exporterDetails?.accountStatus === 'active';
 
   const updatedAt = user?.exporterDetails?.updatedAt
-    ? new Date(user.exporterDetails.updatedAt).toLocaleString()
+    ? formatDayMonthYearTime(user.exporterDetails.updatedAt)
     : '—';
 
   const logoUrl = user?.exporterDetails?.logoUrl;

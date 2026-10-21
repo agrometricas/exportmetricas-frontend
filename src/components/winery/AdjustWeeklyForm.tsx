@@ -21,6 +21,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
 import { useStockMovementsByBusiness } from '../../hooks/winery/useStockMovementsByBusiness';
+import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { STOCK_MOVEMENT_LABELS } from '../../utils/stockMovementLabels';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
@@ -321,9 +322,7 @@ const AdjustWeeklyForm = ({
                                           m.type}
                                       </Badge>{' '}
                                       {m.quantity} unidades - (
-                                      {new Date(
-                                        m.createdAt
-                                      ).toLocaleDateString()}
+                                      {formatDayMonthYear(m.createdAt)}
                                       )
                                     </Box>
                                   ))}
@@ -351,9 +350,7 @@ const AdjustWeeklyForm = ({
                                         ? null
                                         : `- (Envío #${m.exportSentId})`}{' '}
                                       -{' '}
-                                      {new Date(
-                                        m.createdAt
-                                      ).toLocaleDateString()}
+                                      {formatDayMonthYear(m.createdAt)}
                                     </Box>
                                   ))}
                                 </VStack>

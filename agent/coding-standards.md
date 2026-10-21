@@ -67,7 +67,7 @@ the backend proposes.
 - Formik + Yup. The schema and the initial values live next to the form, in
   `components/<dominio>/schemas/` when they are shared.
 - Reuse the field components in `components/ui/form/` (`InputFieldText`,
-  `InputFieldNumber`, `InputFieldDate`, `InputFieldSelector`, …) and the
+  `InputFieldNumber`, `InputFieldDayDate`, `InputFieldSelector`, …) and the
   `SelectX` / `XSelectBase` pairs of each domain instead of wiring a new input.
 - Submit logic that is more than a single call goes in a `useSubmitX` hook under
   `components/<dominio>/hooks/`.
@@ -83,8 +83,8 @@ the backend proposes.
 
 - Chakra UI is the base. MUI is present only as the engine of Material React
   Table, bridged through `THEME_ID` in `Providers.tsx`. Do not build layout with
-  MUI components. Date inputs are the native ones wrapped in
-  `components/ui/form/InputFieldDate*.tsx`.
+  MUI components. Date inputs are `InputFieldDayDate` and
+  `InputFieldDayDateTime` (`components/ui/form/`), typed as `DD/MM/AAAA`.
 - Tables use Material React Table.
 - The theme under `src/theme/` is **not mounted**: `Providers.tsx` runs on
   Chakra's default `extendTheme()`. Use Chakra tokens (`gray.700`, `green.500`)
@@ -94,14 +94,12 @@ the backend proposes.
 
 - Every date a user sees is `DD/MM/AAAA`, zero-padded. A native
   `<input type="date">` follows the browser language and
-  `toLocaleDateString()` drops the zeros. Both are in use today
-  (`components/ui/form/InputFieldDate.tsx` and several detail views). Do not
-  add new ones: a new date field uses `InputFieldDayDate`, and a date shown in
-  a table or a detail goes through `formatDayMonthYear` (`utils/dayMonthYear.ts`).
-- A date field holds **local midnight as an ISO string**: `InputFieldDate`
-  shifts the picked day by the browser's timezone offset before calling
-  `toISOString()`, and `InputFieldDayDate` builds the date with
-  `parseDayMonthYear`. Build dates through those components; a bare
+  `toLocaleDateString()` drops the zeros: neither is used. A date field uses
+  `InputFieldDayDate`, and a date shown in a table or a detail goes through
+  `formatDayMonthYear` (`utils/dayMonthYear.ts`), or `formatDayMonthYearTime`
+  with its time.
+- A date field holds **local midnight as an ISO string**: `InputFieldDayDate`
+  builds the date with `parseDayMonthYear`. Build dates through it; a bare
   `new Date('2025-06-02')` is UTC midnight and lands on the previous day in
   Ecuador.
 - A date with a time (the export's cut-off) uses `InputFieldDayDateTime`:

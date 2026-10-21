@@ -15,6 +15,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
+import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 export default function DetailExportSentConfirmedCost({
   item,
@@ -45,7 +46,7 @@ export default function DetailExportSentConfirmedCost({
             <Box>
               <Text fontWeight='bold'>Fecha de Corte:</Text>
               <Text>
-                {new Date(exportData.cuttingDate).toLocaleDateString()}
+                {formatDayMonthYear(exportData.cuttingDate)}
               </Text>
             </Box>
             <Box>

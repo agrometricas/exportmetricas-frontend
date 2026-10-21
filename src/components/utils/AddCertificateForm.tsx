@@ -16,7 +16,7 @@ import { useCreateCertificate } from '@/hooks/utils/createCertificate';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { useExporter } from '../../hooks/useUserProfile';
 import UploadLogoFile from '../producer/UploadLogoFile';
-import InputFieldDate from '../ui/form/InputFieldDate';
+import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldText from '../ui/form/InputFieldText';
 
 interface AddCertificateFormProps {
@@ -51,8 +51,13 @@ const SUPPORTED_FORMATS = [
 const validationSchema = Yup.object({
   name: Yup.string().required('Requerido'),
   certificateCode: Yup.string().required('Requerido'),
-  issueDate: Yup.date().required('Requerido'),
-  expirationDate: Yup.date().required('Requerido'),
+  issueDate: Yup.date()
+    .typeError('Fecha inválida, use DD/MM/AAAA')
+    .required('Requerido'),
+  expirationDate: Yup.date()
+    .typeError('Fecha inválida, use DD/MM/AAAA')
+    .required('Requerido')
+    .min(Yup.ref('issueDate'), 'Debe ser posterior a la fecha de emisión'),
   logo: Yup.mixed()
     .required('Se requiere un archivo de logo')
     .test('fileFormat', 'Formato no soportado', (value) => {
@@ -131,8 +136,11 @@ const AddCertificateForm = ({
               name='certificateCode'
               label='Código del Certificado'
             />
-            <InputFieldDate name='issueDate' label='Fecha de Emisión' />
-            <InputFieldDate name='expirationDate' label='Fecha de Expiración' />
+            <InputFieldDayDate name='issueDate' label='Fecha de Emisión' />
+            <InputFieldDayDate
+              name='expirationDate'
+              label='Fecha de Expiración'
+            />
             <FormLabel fontSize='sm' mb={0}>
               Logo
             </FormLabel>

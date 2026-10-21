@@ -25,6 +25,8 @@ export function useBusinessesByMerchantId(
     () => listBusinesses({ search, page, limit }, { id }),
     {
       keepPreviousData: true,
+      // Without a producer there are no farms to ask for.
+      enabled: id > 0,
     }
   );
 

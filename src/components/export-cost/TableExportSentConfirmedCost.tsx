@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import DetailExportSentConfirmedCost from './DetailExportSentConfirmedCost';
 import { useConfirmedExportSents } from '../../hooks/export/export-sent/getConfirmedExportSents';
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
+import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 export default function TableExportSentConfirmedCost({
   windowSize,
@@ -38,7 +39,7 @@ export default function TableExportSentConfirmedCost({
             accessorKey: 'export.cuttingDate',
             header: 'Fecha Corte',
             Cell: ({ cell }) =>
-              new Date(cell.getValue<string>()).toLocaleDateString(),
+              formatDayMonthYear(cell.getValue<string>()),
           },
           {
             accessorKey: 'export.boxQuantity',

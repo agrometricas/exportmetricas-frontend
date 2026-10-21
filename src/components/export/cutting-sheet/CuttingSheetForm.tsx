@@ -21,6 +21,7 @@ import { useCreateCuttingSheet } from '../../../hooks/export/cuttingSheet/create
 import { CuttingSheetType } from '../../../types/cuttingSheet';
 import { ExportResponse } from '../../../types/export.response';
 import { ExportSentType } from '../../../types/exportSent';
+import { formatDayMonthYear } from '../../../utils/dayMonthYear';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
 import InputFieldText from '../../ui/form/InputFieldText';
@@ -391,9 +392,7 @@ const CuttingSheetForm = ({
           />
           <DisplayField
             label='Fecha de Corte'
-            value={new Date(
-              finalValues.exportData.cuttingDate
-            ).toLocaleDateString()}
+            value={formatDayMonthYear(finalValues.exportData.cuttingDate)}
           />
           <DisplayField
             label='Descripción de la Semana'
