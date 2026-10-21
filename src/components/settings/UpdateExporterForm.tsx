@@ -13,6 +13,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useUpdateExporter } from '../../hooks/settings/updateExporter';
+import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
@@ -174,7 +175,7 @@ const UpdateExporterForm = ({
 
                 <Text>
                   <strong>Última actualización:</strong>{' '}
-                  {new Date(exporterDetails.updatedAt).toLocaleDateString()}
+                  {formatDayMonthYear(exporterDetails.updatedAt)}
                 </Text>
               </Box>
               <Box display='flex' flexDirection='column' gap={4}>
