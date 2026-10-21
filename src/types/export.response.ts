@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CustomsChannel, CustomsStep } from './customs';
+
 export interface Contact {
   id: number;
   name: string;
@@ -108,6 +110,12 @@ export interface ExportResponse {
   contractType: string;
   cancelledAt: string | null;
   cancellationReason: string | null;
+  aucpNumber?: string | null;
+  aucpDate?: string | null;
+  daeNumber?: string | null;
+  daeDate?: string | null;
+  daeChannel?: CustomsChannel | null;
+  customsStep?: CustomsStep;
   booking?: { id: number; bookingNumber: string } | null;
   containers?: { id: number; number: string }[];
   purchaseOrderLine?: { id: number; purchaseOrderId: number } | null;

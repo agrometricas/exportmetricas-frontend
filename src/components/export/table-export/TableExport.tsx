@@ -20,13 +20,15 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BsFillSendCheckFill, BsFillSendDashFill } from 'react-icons/bs';
 import { FiMoreVertical } from 'react-icons/fi';
-import { MdBlock, MdContentCopy, MdEdit } from 'react-icons/md';
+import { MdAssignment, MdBlock, MdContentCopy, MdEdit } from 'react-icons/md';
 import DetailExport from './DetailExport';
 import { useExports } from '../../../hooks/export/getExports';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportResponse } from '../../../types/export.response';
+import { CUSTOMS_STEP } from '../../../utils/customs';
 import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
 import CancelExportModal from '../CancelExportModal';
+import ExportCustomsModal from '../ExportCustomsModal';
 
 const TableExport = ({
   width,
@@ -39,6 +41,7 @@ const TableExport = ({
   const { data = [], error } = useExports(paginationParams);
   const router = useRouter();
   const [toCancel, setToCancel] = useState<ExportResponse | null>(null);
+  const [customsOf, setCustomsOf] = useState<ExportResponse | null>(null);
 
   useEffect(() => {
     if (!!error) {
@@ -125,6 +128,20 @@ const TableExport = ({
               </Center>
             ),
           },
+          {
+            id: 'aduana',
+            header: 'Aduana',
+            size: 100,
+            accessorFn: (row) => row.customsStep ?? 'PENDING',
+            Cell: ({ row }): React.JSX.Element => {
+              const step = CUSTOMS_STEP[row.original.customsStep ?? 'PENDING'];
+              return (
+                <Center>
+                  <Badge colorScheme={step.colorScheme}>{step.label}</Badge>
+                </Center>
+              );
+            },
+          },
         ],
       },
       {
@@ -150,13 +167,22 @@ const TableExport = ({
                     <MenuItem
                       icon={<MdEdit />}
                       isDisabled={!canEdit}
-                      onClick={() => router.push(`/dashboard/export/${id}/edit`)}
+                      onClick={() =>
+                        router.push(`/dashboard/export/${id}/edit`)
+                      }
                     >
                       {canEdit
                         ? 'Editar'
                         : cancelledAt
                           ? 'Editar (está cancelada)'
                           : 'Editar (ya tiene envío de insumos)'}
+                    </MenuItem>
+                    <MenuItem
+                      icon={<MdAssignment />}
+                      isDisabled={!!cancelledAt}
+                      onClick={() => setCustomsOf(row.original)}
+                    >
+                      AUCP y DAE
                     </MenuItem>
                     <MenuItem
                       icon={<MdContentCopy />}
@@ -200,7 +226,7 @@ const TableExport = ({
       pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand', 'boxQuantity'],
-        right: ['enviado', 'acciones'],
+        right: ['enviado', 'aduana', 'acciones'],
       },
       density: 'compact',
     },
@@ -246,6 +272,10 @@ const TableExport = ({
       <CancelExportModal
         exportToCancel={toCancel}
         onClose={() => setToCancel(null)}
+      />
+      <ExportCustomsModal
+        exportItem={customsOf}
+        onClose={() => setCustomsOf(null)}
       />
     </>
   );

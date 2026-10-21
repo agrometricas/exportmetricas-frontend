@@ -127,6 +127,7 @@ Desde el menú de acciones de cada fila en *Exportaciones*:
 | Editar | `/dashboard/export/[id]/edit` → `PUT /export/:id` | Mientras no tenga envío de insumos ni esté cancelada |
 | Duplicar | `/dashboard/export/[id]/duplicate` → `POST /export` | Siempre: crea una exportación nueva |
 | Cancelar | modal → `POST /export/:id/cancel` con `{ reason? }` | Mientras no esté cancelada |
+| AUCP y DAE | modal → `PUT /export/:id/customs` | Mientras no esté cancelada |
 
 - Editar y duplicar usan el mismo `AddExportForm` prellenado con
   `exportFormValues()`. La casilla de "He revisado los datos" vuelve a
@@ -140,6 +141,12 @@ Desde el menú de acciones de cada fila en *Exportaciones*:
   el detalle; las listas de pendientes ya no la traen
 - La naviera y los puertos se muestran a partir del valor del formulario: los
   puertos se eligen entre las rutas de la naviera seleccionada
+- AUCP y DAE: el modal manda el registro completo —número y fecha de la AUCP;
+  número, fecha y canal de aforo de la DAE—, con lo vacío como `null`, así se
+  corrige o se borra. Las reglas (qué va junto, no hay DAE sin AUCP ni de fecha
+  anterior) las hace cumplir el backend; el formulario avisa lo que falta. La
+  columna *Aduana* muestra el `customsStep` que manda el backend y el detalle,
+  los números con sus fechas
 
 ---
 
@@ -190,6 +197,7 @@ validación se arma según qué materiales tiene la alícuota.
 | Envío y esquema | `components/export/hooks/useSubmitExport.ts`, `components/export/schemas/export.schema.ts`, `components/export/exportBody.ts` |
 | Editar y duplicar | `components/export/ExportFormPage.tsx`, `components/export/exportFormValues.ts` |
 | Cancelar | `components/export/CancelExportModal.tsx` |
+| AUCP y DAE | `components/export/ExportCustomsModal.tsx`, `utils/customs.ts`, `hooks/export/updateExportCustoms.ts` |
 | Tabla y detalle | `components/export/table-export/` |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
@@ -207,6 +215,7 @@ Invalidaciones:
   `cuttingSheetsPending`; al editar, también `['export', id]`.
 - Cancelar: las listas de exportaciones y de pendientes, `export`, y las de
   stock (`exporterMaterialStock`, `businessStock`, `stockMovements`).
+- AUCP y DAE: `exports` y `export`.
 - Crear un envío: `exports`, `exportsSent`, `exportsSentPending`,
   `exportsPending`, `clientPaymentsPending`, `cuttingSheets`,
   `cuttingSheetsPending`, `exportSentCostsPending`.

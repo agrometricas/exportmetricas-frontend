@@ -15,7 +15,11 @@ import {
 import { format } from 'date-fns';
 import React from 'react';
 import { ExportResponse } from '../../../types/export.response';
-import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
+import { customsChannelLabel } from '../../../utils/customs';
+import {
+  formatDayMonthYear,
+  formatDayMonthYearTime,
+} from '../../../utils/dayMonthYear';
 interface DetailExportsProps {
   data: ExportResponse;
   width: { sm: number; md: number };
@@ -63,6 +67,18 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
           </AccordionButton>
         </Heading>
         <AccordionPanel>
+          <Text>
+            <strong>AUCP:</strong>{' '}
+            {data.aucpNumber
+              ? `${data.aucpNumber} — ${formatDayMonthYear(data.aucpDate)}`
+              : 'Sin registrar'}
+          </Text>
+          <Text>
+            <strong>DAE:</strong>{' '}
+            {data.daeNumber
+              ? `${data.daeNumber} — ${formatDayMonthYear(data.daeDate)}, aforo ${customsChannelLabel(data.daeChannel).toLowerCase()}`
+              : 'Sin registrar'}
+          </Text>
           <Text>
             <strong>Booking:</strong> {data.bookingNumber}
           </Text>
