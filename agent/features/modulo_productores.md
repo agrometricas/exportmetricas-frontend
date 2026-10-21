@@ -21,6 +21,10 @@ productor tiene una o más fincas.
 `area`, `codeMAGAP`, `codeAGROCALIDAD`, ubicación, `latitude?`, `longitude?`,
 `certificates[]` (ids), `businessCodes[]`, `contacts[]`.
 
+El área va en hectáreas, mayor que cero y con hasta dos decimales: la regla es
+`areaSchema` (`components/business/`) en el alta del productor, el onboarding,
+el alta y la edición de la finca, y el campo redondea a dos decimales al salir.
+
 **Cuenta bancaria:** `bank`, `owner`, `ownerID`, `accountNumber` (10 dígitos),
 `type`, `email?`, y **exactamente uno** de `merchantId` o `clientId`.
 

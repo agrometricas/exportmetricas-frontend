@@ -3,6 +3,7 @@ import {
   BusinessDetail,
   BusinessUpdateBody,
 } from '../../../types/merchant/businessDetail';
+import { isHectares } from '../areaSchema';
 
 export interface CodeValues {
   id?: number;
@@ -136,8 +137,8 @@ export const editBusinessSchema = Yup.object({
   name: Yup.string().trim().required('Requerido').max(100, 'Máximo 100'),
   area: Yup.string()
     .required('Requerido')
-    .test('area', 'Un número mayor que 0', (value) =>
-      Boolean(value && NUMBER.test(value.trim()) && Number(value) > 0)
+    .test('area', 'Mayor que 0 y con hasta dos decimales', (value) =>
+      isHectares(value)
     ),
   fruitType: Yup.string()
     .oneOf(['Orgánica', 'Convencional'], 'Tipo de fruta no válido')

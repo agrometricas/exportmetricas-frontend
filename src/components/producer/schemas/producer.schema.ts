@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { areaSchema } from '../../business/areaSchema';
 
 export interface ContactsProps {
     name: string;
@@ -109,7 +110,7 @@ const businessSchema = Yup.object().shape({
     fruitType: Yup.string()
         .oneOf(['Orgánica', 'Convencional'])
         .required('Requerido'),
-    area: Yup.number().moreThan(0).required('Requerido'),
+    area: areaSchema,
     latitude: Yup.number().min(-90).max(90).notRequired(),
     longitude: Yup.number().min(-180).max(180).notRequired(),
     provinceId: Yup.number()

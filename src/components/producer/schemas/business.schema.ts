@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { areaSchema } from '../../business/areaSchema';
 
 export interface ContactsProps {
     name: string;
@@ -88,7 +89,7 @@ export const validationSchema = Yup.object({
         .matches(/^[a-zA-Z0-9\s]+$/, 'Solo debe contener letras, números y espacios')
         .transform((v) => v.trim())
         .required('Requerido'),
-    area: Yup.number().moreThan(0, 'Debe ser mayor que 0').required('Requerido'),
+    area: areaSchema,
     codeMAGAP: Yup.string()
         .min(5, 'Debe tener al menos 5 caracteres')
         .max(50, 'Debe tener 50 caracteres o menos')

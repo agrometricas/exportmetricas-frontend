@@ -87,6 +87,7 @@ export default function OnboardingForm(): React.JSX.Element {
                 name={'businesses[0].area'}
                 label={'Área'}
                 unit='ha'
+                isDecimal
               />
               <InputFieldText
                 name={'businesses[0].codeMAGAP'}
