@@ -158,6 +158,7 @@ export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
       to: '/dashboard/settings/material-units',
     },
     { label: 'Precio Mínimo', to: '/dashboard/settings/minimum-box-price' },
+    { label: 'Tipos de Caja', to: '/dashboard/settings/box-types' },
     {
       label: 'Modificar Ubicación',
       to: `/dashboard/user/update-user/${exporterId}`,

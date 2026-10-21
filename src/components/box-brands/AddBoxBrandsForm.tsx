@@ -10,9 +10,15 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
+import {
+  FieldArray,
+  Form,
+  Formik,
+  FormikHelpers,
+  useFormikContext,
+} from 'formik';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
@@ -51,11 +57,20 @@ import SpongeSelectBanContainer from './materials/sponge/SpongeSelectBanContaine
 import SelectPesticide from './post-harvest/pesticide/SelectPesticide';
 import InputFieldBrandSelect from './specifications/brand/InputFieldBrandSelect';
 import InputFieldRequiredCertificateMultiSelect from './specifications/requiredCertificate/InputFieldRequiredCertificateMultiSelect';
+import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import { useMaterialUnits } from '../../hooks/settings/materialUnits';
+import { BoxTypeResponse, CargoType } from '../../types/boxType';
 import { MaterialUnitsResponse } from '../../types/materialUnits';
+import {
+  boxQuantityLabel,
+  cargoBody,
+  CARGO_TYPE_OPTIONS,
+  NO_PALLETS,
+} from '../../utils/cargoType';
 import { quantityUnit } from '../../utils/materialUnits';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
+import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 
 interface PesticideProps {
@@ -86,6 +101,8 @@ interface ValuesProps {
   boxQuantity: number | '';
   netWeightBox: number | '';
   grossWeightBox: number | '';
+  cargoType: CargoType | '';
+  boxTypeId: number | string | '';
   requiredCertificates: number[] | null;
 
   // materials
@@ -168,6 +185,8 @@ const initialValues: ValuesProps = {
   boxQuantity: '',
   netWeightBox: '',
   grossWeightBox: '',
+  cargoType: 'CONTAINER',
+  boxTypeId: '',
   requiredCertificates: null,
 
   bottomTypeId: '',
@@ -330,6 +349,9 @@ const validationSchema = Yup.object({
       'Debe tener como máximo 2 decimales',
       (value) => (value + '').match(/^\d+(\.\d{1,2})?$/) !== null
     )
+    .required('Requerido'),
+  cargoType: Yup.string()
+    .oneOf(['CONTAINER', 'BULK'], 'Seleccione el tipo de carga')
     .required('Requerido'),
   requiredCertificates: Yup.array()
     .min(1, 'Debe seleccionar al menos un certificado')
@@ -988,11 +1010,22 @@ const specificationsInputFieldsText: InputFieldProps[] = [
   { name: 'brandCode', label: 'Código' },
 ];
 
-const specificationsInputFieldsNumber: InputFieldProps[] = [
-  { name: 'boxQuantity', label: 'Número de Cajas/Contenedor', unit: 'C/C' },
+const weightInputFields: InputFieldProps[] = [
   { name: 'netWeightBox', label: 'Peso Neto de Caja', unit: 'LBS' },
   { name: 'grossWeightBox', label: 'Peso Bruto de Caja', unit: 'LBS' },
 ];
+
+function ClearPalletsOnBulk(): null {
+  const { values, setFieldValue } = useFormikContext<ValuesProps>();
+  useEffect(() => {
+    if (values.cargoType !== 'BULK') return;
+    setFieldValue('palletsTypeId', '');
+    setFieldValue('palletsTypeQuantity', 0);
+    setFieldValue('miniPalletsTypeId', '');
+    setFieldValue('miniPalletsTypeQuantity', 0);
+  }, [values.cargoType, setFieldValue]);
+  return null;
+}
 
 export default function AddBoxBrandsForm(): React.JSX.Element {
   const router = useRouter();
@@ -1006,6 +1039,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
   const perContainer = (type: string): string =>
     quantityUnit(unitOf(type), 'contenedor');
   const { createBoxBrand, isLoading } = useCreateBoxBrand();
+  const { data: boxTypes } = useBoxTypes();
+  const boxTypeOptions = ((boxTypes ?? []) as BoxTypeResponse[]).map(
+    ({ id, name }) => ({ id, name })
+  );
   const queryClient = useQueryClient();
 
   const addBoxBrands = async (
@@ -1017,6 +1054,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
       grossWeightBox,
       boxQuantity,
       dataReviewed,
+      cargoType,
+      boxTypeId,
       ...boxBrandData
     } = values;
 
@@ -1065,6 +1104,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
         packingTapeTypeId: !!values.packingTapeTypeId
           ? values.packingTapeTypeId
           : 0,
+        ...cargoBody({ cargoType, boxTypeId }),
+        ...(cargoType === 'BULK' ? NO_PALLETS : {}),
       },
       {
         onError: (error: any) => {
@@ -1091,7 +1132,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
         },
         onSuccess: () => {
           toast({
-            title: 'Tipo de Caja Creada con Éxito',
+            title: 'Alícuota creada con éxito',
             status: 'success',
             duration: 5000,
             isClosable: true,
@@ -1115,6 +1156,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
       >
         {({ isSubmitting, values }) => (
           <Form>
+            <ClearPalletsOnBulk />
             <Flex flexDirection='column' gap={3}>
               <Flex justify='space-between'>
                 <Heading fontSize={'2xl'} p={'12px'}>
@@ -1139,7 +1181,23 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   />
                 ))}
 
-                {specificationsInputFieldsNumber.map((field, index) => (
+                <InputFieldSelector
+                  name='cargoType'
+                  label='Tipo de Carga'
+                  options={CARGO_TYPE_OPTIONS}
+                />
+                <InputFieldSelector
+                  name='boxTypeId'
+                  label='Tipo de Caja'
+                  placeholder='Sin tipo de caja'
+                  options={boxTypeOptions}
+                />
+                <InputFieldNumber
+                  name='boxQuantity'
+                  label={boxQuantityLabel(values.cargoType)}
+                  unit={values.cargoType === 'BULK' ? 'cajas' : 'C/C'}
+                />
+                {weightInputFields.map((field, index) => (
                   <InputFieldNumber
                     key={index}
                     name={field.name}
@@ -1339,25 +1397,29 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               </Heading>
               <Divider mb={'16px'} />
               <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
-                <PalletSelectBanContanier
-                  name1={'palletsTypeId'}
-                  label1={'Pallet'}
-                  placeholder1={'Seleccione el Pallet'}
-                  name2={'palletsTypeQuantity'}
-                  label2={'Pallets/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('PALLET')}
-                />
+                {values.cargoType !== 'BULK' && (
+                  <>
+                    <PalletSelectBanContanier
+                      name1={'palletsTypeId'}
+                      label1={'Pallet'}
+                      placeholder1={'Seleccione el Pallet'}
+                      name2={'palletsTypeQuantity'}
+                      label2={'Pallets/Contenedor'}
+                      placeholder2={'Cantidad'}
+                      unit={perContainer('PALLET')}
+                    />
 
-                <MiniPalletSelectBanContanier
-                  name1={'miniPalletsTypeId'}
-                  label1={'Mini Pallet'}
-                  placeholder1={'Seleccione el Mini Pallet'}
-                  name2={'miniPalletsTypeQuantity'}
-                  label2={'Mini Pallets/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('MINI_PALLET')}
-                />
+                    <MiniPalletSelectBanContanier
+                      name1={'miniPalletsTypeId'}
+                      label1={'Mini Pallet'}
+                      placeholder1={'Seleccione el Mini Pallet'}
+                      name2={'miniPalletsTypeQuantity'}
+                      label2={'Mini Pallets/Contenedor'}
+                      placeholder2={'Cantidad'}
+                      unit={perContainer('MINI_PALLET')}
+                    />
+                  </>
+                )}
 
                 <CornerSelectBanContainer
                   name1={'cornerTypeId'}

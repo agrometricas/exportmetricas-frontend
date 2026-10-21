@@ -53,6 +53,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/settings/upload-logo': 'Logo Exportadora',
   '/dashboard/settings/material-units': 'Unidades de Materiales',
   '/dashboard/settings/minimum-box-price': 'Precio Mínimo',
+  '/dashboard/settings/box-types': 'Tipos de Caja',
   '/dashboard/liquidation/price-sheet': 'Hoja de Precios',
   '/dashboard/producer/upload-logo': 'Logo Productores',
 };
