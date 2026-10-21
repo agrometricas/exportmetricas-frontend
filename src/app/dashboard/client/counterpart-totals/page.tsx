@@ -46,7 +46,7 @@ function CounterpartTotalsPage(): React.JSX.Element {
                 </Heading>
                 <Text fontSize='sm' color={textColor} mt={1}>
                   Cajas, contenedores y montos de un período por cliente,
-                  productor, puerto, naviera, depósito y verificadora
+                  productor, finca, puerto, naviera, depósito y verificadora
                 </Text>
               </Box>
             </HStack>

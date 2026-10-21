@@ -91,12 +91,14 @@ contenedor en USD y, si se conoce, los días de tránsito.
 Comercialización → **Totales por Contraparte**
 (`/dashboard/client/counterpart-totals`): las exportaciones no canceladas con
 fecha de corte en un período (por defecto, del primero del mes a hoy), sumadas
-por cliente, productor, puerto de salida y de destino, naviera, depósito y
-verificadora, una pestaña por cada una. Sale de `GET
+por cliente, productor, finca, puerto de salida y de destino, naviera,
+depósito y verificadora, una pestaña por cada una. Sale de `GET
 /reports/counterparts?from=&to=`; la web no suma nada.
 
 - Cliente: exportaciones, cajas, contenedores, lo cobrado (y cuántas ya se
   cobraron), lo pagado a los productores y el flete.
+- Finca: su productor, exportaciones, cajas, contenedores y lo pagado (y
+  cuántas ya se pagaron).
 - Naviera: el flete es el de los contenedores tomados de un booking, y dice
   cuántas exportaciones lo tienen.
 - El reporte espera las dos fechas completas y en orden.
