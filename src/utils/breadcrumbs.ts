@@ -307,13 +307,14 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   }
 
   const orderLine = cleanPath.match(
-    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+)?$/
+    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+|\/plan)?$/
   );
   if (orderLine) {
     const orderHref = `/dashboard/export/purchase-orders/${orderLine[1]}`;
     push('Órdenes de Compra', '/dashboard/export/purchase-orders', false);
     push('Orden de Compra', orderHref, !orderLine[2]);
-    if (orderLine[2]) push('Crear Exportación', cleanPath, true);
+    if (orderLine[2] === '/plan') push('Plan Semanal', cleanPath, true);
+    else if (orderLine[2]) push('Crear Exportación', cleanPath, true);
     return crumbs;
   }
 

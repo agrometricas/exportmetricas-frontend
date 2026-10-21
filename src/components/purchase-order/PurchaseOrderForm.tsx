@@ -18,6 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
+import Link_Next from 'next/link';
 import React, { useRef } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useSubmitPurchaseOrder } from './hooks/useSubmitPurchaseOrder';
@@ -110,6 +111,17 @@ export default function PurchaseOrderForm({
               Cada línea es una finca, una alícuota y sus cajas. Márcala como
               contrato si va contra el cupo del productor, o como spot.
             </Text>
+            {order && exportedLines < order.lines.length && (
+              <Button
+                as={Link_Next}
+                href={`/dashboard/export/purchase-orders/${order.id}/plan`}
+                alignSelf='flex-start'
+                size='sm'
+                colorScheme='green'
+              >
+                Plan semanal: crear varias exportaciones
+              </Button>
+            )}
             <FieldArray name='lines'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={3}>
