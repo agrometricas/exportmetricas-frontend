@@ -38,6 +38,11 @@ export const CLIENT_MENU: SidenavMenuItem[] = [
     label: 'Tarifas de Transporte',
     to: '/dashboard/client/transport-rates',
   },
+
+  {
+    label: 'Totales por Contraparte',
+    to: '/dashboard/client/counterpart-totals',
+  },
 ];
 
 export const BOX_BRANDS_MENU: SidenavMenuItem[] = [
