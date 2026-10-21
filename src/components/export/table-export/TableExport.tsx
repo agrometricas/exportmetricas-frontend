@@ -29,6 +29,7 @@ import { CUSTOMS_STEP } from '../../../utils/customs';
 import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
 import CancelExportModal from '../CancelExportModal';
 import ExportCustomsModal from '../ExportCustomsModal';
+import ExportDocumentsMenuItems from '../ExportDocumentsMenuItems';
 
 const TableExport = ({
   width,
@@ -200,6 +201,10 @@ const TableExport = ({
                     >
                       Cancelar
                     </MenuItem>
+                    <ExportDocumentsMenuItems
+                      exportId={id}
+                      isCancelled={!!cancelledAt}
+                    />
                   </MenuList>
                 </Portal>
               </Menu>
