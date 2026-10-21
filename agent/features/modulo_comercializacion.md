@@ -86,6 +86,23 @@ contenedor en USD y, si se conoce, los días de tránsito.
 
 ---
 
+### Totales por contraparte
+
+Comercialización → **Totales por Contraparte**
+(`/dashboard/client/counterpart-totals`): las exportaciones no canceladas con
+fecha de corte en un período (por defecto, del primero del mes a hoy), sumadas
+por cliente, productor, puerto de salida y de destino, naviera, depósito y
+verificadora, una pestaña por cada una. Sale de `GET
+/reports/counterparts?from=&to=`; la web no suma nada.
+
+- Cliente: exportaciones, cajas, contenedores, lo cobrado (y cuántas ya se
+  cobraron), lo pagado a los productores y el flete.
+- Naviera: el flete es el de los contenedores tomados de un booking, y dice
+  cuántas exportaciones lo tienen.
+- El reporte espera las dos fechas completas y en orden.
+
+---
+
 ### Importación CSV
 
 `ImportClientDrawer` sube un CSV con encabezados a `POST /client/upload`. La
@@ -109,6 +126,7 @@ respuesta trae una entrada por fila con `status: 'success' | 'error'`.
 | Páginas | `app/dashboard/client/{clients, add-client, harbors, add-harbor, shipping-companies, add-shipping-company, shipping-contracts, shipping-contracts/[id], add-shipping-contract, deposits, add-deposit, transports, add-transport, bank-accounts, add-bank-account}/page.tsx` |
 | Tipos | `types/client*.ts`, `types/harbor*.ts`, `types/shippingCompany*.ts`, `types/deposit/`, `types/transport/` |
 | Hooks | `hooks/export/client/`, `hooks/export/harbor/`, `hooks/export/shippingCompany/`, `hooks/deposit/`, `hooks/transport/` |
+| Totales por contraparte | `components/counterpart-totals/`, `hooks/reports/counterpartTotals.ts`, `types/counterpartTotals.ts`, `app/dashboard/client/counterpart-totals/page.tsx` |
 
 - Los formularios de **cliente** y de **puerto** viven en `components/settings/`,
   no en `components/client/` ni `components/harbor/`.
