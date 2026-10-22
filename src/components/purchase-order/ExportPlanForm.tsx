@@ -39,6 +39,7 @@ import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import SelectClient from '../client/SelectClient';
 import InputFieldDepositSelect from '../deposit/InputFieldDepositSelect';
 import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarborShippingCompany';
+import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
 import InputFieldDayDate, {
@@ -58,6 +59,7 @@ const AFFECTED_QUERIES = [
   'purchaseOrder',
   'contractUsage',
   'contractUsageCheck',
+  'vessels',
 ];
 
 const id = Yup.number().typeError('Requerido').required('Requerido');
@@ -386,9 +388,10 @@ export default function ExportPlanForm({
                     />
                   </SimpleGrid>
                   <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
-                    <InputFieldPlain
+                    <InputFieldShipName
                       name='shipName'
                       label='Nombre de la Nave'
+                      shippingCompanyId={values.shippingCompanyId}
                     />
                     <InputFieldPlain
                       name='estimatedTravelTime'

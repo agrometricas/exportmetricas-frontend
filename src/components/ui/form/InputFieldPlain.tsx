@@ -15,6 +15,7 @@ interface InputFieldPlainProps {
   unit?: string;
   inputMode?: 'decimal' | 'numeric' | 'text';
   placeholder?: string;
+  suggestions?: string[];
 }
 
 // A plain input bound to its field and nothing else: InputFieldNumber drops
@@ -26,8 +27,10 @@ const InputFieldPlain: React.FC<InputFieldPlainProps> = ({
   unit,
   inputMode,
   placeholder,
+  suggestions,
 }) => {
   const [field, meta] = useField<string>(name);
+  const listId = suggestions ? `${name.replace(/\W/g, '-')}-sugerencias` : '';
   return (
     <FormControl isInvalid={!!meta.error && meta.touched}>
       {label && (
@@ -42,7 +45,16 @@ const InputFieldPlain: React.FC<InputFieldPlainProps> = ({
           inputMode={inputMode}
           placeholder={placeholder ?? label}
           pr={unit ? '110px' : undefined}
+          list={listId || undefined}
+          autoComplete={suggestions ? 'off' : undefined}
         />
+        {suggestions && (
+          <datalist id={listId}>
+            {suggestions.map((suggestion) => (
+              <option key={suggestion} value={suggestion} />
+            ))}
+          </datalist>
+        )}
         {unit && (
           <InputRightElement
             pointerEvents='none'

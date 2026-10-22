@@ -69,6 +69,7 @@ export function useSubmitExport({
         queryClient.invalidateQueries('cuttingSheets');
         queryClient.invalidateQueries('cuttingSheetsPending');
         queryClient.invalidateQueries('bookings');
+        queryClient.invalidateQueries('vessels');
         queryClient.invalidateQueries('purchaseOrders');
         queryClient.invalidateQueries('purchaseOrder');
         queryClient.invalidateQueries('contractUsage');
