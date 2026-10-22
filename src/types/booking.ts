@@ -4,6 +4,19 @@ interface HarborSummary {
   code: string;
 }
 
+export interface BookingContainer {
+  id: number;
+  number: string;
+  exportId: number | null;
+  shippingLineSeal?: string | null;
+  extraSeals?: string[];
+}
+
+export interface ContainerSealsBody {
+  shippingLineSeal: string | null;
+  extraSeals: string[];
+}
+
 export interface BookingResponse {
   id: number;
   bookingNumber: string;
@@ -18,7 +31,7 @@ export interface BookingResponse {
   shippingContract: { id: number; reference: string | null };
   harborDeparture: HarborSummary;
   harborDestination: HarborSummary;
-  containers: { id: number; number: string; exportId: number | null }[];
+  containers: BookingContainer[];
 }
 
 export interface BookingBody {

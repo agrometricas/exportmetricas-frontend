@@ -117,7 +117,12 @@ export interface ExportResponse {
   daeChannel?: CustomsChannel | null;
   customsStep?: CustomsStep;
   booking?: { id: number; bookingNumber: string } | null;
-  containers?: { id: number; number: string }[];
+  containers?: {
+    id: number;
+    number: string;
+    shippingLineSeal?: string | null;
+    extraSeals?: string[];
+  }[];
   purchaseOrderLine?: { id: number; purchaseOrderId: number } | null;
   merchant: {
     id: number;

@@ -15,6 +15,7 @@ import {
 import { format } from 'date-fns';
 import React from 'react';
 import { ExportResponse } from '../../../types/export.response';
+import { containerLabel } from '../../../utils/containerSeals';
 import { customsChannelLabel } from '../../../utils/customs';
 import {
   formatDayMonthYear,
@@ -85,7 +86,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
           {!!data.containers?.length && (
             <Text>
               <strong>Contenedores:</strong>{' '}
-              {data.containers.map((container) => container.number).join(', ')}
+              {data.containers.map(containerLabel).join(', ')}
             </Text>
           )}
           <Text>

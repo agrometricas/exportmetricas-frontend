@@ -9,11 +9,13 @@ import {
   Icon,
   Text,
   Divider,
+  Flex,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineBookOnline } from 'react-icons/md';
+import BookingContainerSeals from '../../../../../components/booking/BookingContainerSeals';
 import BookingForm from '../../../../../components/booking/BookingForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useBooking } from '../../../../../hooks/booking/getBooking';
@@ -63,7 +65,14 @@ function EditBookingPage(): React.JSX.Element {
             {isLoading || !booking ? (
               <Text>Cargando...</Text>
             ) : (
-              <BookingForm booking={booking as BookingResponse} />
+              <Flex direction='column' gap={8}>
+                <BookingForm booking={booking as BookingResponse} />
+                <Divider />
+                <BookingContainerSeals
+                  bookingId={(booking as BookingResponse).id}
+                  containers={(booking as BookingResponse).containers}
+                />
+              </Flex>
             )}
           </CardBody>
         </Card>
