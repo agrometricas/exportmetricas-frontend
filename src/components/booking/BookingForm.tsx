@@ -21,6 +21,7 @@ import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useSubmitBooking } from './hooks/useSubmitBooking';
 import RouteInForceSelect from './RouteInForceSelect';
 import { BookingResponse } from '../../types/booking';
+import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
@@ -66,7 +67,11 @@ export default function BookingForm({
                   setFieldValue('harborDestinationId', '');
                 }}
               />
-              <InputFieldPlain name='shipName' label='Nave' />
+              <InputFieldShipName
+                name='shipName'
+                label='Nave'
+                shippingCompanyId={values.shippingCompanyId}
+              />
             </SimpleGrid>
 
             <Heading fontSize='2xl' p='16px'>

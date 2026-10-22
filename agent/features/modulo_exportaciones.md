@@ -73,6 +73,12 @@ la exportación sale de la lista de pendientes y el envío entra a
 naviera, nave, día y hora de zarpe (ETD), ruta y contenedores reservados, con
 sus números si ya se conocen.
 
+- La nave se escribe libre, pero el campo sugiere las naves ya registradas en
+  bookings y exportaciones de esa naviera (`GET
+  /harbor/shipping-company/:id/vessels`, `InputFieldShipName`). Lo mismo en la
+  exportación sin booking y en el plan semanal. Guardar un booking, una
+  exportación o un plan invalida `vessels`
+
 - La ruta se elige entre las del **contrato naviero vigente el día del
   zarpe** (`GET /shipping-contracts/routes?shippingCompanyId=&date=`). Al
   elegirla la web muestra el costo por contenedor, los días de tránsito y el

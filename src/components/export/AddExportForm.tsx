@@ -36,6 +36,7 @@ import { exportQuotaParams } from '../contract-usage/exportQuotaParams';
 import InputFieldDepositSelect from '../deposit/InputFieldDepositSelect';
 import SelectProducer from '../producer/SelectProducer';
 import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarborShippingCompany';
+import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
 import CheckboxForm from '../ui/form/CheckboxForm';
@@ -271,10 +272,10 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 </SimpleGrid>
 
                 <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
-                  <InputFieldText
+                  <InputFieldShipName
                     name='shipName'
                     label='Nombre de la Nave'
-                    defaultValue={source ? initialValues.shipName : undefined}
+                    shippingCompanyId={values.shippingCompanyId}
                   />
                   <InputFieldText
                     name='estimatedTravelTime'

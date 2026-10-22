@@ -50,6 +50,7 @@ export function useSubmitBooking(booking?: BookingResponse): {
     toast({ title, status: 'success', duration: 5000, isClosable: true });
     queryClient.invalidateQueries('bookings');
     queryClient.invalidateQueries('booking');
+    queryClient.invalidateQueries('vessels');
     router.push(LIST_PATH);
   };
 
