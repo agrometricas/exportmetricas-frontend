@@ -21,6 +21,11 @@ export interface TransportProposal {
   province: string;
 }
 
+export interface MaterialsProposal {
+  amount: number;
+  lines: number;
+}
+
 export interface PriceProposal {
   price: number;
   source: 'PRICE_SHEET' | 'MINIMUM';
@@ -32,6 +37,8 @@ export interface ProducerPaymentQuote {
   priceProposal: PriceProposal;
   transport: number;
   transportProposal: TransportProposal | null;
+  materials: number;
+  materialsProposal: MaterialsProposal | null;
   subtotal1: number;
   subtotal2: number;
   total: number;

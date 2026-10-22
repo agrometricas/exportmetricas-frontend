@@ -206,8 +206,9 @@ const PendingPaymentFields = ({
           boxQuantity: values.boxQuantity,
           exportSentId: typed(values.exportSentId),
         };
-  // Asked without a price or a transport, the backend answers with the ones
-  // it proposes: the producer's price and the carrier's rate for the farm.
+  // Asked without a price, a transport or materials, the backend answers with
+  // the ones it proposes: the producer's price, the carrier's rate for the
+  // farm and the validated cost of the supplies sent.
   const { quote: proposal } = useProducerPaymentQuote(sale);
   const { quote, isSettled } = useProducerPaymentQuote(
     sale && {
@@ -309,12 +310,21 @@ const PendingPaymentFields = ({
             </Text>
           )}
         </Box>
-        <InputFieldNumber
-          name={'materials'}
-          label={'Materiales'}
-          isDecimal
-          isDolar
-        />
+        <Box>
+          <InputFieldNumber
+            name={'materials'}
+            label={'Materiales'}
+            value={proposal?.materialsProposal ? proposal.materials : ''}
+            isDecimal
+            isDolar
+          />
+          {proposal?.materialsProposal && (
+            <Text fontSize='sm' color='gray.600' mt={1}>
+              Costo validado de los {proposal.materialsProposal.lines}{' '}
+              materiales del envío
+            </Text>
+          )}
+        </Box>
         <InputFieldNumber name={'others'} label={'Varios'} isDecimal isDolar />
         <ReadOnlyAmount label={'Subtotal2'} value={quote?.subtotal2} />
         <Box></Box>
