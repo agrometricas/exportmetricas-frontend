@@ -71,7 +71,7 @@ de cotización y el formulario los muestra en campos de solo lectura
 
 | Formulario | Ruta | Devuelve |
 |------------|------|----------|
-| Pago a productor | `GET /export/producer-payment/quote` | `price`, `priceProposal`, `transport`, `transportProposal`, `subtotal1`, `subtotal2`, `total`, `amount` |
+| Pago a productor | `GET /export/producer-payment/quote` | `price`, `priceProposal`, `transport`, `transportProposal`, `materials`, `materialsProposal`, `subtotal1`, `subtotal2`, `total`, `amount` |
 | Cobro a cliente | `GET /client-payment/quote` | `price`, `total` |
 
 - La cotización se pide 300 ms después de la última tecla
@@ -85,6 +85,10 @@ de cotización y el formulario los muestra en campos de solo lectura
   provincia de la finca por contenedor, y trae el detalle en
   `transportProposal`; el formulario lo pone en el campo y lo explica debajo.
   Sin tarifa no propone nada y el campo queda vacío. El usuario puede cambiarlo
+- Pedida sin `materials`, la cotización propone el gasto de materiales: el
+  costo validado de los insumos del envío. El formulario lo pone en el campo y
+  dice cuántos materiales suma (`materialsProposal`). El usuario puede
+  cambiarlo
 - Con un insumo que el backend rechaza (un precio con tres decimales, por
   ejemplo) los montos quedan vacíos
 - *Enviar* está deshabilitado mientras los montos en pantalla no correspondan
