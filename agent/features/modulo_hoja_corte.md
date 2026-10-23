@@ -30,7 +30,11 @@ grados, largo de dedo de 9 pulgadas, de 2 a 4 cuñas por caja, saneos 1, 2 o N/A
 y de 3 a 6 dedos por clúster.
 
 **Hoja de corte:** `exportSentId`, `cuttingTypeId`, `palletsHeight`,
-`containerPositioning`, `belowDeck`.
+`containerPositioning`, `belowDeck`. El listado trae además `version` (1 al
+crearla) y `correctionReason`, el motivo de la última corrección.
+
+**Corrección:** `cuttingTypeId`, `palletsHeight`, `containerPositioning`,
+`belowDeck` y `reason` (obligatorio, hasta 300 caracteres).
 
 **Verificadora:** `name`, `ruc`, `address`, `contacts[]`.
 
@@ -43,16 +47,31 @@ Agregar Hojas de Corte: lista GET /export/cutting-sheet/pending
         ↓ elegir un envío de insumos
 /export/add-cutting-sheet/[id]: resumen del embarque + formulario
         ↓
-POST /export/cutting-sheet  →  { success, pdfUrl, emailRecipients }
+POST /export/cutting-sheet  →  { id, version, pdfUrl, emailRecipients }
         ↓
 el envío sale de pendientes; la hoja aparece en "Hojas de Corte"
+        ↓ "Corregir" en la fila
+/export/cutting-sheets/[id]: datos actuales de la hoja + motivo
+        ↓
+PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
 ```
 
 - El formulario muestra el embarque en solo lectura (`DisplayField`,
   `ReadOnlyDateGrid`) para revisar antes de generar.
-- El backend envía el PDF por correo a la exportadora, al cliente y al productor
-  que tengan correo registrado; la respuesta trae la lista en `emailRecipients`.
-- Una hoja no se regenera ni se edita: hay una por envío de insumos.
+- El backend envía el PDF por correo a la exportadora, al cliente, al productor
+  y a cada contacto de la finca que tenga correo; la respuesta trae la lista en
+  `emailRecipients`.
+- Hay una hoja por envío de insumos. Si hay que cambiarla, se **corrige**: el
+  backend la vuelve a dibujar con el mismo número como versión siguiente,
+  marcada CORREGIDA, y la reenvía. El enlace de los correos anteriores abre la
+  versión vigente.
+- La tabla muestra la versión (*Original* o *CORREGIDA vN*); el detalle de la
+  fila, el motivo de la última corrección.
+- La pantalla de corrección busca la hoja en el listado ya cargado (no hay
+  detalle por id) y parte de sus valores; el motivo empieza vacío.
+- Las opciones de altura de pallets y de posición del contenedor, y el *bajo
+  cubierta* que sale de la posición, están en `utils/cuttingSheetOptions.ts`
+  para el alta y la corrección.
 
 ---
 
@@ -62,15 +81,17 @@ el envío sale de pendientes; la hoja aparece en "Hojas de Corte"
 |-------|---------|
 | Lista de pendientes | `components/export/cutting-sheet/{PendingCuttingSheetList, PendingCuttingSheetCard}.tsx` |
 | Formulario | `components/export/cutting-sheet/CuttingSheetForm.tsx` |
+| Corrección | `components/export/cutting-sheet/CorrectCuttingSheetForm.tsx` |
 | Vista del embarque | `components/export/cutting-sheet/{DisplayField, ReadOnlyDateGrid}.tsx` |
 | Hojas generadas | `components/export/cutting-sheet/table-cutting-sheets/` |
 | Tipos de corte | `components/export/cutting-type/` |
 | Verificadoras | `components/verifier/` |
-| Páginas | `app/dashboard/export/{cutting-sheets, add-cutting-sheet, add-cutting-sheet/[id]}/page.tsx`, `app/dashboard/box-brands/{cutting-types, add-cutting-type, verifiers, add-verifier}/page.tsx` |
+| Páginas | `app/dashboard/export/{cutting-sheets, cutting-sheets/[id], add-cutting-sheet, add-cutting-sheet/[id]}/page.tsx`, `app/dashboard/box-brands/{cutting-types, add-cutting-type, verifiers, add-verifier}/page.tsx` |
 | Tipos | `types/cuttingSheet*.ts`, `types/cuttingType.ts`, `types/verifier/` |
 | Hooks | `hooks/export/cuttingSheet/`, `hooks/export/cutting-type/`, `hooks/verifier/` |
 
-- Generar la hoja invalida `cuttingSheets` y `cuttingSheetsPending`.
+- Generar la hoja invalida `cuttingSheets` y `cuttingSheetsPending`; corregirla
+  invalida `cuttingSheets`.
 - `hooks/export/cuttingSheet/getExportsSentPending.ts` exporta
   `useCuttingSheetsPending`: el nombre del archivo no coincide con el del hook.
 - `next.config.js` permite imágenes de `*.r2.cloudflarestorage.com`, de donde

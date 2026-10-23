@@ -7,6 +7,8 @@ export interface CuttingSheetResponse {
   palletsHeight: string;
   containerPositioning: string;
   belowDeck: string;
+  version: number;
+  correctionReason: string | null;
   exporterId: number;
   exportSentId: number;
   pdfUrl: string;

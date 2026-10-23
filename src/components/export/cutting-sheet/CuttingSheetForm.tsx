@@ -21,7 +21,13 @@ import { useCreateCuttingSheet } from '../../../hooks/export/cuttingSheet/create
 import { CuttingSheetType } from '../../../types/cuttingSheet';
 import { ExportResponse } from '../../../types/export.response';
 import { ExportSentType } from '../../../types/exportSent';
+import {
+  belowDeckFor,
+  CONTAINER_POSITIONS,
+  palletsHeightOptions,
+} from '../../../utils/cuttingSheetOptions';
 import { formatDayMonthYear } from '../../../utils/dayMonthYear';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
 import InputFieldText from '../../ui/form/InputFieldText';
@@ -337,12 +343,10 @@ const CuttingSheetForm = ({
     };
 
     createCuttingSheet(payload, {
-      onError: (error: any) => {
-        const { response } = error;
-        const { data } = response;
+      onError: (error) => {
         toast({
-          title: `Error ${data.statusCode}: ${data.error}`,
-          description: data.message,
+          title: 'No se creó la hoja de corte',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -364,15 +368,10 @@ const CuttingSheetForm = ({
       },
     });
   };
-  const palletsOptions =
-    finalValues.exportData.boxBrand?.palletsType?.name &&
+  const palletsOptions = palletsHeightOptions(
+    !!finalValues.exportData.boxBrand?.palletsType?.name &&
       finalValues.exportData.boxBrand?.palletsTypeQuantity !== 0
-      ? [
-        { id: 'PALETS 8 DE ALTO', name: 'PALETS 8 DE ALTO' },
-        { id: 'PALETS 9 DE ALTO', name: 'PALETS 9 DE ALTO' },
-        { id: 'PALETS 10 DE ALTO', name: 'PALETS 10 DE ALTO' },
-      ]
-      : [{ id: 'N/A', name: 'N/A' }];
+  );
 
   return (
     <Box>
@@ -441,35 +440,35 @@ const CuttingSheetForm = ({
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Puerto de Salida'
-            value={finalValues.exportData?.harborDeparture.name}
+            value={finalValues.exportData?.harborDeparture?.name}
           />
           <DisplayField
             label='País'
-            value={finalValues.exportData?.harborDeparture.country.name}
+            value={finalValues.exportData?.harborDeparture?.country?.name}
           />
           <DisplayField
             label='Ciudad'
-            value={finalValues.exportData?.harborDeparture.city.name}
+            value={finalValues.exportData?.harborDeparture?.city?.name}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Puerto de Llegada'
-            value={finalValues.exportData?.harborDestination.name}
+            value={finalValues.exportData?.harborDestination?.name}
           />
           <DisplayField
             label='País'
-            value={finalValues.exportData?.harborDestination.country.name}
+            value={finalValues.exportData?.harborDestination?.country?.name}
           />
           <DisplayField
             label='Ciudad'
-            value={finalValues.exportData?.harborDestination.city.name}
+            value={finalValues.exportData?.harborDestination?.city?.name}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Naviera'
-            value={finalValues.exportData?.shippingCompany.name}
+            value={finalValues.exportData?.shippingCompany?.name}
           />
           <DisplayField
             label='Código'
@@ -479,7 +478,7 @@ const CuttingSheetForm = ({
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Deposito'
-            value={finalValues.exportData?.deposit.name}
+            value={finalValues.exportData?.deposit?.name}
           />
           <DisplayField
             label='Dirección'
@@ -487,13 +486,13 @@ const CuttingSheetForm = ({
           />
           <DisplayField
             label='Ciudad'
-            value={finalValues.exportData?.deposit.city.name}
+            value={finalValues.exportData?.deposit?.city?.name}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Transporte'
-            value={finalValues.exportData?.transport.name}
+            value={finalValues.exportData?.transport?.name}
           />
           <DisplayField
             label='RUC'
@@ -513,7 +512,7 @@ const CuttingSheetForm = ({
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
           <DisplayField
             label='Verificadora'
-            value={finalValues.exportData?.verifier.name}
+            value={finalValues.exportData?.verifier?.name}
           />
           <DisplayField
             label='RUC'
@@ -569,7 +568,7 @@ const CuttingSheetForm = ({
           />
           <DisplayField
             label='Ciudad'
-            value={finalValues.exportData?.merchant.city.name}
+            value={finalValues.exportData?.merchant?.city?.name}
           />
           <DisplayField
             label='Dirección'
@@ -583,7 +582,7 @@ const CuttingSheetForm = ({
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
           <DisplayField
             label='Nombre'
-            value={finalValues.exportData?.business.name}
+            value={finalValues.exportData?.business?.name}
           />
           <DisplayField
             label='Área'
@@ -591,7 +590,7 @@ const CuttingSheetForm = ({
           />
           <DisplayField
             label='Ciudad'
-            value={finalValues.exportData?.business.city.name}
+            value={finalValues.exportData?.business?.city?.name}
           />
           <DisplayField
             label='Dirección'
@@ -1014,23 +1013,13 @@ const CuttingSheetForm = ({
                   name={'containerPositioning'}
                   label={'Posicion del Contenedor '}
                   alignItems='flex-end'
-                  options={[
-                    { id: 'N/A', name: 'N/A' },
-                    { id: 'CAMPO', name: 'CAMPO' },
-                    { id: 'ACOPIO', name: 'ACOPIO' },
-                  ]}
+                  options={CONTAINER_POSITIONS}
                 />
                 <InputFieldText
                   name={'belowDeck'}
                   label={'Bajo Cubierta '}
                   isReadOnly
-                  defaultValue={
-                    values.containerPositioning === 'CAMPO'
-                      ? 'NO'
-                      : values.containerPositioning === 'ACOPIO'
-                        ? 'SI'
-                        : 'N/A'
-                  }
+                  defaultValue={belowDeckFor(values.containerPositioning)}
                   placeholder='Bajo cubierta'
                   alignItems='flex-end'
                 />

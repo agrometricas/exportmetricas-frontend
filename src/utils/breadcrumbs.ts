@@ -318,6 +318,12 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     return crumbs;
   }
 
+  if (/^\/dashboard\/export\/cutting-sheets\/\d+$/.test(cleanPath)) {
+    push('Hojas de Corte', '/dashboard/export/cutting-sheets', false);
+    push('Corregir Hoja de Corte', cleanPath, true);
+    return crumbs;
+  }
+
   if (/^\/dashboard\/export\/bookings\/\d+$/.test(cleanPath)) {
     push('Bookings', '/dashboard/export/bookings', false);
     push('Editar Booking', cleanPath, true);
