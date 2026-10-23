@@ -27,3 +27,8 @@ export type CuttingType = {
   transportDetail: string;
   generalObservations?: string | null;
 };
+
+export interface CuttingTypeOptions {
+  qualities: string[];
+  saneos: string[];
+}
