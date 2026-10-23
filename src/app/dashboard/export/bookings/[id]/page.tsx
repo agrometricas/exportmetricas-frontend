@@ -16,6 +16,7 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineBookOnline } from 'react-icons/md';
 import BookingContainerSeals from '../../../../../components/booking/BookingContainerSeals';
+import BookingDocuments from '../../../../../components/booking/BookingDocuments';
 import BookingForm from '../../../../../components/booking/BookingForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useBooking } from '../../../../../hooks/booking/getBooking';
@@ -69,6 +70,11 @@ function EditBookingPage(): React.JSX.Element {
                 <BookingForm booking={booking as BookingResponse} />
                 <Divider />
                 <BookingContainerSeals
+                  bookingId={(booking as BookingResponse).id}
+                  containers={(booking as BookingResponse).containers}
+                />
+                <Divider />
+                <BookingDocuments
                   bookingId={(booking as BookingResponse).id}
                   containers={(booking as BookingResponse).containers}
                 />
