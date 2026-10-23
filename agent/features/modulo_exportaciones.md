@@ -175,17 +175,22 @@ como `weekDaysOfWeek` y `weekBoxesOfDay`, en el mismo orden.
 
 ### Cantidades que propone el envío
 
-`SentMaterialsExportForm` precarga el formulario a partir de la exportación
-elegida:
+Las cantidades las calcula el backend: `SentMaterialsExportForm` las pide a
+`GET /export/:id/supplies-proposal` (`useSuppliesProposal`) y precarga el
+formulario con `supplies`. Muestra también los contenedores de la exportación
+(`containers`).
 
-| Material | Valor inicial |
-|----------|---------------|
-| Fondo, tapa, cubierta, cartulina | `boxQuantity` de la exportación |
-| El resto de materiales simples | La cantidad definida en la alícuota |
-| Pesticidas, insecticidas, stickers, hojas | El cóctel de la alícuota, con sus cantidades |
+| Material | Lo que propone el backend |
+|----------|---------------------------|
+| Por caja (fondo, tapa, funda, cartulina, paraseal, pad, esponja, etiqueta, banda, sachet, liga, protector, cluster bag) | Cantidad de la alícuota × cajas |
+| Por contenedor (pallets … tarjeta de embarque) e insecticidas, stickers y hojas | Cantidad de la alícuota × contenedores |
+| Pesticidas (fumigación) | En proporción a las cajas: cajas × dosis |
 
-El usuario puede cambiar cualquier valor antes de enviar. El esquema de
-validación se arma según qué materiales tiene la alícuota.
+Las filas de los cócteles siguen el orden del cóctel de la alícuota; cada una
+toma su cantidad de la propuesta por el id del material (`proposedQuantity`,
+`utils/suppliesProposal.ts`). El usuario puede cambiar cualquier valor antes de
+enviar. El esquema de validación se arma según qué materiales tiene la
+alícuota.
 
 ---
 

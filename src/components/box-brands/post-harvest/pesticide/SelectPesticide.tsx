@@ -1,7 +1,11 @@
 import { Box, Button, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldPesticideSelect from './InputFieldPesticideSelect';
+import { useFumigationProposal } from '../../../../hooks/box-brand/post-harvest/pesticide/getFumigationProposal';
+import { useDebouncedValue } from '../../../../hooks/useDebouncedValue';
 import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticide';
+import { FumigationProposal } from '../../../../types/suppliesProposal';
+import { proposedQuantity } from '../../../../utils/suppliesProposal';
 import InputFieldQuantity from '../../../ui/form/InputFieldQuantity';
 
 interface SelectPesticideProps {
@@ -12,6 +16,7 @@ interface SelectPesticideProps {
   setPesticideSelect?: (pesticide: Partial<PesticideType> | null) => void;
   onClickRemove?: () => void;
   boxQuantity?: number | '';
+  unit?: string;
 }
 
 const SelectPesticide: React.FC<SelectPesticideProps> = ({
@@ -22,10 +27,13 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
   setPesticideSelect,
   onClickRemove,
   boxQuantity,
+  unit,
 }) => {
   const [pesticide, setPesticide] = useState<Partial<PesticideType> | null>(
     null
   );
+  const boxes = useDebouncedValue(Number(boxQuantity) || 0, 400);
+  const { data: fumigation } = useFumigationProposal(boxes);
 
   useEffect(() => {
     if (!!pesticideSelect) {
@@ -75,13 +83,14 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
 
       <InputFieldQuantity
         name={name2}
-        label={'Cantidad'}
-        unit='U/C'
-        quantity={
-          pesticide?.dose && boxQuantity
-            ? Number(pesticide.dose) * Number(boxQuantity)
-            : ''
-        }
+        label={'Cantidad (cajas × dosis)'}
+        unit={unit}
+        max={10000000}
+        quantity={proposedQuantity(
+          fumigation as FumigationProposal[] | undefined,
+          'pesticideId',
+          pesticide?.id
+        )}
       />
 
       <Box display='flex' alignItems='flex-end'>
