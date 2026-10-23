@@ -3,16 +3,14 @@
 import { useMutation } from 'react-query';
 import axios from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
-import { CuttingSheetType } from '../../../types/cuttingSheet';
-
-interface CreateCuttingSheetResponse {
-  cuttingSheetId: string;
-  pdfUrl: string;
-}
+import {
+  CuttingSheetDelivery,
+  CuttingSheetType,
+} from '../../../types/cuttingSheet';
 
 export const createCuttingSheet = (
   data: Partial<CuttingSheetType>
-): Promise<CreateCuttingSheetResponse> => {
+): Promise<CuttingSheetDelivery> => {
   return axios
     .post('/export/cutting-sheet', data)
     .then((response) => response.data);

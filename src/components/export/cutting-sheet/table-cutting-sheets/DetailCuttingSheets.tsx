@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
+import { sheetVersionLabel } from '@/utils/cuttingSheetOptions';
 
 const DetailCuttingSheet = ({
   cuttingSheet,
@@ -36,6 +37,15 @@ const DetailCuttingSheet = ({
           <Text>
             <strong>ID:</strong> {cuttingSheet.id}
           </Text>
+          <Text>
+            <strong>Versión:</strong> {sheetVersionLabel(cuttingSheet.version)}
+          </Text>
+          {cuttingSheet.correctionReason && (
+            <Text>
+              <strong>Motivo de la corrección:</strong>{' '}
+              {cuttingSheet.correctionReason}
+            </Text>
+          )}
           <Text>
             <strong>Altura Pallet:</strong> {cuttingSheet.palletsHeight}
           </Text>

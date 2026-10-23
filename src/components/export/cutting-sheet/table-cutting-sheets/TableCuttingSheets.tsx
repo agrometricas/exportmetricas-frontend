@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Center } from '@chakra-ui/react';
+import { Badge, Box, Button, Center } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
+import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { BsFileEarmarkPdf } from 'react-icons/bs';
 import DetailCuttingSheets from './DetailCuttingSheets';
 import { useCuttingSheets } from '../../../../hooks/export/cuttingSheet/getCuttingSheets';
 import { usePagination } from '../../../../hooks/usePagination';
+import { sheetVersionLabel } from '../../../../utils/cuttingSheetOptions';
 
 const TableCuttingSheets = ({
   width,
@@ -47,6 +49,19 @@ const TableCuttingSheets = ({
             Cell: ({ cell }) => `#${cell.getValue()}`,
             size: 10,
             enableColumnActions: false,
+          },
+          {
+            accessorKey: 'version',
+            header: 'Versión',
+            size: 120,
+            Cell: ({ cell }): React.JSX.Element => {
+              const version = cell.getValue<number>();
+              return (
+                <Badge colorScheme={version > 1 ? 'orange' : 'gray'}>
+                  {sheetVersionLabel(version)}
+                </Badge>
+              );
+            },
           },
         ],
       },
@@ -125,6 +140,23 @@ const TableCuttingSheets = ({
             },
             size: 150,
           },
+          {
+            id: 'correct',
+            header: '',
+            size: 100,
+            enableColumnActions: false,
+            Cell: ({ row }): React.JSX.Element => (
+              <Button
+                as={Link_Next}
+                href={`/dashboard/export/cutting-sheets/${row.original.id}`}
+                size='sm'
+                variant='outline'
+                colorScheme='green'
+              >
+                Corregir
+              </Button>
+            ),
+          },
         ],
       },
     ],
@@ -145,7 +177,7 @@ const TableCuttingSheets = ({
       pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand', 'id'],
-        right: ['pdfUrl'],
+        right: ['pdfUrl', 'correct'],
       },
       density: 'compact',
     },
