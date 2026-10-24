@@ -4,7 +4,7 @@ Guía para Claude Code (claude.ai/code) al trabajar en este repo.
 
 ## Qué es esto
 
-**App web de Exportmétricas** (Next.js 14, App Router). La usa el personal de
+**App web de Exportmétricas** (Next.js 15, App Router). La usa el personal de
 una exportadora de banano para gestionar el ciclo completo de un embarque:
 productores y fincas, clientes y logística, alícuotas y materiales, bodega,
 exportaciones, envíos de insumos, hojas de corte y liquidación.
