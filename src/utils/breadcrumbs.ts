@@ -32,7 +32,6 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/box-brands/search': 'Alícuotas',
   '/dashboard/box-brands/verifiers': 'Verificadoras',
   '/dashboard/box-brands/cutting-types': 'Tipos de Corte',
-  '/dashboard/box-brands/upload-logo': 'Agregar Logo',
 
   '/dashboard/winery/stock': 'Stock',
   '/dashboard/winery/stock-movements': 'Trazabilidad de Stock',
@@ -50,12 +49,11 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/liquidation/client-payments': 'Cobro Clientes',
   '/dashboard/client/bank-accounts': 'Cuentas Bancarias',
 
-  '/dashboard/settings/upload-logo': 'Logo Exportadora',
+  '/dashboard/logos': 'Logos',
   '/dashboard/settings/material-units': 'Unidades de Materiales',
   '/dashboard/settings/minimum-box-price': 'Precio Mínimo',
   '/dashboard/settings/box-types': 'Tipos de Caja',
   '/dashboard/liquidation/price-sheet': 'Hoja de Precios',
-  '/dashboard/producer/upload-logo': 'Logo Productores',
 };
 
 const ADD_ROUTES: AddMap = {

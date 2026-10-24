@@ -113,7 +113,7 @@ En el CSV de materiales la columna `material_type` va **en español** (`fondo`,
 | Selector de alícuota | `components/box-brands/{SelectBoxBrand, BoxBrandSelectBase, InputFieldBoxBrandSelect}.tsx` |
 | Logo de la alícuota | `components/box-brands/UploadLogoForm.tsx`, `hooks/box-brand/uploadBoxBrandLogo.ts` |
 | Materiales | `components/box-brands/{specifications, materials, post-harvest, container, additions}/` |
-| Páginas | `app/dashboard/box-brands/{search, add-box-brand, add-brand, upload-logo}/page.tsx` |
+| Páginas | `app/dashboard/box-brands/{search, add-box-brand, add-brand}/page.tsx`; el logo de la alícuota se sube en `app/dashboard/logos` |
 | Tipos | `types/box-brand/` |
 | Hooks | `hooks/box-brand/` |
 | Etiquetas y orden de tipos | `utils/materialTypeLabels.ts` |
