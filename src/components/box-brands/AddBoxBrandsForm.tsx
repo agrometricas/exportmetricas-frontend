@@ -266,7 +266,6 @@ const pesticideSchema = Yup.object().shape({
   quantity: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .lessThan(10000, 'Debe ser menor que 10000 ')
     .required('Requerido'),
 });
 
@@ -1371,6 +1370,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                             remove(index);
                           }}
                           boxQuantity={values.boxQuantity}
+                          unit={perContainer('PESTICIDE')}
                         />
                         <Divider
                           mt={'16px'}

@@ -9,6 +9,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  SimpleGrid,
   useToast,
   Text,
 } from '@chakra-ui/react';
@@ -23,14 +24,16 @@ import InputFieldSentQuantity from './ui/InputFieldSentQuantity';
 import InputFieldSentSheets from './ui/InputFieldSentSheets';
 import InputFieldSentStickers from './ui/InputFieldSentStickers';
 import { useCreateExportSent } from '../../hooks/export/export-sent/createExportSent';
+import { useSuppliesProposal } from '../../hooks/export/export-sent/getSuppliesProposal';
 import { ExportResponse } from '../../types/export.response';
+import { SuppliesProposal } from '../../types/suppliesProposal';
+import { proposedQuantity } from '../../utils/suppliesProposal';
 import CheckboxForm from '../ui/form/CheckboxForm';
 
 const pesticideSchema = Yup.object().shape({
   quantity: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .lessThan(10000, 'Debe ser menor que 10000 cajas')
     .required('Requerido'),
 });
 
@@ -38,7 +41,6 @@ const insecticideSchema = Yup.object().shape({
   quantity: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .lessThan(10000, 'Debe ser menor que 10000 cajas')
     .required('Requerido'),
 });
 
@@ -46,7 +48,6 @@ const stickerSchema = Yup.object().shape({
   quantity: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .lessThan(10000, 'Debe ser menor que 10000 cajas')
     .required('Requerido'),
 });
 
@@ -54,7 +55,6 @@ const sheetSchema = Yup.object().shape({
   quantity: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .lessThan(10000, 'Debe ser menor que 10000 cajas')
     .required('Requerido'),
 });
 
@@ -133,68 +133,59 @@ const SentMaterialsExportForm = ({
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const { data: proposalData } = useSuppliesProposal(exportSelected?.id);
+  const proposal = proposalData as SuppliesProposal | undefined;
+  const supplies = proposal?.supplies;
+
   useEffect(() => {
-    if (exportSelected?.boxBrand) {
-      const brand = exportSelected.boxBrand;
-
-      const buildValue = (key: string): string => (brand as any)?.[key] ?? '';
-
+    if (exportSelected?.id && supplies) {
       setInitialValuesExport({
-        exportId: exportSelected.id!,
-        bottomTypeQuantity: exportSelected.boxQuantity!,
-        lidTypeQuantity: exportSelected.boxQuantity!,
-        coverTypeQuantity: exportSelected.boxQuantity!,
-        cardboardTypeQuantity: exportSelected.boxQuantity!,
-        parasealTypeQuantity: buildValue('parasealTypeQuantity'),
-        padTypeQuantity: buildValue('padTypeQuantity'),
-        spongeTypeQuantity: buildValue('spongeTypeQuantity'),
-        labelQuantity: buildValue('labelQuantity'),
-        bandQuantity: buildValue('bandQuantity'),
-        sachetQuantity: buildValue('sachetQuantity'),
-        rubberQuantity: buildValue('rubberQuantity'),
-        protectorQuantity: buildValue('protectorQuantity'),
-        clusterBagQuantity: buildValue('clusterBagQuantity'),
-        palletsTypeQuantity: buildValue('palletsTypeQuantity'),
-        miniPalletsTypeQuantity: buildValue('miniPalletsTypeQuantity'),
-        cornerTypeQuantity: buildValue('cornerTypeQuantity'),
-        reinforcementTypeQuantity: buildValue('reinforcementTypeQuantity'),
-        stapleQuantity: buildValue('stapleQuantity'),
-        strippingQuantity: buildValue('strippingQuantity'),
-        thermographQuantity: buildValue('thermographQuantity'),
-        sealQuantity: buildValue('sealQuantity'),
-        mettoLabelQuantity: buildValue('mettoLabelQuantity'),
-        packingTapeTypeQuantity: buildValue('packingTapeTypeQuantity'),
-        latexRemoverQuantity: buildValue('latexRemoverQuantity'),
-        blockingSheetQuantity: buildValue('blockingSheetQuantity'),
-        containerSealPlasticQuantity: buildValue(
-          'containerSealPlasticQuantity'
+        exportId: exportSelected.id,
+        ...supplies,
+        pesticideSent: (exportSelected.boxBrand?.pesticideCocktail ?? []).map(
+          (part: any) => ({
+            pesticideId: part.pesticide?.id,
+            quantity: proposedQuantity(
+              supplies.pesticideSent,
+              'pesticideId',
+              part.pesticide?.id
+            ),
+          })
         ),
-        securityKitQuantity: buildValue('securityKitQuantity'),
-        boardingCardQuantity: buildValue('boardingCardQuantity'),
-        pesticideSent:
-          brand?.pesticideCocktail?.map((p: any) => ({
-            pesticideId: p.pesticide?.id || '',
-            quantity: p.quantity || '',
-          })) || [],
-        insecticideSent:
-          brand?.insecticideCocktail?.map((i: any) => ({
-            insecticideId: i.insecticide?.id || '',
-            quantity: i.quantity || '',
-          })) || [],
-        stickerSent:
-          brand?.stickerCocktail?.map((s: any) => ({
-            stickerId: s.sticker?.id || '',
-            quantity: s.quantity || '',
-          })) || [],
-        sheetSent:
-          brand?.sheetCocktail?.map((s: any) => ({
-            sheetId: s.sheet?.id || '',
-            quantity: s.quantity || '',
-          })) || [],
+        insecticideSent: (
+          exportSelected.boxBrand?.insecticideCocktail ?? []
+        ).map((part: any) => ({
+          insecticideId: part.insecticide?.id,
+          quantity: proposedQuantity(
+            supplies.insecticideSent,
+            'insecticideId',
+            part.insecticide?.id
+          ),
+        })),
+        stickerSent: (exportSelected.boxBrand?.stickerCocktail ?? []).map(
+          (part: any) => ({
+            stickerId: part.sticker?.id,
+            quantity: proposedQuantity(
+              supplies.stickerSent,
+              'stickerId',
+              part.sticker?.id
+            ),
+          })
+        ),
+        sheetSent: (exportSelected.boxBrand?.sheetCocktail ?? []).map(
+          (part: any) => ({
+            sheetId: part.sheet?.id,
+            quantity: proposedQuantity(
+              supplies.sheetSent,
+              'sheetId',
+              part.sheet?.id
+            ),
+          })
+        ),
         dataReviewed: false,
       });
     }
-  }, [exportSelected]);
+  }, [exportSelected, supplies]);
 
   const sentMaterialsExport = async (
     values: any,
@@ -260,6 +251,40 @@ const SentMaterialsExportForm = ({
 
   const brand = exportSelected?.boxBrand;
   const quantity = exportSelected?.boxQuantity || 0;
+  const proposedCocktail = (
+    cocktail: any[] | undefined,
+    lines: { quantity: number }[] | undefined,
+    key: string,
+    idOf: (part: any) => number | undefined
+  ): any[] =>
+    (cocktail ?? []).map((part) => ({
+      ...part,
+      quantity: proposedQuantity(lines as any, key, idOf(part)),
+    }));
+  const pesticideCocktail = proposedCocktail(
+    brand?.pesticideCocktail,
+    supplies?.pesticideSent,
+    'pesticideId',
+    (part) => part.pesticide?.id
+  );
+  const insecticideCocktail = proposedCocktail(
+    brand?.insecticideCocktail,
+    supplies?.insecticideSent,
+    'insecticideId',
+    (part) => part.insecticide?.id
+  );
+  const stickerCocktail = proposedCocktail(
+    brand?.stickerCocktail,
+    supplies?.stickerSent,
+    'stickerId',
+    (part) => part.sticker?.id
+  );
+  const sheetCocktail = proposedCocktail(
+    brand?.sheetCocktail,
+    supplies?.sheetSent,
+    'sheetId',
+    (part) => part.sheet?.id
+  );
 
   return (
     <Formik
@@ -291,18 +316,38 @@ const SentMaterialsExportForm = ({
               <strong>Marca Principal:</strong> {brand?.brand?.name || 'N/A'}
             </Text>
           </Box>
-          <Box mt='16px'>
-            <FormLabel>Cantidad de cajas</FormLabel>
-            <Input
-              value={quantity}
-              isReadOnly
-              focusBorderColor='gray.200'
-              _hover={{ borderColor: 'gray.200' }}
-              cursor='not-allowed'
-              textAlign='right'
-              opacity={0.8}
-            />
-          </Box>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mt='16px'>
+            <Box>
+              <FormLabel>Cantidad de cajas</FormLabel>
+              <Input
+                value={quantity}
+                isReadOnly
+                focusBorderColor='gray.200'
+                _hover={{ borderColor: 'gray.200' }}
+                cursor='not-allowed'
+                textAlign='right'
+                opacity={0.8}
+              />
+            </Box>
+            <Box>
+              <FormLabel>Contenedores</FormLabel>
+              <Input
+                value={proposal?.containers ?? ''}
+                isReadOnly
+                focusBorderColor='gray.200'
+                _hover={{ borderColor: 'gray.200' }}
+                cursor='not-allowed'
+                textAlign='right'
+                opacity={0.8}
+              />
+            </Box>
+          </SimpleGrid>
+          <Text fontSize='sm' color='gray.600'>
+            Las cantidades las propone el sistema: lo que la alícuota pone por
+            caja, por las cajas; lo que pone por contenedor, por los
+            contenedores; y la fumigación, en proporción a las cajas. Se pueden
+            cambiar antes de enviar.
+          </Text>
           <Heading fontSize='2xl' p='12px'>
             Materiales para las cajas
           </Heading>
@@ -311,81 +356,82 @@ const SentMaterialsExportForm = ({
             'bottomTypeQuantity',
             'Fondo',
             brand?.bottomType,
-            quantity
+            supplies?.bottomTypeQuantity
           )}
           {renderMaterialField(
             'lidTypeQuantity',
             'Tapa',
             brand?.lidType,
-            quantity
+            supplies?.lidTypeQuantity
           )}
           {renderMaterialField(
             'coverTypeQuantity',
             'Funda',
             brand?.coverType,
-            quantity
+            supplies?.coverTypeQuantity
           )}
           {renderMaterialField(
             'cardboardTypeQuantity',
             'Cartulina',
             brand?.cardboardType,
-            quantity
+            supplies?.cardboardTypeQuantity
           )}
           {renderMaterialField(
             'parasealTypeQuantity',
             'ParaSeal',
             brand?.parasealType,
-            brand?.parasealTypeQuantity
+            supplies?.parasealTypeQuantity
           )}
           {renderMaterialField(
             'padTypeQuantity',
             'Pad',
             brand?.padType,
-            brand?.padTypeQuantity
+            supplies?.padTypeQuantity
           )}
           {renderMaterialField(
             'spongeTypeQuantity',
             'Esponja',
             brand?.spongeType,
-            brand?.spongeTypeQuantity
+            supplies?.spongeTypeQuantity
           )}
           {renderMaterialField(
             'labelQuantity',
             'Etiqueta',
             brand?.label,
-            brand?.labelQuantity
+            supplies?.labelQuantity
           )}
           {renderMaterialField(
             'bandQuantity',
             'Banda',
             brand?.band,
-            brand?.bandQuantity
+            supplies?.bandQuantity
           )}
           {renderMaterialField(
             'sachetQuantity',
             'Sachet',
             brand?.sachet,
-            brand?.sachetQuantity
+            supplies?.sachetQuantity
           )}
           {renderMaterialField(
             'rubberQuantity',
             'Liga',
             brand?.rubber,
-            brand?.rubberQuantity
+            supplies?.rubberQuantity
           )}
           {renderMaterialField(
             'protectorQuantity',
             'Protector',
             brand?.protector,
-            brand?.protectorQuantity
+            supplies?.protectorQuantity
           )}
           {renderMaterialField(
             'clusterBagQuantity',
             'Cluster Bag',
             brand?.clusterBag,
-            brand?.clusterBagQuantity
+            supplies?.clusterBagQuantity
           )}
-          {(brand?.palletsTypeQuantity ||
+          {!!(
+            brand?.palletsTypeQuantity ||
             brand?.miniPalletsTypeQuantity ||
             brand?.cornerTypeQuantity ||
             brand?.reinforcementTypeQuantity ||
@@ -393,7 +439,8 @@ const SentMaterialsExportForm = ({
             brand?.strippingQuantity ||
             brand?.thermographQuantity ||
             brand?.sealQuantity ||
-            brand?.mettoLabelQuantity) && (
+            brand?.mettoLabelQuantity
+          ) && (
             <>
               <Heading fontSize='2xl' p='12px'>
                 Materiales para contenedor
@@ -405,68 +452,70 @@ const SentMaterialsExportForm = ({
             'palletsTypeQuantity',
             'Pallet',
             brand?.palletsType,
-            brand?.palletsTypeQuantity,
+            supplies?.palletsTypeQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'miniPalletsTypeQuantity',
             'Mini Pallet',
             brand?.miniPalletsType,
-            brand?.miniPalletsTypeQuantity,
+            supplies?.miniPalletsTypeQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'cornerTypeQuantity',
             'Esquinero',
             brand?.cornerType,
-            brand?.cornerTypeQuantity,
+            supplies?.cornerTypeQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'reinforcementTypeQuantity',
             'Refuerzo',
             brand?.reinforcementType,
-            brand?.reinforcementTypeQuantity,
+            supplies?.reinforcementTypeQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'stapleQuantity',
             'Grapa',
             brand?.staple,
-            brand?.stapleQuantity,
+            supplies?.stapleQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'strippingQuantity',
             'Zuncho',
             brand?.stripping,
-            brand?.strippingQuantity,
+            supplies?.strippingQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'thermographQuantity',
             'Termógrafo',
             brand?.thermograph,
-            brand?.thermographQuantity,
+            supplies?.thermographQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'sealQuantity',
             'Sello',
             brand?.seal,
-            brand?.sealQuantity,
+            supplies?.sealQuantity,
             'C/C'
           )}
           {renderMaterialField(
             'mettoLabelQuantity',
             'Etiqueta Metto',
             brand?.mettoLabel,
-            brand?.mettoLabelQuantity,
+            supplies?.mettoLabelQuantity,
             'C/C'
           )}
-          {(brand?.packingTapeTypeQuantity ||
+          {!!(
+            brand?.packingTapeTypeQuantity ||
             brand?.latexRemoverQuantity ||
-            brand?.blockingSheetQuantity) && (
+            brand?.blockingSheetQuantity
+          ) && (
             <>
               <Heading fontSize='2xl' p='12px'>
                 Materiales adicionales
@@ -478,55 +527,55 @@ const SentMaterialsExportForm = ({
             'packingTapeTypeQuantity',
             'Cinta de embalaje',
             brand?.packingTapeType,
-            brand?.packingTapeTypeQuantity,
+            supplies?.packingTapeTypeQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'latexRemoverQuantity',
             'Removedor de Látex',
             brand?.latexRemover,
-            brand?.latexRemoverQuantity,
+            supplies?.latexRemoverQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'blockingSheetQuantity',
             'Lámina de Bloque',
             brand?.blockingSheet,
-            brand?.blockingSheetQuantity,
+            supplies?.blockingSheetQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'containerSealPlasticQuantity',
             'Plástico de Cierre Contenedor',
             brand?.containerSealPlastic,
-            brand?.containerSealPlasticQuantity,
+            supplies?.containerSealPlasticQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'securityKitQuantity',
             'Kit de Seguridad',
             brand?.securityKit,
-            brand?.securityKitQuantity,
+            supplies?.securityKitQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'boardingCardQuantity',
             'Tarjeta de Embarque',
             brand?.boardingCard,
-            brand?.boardingCardQuantity,
+            supplies?.boardingCardQuantity,
             'U/C'
           )}
           {brand?.stickerCocktail && brand.stickerCocktail.length > 0 && (
             <InputFieldSentStickers
               name='stickerSent'
-              stickerCocktailSelected={brand?.stickerCocktail || []}
+              stickerCocktailSelected={stickerCocktail}
               unit='U/C'
             />
           )}
           {brand?.sheetCocktail && brand.sheetCocktail.length > 0 && (
             <InputFieldSentSheets
               name='sheetSent'
-              sheetCocktailSelected={brand?.sheetCocktail || []}
+              sheetCocktailSelected={sheetCocktail}
               unit='U/C'
             />
           )}
@@ -539,7 +588,7 @@ const SentMaterialsExportForm = ({
           <Divider mb='16px' />
           <InputFieldSentPesticides
             name='pesticideSent'
-            pesticideCocktailSelected={brand?.pesticideCocktail || []}
+            pesticideCocktailSelected={pesticideCocktail}
           />
           {brand?.insecticideCocktail &&
             brand.insecticideCocktail.length > 0 && (
@@ -550,7 +599,7 @@ const SentMaterialsExportForm = ({
                 <Divider mb='16px' />
                 <InputFieldSentInsecticides
                   name='insecticideSent'
-                  insecticideCocktailSelected={brand.insecticideCocktail}
+                  insecticideCocktailSelected={insecticideCocktail}
                 />
               </Box>
             )}
