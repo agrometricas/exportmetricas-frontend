@@ -100,7 +100,9 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
 - `hooks/export/cuttingSheet/getExportsSentPending.ts` exporta
   `useCuttingSheetsPending`: el nombre del archivo no coincide con el del hook.
 - `next.config.js` permite imágenes de `*.r2.cloudflarestorage.com`, de donde
-  vienen logos y artes como URLs firmadas que caducan a las dos horas.
+  vienen logos y artes como URLs firmadas que caducan a las dos horas. El
+  optimizador de imágenes de Next está apagado (`images.unoptimized`): el
+  navegador las pide directo a R2.
 
 > En el menú este módulo es *Calidad*. Sus pantallas están repartidas entre
 > `/dashboard/export/` (hojas) y `/dashboard/box-brands/` (tipos de corte y
