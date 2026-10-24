@@ -19,12 +19,12 @@ export interface HarborResponse {
     openTime: string;
     closeTime: string;
     daysOfOperation: string[];
-    country: { id: number; name: string };
-    province: { id: number; name: string };
-    city: { id: number; name: string };
-    countryId: number;
-    provinceId: number;
-    cityId: number;
+    country: { id: number; name: string } | null;
+    province: { id: number; name: string } | null;
+    city: { id: number; name: string } | null;
+    countryId: number | null;
+    provinceId: number | null;
+    cityId: number | null;
     contacts: ContactResponse[];
     createdAt: string;
     updatedAt: string;

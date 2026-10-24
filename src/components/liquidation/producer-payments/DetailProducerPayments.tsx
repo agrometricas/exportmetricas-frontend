@@ -8,6 +8,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import React from 'react';
+import { harborPlace } from '../../../utils/harborPlace';
 
 const DetailProducerPayments = ({
   producerPayment,
@@ -97,12 +98,10 @@ const DetailProducerPayments = ({
         </Heading>
         <AccordionPanel pb={4} pl="60px">
           <p>
-            <strong>Puerto de Salida:</strong> {harborDeparture.name} (
-            {harborDeparture.city.name}, {harborDeparture.country.name})
+            <strong>Puerto de Salida:</strong> {harborPlace(harborDeparture)}
           </p>
           <p>
-            <strong>Puerto de Destino:</strong> {harborDestination.name} (
-            {harborDestination.city.name}, {harborDestination.country.name})
+            <strong>Puerto de Destino:</strong> {harborPlace(harborDestination)}
           </p>
         </AccordionPanel>
       </AccordionItem>

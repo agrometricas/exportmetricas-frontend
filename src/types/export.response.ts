@@ -160,7 +160,7 @@ export interface ExportResponse {
     name: string;
     code: string;
     city: { id: number; name: string; code: string; provinceId: number };
-    country: { id: number; name: string; code: string; region: string };
+    country: { id: number; name: string; code: string; region: string } | null;
     latitude: number | null;
     longitude: number | null;
   };

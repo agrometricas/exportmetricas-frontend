@@ -54,13 +54,13 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
               <strong>Ubicación:</strong> {business.location}
             </Text>
             <Text>
-              <strong>País:</strong> {business.country.name}
+              <strong>País:</strong> {business.country?.name ?? '—'}
             </Text>
             <Text>
-              <strong>Provincia:</strong> {business.province.name}
+              <strong>Provincia:</strong> {business.province?.name ?? '—'}
             </Text>
             <Text>
-              <strong>Ciudad:</strong> {business.city.name}
+              <strong>Ciudad:</strong> {business.city?.name ?? '—'}
             </Text>
             <Text>
               <strong>Tipo:</strong> {business.type}
