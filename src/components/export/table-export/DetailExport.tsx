@@ -82,7 +82,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
           <Text>
             <strong>DAE:</strong>{' '}
             {data.daeNumber
-              ? `${data.daeNumber} — ${formatDayMonthYear(data.daeDate)}, aforo ${customsChannelLabel(data.daeChannel).toLowerCase()}`
+              ? `${data.daeNumber} — ${formatDayMonthYear(data.daeDate)}, aforo ${customsChannelLabel(data.daeChannel).toLowerCase()}${data.daeValue ? `, USD ${Number(data.daeValue).toFixed(2)}` : ''}`
               : 'Sin registrar'}
           </Text>
           <Text>

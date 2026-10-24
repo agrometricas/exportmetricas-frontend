@@ -29,6 +29,7 @@ export interface CustomsValues {
   daeNumber: string;
   daeDate: string;
   daeChannel: CustomsChannel | '';
+  daeValue: string;
 }
 
 export function customsBody(values: CustomsValues): ExportCustomsBody {
@@ -39,5 +40,6 @@ export function customsBody(values: CustomsValues): ExportCustomsBody {
     daeNumber: text(values.daeNumber),
     daeDate: values.daeDate || null,
     daeChannel: values.daeChannel || null,
+    daeValue: values.daeValue.trim() ? Number(values.daeValue) : null,
   };
 }

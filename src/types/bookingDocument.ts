@@ -4,7 +4,10 @@ export type BookingDocumentType =
   | 'BILL_OF_LADING'
   | 'PHYTOSANITARY'
   | 'ORIGIN_CERTIFICATE'
-  | 'CONTAINER_INSPECTION';
+  | 'CONTAINER_INSPECTION'
+  | 'DAE'
+  | 'INSURANCE'
+  | 'SANITARY';
 
 export interface DocumentTypeOption {
   type: BookingDocumentType;
@@ -30,4 +33,6 @@ export interface BookingDocument extends DocumentSummary {
   containerNumber: string | null;
   fileName: string;
   fileUrl: string;
+  sha256: string | null;
+  uploadedBy: string | null;
 }

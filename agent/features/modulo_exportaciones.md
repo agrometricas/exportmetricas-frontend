@@ -96,8 +96,18 @@ sus números si ya se conocen.
 ### Documentos del embarque
 
 En la edición del booking, *Documentos del embarque* (`BookingDocuments`) lista
-y sube el BL, el fitosanitario, el certificado de origen y la inspección de
-cada contenedor. Valen para todas las exportaciones del booking.
+y sube el BL, el fitosanitario, el certificado de origen, la inspección de cada
+contenedor, la DAE, el seguro y el sanitario. Valen para todas las
+exportaciones del booking.
+
+- Arriba va lo que el booking necesita (`BookingDocumentChecklist`,
+  `GET /bookings/:id/document-status`): el semáforo con su rótulo, el avance y
+  cada ítem con *Listo*, *Falta* o *Rechazado* y el motivo que da el backend.
+  La web no decide nada: el semáforo, el porcentaje y los motivos vienen
+  hechos.
+- Cada documento muestra quién lo subió, cuándo y el comienzo de su huella
+  SHA-256 (`documentTrace`, `utils/documentStatus.ts`); la huella completa va
+  en el `title`.
 
 - Los tipos, su nombre y si piden vencimiento o contenedor salen de
   `GET /bookings/document-types` (`useDocumentTypes`); la lista, de
@@ -170,7 +180,8 @@ Desde el menú de acciones de cada fila en *Exportaciones*:
 - La naviera y los puertos se muestran a partir del valor del formulario: los
   puertos se eligen entre las rutas de la naviera seleccionada
 - AUCP y DAE: el modal manda el registro completo —número y fecha de la AUCP;
-  número, fecha y canal de aforo de la DAE—, con lo vacío como `null`, así se
+  número, fecha, canal de aforo y valor en USD de la DAE—, con lo vacío como
+  `null`, así se
   corrige o se borra. Las reglas (qué va junto, no hay DAE sin AUCP ni de fecha
   anterior) las hace cumplir el backend; el formulario avisa lo que falta. La
   columna *Aduana* muestra el `customsStep` que manda el backend y el detalle,
@@ -238,7 +249,8 @@ alícuota.
 | AUCP y DAE | `components/export/ExportCustomsModal.tsx`, `utils/customs.ts`, `hooks/export/updateExportCustoms.ts` |
 | Factura y packing list | `components/export/ExportDocumentsMenuItems.tsx`, `hooks/export/downloadShippingDocument.ts` |
 | Tabla y detalle | `components/export/table-export/` |
-| Documentos del embarque | `components/booking/BookingDocuments.tsx`, `hooks/booking/bookingDocuments.ts`, `types/bookingDocument.ts` |
+| Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
+| Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
@@ -255,9 +267,9 @@ Invalidaciones:
   `cuttingSheetsPending`; al editar, también `['export', id]`.
 - Cancelar: las listas de exportaciones y de pendientes, `export`, y las de
   stock (`exporterMaterialStock`, `businessStock`, `stockMovements`).
-- AUCP y DAE: `exports` y `export`.
-- Subir o eliminar un documento del embarque: `bookingDocuments`, `exports` y
-  `export`.
+- AUCP y DAE: `exports`, `export`, `bookingDocumentStatus` y `documentBoard`.
+- Subir o eliminar un documento del embarque: `bookingDocuments`,
+  `bookingDocumentStatus`, `documentBoard`, `exports` y `export`.
 - Crear un envío: `exports`, `exportsSent`, `exportsSentPending`,
   `exportsPending`, `clientPaymentsPending`, `cuttingSheets`,
   `cuttingSheetsPending`, `exportSentCostsPending`.

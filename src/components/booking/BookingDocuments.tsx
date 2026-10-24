@@ -33,6 +33,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import BookingDocumentChecklist from './BookingDocumentChecklist';
 import {
   useBookingDocuments,
   useDeleteBookingDocument,
@@ -53,6 +54,7 @@ import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import {
   DOCUMENT_STATUS_COLOR,
   documentStatusText,
+  documentTrace,
 } from '../../utils/documentStatus';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldDayDate, {
@@ -63,7 +65,13 @@ import InputFieldSelector from '../ui/form/InputFieldSelector';
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const FILE_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
-const AFFECTED_QUERIES = ['bookingDocuments', 'exports', 'export'];
+const AFFECTED_QUERIES = [
+  'bookingDocuments',
+  'bookingDocumentStatus',
+  'documentBoard',
+  'exports',
+  'export',
+];
 
 function documentSchema(types: DocumentTypeOption[]): Yup.AnyObjectSchema {
   const option = (type: string): DocumentTypeOption | undefined =>
@@ -261,12 +269,14 @@ export default function BookingDocuments({
       <Box>
         <Heading size='md'>Documentos del embarque</Heading>
         <Text fontSize='sm' color='gray.600' mt={1}>
-          BL, fitosanitario, certificado de origen e inspección de cada
-          contenedor. Valen para todas las exportaciones del booking. El sistema
-          avisa por correo a la exportadora lo que vence en los próximos 15
-          días.
+          BL, fitosanitario, certificado de origen, inspección de cada
+          contenedor, DAE, seguro y sanitario. Valen para todas las
+          exportaciones del booking. El sistema avisa por correo a la
+          exportadora lo que vence en los próximos 15 días.
         </Text>
       </Box>
+
+      <BookingDocumentChecklist bookingId={bookingId} />
 
       {documents.length > 0 ? (
         <TableContainer
@@ -299,6 +309,13 @@ export default function BookingDocuments({
                     >
                       {document.number} · {document.fileName}
                     </Link>
+                    <Text
+                      fontSize='xs'
+                      color='gray.500'
+                      title={document.sha256 ?? undefined}
+                    >
+                      {documentTrace(document)}
+                    </Text>
                   </Td>
                   <Td>{document.containerNumber ?? '—'}</Td>
                   <Td>{formatDayMonthYear(document.issuedAt) || '—'}</Td>
