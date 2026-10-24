@@ -11,11 +11,16 @@ import { Form, Formik, FieldArray } from 'formik';
 import React from 'react';
 import { useSubmitClient } from './hooks/useSubmitClient';
 import InputFieldIncotermMultiSelect from './InputFieldIncotermMultiSelect';
+import {
+  PAYMENT_UNIT_OPTIONS,
+  VOLUME_PERIOD_OPTIONS,
+} from '../../utils/clientTerms';
 import InputFieldHarborMultiSelect from '../harbor/InputFieldHarborMultiSelect';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
 import CheckboxForm from '../ui/form/CheckboxForm';
+import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 import InputFieldCertificateMultiSelect from '../utils/InputFieldCertificateMultiSelect';
@@ -61,13 +66,29 @@ export default function AddClientForm(): React.JSX.Element {
               <InputFieldText name='email' label='Correo' />
               <InputFieldText name='phone' label='Teléfono' />
               <InputFieldText name='website' label='Sitio Web' />
-              <InputFieldText
-                name='annualPurchaseVolume'
-                label='Volumen Anual de Compra'
+              <InputFieldPlain
+                name='purchaseVolumeBoxes'
+                label='Volumen de Compra (cajas)'
+                inputMode='numeric'
+                placeholder='Por ejemplo: 100000'
               />
-              <InputFieldText
-                name='paymentConditions'
-                label='Condiciones de Pago'
+              <InputFieldSelector
+                name='purchaseVolumePeriod'
+                label='Período del Volumen'
+                placeholder='Seleccione el período'
+                options={VOLUME_PERIOD_OPTIONS}
+              />
+              <InputFieldPlain
+                name='paymentTermValue'
+                label='Plazo de Pago (0 es contado)'
+                inputMode='numeric'
+                placeholder='Por ejemplo: 30'
+              />
+              <InputFieldSelector
+                name='paymentTermUnit'
+                label='Unidad del Plazo'
+                placeholder='Seleccione la unidad'
+                options={PAYMENT_UNIT_OPTIONS}
               />
               <InputFieldSelector
                 name={'shippingMethod'}

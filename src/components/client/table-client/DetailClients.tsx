@@ -46,11 +46,11 @@ const DetailClients = ({
             {client.website &&
               (<Text><strong>Sitio Web:</strong> {client.website || 'N/A'}</Text>
               )}
-            {client.paymentConditions && (
-              <Text><strong>Condiciones de Pago:</strong> {client.paymentConditions || 'N/A'}</Text>
+            {client.paymentTermLabel && (
+              <Text><strong>Condiciones de Pago:</strong> {client.paymentTermLabel}</Text>
             )}
-            {client.annualPurchaseVolume && (
-              <Text><strong>Volumen de Compra Anual:</strong> {client.annualPurchaseVolume || 'N/A'}</Text>
+            {client.purchaseVolumeLabel && (
+              <Text><strong>Volumen de Compra:</strong> {client.purchaseVolumeLabel}</Text>
             )}
             <Text><strong>Método de Envío:</strong> {client.shippingMethod || 'N/A'}</Text>
           </Box>

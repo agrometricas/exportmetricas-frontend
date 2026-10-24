@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { ClientTermValues } from '../../../utils/clientTerms';
 
 export interface ContactProps {
     name: string;
@@ -7,7 +8,7 @@ export interface ContactProps {
     phone: string;
 }
 
-export interface ValuesProps {
+export interface ValuesProps extends ClientTermValues {
     businessName: string;
     businessId: string;
     address: string;
@@ -17,8 +18,6 @@ export interface ValuesProps {
     email: string;
     phone: string;
     website: string;
-    annualPurchaseVolume: string;
-    paymentConditions: string;
     shippingMethod: string;
     countryId: number | '';
     provinceId: number | '';
@@ -40,8 +39,10 @@ export const initialValues: ValuesProps = {
     email: '',
     phone: '',
     website: '',
-    annualPurchaseVolume: '',
-    paymentConditions: '',
+    purchaseVolumeBoxes: '',
+    purchaseVolumePeriod: '',
+    paymentTermValue: '',
+    paymentTermUnit: '',
     shippingMethod: '',
     countryId: 1,
     provinceId: '',
@@ -90,10 +91,24 @@ export const validationSchema = Yup.object({
         .required('Requerido'),
     website: Yup.string()
         .url('Debe ser una URL válida'),
-    annualPurchaseVolume: Yup.string()
-        .max(100, 'Debe tener 100 caracteres o menos'),
-    paymentConditions: Yup.string()
-        .max(100, 'Debe tener 100 caracteres o menos'),
+    purchaseVolumeBoxes: Yup.number()
+        .transform((value, original) => (original === '' ? undefined : value))
+        .typeError('Escribe la cantidad de cajas')
+        .integer('Debe ser un número entero')
+        .min(1, 'Debe ser al menos 1 caja'),
+    purchaseVolumePeriod: Yup.string().when('purchaseVolumeBoxes', {
+        is: (boxes: unknown) => boxes !== undefined && boxes !== '',
+        then: (schema) => schema.required('Elige el período'),
+    }),
+    paymentTermValue: Yup.number()
+        .transform((value, original) => (original === '' ? undefined : value))
+        .typeError('Escribe el plazo en números')
+        .integer('Debe ser un número entero')
+        .min(0, 'No puede ser negativo; 0 es contado'),
+    paymentTermUnit: Yup.string().when('paymentTermValue', {
+        is: (value: unknown) => value !== undefined && value !== '',
+        then: (schema) => schema.required('Elige la unidad del plazo'),
+    }),
     shippingMethod: Yup.string()
         .max(100, 'Debe tener 100 caracteres o menos')
         .required('Requerido'),

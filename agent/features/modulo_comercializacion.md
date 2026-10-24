@@ -15,9 +15,13 @@ formulario de exportación elige.
 
 **Cliente:** `businessName`, `businessId` (13 caracteres), `address`, `type`
 (`Supermercado`, `Intermediario`), `commercialType`, `shippingMethod`, `phone`,
-`email?`, `website?`, `postalCode?`, `annualPurchaseVolume?`,
-`paymentConditions?`, ubicación, `harbors[]` (ids de puertos de destino),
-`incoterms[]`, `certificates[]`, `contacts[]`.
+`email?`, `website?`, `postalCode?`, ubicación, `harbors[]` (ids de puertos de
+destino), `incoterms[]`, `certificates[]`, `contacts[]`, y el volumen de compra
+y el plazo de pago en cantidad y tiempo: `purchaseVolumeBoxes` con
+`purchaseVolumePeriod` (`WEEK`, `MONTH`, `YEAR`) y `paymentTermValue` con
+`paymentTermUnit` (`DAY`, `WEEK`, `MONTH`; 0 es contado). Cada par va completo
+o vacío (`clientTermsBody`, `utils/clientTerms.ts`). El detalle muestra
+`purchaseVolumeLabel` y `paymentTermLabel` tal como los arma el backend.
 
 **Puerto:** `type` (`Nacional`, `Internacional`), `name`, `code`, `address`,
 `openTime`, `closeTime` (`HH:mm`), `daysOfOperation[]`, ubicación,
