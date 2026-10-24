@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Icon } from '@chakra-ui/react';
+import { Box, Icon, Text } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
   DropdownIndicatorProps,
@@ -116,6 +116,18 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       isLoading={isLoading}
       options={data}
       getOptionLabel={(opt: Partial<Certificate>) => `${opt.name}`}
+      formatOptionLabel={(opt: Partial<Certificate>, { context }) =>
+        context === 'menu' && opt.description ? (
+          <Box>
+            <Text>{opt.name}</Text>
+            <Text fontSize='xs' color='gray.500'>
+              {opt.description}
+            </Text>
+          </Box>
+        ) : (
+          opt.name
+        )
+      }
       getOptionValue={(opt: Partial<Certificate>) =>
         opt.id ? String(opt.id) : ''
       }

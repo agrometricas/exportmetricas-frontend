@@ -120,17 +120,20 @@ describe('editar una finca', () => {
 
   it('acepta nombres con tildes, como los que ya vienen guardados', async () => {
     await expect(
-      editBusinessSchema.validate(valuesFromBusiness(business))
+      editBusinessSchema(business).validate(valuesFromBusiness(business))
     ).resolves.toBeTruthy();
   });
 
   it('rechaza una latitud fuera de rango y un teléfono mal escrito', async () => {
     const values = valuesFromBusiness(business);
     await expect(
-      editBusinessSchema.validateAt('latitude', { ...values, latitude: '95' })
+      editBusinessSchema(business).validateAt('latitude', {
+        ...values,
+        latitude: '95',
+      })
     ).rejects.toThrow('La latitud va entre -90 y 90');
     await expect(
-      editBusinessSchema.validateAt('contacts[0].phone', {
+      editBusinessSchema(business).validateAt('contacts[0].phone', {
         ...values,
         contacts: [{ ...values.contacts[0], phone: '12' }],
       })

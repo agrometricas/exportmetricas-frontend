@@ -9,6 +9,7 @@ import {
 import { FieldArray, Form, Formik } from 'formik';
 import { useSubmitBusiness } from './hooks/useSubmitBusiness';
 import SelectProducer from './SelectProducer';
+import { FARM_CODE_LABELS } from '../../utils/farmCodes';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
@@ -53,10 +54,13 @@ export default function AddBusinessForm(): React.JSX.Element {
                 unit='ha'
                 isDecimal
               />
-              <InputFieldText name={'codeMAGAP'} label={'Código MAGAP'} />
+              <InputFieldText
+                name={'codeMAGAP'}
+                label={FARM_CODE_LABELS.MAGAP}
+              />
               <InputFieldText
                 name={'codeAGROCALIDAD'}
-                label={'Código AGROCALIDAD'}
+                label={FARM_CODE_LABELS.AGROCALIDAD}
               />
               <InputFieldSelector
                 name={'fruitType'}

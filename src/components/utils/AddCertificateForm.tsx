@@ -18,6 +18,7 @@ import { useExporter } from '../../hooks/useUserProfile';
 import UploadLogoFile from '../producer/UploadLogoFile';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldText from '../ui/form/InputFieldText';
+import InputFieldTextArea from '../ui/form/InputFieldTextArea';
 
 interface AddCertificateFormProps {
   onClose?: () => void;
@@ -26,6 +27,7 @@ interface AddCertificateFormProps {
 interface ValuesProps {
   name: string;
   certificateCode: string;
+  description: string;
   issueDate: string;
   expirationDate: string;
   logo: File | null;
@@ -34,6 +36,7 @@ interface ValuesProps {
 const initialValues: ValuesProps = {
   name: '',
   certificateCode: '',
+  description: '',
   issueDate: '',
   expirationDate: '',
   logo: null,
@@ -50,7 +53,12 @@ const SUPPORTED_FORMATS = [
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Requerido'),
-  certificateCode: Yup.string().required('Requerido'),
+  certificateCode: Yup.string()
+    .trim()
+    .required('Requerido')
+    .min(7, 'Debe tener de 7 a 20 caracteres')
+    .max(20, 'Debe tener de 7 a 20 caracteres'),
+  description: Yup.string().max(300, 'Hasta 300 caracteres'),
   issueDate: Yup.date()
     .typeError('Fecha inválida, use DD/MM/AAAA')
     .required('Requerido'),
@@ -134,7 +142,12 @@ const AddCertificateForm = ({
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText
               name='certificateCode'
-              label='Código del Certificado'
+              label='Código del Certificado (7 a 20 caracteres)'
+            />
+            <InputFieldTextArea
+              name='description'
+              label='Enfoque del certificado (opcional)'
+              placeholder='Por ejemplo: buenas prácticas agrícolas, inocuidad y trazabilidad'
             />
             <InputFieldDayDate name='issueDate' label='Fecha de Emisión' />
             <InputFieldDayDate

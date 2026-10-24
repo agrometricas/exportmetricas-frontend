@@ -26,6 +26,7 @@ import {
 } from './editBusiness';
 import { useUpdateBusiness } from '../../../hooks/business/updateBusiness';
 import { BusinessDetail } from '../../../types/merchant/businessDetail';
+import { FARM_CODE_LABELS } from '../../../utils/farmCodes';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import InputFieldCitySelect from '../../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../../location/InputFieldCountrySelect';
@@ -95,7 +96,7 @@ export default function EditBusinessForm({
     <Formik
       initialValues={valuesFromBusiness(business)}
       onSubmit={onSubmit}
-      validationSchema={editBusinessSchema}
+      validationSchema={editBusinessSchema(business)}
       enableReinitialize
     >
       {({ values, errors, setFieldValue }) => (
@@ -127,10 +128,13 @@ export default function EditBusinessForm({
                 label='Tipo de Fruta'
                 options={FRUIT_TYPES}
               />
-              <InputFieldPlain name='codeMAGAP' label='Código MAGAP' />
+              <InputFieldPlain
+                name='codeMAGAP'
+                label={FARM_CODE_LABELS.MAGAP}
+              />
               <InputFieldPlain
                 name='codeAGROCALIDAD'
-                label='Código AGROCALIDAD'
+                label={FARM_CODE_LABELS.AGROCALIDAD}
               />
               <InputFieldCertificateMultiSelect
                 name='certificates'
