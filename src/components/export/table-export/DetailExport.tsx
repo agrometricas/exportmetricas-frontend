@@ -8,6 +8,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  Badge,
   Box,
   Heading,
   Text,
@@ -21,6 +22,10 @@ import {
   formatDayMonthYear,
   formatDayMonthYearTime,
 } from '../../../utils/dayMonthYear';
+import {
+  DOCUMENT_STATUS_COLOR,
+  documentStatusText,
+} from '../../../utils/documentStatus';
 interface DetailExportsProps {
   data: ExportResponse;
   width: { sm: number; md: number };
@@ -83,6 +88,19 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
           <Text>
             <strong>Booking:</strong> {data.bookingNumber}
           </Text>
+          {!!data.booking?.documents?.length && (
+            <Box>
+              <strong>Documentos del booking:</strong>
+              {data.booking.documents.map((document) => (
+                <Text key={`${document.type}-${document.number}`} ml={2}>
+                  {document.typeLabel} {document.number}{' '}
+                  <Badge colorScheme={DOCUMENT_STATUS_COLOR[document.status]}>
+                    {documentStatusText(document.status, document.daysLeft)}
+                  </Badge>
+                </Text>
+              ))}
+            </Box>
+          )}
           {!!data.containers?.length && (
             <Text>
               <strong>Contenedores:</strong>{' '}

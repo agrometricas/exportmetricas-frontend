@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { DocumentSummary } from './bookingDocument';
 import { CustomsChannel, CustomsStep } from './customs';
 
 export interface Contact {
@@ -116,7 +117,11 @@ export interface ExportResponse {
   daeDate?: string | null;
   daeChannel?: CustomsChannel | null;
   customsStep?: CustomsStep;
-  booking?: { id: number; bookingNumber: string } | null;
+  booking?: {
+    id: number;
+    bookingNumber: string;
+    documents?: DocumentSummary[];
+  } | null;
   containers?: {
     id: number;
     number: string;

@@ -93,6 +93,27 @@ sus números si ya se conocen.
   mayúsculas.
 - En la tabla de bookings, cada contenedor asignado muestra su exportación.
 
+### Documentos del embarque
+
+En la edición del booking, *Documentos del embarque* (`BookingDocuments`) lista
+y sube el BL, el fitosanitario, el certificado de origen y la inspección de
+cada contenedor. Valen para todas las exportaciones del booking.
+
+- Los tipos, su nombre y si piden vencimiento o contenedor salen de
+  `GET /bookings/document-types` (`useDocumentTypes`); la lista, de
+  `GET /bookings/:id/documents` (`useBookingDocuments`).
+- El alta es un formulario multipart (`bookingDocumentBody`,
+  `utils/bookingDocumentBody.ts`): tipo, número, contenedor, emisión,
+  vencimiento (`InputFieldDayDate`) y el archivo. Lo vacío no se manda. La web
+  revisa tipo y tamaño del archivo (PDF, JPG o PNG, 10 MB) para avisar antes;
+  manda el backend.
+- El estado y los días que faltan los calcula el backend; la web solo los
+  rotula (`documentStatusText` y `DOCUMENT_STATUS_COLOR`,
+  `utils/documentStatus.ts`).
+- Eliminar pide confirmación.
+- El detalle de cada exportación muestra los documentos de su booking con su
+  estado (`booking.documents`).
+
 ### Booking en la exportación
 
 En la sección *Naviera* del formulario de exportación hay un selector
@@ -217,6 +238,7 @@ alícuota.
 | AUCP y DAE | `components/export/ExportCustomsModal.tsx`, `utils/customs.ts`, `hooks/export/updateExportCustoms.ts` |
 | Factura y packing list | `components/export/ExportDocumentsMenuItems.tsx`, `hooks/export/downloadShippingDocument.ts` |
 | Tabla y detalle | `components/export/table-export/` |
+| Documentos del embarque | `components/booking/BookingDocuments.tsx`, `hooks/booking/bookingDocuments.ts`, `types/bookingDocument.ts` |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
@@ -234,6 +256,8 @@ Invalidaciones:
 - Cancelar: las listas de exportaciones y de pendientes, `export`, y las de
   stock (`exporterMaterialStock`, `businessStock`, `stockMovements`).
 - AUCP y DAE: `exports` y `export`.
+- Subir o eliminar un documento del embarque: `bookingDocuments`, `exports` y
+  `export`.
 - Crear un envío: `exports`, `exportsSent`, `exportsSentPending`,
   `exportsPending`, `clientPaymentsPending`, `cuttingSheets`,
   `cuttingSheetsPending`, `exportSentCostsPending`.
