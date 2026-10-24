@@ -318,6 +318,12 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     return crumbs;
   }
 
+  if (/^\/dashboard\/box-brands\/cutting-types\/\d+$/.test(cleanPath)) {
+    push('Tipos de Corte', '/dashboard/box-brands/cutting-types', false);
+    push('Editar Tipo de Corte', cleanPath, true);
+    return crumbs;
+  }
+
   if (/^\/dashboard\/export\/cutting-sheets\/\d+$/.test(cleanPath)) {
     push('Hojas de Corte', '/dashboard/export/cutting-sheets', false);
     push('Corregir Hoja de Corte', cleanPath, true);
