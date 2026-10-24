@@ -17,9 +17,12 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useBoxBrand } from '../../../hooks/box-brand/getBoxBrand';
 import { useCreateCuttingType } from '../../../hooks/export/cutting-type/createCuttingType';
+import { useCuttingTypeOptions } from '../../../hooks/export/cutting-type/getCuttingTypeOptions';
+import { CuttingTypeOptions } from '../../../types/cuttingType';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldNumber from '../../ui/form/InputFieldNumber';
+import InputFieldPlain from '../../ui/form/InputFieldPlain';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
 import InputFieldText from '../../ui/form/InputFieldText';
 import InputFieldTextArea from '../../ui/form/InputFieldTextArea';
@@ -87,9 +90,7 @@ const validationSchema = Yup.object({
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
     .required('Requerido'),
-  quality: Yup.string()
-    .required('Requerido')
-    .max(50, 'Debe tener 50 caracteres o menos'),
+  quality: Yup.string().required('Elige la calidad'),
   shipmentType: Yup.string()
     .required('Requerido')
     .max(50, 'Debe tener 50 caracteres o menos'),
@@ -100,7 +101,10 @@ const validationSchema = Yup.object({
   minCaliber: Yup.number().required('Requerido').min(1, 'Debe ser al menos 1'),
   maxCaliber: Yup.number().required('Requerido').min(1, 'Debe ser al menos 1'),
   fingerLength: Yup.string().required('Requerido'),
-  saneos: Yup.string().required('Requerido'),
+  saneos: Yup.string()
+    .trim()
+    .required('Elige los saneos o escribe otro valor')
+    .max(30, 'Debe tener 30 caracteres o menos'),
   cunas: Yup.string().required('Requerido'),
   clusterDetail: Yup.string().required('Requerido'),
   labelDetail: Yup.string().required('Requerido'),
@@ -153,6 +157,8 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
   const toast = useToast();
   const { createCuttingType, isLoading: createLoading } =
     useCreateCuttingType();
+  const { data: optionsData } = useCuttingTypeOptions();
+  const options = optionsData as CuttingTypeOptions | undefined;
   const [selectedBoxBrandId, setSelectedBoxBrandId] = React.useState<
     string | null
   >(null);
@@ -239,7 +245,15 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   name='shipmentType'
                   label='Nombre del Tipo de Corte'
                 />
-                <InputFieldText name='quality' label='Calidad' />
+                <InputFieldSelector
+                  name='quality'
+                  label='Calidad'
+                  placeholder='Seleccione la calidad'
+                  options={(options?.qualities ?? []).map((quality) => ({
+                    id: quality,
+                    name: quality,
+                  }))}
+                />
               </SimpleGrid>
               <Heading fontSize={'2xl'} p={'12px'}>
                 Detalles del Corte
@@ -304,10 +318,11 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   label='Largo del Dedo'
                   placeholder='Longitud Mínima del Dedo en Pulgadas'
                 />
-                <InputFieldText
+                <InputFieldPlain
                   name='saneos'
                   label='Saneos'
-                  placeholder='Saneos Permitidos por Caja'
+                  placeholder={`${(options?.saneos ?? []).join(', ')} u otro valor`}
+                  suggestions={options?.saneos ?? []}
                 />
                 <InputFieldText
                   name='cunas'

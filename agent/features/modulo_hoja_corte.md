@@ -21,13 +21,18 @@ tipo de corte, completa tres datos y dispara la generación.
 `blockingSheetsDetail`, `transportDetail`, `generalObservations?`. Casi todo es
 texto libre que se imprime tal cual.
 
+La calidad y los saneos salen de `GET /cutting-type/options`
+(`useCuttingTypeOptions`): la calidad se elige de la lista (Primera o Segunda)
+y los saneos se eligen de sus sugerencias (1, 2, N/A) o se escribe otro valor,
+de hasta 30 caracteres.
+
 Dos campos del tipo de corte se rotulan distinto de lo que su nombre sugiere:
 `shipmentType` es *Nombre del Tipo de Corte* y `transportDetail` es *Detalle del
 Termógrafo*.
 
 Valores habituales, útiles para revisar lo que se escribe: calibre de 39 a 46
-grados, largo de dedo de 9 pulgadas, de 2 a 4 cuñas por caja, saneos 1, 2 o N/A,
-y de 3 a 6 dedos por clúster.
+grados, largo de dedo de 9 pulgadas, de 2 a 4 cuñas por caja y de 3 a 6 dedos
+por clúster.
 
 **Hoja de corte:** `exportSentId`, `cuttingTypeId`, `palletsHeight`,
 `containerPositioning`, `belowDeck`. El listado trae además `version` (1 al
