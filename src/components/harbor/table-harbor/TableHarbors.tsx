@@ -53,11 +53,11 @@ const TableHarbors = ({
         header: 'Ubicación',
         columns: [
           {
-            accessorFn: (row) => row.country.name,
+            accessorFn: (row) => row.country?.name ?? '—',
             header: 'País',
           },
           {
-            accessorFn: (row) => row.city.name,
+            accessorFn: (row) => row.city?.name ?? '—',
             header: 'Ciudad',
           },
           {

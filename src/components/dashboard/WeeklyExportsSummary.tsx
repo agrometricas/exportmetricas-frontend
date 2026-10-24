@@ -90,7 +90,7 @@ export default function WeeklyExportsSummary({
                   />
                   <Text fontWeight='bold' p={2}>
                     {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
-                    {group.exports[0].harborDestination?.country.region} (
+                    {group.exports[0].harborDestination?.country?.region} (
                     {group.exports[0].boxBrand?.boxQuantity}){' '}
                     {((): string => {
                       const certificates =
@@ -105,7 +105,7 @@ export default function WeeklyExportsSummary({
                       }
                       return '';
                     })()}{' '}
-                    {group.exports[0].harborDestination?.country.code}{' '}
+                    {group.exports[0].harborDestination?.country?.code}{' '}
                     {group.exports[0].harborDestination?.code}{' '}
                     {group.exports[0].deposit?.code}{' '}
                     {group.exports[0].shippingCompany?.code}{' '}
@@ -123,7 +123,7 @@ export default function WeeklyExportsSummary({
                 <PopoverCloseButton />
                 <PopoverHeader>
                   {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
-                  {group.exports[0].harborDestination?.country.region} (
+                  {group.exports[0].harborDestination?.country?.region} (
                   {group.exports[0].boxBrand?.boxQuantity}){' '}
                   {((): string => {
                     const certificates = group.exports[0].client?.certificates;
@@ -137,7 +137,7 @@ export default function WeeklyExportsSummary({
                     }
                     return '';
                   })()}{' '}
-                  {group.exports[0].harborDestination?.country.code}{' '}
+                  {group.exports[0].harborDestination?.country?.code}{' '}
                   {group.exports[0].harborDestination?.code}{' '}
                   {group.exports[0].deposit?.code}{' '}
                   {group.exports[0].shippingCompany?.code}{' '}
