@@ -13,6 +13,7 @@ import DetailBoxBrand from './DetailBoxBrand';
 import { useBoxBrands } from '../../../hooks/box-brand/getBoxBrands';
 import { usePagination } from '../../../hooks/usePagination';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
+import { formatBoxWeight } from '../../../utils/boxWeight';
 import { cargoTypeLabel } from '../../../utils/cargoType';
 import BoxBrandCargoModal, { CargoTarget } from '../BoxBrandCargoModal';
 
@@ -94,19 +95,21 @@ const TableBoxBrand = ({
           },
           {
             accessorKey: 'netWeightBox',
-            header: 'Peso Neto por Caja (lbs)',
-            Cell: ({ cell }): React.JSX.Element | string => {
-              const value = cell.getValue<number>();
-              return value ? `${value} lbs` : 'N/A';
-            },
+            header: 'Peso Neto por Caja',
+            Cell: ({ row }): string =>
+              formatBoxWeight(
+                row.original.netWeightBox,
+                row.original.netWeightKg
+              ),
           },
           {
             accessorKey: 'grossWeightBox',
-            header: 'Peso Bruto por Caja (lbs)',
-            Cell: ({ cell }): React.JSX.Element | string => {
-              const value = cell.getValue<number>();
-              return value ? `${value} lbs` : 'N/A';
-            },
+            header: 'Peso Bruto por Caja',
+            Cell: ({ row }): string =>
+              formatBoxWeight(
+                row.original.grossWeightBox,
+                row.original.grossWeightKg
+              ),
           },
           {
             accessorKey: 'seal.name',
