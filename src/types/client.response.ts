@@ -9,8 +9,8 @@ export interface ClientResponse {
     postalCode: string;
     website: string;
     commercialType: string;
-    annualPurchaseVolume: string;
-    paymentConditions: string;
+    purchaseVolumeLabel: string | null;
+    paymentTermLabel: string | null;
     shippingMethod: string;
     email: string;
     phone: string;

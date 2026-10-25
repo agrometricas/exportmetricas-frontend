@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
 import { useCreateClient } from '@/hooks/export/client/createClient';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { clientTermsBody } from '../../../utils/clientTerms';
 import { initialValues, validationSchema, ValuesProps } from '../schemas/client.schema';
 
 export function useSubmitClient(): {
@@ -22,10 +23,25 @@ export function useSubmitClient(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, ...clientData } = values;
+        const {
+            dataReviewed,
+            purchaseVolumeBoxes,
+            purchaseVolumePeriod,
+            paymentTermValue,
+            paymentTermUnit,
+            ...clientData
+        } = values;
         dataReviewed;
         createClient(
-            { ...clientData },
+            {
+                ...clientData,
+                ...clientTermsBody({
+                    purchaseVolumeBoxes,
+                    purchaseVolumePeriod,
+                    paymentTermValue,
+                    paymentTermUnit,
+                }),
+            },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
                     const { response } = error;

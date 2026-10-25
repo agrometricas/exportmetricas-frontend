@@ -1,4 +1,5 @@
 import { ContactType } from "./merchant/contact";
+import { TimeUnit } from "../utils/clientTerms";
 
 export type ClientType = {
   id: number;
@@ -11,8 +12,10 @@ export type ClientType = {
   email: string;
   phone: string;
   website: string;
-  annualPurchaseVolume: string;
-  paymentConditions: string;
+  purchaseVolumeBoxes?: number | null;
+  purchaseVolumePeriod?: TimeUnit | null;
+  paymentTermValue?: number | null;
+  paymentTermUnit?: TimeUnit | null;
   shippingMethod: string;
   countryId: number | '';
   provinceId: number | '';
