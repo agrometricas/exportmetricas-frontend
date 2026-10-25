@@ -43,6 +43,8 @@ export type BoxBrandType = {
   boxQuantity: number | '';
   netWeightBox: number | '';
   grossWeightBox: number | '';
+  netWeightKg?: number;
+  grossWeightKg?: number;
   cargoType?: CargoType;
   boxTypeId?: number | null;
   boxType?: { id: number; name: string } | null;

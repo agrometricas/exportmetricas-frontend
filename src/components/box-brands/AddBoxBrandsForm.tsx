@@ -342,7 +342,10 @@ const validationSchema = Yup.object({
   grossWeightBox: Yup.number()
     .moreThan(0, 'Debe ser mayor que 0')
     .lessThan(100, 'Debe ser menor que 100 libras')
-    .min(Yup.ref('netWeightBox'), 'Debe ser mayor que el peso neto de la caja')
+    .min(
+      Yup.ref('netWeightBox'),
+      'No puede ser menor que el peso neto de la caja'
+    )
     .test(
       'is-decimal',
       'Debe tener como máximo 2 decimales',
@@ -1010,8 +1013,8 @@ const specificationsInputFieldsText: InputFieldProps[] = [
 ];
 
 const weightInputFields: InputFieldProps[] = [
-  { name: 'netWeightBox', label: 'Peso Neto de Caja', unit: 'LBS' },
-  { name: 'grossWeightBox', label: 'Peso Bruto de Caja', unit: 'LBS' },
+  { name: 'netWeightBox', label: 'Peso Neto de Caja', unit: 'lb' },
+  { name: 'grossWeightBox', label: 'Peso Bruto de Caja', unit: 'lb' },
 ];
 
 function ClearPalletsOnBulk(): null {

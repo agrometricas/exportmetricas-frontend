@@ -30,7 +30,9 @@ Insecticidas, stickers y hojas se escriben a mano.
 
 En el formulario `name` se rotula *Nickname* —el nombre con que la exportadora
 identifica la caja—, `boxQuantity` es *Número de Cajas/Contenedor* y los dos
-pesos van en libras.
+pesos se escriben en libras. La lista de alícuotas muestra cada peso en libras y
+en kilos (`formatBoxWeight`, `utils/boxWeight.ts`), con los kilos que trae la
+respuesta (`netWeightKg`, `grossWeightKg`).
 
 **Marca (`brand`):** `name`. **Certificado requerido:** `name`.
 
