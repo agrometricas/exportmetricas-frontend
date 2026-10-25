@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useSubmitProducer } from './hooks/useSubmitProducer';
+import { FARM_CODE_LABELS } from '../../utils/farmCodes';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
@@ -90,11 +91,11 @@ export default function AddProducerForm(): React.JSX.Element {
               />
               <InputFieldText
                 name={'businesses[0].codeMAGAP'}
-                label={'Código MAGAP'}
+                label={FARM_CODE_LABELS.MAGAP}
               />
               <InputFieldText
                 name={'businesses[0].codeAGROCALIDAD'}
-                label={'Código AGROCALIDAD'}
+                label={FARM_CODE_LABELS.AGROCALIDAD}
               />
               <InputFieldSelector
                 name={'businesses[0].fruitType'}

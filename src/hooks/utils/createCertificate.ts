@@ -11,6 +11,7 @@ interface CreateCertificateResponse {
 type CreateCertificateDTO = {
   name: string;
   certificateCode: string;
+  description: string;
   issueDate: string | Date;
   expirationDate: string | Date;
   logo: File | null;
@@ -24,6 +25,9 @@ const createCertificate = async (
   const formData = new FormData();
   formData.append('name', data.name);
   formData.append('certificateCode', data.certificateCode);
+  if (data.description.trim()) {
+    formData.append('description', data.description.trim());
+  }
 
   const issueDate =
     typeof data.issueDate === 'string'

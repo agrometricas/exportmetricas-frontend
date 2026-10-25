@@ -3,6 +3,7 @@ import {
   BusinessDetail,
   BusinessUpdateBody,
 } from '../../../types/merchant/businessDetail';
+import { farmCodeSchema } from '../../../utils/farmCodes';
 import { isHectares } from '../areaSchema';
 
 export interface CodeValues {
@@ -133,42 +134,46 @@ const optionalNumber = (
 
 // The same limits the backend enforces: the edit has to accept whatever the
 // farm was created or imported with.
-export const editBusinessSchema = Yup.object({
-  name: Yup.string().trim().required('Requerido').max(100, 'Máximo 100'),
-  area: Yup.string()
-    .required('Requerido')
-    .test('area', 'Mayor que 0 y con hasta dos decimales', (value) =>
-      isHectares(value)
-    ),
-  fruitType: Yup.string()
-    .oneOf(['Orgánica', 'Convencional'], 'Tipo de fruta no válido')
-    .required('Requerido'),
-  codeMAGAP: Yup.string().trim().required('Requerido'),
-  codeAGROCALIDAD: Yup.string().trim().required('Requerido'),
-  latitude: optionalNumber(-90, 90, 'La latitud va'),
-  longitude: optionalNumber(-180, 180, 'La longitud va'),
-  businessCodes: Yup.array()
-    .of(
-      Yup.object({
-        code: Yup.string()
-          .trim()
-          .required('Requerido')
-          .min(5, 'Entre 5 y 20 caracteres')
-          .max(20, 'Entre 5 y 20 caracteres')
-          .matches(/^[a-zA-Z0-9]*$/, 'Solo letras y números'),
-      })
-    )
-    .required(),
-  contacts: Yup.array()
-    .of(
-      Yup.object({
-        name: Yup.string().trim().required('Requerido'),
-        email: Yup.string().trim().email('Correo inválido'),
-        phone: Yup.string()
-          .trim()
-          .required('Requerido')
-          .matches(/^(\+[0-9]{1,3})?[0-9]{7,14}$/, 'Teléfono no válido'),
-      })
-    )
-    .required(),
-});
+export const editBusinessSchema = (saved: {
+  codeMAGAP: string;
+  codeAGROCALIDAD: string;
+}): Yup.AnyObjectSchema =>
+  Yup.object({
+    name: Yup.string().trim().required('Requerido').max(100, 'Máximo 100'),
+    area: Yup.string()
+      .required('Requerido')
+      .test('area', 'Mayor que 0 y con hasta dos decimales', (value) =>
+        isHectares(value)
+      ),
+    fruitType: Yup.string()
+      .oneOf(['Orgánica', 'Convencional'], 'Tipo de fruta no válido')
+      .required('Requerido'),
+    codeMAGAP: farmCodeSchema('MAGAP', saved.codeMAGAP),
+    codeAGROCALIDAD: farmCodeSchema('AGROCALIDAD', saved.codeAGROCALIDAD),
+    latitude: optionalNumber(-90, 90, 'La latitud va'),
+    longitude: optionalNumber(-180, 180, 'La longitud va'),
+    businessCodes: Yup.array()
+      .of(
+        Yup.object({
+          code: Yup.string()
+            .trim()
+            .required('Requerido')
+            .min(5, 'Entre 5 y 20 caracteres')
+            .max(20, 'Entre 5 y 20 caracteres')
+            .matches(/^[a-zA-Z0-9]*$/, 'Solo letras y números'),
+        })
+      )
+      .required(),
+    contacts: Yup.array()
+      .of(
+        Yup.object({
+          name: Yup.string().trim().required('Requerido'),
+          email: Yup.string().trim().email('Correo inválido'),
+          phone: Yup.string()
+            .trim()
+            .required('Requerido')
+            .matches(/^(\+[0-9]{1,3})?[0-9]{7,14}$/, 'Teléfono no válido'),
+        })
+      )
+      .required(),
+  });

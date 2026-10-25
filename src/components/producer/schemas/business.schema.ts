@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { farmCodeSchema } from '../../../utils/farmCodes';
 import { areaSchema } from '../../business/areaSchema';
 
 export interface ContactsProps {
@@ -90,18 +91,8 @@ export const validationSchema = Yup.object({
         .transform((v) => v.trim())
         .required('Requerido'),
     area: areaSchema,
-    codeMAGAP: Yup.string()
-        .min(5, 'Debe tener al menos 5 caracteres')
-        .max(50, 'Debe tener 50 caracteres o menos')
-        .matches(/^[a-zA-Z0-9]+$/, 'Solo debe contener letras y números')
-        .transform((v) => v.trim())
-        .required('Requerido'),
-    codeAGROCALIDAD: Yup.string()
-        .min(5, 'Debe tener al menos 5 caracteres')
-        .max(50, 'Debe tener 50 caracteres o menos')
-        .matches(/^[a-zA-Z0-9]+$/, 'Solo debe contener letras y números')
-        .transform((v) => v.trim())
-        .required('Requerido'),
+    codeMAGAP: farmCodeSchema('MAGAP'),
+    codeAGROCALIDAD: farmCodeSchema('AGROCALIDAD'),
     fruitType: Yup.string()
         .oneOf(['Orgánica', 'Convencional'], 'Tipo de fruta no válido')
         .required('Requerido'),

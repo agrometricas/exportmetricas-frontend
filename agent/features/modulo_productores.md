@@ -21,6 +21,15 @@ productor tiene una o más fincas.
 `area`, `codeMAGAP`, `codeAGROCALIDAD`, ubicación, `latitude?`, `longitude?`,
 `certificates[]` (ids), `businessCodes[]`, `contacts[]`.
 
+El código MAGAP tiene 6 letras o números y el AGROCALIDAD de 6 a 12, sin
+espacios ni símbolos: `farmCodeSchema` (`utils/farmCodes.ts`) en el alta del
+productor, el onboarding, el alta y la edición de la finca. Al editar, un
+código que no cambió se acepta como está, igual que en el backend.
+
+**Certificado:** `name`, `certificateCode` (de 7 a 20 caracteres),
+`description?` (el enfoque, hasta 300), las fechas y el logo. Al elegir
+certificados, la lista muestra el enfoque debajo del nombre.
+
 El área va en hectáreas, mayor que cero y con hasta dos decimales: la regla es
 `areaSchema` (`components/business/`) en el alta del productor, el onboarding,
 el alta y la edición de la finca, y el campo redondea a dos decimales al salir.

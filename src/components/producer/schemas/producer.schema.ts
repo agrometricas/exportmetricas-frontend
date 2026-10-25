@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { farmCodeSchema } from '../../../utils/farmCodes';
 import { areaSchema } from '../../business/areaSchema';
 
 export interface ContactsProps {
@@ -135,18 +136,8 @@ const businessSchema = Yup.object().shape({
         .of(Yup.number().typeError('Certificado inválido'))
         .min(1, 'Debe seleccionar al menos un certificado')
         .required('Los certificados son requeridos'),
-    codeMAGAP: Yup.string()
-        .min(5)
-        .max(50)
-        .matches(/^[a-zA-Z0-9]+$/)
-        .transform((v) => v.trim())
-        .required('Requerido'),
-    codeAGROCALIDAD: Yup.string()
-        .min(5)
-        .max(50)
-        .matches(/^[a-zA-Z0-9]+$/)
-        .transform((v) => v.trim())
-        .required('Requerido'),
+    codeMAGAP: farmCodeSchema('MAGAP'),
+    codeAGROCALIDAD: farmCodeSchema('AGROCALIDAD'),
     businessCodes: Yup.array().of(businessCodeSchema).min(1),
     contacts: Yup.array().of(contactSchema).min(1),
 });
