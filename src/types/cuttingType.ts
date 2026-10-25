@@ -26,6 +26,7 @@ export type CuttingType = {
   blockingSheetsDetail: string;
   transportDetail: string;
   generalObservations?: string | null;
+  boxBrandId?: number;
 };
 
 export interface CuttingTypeOptions {

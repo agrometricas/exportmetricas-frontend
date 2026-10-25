@@ -26,6 +26,14 @@ La calidad y los saneos salen de `GET /cutting-type/options`
 y los saneos se eligen de sus sugerencias (1, 2, N/A) o se escribe otro valor,
 de hasta 30 caracteres.
 
+Un tipo de corte se edita desde *Editar* en su fila
+(`/dashboard/box-brands/cutting-types/[id]`): el mismo formulario del alta,
+cargado con `GET /cutting-type/:id`, guarda con `PUT /cutting-type/:id`. Los
+valores del formulario y el body salen de `utils/cuttingTypeForm.ts`; un valor
+guardado que no está en las listas de líneas o de patrón de empaque se sigue
+ofreciendo (`optionsWithSaved`). Guardar invalida `cuttingTypes` y
+`cuttingType`. Las hojas ya generadas no cambian.
+
 Dos campos del tipo de corte se rotulan distinto de lo que su nombre sugiere:
 `shipmentType` es *Nombre del Tipo de Corte* y `transportDetail` es *Detalle del
 Termógrafo*.
@@ -91,7 +99,7 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
 | Hojas generadas | `components/export/cutting-sheet/table-cutting-sheets/` |
 | Tipos de corte | `components/export/cutting-type/` |
 | Verificadoras | `components/verifier/` |
-| Páginas | `app/dashboard/export/{cutting-sheets, cutting-sheets/[id], add-cutting-sheet, add-cutting-sheet/[id]}/page.tsx`, `app/dashboard/box-brands/{cutting-types, add-cutting-type, verifiers, add-verifier}/page.tsx` |
+| Páginas | `app/dashboard/export/{cutting-sheets, cutting-sheets/[id], add-cutting-sheet, add-cutting-sheet/[id]}/page.tsx`, `app/dashboard/box-brands/{cutting-types, cutting-types/[id], add-cutting-type, verifiers, add-verifier}/page.tsx` |
 | Tipos | `types/cuttingSheet*.ts`, `types/cuttingType.ts`, `types/verifier/` |
 | Hooks | `hooks/export/cuttingSheet/`, `hooks/export/cutting-type/`, `hooks/verifier/` |
 

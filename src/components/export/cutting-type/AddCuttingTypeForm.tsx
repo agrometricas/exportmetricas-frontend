@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
   Button,
@@ -10,6 +8,7 @@ import {
   useToast,
   Text,
 } from '@chakra-ui/react';
+import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -18,72 +17,21 @@ import * as Yup from 'yup';
 import { useBoxBrand } from '../../../hooks/box-brand/getBoxBrand';
 import { useCreateCuttingType } from '../../../hooks/export/cutting-type/createCuttingType';
 import { useCuttingTypeOptions } from '../../../hooks/export/cutting-type/getCuttingTypeOptions';
-import { CuttingTypeOptions } from '../../../types/cuttingType';
+import { useUpdateCuttingType } from '../../../hooks/export/cutting-type/updateCuttingType';
+import { CuttingType, CuttingTypeOptions } from '../../../types/cuttingType';
+import {
+  cuttingTypeBody,
+  CuttingTypeFormValues,
+  cuttingTypeFormValues,
+  EMPTY_CUTTING_TYPE,
+  optionsWithSaved,
+} from '../../../utils/cuttingTypeForm';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
 import CheckboxForm from '../../ui/form/CheckboxForm';
-import InputFieldNumber from '../../ui/form/InputFieldNumber';
 import InputFieldPlain from '../../ui/form/InputFieldPlain';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
-import InputFieldText from '../../ui/form/InputFieldText';
 import InputFieldTextArea from '../../ui/form/InputFieldTextArea';
-
-interface ValuesProps {
-  boxBrandId: number | '';
-  quality: string;
-  shipmentType: string;
-  leavesAtHarvest: number | '';
-  maxAgeAtCut: number | '';
-  minCaliber: number | '';
-  maxCaliber: number | '';
-  fingerLength: string;
-  saneos: string;
-  cunas: string;
-  clusterDetail: string;
-  labelDetail: string;
-  firstLine?: string;
-  secondLine?: string;
-  thirdLine?: string;
-  fourthLine?: string;
-  packagingPattern: string;
-  palletDetail: string;
-  cornerProtectorsDetail: string;
-  reinforcementsDetail: string;
-  plasticStrapsDetail: string;
-  staplesDetail: string;
-  blockingSheetsDetail: string;
-  transportDetail: string;
-  generalObservations?: string;
-  dataReviewed: boolean;
-}
-
-const initialValues: ValuesProps = {
-  quality: '',
-  shipmentType: '',
-  leavesAtHarvest: '',
-  maxAgeAtCut: '',
-  minCaliber: '',
-  maxCaliber: '',
-  fingerLength: '',
-  saneos: '',
-  cunas: '',
-  clusterDetail: '',
-  labelDetail: '',
-  firstLine: '',
-  secondLine: '',
-  thirdLine: '',
-  fourthLine: '',
-  packagingPattern: '',
-  palletDetail: '',
-  cornerProtectorsDetail: '',
-  reinforcementsDetail: '',
-  plasticStrapsDetail: '',
-  staplesDetail: '',
-  blockingSheetsDetail: '',
-  transportDetail: '',
-  generalObservations: '',
-  boxBrandId: '',
-  dataReviewed: false,
-};
 
 const validationSchema = Yup.object({
   boxBrandId: Yup.number()
@@ -152,78 +100,85 @@ const packagingPatternOptions = [
   },
 ];
 
-const AddCuttingTypeForm = (): React.JSX.Element => {
+const AddCuttingTypeForm = ({
+  cuttingType,
+}: {
+  cuttingType?: CuttingType;
+}): React.JSX.Element => {
   const router = useRouter();
   const toast = useToast();
+  const queryClient = useQueryClient();
+  const isEdit = Boolean(cuttingType?.id);
   const { createCuttingType, isLoading: createLoading } =
     useCreateCuttingType();
+  const { mutate: updateCuttingType, isLoading: updateLoading } =
+    useUpdateCuttingType();
   const { data: optionsData } = useCuttingTypeOptions();
   const options = optionsData as CuttingTypeOptions | undefined;
   const [selectedBoxBrandId, setSelectedBoxBrandId] = React.useState<
     string | null
-  >(null);
+  >(cuttingType?.boxBrandId ? String(cuttingType.boxBrandId) : null);
   const { data: boxBrandDetails } = useBoxBrand({
     boxBrandId: selectedBoxBrandId || '',
   });
 
-  const onSubmit = async (
-    values: ValuesProps,
-    formikHelpers: FormikHelpers<ValuesProps>
-  ): Promise<void> => {
-    const transformedValues = {
-      ...values,
-      leavesAtHarvest: Number(values.leavesAtHarvest),
-      maxAgeAtCut: Number(values.maxAgeAtCut),
-      minCaliber: Number(values.minCaliber),
-      maxCaliber: Number(values.maxCaliber),
-    };
-    const { dataReviewed, ...cuttingTypeData } = transformedValues;
+  const onError = (error: unknown): void => {
+    if (isAxiosError(error) && error.response?.status === 401) {
+      router.push('/api/auth/signout');
+      return;
+    }
+    toast({
+      title: isEdit
+        ? 'No se guardó el tipo de corte'
+        : 'No se creó el tipo de corte',
+      description: serverErrorMessage(error),
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
-    createCuttingType(
-      {
-        ...cuttingTypeData,
+  const onSaved = (title: string): void => {
+    toast({ title, status: 'success', duration: 5000, isClosable: true });
+    queryClient.invalidateQueries('cuttingTypes');
+    queryClient.invalidateQueries('cuttingType');
+    router.push('/dashboard/box-brands/cutting-types');
+  };
+
+  const onSubmit = (
+    values: CuttingTypeFormValues,
+    formikHelpers: FormikHelpers<CuttingTypeFormValues>
+  ): void => {
+    const body = cuttingTypeBody(values);
+    if (isEdit && cuttingType) {
+      updateCuttingType(
+        { id: Number(cuttingType.id), body },
+        {
+          onError,
+          onSuccess: () => onSaved('Tipo de corte actualizado'),
+        }
+      );
+      return;
+    }
+    createCuttingType(body, {
+      onError,
+      onSuccess: () => {
+        formikHelpers.resetForm();
+        onSaved('Tipo de Corte Creado con Éxito');
       },
-      {
-        onError: (error: any) => {
-          const { response } = error;
-          const { data } = response;
-          const { statusCode, message, error: errorTitle } = data;
-          {
-            toast({
-              title: `Error ${statusCode}: ${errorTitle} `,
-              description: `${message}`,
-              status: 'error',
-              duration: 5000,
-              isClosable: true,
-            });
-
-            if (statusCode === 401) {
-              router.push('/api/auth/signout');
-            }
-          }
-        },
-        onSuccess: async () => {
-          toast({
-            title: 'Tipo de Corte Creado con Éxito',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-          });
-          formikHelpers.resetForm();
-          router.push('/dashboard/box-brands/cutting-types');
-        },
-      }
-    );
+    });
   };
 
   return (
     <>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          cuttingType ? cuttingTypeFormValues(cuttingType) : EMPTY_CUTTING_TYPE
+        }
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, values }) => (
+        {({ isSubmitting }) => (
           <Form>
             <Flex flexDirection='column' gap={2}>
               <Heading fontSize={'2xl'} p={'12px'}>
@@ -233,15 +188,18 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
 
               <SelectBoxBrand
                 name={'boxBrandId'}
-                setBoxBrandSelect={(selectedBoxBrand) =>
-                  setSelectedBoxBrandId(
-                    selectedBoxBrand?.id?.toString() || null
-                  )
-                }
+                boxBrandSelect={isEdit ? boxBrandDetails : undefined}
+                setBoxBrandSelect={(selectedBoxBrand) => {
+                  // The select reports null when it mounts; keep the saved
+                  // box brand of an edit instead of dropping it.
+                  if (selectedBoxBrand?.id) {
+                    setSelectedBoxBrandId(String(selectedBoxBrand.id));
+                  }
+                }}
               />
 
               <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                <InputFieldText
+                <InputFieldPlain
                   name='shipmentType'
                   label='Nombre del Tipo de Corte'
                 />
@@ -293,27 +251,27 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                 <Text>No se ha seleccionado una marca de caja.</Text>
               )}
               <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                <InputFieldNumber
+                <InputFieldPlain
                   name='leavesAtHarvest'
                   label='Hojas en Cosecha'
                   placeholder='Numero Mínimo de Hojas Funcionales'
                 />
-                <InputFieldNumber
+                <InputFieldPlain
                   name='maxAgeAtCut'
                   label='Edad Máxima al Corte'
                   placeholder='Numero de Semanas al Corte'
                 />
-                <InputFieldNumber
+                <InputFieldPlain
                   name='minCaliber'
                   label='Calibre Mínimo'
                   placeholder='Numero de Calibre Mínimo'
                 />
-                <InputFieldNumber
+                <InputFieldPlain
                   name='maxCaliber'
                   label='Calibre Máximo'
                   placeholder='Numero de Calibre Maximo'
                 />
-                <InputFieldText
+                <InputFieldPlain
                   name='fingerLength'
                   label='Largo del Dedo'
                   placeholder='Longitud Mínima del Dedo en Pulgadas'
@@ -324,17 +282,17 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder={`${(options?.saneos ?? []).join(', ')} u otro valor`}
                   suggestions={options?.saneos ?? []}
                 />
-                <InputFieldText
+                <InputFieldPlain
                   name='cunas'
                   label='Cuñas'
                   placeholder='Cuñas por Caja'
                 />
-                <InputFieldText
+                <InputFieldPlain
                   name='clusterDetail'
                   label='Detalle de Cluster'
                   placeholder='Cantidad Mínima y Maxima de # de Dedos por Cluster'
                 />
-                <InputFieldText
+                <InputFieldPlain
                   name='labelDetail'
                   label='Detalle de Etiqueta'
                   placeholder='Detalle de Distribucion de Etiquetas'
@@ -352,7 +310,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder='Seleccione el Diseño de la Primera Línea'
                   flexDirection='column'
                   alignItems='flex-end'
-                  options={lineOptions}
+                  options={optionsWithSaved(
+                    lineOptions,
+                    cuttingType?.firstLine
+                  )}
                 />
                 <InputFieldSelector
                   name={'secondLine'}
@@ -360,7 +321,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder='Seleccione el Diseño de la Segunda Línea'
                   flexDirection='column'
                   alignItems='flex-end'
-                  options={lineOptions}
+                  options={optionsWithSaved(
+                    lineOptions,
+                    cuttingType?.secondLine
+                  )}
                 />
                 <InputFieldSelector
                   name={'thirdLine'}
@@ -368,7 +332,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder='Seleccione el Diseño de la Tercera Línea'
                   flexDirection='column'
                   alignItems='flex-end'
-                  options={lineOptions}
+                  options={optionsWithSaved(
+                    lineOptions,
+                    cuttingType?.thirdLine
+                  )}
                 />
                 <InputFieldSelector
                   name={'fourthLine'}
@@ -376,7 +343,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder='Seleccione el Diseño de la Cuarta Línea'
                   flexDirection='column'
                   alignItems='flex-end'
-                  options={lineOptions}
+                  options={optionsWithSaved(
+                    lineOptions,
+                    cuttingType?.fourthLine
+                  )}
                 />
                 <InputFieldSelector
                   name={'packagingPattern'}
@@ -384,7 +354,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   placeholder='Seleccione el Patrón de Empaque'
                   flexDirection='column'
                   alignItems='flex-end'
-                  options={packagingPatternOptions}
+                  options={optionsWithSaved(
+                    packagingPatternOptions,
+                    cuttingType?.packagingPattern
+                  )}
                 />
               </SimpleGrid>
               <Heading fontSize={'2xl'} p={'12px'}>
@@ -484,37 +457,37 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                 <Text>No se ha seleccionado una marca de caja.</Text>
               )}
 
-              <InputFieldText
+              <InputFieldPlain
                 name='palletDetail'
                 label='Detalle de los Pallets'
                 placeholder='Indique el Uso o Disposición de los Pallets'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='cornerProtectorsDetail'
                 label='Detalle de los Esquineros'
                 placeholder='Indique el Uso o Disposición de los Esquineros'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='reinforcementsDetail'
                 label='Detalle de los Refuerzos'
                 placeholder='Indique el Uso o Disposición de los Refuerzos'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='plasticStrapsDetail'
                 label='Detalle de los Zunchos Plasticos'
                 placeholder='Indique el Uso o Disposición de los Zunchos Plasticos'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='staplesDetail'
                 label='Detalle de las Grapas'
                 placeholder='Indique el Uso o Disposición de las Grapas'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='blockingSheetsDetail'
                 label='Detalle de las Laminas de Bloqueo'
                 placeholder='Indique el Uso o Disposición de las Laminas de Bloqueo'
               />
-              <InputFieldText
+              <InputFieldPlain
                 name='transportDetail'
                 label='Detalle del Termografo'
                 placeholder='Indique el Uso o Ubicación del Termografo'
@@ -535,10 +508,10 @@ const AddCuttingTypeForm = (): React.JSX.Element => {
                   px='16px'
                   type='submit'
                   colorScheme='teal'
-                  isLoading={createLoading}
+                  isLoading={createLoading || updateLoading}
                   isDisabled={isSubmitting}
                 >
-                  Enviar
+                  {isEdit ? 'Guardar Cambios' : 'Enviar'}
                 </Button>
               </SimpleGrid>
             </Flex>
