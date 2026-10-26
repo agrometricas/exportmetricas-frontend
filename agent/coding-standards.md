@@ -77,6 +77,9 @@ the backend proposes.
   `useBanChange` (`components/ui/form/`).
 - A required select with a single option picks it (`BusinessSelectBase`,
   `BoxBrandSelectBase` do).
+- A long form renders `<UnsavedChangesGuard isDirty={dirty && !isSubmitting} />`
+  inside its `<Form>`. Formik's `dirty` alone is not enough: some forms change
+  their own values on mount, so the guard also waits for a user edit.
 - The "He revisado los datos" checkbox is kept only on the steps that move
   stock or money: supply shipment, cutting sheet, validated costs, producer and
   client payments, stock adjustment and initial stock. Catalog and export forms
