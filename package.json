@@ -28,7 +28,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^11.0.6",
     "material-react-table": "^2.13.0",
-    "next": "^14.2.35",
+    "next": "^15.5.28",
     "next-auth": "^4.24.15",
     "prettier": "^3.2.5",
     "react": "^18",
@@ -44,16 +44,13 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "eslint": "^8",
-    "eslint-config-next": "14.2.35",
+    "eslint-config-next": "^15.5.28",
     "typescript": "^5",
     "vitest": "^5.0.5"
   },
   "overrides": {
     "next": {
       "postcss": "8.5.31"
-    },
-    "@next/eslint-plugin-next": {
-      "glob": "10.5.0"
     },
     "@typescript-eslint/typescript-estree": {
       "minimatch": "9.0.9"

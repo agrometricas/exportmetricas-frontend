@@ -10,7 +10,7 @@
 
 ## Qué es esta app
 
-App **Next.js 14 (App Router)** para el personal de una **exportadora de
+App **Next.js 15 (App Router)** para el personal de una **exportadora de
 banano**. Gestiona el ciclo de un embarque de punta a punta: a quién se le
 compra la fruta, a quién se le vende, con qué caja y qué materiales se despacha,
 cuánto material hay en bodega y en cada finca, y cómo se liquida con el
@@ -153,8 +153,10 @@ local en ISO.
 
 ### Stack
 
-Next.js 14 App Router · React 18 · TypeScript. UI con **Chakra UI**; tablas con
-**Material React Table** (que trae MUI como motor); gráficos con **recharts**;
+Next.js 15 App Router · TypeScript. El App Router corre con la copia de React 19
+que trae Next; `react` 18 sigue instalado porque react-query 3 y
+chakra-react-select 4 no aceptan React 19 como dependencia. UI con
+**Chakra UI**; tablas con **Material React Table** (que trae MUI como motor); gráficos con **recharts**;
 formularios con **Formik + Yup**; fechas con **date-fns**.
 
 ### Datos: react-query (v3)

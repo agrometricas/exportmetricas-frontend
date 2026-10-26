@@ -10,14 +10,22 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import SignInForm from '../../../components/signin/SignInForm';
 import { Logo } from '../../../components/ui/Logo';
 
-type Props = {
-  searchParams?: Record<'callbackUrl' | 'error', string>;
-};
+function SignInFormWithParams(): JSX.Element {
+  const searchParams = useSearchParams();
+  return (
+    <SignInForm
+      error={searchParams.get('error') ?? undefined}
+      callbackUrl={searchParams.get('callbackUrl') ?? undefined}
+    />
+  );
+}
 
-const SignInPage = (props: Props): JSX.Element => {
+const SignInPage = (): JSX.Element => {
   return (
     <Center minH='100vh'>
       <Flex
@@ -52,10 +60,10 @@ const SignInPage = (props: Props): JSX.Element => {
 
         <Card variant='unstyled' mt='20px'>
           <CardBody w='100%'>
-            <SignInForm
-              error={props.searchParams?.error}
-              callbackUrl={props.searchParams?.callbackUrl}
-            />
+            {/* useSearchParams needs a Suspense boundary to build. */}
+            <Suspense fallback={null}>
+              <SignInFormWithParams />
+            </Suspense>
           </CardBody>
         </Card>
 

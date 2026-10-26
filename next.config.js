@@ -1,7 +1,7 @@
 module.exports = {
   images: {
-    // Next 14 has no fix for the remote code execution advisories in its image
-    // optimizer, and these images are signed R2 URLs that need no resizing.
+    // The images are signed R2 URLs, a new one on every request: the optimizer
+    // could not cache them, and they need no resizing.
     unoptimized: true,
     remotePatterns: [
       {
