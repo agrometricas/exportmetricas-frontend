@@ -87,11 +87,19 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
   (`boxBrandHasPallets`) están en `utils/cuttingSheetOptions.ts` para el alta,
   la corrección y el lote.
 
+### Lista de pendientes
+
+Los envíos sin hoja se muestran en una tabla (`PendingTable`) con fecha de
+corte, finca, productor, alícuota, cajas, cliente y ruta. *Realizar hoja de
+corte* pide confirmación y abre el formulario de ese envío.
+
 ### Hojas por lote
 
-Con dos o más hojas pendientes, arriba de la lista aparece *Generar varias a
-la vez* (`CuttingSheetBatchPanel`): una fila por envío, ordenada por fecha de
-corte, con su tipo de corte, su altura de pallets y su posición.
+Con dos o más hojas pendientes, arriba de la tabla aparece *Generar varias a
+la vez* (`CuttingSheetBatchPanel`), cerrado hasta que se pulsa *Abrir*: una
+fila por envío, ordenada por fecha de corte, con su tipo de corte, su altura
+de pallets y su posición. Los avisos del último lote se ven aunque esté
+cerrado.
 
 - El tipo de corte ofrece los de la alícuota (o todos si no tiene) y queda
   elegido si es uno solo; la altura queda en N/A si la alícuota no lleva
@@ -111,7 +119,7 @@ corte, con su tipo de corte, su altura de pallets y su posición.
 
 | Pieza | Archivo |
 |-------|---------|
-| Lista de pendientes | `components/export/cutting-sheet/{PendingCuttingSheetList, PendingCuttingSheetCard}.tsx` |
+| Lista de pendientes | `components/export/cutting-sheet/PendingCuttingSheetList.tsx`, `components/export/pendingColumns.tsx`, `components/ui/{PendingTable, OpenWithConfirmation}.tsx` |
 | Hojas por lote | `components/export/cutting-sheet/CuttingSheetBatchPanel.tsx`, `hooks/export/cuttingSheet/createCuttingSheetBatch.ts`, `utils/cuttingSheetBatch.ts`, `types/cuttingSheetBatch.ts` |
 | Formulario | `components/export/cutting-sheet/CuttingSheetForm.tsx` |
 | Corrección | `components/export/cutting-sheet/CorrectCuttingSheetForm.tsx` |

@@ -3,22 +3,24 @@ import {
   Box,
   Heading,
   VStack,
-  SimpleGrid,
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetBatchPanel from './CuttingSheetBatchPanel';
-import PendingCuttingSheetCard from './PendingCuttingSheetCard';
 import { useCuttingSheetsPending } from '../../../hooks/export/cuttingSheet/getExportsSentPending';
 import { usePagination } from '../../../hooks/usePagination';
 import { PendingSheet } from '../../../types/cuttingSheetBatch';
 import { ExportType } from '../../../types/export';
+import { ExportSentType } from '../../../types/exportSent';
+import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
+import PendingTable from '../../ui/PendingTable';
+import { pendingExportColumns } from '../pendingColumns';
 
 type ApiErrorData = {
   statusCode?: number;
@@ -37,6 +39,10 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const columns = useMemo(
+    () => pendingExportColumns<Partial<ExportSentType>>((row) => row.export),
+    []
+  );
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -78,18 +84,19 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
             description="Cada envío de insumos registrado aparece aquí para generar su hoja."
           />
       ) : (
-        <SimpleGrid
-          columns={{ base: 1, md: 2, xl: 3 }}
-          spacing={{ base: 4, md: 6 }}
-        >
-          {items.map((item) => (
-            <PendingCuttingSheetCard
-              key={item?.id}
-              exportItem={item}
-              pathname={pathname}
+        <PendingTable
+          columns={columns}
+          data={items as unknown as Partial<ExportSentType>[]}
+          rowId={(item) => Number(item.id)}
+          renderAction={(item) => (
+            <OpenWithConfirmation
+              href={`${pathname}/${item.export?.id ?? item.id}`}
+              label='Realizar hoja de corte'
+              title={`Abrir hoja de corte para: ${item.export?.merchant?.businessName || '—'} — ${item.export?.client?.businessName || '—'}`}
+              description='¿Estás seguro de que deseas empezar esta Hoja de Corte?'
             />
-          ))}
-        </SimpleGrid>
+          )}
+        />
       )}
     </VStack>
   );

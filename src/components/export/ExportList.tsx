@@ -4,23 +4,44 @@
 import {
   Badge,
   Box,
+  Button,
   Heading,
-  SimpleGrid,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
+import NextLink from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { MdLocalShipping } from 'react-icons/md';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
-import ExportCard from './ExportCard';
-import ShipmentBatchBar from './ShipmentBatchBar';
+import { pendingExportColumns, pendingExportLabel } from './pendingColumns';
+import { useCreateExportSentBatch } from '../../hooks/export/export-sent/createExportSentBatch';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
 import { usePagination } from '../../hooks/usePagination';
 import { ExportType } from '../../types/export';
-import { toggleId } from '../../utils/selection';
+import { shipmentBatchSummary } from '../../utils/shipmentBatch';
+import BatchActionBar from '../ui/BatchActionBar';
+import PendingTable from '../ui/PendingTable';
+
+const SHIPMENT_QUERIES = [
+  'exports',
+  'export',
+  'exportsPending',
+  'exportsSent',
+  'exportsSentPending',
+  'cuttingSheets',
+  'cuttingSheetsPending',
+  'exportSentCostsPending',
+  'clientPaymentsPending',
+  'exporterMaterialStock',
+  'businessStock',
+  'stockMovements',
+  'exportProgress',
+  'workQueue',
+];
 
 type ApiErrorData = {
   statusCode?: number;
@@ -34,6 +55,11 @@ const ExportList = (): React.JSX.Element => {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const { mutateAsync, isLoading: isSending } = useCreateExportSentBatch();
+  const columns = useMemo(
+    () => pendingExportColumns<Partial<ExportType>>((row) => row),
+    []
+  );
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
 
@@ -57,9 +83,8 @@ const ExportList = (): React.JSX.Element => {
   }
 
   const items = data as Partial<ExportType>[];
-  const canBatch = items.length > 1;
-  const visibleSelected = selectedIds.filter((id) =>
-    items.some((item) => Number(item.id) === id)
+  const selected = items.filter((item) =>
+    selectedIds.includes(Number(item.id))
   );
 
   return (
@@ -80,10 +105,35 @@ const ExportList = (): React.JSX.Element => {
       </Box>
 
       {items.length > 0 && (
-        <ShipmentBatchBar
-          items={items}
-          selectedIds={visibleSelected}
-          onSelectedChange={setSelectedIds}
+        <BatchActionBar
+          selected={selected}
+          keyOf={(item) => Number(item.id)}
+          labelOf={pendingExportLabel}
+          hint='Elige en la tabla las que salen con lo que propone su alícuota. Para cambiar una cantidad, abre esa exportación.'
+          icon={<MdLocalShipping />}
+          actionLabel='Enviar lo propuesto'
+          confirmTitle='Enviar los insumos propuestos'
+          confirmText={(count) =>
+            `Se registra el envío de ${count === 1 ? '1 exportación' : `${count} exportaciones`} con las cantidades que propone cada alícuota, y se descuenta del stock de cada finca.`
+          }
+          confirmLabel={(count) =>
+            `Registrar ${count === 1 ? '1 envío' : `${count} envíos`}`
+          }
+          failuresTitle='Quedaron sin enviar'
+          errorTitle='No se pudo registrar el lote'
+          affectedQueries={SHIPMENT_QUERIES}
+          isRunning={isSending}
+          run={async (ids) => {
+            const result = await mutateAsync(ids);
+            return {
+              failed: result.failed.map(({ exportId, message }) => ({
+                id: exportId,
+                message,
+              })),
+              summary: shipmentBatchSummary(result),
+            };
+          }}
+          onFinished={setSelectedIds}
         />
       )}
 
@@ -93,22 +143,23 @@ const ExportList = (): React.JSX.Element => {
             description="Cada exportación nueva aparece aquí para registrar sus insumos."
           />
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
-          {items.map((item) => (
-            <ExportCard
-              key={item.id}
-              exportItem={item}
-              pathname={pathname}
-              isSelected={visibleSelected.includes(Number(item.id))}
-              onToggleSelected={
-                canBatch
-                  ? (): void =>
-                      setSelectedIds((ids) => toggleId(ids, Number(item.id)))
-                  : undefined
-              }
-            />
-          ))}
-        </SimpleGrid>
+        <PendingTable
+          columns={columns}
+          data={items}
+          rowId={(item) => Number(item.id)}
+          selectedIds={selectedIds}
+          onSelectedChange={setSelectedIds}
+          renderAction={(item) => (
+            <Button
+              as={NextLink}
+              href={`${pathname}/${item.id}`}
+              size='sm'
+              colorScheme='green'
+            >
+              Realizar envío
+            </Button>
+          )}
+        />
       )}
     </VStack>
   );

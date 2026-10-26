@@ -247,19 +247,21 @@ toma su cantidad de la propuesta por el id del material (`proposedQuantity`,
 enviar. El esquema de validación se arma según qué materiales tiene la
 alícuota.
 
-### Envío por lote
+### Lista de pendientes y envío por lote
 
-Con dos o más exportaciones pendientes, cada tarjeta trae la casilla *Elegir*
-y arriba aparece *Elegir todas* con el botón **Enviar lo propuesto (N)**
-(`ShipmentBatchBar`). Después de confirmar en un modal que lista finca,
-alícuota, cajas y fecha de corte de cada una, la web manda solo los ids a
-`POST /export/export-sent/batch`; las cantidades son las que propone el
-backend, sin cambios. Para cambiar una cantidad se usa *Realizar envío*, que
-abre el formulario directo.
+Las exportaciones pendientes se muestran en una tabla (`PendingTable`) con
+fecha de corte, finca, productor, alícuota, cajas, cliente y ruta, ordenable y
+con búsqueda. *Realizar envío* abre el formulario de esa exportación.
+
+Cada fila trae su casilla, y arriba de la tabla está el botón **Enviar lo
+propuesto (N)** (`BatchActionBar`). Después de confirmar en un modal que lista
+finca, alícuota, cajas y fecha de corte de cada una, la web manda solo los ids
+a `POST /export/export-sent/batch`; las cantidades son las que propone el
+backend, sin cambios. Para cambiar una cantidad se usa *Realizar envío*.
 
 - La respuesta es `{ created, failed }`. El toast resume cuántos se
   registraron (`shipmentBatchSummary`, `utils/shipmentBatch.ts`), y las que
-  quedaron sin enviar siguen elegidas en la lista, con un aviso que dice cuál
+  quedaron sin enviar siguen elegidas en la tabla, con un aviso que dice cuál
   y por qué (el mensaje del backend, p. ej. la finca sin stock de un material)
 - La petición lleva su propio timeout de dos minutos: el backend registra un
   envío detrás de otro
@@ -294,8 +296,8 @@ abre el formulario directo.
 | Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
 | Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
 | Búsqueda rápida | `components/ui/header/QuickSearch.tsx`, `hooks/export/searchExports.ts`, `utils/exportSearch.ts`, `types/exportSearch.ts` |
-| Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
-| Envío por lote | `components/export/ShipmentBatchBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/{shipmentBatch, selection}.ts`, `types/exportSentBatch.ts` |
+| Lista de pendientes de envío | `components/export/{ExportList, pendingColumns}.tsx`, `components/ui/PendingTable.tsx` |
+| Envío por lote | `components/ui/BatchActionBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/{shipmentBatch, selection}.ts`, `types/exportSentBatch.ts` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
 | Envíos realizados | `components/liquidation/exports-sent/` |

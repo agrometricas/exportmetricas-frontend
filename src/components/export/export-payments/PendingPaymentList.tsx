@@ -4,20 +4,21 @@ import {
   Badge,
   Box,
   Heading,
-  SimpleGrid,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
-import PendingPaymentCard from './PendingPaymentCard';
 import { useExportsSentPending } from '../../../hooks/export/export-sent/getExportsSentPending';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportSentType } from '../../../types/exportSent';
+import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
+import PendingTable from '../../ui/PendingTable';
+import { pendingExportColumns } from '../pendingColumns';
 
 type ApiErrorData = {
   statusCode?: number;
@@ -30,6 +31,10 @@ const PendingPaymentList = (): React.JSX.Element => {
   const { data = [], isLoading, error, refetch } = useExportsSentPending(paginationParams);
   const router = useRouter();
   const pathname = usePathname();
+  const columns = useMemo(
+    () => pendingExportColumns<Partial<ExportSentType>>((row) => row.export),
+    []
+  );
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
 
@@ -77,11 +82,19 @@ const PendingPaymentList = (): React.JSX.Element => {
             description="Un envío aparece aquí cuando sus costos están validados."
           />
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
-          {items.map((item) => (
-            <PendingPaymentCard key={item.id} exportSentItem={item} pathname={pathname} />
-          ))}
-        </SimpleGrid>
+        <PendingTable
+          columns={columns}
+          data={items}
+          rowId={(item) => Number(item.id)}
+          renderAction={(item) => (
+            <OpenWithConfirmation
+              href={`${pathname}/${item.id}`}
+              label='Realizar pago'
+              title={`Abrir Pago Pendiente: ${item.export?.merchant?.businessName || '—'}`}
+              description='¿Estás seguro de que deseas empezar este Pago Pendiente?'
+            />
+          )}
+        />
       )}
     </VStack>
   );

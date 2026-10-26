@@ -21,6 +21,9 @@ export type ExportSentType = {
   id: number | '';
   export: Partial<ExportType>;
   exportId: number | '';
+  // computed by the backend on the cost review list
+  materialsCost?: number;
+  materialLines?: number;
   // materials
   bottomTypeQuantity: number | '';
   lidTypeQuantity: number | '';
