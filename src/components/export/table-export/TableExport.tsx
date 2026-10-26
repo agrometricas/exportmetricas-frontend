@@ -20,7 +20,13 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BsFillSendCheckFill, BsFillSendDashFill } from 'react-icons/bs';
 import { FiMoreVertical } from 'react-icons/fi';
-import { MdAssignment, MdBlock, MdContentCopy, MdEdit } from 'react-icons/md';
+import {
+  MdAssignment,
+  MdBlock,
+  MdContentCopy,
+  MdEdit,
+  MdTimeline,
+} from 'react-icons/md';
 import DetailExport from './DetailExport';
 import { useExports } from '../../../hooks/export/getExports';
 import { usePagination } from '../../../hooks/usePagination';
@@ -165,6 +171,12 @@ const TableExport = ({
                 />
                 <Portal>
                   <MenuList zIndex='popover'>
+                    <MenuItem
+                      icon={<MdTimeline />}
+                      onClick={() => router.push(`/dashboard/export/${id}`)}
+                    >
+                      Ver pasos y detalle
+                    </MenuItem>
                     <MenuItem
                       icon={<MdEdit />}
                       isDisabled={!canEdit}

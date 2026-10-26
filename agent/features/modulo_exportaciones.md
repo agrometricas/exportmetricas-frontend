@@ -102,6 +102,20 @@ sus números si ya se conocen.
   mayúsculas.
 - En la tabla de bookings, cada contenedor asignado muestra su exportación.
 
+### Ficha de la exportación (`/dashboard/export/[id]`)
+
+Junta la exportación en una sola pantalla: finca, cliente, cajas y corte, sus
+pasos (`ExportSteps`, de `GET /export/:id/progress`) y debajo el detalle de
+siempre (`DetailExport`). Cada paso muestra su estado tal como lo da el backend
+y, si se puede hacer, su botón (`stepAction`, `utils/exportSteps.ts`): el envío
+y la hoja de corte van con el id de la exportación; costos, pago y cobro con el
+del envío; la aduana abre su ventana ahí mismo. El paso que sigue va resaltado.
+
+Los enlaces llevan `?volver=` con la ficha, y los cinco formularios de paso
+vuelven ahí al guardar (`returnTo`, que solo acepta páginas de `/dashboard/`);
+sin `volver`, van a su lista de siempre. Se llega desde *Ver pasos y detalle*
+en el menú de cada fila de *Exportaciones* y desde Inicio.
+
 ### Documentos del embarque
 
 En la edición del booking, *Documentos del embarque* (`BookingDocuments`) lista
@@ -257,6 +271,7 @@ alícuota.
 | AUCP y DAE | `components/export/ExportCustomsModal.tsx`, `utils/customs.ts`, `hooks/export/updateExportCustoms.ts` |
 | Factura y packing list | `components/export/ExportDocumentsMenuItems.tsx`, `hooks/export/downloadShippingDocument.ts` |
 | Tabla y detalle | `components/export/table-export/` |
+| Ficha | `app/dashboard/export/[id]/page.tsx`, `components/export/progress/ExportSteps.tsx`, `hooks/export/exportProgress.ts`, `utils/exportSteps.ts` |
 | Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
 | Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
@@ -271,6 +286,9 @@ alícuota.
 
 Invalidaciones:
 
+- Cada paso de la exportación, la aduana, los documentos, cancelar y editar:
+  también `exportProgress` y `workQueue` (`PROGRESS_QUERIES`), para que la
+  ficha e Inicio se pongan al día.
 - Crear o editar una exportación: `exports`, `exportsPending`, `cuttingSheets`,
   `cuttingSheetsPending`; al editar, también `['export', id]`.
 - Cancelar: las listas de exportaciones y de pendientes, `export`, y las de

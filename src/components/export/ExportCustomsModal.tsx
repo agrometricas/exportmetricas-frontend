@@ -87,6 +87,8 @@ const AFFECTED_QUERIES = [
   'export',
   'bookingDocumentStatus',
   'documentBoard',
+  'exportProgress',
+  'workQueue',
 ];
 
 interface ExportCustomsModalProps {

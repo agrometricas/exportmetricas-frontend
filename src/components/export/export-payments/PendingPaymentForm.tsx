@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import SelectBankAccount from './bank-account/SelectBankAccount';
+import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
 import { useCreateProducerPayment } from '../../../hooks/export/producerPayment/createProducerPayment';
 import { useUploadTransferImage } from '../../../hooks/export/producerPayment/uploadTransferImage';
 import {
@@ -24,6 +25,7 @@ import { BoxBrandType } from '../../../types/box-brand/boxBrand';
 import { ExportSentType } from '../../../types/exportSent';
 import { HarborType } from '../../../types/harbor';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
+import { returnTo } from '../../../utils/exportSteps';
 import { getWeekInfo } from '../../../utils/getWeekInfo';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
@@ -454,7 +456,8 @@ const PendingPaymentForm = ({
       queryClient.invalidateQueries('producerPayments');
       queryClient.invalidateQueries('exportsSentPending');
       actions.resetForm();
-      router.push('/dashboard/liquidation/producer-payments');
+      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      router.push(returnTo('/dashboard/liquidation/producer-payments', window.location.search));
     } catch (error: unknown) {
       toast({
         title: 'Error',

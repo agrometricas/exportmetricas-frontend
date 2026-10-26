@@ -1,7 +1,7 @@
 # Módulo Inicio (`/dashboard`)
 
-> Pantalla de entrada después del login. No tiene endpoint propio: todo lo que
-> muestra se arma en el navegador a partir de listas que ya existen.
+> Pantalla de entrada después del login. *Lo que falta* sale de
+> `GET /export/work-queue`; el resto se arma con listas que ya existen.
 
 ### Propósito
 
@@ -15,9 +15,16 @@ cómo se compara con el precio spot.
 
 | Rol | Contenido |
 |-----|-----------|
-| `MASTER` | Alertas de cupo de la semana (`ContractUsageAlerts`), calendario y resumen semanal (`CalendarSummaryContainer`) |
-| `LOGISTICS`, `EXPORT` | Alertas de cupo de la semana y una tarjeta con texto de relleno |
-| `QUALITY`, `ADMINISTRATIVE` | El mensaje "No tienes acceso a contenido del dashboard" |
+| `MASTER` | *Lo que falta* completo, alertas de cupo de la semana (`ContractUsageAlerts`), calendario y resumen semanal (`CalendarSummaryContainer`) |
+| `EXPORT` | *Lo que falta* de su área (envío de insumos, aduana, documentos) y las alertas de cupo |
+| `QUALITY` | *Lo que falta* de su área (hojas de corte) |
+| `ADMINISTRATIVE` | *Lo que falta* de su área (costos, pagos y cobros) |
+| `LOGISTICS` | Las alertas de cupo; *Lo que falta* dice que no hay nada para su área |
+
+*Lo que falta* (`WorkQueuePanel`) muestra una tarjeta por paso con algo
+pendiente, con las primeras cuatro exportaciones: la finca enlaza a su ficha
+y el botón abre el paso, con regreso a Inicio. Qué paso ve cada rol está en
+`utils/workQueueAccess.ts`, con las mismas áreas que el menú.
 
 Todos ven el saludo con su nombre y el menú lateral de su rol.
 

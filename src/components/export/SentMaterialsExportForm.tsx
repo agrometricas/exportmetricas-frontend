@@ -25,8 +25,10 @@ import InputFieldSentSheets from './ui/InputFieldSentSheets';
 import InputFieldSentStickers from './ui/InputFieldSentStickers';
 import { useCreateExportSent } from '../../hooks/export/export-sent/createExportSent';
 import { useSuppliesProposal } from '../../hooks/export/export-sent/getSuppliesProposal';
+import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
 import { ExportResponse } from '../../types/export.response';
 import { SuppliesProposal } from '../../types/suppliesProposal';
+import { returnTo } from '../../utils/exportSteps';
 import { proposedQuantity } from '../../utils/suppliesProposal';
 import CheckboxForm from '../ui/form/CheckboxForm';
 
@@ -223,7 +225,8 @@ const SentMaterialsExportForm = ({
         queryClient.invalidateQueries('cuttingSheetsPending');
         queryClient.invalidateQueries('exportSentCostsPending');
         actions.resetForm();
-        router.push('/dashboard/liquidation/exports-sent');
+        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+        router.push(returnTo('/dashboard/liquidation/exports-sent', window.location.search));
       },
     });
   };

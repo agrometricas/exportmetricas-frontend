@@ -40,7 +40,8 @@ the backend proposes.
   response body, not the Axios response.
 - **The live `QueryClient` is the one created in `components/Providers.tsx`**,
   with `staleTime: Infinity` and no automatic refetch. Nothing refreshes by
-  itself: every mutation must invalidate the keys it affects, including the
+  itself: every mutation must invalidate the keys it affects (a key invalidated
+  while its page is closed loads again when the page opens), including the
   `…Pending` lists that feed the sidebar badges. The `queryClient` exported from
   `lib/react-query.ts` is not mounted — get the client with `useQueryClient()`.
 - The backend answers **200 with `[]` for an empty list**. Do not catch a 404
