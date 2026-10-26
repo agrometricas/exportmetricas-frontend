@@ -230,6 +230,9 @@ cada grupo por `allowedRoles`. `MASTER` ve todo.
 Es el reparto de menús por área que definió la operación al pedir el sistema,
 más Bodega, que se agregó después.
 
+Dentro de Configuraciones, *Usuarios* (invitar, cambiar el rol, eliminar) se
+muestra solo al `MASTER`, que es el único al que el backend se lo permite.
+
 El backend usa el mismo reparto para guardar: una ruta que crea, cambia o borra
 responde 403 a un rol fuera de su área, con el área a la que le corresponde en
 el mensaje. Las consultas son de todos. La web no bloquea pantallas por rol:
