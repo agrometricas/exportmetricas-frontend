@@ -32,6 +32,8 @@ const REASON_MAX_LENGTH = 300;
 const AFFECTED_QUERIES = [
   'exports',
   'export',
+  'exportProgress',
+  'workQueue',
   'exportsPending',
   'exportsSent',
   'exportsSentPending',
