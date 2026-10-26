@@ -9,11 +9,11 @@ import {
   Heading,
   Icon,
   Text,
-  Center,
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MdLocationOn } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import UpdateExporterForm from '../../../../../components/settings/UpdateExporterForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useExporter, UserProfile } from '../../../../../hooks/useUserProfile';
@@ -31,11 +31,7 @@ const UpdateExporterPage = (): JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="60vh" display="flex" alignItems="center" justifyContent="center">
-        <Center>
-          <Heading size="md">Cargando...</Heading>
-        </Center>
-      </Box>
+      <LoadingState minH='60vh' />
     );
   }
 

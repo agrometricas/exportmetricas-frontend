@@ -15,6 +15,7 @@ import { AxiosError } from 'axios';
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { FiDollarSign } from 'react-icons/fi';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ExportSentCostForm from '../../../../../components/export-cost/ExportSentCostForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useExportSent } from '../../../../../hooks/export/export-sent/getExportSent';
@@ -56,9 +57,7 @@ function ExportSentCostPage(): React.JSX.Element {
 
   if (isLoading) {
     return (
-      <Box minH="60vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='60vh' />
     );
   }
 

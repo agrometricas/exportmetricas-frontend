@@ -16,6 +16,7 @@ import {
 import { useParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineLocalShipping } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ExportSteps from '../../../../components/export/progress/ExportSteps';
 import DetailExport from '../../../../components/export/table-export/DetailExport';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
@@ -98,7 +99,7 @@ function ExportFilePage(): React.JSX.Element {
           <Divider />
           <CardBody>
             {isLoading || !exportItem ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <>
                 <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4} mb={5}>

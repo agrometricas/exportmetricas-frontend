@@ -16,6 +16,7 @@ import React from 'react';
 import { MdLocalShipping } from 'react-icons/md';
 import ExportFromLine from '@/components/purchase-order/ExportFromLine';
 import IsOnboarding from '@/components/ui/IsOnboarding';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { usePurchaseOrder } from '@/hooks/purchase-order/getPurchaseOrder';
 import { PurchaseOrderResponse } from '@/types/purchaseOrder';
 import { getWeekInfo } from '@/utils/getWeekInfo';
@@ -65,7 +66,7 @@ function ExportFromLinePage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !order ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <ExportFromLine order={order} lineId={Number(lineId)} />
             )}

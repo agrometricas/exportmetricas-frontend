@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdContentCut } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import AddCuttingTypeForm from '../../../../../components/export/cutting-type/AddCuttingTypeForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useCuttingType } from '../../../../../hooks/export/cutting-type/getCuttingType';
@@ -64,7 +65,7 @@ function EditCuttingTypePage(): React.JSX.Element {
 
           <CardBody>
             {isLoading ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : cuttingType ? (
               <AddCuttingTypeForm cuttingType={cuttingType} />
             ) : (

@@ -15,6 +15,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineBookOnline } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import BookingContainerSeals from '../../../../../components/booking/BookingContainerSeals';
 import BookingDocuments from '../../../../../components/booking/BookingDocuments';
 import BookingForm from '../../../../../components/booking/BookingForm';
@@ -64,7 +65,7 @@ function EditBookingPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !booking ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <Flex direction='column' gap={8}>
                 <BookingForm booking={booking as BookingResponse} />

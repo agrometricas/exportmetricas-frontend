@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, useFormikContext } from 'formik';
 import React, { useMemo } from 'react';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { counterpartRange, startOfMonth } from './counterpartRange';
 import { useCounterpartTotals } from '../../hooks/reports/counterpartTotals';
 import {
@@ -295,7 +296,7 @@ function Report(): React.JSX.Element {
         Exportaciones no canceladas con fecha de corte en el período, los dos
         días incluidos.
       </Text>
-      {isLoading && <Text>Cargando...</Text>}
+      {isLoading && <LoadingState />}
       {report && (
         <>
           <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={4}>

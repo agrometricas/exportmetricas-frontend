@@ -15,6 +15,7 @@ import { AxiosError } from 'axios';
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { MdContentCut } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetForm from '../../../../../components/export/cutting-sheet/CuttingSheetForm';
 import { useExportSent } from '../../../../../hooks/export/export-sent/getExportSent';
 import { useExport } from '../../../../../hooks/export/getExport';
@@ -67,9 +68,7 @@ const CuttingSheetPage = (): React.JSX.Element => {
 
   if (isLoading || isLoadingSent) {
     return (
-      <Box minH="60vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='60vh' />
     );
   }
 

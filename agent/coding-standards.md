@@ -49,6 +49,9 @@ the backend proposes.
   hooks pointed at endpoints that never existed.
 - The backend does not paginate. `search`, `page` and `limit` travel as query
   params and are ignored; tables paginate and filter in the browser.
+- `usePagination()` returns a new `paginationParams` object on every render.
+  Never list it as an effect dependency: an effect that invalidates a query on
+  it refetches in a loop.
 
 ## Mutations
 
@@ -98,7 +101,14 @@ the backend proposes.
   Table, bridged through `THEME_ID` in `Providers.tsx`. Do not build layout with
   MUI components. Date inputs are `InputFieldDayDate` and
   `InputFieldDayDateTime` (`components/ui/form/`), typed as `DD/MM/AAAA`.
-- Tables use Material React Table.
+- Tables use Material React Table, always with `localization:
+  MRT_Localization_ES`.
+- A screen that waits, finds nothing or fails uses `LoadingState`,
+  `EmptyState` and `ErrorState` (`components/ui/states/`). `ErrorState` shows
+  `serverErrorMessage` and a *Reintentar* button wired to the query's
+  `refetch`; a raw status code or an English message never reaches the user.
+  `serverErrorMessage` already turns a request without an answer, a timeout
+  and Nest's default 500 into Spanish.
 - The theme under `src/theme/` is **not mounted**: `Providers.tsx` runs on
   Chakra's default `extendTheme()`. Use Chakra tokens (`gray.700`, `green.500`)
   and `useColorModeValue`; do not add hex literals.

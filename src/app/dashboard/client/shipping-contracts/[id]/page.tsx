@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdDirectionsBoat } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ShippingContractForm from '../../../../../components/shipping-contract/ShippingContractForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useShippingContract } from '../../../../../hooks/shipping-contract/getShippingContract';
@@ -61,7 +62,7 @@ function EditShippingContractPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !contract ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <ShippingContractForm
                 contract={contract as ShippingContractResponse}
