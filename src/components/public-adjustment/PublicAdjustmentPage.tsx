@@ -15,6 +15,7 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import LoadingState from '@/components/ui/states/LoadingState';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldText from '../ui/form/InputFieldText';
 import { Logo } from '../ui/Logo';
@@ -66,7 +67,7 @@ export default function PublicAdjustmentPage(): JSX.Element {
     fetchData();
   }, [token]);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <LoadingState minH='100vh' />;
   if (!data) return <p>Token inválido o expirado.</p>;
 
   const initialValues: AdjustmentFormValues = {

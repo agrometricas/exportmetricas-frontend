@@ -2,6 +2,7 @@ import { Button, Flex, SimpleGrid, Text, useToast } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
+import LoadingState from '@/components/ui/states/LoadingState';
 import {
   useMaterialUnits,
   useUpdateMaterialUnits,
@@ -23,7 +24,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
   const { mutate: save, isLoading: isSaving } = useUpdateMaterialUnits();
   const config = data as MaterialUnitsResponse | undefined;
 
-  if (isLoading || !config) return <Text>Cargando...</Text>;
+  if (isLoading || !config) return <LoadingState />;
 
   const defaults = new Map(config.materials.map((m) => [m.materialType, m]));
   const initialValues: Values = Object.fromEntries(

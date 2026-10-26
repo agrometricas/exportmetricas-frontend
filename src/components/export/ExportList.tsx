@@ -4,16 +4,17 @@
 import {
   Badge,
   Box,
-  Center,
   Heading,
   SimpleGrid,
-  Text,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import EmptyState from '@/components/ui/states/EmptyState';
+import ErrorState from '@/components/ui/states/ErrorState';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ExportCard from './ExportCard';
 import ShipmentBatchBar from './ShipmentBatchBar';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
@@ -29,13 +30,12 @@ type ApiErrorData = {
 
 const ExportList = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useExportsPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportsPending(paginationParams);
   const router = useRouter();
   const pathname = usePathname();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -48,35 +48,12 @@ const ExportList = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='40vh' />
     );
   }
 
   if (error) {
-    if (isAxiosError<ApiErrorData>(error)) {
-      const { statusCode, message, error: errorTitle } = error.response?.data ?? {};
-      return (
-        <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-          <VStack spacing={2} align="center">
-            <Heading>
-              {statusCode ?? 'Error'}
-              {errorTitle ? ` - ${errorTitle}` : ''}
-            </Heading>
-            <Text color={textColor}>{message ?? 'Ocurrió un error inesperado'}</Text>
-          </VStack>
-        </Box>
-      );
-    }
-    return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={2} align="center">
-          <Heading>Error</Heading>
-          <Text color={textColor}>Ocurrió un error inesperado</Text>
-        </VStack>
-      </Box>
-    );
+    return <ErrorState error={error} onRetry={() => refetch()} />;
   }
 
   const items = data as Partial<ExportType>[];
@@ -111,16 +88,10 @@ const ExportList = (): React.JSX.Element => {
       )}
 
       {items.length === 0 ? (
-        <Center py={10}>
-          <VStack spacing={1}>
-            <Heading size="sm" color={headingColor}>
-              No existen exportaciones pendientes
-            </Heading>
-            <Text fontSize="sm" color={textColor}>
-              Cuando existan, aparecerán aquí.
-            </Text>
-          </VStack>
-        </Center>
+        <EmptyState
+            title="No hay exportaciones pendientes de envío"
+            description="Cada exportación nueva aparece aquí para registrar sus insumos."
+          />
       ) : (
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
           {items.map((item) => (

@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdAgriculture } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import EditBusinessForm from '../../../../../components/business/edit/EditBusinessForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useBusiness } from '../../../../../hooks/business/getBusiness';
@@ -63,7 +64,7 @@ function EditBusinessPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !business ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <EditBusinessForm business={business} />
             )}

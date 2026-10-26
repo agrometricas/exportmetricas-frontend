@@ -2,10 +2,8 @@
 
 import {
   Box,
-  Center,
   Heading,
   SimpleGrid,
-  Text,
   VStack,
   Badge,
   useColorModeValue,
@@ -14,6 +12,9 @@ import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
+import EmptyState from '@/components/ui/states/EmptyState';
+import ErrorState from '@/components/ui/states/ErrorState';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ExportCostCard from './ExportCostCard';
 import { useExportSentCostsPending } from '../../hooks/export/export-sent/getExportSentCostsPending';
 import { usePagination } from '../../hooks/usePagination';
@@ -27,18 +28,19 @@ type ApiErrorData = {
 
 const ExportCostList = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useExportSentCostsPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportSentCostsPending(paginationParams);
 
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
 
+  // Once per visit: paginationParams is a new object on every render, and
+  // depending on it refetched the list in a loop.
   useEffect(() => {
     queryClient.invalidateQueries('exportSentCostsPending');
-  }, [queryClient, paginationParams]);
+  }, [queryClient]);
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -49,35 +51,12 @@ const ExportCostList = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading size="md">Cargando...</Heading>
-      </Box>
+      <LoadingState minH='40vh' />
     );
   }
 
   if (error) {
-    if (isAxiosError<ApiErrorData>(error)) {
-      const { statusCode, message, error: errorTitle } = error.response?.data ?? {};
-      return (
-        <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-          <VStack spacing={2} align="center">
-            <Heading size="md">
-              {statusCode ?? 'Error'}
-              {errorTitle ? ` - ${errorTitle}` : ''}
-            </Heading>
-            <Text color={textColor}>{message ?? 'Ocurrió un error inesperado'}</Text>
-          </VStack>
-        </Box>
-      );
-    }
-    return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={2} align="center">
-          <Heading size="md">Error</Heading>
-          <Text color={textColor}>Ocurrió un error inesperado</Text>
-        </VStack>
-      </Box>
-    );
+    return <ErrorState error={error} onRetry={() => refetch()} />;
   }
 
   const items = data as Partial<ExportSentType>[];
@@ -94,16 +73,10 @@ const ExportCostList = (): React.JSX.Element => {
       </Box>
 
       {items.length === 0 ? (
-        <Center py={10}>
-          <VStack spacing={1}>
-            <Heading size="sm" color={headingColor}>
-              No existen costos de exportación pendientes
-            </Heading>
-            <Text fontSize="sm" color={textColor}>
-              Cuando existan, aparecerán aquí.
-            </Text>
-          </VStack>
-        </Center>
+        <EmptyState
+            title="No hay costos por validar"
+            description="Cada envío de insumos registrado aparece aquí para revisar sus costos."
+          />
       ) : (
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
           {items.map((item) => (

@@ -19,6 +19,7 @@ import {
 import { format } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { useExporterMaterialStock } from '@/hooks/winery/useExporterMaterialStock';
 import { MATERIAL_TYPE_LABELS } from '@/utils/materialTypeLabels';
 import { AssignStockToBusinessModal } from './AssignStockToBusinessModal';
@@ -58,13 +59,7 @@ export function AddMaterialForm({
   }, [stock?.stockMovements, currentPage]);
 
   if (isLoading) {
-    return (
-      <Box mx='auto' my='200px'>
-        <Center>
-          <Heading>Cargando...</Heading>
-        </Center>
-      </Box>
-    );
+    return <LoadingState minH='60vh' />;
   }
 
   if (error || !stock) {

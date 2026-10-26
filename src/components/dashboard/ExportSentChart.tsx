@@ -13,6 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { useExportsSent } from '../../hooks/export/getExportSents';
 
 interface ExportSent {
@@ -76,7 +77,7 @@ export function ExportSentChart({
   }, [sentData, weekStart, weekEnd]);
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <LoadingState />;
   }
   if (isError || !sentData) {
     return <div>Error al cargar los datos</div>;

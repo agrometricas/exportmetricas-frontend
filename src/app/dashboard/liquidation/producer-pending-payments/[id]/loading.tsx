@@ -1,11 +1,5 @@
-import { Box, Center, Heading } from '@chakra-ui/react';
+import LoadingState from '@/components/ui/states/LoadingState';
 
 export default function Loading(): JSX.Element {
-  return (
-    <Box mx="auto" my="200px">
-      <Center>
-        <Heading>Cargando...</Heading>
-      </Center>
-    </Box>
-  );
+  return <LoadingState minH='60vh' />;
 }

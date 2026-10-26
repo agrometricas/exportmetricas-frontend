@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import {
   useDeleteBoxType,
@@ -127,7 +128,7 @@ export default function BoxTypesManager(): React.JSX.Element {
         </Form>
       </Formik>
 
-      {isLoadingList && <Text>Cargando...</Text>}
+      {isLoadingList && <LoadingState />}
       {!isLoadingList && boxTypes.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>
           Todavía no hay tipos de caja.

@@ -1,13 +1,8 @@
 'use client';
 
-import {
-  Box,
-  Center,
-  Heading,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
+import LoadingState from '@/components/ui/states/LoadingState';
 import CalendarSummaryContainer from './CalendarSummaryContainer';
 import WorkQueuePanel from './WorkQueuePanel';
 import ContractUsageAlerts from '../contract-usage/ContractUsageAlerts';
@@ -19,11 +14,7 @@ const Dashboard = (): JSX.Element => {
   const headingColor = useColorModeValue('gray.900', 'gray.100');
 
   if (status === 'loading') {
-    return (
-      <Center minH='60vh'>
-        <Text>Cargando...</Text>
-      </Center>
-    );
+    return <LoadingState minH='60vh' />;
   }
 
   const role = session?.user?.role;

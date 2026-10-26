@@ -28,6 +28,7 @@ import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { useQueryClient } from 'react-query';
+import LoadingState from '@/components/ui/states/LoadingState';
 import {
   priceKey,
   priceSheetBody,
@@ -208,7 +209,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
         )}
       </SimpleGrid>
 
-      {isLoading && <Text>Cargando...</Text>}
+      {isLoading && <LoadingState />}
       {shown && shown.lines.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>
           No hay órdenes de compra esa semana.{' '}

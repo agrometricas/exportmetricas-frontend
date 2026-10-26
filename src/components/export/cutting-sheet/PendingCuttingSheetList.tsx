@@ -1,10 +1,8 @@
 'use client';
 import {
   Box,
-  Center,
   Heading,
   VStack,
-  Text,
   SimpleGrid,
   Badge,
   useColorModeValue,
@@ -12,6 +10,9 @@ import {
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import EmptyState from '@/components/ui/states/EmptyState';
+import ErrorState from '@/components/ui/states/ErrorState';
+import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetBatchPanel from './CuttingSheetBatchPanel';
 import PendingCuttingSheetCard from './PendingCuttingSheetCard';
 import { useCuttingSheetsPending } from '../../../hooks/export/cuttingSheet/getExportsSentPending';
@@ -31,6 +32,7 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
     data = [],
     isLoading,
     error,
+    refetch,
   } = useCuttingSheetsPending(paginationParams);
 
   const router = useRouter();
@@ -46,39 +48,15 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
   }, [error, router]);
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
 
   if (isLoading) {
     return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='40vh' />
     );
   }
 
   if (error) {
-    if (isAxiosError<ApiErrorData>(error)) {
-      const { statusCode, message, error: errorTitle } = error.response?.data ?? {};
-      return (
-        <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-          <VStack spacing={2} align="center">
-            <Heading>
-              {statusCode ?? 'Error'}{errorTitle ? ` - ${errorTitle}` : ''}
-            </Heading>
-            <Text>{message ?? 'Ocurrió un error inesperado'}</Text>
-          </VStack>
-        </Box>
-      );
-    }
-
-    return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={2} align="center">
-          <Heading>Error</Heading>
-          <Text>Ocurrió un error inesperado</Text>
-        </VStack>
-      </Box>
-    );
+    return <ErrorState error={error} onRetry={() => refetch()} />;
   }
 
   const items = data as Partial<ExportType>[];
@@ -95,12 +73,10 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
       <CuttingSheetBatchPanel items={items as unknown as PendingSheet[]} />
 
       {items.length === 0 ? (
-        <Center py={10}>
-          <VStack spacing={1}>
-            <Heading size="sm" color={headingColor}>No existen hojas de corte pendientes</Heading>
-            <Text fontSize="sm" color={textColor}>Cuando existan, aparecerán aquí.</Text>
-          </VStack>
-        </Center>
+        <EmptyState
+            title="No hay hojas de corte pendientes"
+            description="Cada envío de insumos registrado aparece aquí para generar su hoja."
+          />
       ) : (
         <SimpleGrid
           columns={{ base: 1, md: 2, xl: 3 }}
