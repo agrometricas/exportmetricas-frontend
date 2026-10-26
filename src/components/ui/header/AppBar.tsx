@@ -16,6 +16,7 @@ import React from 'react';
 import { FiMenu, FiHome, FiChevronRight } from 'react-icons/fi';
 import MenuIcon from './MenuIcon';
 import MenuNotification from './MenuNotifications';
+import QuickSearch from './QuickSearch';
 import { generateBreadcrumbs } from '../../../utils/breadcrumbs';
 import { useSidenav } from '../sidenav/sidenav-context';
 
@@ -124,6 +125,7 @@ export const AppBar = (): React.JSX.Element => {
             transform: 'scale(0.95)',
           }}
         />
+        <QuickSearch />
         <MenuNotification />
         <MenuIcon />
       </HStack>

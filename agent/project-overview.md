@@ -237,6 +237,13 @@ salen de `hooks/useMenuCounts.tsx`, que consulta las cinco listas de pendientes.
 lateral colapsable, `AppBar` y el contenido con scroll propio. Soporta modo
 claro y oscuro con `useColorModeValue`.
 
+La `AppBar` trae la búsqueda rápida (`components/ui/header/QuickSearch.tsx`):
+un botón, o `Ctrl K` y `/` desde cualquier pantalla, abre un buscador que pide
+`GET /export/search?q=` a partir de dos letras o de un número. Muestra cada
+exportación con su finca, cliente, corte, booking y contenedores
+(`searchHitSummary`, `utils/exportSearch.ts`); con las flechas y Enter, o con
+un clic, abre su ficha.
+
 ---
 
 ## Tests
