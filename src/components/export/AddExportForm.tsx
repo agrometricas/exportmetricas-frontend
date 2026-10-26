@@ -47,6 +47,7 @@ import InputFieldDayDateTime from '../ui/form/InputFieldDayDateTime';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
+import UnsavedChangesGuard from '../ui/form/UnsavedChangesGuard';
 import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
 
 // While the day is being typed the field holds a marker, not a date: the week
@@ -106,8 +107,9 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ values, errors, setFieldValue }) => (
+      {({ values, errors, setFieldValue, dirty, isSubmitting }) => (
         <Form>
+          <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
           <Flex flexDirection='column' gap={3}>
             {fromLine && (
               <Alert status='info' borderRadius='md'>

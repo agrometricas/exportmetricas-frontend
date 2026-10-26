@@ -1,6 +1,8 @@
 'use client';
 import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, Icon, IconButton, useColorModeValue, Text } from '@chakra-ui/react';
+import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import { Logo } from './Logo';
 import { useSidenav } from './sidenav/sidenav-context';
@@ -34,6 +36,12 @@ export default function SidenavBar({
   );
 
   const { isOpen, onClose } = useSidenav();
+  const pathname = usePathname();
+
+  // On a phone the drawer covers the page it just opened.
+  useEffect(() => {
+    onClose();
+  }, [pathname, onClose]);
 
   return (
     <>

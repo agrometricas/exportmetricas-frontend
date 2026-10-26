@@ -211,6 +211,8 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
   de `/dashboard`: no renderiza nada sin sesión y redirige a
   `/dashboard/onboarding` mientras el estado sea `pending`.
 - `middleware.ts` (en la raíz del repo) solo registra la ruta; no valida sesión.
+- La raíz (`/`) lee la sesión en el servidor: con sesión va a `/dashboard`, sin
+  ella a `/auth/signin`.
 - La sesión la valida el backend en cada petición.
 
 ### Navegación y permisos (sidenav)
@@ -235,7 +237,14 @@ salen de `hooks/useMenuCounts.tsx`, que consulta las cinco listas de pendientes.
 
 `app/dashboard/layout.tsx` → `components/ui/ClientLayoutWrapper.tsx`: barra
 lateral colapsable, `AppBar` y el contenido con scroll propio. Soporta modo
-claro y oscuro con `useColorModeValue`.
+claro y oscuro con `useColorModeValue`. En pantallas angostas la barra es un
+cajón que se cierra solo al cambiar de página (`SidenavBar`).
+
+Los formularios largos (exportación, alícuota, hoja de corte) avisan antes de
+perder lo llenado (`UnsavedChangesGuard`, `components/ui/form/`): con un
+diálogo si se sale por un enlace de la app, y con el aviso del navegador si se
+recarga o se cierra la pestaña. Solo pregunta después de que el usuario cambió
+algo; el botón *Atrás* del navegador no lo cubre.
 
 ---
 
