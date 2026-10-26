@@ -57,9 +57,10 @@ con `cancelledAt` está cancelada.
 ```
 Agregar Exportaciones  →  POST /export
         ↓
-Agregar Envíos de Insumos: lista GET /export/pending
-        ↓ elegir una
-/liquidation/add-supply-shipment/[id]  →  POST /export/export-sent
+Agregar Envíos de Insumos: lista GET /export/pending (por fecha de corte)
+        ↓ elegir una                         ↓ o elegir varias
+/liquidation/add-supply-shipment/[id]    "Enviar lo propuesto"
+  →  POST /export/export-sent              →  POST /export/export-sent/batch
         ↓
 la exportación sale de la lista de pendientes y el envío entra a
 "Agregar Hojas de Corte" y "Agregar Costos Validados"
@@ -224,13 +225,31 @@ toma su cantidad de la propuesta por el id del material (`proposedQuantity`,
 enviar. El esquema de validación se arma según qué materiales tiene la
 alícuota.
 
+### Envío por lote
+
+Con dos o más exportaciones pendientes, cada tarjeta trae la casilla *Elegir*
+y arriba aparece *Elegir todas* con el botón **Enviar lo propuesto (N)**
+(`ShipmentBatchBar`). Después de confirmar en un modal que lista finca,
+alícuota, cajas y fecha de corte de cada una, la web manda solo los ids a
+`POST /export/export-sent/batch`; las cantidades son las que propone el
+backend, sin cambios. Para cambiar una cantidad se usa *Realizar envío*, que
+abre el formulario directo.
+
+- La respuesta es `{ created, failed }`. El toast resume cuántos se
+  registraron (`shipmentBatchSummary`, `utils/shipmentBatch.ts`), y las que
+  quedaron sin enviar siguen elegidas en la lista, con un aviso que dice cuál
+  y por qué (el mensaje del backend, p. ej. la finca sin stock de un material)
+- La petición lleva su propio timeout de dos minutos: el backend registra un
+  envío detrás de otro
+- Invalida las mismas claves que el envío una por una más las del stock
+
 ---
 
 ### Reglas de negocio
 
 - Una exportación admite un solo envío de insumos.
 - **Cada material enviado debe tener stock asignado a la finca.** Si falta uno,
-  el backend rechaza el envío completo con un mensaje que nombra el tipo de
+  el backend rechaza el envío completo (409) con un mensaje que nombra el
   material; nada se guarda.
 - El envío descuenta el stock de la finca al instante.
 - Una exportación con envío de insumos ya no se edita; cancelarla devuelve a
@@ -252,6 +271,7 @@ alícuota.
 | Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
 | Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
+| Envío por lote | `components/export/ShipmentBatchBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/shipmentBatch.ts`, `types/exportSentBatch.ts` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
 | Envíos realizados | `components/liquidation/exports-sent/` |

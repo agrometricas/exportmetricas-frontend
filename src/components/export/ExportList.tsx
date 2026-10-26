@@ -13,11 +13,13 @@ import {
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExportCard from './ExportCard';
+import ShipmentBatchBar from './ShipmentBatchBar';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
 import { usePagination } from '../../hooks/usePagination';
 import { ExportType } from '../../types/export';
+import { toggleId } from '../../utils/shipmentBatch';
 
 type ApiErrorData = {
   statusCode?: number;
@@ -30,6 +32,7 @@ const ExportList = (): React.JSX.Element => {
   const { data = [], isLoading, error } = useExportsPending(paginationParams);
   const router = useRouter();
   const pathname = usePathname();
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
   const textColor = useColorModeValue('gray.700', 'gray.300');
@@ -77,6 +80,10 @@ const ExportList = (): React.JSX.Element => {
   }
 
   const items = data as Partial<ExportType>[];
+  const canBatch = items.length > 1;
+  const visibleSelected = selectedIds.filter((id) =>
+    items.some((item) => Number(item.id) === id)
+  );
 
   return (
     <VStack spacing={4} align="stretch">
@@ -95,6 +102,14 @@ const ExportList = (): React.JSX.Element => {
         </Badge>
       </Box>
 
+      {items.length > 0 && (
+        <ShipmentBatchBar
+          items={items}
+          selectedIds={visibleSelected}
+          onSelectedChange={setSelectedIds}
+        />
+      )}
+
       {items.length === 0 ? (
         <Center py={10}>
           <VStack spacing={1}>
@@ -109,7 +124,18 @@ const ExportList = (): React.JSX.Element => {
       ) : (
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
           {items.map((item) => (
-            <ExportCard key={item.id} exportItem={item} pathname={pathname} />
+            <ExportCard
+              key={item.id}
+              exportItem={item}
+              pathname={pathname}
+              isSelected={visibleSelected.includes(Number(item.id))}
+              onToggleSelected={
+                canBatch
+                  ? (): void =>
+                      setSelectedIds((ids) => toggleId(ids, Number(item.id)))
+                  : undefined
+              }
+            />
           ))}
         </SimpleGrid>
       )}
