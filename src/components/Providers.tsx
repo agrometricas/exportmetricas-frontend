@@ -17,7 +17,10 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
+      // With an infinite staleTime only an invalidated query is stale, and it
+      // has to load again when its page mounts: invalidating from a form that
+      // then navigates away happens while that page is not mounted.
+      refetchOnMount: true,
       refetchOnReconnect: false,
       staleTime: Infinity,
       cacheTime: Infinity,

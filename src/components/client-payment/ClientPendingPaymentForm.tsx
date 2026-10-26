@@ -15,9 +15,11 @@ import * as Yup from 'yup';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
 import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
+import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { ClientType } from '../../types/client';
 import { ExportSentType } from '../../types/exportSent';
+import { returnTo } from '../../utils/exportSteps';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
 import SelectClient from '../client/SelectClient';
@@ -281,7 +283,8 @@ const ClientPendingPaymentForm = ({
       queryClient.invalidateQueries('exportsSentPending');
       queryClient.invalidateQueries('clientPaymentsPending');
       actions.resetForm();
-      router.push('/dashboard/liquidation/client-payments');
+      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      router.push(returnTo('/dashboard/liquidation/client-payments', window.location.search));
     } catch (error: unknown) {
       toast({
         title: 'Error',

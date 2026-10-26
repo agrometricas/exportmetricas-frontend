@@ -69,6 +69,8 @@ const AFFECTED_QUERIES = [
   'bookingDocuments',
   'bookingDocumentStatus',
   'documentBoard',
+  'exportProgress',
+  'workQueue',
   'exports',
   'export',
 ];

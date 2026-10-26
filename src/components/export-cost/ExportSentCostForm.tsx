@@ -18,6 +18,8 @@ import * as Yup from 'yup';
 import { confirmExportSentCostReview } from '../../hooks/export/export-sent/confirmExportSentCostReview';
 import { useExportSentMaterials } from '../../hooks/export/export-sent/getExportSentMaterials';
 import { patchExportSentMaterialCost } from '../../hooks/export/export-sent/patchExportSentMaterialCost';
+import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
+import { returnTo } from '../../utils/exportSteps';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
@@ -87,7 +89,8 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
         isClosable: true,
       });
       queryClient.invalidateQueries('exportSentCostsPending');
-      router.push('/dashboard/liquidation/export-costs');
+      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      router.push(returnTo('/dashboard/liquidation/export-costs', window.location.search));
     } catch {
       toast({
         title: 'Error al actualizar los costos.',

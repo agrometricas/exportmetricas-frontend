@@ -164,7 +164,9 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
 - Un hook por endpoint en `hooks/<dominio>/`.
 - El `QueryClient` activo se crea en `components/Providers.tsx` con
   `staleTime: Infinity`, `cacheTime: Infinity` y sin refetch automático: **un
-  dato solo se vuelve a pedir si una mutación invalida su clave**.
+  dato solo se vuelve a pedir si una mutación invalida su clave**. Con
+  `refetchOnMount: true`, una clave invalidada mientras su pantalla no estaba
+  abierta se vuelve a pedir al abrirla.
 - Helpers de tipos en `lib/react-query.ts`: `QueryConfig<fn>`,
   `MutationConfig<fn>`, `ExtractFnReturnType<fn>`. El `queryClient` que exporta
   ese archivo no está montado.

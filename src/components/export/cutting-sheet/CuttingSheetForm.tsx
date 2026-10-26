@@ -18,6 +18,7 @@ import * as Yup from 'yup';
 import DisplayField from './DisplayField';
 import ReadOnlyDateGrid from './ReadOnlyDateGrid';
 import { useCreateCuttingSheet } from '../../../hooks/export/cuttingSheet/createCuttingSheet';
+import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
 import { CuttingSheetType } from '../../../types/cuttingSheet';
 import { ExportResponse } from '../../../types/export.response';
 import { ExportSentType } from '../../../types/exportSent';
@@ -27,6 +28,7 @@ import {
   palletsHeightOptions,
 } from '../../../utils/cuttingSheetOptions';
 import { formatDayMonthYear } from '../../../utils/dayMonthYear';
+import { returnTo } from '../../../utils/exportSteps';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
@@ -364,7 +366,8 @@ const CuttingSheetForm = ({
         queryClient.invalidateQueries('cuttingSheets');
         queryClient.invalidateQueries('cuttingSheetsPending');
         formikHelpers.resetForm();
-        router.push('/dashboard/export/cutting-sheets');
+        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+        router.push(returnTo('/dashboard/export/cutting-sheets', window.location.search));
       },
     });
   };
