@@ -97,6 +97,11 @@ the backend proposes.
 - A catalog that is set up once becomes a tab of an existing entry
   (`LOGISTICS_TABS`, `QUALITY_CATALOG_TABS`, rendered by `SectionTabs`), not a
   new menu row. The entry lists every route it covers in `match`.
+- The backend decides who writes: a role outside an area gets a 403 whose
+  message names the area, and `serverErrorMessage` shows it. The web only hides
+  what a role cannot do, with the same split: the menu through `allowedRoles`,
+  a step's action through `seesQueue` (`utils/workQueueAccess.ts`). An action
+  shown outside the menu (the export page, *Lo que falta*) goes through it.
 
 ## UI
 

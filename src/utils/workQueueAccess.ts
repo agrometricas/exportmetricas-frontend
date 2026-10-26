@@ -2,7 +2,8 @@ import { StepKey } from '../types/exportProgress';
 
 export type QueueKey = StepKey | 'documents';
 
-// The same areas the side menu gives each role.
+// The same areas the side menu gives each role, and the ones the backend
+// enforces on writes: a step's action is offered only to the role that does it.
 const AREA_OF: Record<QueueKey, string> = {
   supplies: 'EXPORT',
   customs: 'EXPORT',

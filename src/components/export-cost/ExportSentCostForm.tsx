@@ -22,6 +22,7 @@ import {
 import { useExportSentMaterials } from '../../hooks/export/export-sent/getExportSentMaterials';
 import { patchExportSentMaterialCost } from '../../hooks/export/export-sent/patchExportSentMaterialCost';
 import { returnTo } from '../../utils/exportSteps';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
@@ -94,9 +95,10 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
         queryClient.invalidateQueries(key)
       );
       router.push(returnTo('/dashboard/liquidation/export-costs', window.location.search));
-    } catch {
+    } catch (error) {
       toast({
         title: 'Error al actualizar los costos.',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 4000,
         isClosable: true,
