@@ -44,8 +44,10 @@ Recuperación de contraseña:
 
 - El login espera un **201**; cualquier otro estado es credencial inválida.
 - `lib/axios.ts` usa el `refreshToken` como Bearer.
-- La sesión dura una hora y se extiende de a cinco minutos; la web no renueva
-  los tokens del backend. Un 401 lleva a `/api/auth/signout`.
+- Mientras el usuario está activo, la sesión renueva los tokens del backend
+  desde la mitad de su vida (`needsRenewal`, `utils/sessionRenewal.ts`), y con
+  ellos el rol. Un 401 (inactivo más que la vida del token, o un usuario
+  borrado) lleva a `/api/auth/signout`.
 
 ---
 

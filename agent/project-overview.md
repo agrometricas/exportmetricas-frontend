@@ -199,9 +199,13 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
 - `CredentialsProvider` → `POST /auth/exporter/login` (espera **201**).
 - `session.user` lleva `{ id, name, email, role, exporterId, onboardingStatus }`,
   más `accessToken` y `refreshToken`. Tipos en `types/next-auth.d.ts`.
-- La sesión de next-auth dura una hora y se extiende de a cinco minutos al
-  vencer; **no llama al endpoint de refresh**. Cuando el token del backend
-  expira, la siguiente petición da 401 y el usuario vuelve al login.
+- El callback `jwt` de `authOptions.ts` **renueva los tokens del backend**
+  (`POST /auth/exporter/refresh`) cuando al refresh token se le pasó la mitad
+  de su vida (`needsRenewal`, `utils/sessionRenewal.ts`). Como el interceptor
+  pide la sesión en cada petición, un usuario activo no llega a ver el token
+  vencido. La renovación también trae el nombre y el rol guardados hoy. Si el
+  usuario estuvo inactivo más que la vida del token, o la renovación falla, la
+  siguiente petición da 401 y vuelve al login.
 - El `onboardingStatus` se actualiza en la sesión con `update()` al terminar el
   onboarding.
 
