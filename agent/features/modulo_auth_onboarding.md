@@ -67,9 +67,27 @@ fincas**.
 
 ### Roles
 
-El rol solo decide qué grupos del menú se muestran (`SideNavItems.ts`). No hay
-pantalla para crear usuarios ni cambiar roles: el único usuario que la web sabe
-crear es el `MASTER` del registro.
+El rol decide qué grupos del menú se muestran (`SideNavItems.ts`), y el backend
+usa el mismo reparto para decidir quién guarda en cada área (ver
+[project-overview](../project-overview.md)).
+
+### Usuarios (`/dashboard/settings/users`)
+
+*Configuraciones › Usuarios*, que el menú muestra solo al `MASTER`
+(`getSettingsMenu`). Lista los usuarios de la exportadora (`GET
+/exporters/:exporterId/users`) con su rol y las áreas en que trabaja, que salen
+del mismo menú (`getNavItems`).
+
+- **Invitar**: nombre, correo y rol, sin contraseña. Al usuario le llega un
+  correo con un enlace a `/auth/reset-password/<token>`, que sirve 7 días, para
+  crear la suya. Si el correo no salió (`invitationSent: false`), el usuario
+  queda creado y un aviso pide reenviar la invitación
+- **Cambiar el rol** desde la fila, **reenviar la invitación** y **eliminar**
+  (con confirmación). Nadie cambia su propio rol ni se elimina a sí mismo: la
+  fila del usuario de la sesión no tiene acciones
+- Un usuario que no es `MASTER` que entra por la URL ve la lista sin acciones
+- Un correo que ya tiene cuenta, en cualquier exportadora, o un nombre repetido
+  en la exportadora los rechaza el backend (409) con su motivo
 
 ---
 
@@ -86,6 +104,7 @@ crear es el `MASTER` del registro.
 | Onboarding | `components/onboarding/OnboardingForm.tsx`, `components/onboarding/hooks/useSubmitOnboarding.ts`, `components/onboarding/schema/`, `hooks/merchants/createOnboarding.ts` |
 | Perfil | `app/dashboard/user/[id]/page.tsx`, `hooks/useUserProfile.tsx` |
 | Datos de la exportadora | `app/dashboard/user/update-user/[idUser]/page.tsx`, `components/settings/UpdateExporterForm.tsx`, `hooks/settings/` |
+| Usuarios | `app/dashboard/settings/users/page.tsx`, `components/exporter-user/UsersManager.tsx`, `hooks/exporter-user/`, `types/exporterUser.ts`, `utils/roles.ts` |
 | Logos | `app/dashboard/logos/page.tsx`: una sola pantalla con una pestaña por dueño (exportadora, productores, alícuotas) que usa el formulario de cada uno (`components/settings/upload-logo/`, `components/producer/UploadLogoForm.tsx`, `components/box-brands/UploadLogoForm.tsx`). `?tab=` elige la pestaña (`utils/logoTabs.ts`); las direcciones viejas (`…/upload-logo`) redirigen a la suya. El menú la muestra en Materiales y en Configuraciones |
 
 - El `callbackUrl` del login es `${NEXT_PORTAL_URL}/dashboard`.

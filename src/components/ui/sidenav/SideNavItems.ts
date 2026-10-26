@@ -142,7 +142,7 @@ export function getNavItems(
       label: 'Configuraciones',
       isMenu: true,
       to: '/dashboard/settings',
-      menu: getSettingsMenu(session?.exporterId),
+      menu: getSettingsMenu(session?.exporterId, role),
       allowedRoles: ['ADMINISTRATIVE'],
     },
   ];

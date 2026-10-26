@@ -54,6 +54,7 @@ const VIEW_ROUTES: ViewMap = {
   '/dashboard/settings/material-units': 'Unidades de Materiales',
   '/dashboard/settings/minimum-box-price': 'Precio Mínimo',
   '/dashboard/settings/box-types': 'Tipos de Caja',
+  '/dashboard/settings/users': 'Usuarios',
   '/dashboard/liquidation/price-sheet': 'Hoja de Precios',
 };
 

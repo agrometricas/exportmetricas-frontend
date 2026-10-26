@@ -174,8 +174,14 @@ export function getLiquidationMenu(counts: {
   ];
 }
 
-export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
+export function getSettingsMenu(
+  exporterId?: string,
+  role?: string
+): SidenavMenuItem[] {
   return [
+    ...(role === 'MASTER'
+      ? [{ label: 'Usuarios', to: '/dashboard/settings/users' }]
+      : []),
     { label: 'Logos', to: '/dashboard/logos' },
     {
       label: 'Unidades de Materiales',
