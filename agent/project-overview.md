@@ -230,8 +230,12 @@ cada grupo por `allowedRoles`. `MASTER` ve todo.
 Es el reparto de menús por área que definió la operación al pedir el sistema,
 más Bodega, que se agregó después.
 
-El filtro es del menú, no de las rutas. Los contadores rojos
-salen de `hooks/useMenuCounts.tsx`, que consulta las cinco listas de pendientes.
+El backend usa el mismo reparto para guardar: una ruta que crea, cambia o borra
+responde 403 a un rol fuera de su área, con el área a la que le corresponde en
+el mensaje. Las consultas son de todos. La web no bloquea pantallas por rol:
+esconde el menú y, en la ficha y en *Lo que falta*, las acciones de otras áreas
+(`utils/workQueueAccess.ts`). Los contadores rojos salen de
+`hooks/useMenuCounts.tsx`, que consulta las cinco listas de pendientes.
 
 ### Layout
 

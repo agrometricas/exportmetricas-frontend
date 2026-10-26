@@ -10,6 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
+import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { ExportResponse } from '../../../types/export.response';
 import { ExportProgress } from '../../../types/exportProgress';
@@ -18,6 +19,7 @@ import {
   STEP_STATUS,
   stepAction,
 } from '../../../utils/exportSteps';
+import { seesQueue } from '../../../utils/workQueueAccess';
 import ExportCustomsModal from '../ExportCustomsModal';
 
 const STATE_COLOR: Record<ExportProgress['state'], string> = {
@@ -34,6 +36,8 @@ export default function ExportSteps({
   exportItem: ExportResponse;
 }): React.JSX.Element {
   const [customsOpen, setCustomsOpen] = useState(false);
+  const { data: session } = useSession();
+  const role = session?.user?.role;
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const nextBg = useColorModeValue('orange.50', 'whiteAlpha.100');
   const canEdit =
@@ -61,7 +65,7 @@ export default function ExportSteps({
       <VStack align='stretch' spacing={2} mt={4}>
         {progress.steps.map((step, index) => {
           const action =
-            progress.state === 'CANCELLED'
+            progress.state === 'CANCELLED' || !seesQueue(role, step.key)
               ? null
               : stepAction(step, progress, back, canEdit);
           const isNext = step.key === progress.next;

@@ -111,11 +111,15 @@ siempre (`DetailExport`). Cada paso muestra su estado tal como lo da el backend
 y, si se puede hacer, su botón (`stepAction`, `utils/exportSteps.ts`): el envío
 y la hoja de corte van con el id de la exportación; costos, pago y cobro con el
 del envío; la aduana abre su ventana ahí mismo. El paso que sigue va resaltado.
+El botón de un paso solo aparece para el rol de su área (`seesQueue`,
+`utils/workQueueAccess.ts`, el mismo reparto de *Lo que falta*); los demás ven
+el estado sin la acción.
 
 Los enlaces llevan `?volver=` con la ficha, y los cinco formularios de paso
 vuelven ahí al guardar (`returnTo`, que solo acepta páginas de `/dashboard/`);
 sin `volver`, van a su lista de siempre. Se llega desde *Ver pasos y detalle*
-en el menú de cada fila de *Exportaciones* y desde Inicio.
+en el menú de cada fila de *Exportaciones*, desde Inicio y desde la búsqueda
+rápida.
 
 ### Documentos del embarque
 
