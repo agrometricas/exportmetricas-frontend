@@ -4,6 +4,7 @@ import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateBand } from '../../../../hooks/box-brand/materials/band/createBand';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -82,8 +83,8 @@ const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
       {
         onError: (error) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

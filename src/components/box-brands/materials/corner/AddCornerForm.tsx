@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { useCreateCorner } from '@/hooks/box-brand/materials/corner/createCorner';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddCornerFormProps {
   onClose?: () => void;
@@ -57,8 +58,8 @@ const AddCornerForm = ({ onClose }: AddCornerFormProps): React.JSX.Element => {
       {
         onError: (error: TypeError) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

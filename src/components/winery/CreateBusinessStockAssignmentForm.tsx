@@ -12,6 +12,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useCreateBusinessStockAssignment } from '../../hooks/winery/useCreateBusinessStockAssignment';
 import { Business } from '../../types/cuttingSheet.response';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
 interface Props {
@@ -71,9 +72,10 @@ export function CreateBusinessStockAssignmentForm({
               });
               onClose();
             },
-            onError: () => {
+            onError: (error: unknown) => {
               toast({
                 title: 'Error al Asignar Stock.',
+                description: serverErrorMessage(error),
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

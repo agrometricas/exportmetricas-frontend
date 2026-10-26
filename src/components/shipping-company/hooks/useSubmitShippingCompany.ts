@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
 import { useCreateShippingCompany } from '@/hooks/export/shippingCompany/createShippingCompany';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import {
   validationSchema,
   initialValues,
@@ -78,12 +79,10 @@ export function useSubmitShippingCompany(): {
 
     createShippingCompany(payload, {
       onError: (error: AxiosError<ServerErrorResponse>) => {
-        const data = error.response?.data;
-        if (!data) return;
-        const { statusCode, message, errors: errorTitle } = data;
+        const statusCode = error.response?.status;
         toast({
-          title: `Error ${statusCode}: ${errorTitle}`,
-          description: message,
+          title: 'No se pudo guardar',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,

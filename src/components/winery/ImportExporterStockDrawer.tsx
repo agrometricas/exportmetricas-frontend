@@ -24,6 +24,7 @@ import React, { useRef, useState } from 'react';
 import { useImportBusinessStock } from '../../hooks/winery/useImportBusinessStock'; // Nuevo hook
 import { useImportExporterStock } from '../../hooks/winery/useImportExporterStock';
 import axios from '../../lib/axios';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const ImportExporterStockDrawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -91,7 +92,7 @@ const ImportExporterStockDrawer: React.FC = () => {
         onError: (error) => {
           toast({
             title: 'Error al importar Stock de Exportadora',
-            description: error?.message || 'Error desconocido.',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -145,7 +146,7 @@ const ImportExporterStockDrawer: React.FC = () => {
         onError: (error) => {
           toast({
             title: 'Error al importar Stock de Fincas',
-            description: error?.message || 'Error desconocido.',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -269,7 +270,7 @@ const ImportExporterStockDrawer: React.FC = () => {
     } catch (error) {
       toast({
         title: 'Error al descargar la plantilla',
-        description: 'No se pudo obtener el enlace de descarga.',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,

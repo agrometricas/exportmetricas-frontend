@@ -29,6 +29,7 @@ import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
 import { ExportResponse } from '../../types/export.response';
 import { SuppliesProposal } from '../../types/suppliesProposal';
 import { returnTo } from '../../utils/exportSteps';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import { proposedQuantity } from '../../utils/suppliesProposal';
 import CheckboxForm from '../ui/form/CheckboxForm';
 
@@ -198,8 +199,8 @@ const SentMaterialsExportForm = ({
     createExportSent(sentMaterialsExportData, {
       onError: (error: any) => {
         toast({
-          title: 'Error',
-          description: error?.response?.data?.message || 'Error desconocido',
+          title: 'No se pudo guardar',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,

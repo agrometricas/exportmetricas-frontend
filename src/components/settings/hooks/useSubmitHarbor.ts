@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
 import { useCreateHarbor } from '@/hooks/export/harbor/createHarbor';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import { ValuesProps, validationSchema, initialValues } from '../schemas/harbor.schema';
 
 export function useSubmitHarbor(): {
@@ -28,13 +29,12 @@ export function useSubmitHarbor(): {
             { ...harborData },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
-                    const data = error.response?.data;
-                    if (!data) return;
-                    const { statusCode, message, errors: errorTitle, model, prop } = data;
+                    const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+                        error.response?.data ?? {};
 
                     toast({
-                        title: `Error ${statusCode}: ${errorTitle}`,
-                        description: message,
+                        title: 'No se pudo guardar',
+                        description: serverErrorMessage(error),
                         status: 'error',
                         duration: 5000,
                         isClosable: true,

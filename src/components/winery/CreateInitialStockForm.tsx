@@ -11,6 +11,7 @@ import {
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useCreateExporterMaterialStock } from '../../hooks/winery/useCreateExporterMaterialStock';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
@@ -79,9 +80,10 @@ export function CreateInitialStockForm({
               });
               location.reload();
             },
-            onError: () => {
+            onError: (error: unknown) => {
               toast({
                 title: 'Error al Crear el Stock.',
+                description: serverErrorMessage(error),
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

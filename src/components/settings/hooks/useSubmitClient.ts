@@ -6,6 +6,7 @@ import { useQueryClient } from 'react-query';
 import { useCreateClient } from '@/hooks/export/client/createClient';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { clientTermsBody } from '../../../utils/clientTerms';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import { initialValues, validationSchema, ValuesProps } from '../schemas/client.schema';
 
 export function useSubmitClient(): {
@@ -41,23 +42,21 @@ export function useSubmitClient(): {
             },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
-                    const { response } = error;
-                    if (response) {
-                        const { statusCode, message, errors: errorTitle, model, prop } = response.data;
-                        toast({
-                            title: `Error ${statusCode}: ${errorTitle}`,
-                            description: message,
-                            status: 'error',
-                            duration: 5000,
-                            isClosable: true,
-                        });
-                        if (statusCode === 401) {
-                            router.push('/api/auth/signout');
-                        }
-                        if (model === 'Client' && prop === 'businessId') {
-                            formikHelpers.setFieldTouched(prop, true, false);
-                            formikHelpers.setFieldError(prop, message);
-                        }
+                    toast({
+                        title: 'No se pudo guardar',
+                        description: serverErrorMessage(error),
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                    const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+                        error.response?.data ?? {};
+                    if (statusCode === 401) {
+                        router.push('/api/auth/signout');
+                    }
+                    if (model === 'Client' && prop === 'businessId') {
+                        formikHelpers.setFieldTouched(prop, true, false);
+                        formikHelpers.setFieldError(prop, message);
                     }
                 },
                 onSuccess: () => {

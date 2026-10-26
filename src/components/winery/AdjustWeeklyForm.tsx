@@ -22,6 +22,7 @@ import * as Yup from 'yup';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
 import { useStockMovementsByBusiness } from '../../hooks/winery/useStockMovementsByBusiness';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import { STOCK_MOVEMENT_LABELS } from '../../utils/stockMovementLabels';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
@@ -151,9 +152,10 @@ const AdjustWeeklyForm = ({
         isClosable: true,
       });
       queryClient.invalidateQueries('stockMovements');
-    } catch {
+    } catch (error) {
       toast({
         title: 'Error al ajustar el stock.',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 4000,
         isClosable: true,

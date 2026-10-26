@@ -17,6 +17,7 @@ import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount
 import { ClientType } from '../../types/client';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import SelectClient from '../client/SelectClient';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -178,13 +179,12 @@ const AddBankAccountForm = (): React.JSX.Element => {
       },
       {
         onError: (error: AxiosError<ServerErrorResponse>) => {
-          const data = error.response?.data;
-          if (!data) return;
-          const { statusCode, message, errors: errorTitle, model, prop } = data;
+          const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+            error.response?.data ?? {};
 
           toast({
-            title: `Error ${statusCode}: ${errorTitle} `,
-            description: `${message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

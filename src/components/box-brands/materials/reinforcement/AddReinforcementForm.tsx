@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { useCreateReinforcement } from '@/hooks/box-brand/materials/reinforcement/createReinforcement';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddReinforcementFormProps {
   onClose?: () => void;
@@ -59,8 +60,8 @@ const AddReinforcementForm = ({
       {
         onError: (error: TypeError) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

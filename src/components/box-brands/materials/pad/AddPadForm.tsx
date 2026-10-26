@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { useCreatePad } from '@/hooks/box-brand/materials/pad/createPad';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddPadFormProps {
   onClose?: () => void;
@@ -57,8 +58,8 @@ const AddPadForm = ({ onClose }: AddPadFormProps): React.JSX.Element => {
       {
         onError: (error: TypeError) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

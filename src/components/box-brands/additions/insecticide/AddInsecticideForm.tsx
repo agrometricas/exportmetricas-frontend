@@ -6,6 +6,7 @@ import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateInsecticide } from '../../../../hooks/box-brand/additions/insecticide/createInsecticide';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -90,13 +91,11 @@ const AddInsecticideForm = ({
       },
       {
         onError: (error: any) => {
-          const { response } = error;
-          const { data } = response;
-          const { statusCode, message, error: errorTitle } = data;
+          const statusCode = error.response?.status;
 
           toast({
-            title: `Error ${statusCode}: ${errorTitle} `,
-            description: `${message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

@@ -14,6 +14,7 @@ import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import SelectBoxBrand from './SelectBoxBrand';
 import { useUploadBoxBrandLogo } from '../../hooks/box-brand/uploadBoxBrandLogo';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import UploadLogoFile from '../producer/UploadLogoFile';
 
 const SUPPORTED_FORMATS = [
@@ -62,13 +63,11 @@ const UploadLogoForm = (): React.JSX.Element => {
         },
         {
           onError: (error: any) => {
-            const { response } = error;
-            const { data } = response;
-            const { statusCode, message, error: errorTitle } = data;
+            const statusCode = error.response?.status;
             {
               toast({
-                title: `Error ${statusCode}: ${errorTitle} `,
-                description: `${message}`,
+                title: 'No se pudo guardar',
+                description: serverErrorMessage(error),
                 status: 'error',
                 duration: 5000,
                 isClosable: true,

@@ -86,6 +86,7 @@ import {
   NO_PALLETS,
 } from '../../utils/cargoType';
 import { quantityUnit } from '../../utils/materialUnits';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -1062,9 +1063,10 @@ function CopyFromBoxBrand({
       const copied = boxBrandCopyValues(saved);
       await setValues({ ...values, ...copied } as ValuesProps);
       onCopied(usedOptionalMaterials(copied));
-    } catch {
+    } catch (error) {
       toast({
         title: 'No se pudo copiar la alícuota',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -1220,19 +1222,18 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
       },
       {
         onError: (error: any) => {
-          const { response } = error;
-          const { data } = response;
-          const { statusCode, message, error: errorTitle, model, prop } = data;
+          const { statusCode, message, model, prop } =
+            error.response?.data ?? {};
 
           toast({
-            title: `Error ${statusCode}: ${errorTitle} `,
-            description: `${message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,
           });
 
-          if (statusCode === 1001) {
+          if (statusCode === 401) {
             router.push('/api/auth/signout');
           }
 

@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import SelectProducer from './SelectProducer';
 import UploadLogoFile from './UploadLogoFile';
 import { useUploadMerchantLogo } from '../../hooks/merchants/uploadMerchantLogo';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const SUPPORTED_FORMATS = [
   'image/jpeg',
@@ -62,13 +63,11 @@ const UploadLogoForm = (): React.JSX.Element => {
         {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onError: (error: any) => {
-            const { response } = error;
-            const { data } = response;
-            const { statusCode, message, error: errorTitle } = data;
+            const statusCode = error.response?.status;
             {
               toast({
-                title: `Error ${statusCode}: ${errorTitle} `,
-                description: `${message}`,
+                title: 'No se pudo guardar',
+                description: serverErrorMessage(error),
                 status: 'error',
                 duration: 5000,
                 isClosable: true,

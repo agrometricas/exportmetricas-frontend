@@ -64,6 +64,12 @@ the backend proposes.
   400 the readable detail is in `errors`, and `message` is a fixed generic
   string; for every other status the detail is in `message`. Show the one that
   carries the text: `serverErrorMessage(error)` (`utils/`) picks it.
+- An error toast says what failed in its title (`No se pudo guardar`, `Error
+  al importar`), never a status code, and carries `serverErrorMessage(error)`
+  as its description.
+- A request that never got an answer has no `error.response`: read it with
+  `?.` (`error.response?.status`). Destructuring it crashes the handler and
+  the user sees nothing.
 - On a `401`, send the user to `/api/auth/signout`.
 
 ## Forms

@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useQueryClient } from 'react-query';
 import { useCreateOnboarding } from '../../../hooks/merchants/createOnboarding';
 import { ServerErrorResponse } from '../../../types/errorResponse';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import {
     ValuesProps,
     validationSchema,
@@ -37,13 +38,12 @@ export function useSubmitOnboarding(): {
             },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
-                    const data = error.response?.data;
-                    if (!data) return;
-                    const { statusCode, message, errors: errorTitle, model, prop } = data;
+                    const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+                        error.response?.data ?? {};
 
                     toast({
-                        title: `Error ${statusCode}: ${errorTitle}`,
-                        description: message,
+                        title: 'No se pudo guardar',
+                        description: serverErrorMessage(error),
                         status: 'error',
                         duration: 5000,
                         isClosable: true,
