@@ -36,7 +36,16 @@ exportación (al editar manda su `exportId` para no contarla dos veces) y lo
 dice debajo de la semana. Si pasa el cupo del contrato muestra el aviso del
 backend, sin bloquear el envío (`ExportQuotaCheck`).
 
-`dataReviewed` es la casilla de confirmación del formulario; no se envía.
+Al crear una exportación desde cero (no al editar, al duplicar ni desde una
+orden de compra), con la finca elegida el formulario pregunta a
+`GET /export/last?businessId=` cuál es la última exportación no cancelada de
+esa finca y ofrece copiarla: el botón lleva a
+`/dashboard/export/[id]/duplicate` (`LastFarmExportAlert`). La clave
+`lastFarmExport` se invalida al crear, editar y cancelar.
+
+Si el productor tiene una sola finca, o la exportadora una sola alícuota, el
+selector la elige solo (`BusinessSelectBase`, `BoxBrandSelectBase`).
+
 `exportBody()` arma el body a partir de los valores del formulario; crear y
 editar mandan el mismo.
 
@@ -168,8 +177,7 @@ Desde el menú de acciones de cada fila en *Exportaciones*:
 | Factura comercial / Packing list (PDF) | `GET /export/:id/invoice` · `GET /export/:id/packing-list` → descarga | Mientras no esté cancelada |
 
 - Editar y duplicar usan el mismo `AddExportForm` prellenado con
-  `exportFormValues()`. La casilla de "He revisado los datos" vuelve a
-  desmarcarse
+  `exportFormValues()`
 - Cambiar algo de una exportación que ya tiene envío de insumos es cancelarla y
   duplicarla. La pantalla de edición lo dice y ofrece el botón de duplicar
 - El modal de cancelar avisa si el material del envío vuelve a la finca. El

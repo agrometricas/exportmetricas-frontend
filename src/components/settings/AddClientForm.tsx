@@ -19,7 +19,6 @@ import InputFieldHarborMultiSelect from '../harbor/InputFieldHarborMultiSelect';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -189,10 +188,6 @@ export default function AddClientForm(): React.JSX.Element {
             </FieldArray>
 
             <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
               <Button
                 mt='12px'
                 py='8px'

@@ -118,7 +118,7 @@ const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<PalletType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<PalletType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

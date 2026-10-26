@@ -120,7 +120,7 @@ const MiniPalletSelectBase: React.FC<MiniPalletSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<MiniPalletType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<MiniPalletType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

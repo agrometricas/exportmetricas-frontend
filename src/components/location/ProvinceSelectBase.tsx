@@ -84,7 +84,7 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
 
     if (data && data.length > 0) {
       const selectedProvinceId = field?.value;
-      const selectedProvince = data.find(
+      const selectedProvince = data?.find(
         (province) => province.id === selectedProvinceId
       );
 

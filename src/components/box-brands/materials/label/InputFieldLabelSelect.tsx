@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddLabelModal from './AddLabelModal';
 import LabelSelectBase from './LabelSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldLabelSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldLabelSelect: React.FC<InputFieldLabelSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (!!isBan) {
       field.onChange;
       if (isBan?.state) {
@@ -46,8 +47,7 @@ const InputFieldLabelSelect: React.FC<InputFieldLabelSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

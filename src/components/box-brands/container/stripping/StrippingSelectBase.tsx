@@ -123,7 +123,7 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<StrippingType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<StrippingType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

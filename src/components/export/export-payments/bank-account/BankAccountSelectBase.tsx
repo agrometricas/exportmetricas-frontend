@@ -109,7 +109,7 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<BankAccountType>) => opt.id === field?.value
             )
           : undefined

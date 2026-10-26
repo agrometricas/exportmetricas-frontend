@@ -28,7 +28,6 @@ import {
 } from '../../../utils/cuttingTypeForm';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import SelectBoxBrand from '../../box-brands/SelectBoxBrand';
-import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldPlain from '../../ui/form/InputFieldPlain';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
 import InputFieldTextArea from '../../ui/form/InputFieldTextArea';
@@ -69,9 +68,6 @@ const validationSchema = Yup.object({
   blockingSheetsDetail: Yup.string().required('Requerido'),
   transportDetail: Yup.string().required('Requerido'),
   generalObservations: Yup.string(),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
-    .required('Requerido'),
 });
 
 const lineOptions = [
@@ -498,10 +494,6 @@ const AddCuttingTypeForm = ({
                 placeholder='Ingrese Cualquier Observación Adicional de Corte'
               />
               <SimpleGrid columns={{ base: 1, sm: 1 }}>
-                <CheckboxForm
-                  name='dataReviewed'
-                  label='He revisado los datos agregados'
-                />
                 <Button
                   mt='12px'
                   py='8px'

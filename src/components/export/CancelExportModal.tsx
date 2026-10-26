@@ -46,6 +46,7 @@ const AFFECTED_QUERIES = [
   'purchaseOrder',
   'contractUsage',
   'contractUsageCheck',
+  'lastFarmExport',
 ];
 
 interface CancelExportModalProps {

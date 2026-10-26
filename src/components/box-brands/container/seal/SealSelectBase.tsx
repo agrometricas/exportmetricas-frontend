@@ -121,7 +121,7 @@ const SealSelectBase: React.FC<SealSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<SealType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<SealType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

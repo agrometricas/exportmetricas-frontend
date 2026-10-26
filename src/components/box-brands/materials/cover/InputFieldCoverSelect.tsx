@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddCoverModal from './AddCoverModal';
 import CoverSelectBase from './CoverSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldCoverSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldCoverSelect: React.FC<InputFieldCoverSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (isBan) {
       if (isBan.state) {
         helpers.setValue(undefined);
@@ -43,8 +44,7 @@ const InputFieldCoverSelect: React.FC<InputFieldCoverSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

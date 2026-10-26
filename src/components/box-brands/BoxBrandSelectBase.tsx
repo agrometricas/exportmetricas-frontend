@@ -73,6 +73,8 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
   const { paginationParams } = usePagination();
   const { data = [], isLoading, error } = useBoxBrands(paginationParams);
   const router = useRouter();
+  const onlyOption: Partial<BoxBrandType> | null =
+    data.length === 1 ? data[0] : null;
 
   useEffect(() => {
     if (!!error) {
@@ -95,6 +97,11 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
       onChange(newValue as Partial<BoxBrandType>);
     }
   };
+
+  useEffect(() => {
+    if (field && !field.value && onlyOption) handleChange(onlyOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onlyOption, field?.value]);
 
   return (
     <ChakraSelect

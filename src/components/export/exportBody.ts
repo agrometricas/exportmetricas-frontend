@@ -2,7 +2,7 @@ import { ValuesProps } from './schemas/export.schema';
 
 export type ExportBody = Omit<
   ValuesProps,
-  'weekCutting' | 'dataReviewed' | 'bookingId' | 'purchaseOrderLineId'
+  'weekCutting' | 'bookingId' | 'purchaseOrderLineId'
 > & {
   bookingId: number | null;
   purchaseOrderLineId?: number;
@@ -16,8 +16,6 @@ export function exportBody(values: ValuesProps): ExportBody {
   const {
     weekCutting,
     boxQuantity,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dataReviewed,
     bookingId,
     purchaseOrderLineId,
     ...rest

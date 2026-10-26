@@ -110,10 +110,6 @@ const AddTransportForm: React.FC = () => {
             </FieldArray>
 
             <Divider my='16px' />
-            <CheckboxForm
-              name='dataReviewed'
-              label='He revisado los datos agregados'
-            />
             <Button
               mt='12px'
               py='8px'

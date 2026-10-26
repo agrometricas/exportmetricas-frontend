@@ -17,7 +17,6 @@ import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldText from '../ui/form/InputFieldText';
 
 interface ValuesProps {
@@ -25,7 +24,6 @@ interface ValuesProps {
   countryId: number | '';
   provinceId: number | '';
   cityId: number | '';
-  dataReviewed: boolean;
 }
 
 interface ExporterDetails {
@@ -55,9 +53,6 @@ const validationSchema = Yup.object({
     .transform((value) => value.trim())
     .max(50, 'Debe tener 50 caracteres o menos')
     .matches(/^[a-zA-Z\s]+$/, 'Solo debe contener letras y espacios'),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
-    .required('Requerido'),
 });
 
 const UpdateExporterForm = ({
@@ -73,7 +68,6 @@ const UpdateExporterForm = ({
     countryId: 1,
     provinceId: '',
     cityId: '',
-    dataReviewed: false,
   });
 
   useEffect(() => {
@@ -84,7 +78,6 @@ const UpdateExporterForm = ({
         countryId: exporterDetails.country?.id || '',
         provinceId: exporterDetails.province?.id || '',
         cityId: exporterDetails.city?.id || '',
-        dataReviewed: false,
       }));
     }
   }, [exporterDetails]);
@@ -94,7 +87,7 @@ const UpdateExporterForm = ({
     formikHelpers: FormikHelpers<ValuesProps>
   ): Promise<void> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { dataReviewed, ...exporterData } = values;
+    const { ...exporterData } = values;
 
     try {
       await updateExporter({ ...exporterData, exporterId });
@@ -214,10 +207,6 @@ const UpdateExporterForm = ({
               </Box>
             </SimpleGrid>
 
-            <CheckboxForm
-              name='dataReviewed'
-              label='He revisado los datos agregados'
-            />
             <Button
               mt='12px'
               type='submit'

@@ -40,7 +40,6 @@ export interface ValuesProps {
     email: string;
     contractType: '' | 'FOB' | 'FAS' | 'SPOT';
     businesses: BusinessesProps[];
-    dataReviewed: boolean;
 }
 
 export const initialValues: ValuesProps = {
@@ -70,7 +69,6 @@ export const initialValues: ValuesProps = {
             contacts: [{ name: '', role: '', email: '', phone: '' }],
         },
     ],
-    dataReviewed: false,
 };
 
 const contactSchema = Yup.object().shape({
@@ -181,7 +179,4 @@ export const validationSchema = Yup.object({
         .oneOf(['FOB', 'FAS', 'SPOT'])
         .required('Requerido'),
     businesses: Yup.array().of(businessSchema).min(1),
-    dataReviewed: Yup.boolean()
-        .oneOf([true], 'Debes revisar los datos antes de enviar')
-        .required('Requerido'),
 });

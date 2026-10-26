@@ -28,9 +28,8 @@ export function useSubmitOnboarding(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, businesses, ...producerData } = values;
+        const { businesses, ...producerData } = values;
         const { area, ...businessData } = businesses[0];
-        void dataReviewed;
         createOnboarding(
             {
                 ...producerData,

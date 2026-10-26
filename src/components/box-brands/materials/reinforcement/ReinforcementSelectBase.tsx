@@ -121,7 +121,7 @@ const ReinforcementSelectBase: React.FC<ReinforcementSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<ReinforcementType>) => opt.id === field?.value
             )
           : null

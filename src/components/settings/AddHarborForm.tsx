@@ -179,10 +179,6 @@ const AddHarborForm: React.FC = () => {
             </FieldArray>
 
             <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
               <Button
                 mt='12px'
                 py='8px'

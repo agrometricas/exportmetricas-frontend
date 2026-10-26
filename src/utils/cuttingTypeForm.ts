@@ -35,7 +35,6 @@ type TextField = (typeof TEXT_FIELDS)[number];
 
 export type CuttingTypeFormValues = Record<NumberField | TextField, string> & {
   boxBrandId: number | '';
-  dataReviewed: boolean;
 };
 
 export type CuttingTypeBody = Record<NumberField, number> &
@@ -46,7 +45,6 @@ export const EMPTY_CUTTING_TYPE: CuttingTypeFormValues = {
     [...NUMBER_FIELDS, ...TEXT_FIELDS].map((field) => [field, ''])
   ) as Record<NumberField | TextField, string>),
   boxBrandId: '',
-  dataReviewed: false,
 };
 
 export function cuttingTypeFormValues(

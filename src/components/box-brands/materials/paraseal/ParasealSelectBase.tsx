@@ -118,7 +118,7 @@ const ParasealSelectBase: React.FC<ParasealSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<ParasealType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<ParasealType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

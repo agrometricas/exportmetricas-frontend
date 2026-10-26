@@ -17,6 +17,7 @@ import DateGrid from './cutting-sheet/DateGrid';
 import ExportBookingSelect from './ExportBookingSelect';
 import { exportFormValues, exportFromLineValues } from './exportFormValues';
 import { useSubmitExport } from './hooks/useSubmitExport';
+import LastFarmExportAlert from './LastFarmExportAlert';
 import { initialValues as emptyValues } from './schemas/export.schema';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
 import { usePagination } from '../../hooks/usePagination';
@@ -39,7 +40,6 @@ import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarbo
 import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
 } from '../ui/form/InputFieldDayDate';
@@ -145,6 +145,9 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 fromLine?.business
               }
             />
+            {!source && !fromLine && (
+              <LastFarmExportAlert businessId={values.businessId} />
+            )}
             <Heading fontSize='2xl' p='12px'>
               Marca de Caja
             </Heading>
@@ -319,10 +322,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             </SimpleGrid>
 
             <Divider my='16px' />
-            <CheckboxForm
-              name='dataReviewed'
-              label='He revisado los datos agregados'
-            />
             <Button
               mt='12px'
               py='8px'

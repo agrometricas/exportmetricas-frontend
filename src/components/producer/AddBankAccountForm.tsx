@@ -18,7 +18,6 @@ import { ClientType } from '../../types/client';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
 import SelectClient from '../client/SelectClient';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 
@@ -33,7 +32,6 @@ interface ValuesProps {
   email: string;
   isProducer: boolean;
   isClient: boolean;
-  dataReviewed: boolean;
 }
 
 const initialValues: ValuesProps = {
@@ -47,7 +45,6 @@ const initialValues: ValuesProps = {
   email: '',
   isProducer: false,
   isClient: false,
-  dataReviewed: false,
 };
 
 const validationSchema = Yup.object({
@@ -95,9 +92,6 @@ const validationSchema = Yup.object({
     .email('Correo electrónico inválido')
     .max(50, 'Debe tener 50 caracteres o menos')
     .optional(),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
-    .required('Requerido'),
 });
 
 const typesOpt = [
@@ -170,15 +164,12 @@ const AddBankAccountForm = (): React.JSX.Element => {
     values: ValuesProps,
     formikHelpers: FormikHelpers<ValuesProps>
   ): Promise<void> => {
-    const {
-      dataReviewed,
-      isClient,
+    const { isClient,
       isProducer,
       merchantId,
       clientId,
       ...accountValues
     } = values;
-    void dataReviewed;
     createBankAccount(
       {
         ...accountValues,
@@ -284,10 +275,6 @@ const AddBankAccountForm = (): React.JSX.Element => {
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
               <Button
                 mt='12px'
                 py='8px'

@@ -78,7 +78,7 @@ const CitySelectBase: React.FC<CitySelectBaseProps> = ({
 
     if (data && data.length > 0) {
       const selectedCityId = field?.value;
-      const selectedCity = data.find((city) => city.id === selectedCityId);
+      const selectedCity = data?.find((city) => city.id === selectedCityId);
 
       if (!selectedCity && resetOnParentChange) {
         setInternalValue(null);

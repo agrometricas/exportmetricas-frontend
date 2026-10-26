@@ -118,7 +118,7 @@ const SpongeSelectBase: React.FC<SpongeSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<SpongeType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<SpongeType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

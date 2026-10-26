@@ -121,7 +121,7 @@ const LabelSelectBase: React.FC<LabelSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<LabelType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<LabelType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

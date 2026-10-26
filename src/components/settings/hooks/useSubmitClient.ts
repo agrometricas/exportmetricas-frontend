@@ -23,15 +23,12 @@ export function useSubmitClient(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const {
-            dataReviewed,
-            purchaseVolumeBoxes,
+        const { purchaseVolumeBoxes,
             purchaseVolumePeriod,
             paymentTermValue,
             paymentTermUnit,
             ...clientData
         } = values;
-        dataReviewed;
         createClient(
             {
                 ...clientData,

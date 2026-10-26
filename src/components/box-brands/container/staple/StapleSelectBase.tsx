@@ -121,7 +121,7 @@ const StapleSelectBase: React.FC<StapleSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<StapleType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<StapleType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

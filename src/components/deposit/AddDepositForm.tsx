@@ -159,10 +159,6 @@ const AddDepositForm: React.FC = () => {
                 </>
               )}
             </FieldArray>
-            <CheckboxForm
-              name='dataReviewed'
-              label='He revisado los datos agregados'
-            />
             <Button
               mt='12px'
               py='8px'

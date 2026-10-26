@@ -21,7 +21,6 @@ export interface ValuesProps {
   trackingPlatform: string;
   harbors: HarborInfo[];
   contacts: ContactsProps[];
-  dataReviewed: boolean;
 }
 
 export const initialValues: ValuesProps = {
@@ -39,7 +38,6 @@ export const initialValues: ValuesProps = {
     },
   ],
   contacts: [{ name: '', email: '', phone: '' }],
-  dataReviewed: false,
 };
 
 export const validationSchema = Yup.object({
@@ -107,8 +105,5 @@ export const validationSchema = Yup.object({
       })
     )
     .min(1, 'Debe ingresar al menos un contacto')
-    .required('Requerido'),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
     .required('Requerido'),
 });

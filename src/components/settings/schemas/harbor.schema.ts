@@ -22,7 +22,6 @@ export interface ValuesProps {
   provinceId: number | '';
   cityId: number | '';
   contacts: HarborContactProps[];
-  dataReviewed: boolean;
   is24Hours: boolean;
 }
 
@@ -41,7 +40,6 @@ export const initialValues: ValuesProps = {
   provinceId: '',
   cityId: '',
   contacts: [{ name: '', web: '', email: '', phone: '' }],
-  dataReviewed: false,
   is24Hours: false,
 };
 
@@ -121,8 +119,5 @@ export const validationSchema = Yup.object({
   contacts: Yup.array()
     .of(contactSchema)
     .min(1, 'Debes tener al menos un contacto')
-    .required('Requerido'),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
     .required('Requerido'),
 });

@@ -123,7 +123,7 @@ const ProtectorSelectBase: React.FC<ProtectorSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<ProtectorType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<ProtectorType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

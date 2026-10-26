@@ -120,7 +120,7 @@ const PackingTapeSelectBase: React.FC<PackingTapeSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<PackingTapeType>) => opt.id === field?.value
             )
           : null

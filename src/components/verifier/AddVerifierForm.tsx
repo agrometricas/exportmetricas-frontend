@@ -3,7 +3,6 @@ import { Button, Divider, Flex, Heading, SimpleGrid, Box } from '@chakra-ui/reac
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
 import { useSubmitVerifier } from './hooks/useSubmitVerifier';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldText from '../ui/form/InputFieldText';
 
 const AddVerifierForm: React.FC = () => {
@@ -71,7 +70,6 @@ const AddVerifierForm: React.FC = () => {
                                 </>
                             )}
                         </FieldArray>
-                        <CheckboxForm name="dataReviewed" label="He revisado los datos agregados" />
                         <Button mt="12px" py="8px" px="16px" type="submit" colorScheme="teal" isLoading={isLoading}>
                             Agregar Verificador
                         </Button>

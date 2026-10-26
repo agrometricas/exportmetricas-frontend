@@ -22,8 +22,8 @@ export function useSubmitDeposit(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, is24Hours, countryId, provinceId, ...depositData } = values;
-        void dataReviewed, is24Hours, countryId, provinceId;
+        const { is24Hours, countryId, provinceId, ...depositData } = values;
+        void is24Hours, countryId, provinceId;
         createDeposit(
             { ...depositData },
             {

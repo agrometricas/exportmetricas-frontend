@@ -84,7 +84,7 @@ const BrandSelectBase: React.FC<{
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: BrandType) => opt.id === field?.value)
+          ? data?.find((opt: BrandType) => opt.id === field?.value)
           : undefined
       }
       placeholder={placeholder}

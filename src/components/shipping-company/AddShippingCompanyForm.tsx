@@ -5,7 +5,6 @@ import React from 'react';
 import { useSubmitShippingCompany } from './hooks/useSubmitShippingCompany';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 
@@ -168,10 +167,6 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <CheckboxForm
-              name='dataReviewed'
-              label='He revisado los datos agregados'
-            />
             <Button
               mt='12px'
               py='8px'

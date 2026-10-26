@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddParasealModal from './AddParasealModal';
 import ParasealSelectBase from './ParasealSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldParasealSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldParasealSelect: React.FC<InputFieldParasealSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (isBan) {
       if (isBan.state) {
         helpers.setValue(undefined);
@@ -43,8 +44,7 @@ const InputFieldParasealSelect: React.FC<InputFieldParasealSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

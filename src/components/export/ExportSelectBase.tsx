@@ -121,7 +121,7 @@ const ExportSelectBase: React.FC<ExportSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<ExportType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<ExportType>) => opt.id === field?.value)
           : undefined
       }
       placeholder={placeholder}

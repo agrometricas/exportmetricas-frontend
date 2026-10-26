@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddStrippingModal from './AddStrippingModal';
 import StrippingSelectBase from './StrippingSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldStrippingSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldStrippingSelect: React.FC<InputFieldStrippingSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (!!isBan) {
       field.onChange;
       if (isBan?.state) {
@@ -46,8 +47,7 @@ const InputFieldStrippingSelect: React.FC<InputFieldStrippingSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

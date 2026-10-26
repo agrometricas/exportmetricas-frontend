@@ -120,7 +120,7 @@ const CardboardSelectBase: React.FC<CardboardSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<CardboardType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<CardboardType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

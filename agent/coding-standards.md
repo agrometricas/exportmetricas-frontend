@@ -71,6 +71,15 @@ the backend proposes.
   `SelectX` / `XSelectBase` pairs of each domain instead of wiring a new input.
 - Submit logic that is more than a single call goes in a `useSubmitX` hook under
   `components/<dominio>/hooks/`.
+- A field never resets itself on mount: a form can arrive prefilled (edit,
+  duplicate, a copied box brand). An N/A switch acts only when it flips, through
+  `useBanChange` (`components/ui/form/`).
+- A required select with a single option picks it (`BusinessSelectBase`,
+  `BoxBrandSelectBase` do).
+- The "He revisado los datos" checkbox is kept only on the steps that move
+  stock or money: supply shipment, cutting sheet, validated costs, producer and
+  client payments, stock adjustment and initial stock. Catalog and export forms
+  do not ask for it.
 
 ## Pages
 

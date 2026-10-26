@@ -22,8 +22,7 @@ export function useSubmitBusiness(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, ...businessData } = values;
-        void dataReviewed;
+        const { ...businessData } = values;
         createBusiness(
             { ...businessData, area: Number(businessData.area) },
             {
