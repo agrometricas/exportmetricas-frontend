@@ -128,7 +128,7 @@ filas entraron y el detalle de las que fallaron.
 | Selectores | `components/producer/{SelectProducer, ProducerSelectBase, InputFieldProducerSelect}.tsx`, `components/business/{SelectBusiness, …}.tsx` |
 | Importación | `components/producer/ImportProducerDrawer.tsx`, `hooks/merchants/uploadMerchants.ts` |
 | Logo del productor | `components/producer/{UploadLogoForm, UploadLogoFile}.tsx`, `hooks/merchants/uploadMerchantLogo.ts` |
-| Páginas | `app/dashboard/producer/{producers, add-producer, fincas, fincas/[id], add-fincas, contracts, contracts/[id], add-contract, add-bank-account, upload-logo}/page.tsx` |
+| Páginas | `app/dashboard/producer/{producers, add-producer, fincas, fincas/[id], add-fincas, contracts, contracts/[id], add-contract, add-bank-account}/page.tsx`; el logo del productor se sube en `app/dashboard/logos` |
 | Contratos | `components/producer-contract/` (formulario de alta y edición, tabla, `producerContractBody.ts`), `hooks/producer-contract/`, `types/producerContract.ts` |
 | Cupos de la semana | `components/contract-usage/`, `hooks/contract-usage/contractUsage.ts`, `types/contractUsage.ts`, `app/dashboard/producer/contract-usage/page.tsx` |
 | Tipos | `types/merchant/`, `types/bankAccount*.ts` |

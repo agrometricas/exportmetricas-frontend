@@ -86,7 +86,7 @@ crear es el `MASTER` del registro.
 | Onboarding | `components/onboarding/OnboardingForm.tsx`, `components/onboarding/hooks/useSubmitOnboarding.ts`, `components/onboarding/schema/`, `hooks/merchants/createOnboarding.ts` |
 | Perfil | `app/dashboard/user/[id]/page.tsx`, `hooks/useUserProfile.tsx` |
 | Datos de la exportadora | `app/dashboard/user/update-user/[idUser]/page.tsx`, `components/settings/UpdateExporterForm.tsx`, `hooks/settings/` |
-| Logo de la exportadora | `app/dashboard/settings/upload-logo/page.tsx`, `components/settings/upload-logo/` |
+| Logos | `app/dashboard/logos/page.tsx`: una sola pantalla con una pestaña por dueño (exportadora, productores, alícuotas) que usa el formulario de cada uno (`components/settings/upload-logo/`, `components/producer/UploadLogoForm.tsx`, `components/box-brands/UploadLogoForm.tsx`). `?tab=` elige la pestaña (`utils/logoTabs.ts`); las direcciones viejas (`…/upload-logo`) redirigen a la suya. El menú la muestra en Materiales y en Configuraciones |
 
 - El `callbackUrl` del login es `${NEXT_PORTAL_URL}/dashboard`.
 - `forgot-password` y `reset-password` usan `fetch` directo: se ejecutan sin

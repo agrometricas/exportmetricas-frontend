@@ -48,7 +48,7 @@ export const CLIENT_MENU: SidenavMenuItem[] = [
 export const BOX_BRANDS_MENU: SidenavMenuItem[] = [
   { label: 'Alícuotas', to: '/dashboard/box-brands/search' },
   { label: 'Agregar Alícuotas', to: '/dashboard/box-brands/add-box-brand' },
-  { label: 'Agregar Logo', to: '/dashboard/box-brands/upload-logo' },
+  { label: 'Logos', to: '/dashboard/logos' },
 ];
 
 export const WINERY_MENU: SidenavMenuItem[] = [
@@ -152,7 +152,7 @@ export function getLiquidationMenu(counts: {
 
 export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
   return [
-    { label: 'Logo Exportadora', to: '/dashboard/settings/upload-logo' },
+    { label: 'Logos', to: '/dashboard/logos' },
     {
       label: 'Unidades de Materiales',
       to: '/dashboard/settings/material-units',
@@ -163,6 +163,5 @@ export function getSettingsMenu(exporterId?: string): SidenavMenuItem[] {
       label: 'Modificar Ubicación',
       to: `/dashboard/user/update-user/${exporterId}`,
     },
-    { label: 'Logo Productores', to: '/dashboard/producer/upload-logo' },
   ];
 }
