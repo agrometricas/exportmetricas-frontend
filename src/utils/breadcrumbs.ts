@@ -39,6 +39,7 @@ const VIEW_ROUTES: ViewMap = {
 
   '/dashboard/export/search': 'Exportaciones',
   '/dashboard/export/bookings': 'Bookings',
+  '/dashboard/export/documents': 'Documentos',
   '/dashboard/export/purchase-orders': 'Órdenes de Compra',
   '/dashboard/liquidation/exports-sent': 'Envíos de Insumos',
 

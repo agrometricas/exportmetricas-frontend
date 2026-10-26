@@ -25,6 +25,7 @@ import {
   customsBody,
   CustomsValues,
 } from '../../utils/customs';
+import { isMoney } from '../../utils/money';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
@@ -68,9 +69,25 @@ const validationSchema = Yup.object({
     'Requerido con el número de DAE',
     (value, ctx) => !!value || !ctx.parent.daeNumber
   ),
+  daeValue: Yup.string()
+    .test(
+      'monto',
+      'Un monto mayor que 0, con hasta dos decimales',
+      (value) => !value?.trim() || isMoney(value)
+    )
+    .test(
+      'dae',
+      'Va con el número de DAE',
+      (value, ctx) => !value?.trim() || !!ctx.parent.daeNumber
+    ),
 });
 
-const AFFECTED_QUERIES = ['exports', 'export'];
+const AFFECTED_QUERIES = [
+  'exports',
+  'export',
+  'bookingDocumentStatus',
+  'documentBoard',
+];
 
 interface ExportCustomsModalProps {
   exportItem: ExportResponse | null;
@@ -130,6 +147,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
               daeNumber: exportItem.daeNumber ?? '',
               daeDate: exportItem.daeDate ?? '',
               daeChannel: exportItem.daeChannel ?? '',
+              daeValue: exportItem.daeValue ?? '',
             }}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
@@ -160,6 +178,12 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
                       label='Canal de Aforo'
                       placeholder='Seleccione el canal'
                       options={CUSTOMS_CHANNEL_OPTIONS}
+                    />
+                    <InputFieldPlain
+                      name='daeValue'
+                      label='Valor (USD)'
+                      inputMode='decimal'
+                      placeholder='Se compara con la factura'
                     />
                   </SimpleGrid>
                 </VStack>

@@ -7,6 +7,7 @@ const EMPTY = {
   daeNumber: '',
   daeDate: '',
   daeChannel: '' as const,
+  daeValue: '',
 };
 
 describe('AUCP y DAE de la exportación', () => {
@@ -23,7 +24,14 @@ describe('AUCP y DAE de la exportación', () => {
       daeNumber: null,
       daeDate: null,
       daeChannel: null,
+      daeValue: null,
     });
+  });
+
+  it('el valor de la DAE va como número', () => {
+    expect(customsBody({ ...EMPTY, daeValue: ' 15120.50 ' }).daeValue).toBe(
+      15120.5
+    );
   });
 
   it('un formulario vacío borra lo anotado', () => {
@@ -33,6 +41,7 @@ describe('AUCP y DAE de la exportación', () => {
       daeNumber: null,
       daeDate: null,
       daeChannel: null,
+      daeValue: null,
     });
   });
 

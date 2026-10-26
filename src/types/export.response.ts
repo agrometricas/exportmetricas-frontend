@@ -116,6 +116,7 @@ export interface ExportResponse {
   daeNumber?: string | null;
   daeDate?: string | null;
   daeChannel?: CustomsChannel | null;
+  daeValue?: string | null;
   customsStep?: CustomsStep;
   booking?: {
     id: number;

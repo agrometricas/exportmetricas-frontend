@@ -12,4 +12,5 @@ export interface ExportCustomsBody {
   daeNumber: string | null;
   daeDate: string | null;
   daeChannel: CustomsChannel | null;
+  daeValue: number | null;
 }
