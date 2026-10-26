@@ -5,18 +5,19 @@ import {
   Box,
   Center,
   Heading,
-  SimpleGrid,
   Text,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
-import PendingPaymentCard from './PendingPaymentCard';
+import React, { useEffect, useMemo } from 'react';
 import { useClientPaymentsPending } from '../../hooks/client-payment/getClientPaymentPending';
 import { usePagination } from '../../hooks/usePagination';
 import { ExportSentType } from '../../types/exportSent';
+import { pendingExportColumns } from '../export/pendingColumns';
+import OpenWithConfirmation from '../ui/OpenWithConfirmation';
+import PendingTable from '../ui/PendingTable';
 
 type ApiErrorData = {
   statusCode?: number;
@@ -30,6 +31,10 @@ const PendingPaymentList = (): React.JSX.Element => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const columns = useMemo(
+    () => pendingExportColumns<Partial<ExportSentType>>((row) => row.export),
+    []
+  );
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
   const textColor = useColorModeValue('gray.700', 'gray.300');
@@ -107,11 +112,19 @@ const PendingPaymentList = (): React.JSX.Element => {
           </VStack>
         </Center>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={{ base: 4, md: 6 }}>
-          {items.map((item) => (
-            <PendingPaymentCard key={item.id} exportSentItem={item} pathname={pathname} />
-          ))}
-        </SimpleGrid>
+        <PendingTable
+          columns={columns}
+          data={items}
+          rowId={(item) => Number(item.id)}
+          renderAction={(item) => (
+            <OpenWithConfirmation
+              href={`${pathname}/${item.id}`}
+              label='Realizar cobro'
+              title={`Abrir Cobro Pendiente: ${item.export?.client?.businessName || '—'}`}
+              description='¿Estás seguro de que deseas empezar este Cobro Pendiente?'
+            />
+          )}
+        />
       )}
     </VStack>
   );

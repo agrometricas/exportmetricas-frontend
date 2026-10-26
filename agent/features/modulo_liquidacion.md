@@ -15,11 +15,11 @@ de los materiales enviados, **pagar al productor** descontando sus gastos y
 
 ```
 Agregar Costos Validados: lista GET /export-sent/pending-costs
-        ↓ elegir un envío
-/liquidation/add-export-cost/[id]
-   GET   /export-sent-material/:exportSentId        materiales y costo unitario
-   PATCH /export-sent-material/:id                  una llamada por línea cambiada
-   PATCH /export-sent/:id/confirm-producer-cost     confirma
+        ↓ revisar uno                              ↓ o elegir varios
+/liquidation/add-export-cost/[id]              "Confirmar costos"
+   GET   /export-sent-material/:exportSentId     POST /export-sent/confirm-producer-cost/batch
+   PATCH /export-sent-material/:id               (una llamada por línea cambiada)
+   PATCH /export-sent/:id/confirm-producer-cost  (confirma)
         ↓
 el envío aparece en las dos listas de pago:
 
@@ -31,6 +31,10 @@ POST …/transfer  (comprobante)           POST …/transfer  (comprobante)
 
 Los dos pagos son independientes: cualquiera puede registrarse primero.
 
+Las dos listas de pendientes son tablas (`PendingTable`) con fecha de corte,
+finca, productor, alícuota, cajas, cliente y ruta. *Realizar pago* y *Realizar
+cobro* piden confirmación y abren el formulario de ese envío.
+
 ---
 
 ### Costos validados
@@ -41,7 +45,23 @@ unitario editable. Al guardar:
 1. Compara cada `unitCost` con el original y manda un `PATCH` **solo por las
    líneas que cambiaron**
 2. Llama a la confirmación
-3. Invalida `exportSentCostsPending` y va a *Costos Validados*
+3. Invalida `COST_CONFIRMATION_QUERIES` y va a *Costos Validados*
+
+### Lista de pendientes y confirmación por lote
+
+Los envíos con costos por validar se muestran en una tabla (`PendingTable`)
+con los datos del embarque y el **costo de materiales** que da el backend
+(`materialsCost`, con `materialLines` materiales), ordenada por fecha de
+corte. *Revisar costos* pide confirmación y abre el formulario.
+
+Cuando los costos no hay que corregirlos, se eligen varias filas y **Confirmar
+costos (N)** (`BatchActionBar`) los confirma tal como están, con
+`POST /export-sent/confirm-producer-cost/batch` y solo los ids.
+
+- La respuesta es `{ confirmed, failed }`. El toast resume cuántos se
+  confirmaron (`costBatchSummary`, `utils/costBatch.ts`); los que fallaron
+  siguen elegidos, con un aviso que dice cuál y por qué
+- Invalida las mismas claves que la confirmación una por una
 
 ---
 
@@ -146,10 +166,11 @@ pantalla lo dice. Guardar invalida la hoja y las cotizaciones del pago.
 
 | Pieza | Archivo |
 |-------|---------|
-| Costos pendientes | `components/export-cost/{ExportCostList, ExportCostCard}.tsx` |
+| Costos pendientes | `components/export-cost/ExportCostList.tsx`, `components/export/pendingColumns.tsx`, `components/ui/{PendingTable, OpenWithConfirmation}.tsx` |
+| Confirmación por lote | `components/ui/BatchActionBar.tsx`, `hooks/export/export-sent/confirmExportSentCostReview.ts`, `utils/{costBatch, selection}.ts`, `types/costConfirmationBatch.ts` |
 | Validación de costos | `components/export-cost/ExportSentCostForm.tsx` |
 | Costos confirmados | `components/export-cost/{TableExportSentConfirmedCost, DetailExportSentConfirmedCost}.tsx` |
-| Pago a productor: pendientes | `components/export/export-payments/{PendingPaymentList, PendingPaymentCard}.tsx` |
+| Pago a productor: pendientes | `components/export/export-payments/PendingPaymentList.tsx` |
 | Pago a productor: formulario | `components/export/export-payments/PendingPaymentForm.tsx` |
 | Pagos a productor realizados | `components/liquidation/producer-payments/` |
 | Cobro a cliente | `components/client-payment/` |
@@ -163,17 +184,15 @@ pantalla lo dice. Guardar invalida la hoja y las cotizaciones del pago.
 
 Invalidaciones:
 
-- Confirmar costos: `exportSentCostsPending`.
+- Confirmar costos, uno o por lote: `COST_CONFIRMATION_QUERIES`
+  (`exportSentCostsPending`, `confirmedExportSents`, `exportsSentPending`,
+  `clientPaymentsPending` y las del avance de la exportación).
 - Pago a productor: `producerPayments`, `exportsSentPending`.
 - Cobro a cliente: `clientPayments`, `exportsSentPending`,
   `clientPaymentsPending`.
 
 - `POST /export/producer-payment` responde un arreglo; `createProducerPayment`
   toma el `id` del primer elemento para subir el comprobante.
-- Confirmar costos **no** invalida `exportsSentPending` ni
-  `clientPaymentsPending`: con `staleTime: Infinity`, el envío recién confirmado
-  no aparece en las listas de pago ni en sus contadores hasta recargar la
-  página.
 
 > El formulario de pago a productor vive en `components/export/export-payments/`,
 > no en `components/liquidation/`.

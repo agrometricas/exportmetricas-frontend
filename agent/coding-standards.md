@@ -102,6 +102,12 @@ the backend proposes.
 - The theme under `src/theme/` is **not mounted**: `Providers.tsx` runs on
   Chakra's default `extendTheme()`. Use Chakra tokens (`gray.700`, `green.500`)
   and `useColorModeValue`; do not add hex literals.
+- A list of pending items is a `PendingTable` (`components/ui/`): sortable,
+  searchable, with its action column pinned right so it stays in view on a
+  phone. A pending item that asks before opening uses `OpenWithConfirmation`.
+  Acting on several rows at once goes through `BatchActionBar`: it confirms in
+  a modal, sends only the ids, reports which rows failed and why, and keeps
+  those selected.
 
 ## Dates
 
