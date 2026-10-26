@@ -5,6 +5,7 @@ import {
   MRT_ColumnDef,
   useMaterialReactTable,
 } from 'material-react-table';
+import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo, useState } from 'react';
 import DetailCocktail from './DetailCocktail';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
@@ -78,6 +79,7 @@ const TableSupply = ({
   );
 
   const table = useMaterialReactTable({
+    localization: MRT_Localization_ES,
     columns,
     data: details,
     enableBottomToolbar: false,

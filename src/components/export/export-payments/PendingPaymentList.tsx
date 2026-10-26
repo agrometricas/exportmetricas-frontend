@@ -3,15 +3,16 @@
 import {
   Badge,
   Box,
-  Center,
   Heading,
-  Text,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
+import EmptyState from '@/components/ui/states/EmptyState';
+import ErrorState from '@/components/ui/states/ErrorState';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { useExportsSentPending } from '../../../hooks/export/export-sent/getExportsSentPending';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportSentType } from '../../../types/exportSent';
@@ -27,7 +28,7 @@ type ApiErrorData = {
 
 const PendingPaymentList = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useExportsSentPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportsSentPending(paginationParams);
   const router = useRouter();
   const pathname = usePathname();
   const columns = useMemo(
@@ -36,7 +37,6 @@ const PendingPaymentList = (): React.JSX.Element => {
   );
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -49,35 +49,12 @@ const PendingPaymentList = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='40vh' />
     );
   }
 
   if (error) {
-    if (isAxiosError<ApiErrorData>(error)) {
-      const { statusCode, message, error: errorTitle } = error.response?.data ?? {};
-      return (
-        <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-          <VStack spacing={2} align="center">
-            <Heading>
-              {statusCode ?? 'Error'}
-              {errorTitle ? ` - ${errorTitle}` : ''}
-            </Heading>
-            <Text color={textColor}>{message ?? 'Ocurrió un error inesperado'}</Text>
-          </VStack>
-        </Box>
-      );
-    }
-    return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={2} align="center">
-          <Heading>Error</Heading>
-          <Text color={textColor}>Ocurrió un error inesperado</Text>
-        </VStack>
-      </Box>
-    );
+    return <ErrorState error={error} onRetry={() => refetch()} />;
   }
 
   const items = data as Partial<ExportSentType>[];
@@ -100,16 +77,10 @@ const PendingPaymentList = (): React.JSX.Element => {
       </Box>
 
       {items.length === 0 ? (
-        <Center py={10}>
-          <VStack spacing={1}>
-            <Heading size="sm" color={headingColor}>
-              No existen pagos pendientes
-            </Heading>
-            <Text fontSize="sm" color={textColor}>
-              Cuando existan, aparecerán aquí.
-            </Text>
-          </VStack>
-        </Center>
+        <EmptyState
+            title="No hay pagos pendientes"
+            description="Un envío aparece aquí cuando sus costos están validados."
+          />
       ) : (
         <PendingTable
           columns={columns}

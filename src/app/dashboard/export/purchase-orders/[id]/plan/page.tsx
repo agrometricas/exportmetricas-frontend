@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineViewWeek } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ExportPlanForm from '../../../../../../components/purchase-order/ExportPlanForm';
 import IsOnboarding from '../../../../../../components/ui/IsOnboarding';
 import { usePurchaseOrder } from '../../../../../../hooks/purchase-order/getPurchaseOrder';
@@ -65,7 +66,7 @@ function ExportPlanPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !order ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <ExportPlanForm order={order} />
             )}

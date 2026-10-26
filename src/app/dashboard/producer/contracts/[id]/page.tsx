@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineAssignment } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ProducerContractForm from '../../../../../components/producer-contract/ProducerContractForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useProducerContract } from '../../../../../hooks/producer-contract/getProducerContract';
@@ -61,7 +62,7 @@ function EditProducerContractPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading || !contract ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : (
               <ProducerContractForm contract={contract as ProducerContractResponse} />
             )}

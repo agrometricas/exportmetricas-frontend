@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { FiPackage } from 'react-icons/fi';
+import LoadingState from '@/components/ui/states/LoadingState';
 import SentMaterialsExportForm from '../../../../../components/export/SentMaterialsExportForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useExport } from '../../../../../hooks/export/getExport';
@@ -61,9 +62,7 @@ const PendingExportPage = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="60vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading>Cargando...</Heading>
-      </Box>
+      <LoadingState minH='60vh' />
     );
   }
 

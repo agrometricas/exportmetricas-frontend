@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import LoadingState from '@/components/ui/states/LoadingState';
 import {
   useMinimumBoxPrice,
   useUpdateMinimumBoxPrice,
@@ -30,7 +31,7 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
   const { mutate: save, isLoading: isSaving } = useUpdateMinimumBoxPrice();
   const minimum = data as MinimumBoxPriceResponse | undefined;
 
-  if (isLoading || !minimum) return <Text>Cargando...</Text>;
+  if (isLoading || !minimum) return <LoadingState />;
 
   const onSubmit = (values: Values): void => {
     save(

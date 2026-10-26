@@ -14,6 +14,7 @@ import {
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdContentCut } from 'react-icons/md';
+import LoadingState from '@/components/ui/states/LoadingState';
 import CorrectCuttingSheetForm from '../../../../../components/export/cutting-sheet/CorrectCuttingSheetForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useCuttingSheets } from '../../../../../hooks/export/cuttingSheet/getCuttingSheets';
@@ -67,7 +68,7 @@ function CorrectCuttingSheetPage(): React.JSX.Element {
 
           <CardBody>
             {isLoading ? (
-              <Text>Cargando...</Text>
+              <LoadingState />
             ) : sheet ? (
               <CorrectCuttingSheetForm sheet={sheet} />
             ) : (

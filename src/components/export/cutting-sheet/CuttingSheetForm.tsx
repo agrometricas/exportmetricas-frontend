@@ -34,6 +34,7 @@ import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import CheckboxForm from '../../ui/form/CheckboxForm';
 import InputFieldSelector from '../../ui/form/InputFieldSelector';
 import InputFieldText from '../../ui/form/InputFieldText';
+import UnsavedChangesGuard from '../../ui/form/UnsavedChangesGuard';
 import SelectCuttingType from '../cutting-type/SelectCuttingType';
 
 const timeZone = 'America/Guayaquil';
@@ -999,8 +1000,9 @@ const CuttingSheetForm = ({
         onSubmit={handleSubmit}
         validationSchema={finalValidationSchema}
       >
-        {({ values }) => (
+        {({ values, dirty, isSubmitting }) => (
           <Form>
+            <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <Flex direction='column' gap='4'>
               <Heading size='md'>Datos para la Hoja de Corte</Heading>
               <Divider mb={'16px'} />

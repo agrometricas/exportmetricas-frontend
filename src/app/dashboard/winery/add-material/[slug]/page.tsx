@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
+import LoadingState from '@/components/ui/states/LoadingState';
 import { useExporter } from '@/hooks/useUserProfile';
 import { useExporterMaterials } from '@/hooks/winery/getExporterMaterials';
 import { useExporterMaterialStock } from '@/hooks/winery/useExporterMaterialStock';
@@ -50,13 +51,7 @@ export default function AddMaterialPage(): JSX.Element {
     stockError instanceof AxiosError && stockError.response?.status === 400;
 
   if (isLoadingUser || isLoadingMaterials || isLoadingStock) {
-    return (
-      <Box mx={'auto'} my={'200px'}>
-        <Center>
-          <Heading>Cargando...</Heading>
-        </Center>
-      </Box>
-    );
+    return <LoadingState minH='60vh' />;
   }
 
   if (!exporterId || !selectedMaterial) {

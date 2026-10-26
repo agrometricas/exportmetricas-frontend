@@ -89,6 +89,7 @@ import { quantityUnit } from '../../utils/materialUnits';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
+import UnsavedChangesGuard from '../ui/form/UnsavedChangesGuard';
 
 interface PesticideProps {
   pesticideId: number | '';
@@ -1264,8 +1265,9 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
         onSubmit={addBoxBrands}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, values }) => (
+        {({ isSubmitting, values, dirty }) => (
           <Form>
+            <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <ClearPalletsOnBulk />
             <Flex flexDirection='column' gap={3}>
               <Flex justify='space-between'>

@@ -2,9 +2,7 @@
 
 import {
   Box,
-  Center,
   Heading,
-  Text,
   VStack,
   Badge,
   useColorModeValue,
@@ -15,6 +13,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdFactCheck } from 'react-icons/md';
 import { useQueryClient } from 'react-query';
+import EmptyState from '@/components/ui/states/EmptyState';
+import ErrorState from '@/components/ui/states/ErrorState';
+import LoadingState from '@/components/ui/states/LoadingState';
 import {
   COST_CONFIRMATION_QUERIES,
   useConfirmExportSentCosts,
@@ -49,7 +50,7 @@ type ApiErrorData = {
 
 const ExportCostList = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useExportSentCostsPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportSentCostsPending(paginationParams);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -78,7 +79,6 @@ const ExportCostList = (): React.JSX.Element => {
   }, [queryClient]);
 
   const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -89,35 +89,12 @@ const ExportCostList = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <Heading size="md">Cargando...</Heading>
-      </Box>
+      <LoadingState minH='40vh' />
     );
   }
 
   if (error) {
-    if (isAxiosError<ApiErrorData>(error)) {
-      const { statusCode, message, error: errorTitle } = error.response?.data ?? {};
-      return (
-        <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-          <VStack spacing={2} align="center">
-            <Heading size="md">
-              {statusCode ?? 'Error'}
-              {errorTitle ? ` - ${errorTitle}` : ''}
-            </Heading>
-            <Text color={textColor}>{message ?? 'Ocurrió un error inesperado'}</Text>
-          </VStack>
-        </Box>
-      );
-    }
-    return (
-      <Box minH="40vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={2} align="center">
-          <Heading size="md">Error</Heading>
-          <Text color={textColor}>Ocurrió un error inesperado</Text>
-        </VStack>
-      </Box>
-    );
+    return <ErrorState error={error} onRetry={() => refetch()} />;
   }
 
   const items = data as PendingCost[];
@@ -170,16 +147,10 @@ const ExportCostList = (): React.JSX.Element => {
       )}
 
       {items.length === 0 ? (
-        <Center py={10}>
-          <VStack spacing={1}>
-            <Heading size="sm" color={headingColor}>
-              No existen costos de exportación pendientes
-            </Heading>
-            <Text fontSize="sm" color={textColor}>
-              Cuando existan, aparecerán aquí.
-            </Text>
-          </VStack>
-        </Center>
+        <EmptyState
+            title="No hay costos por validar"
+            description="Cada envío de insumos registrado aparece aquí para revisar sus costos."
+          />
       ) : (
         <PendingTable
           columns={columns}

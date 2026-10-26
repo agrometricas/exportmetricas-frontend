@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, useFormikContext } from 'formik';
 import React, { useMemo } from 'react';
+import LoadingState from '@/components/ui/states/LoadingState';
 import ContractUsageTable from './ContractUsageTable';
 import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
@@ -40,7 +41,7 @@ function WeekUsage(): React.JSX.Element {
         contrato, spot o sin orden de compra) contra las aprobadas por semana en
         su contrato vigente.
       </Text>
-      {isLoading && <Text>Cargando...</Text>}
+      {isLoading && <LoadingState />}
       {usage?.warnings.map((warning) => (
         <Alert key={warning} status='error' borderRadius='lg'>
           <AlertIcon />
