@@ -15,6 +15,8 @@ import React from 'react';
 import { MdLocalShipping } from 'react-icons/md';
 import TransportRatesManager from '../../../../components/transport-rate/TransportRatesManager';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
+import SectionTabs from '../../../../components/ui/SectionTabs';
+import { LOGISTICS_TABS } from '../../../../components/ui/sidenav/navMenus';
 
 function TransportRatesPage(): React.JSX.Element {
   const bgColor = useColorModeValue('gray.50', 'gray.900');
@@ -26,6 +28,7 @@ function TransportRatesPage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
+        <SectionTabs tabs={LOGISTICS_TABS} />
         <Card
           bg={cardBg}
           borderColor={borderColor}

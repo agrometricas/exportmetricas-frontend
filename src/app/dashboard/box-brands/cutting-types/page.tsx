@@ -21,6 +21,8 @@ import { FiPlus } from 'react-icons/fi';
 import { MdContentCut } from 'react-icons/md';
 import TableCuttingTypes from '../../../../components/export/cutting-type/table-cutting-type/TableCuttingTypes';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
+import SectionTabs from '../../../../components/ui/SectionTabs';
+import { QUALITY_CATALOG_TABS } from '../../../../components/ui/sidenav/navMenus';
 
 interface WindowSizeProps {
   width: number | null;
@@ -62,6 +64,7 @@ function CuttingTypesPage(): React.JSX.Element {
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       {/* Header */}
       <Box mb={6} maxW="8xl" mx="auto">
+        <SectionTabs tabs={QUALITY_CATALOG_TABS} />
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"

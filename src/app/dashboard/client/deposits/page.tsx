@@ -23,6 +23,8 @@ import { FiPlus } from 'react-icons/fi';
 import { MdWarehouse } from 'react-icons/md';
 import TableDeposits from '../../../../components/deposit/table-deposit/TableDeposits';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
+import SectionTabs from '../../../../components/ui/SectionTabs';
+import { LOGISTICS_TABS } from '../../../../components/ui/sidenav/navMenus';
 
 interface WindowSizeProps {
   width: number | null;
@@ -69,6 +71,7 @@ function DepositsPage(): React.JSX.Element {
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       {/* Header */}
       <Box mb={6} maxW="8xl" mx="auto">
+        <SectionTabs tabs={LOGISTICS_TABS} />
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"

@@ -88,6 +88,9 @@ the backend proposes.
   component from `components/` and is exported wrapped in `IsOnboarding(...)`.
 - A new section needs its entry in `components/ui/sidenav/navMenus.ts` and, if
   it is a new top-level group, in `SideNavItems.ts` with its `allowedRoles`.
+- A catalog that is set up once becomes a tab of an existing entry
+  (`LOGISTICS_TABS`, `QUALITY_CATALOG_TABS`, rendered by `SectionTabs`), not a
+  new menu row. The entry lists every route it covers in `match`.
 
 ## UI
 

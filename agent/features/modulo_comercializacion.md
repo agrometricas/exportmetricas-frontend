@@ -141,4 +141,8 @@ respuesta trae una entrada por fila con `status: 'success' | 'error'`.
   naviera sin salir del formulario que los necesita.
 
 > Las cuentas bancarias se dan de alta desde *Productor* y desde
-> *Comercialización*, pero se listan en el menú *Liquidación*.
+> *Liquidación*, y se listan en *Liquidación*.
+
+> En el menú, puertos, navieras, contratos navieros, depósitos, transportes y
+> tarifas de transporte comparten la entrada *Logística*, con una pestaña cada
+> uno (`LOGISTICS_TABS`).

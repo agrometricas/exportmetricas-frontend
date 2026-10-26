@@ -22,6 +22,8 @@ import { FiPlus } from 'react-icons/fi';
 import { MdLocalShipping } from 'react-icons/md';
 import TableTransports from '../../../../components/transport/table-transport/TableTransports';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
+import SectionTabs from '../../../../components/ui/SectionTabs';
+import { LOGISTICS_TABS } from '../../../../components/ui/sidenav/navMenus';
 
 interface WindowSizeProps {
   width: number | null;
@@ -65,6 +67,7 @@ function TransportsPage(): React.JSX.Element {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box mb={6} maxW="8xl" mx="auto">
+        <SectionTabs tabs={LOGISTICS_TABS} />
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"

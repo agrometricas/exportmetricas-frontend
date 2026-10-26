@@ -114,4 +114,6 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
 
 > En el menú este módulo es *Calidad*. Sus pantallas están repartidas entre
 > `/dashboard/export/` (hojas) y `/dashboard/box-brands/` (tipos de corte y
-> verificadoras).
+> verificadoras). Verificadoras y tipos de corte comparten la entrada
+> *Verificadoras y Tipos de Corte*, con una pestaña cada uno
+> (`QUALITY_CATALOG_TABS`).
