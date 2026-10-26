@@ -159,7 +159,6 @@ describe('formulario prellenado desde una exportación', () => {
     const values = {
       ...exportFormValues(exportResponse()),
       estimatedTravelTime: '',
-      dataReviewed: true,
     };
 
     await expect(
