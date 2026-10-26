@@ -4,6 +4,7 @@ import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateBoardingCard } from '../../../../hooks/box-brand/additions/boarding-card/createBoardingCard';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
 interface AddBoardingCardFormProps {
@@ -61,8 +62,8 @@ const AddBoardingCardForm = ({
       {
         onError: (error: TypeError) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

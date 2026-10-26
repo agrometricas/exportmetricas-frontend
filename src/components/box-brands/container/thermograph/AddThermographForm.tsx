@@ -6,6 +6,7 @@ import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateThermograph } from '../../../../hooks/box-brand/container/thermograph/createThermograph';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
 interface AddThermographFormProps {
@@ -75,13 +76,11 @@ const AddThermographForm = ({
       },
       {
         onError: (error: any) => {
-          const { response } = error;
-          const { data } = response;
-          const { statusCode, message, error: errorTitle } = data;
+          const statusCode = error.response?.status;
 
           toast({
-            title: `Error ${statusCode}: ${errorTitle} `,
-            description: `${message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

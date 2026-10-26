@@ -22,6 +22,7 @@ import {
 import { useField } from 'formik';
 import React, { useRef, useState } from 'react';
 import { useImportClients } from '../../hooks/export/client/uploadClients';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const ImportClientDrawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,7 +52,7 @@ const ImportClientDrawer: React.FC = () => {
       onError: (error: any) => {
         toast({
           title: 'Error al importar',
-          description: error.response?.data?.message || 'Error desconocido.',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,

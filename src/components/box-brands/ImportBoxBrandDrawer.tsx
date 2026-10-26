@@ -24,6 +24,7 @@ import React, { useRef, useState } from 'react';
 import { useImportBoxBrandMaterials } from '../../hooks/box-brand/materials/uploadBoxBrandMaterials';
 import { useImportBoxBrands } from '../../hooks/box-brand/uploadBoxBrands';
 import axios from '../../lib/axios';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const ImportFilesDrawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,7 +76,7 @@ const ImportFilesDrawer: React.FC = () => {
       onError: (error) => {
         toast({
           title: 'Error al importar Box Brand',
-          description: error?.message || 'Error desconocido.',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -177,7 +178,7 @@ const ImportFilesDrawer: React.FC = () => {
       onError: (error) => {
         toast({
           title: 'Error al importar Materiales',
-          description: error?.message || 'Error desconocido.',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -248,7 +249,7 @@ const ImportFilesDrawer: React.FC = () => {
     } catch (error) {
       toast({
         title: 'Error al descargar la plantilla',
-        description: 'No se pudo obtener el enlace de descarga.',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,

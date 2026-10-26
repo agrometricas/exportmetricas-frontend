@@ -3,6 +3,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
 import { useCreateVerifier } from '../../../hooks/verifier/createVerifier';
+import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import { ValuesProps, validationSchema, initialValues } from '../schemas/verifier.schema';
 
 export function useSubmitVerifier(): {
@@ -25,12 +26,10 @@ export function useSubmitVerifier(): {
             { ...verifierData },
             {
                 onError: (error) => {
-                    const data = error.response?.data;
-                    if (!data) return;
-                    const { statusCode, message, errors: errorTitle } = data;
+                    const statusCode = error.response?.status;
                     toast({
-                        title: `Error ${statusCode}: ${errorTitle}`,
-                        description: message,
+                        title: 'No se pudo guardar',
+                        description: serverErrorMessage(error),
                         status: 'error',
                         duration: 5000,
                         isClosable: true,

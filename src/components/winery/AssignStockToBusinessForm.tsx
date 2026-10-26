@@ -12,6 +12,7 @@ import {
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useIncreaseBusinessStock } from '@/hooks/winery/useIncreaseBusinessStock';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
 interface Props {
@@ -68,9 +69,10 @@ export function AssignStockToBusinessForm({
               });
               onClose();
             },
-            onError: () => {
+            onError: (error: unknown) => {
               toast({
                 title: 'Error al Asignar Stock.',
+                description: serverErrorMessage(error),
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

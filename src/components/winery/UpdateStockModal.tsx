@@ -18,6 +18,7 @@ import {
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useUpdateExporterMaterialStock } from '@/hooks/winery/useUpdateExporterMaterialStock';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
 interface Props {
@@ -67,9 +68,10 @@ export function UpdateStockModal({
                     });
                     onClose();
                   },
-                  onError: () => {
+                  onError: (error: unknown) => {
                     toast({
                       title: 'Error al Actualizar el Stock.',
+                      description: serverErrorMessage(error),
                       status: 'error',
                       duration: 3000,
                       isClosable: true,

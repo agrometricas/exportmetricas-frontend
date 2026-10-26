@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import { useCreateCertificate } from '@/hooks/utils/createCertificate';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { useExporter } from '../../hooks/useUserProfile';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import UploadLogoFile from '../producer/UploadLogoFile';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -113,8 +114,8 @@ const AddCertificateForm = ({
       const data = axiosError?.response?.data;
 
       toast({
-        title: `Error ${data?.statusCode || ''}`,
-        description: data?.message || 'Ocurrió un error',
+        title: 'No se pudo guardar',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,

@@ -4,6 +4,7 @@ import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateSheet } from '../../../../hooks/box-brand/additions/sheet/createSheet';
+import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
 interface AddSheetFormProps {
@@ -59,8 +60,8 @@ const AddSheetForm = ({ onClose }: AddSheetFormProps): React.JSX.Element => {
       {
         onError: (error: TypeError) => {
           toast({
-            title: 'Error.',
-            description: `${error.message}`,
+            title: 'No se pudo guardar',
+            description: serverErrorMessage(error),
             status: 'error',
             duration: 5000,
             isClosable: true,

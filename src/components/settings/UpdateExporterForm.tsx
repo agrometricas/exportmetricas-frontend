@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useUpdateExporter } from '../../hooks/settings/updateExporter';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
@@ -102,7 +103,7 @@ const UpdateExporterForm = ({
     } catch (error) {
       toast({
         title: 'Error al actualizar',
-        description: 'Hubo un problema al actualizar la información.',
+        description: serverErrorMessage(error),
         status: 'error',
         duration: 5000,
         isClosable: true,

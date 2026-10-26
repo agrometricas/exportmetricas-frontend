@@ -24,6 +24,7 @@ import {
 import { useField } from 'formik';
 import React, { useRef, useState } from 'react';
 import { useImportMerchants } from '../../hooks/merchants/uploadMerchants';
+import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const ImportProducerDrawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,7 +52,7 @@ const ImportProducerDrawer: React.FC = () => {
       onError: (error: any) => {
         toast({
           title: 'Error al importar',
-          description: error.response?.data?.message || 'Error desconocido.',
+          description: serverErrorMessage(error),
           status: 'error',
           duration: 5000,
           isClosable: true,
