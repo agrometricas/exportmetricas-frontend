@@ -19,6 +19,7 @@ import {
 import Link_Next from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FiPlus } from 'react-icons/fi';
+import { isMenuEntryActive } from './menuActive';
 import { SidenavItem, SidenavMenuItem } from './sidenav-items';
 
 interface AccordionMenuProps {
@@ -33,11 +34,8 @@ export function AccordionMenu({
   const pathname = usePathname();
   const isAble = pathname !== '/dashboard/onboarding';
 
-  const isItemActive = (p: string): boolean =>
-    pathname === p || pathname.startsWith(p + '/');
-
   const isMenuItemActive = (it: SidenavItem): boolean =>
-    it.menu?.some((m) => isItemActive(m.to)) || false;
+    it.menu?.some((m) => isMenuEntryActive(pathname, m)) || false;
 
   const normalize = (s: string): string =>
     s
@@ -171,8 +169,8 @@ export function AccordionMenu({
             .map((g, idx) => {
               const view = g.view!;
               const add = g.add!;
-              const activeView = isItemActive(view.to);
-              const activeAdd = isItemActive(add.to);
+              const activeView = isMenuEntryActive(pathname, view);
+              const activeAdd = isMenuEntryActive(pathname, add);
               const active = activeView || activeAdd;
 
               const groupBadge =
@@ -256,7 +254,7 @@ export function AccordionMenu({
             })}
 
           {singles.map((menuItem, index) => {
-            const active = isItemActive(menuItem.to);
+            const active = isMenuEntryActive(pathname, menuItem);
             return (
               <Tooltip
                 key={`single-${index}`}

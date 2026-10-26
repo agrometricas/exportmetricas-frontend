@@ -20,6 +20,8 @@ import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdVerified } from 'react-icons/md';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
+import SectionTabs from '../../../../components/ui/SectionTabs';
+import { QUALITY_CATALOG_TABS } from '../../../../components/ui/sidenav/navMenus';
 import TableVerifiers from '../../../../components/verifier/table-verifier/TableVerifiers';
 
 interface WindowSizeProps {
@@ -65,6 +67,7 @@ function VerifiersPage(): React.JSX.Element {
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       {/* Header */}
       <Box mb={6} maxW="8xl" mx="auto">
+        <SectionTabs tabs={QUALITY_CATALOG_TABS} />
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"

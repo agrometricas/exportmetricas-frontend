@@ -31,6 +31,7 @@ import React from 'react';
 import { IconType } from 'react-icons';
 import { FiPlus, FiChevronRight } from 'react-icons/fi';
 import { AccordionMenu } from './AccordionMenu';
+import { isMenuEntryActive } from './menuActive';
 
 export interface SidenavItem {
   icon: IconType;
@@ -52,6 +53,7 @@ export interface SidenavItem {
 export interface SidenavMenuItem {
   label: string;
   to: string;
+  match?: string[];
   count?: number;
   submenu?: SidenavMenuItem[];
   badge?: {
@@ -94,7 +96,7 @@ export function SidenavItems({
     pathname === p || pathname.startsWith(p + '/');
 
   const isMenuItemActive = (item: SidenavItem): boolean =>
-    item.menu?.some((m) => isItemActive(m.to)) || false;
+    item.menu?.some((m) => isMenuEntryActive(pathname, m)) || false;
 
   const renderBadge = (
     input?: SidenavItem['badge'] | SidenavMenuItem['badge'],
@@ -252,7 +254,7 @@ export function SidenavItems({
                       as={Link_Next}
                       href={mi.disabled ? '#' : mi.to}
                       display='block'
-                      bg={isItemActive(mi.to) ? activeBg : 'transparent'}
+                      bg={isMenuEntryActive(pathname, mi) ? activeBg : 'transparent'}
                       w='full'
                       borderRadius='lg'
                       transition='all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -266,12 +268,12 @@ export function SidenavItems({
                       opacity={mi.disabled ? 0.5 : 1}
                       border='1px solid'
                       borderColor={
-                        isItemActive(mi.to) ? borderColor : 'transparent'
+                        isMenuEntryActive(pathname, mi) ? borderColor : 'transparent'
                       }
                       position='relative'
                       overflow='hidden'
                     >
-                      {isItemActive(mi.to) && (
+                      {isMenuEntryActive(pathname, mi) && (
                         <Box
                           position='absolute'
                           left='0'
@@ -286,21 +288,21 @@ export function SidenavItems({
                         <Box
                           w='6px'
                           h='6px'
-                          bg={isItemActive(mi.to) ? 'green.500' : 'gray.300'}
+                          bg={isMenuEntryActive(pathname, mi) ? 'green.500' : 'gray.300'}
                           borderRadius='full'
                           mr={2}
                           transition='all 0.2s'
                           transform={
-                            isItemActive(mi.to) ? 'scale(1.2)' : 'scale(1)'
+                            isMenuEntryActive(pathname, mi) ? 'scale(1.2)' : 'scale(1)'
                           }
                         />
                         <Text
                           fontSize='sm'
                           fontWeight={
-                            isItemActive(mi.to) ? 'semibold' : 'medium'
+                            isMenuEntryActive(pathname, mi) ? 'semibold' : 'medium'
                           }
                           color={
-                            isItemActive(mi.to) ? activeTextColor : textColor
+                            isMenuEntryActive(pathname, mi) ? activeTextColor : textColor
                           }
                           transition='all 0.2s'
                         >

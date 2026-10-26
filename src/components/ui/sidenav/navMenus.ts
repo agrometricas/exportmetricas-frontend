@@ -1,3 +1,4 @@
+import { SectionTab, sectionTabPaths } from './menuActive';
 import { SidenavMenuItem } from './sidenav-items';
 
 export const PRODUCER_MENU: SidenavMenuItem[] = [
@@ -14,31 +15,57 @@ export const PRODUCER_MENU: SidenavMenuItem[] = [
   },
 ];
 
+// Catalogs set up once: one menu entry, and tabs on each list page.
+export const LOGISTICS_TABS: SectionTab[] = [
+  {
+    label: 'Puertos',
+    to: '/dashboard/client/harbors',
+    add: '/dashboard/client/add-harbor',
+  },
+  {
+    label: 'Navieras',
+    to: '/dashboard/client/shipping-companies',
+    add: '/dashboard/client/add-shipping-company',
+  },
+  {
+    label: 'Contratos Navieros',
+    to: '/dashboard/client/shipping-contracts',
+    add: '/dashboard/client/add-shipping-contract',
+  },
+  {
+    label: 'Depósitos',
+    to: '/dashboard/client/deposits',
+    add: '/dashboard/client/add-deposit',
+  },
+  {
+    label: 'Transportes',
+    to: '/dashboard/client/transports',
+    add: '/dashboard/client/add-transport',
+  },
+  { label: 'Tarifas de Transporte', to: '/dashboard/client/transport-rates' },
+];
+
+export const QUALITY_CATALOG_TABS: SectionTab[] = [
+  {
+    label: 'Verificadoras',
+    to: '/dashboard/box-brands/verifiers',
+    add: '/dashboard/box-brands/add-verifier',
+  },
+  {
+    label: 'Tipos de Corte',
+    to: '/dashboard/box-brands/cutting-types',
+    add: '/dashboard/box-brands/add-cutting-type',
+  },
+];
+
 export const CLIENT_MENU: SidenavMenuItem[] = [
   { label: 'Clientes', to: '/dashboard/client/clients' },
   { label: 'Agregar Clientes', to: '/dashboard/client/add-client' },
-
-  { label: 'Puertos', to: '/dashboard/client/harbors' },
-  { label: 'Agregar Puertos', to: '/dashboard/client/add-harbor' },
-
-  { label: 'Navieras', to: '/dashboard/client/shipping-companies' },
-  { label: 'Agregar Navieras', to: '/dashboard/client/add-shipping-company' },
-  { label: 'Contratos Navieros', to: '/dashboard/client/shipping-contracts' },
   {
-    label: 'Agregar Contratos Navieros',
-    to: '/dashboard/client/add-shipping-contract',
+    label: 'Logística',
+    to: LOGISTICS_TABS[0].to,
+    match: sectionTabPaths(LOGISTICS_TABS),
   },
-
-  { label: 'Depósitos', to: '/dashboard/client/deposits' },
-  { label: 'Agregar Depósitos', to: '/dashboard/client/add-deposit' },
-
-  { label: 'Transportes', to: '/dashboard/client/transports' },
-  { label: 'Agregar Transportes', to: '/dashboard/client/add-transport' },
-  {
-    label: 'Tarifas de Transporte',
-    to: '/dashboard/client/transport-rates',
-  },
-
   {
     label: 'Totales por Contraparte',
     to: '/dashboard/client/counterpart-totals',
@@ -90,21 +117,16 @@ export function getQualityMenu(counts: {
   addCuttingSheet: number;
 }): SidenavMenuItem[] {
   return [
-    { label: 'Verificadoras', to: '/dashboard/box-brands/verifiers' },
-    {
-      label: 'Agregar Verificadoras',
-      to: '/dashboard/box-brands/add-verifier',
-    },
-    { label: 'Tipos de Corte', to: '/dashboard/box-brands/cutting-types' },
-    {
-      label: 'Agregar Tipos de Corte',
-      to: '/dashboard/box-brands/add-cutting-type',
-    },
     { label: 'Hojas de Corte', to: '/dashboard/export/cutting-sheets' },
     {
       label: 'Agregar Hojas de Corte',
       to: '/dashboard/export/add-cutting-sheet',
       count: counts.addCuttingSheet,
+    },
+    {
+      label: 'Verificadoras y Tipos de Corte',
+      to: QUALITY_CATALOG_TABS[0].to,
+      match: sectionTabPaths(QUALITY_CATALOG_TABS),
     },
   ];
 }

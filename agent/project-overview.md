@@ -105,6 +105,13 @@ corte viven bajo `box-brands/` pero se muestran en *Calidad*; cuentas bancarias
 viven bajo `client/` y `producer/` pero se muestran en *Liquidación*. El menú
 manda: está en `components/ui/sidenav/navMenus.ts`.
 
+Los catálogos que se cargan una vez comparten una entrada del menú, con
+pestañas arriba de cada lista: *Comercialización › Logística* (puertos,
+navieras, contratos navieros, depósitos, transportes y tarifas de transporte) y
+*Calidad › Verificadoras y Tipos de Corte*. Cada pestaña es la página de
+siempre, con su ruta. La entrada queda marcada en todas ellas y en sus altas
+(`match` de la entrada, `SectionTabs`).
+
 Cada dominio repite el mismo patrón de carpetas:
 `hooks/<dominio>/` · `types/<dominio>` · `components/<dominio>/` ·
 `app/dashboard/<dominio>/{add-…, lista}/page.tsx`.
