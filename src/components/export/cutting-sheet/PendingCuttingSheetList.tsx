@@ -12,9 +12,11 @@ import {
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import CuttingSheetBatchPanel from './CuttingSheetBatchPanel';
 import PendingCuttingSheetCard from './PendingCuttingSheetCard';
 import { useCuttingSheetsPending } from '../../../hooks/export/cuttingSheet/getExportsSentPending';
 import { usePagination } from '../../../hooks/usePagination';
+import { PendingSheet } from '../../../types/cuttingSheetBatch';
 import { ExportType } from '../../../types/export';
 
 type ApiErrorData = {
@@ -89,6 +91,8 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
+
+      <CuttingSheetBatchPanel items={items as unknown as PendingSheet[]} />
 
       {items.length === 0 ? (
         <Center py={10}>

@@ -24,6 +24,7 @@ import { ExportResponse } from '../../../types/export.response';
 import { ExportSentType } from '../../../types/exportSent';
 import {
   belowDeckFor,
+  boxBrandHasPallets,
   CONTAINER_POSITIONS,
   palletsHeightOptions,
 } from '../../../utils/cuttingSheetOptions';
@@ -372,8 +373,7 @@ const CuttingSheetForm = ({
     });
   };
   const palletsOptions = palletsHeightOptions(
-    !!finalValues.exportData.boxBrand?.palletsType?.name &&
-      finalValues.exportData.boxBrand?.palletsTypeQuantity !== 0
+    boxBrandHasPallets(finalValues.exportData.boxBrand)
   );
 
   return (

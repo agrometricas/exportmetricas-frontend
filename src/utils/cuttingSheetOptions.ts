@@ -29,6 +29,13 @@ export function palletsHeightOptions(
     : options;
 }
 
+export function boxBrandHasPallets(boxBrand?: {
+  palletsType?: { name?: string } | null;
+  palletsTypeQuantity?: number | '' | null;
+}): boolean {
+  return !!boxBrand?.palletsType?.name && boxBrand.palletsTypeQuantity !== 0;
+}
+
 export function belowDeckFor(containerPositioning: string): string {
   if (containerPositioning === 'CAMPO') return 'NO';
   if (containerPositioning === 'ACOPIO') return 'SI';

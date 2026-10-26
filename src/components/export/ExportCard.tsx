@@ -7,6 +7,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Checkbox,
   Divider,
   Heading,
   HStack,
@@ -14,16 +15,17 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { ExportType } from '../../types/export';
-import ConfirmationModal from '../ui/ConfirmationModal';
+import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 interface ExportCardProps {
   exportItem: Partial<ExportType>;
   pathname: string;
+  isSelected?: boolean;
+  onToggleSelected?: () => void;
 }
 
 const LabelValue = ({
@@ -47,9 +49,13 @@ const LabelValue = ({
   );
 };
 
-const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
+const ExportCard: React.FC<ExportCardProps> = ({
+  exportItem,
+  pathname,
+  isSelected = false,
+  onToggleSelected,
+}) => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClick = (): void => {
     router.push(`${pathname}/${exportItem.id}`);
@@ -71,13 +77,14 @@ const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
   const harborDest = exportItem.harborDestination?.name;
   const client = exportItem.client?.businessName;
   const totalBoxes = exportItem.boxQuantity;
+  const cuttingDate = formatDayMonthYear(exportItem.cuttingDate) || undefined;
 
   return (
     <>
       <Card
         bg={cardBg}
         border="1px solid"
-        borderColor={borderColor}
+        borderColor={isSelected ? 'green.400' : borderColor}
         borderRadius="xl"
         boxShadow="md"
         overflow="hidden"
@@ -101,6 +108,15 @@ const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
                 )}
               </HStack>
             </VStack>
+            {onToggleSelected && (
+              <Checkbox
+                isChecked={isSelected}
+                onChange={onToggleSelected}
+                colorScheme="green"
+              >
+                <Text fontSize="sm">Elegir</Text>
+              </Checkbox>
+            )}
           </HStack>
         </CardHeader>
 
@@ -108,6 +124,7 @@ const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
           <VStack spacing={3} align="stretch">
             <Divider />
             <Stack spacing={3}>
+              <LabelValue label="Fecha de Corte" value={cuttingDate} />
               <LabelValue label="Tipo de Caja" value={typeOfBox} />
               <LabelValue label="Productor" value={producer} />
               <LabelValue label="Finca" value={farm} />
@@ -137,7 +154,7 @@ const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
           <Button
             w="100%"
             colorScheme="green"
-            onClick={onOpen}
+            onClick={handleClick}
             borderRadius="lg"
             fontWeight="semibold"
             _hover={{ transform: 'translateY(-1px)', boxShadow: 'md' }}
@@ -147,14 +164,6 @@ const ExportCard: React.FC<ExportCardProps> = ({ exportItem, pathname }) => {
           </Button>
         </CardFooter>
       </Card>
-
-      <ConfirmationModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleClick}
-        title={`Abrir Envío: ${client || '—'}`}
-        description="¿Estás seguro de que deseas empezar este Envío?"
-      />
     </>
   );
 };

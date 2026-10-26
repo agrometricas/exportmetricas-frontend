@@ -82,9 +82,28 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
   fila, el motivo de la última corrección.
 - La pantalla de corrección busca la hoja en el listado ya cargado (no hay
   detalle por id) y parte de sus valores; el motivo empieza vacío.
-- Las opciones de altura de pallets y de posición del contenedor, y el *bajo
-  cubierta* que sale de la posición, están en `utils/cuttingSheetOptions.ts`
-  para el alta y la corrección.
+- Las opciones de altura de pallets y de posición del contenedor, el *bajo
+  cubierta* que sale de la posición y si la alícuota lleva pallets
+  (`boxBrandHasPallets`) están en `utils/cuttingSheetOptions.ts` para el alta,
+  la corrección y el lote.
+
+### Hojas por lote
+
+Con dos o más hojas pendientes, arriba de la lista aparece *Generar varias a
+la vez* (`CuttingSheetBatchPanel`): una fila por envío, ordenada por fecha de
+corte, con su tipo de corte, su altura de pallets y su posición.
+
+- El tipo de corte ofrece los de la alícuota (o todos si no tiene) y queda
+  elegido si es uno solo; la altura queda en N/A si la alícuota no lleva
+  pallets (`initialSheetRow`, `utils/cuttingSheetBatch.ts`)
+- *Posición para las elegidas* y *Altura para las que llevan pallets* llenan
+  de una vez las filas marcadas. Cambiar un valor de una fila la marca
+- *Generar las hojas (N)* se habilita cuando cada fila marcada tiene sus tres
+  valores; un modal recuerda que cada hoja sale por correo antes de mandar
+  `POST /export/cutting-sheet/batch` con `sheetBatchBody`
+- La respuesta `{ created, failed }` deja un aviso con el enlace al PDF de
+  cada hoja generada y otro con las que quedaron pendientes y por qué; esas
+  siguen marcadas. La petición lleva su propio timeout de tres minutos
 
 ---
 
@@ -93,6 +112,7 @@ PUT /export/cutting-sheets/:id  →  { id, version, pdfUrl, emailRecipients }
 | Pieza | Archivo |
 |-------|---------|
 | Lista de pendientes | `components/export/cutting-sheet/{PendingCuttingSheetList, PendingCuttingSheetCard}.tsx` |
+| Hojas por lote | `components/export/cutting-sheet/CuttingSheetBatchPanel.tsx`, `hooks/export/cuttingSheet/createCuttingSheetBatch.ts`, `utils/cuttingSheetBatch.ts`, `types/cuttingSheetBatch.ts` |
 | Formulario | `components/export/cutting-sheet/CuttingSheetForm.tsx` |
 | Corrección | `components/export/cutting-sheet/CorrectCuttingSheetForm.tsx` |
 | Vista del embarque | `components/export/cutting-sheet/{DisplayField, ReadOnlyDateGrid}.tsx` |
