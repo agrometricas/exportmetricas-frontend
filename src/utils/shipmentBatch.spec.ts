@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { shipmentBatchSummary, toggleId } from './shipmentBatch';
+import { shipmentBatchSummary } from './shipmentBatch';
 
 describe('envío de insumos por lote', () => {
-  it('marcar dos veces la misma exportación la saca de la selección', () => {
-    expect(toggleId([3, 5], 7)).toEqual([3, 5, 7]);
-    expect(toggleId([3, 5, 7], 5)).toEqual([3, 7]);
-  });
-
   it('dice cuántos envíos se registraron y cuántos quedaron pendientes', () => {
     const ok = (exportId: number): { exportId: number; exportSentId: number } => ({
       exportId,

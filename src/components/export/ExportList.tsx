@@ -19,7 +19,7 @@ import ShipmentBatchBar from './ShipmentBatchBar';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
 import { usePagination } from '../../hooks/usePagination';
 import { ExportType } from '../../types/export';
-import { toggleId } from '../../utils/shipmentBatch';
+import { toggleId } from '../../utils/selection';
 
 type ApiErrorData = {
   statusCode?: number;

@@ -271,7 +271,7 @@ abre el formulario directo.
 | Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
 | Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
-| Envío por lote | `components/export/ShipmentBatchBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/shipmentBatch.ts`, `types/exportSentBatch.ts` |
+| Envío por lote | `components/export/ShipmentBatchBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/{shipmentBatch, selection}.ts`, `types/exportSentBatch.ts` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
 | Campos de cantidad y cócteles | `components/export/ui/InputFieldSent*.tsx` |
 | Envíos realizados | `components/liquidation/exports-sent/` |

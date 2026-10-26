@@ -1,9 +1,5 @@
 import { ExportSentBatchResult } from '../types/exportSentBatch';
 
-export function toggleId(ids: number[], id: number): number[] {
-  return ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id];
-}
-
 const shipments = (count: number): string =>
   count === 1 ? '1 envío' : `${count} envíos`;
 
