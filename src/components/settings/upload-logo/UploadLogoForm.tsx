@@ -16,7 +16,6 @@ import * as Yup from 'yup';
 import { useUploadExporterLogo } from '../../../hooks/settings/uploadExporterLogo';
 import { useExporter } from '../../../hooks/useUserProfile';
 import UploadLogoFile from '../../producer/UploadLogoFile';
-import CheckboxForm from '../../ui/form/CheckboxForm';
 
 const SUPPORTED_FORMATS = [
   'image/jpeg',
@@ -30,13 +29,11 @@ const SUPPORTED_FORMATS = [
 interface ValuesProps {
   exporterId: number | '';
   logoImg: File | null;
-  dataReviewed: boolean;
 }
 
 const initialValues: ValuesProps = {
   exporterId: '',
   logoImg: null,
-  dataReviewed: false,
 };
 
 const validationSchema = Yup.object().shape({
@@ -45,9 +42,6 @@ const validationSchema = Yup.object().shape({
     .test('fileFormat', 'Formato no soportado', (value) => {
       return value && SUPPORTED_FORMATS.includes((value as File).type);
     }),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar la imagen antes de enviar')
-    .required('Requerido'),
 });
 
 const UploadLogoForm = (): React.JSX.Element => {
@@ -141,10 +135,6 @@ const UploadLogoForm = (): React.JSX.Element => {
             <UploadLogoFile name={'logoImg'} />
           </Flex>
           <SimpleGrid columns={{ base: 1, sm: 1 }}>
-            <CheckboxForm
-              name='dataReviewed'
-              label='He previsualizado la imagen'
-            />
             <Button
               mt='12px'
               py='8px'

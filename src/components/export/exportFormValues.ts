@@ -48,7 +48,6 @@ export function exportFormValues(
       ? (source.containers ?? []).map((container) => container.id)
       : [],
     purchaseOrderLineId: '',
-    dataReviewed: false,
   };
 }
 

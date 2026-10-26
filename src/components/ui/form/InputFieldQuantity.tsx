@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { useEffect } from 'react';
+import { useBanChange } from './useBanChange';
 
 interface InputFieldProps {
   name: string;
@@ -55,7 +56,7 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (!!isBan) {
       field.onChange;
       if (isBan.state) {
@@ -72,8 +73,7 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const handleChange = (valueString: string): void => {
     helpers.setValue(Number(valueString));

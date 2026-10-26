@@ -39,14 +39,13 @@ const SAVED: CuttingType = {
 };
 
 describe('formulario del tipo de corte', () => {
-  it('el alta arranca vacío y sin revisar', () => {
+  it('el alta arranca vacía', () => {
     expect(EMPTY_CUTTING_TYPE.shipmentType).toBe('');
     expect(EMPTY_CUTTING_TYPE.minCaliber).toBe('');
     expect(EMPTY_CUTTING_TYPE.boxBrandId).toBe('');
-    expect(EMPTY_CUTTING_TYPE.dataReviewed).toBe(false);
   });
 
-  it('la edición arranca con lo guardado, y sin revisar', () => {
+  it('la edición arranca con lo guardado', () => {
     const values = cuttingTypeFormValues(SAVED);
     expect(values).toMatchObject({
       boxBrandId: 4,
@@ -54,7 +53,6 @@ describe('formulario del tipo de corte', () => {
       minCaliber: '39',
       firstLine: 'GRANDES CURVOS',
       generalObservations: '',
-      dataReviewed: false,
     });
   });
 
@@ -63,7 +61,6 @@ describe('formulario del tipo de corte', () => {
       ...cuttingTypeFormValues(SAVED),
       minCaliber: '40',
       saneos: ' 1 ',
-      dataReviewed: true,
     });
     expect(body).toMatchObject({
       boxBrandId: 4,
@@ -72,7 +69,6 @@ describe('formulario del tipo de corte', () => {
       saneos: '1',
       generalObservations: '',
     });
-    expect(body).not.toHaveProperty('dataReviewed');
   });
 
   it('un valor guardado que no está en la lista se sigue ofreciendo', () => {

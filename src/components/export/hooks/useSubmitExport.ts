@@ -76,6 +76,7 @@ export function useSubmitExport({
         queryClient.invalidateQueries('contractUsageCheck');
         queryClient.invalidateQueries('exportProgress');
         queryClient.invalidateQueries('workQueue');
+        queryClient.invalidateQueries('lastFarmExport');
         if (exportId) {
           queryClient.invalidateQueries(['export', String(exportId)]);
         }

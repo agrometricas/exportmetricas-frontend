@@ -121,7 +121,7 @@ const BandSelectBase: React.FC<BandSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<BandType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<BandType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

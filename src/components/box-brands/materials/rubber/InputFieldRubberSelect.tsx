@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddRubberModal from './AddRubberModal';
 import RubberSelectBase from './RubberSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldRubberSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldRubberSelect: React.FC<InputFieldRubberSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (!!isBan) {
       field.onChange;
       if (isBan?.state) {
@@ -46,8 +47,7 @@ const InputFieldRubberSelect: React.FC<InputFieldRubberSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

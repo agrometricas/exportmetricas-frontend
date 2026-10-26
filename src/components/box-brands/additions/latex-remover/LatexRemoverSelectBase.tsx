@@ -123,7 +123,7 @@ const LatexRemoverSelectBase: React.FC<LatexRemoverSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<LatexRemoverType>) => opt.id === field?.value
             )
           : null

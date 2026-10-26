@@ -123,7 +123,7 @@ const ThermographSelectBase: React.FC<ThermographSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<ThermographType>) => opt.id === field?.value
             )
           : null

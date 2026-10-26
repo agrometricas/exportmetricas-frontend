@@ -123,7 +123,7 @@ const MettoLabelSelectBase: React.FC<MettoLabelSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<MettoLabelType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<MettoLabelType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

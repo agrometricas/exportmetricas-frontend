@@ -118,7 +118,7 @@ const LidSelectBase: React.FC<LidSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<LidType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<LidType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

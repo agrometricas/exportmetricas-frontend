@@ -121,7 +121,7 @@ const SachetSelectBase: React.FC<SachetSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<SachetType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<SachetType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

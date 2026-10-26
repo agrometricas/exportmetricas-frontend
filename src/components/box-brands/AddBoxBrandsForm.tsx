@@ -6,7 +6,15 @@ import {
   Button,
   Divider,
   Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Select,
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
@@ -18,10 +26,14 @@ import {
   useFormikContext,
 } from 'formik';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FiPlus } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
+import { getBoxBrand } from '@/hooks/box-brand/getBoxBrand';
+import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
+import { BoxBrandType } from '@/types/box-brand/boxBrand';
 import BlockingSheetSelectBanContainer from './additions/blocking-sheet/BlockingSheetSelectBanContainer';
 import BoardingCardSelectBanContainer from './additions/boarding-card/BoardingCardBanContainer';
 import ContainerSealPlasticSelectBanContainer from './additions/container-seal-plastic/ContainerSealPlasticBanContainer';
@@ -30,6 +42,12 @@ import LatexRemoverSelectBanContainer from './additions/latex-remover/LatexRemov
 import SecurityKitSelectBanContainer from './additions/security-kit/SecurityKitBanContainer';
 import SheetSelectBanContainer from './additions/sheet/SheetSelectBanContainer';
 import StickerSelectBanContainer from './additions/sticker/StickerSelectBanContainer';
+import {
+  boxBrandCopyValues,
+  MaterialSection,
+  OPTIONAL_MATERIALS,
+  usedOptionalMaterials,
+} from './boxBrandCopy';
 import MettoLabelSelectBanContainer from './container/metto-label/MettoLabelSelectBanContainer';
 import SealSelectBanContainer from './container/seal/SealSelectBanContainer';
 import StapleSelectBanContainer from './container/staple/StapleSelectBanContainer';
@@ -68,8 +86,7 @@ import {
   NO_PALLETS,
 } from '../../utils/cargoType';
 import { quantityUnit } from '../../utils/materialUnits';
-import CheckboxForm from '../ui/form/CheckboxForm';
-import InputFieldNumber from '../ui/form/InputFieldNumber';
+import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 
@@ -175,7 +192,6 @@ interface ValuesProps {
   securityKitQuantity: number | '';
   boardingCardId: number | '';
   boardingCardQuantity: number | '';
-  dataReviewed: boolean;
 }
 
 const initialValues: ValuesProps = {
@@ -198,24 +214,24 @@ const initialValues: ValuesProps = {
   cardboardTypeId: '',
   cardboardTypeQuantity: '',
   parasealTypeId: '',
-  parasealTypeQuantity: '',
+  parasealTypeQuantity: 0,
   padTypeId: '',
-  padTypeQuantity: '',
+  padTypeQuantity: 0,
   spongeTypeId: '',
-  spongeTypeQuantity: '',
+  spongeTypeQuantity: 0,
 
   labelId: '',
-  labelQuantity: '',
+  labelQuantity: 0,
   bandId: '',
-  bandQuantity: '',
+  bandQuantity: 0,
   sachetId: '',
-  sachetQuantity: '',
+  sachetQuantity: 0,
   rubberId: '',
-  rubberQuantity: '',
+  rubberQuantity: 0,
   protectorId: '',
-  protectorQuantity: '',
+  protectorQuantity: 0,
   clusterBagId: '',
-  clusterBagQuantity: '',
+  clusterBagQuantity: 0,
 
   pesticides: [{ pesticideId: '', quantity: '' }],
 
@@ -224,38 +240,37 @@ const initialValues: ValuesProps = {
   miniPalletsTypeId: '',
   miniPalletsTypeQuantity: '',
   cornerTypeId: '',
-  cornerTypeQuantity: '',
+  cornerTypeQuantity: 0,
   reinforcementTypeId: '',
-  reinforcementTypeQuantity: '',
+  reinforcementTypeQuantity: 0,
 
   stapleId: '',
-  stapleQuantity: '',
+  stapleQuantity: 0,
   strippingId: '',
-  strippingQuantity: '',
+  strippingQuantity: 0,
   thermographId: '',
-  thermographQuantity: '',
+  thermographQuantity: 0,
   sealId: '',
-  sealQuantity: '',
+  sealQuantity: 0,
   mettoLabelId: '',
-  mettoLabelQuantity: '',
+  mettoLabelQuantity: 0,
 
   packingTapeTypeId: '',
-  packingTapeTypeQuantity: '',
+  packingTapeTypeQuantity: 0,
 
   latexRemoverId: '',
-  latexRemoverQuantity: '',
+  latexRemoverQuantity: 0,
   insecticides: [],
   stickers: [],
   sheets: [],
   blockingSheetId: '',
-  blockingSheetQuantity: '',
+  blockingSheetQuantity: 0,
   containerSealPlasticId: '',
-  containerSealPlasticQuantity: '',
+  containerSealPlasticQuantity: 0,
   securityKitId: '',
-  securityKitQuantity: '',
+  securityKitQuantity: 0,
   boardingCardId: '',
-  boardingCardQuantity: '',
-  dataReviewed: false,
+  boardingCardQuantity: 0,
 };
 
 const pesticideSchema = Yup.object().shape({
@@ -995,9 +1010,6 @@ const validationSchema = Yup.object({
   insecticides: Yup.array()
     .of(insecticideSchema)
     .min(0, 'Debe de tener 0 o más pesticidas'),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
-    .required('Requerido'),
 });
 
 interface InputFieldProps {
@@ -1029,7 +1041,104 @@ function ClearPalletsOnBulk(): null {
   return null;
 }
 
+function CopyFromBoxBrand({
+  onCopied,
+}: {
+  onCopied: (shown: string[]) => void;
+}): React.JSX.Element | null {
+  const { values, setValues } = useFormikContext<ValuesProps>();
+  const { data } = useBoxBrands({ search: '', page: 1, limit: 10 });
+  const toast = useToast();
+  const [isCopying, setIsCopying] = useState(false);
+  const boxBrands = (data ?? []) as BoxBrandType[];
+  if (boxBrands.length === 0) return null;
+
+  const copy = async (boxBrandId: string): Promise<void> => {
+    if (!boxBrandId) return;
+    setIsCopying(true);
+    try {
+      const { data: saved } = await getBoxBrand({ boxBrandId });
+      const copied = boxBrandCopyValues(saved);
+      await setValues({ ...values, ...copied } as ValuesProps);
+      onCopied(usedOptionalMaterials(copied));
+    } catch {
+      toast({
+        title: 'No se pudo copiar la alícuota',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsCopying(false);
+    }
+  };
+
+  return (
+    <FormControl>
+      <FormLabel fontSize='sm' mb='8px'>
+        Partir de otra alícuota (opcional)
+      </FormLabel>
+      <Select
+        placeholder='Empezar en blanco'
+        isDisabled={isCopying}
+        onChange={(event) => copy(event.target.value)}
+      >
+        {boxBrands.map((boxBrand) => (
+          <option key={boxBrand.id} value={boxBrand.id}>
+            {boxBrand.brand?.name} - {boxBrand.name}
+          </option>
+        ))}
+      </Select>
+      <FormHelperText>
+        Copia sus materiales, cantidades y cócteles. El nombre y el código se
+        escriben de nuevo.
+      </FormHelperText>
+    </FormControl>
+  );
+}
+
+function AddMaterialMenu({
+  section,
+  shown,
+  onAdd,
+}: {
+  section: MaterialSection;
+  shown: string[];
+  onAdd: (field: string) => void;
+}): React.JSX.Element | null {
+  const hidden = OPTIONAL_MATERIALS.filter(
+    (material) =>
+      material.section === section && !shown.includes(material.field)
+  );
+  if (hidden.length === 0) return null;
+  return (
+    <Menu>
+      <MenuButton
+        as={Button}
+        size='sm'
+        variant='outline'
+        colorScheme='green'
+        leftIcon={<FiPlus />}
+        alignSelf='flex-start'
+      >
+        Agregar material
+      </MenuButton>
+      <MenuList>
+        {hidden.map((material) => (
+          <MenuItem key={material.field} onClick={() => onAdd(material.field)}>
+            {material.label}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
+  );
+}
+
 export default function AddBoxBrandsForm(): React.JSX.Element {
+  const [shownMaterials, setShownMaterials] = useState<string[]>([]);
+  const shown = (field: string): boolean => shownMaterials.includes(field);
+  const addMaterial = (field: string): void =>
+    setShownMaterials((current) => [...current, field]);
   const router = useRouter();
   const toast = useToast();
   const { data: unitsConfig } = useMaterialUnits();
@@ -1055,7 +1164,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
       netWeightBox,
       grossWeightBox,
       boxQuantity,
-      dataReviewed,
       cargoType,
       boxTypeId,
       ...boxBrandData
@@ -1167,6 +1275,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 <ImportBoxBrandDrawer />
               </Flex>
               <Divider mb={'16px'} />
+              <CopyFromBoxBrand onCopied={setShownMaterials} />
 
               <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
                 <InputFieldBrandSelect
@@ -1194,18 +1303,20 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   placeholder='Sin tipo de caja'
                   options={boxTypeOptions}
                 />
-                <InputFieldNumber
+                <InputFieldPlain
                   name='boxQuantity'
                   label={boxQuantityLabel(values.cargoType)}
                   unit={values.cargoType === 'BULK' ? 'cajas' : 'C/C'}
+                  inputMode='numeric'
                 />
                 {weightInputFields.map((field, index) => (
-                  <InputFieldNumber
+                  <InputFieldPlain
                     key={index}
                     name={field.name}
                     label={field.label}
                     placeholder={field.placeholder}
                     unit={field.unit}
+                    inputMode='decimal'
                   />
                 ))}
                 <InputFieldRequiredCertificateMultiSelect
@@ -1227,7 +1338,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'bottomTypeQuantity'}
                   label2={'Fondos/Caja'}
                   placeholder2={'Cantidad'}
-                  quantity={values.boxQuantity}
                   unit={perBox('BOTTOM')}
                 />
 
@@ -1238,7 +1348,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'lidTypeQuantity'}
                   label2={'Tapas/Caja'}
                   placeholder2={'Cantidad'}
-                  quantity={values.boxQuantity}
                   unit={perBox('LID')}
                 />
 
@@ -1249,7 +1358,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'coverTypeQuantity'}
                   label2={'Fundas/Caja'}
                   placeholder2={'Cantidad'}
-                  quantity={values.boxQuantity}
                   unit={perBox('COVER')}
                 />
 
@@ -1260,95 +1368,117 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   name2={'cardboardTypeQuantity'}
                   label2={'Cartulinas/Caja'}
                   placeholder2={'Cantidad'}
-                  quantity={values.boxQuantity}
                   unit={perBox('CARDBOARD')}
                 />
 
-                <ParasealSelectBanContainer
-                  name1={'parasealTypeId'}
-                  label1={'ParaSeal'}
-                  placeholder1={'Seleccione el ParaSeal'}
-                  name2={'parasealTypeQuantity'}
-                  label2={'ParaSeals/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('PARASEAL')}
-                />
+                {shown('parasealTypeId') && (
+                  <ParasealSelectBanContainer
+                    name1={'parasealTypeId'}
+                    label1={'ParaSeal'}
+                    placeholder1={'Seleccione el ParaSeal'}
+                    name2={'parasealTypeQuantity'}
+                    label2={'ParaSeals/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('PARASEAL')}
+                  />
+                )}
 
-                <PadSelectBanContainer
-                  name1={'padTypeId'}
-                  label1={'Mini Pad'}
-                  placeholder1={'Seleccione el Pad'}
-                  name2={'padTypeQuantity'}
-                  label2={'Pads/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('PAD')}
-                />
+                {shown('padTypeId') && (
+                  <PadSelectBanContainer
+                    name1={'padTypeId'}
+                    label1={'Mini Pad'}
+                    placeholder1={'Seleccione el Pad'}
+                    name2={'padTypeQuantity'}
+                    label2={'Pads/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('PAD')}
+                  />
+                )}
 
-                <SpongeSelectBanContainer
-                  name1={'spongeTypeId'}
-                  label1={'Esponja'}
-                  placeholder1={'Seleccione la Esponja'}
-                  name2={'spongeTypeQuantity'}
-                  label2={'Esponjas/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('SPONGE')}
-                />
+                {shown('spongeTypeId') && (
+                  <SpongeSelectBanContainer
+                    name1={'spongeTypeId'}
+                    label1={'Esponja'}
+                    placeholder1={'Seleccione la Esponja'}
+                    name2={'spongeTypeQuantity'}
+                    label2={'Esponjas/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('SPONGE')}
+                  />
+                )}
 
-                <LabelSelectBanContainer
-                  name1={'labelId'}
-                  label1={'Etiqueta'}
-                  placeholder1={'Seleccione la Etiqueta'}
-                  name2={'labelQuantity'}
-                  label2={'Etiquetas/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('LABEL')}
-                />
-                <BandSelectBanContanier
-                  name1={'bandId'}
-                  label1={'Banda'}
-                  placeholder1={'Seleccione la Banda'}
-                  name2={'bandQuantity'}
-                  label2={'Bandas/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('BAND')}
-                />
-                <SachetSelectBanContainer
-                  name1={'sachetId'}
-                  label1={'Sachet'}
-                  placeholder1={'Seleccione el Sachet'}
-                  name2={'sachetQuantity'}
-                  label2={'Sachets/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('SACCHET')}
-                />
-                <RubberSelectBanContainer
-                  name1={'rubberId'}
-                  label1={'Liga'}
-                  placeholder1={'Seleccione la Liga'}
-                  name2={'rubberQuantity'}
-                  label2={'Ligas/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('RUBBER')}
-                />
-                <ProtectorSelectBanContainer
-                  name1={'protectorId'}
-                  label1={'Protector'}
-                  placeholder1={'Seleccione el Protector'}
-                  name2={'protectorQuantity'}
-                  label2={'Protectores/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('PROTECTOR')}
-                />
-                <ClusterBagSelectBanContainer
-                  name1={'clusterBagId'}
-                  label1={'Cluster Bag'}
-                  placeholder1={'Seleccione el Cluster Bag'}
-                  name2={'clusterBagQuantity'}
-                  label2={'Cluster Bags/Caja'}
-                  placeholder2={'Cantidad'}
-                  unit={perBox('CLUSTER_BAG')}
-                />
+                {shown('labelId') && (
+                  <LabelSelectBanContainer
+                    name1={'labelId'}
+                    label1={'Etiqueta'}
+                    placeholder1={'Seleccione la Etiqueta'}
+                    name2={'labelQuantity'}
+                    label2={'Etiquetas/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('LABEL')}
+                  />
+                )}
+                {shown('bandId') && (
+                  <BandSelectBanContanier
+                    name1={'bandId'}
+                    label1={'Banda'}
+                    placeholder1={'Seleccione la Banda'}
+                    name2={'bandQuantity'}
+                    label2={'Bandas/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('BAND')}
+                  />
+                )}
+                {shown('sachetId') && (
+                  <SachetSelectBanContainer
+                    name1={'sachetId'}
+                    label1={'Sachet'}
+                    placeholder1={'Seleccione el Sachet'}
+                    name2={'sachetQuantity'}
+                    label2={'Sachets/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('SACCHET')}
+                  />
+                )}
+                {shown('rubberId') && (
+                  <RubberSelectBanContainer
+                    name1={'rubberId'}
+                    label1={'Liga'}
+                    placeholder1={'Seleccione la Liga'}
+                    name2={'rubberQuantity'}
+                    label2={'Ligas/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('RUBBER')}
+                  />
+                )}
+                {shown('protectorId') && (
+                  <ProtectorSelectBanContainer
+                    name1={'protectorId'}
+                    label1={'Protector'}
+                    placeholder1={'Seleccione el Protector'}
+                    name2={'protectorQuantity'}
+                    label2={'Protectores/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('PROTECTOR')}
+                  />
+                )}
+                {shown('clusterBagId') && (
+                  <ClusterBagSelectBanContainer
+                    name1={'clusterBagId'}
+                    label1={'Cluster Bag'}
+                    placeholder1={'Seleccione el Cluster Bag'}
+                    name2={'clusterBagQuantity'}
+                    label2={'Cluster Bags/Caja'}
+                    placeholder2={'Cantidad'}
+                    unit={perBox('CLUSTER_BAG')}
+                  />
+                )}
               </SimpleGrid>
+              <AddMaterialMenu
+                section='box'
+                shown={shownMaterials}
+                onAdd={addMaterial}
+              />
 
               <Heading fontSize={'2xl'} p={'12px'}>
                 Insumos post cosecha
@@ -1424,134 +1554,170 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   </>
                 )}
 
-                <CornerSelectBanContainer
-                  name1={'cornerTypeId'}
-                  label1={'Esquineros'}
-                  placeholder1={'Seleccione el Esquinero'}
-                  name2={'cornerTypeQuantity'}
-                  label2={'Esquineros/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('CORNER')}
-                />
+                {shown('cornerTypeId') && (
+                  <CornerSelectBanContainer
+                    name1={'cornerTypeId'}
+                    label1={'Esquineros'}
+                    placeholder1={'Seleccione el Esquinero'}
+                    name2={'cornerTypeQuantity'}
+                    label2={'Esquineros/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('CORNER')}
+                  />
+                )}
 
-                <ReinforcementSelectBanContainer
-                  name1={'reinforcementTypeId'}
-                  label1={'Refuerzo'}
-                  placeholder1={'Seleccione el Refuerzo'}
-                  name2={'reinforcementTypeQuantity'}
-                  label2={'Refuerzos/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('REINFORCEMENT')}
-                />
+                {shown('reinforcementTypeId') && (
+                  <ReinforcementSelectBanContainer
+                    name1={'reinforcementTypeId'}
+                    label1={'Refuerzo'}
+                    placeholder1={'Seleccione el Refuerzo'}
+                    name2={'reinforcementTypeQuantity'}
+                    label2={'Refuerzos/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('REINFORCEMENT')}
+                  />
+                )}
 
-                <StapleSelectBanContainer
-                  name1={'stapleId'}
-                  label1={'Grapa'}
-                  placeholder1={'Seleccione la Grapa'}
-                  name2={'stapleQuantity'}
-                  label2={'Grapas/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('STAPLE')}
-                />
-                <StrippingSelectBanContainer
-                  name1={'strippingId'}
-                  label1={'Zuncho'}
-                  placeholder1={'Seleccione el Zuncho'}
-                  name2={'strippingQuantity'}
-                  label2={'Zunchos/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('STRIPPING')}
-                />
-                <ThermographSelectBanContainer
-                  name1={'thermographId'}
-                  label1={'Termografo'}
-                  placeholder1={'Seleccione el Termografo'}
-                  name2={'thermographQuantity'}
-                  label2={'Termografos/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('THERMOGRAPH')}
-                />
-                <SealSelectBanContainer
-                  name1={'sealId'}
-                  label1={'Sello'}
-                  placeholder1={'Seleccione el Sello'}
-                  name2={'sealQuantity'}
-                  label2={'Sellos/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('SEAL')}
-                />
-                <MettoLabelSelectBanContainer
-                  name1={'mettoLabelId'}
-                  label1={'Etiqueta Metto'}
-                  placeholder1={'Seleccione la Etiqueta Metto'}
-                  name2={'mettoLabelQuantity'}
-                  label2={'Etiquetas Metto/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('METTO_LABEL')}
-                />
+                {shown('stapleId') && (
+                  <StapleSelectBanContainer
+                    name1={'stapleId'}
+                    label1={'Grapa'}
+                    placeholder1={'Seleccione la Grapa'}
+                    name2={'stapleQuantity'}
+                    label2={'Grapas/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('STAPLE')}
+                  />
+                )}
+                {shown('strippingId') && (
+                  <StrippingSelectBanContainer
+                    name1={'strippingId'}
+                    label1={'Zuncho'}
+                    placeholder1={'Seleccione el Zuncho'}
+                    name2={'strippingQuantity'}
+                    label2={'Zunchos/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('STRIPPING')}
+                  />
+                )}
+                {shown('thermographId') && (
+                  <ThermographSelectBanContainer
+                    name1={'thermographId'}
+                    label1={'Termografo'}
+                    placeholder1={'Seleccione el Termografo'}
+                    name2={'thermographQuantity'}
+                    label2={'Termografos/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('THERMOGRAPH')}
+                  />
+                )}
+                {shown('sealId') && (
+                  <SealSelectBanContainer
+                    name1={'sealId'}
+                    label1={'Sello'}
+                    placeholder1={'Seleccione el Sello'}
+                    name2={'sealQuantity'}
+                    label2={'Sellos/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('SEAL')}
+                  />
+                )}
+                {shown('mettoLabelId') && (
+                  <MettoLabelSelectBanContainer
+                    name1={'mettoLabelId'}
+                    label1={'Etiqueta Metto'}
+                    placeholder1={'Seleccione la Etiqueta Metto'}
+                    name2={'mettoLabelQuantity'}
+                    label2={'Etiquetas Metto/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('METTO_LABEL')}
+                  />
+                )}
               </SimpleGrid>
+              <AddMaterialMenu
+                section='container'
+                shown={shownMaterials}
+                onAdd={addMaterial}
+              />
 
               <Heading fontSize={'2xl'} p={'12px'}>
                 Adicionales
               </Heading>
               <Divider mb={'16px'} />
               <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
-                <PackingTapeSelectBanContanier
-                  name1={'packingTapeTypeId'}
-                  label1={'Cinta de embalaje'}
-                  placeholder1={'Seleccione la Cinta de embalaje'}
-                  name2={'packingTapeTypeQuantity'}
-                  label2={'Cintas/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('PACKING_TAPE')}
-                />
+                {shown('packingTapeTypeId') && (
+                  <PackingTapeSelectBanContanier
+                    name1={'packingTapeTypeId'}
+                    label1={'Cinta de embalaje'}
+                    placeholder1={'Seleccione la Cinta de embalaje'}
+                    name2={'packingTapeTypeQuantity'}
+                    label2={'Cintas/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('PACKING_TAPE')}
+                  />
+                )}
 
-                <LatexRemoverSelectBanContainer
-                  name1={'latexRemoverId'}
-                  label1={'Removedor de latex'}
-                  placeholder1={'Seleccione el Removedor de Latex'}
-                  name2={'latexRemoverQuantity'}
-                  label2={'Removedores/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('LATEX_REMOVER')}
-                />
-                <BlockingSheetSelectBanContainer
-                  name1={'blockingSheetId'}
-                  label1={'Lamina de bloqueo'}
-                  placeholder1={'Seleccione la Lamina de bloqueo'}
-                  name2={'blockingSheetQuantity'}
-                  label2={'Laminas/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('BLOCKING_SHEET')}
-                />
-                <ContainerSealPlasticSelectBanContainer
-                  name1={'containerSealPlasticId'}
-                  label1={'Plástico de Cierre Contenedor'}
-                  placeholder1={'Seleccione el Plástico de Cierre Contenedor'}
-                  name2={'containerSealPlasticQuantity'}
-                  label2={'Plásticos de Cierre Contenedor/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('CONTAINER_SEAL_PLASTIC')}
-                />
-                <SecurityKitSelectBanContainer
-                  name1={'securityKitId'}
-                  label1={'Kit de Seguridad'}
-                  placeholder1={'Seleccione el Kit de Seguridad'}
-                  name2={'securityKitQuantity'}
-                  label2={'Kits de Seguridad/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('SECURITY_KIT')}
-                />
-                <BoardingCardSelectBanContainer
-                  name1={'boardingCardId'}
-                  label1={'Tarjeta de Embarque'}
-                  placeholder1={'Seleccione la Tarjeta de Embarque'}
-                  name2={'boardingCardQuantity'}
-                  label2={'Tarjetas de Embarque/Contenedor'}
-                  placeholder2={'Cantidad'}
-                  unit={perContainer('BOARDING_CARD')}
-                />
+                {shown('latexRemoverId') && (
+                  <LatexRemoverSelectBanContainer
+                    name1={'latexRemoverId'}
+                    label1={'Removedor de latex'}
+                    placeholder1={'Seleccione el Removedor de Latex'}
+                    name2={'latexRemoverQuantity'}
+                    label2={'Removedores/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('LATEX_REMOVER')}
+                  />
+                )}
+                {shown('blockingSheetId') && (
+                  <BlockingSheetSelectBanContainer
+                    name1={'blockingSheetId'}
+                    label1={'Lamina de bloqueo'}
+                    placeholder1={'Seleccione la Lamina de bloqueo'}
+                    name2={'blockingSheetQuantity'}
+                    label2={'Laminas/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('BLOCKING_SHEET')}
+                  />
+                )}
+                {shown('containerSealPlasticId') && (
+                  <ContainerSealPlasticSelectBanContainer
+                    name1={'containerSealPlasticId'}
+                    label1={'Plástico de Cierre Contenedor'}
+                    placeholder1={'Seleccione el Plástico de Cierre Contenedor'}
+                    name2={'containerSealPlasticQuantity'}
+                    label2={'Plásticos de Cierre Contenedor/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('CONTAINER_SEAL_PLASTIC')}
+                  />
+                )}
+                {shown('securityKitId') && (
+                  <SecurityKitSelectBanContainer
+                    name1={'securityKitId'}
+                    label1={'Kit de Seguridad'}
+                    placeholder1={'Seleccione el Kit de Seguridad'}
+                    name2={'securityKitQuantity'}
+                    label2={'Kits de Seguridad/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('SECURITY_KIT')}
+                  />
+                )}
+                {shown('boardingCardId') && (
+                  <BoardingCardSelectBanContainer
+                    name1={'boardingCardId'}
+                    label1={'Tarjeta de Embarque'}
+                    placeholder1={'Seleccione la Tarjeta de Embarque'}
+                    name2={'boardingCardQuantity'}
+                    label2={'Tarjetas de Embarque/Contenedor'}
+                    placeholder2={'Cantidad'}
+                    unit={perContainer('BOARDING_CARD')}
+                  />
+                )}
               </SimpleGrid>
+              <AddMaterialMenu
+                section='additions'
+                shown={shownMaterials}
+                onAdd={addMaterial}
+              />
               <StickerSelectBanContainer
                 name={'stickers'}
                 stickers={values.stickers}
@@ -1563,10 +1729,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               />
 
               <SimpleGrid columns={{ base: 1, sm: 1 }}>
-                <CheckboxForm
-                  name='dataReviewed'
-                  label='He revisado los datos agregados'
-                />
                 <Button
                   mt='12px'
                   py='8px'

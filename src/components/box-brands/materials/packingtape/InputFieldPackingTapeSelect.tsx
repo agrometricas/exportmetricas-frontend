@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddPackingTapeModal from './AddPackingTapeModal';
 import PackingTapeSelectBase from './PackingTapeSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldPackingTapeSelectProps {
   name: string;
@@ -26,7 +27,7 @@ const InputFieldPackingTapeSelect: React.FC<
 > = ({ name, label, placeholder, isBan }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (isBan) {
       if (isBan.state) {
         helpers.setValue(undefined);
@@ -40,8 +41,7 @@ const InputFieldPackingTapeSelect: React.FC<
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

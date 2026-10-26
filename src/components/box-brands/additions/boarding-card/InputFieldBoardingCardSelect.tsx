@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddBoardingCardModal from './AddBoardingCardModal';
 import BoardingCardSelectBase from './BoardingCardSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldBoardingCardSelectProps {
   name: string;
@@ -26,7 +27,7 @@ const InputFieldBoardingCardSelect: React.FC<
 > = ({ name, label, placeholder, isBan }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (!!isBan) {
       field.onChange;
       if (isBan?.state) {
@@ -43,8 +44,7 @@ const InputFieldBoardingCardSelect: React.FC<
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

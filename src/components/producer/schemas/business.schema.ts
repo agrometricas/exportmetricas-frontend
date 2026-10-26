@@ -29,7 +29,6 @@ export interface ValuesProps {
     businessCodes: BusinessCodesProps[];
     contacts: ContactsProps[];
     merchant: number | '';
-    dataReviewed: boolean;
 }
 
 const contactSchema = Yup.object().shape({
@@ -80,7 +79,6 @@ export const initialValues: ValuesProps = {
     businessCodes: [{ code: '' }],
     contacts: [{ name: '', role: '', email: '', phone: '' }],
     merchant: '',
-    dataReviewed: false,
 };
 
 export const validationSchema = Yup.object({
@@ -129,7 +127,4 @@ export const validationSchema = Yup.object({
     businessCodes: Yup.array().of(businessCodeSchema).min(1, 'Debe tener al menos un código'),
     contacts: Yup.array().of(contactSchema).min(1, 'Debe tener al menos un contacto'),
     merchant: Yup.number().required('Requerido'),
-    dataReviewed: Yup.boolean()
-        .oneOf([true], 'Debes revisar los datos antes de enviar')
-        .required('Requerido'),
 });

@@ -118,7 +118,7 @@ const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<CornerType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<CornerType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

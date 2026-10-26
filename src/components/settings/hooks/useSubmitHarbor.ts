@@ -22,8 +22,8 @@ export function useSubmitHarbor(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, is24Hours, ...harborData } = values;
-        void dataReviewed, is24Hours;
+        const { is24Hours, ...harborData } = values;
+        void is24Hours;
         createHarbor(
             { ...harborData },
             {

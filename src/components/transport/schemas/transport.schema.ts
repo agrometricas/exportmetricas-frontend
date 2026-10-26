@@ -13,7 +13,6 @@ export interface ValuesProps {
     satelliteTracking: boolean;
     contacts: ContactProps[];
     certifications: number[];
-    dataReviewed: boolean;
 }
 
 export const initialValues: ValuesProps = {
@@ -23,7 +22,6 @@ export const initialValues: ValuesProps = {
     satelliteTracking: false,
     contacts: [{ name: '', email: '', phone: '' }],
     certifications: [],
-    dataReviewed: false,
 };
 
 export const validationSchema = Yup.object({
@@ -70,8 +68,5 @@ export const validationSchema = Yup.object({
     certifications: Yup.array()
         .of(Yup.number().required('Requerido'))
         .min(1, 'Debe seleccionar al menos una certificación')
-        .required('Requerido'),
-    dataReviewed: Yup.boolean()
-        .oneOf([true], 'Debes revisar los datos antes de enviar')
         .required('Requerido'),
 });

@@ -121,7 +121,7 @@ const BottomSelectBase: React.FC<BottomSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<BottomType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<BottomType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

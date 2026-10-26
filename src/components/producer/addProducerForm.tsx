@@ -12,7 +12,6 @@ import { FARM_CODE_LABELS } from '../../utils/farmCodes';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
-import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
@@ -240,10 +239,6 @@ export default function AddProducerForm(): React.JSX.Element {
             </FieldArray>
 
             <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <CheckboxForm
-                name='dataReviewed'
-                label='He revisado los datos agregados'
-              />
               <Button
                 mt='12px'
                 py='8px'

@@ -118,7 +118,7 @@ const PadSelectBase: React.FC<PadSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<PadType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<PadType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

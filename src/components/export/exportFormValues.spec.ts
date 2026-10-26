@@ -75,10 +75,6 @@ describe('formulario prellenado desde una exportación', () => {
     expect(values.weekCutting.boxesOfDay).toEqual([0, 0, 540, 540, 0, 0, 0]);
   });
 
-  it('pide volver a revisar los datos antes de guardar', () => {
-    expect(exportFormValues(exportResponse()).dataReviewed).toBe(false);
-  });
-
   it('deja en cero la logística que la exportación no tiene', () => {
     const values = exportFormValues(
       exportResponse({
@@ -163,7 +159,6 @@ describe('formulario prellenado desde una exportación', () => {
     const values = {
       ...exportFormValues(exportResponse()),
       estimatedTravelTime: '',
-      dataReviewed: true,
     };
 
     await expect(

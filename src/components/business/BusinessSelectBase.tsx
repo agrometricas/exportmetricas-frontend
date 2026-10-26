@@ -73,11 +73,16 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
   setBusiness,
 }) => {
   const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useBusinessesByMerchantId(
+  const { data, isLoading, isPreviousData, error } = useBusinessesByMerchantId(
     { ...paginationParams },
     { id: merchant ?? 0 }
   );
   const router = useRouter();
+
+  // keepPreviousData would otherwise offer the farm of the producer chosen
+  // before as the only option.
+  const onlyOption: Partial<BusinessType> | null =
+    !isPreviousData && data?.length === 1 ? data[0] : null;
 
   useEffect(() => {
     if (!!error) {
@@ -101,6 +106,11 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
       onChange(newValue as Partial<BusinessType>);
     }
   };
+
+  useEffect(() => {
+    if (field && !field.value && onlyOption) handleChange(onlyOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onlyOption, field?.value]);
 
   return (
     <ChakraSelect

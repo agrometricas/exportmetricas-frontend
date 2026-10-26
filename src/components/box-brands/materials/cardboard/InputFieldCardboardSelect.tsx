@@ -5,10 +5,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBan } from 'react-icons/fa';
 import AddCardboardModal from './AddCardboardModal';
 import CardboardSelectBase from './CardboardSelectBase';
+import { useBanChange } from '../../../ui/form/useBanChange';
 
 interface InputFieldCardboardSelectProps {
   name: string;
@@ -29,7 +30,7 @@ const InputFieldCardboardSelect: React.FC<InputFieldCardboardSelectProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  useEffect(() => {
+  useBanChange(isBan?.state, () => {
     if (isBan) {
       if (isBan.state) {
         helpers.setValue(undefined);
@@ -43,8 +44,7 @@ const InputFieldCardboardSelect: React.FC<InputFieldCardboardSelectProps> = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

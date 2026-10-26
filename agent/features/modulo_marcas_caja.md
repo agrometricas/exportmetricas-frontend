@@ -74,6 +74,24 @@ queda disponible para elegir.
 - El nombre de un material no se repite.
 - Etiqueta, bolsa de clúster y etiqueta metto llevan una imagen de arte.
 
+### Formulario de alícuota
+
+- **Partir de otra alícuota** (opcional, arriba del formulario) pide
+  `GET /box-brand/:id` y copia marca, tipo de carga y de caja, cajas por
+  contenedor, pesos, certificados, cada material con su cantidad y los
+  cócteles. El nombre y el código quedan vacíos. Una cantidad que la original
+  nunca guardó se copia como 0 (`boxBrandCopyValues()`,
+  `components/box-brands/boxBrandCopy.ts`).
+- Siempre se ven fondo, tapa, cubierta, cartulina, pallet, mini pallet y los
+  cócteles. Los otros 22 materiales (`OPTIONAL_MATERIALS`) se suman con
+  **Agregar material** en su sección; mientras no se agregan valen 0 y no
+  llevan material. Al copiar se abren los que la original usa.
+- Las cantidades por caja se escriben a mano: las cajas por contenedor no las
+  llenan.
+- El botón N/A de una fila vacía el material y pone la cantidad en 0 solo
+  cuando se pulsa. Al montarse, la fila conserva lo que el formulario ya tiene
+  (`useBanChange`).
+
 ### Unidades de los materiales
 
 Configuraciones > **Unidades de Materiales** (`/dashboard/settings/material-units`)

@@ -29,7 +29,6 @@ export interface ValuesProps {
   bookingId: number | '';
   bookingContainerIds: number[];
   purchaseOrderLineId: number | '';
-  dataReviewed: boolean;
 }
 
 export const initialValues: ValuesProps = {
@@ -60,7 +59,6 @@ export const initialValues: ValuesProps = {
   bookingId: '',
   bookingContainerIds: [],
   purchaseOrderLineId: '',
-  dataReviewed: false,
 };
 
 const weekCuttingSchema = Yup.object().shape({
@@ -176,8 +174,5 @@ export const validationSchema = Yup.object({
   verifierId: Yup.number()
     .integer('Debe ser un número entero')
     .moreThan(0, 'Debe ser mayor que 0')
-    .required('Requerido'),
-  dataReviewed: Yup.boolean()
-    .oneOf([true], 'Debes revisar los datos antes de enviar')
     .required('Requerido'),
 });

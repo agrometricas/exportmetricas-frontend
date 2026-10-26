@@ -20,8 +20,7 @@ export function useSubmitVerifier(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, ...verifierData } = values;
-        void dataReviewed;
+        const { ...verifierData } = values;
         createVerifier(
             { ...verifierData },
             {

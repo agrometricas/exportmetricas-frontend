@@ -128,7 +128,7 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<ClientType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<ClientType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

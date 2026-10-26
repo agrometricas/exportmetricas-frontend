@@ -22,8 +22,7 @@ export function useSubmitTransport(): {
         values: ValuesProps,
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
-        const { dataReviewed, ...depositData } = values;
-        void dataReviewed;
+        const { ...depositData } = values;
         createTransport(
             { ...depositData },
             {

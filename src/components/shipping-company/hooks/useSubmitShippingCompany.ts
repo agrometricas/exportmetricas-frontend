@@ -30,8 +30,7 @@ export function useSubmitShippingCompany(): {
     values: ValuesProps,
     formikHelpers: FormikHelpers<ValuesProps>
   ): Promise<void> => {
-    const { dataReviewed, harbors, contacts, ...rest } = values;
-    dataReviewed;
+    const { harbors, contacts, ...rest } = values;
     const toNumber = (v: number | '' | null | undefined): number | null =>
       v === '' || v == null ? null : Number(v);
 

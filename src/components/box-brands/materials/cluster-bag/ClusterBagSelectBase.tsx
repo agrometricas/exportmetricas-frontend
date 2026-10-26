@@ -123,7 +123,7 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<ClusterBagType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<ClusterBagType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

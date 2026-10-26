@@ -11,7 +11,6 @@ export interface ValuesProps {
     ruc: string;
     address: string;
     contacts: ContactProps[];
-    dataReviewed: boolean;
 }
 
 export const initialValues: ValuesProps = {
@@ -19,7 +18,6 @@ export const initialValues: ValuesProps = {
     ruc: '',
     address: '',
     contacts: [{ name: '', email: '', phone: '' }],
-    dataReviewed: false,
 };
 
 export const validationSchema = Yup.object({
@@ -61,8 +59,5 @@ export const validationSchema = Yup.object({
             })
         )
         .min(1, 'Debe tener al menos un contacto')
-        .required('Requerido'),
-    dataReviewed: Yup.boolean()
-        .oneOf([true], 'Debes revisar los datos antes de enviar')
         .required('Requerido'),
 });

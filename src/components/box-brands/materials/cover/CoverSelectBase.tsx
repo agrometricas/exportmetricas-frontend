@@ -118,7 +118,7 @@ const CoverSelectBase: React.FC<CoverSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<CoverType>) => opt.id === field?.value)
+          ? data?.find((opt: Partial<CoverType>) => opt.id === field?.value)
           : null
       }
       placeholder={placeholder}

@@ -124,7 +124,7 @@ const BlockingSheetSelectBase: React.FC<BlockingSheetSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find(
+          ? data?.find(
               (opt: Partial<BlockingSheetType>) => opt.id === field?.value
             )
           : null
