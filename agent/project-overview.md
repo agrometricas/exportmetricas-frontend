@@ -246,6 +246,13 @@ diálogo si se sale por un enlace de la app, y con el aviso del navegador si se
 recarga o se cierra la pestaña. Solo pregunta después de que el usuario cambió
 algo; el botón *Atrás* del navegador no lo cubre.
 
+La `AppBar` trae la búsqueda rápida (`components/ui/header/QuickSearch.tsx`):
+un botón, o `Ctrl K` y `/` desde cualquier pantalla, abre un buscador que pide
+`GET /export/search?q=` a partir de dos letras o de un número. Muestra cada
+exportación con su finca, cliente, corte, booking y contenedores
+(`searchHitSummary`, `utils/exportSearch.ts`); con las flechas y Enter, o con
+un clic, abre su ficha.
+
 ---
 
 ## Tests

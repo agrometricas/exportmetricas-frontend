@@ -293,6 +293,7 @@ abre el formulario directo.
 | Ficha | `app/dashboard/export/[id]/page.tsx`, `components/export/progress/ExportSteps.tsx`, `hooks/export/exportProgress.ts`, `utils/exportSteps.ts` |
 | Documentos del embarque | `components/booking/{BookingDocuments, BookingDocumentChecklist}.tsx`, `hooks/booking/{bookingDocuments, documentStatus}.ts`, `types/{bookingDocument, shipmentStatus}.ts` |
 | Tablero de documentos | `app/dashboard/export/documents/page.tsx`, `components/booking/TableDocumentBoard.tsx`, `utils/shipmentStatus.ts` (`GET /bookings/document-board`): cada booking desde una semana antes de hoy con su semáforo, su avance y lo que le falta, y un enlace a sus documentos |
+| Búsqueda rápida | `components/ui/header/QuickSearch.tsx`, `hooks/export/searchExports.ts`, `utils/exportSearch.ts`, `types/exportSearch.ts` |
 | Lista de pendientes de envío | `components/export/{ExportList, ExportCard}.tsx` |
 | Envío por lote | `components/export/ShipmentBatchBar.tsx`, `hooks/export/export-sent/createExportSentBatch.ts`, `utils/{shipmentBatch, selection}.ts`, `types/exportSentBatch.ts` |
 | Formulario de envío de insumos | `components/export/SentMaterialsExportForm.tsx` |
