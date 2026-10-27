@@ -1,5 +1,10 @@
-import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { DepositResponse } from '../../../types/deposit/deposit.response';
 
 interface DetailDepositsProps {
@@ -18,17 +23,27 @@ const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit }) => {
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
-            <Text><strong>Nombre:</strong> {deposit.name}</Text>
-            <Text><strong>Código:</strong> {deposit.code}</Text>
-            <Text><strong>Dirección:</strong> {deposit.address}</Text>
-            <Text><strong>Ciudad:</strong> {deposit.city.name}</Text>
-            <Text><strong>Hora de Apertura:</strong> {deposit.openTime}</Text>
-            <Text><strong>Hora de Cierre:</strong> {deposit.closeTime}</Text>
-            {deposit.latitude && deposit.longitude && (
-              <Text><strong>Latitud / Longitud:</strong> {deposit.latitude}, {deposit.longitude}</Text>
-            )}
-          </Accordion.ItemBody></Accordion.ItemContent>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
+            <DetailFields>
+              <DetailField label='Nombre'>{deposit.name}</DetailField>
+              <DetailField label='Código'>{deposit.code}</DetailField>
+              <DetailField label='Dirección'>{deposit.address}</DetailField>
+              <DetailField label='Ciudad'>{deposit.city.name}</DetailField>
+              <DetailField label='Hora de Apertura'>
+                {deposit.openTime}
+              </DetailField>
+              <DetailField label='Hora de Cierre'>
+                {deposit.closeTime}
+              </DetailField>
+              {deposit.latitude && deposit.longitude && (
+                <DetailField label='Latitud / Longitud'>
+                  {deposit.latitude}, {deposit.longitude}
+                </DetailField>
+              )}
+            </DetailFields>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
 
       {deposit.contacts.length > 0 && (
@@ -41,16 +56,22 @@ const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit }) => {
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}>
+            <Accordion.ItemBody>
               {deposit.contacts.map((contact, index) => (
-                <Box key={index} mb={4}>
-                  <Text><strong>Nombre:</strong> {contact.name}</Text>
-                  {contact.role && <Text><strong>Rol:</strong> {contact.role}</Text>}
-                  <Text><strong>Email:</strong> {contact.email}</Text>
-                  <Text><strong>Teléfono:</strong> {contact.phone}</Text>
-                </Box>
+                <DetailItem key={index}>
+                  <DetailFields>
+                    <DetailField label='Nombre'>{contact.name}</DetailField>
+                    {contact.role && (
+                      <DetailField label='Rol'>{contact.role}</DetailField>
+                    )}
+                    <DetailField label='Email'>{contact.email}</DetailField>
+                    <DetailField label='Teléfono'>{contact.phone}</DetailField>
+                  </DetailFields>
+                </DetailItem>
               ))}
-            </Accordion.ItemBody></Accordion.ItemContent>
+            </Accordion.ItemBody>
+          </Accordion.ItemContent>
         </Accordion.Item>
       )}
     </Accordion.Root>

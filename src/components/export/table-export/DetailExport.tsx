@@ -2,6 +2,12 @@
 import { Accordion, Alert, Badge, Box, Heading, Text } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+  DetailSubtitle,
+} from '@/components/ui/DetailFields';
 import { ExportResponse } from '../../../types/export.response';
 import { containerLabel } from '../../../utils/containerSeals';
 import { customsChannelLabel } from '../../../utils/customs';
@@ -19,17 +25,13 @@ interface DetailExportsProps {
 const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
   const renderContacts = (contacts: any[]): React.JSX.Element[] =>
     contacts.map((c, i) => (
-      <Box key={i} mb={2}>
-        <Text>
-          <strong>Nombre:</strong> {c.name}
-        </Text>
-        <Text>
-          <strong>Correo:</strong> {c.email}
-        </Text>
-        <Text>
-          <strong>Teléfono:</strong> {c.phone}
-        </Text>
-      </Box>
+      <DetailItem key={i}>
+        <DetailFields>
+          <DetailField label='Nombre'>{c.name}</DetailField>
+          <DetailField label='Correo'>{c.email}</DetailField>
+          <DetailField label='Teléfono'>{c.phone}</DetailField>
+        </DetailFields>
+      </DetailItem>
     ));
 
   return (
@@ -61,24 +63,22 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>AUCP:</strong>{' '}
-              {data.aucpNumber
-                ? `${data.aucpNumber} — ${formatDayMonthYear(data.aucpDate)}`
-                : 'Sin registrar'}
-            </Text>
-            <Text>
-              <strong>DAE:</strong>{' '}
-              {data.daeNumber
-                ? `${data.daeNumber} — ${formatDayMonthYear(data.daeDate)}, aforo ${customsChannelLabel(data.daeChannel).toLowerCase()}${data.daeValue ? `, USD ${Number(data.daeValue).toFixed(2)}` : ''}`
-                : 'Sin registrar'}
-            </Text>
-            <Text>
-              <strong>Booking:</strong> {data.bookingNumber}
-            </Text>
+            <DetailFields>
+              <DetailField label='AUCP'>
+                {data.aucpNumber
+                  ? `${data.aucpNumber} — ${formatDayMonthYear(data.aucpDate)}`
+                  : 'Sin registrar'}
+              </DetailField>
+              <DetailField label='DAE'>
+                {data.daeNumber
+                  ? `${data.daeNumber} — ${formatDayMonthYear(data.daeDate)}, aforo ${customsChannelLabel(data.daeChannel).toLowerCase()}${data.daeValue ? `, USD ${Number(data.daeValue).toFixed(2)}` : ''}`
+                  : 'Sin registrar'}
+              </DetailField>
+              <DetailField label='Booking'>{data.bookingNumber}</DetailField>
+            </DetailFields>
             {!!data.booking?.documents?.length && (
               <Box>
-                <strong>Documentos del booking:</strong>
+                <DetailSubtitle>Documentos del booking</DetailSubtitle>
                 {data.booking.documents.map((document) => (
                   <Text key={`${document.type}-${document.number}`} ml={2}>
                     {document.typeLabel} {document.number}{' '}
@@ -91,22 +91,22 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
                 ))}
               </Box>
             )}
-            {!!data.containers?.length && (
-              <Text>
-                <strong>Contenedores:</strong>{' '}
-                {data.containers.map(containerLabel).join(', ')}
-              </Text>
-            )}
-            <Text>
-              <strong>Nombre del Barco:</strong> {data.shipName}
-            </Text>
-            <Text>
-              <strong>Tiempo Estimado:</strong> {data.estimatedTravelTime}
-            </Text>
-            <Text>
-              <strong>Fecha Máxima de Ingreso:</strong>{' '}
-              {formatDayMonthYearTime(data.shippingDateTime)}
-            </Text>
+            <DetailFields>
+              {!!data.containers?.length && (
+                <DetailField label='Contenedores'>
+                  {data.containers.map(containerLabel).join(', ')}
+                </DetailField>
+              )}
+              <DetailField label='Nombre del Barco'>
+                {data.shipName}
+              </DetailField>
+              <DetailField label='Tiempo Estimado'>
+                {data.estimatedTravelTime}
+              </DetailField>
+              <DetailField label='Fecha Máxima de Ingreso'>
+                {formatDayMonthYearTime(data.shippingDateTime)}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -122,24 +122,20 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Razón Social:</strong> {data.merchant?.businessName}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {data.merchant?.businessId}
-            </Text>
-            <Text>
-              <strong>Finca:</strong> {data.business?.name}
-            </Text>
-            <Text>
-              <strong>Ciudad:</strong> {data.business?.city?.name}
-            </Text>
-            <Text>
-              <strong>Dirección:</strong> {data.business?.address}
-            </Text>
-            <Text>
-              <strong>Área:</strong> {data.business?.area} ha
-            </Text>
+            <DetailFields>
+              <DetailField label='Razón Social'>
+                {data.merchant?.businessName}
+              </DetailField>
+              <DetailField label='RUC'>{data.merchant?.businessId}</DetailField>
+              <DetailField label='Finca'>{data.business?.name}</DetailField>
+              <DetailField label='Ciudad'>
+                {data.business?.city?.name}
+              </DetailField>
+              <DetailField label='Dirección'>
+                {data.business?.address}
+              </DetailField>
+              <DetailField label='Área'>{data.business?.area} ha</DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -155,18 +151,14 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {data.client?.businessName}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {data.client?.businessId}
-            </Text>
-            <Text>
-              <strong>Email:</strong> {data.client?.email}
-            </Text>
-            <Text>
-              <strong>Teléfono:</strong> {data.client?.phone}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>
+                {data.client?.businessName}
+              </DetailField>
+              <DetailField label='RUC'>{data.client?.businessId}</DetailField>
+              <DetailField label='Email'>{data.client?.email}</DetailField>
+              <DetailField label='Teléfono'>{data.client?.phone}</DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -182,14 +174,16 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Salida:</strong> {data.harborDeparture?.name} (
-              {data.harborDeparture?.city?.name})
-            </Text>
-            <Text>
-              <strong>Destino:</strong> {data.harborDestination?.name} (
-              {data.harborDestination?.city?.name})
-            </Text>
+            <DetailFields>
+              <DetailField label='Salida'>
+                {data.harborDeparture?.name} ({data.harborDeparture?.city?.name}
+                )
+              </DetailField>
+              <DetailField label='Destino'>
+                {data.harborDestination?.name} (
+                {data.harborDestination?.city?.name})
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -205,15 +199,15 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Marca:</strong> {data.boxBrand?.name}
-            </Text>
-            <Text>
-              <strong>Código:</strong> {data.boxBrand?.brandCode}
-            </Text>
-            <Text>
-              <strong>Cantidad de Cajas:</strong> {data.boxQuantity}
-            </Text>
+            <DetailFields>
+              <DetailField label='Marca'>{data.boxBrand?.name}</DetailField>
+              <DetailField label='Código'>
+                {data.boxBrand?.brandCode}
+              </DetailField>
+              <DetailField label='Cantidad de Cajas'>
+                {data.boxQuantity}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -229,17 +223,17 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Transportista:</strong> {data.transport?.name}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {data.transport?.ruc}
-            </Text>
-            <Text>
-              <strong>Dirección:</strong> {data.transport?.address}
-            </Text>
+            <DetailFields>
+              <DetailField label='Transportista'>
+                {data.transport?.name}
+              </DetailField>
+              <DetailField label='RUC'>{data.transport?.ruc}</DetailField>
+              <DetailField label='Dirección'>
+                {data.transport?.address}
+              </DetailField>
+            </DetailFields>
             <Box mt={3}>
-              <strong>Contactos:</strong>
+              <DetailSubtitle>Contactos</DetailSubtitle>
               {renderContacts(data.transport?.contacts || [])}
             </Box>
           </Accordion.ItemBody>
@@ -257,17 +251,17 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {data.deposit?.name}
-            </Text>
-            <Text>
-              <strong>Dirección:</strong> {data.deposit?.address}
-            </Text>
-            <Text>
-              <strong>Ciudad:</strong> {data.deposit?.city?.name}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>{data.deposit?.name}</DetailField>
+              <DetailField label='Dirección'>
+                {data.deposit?.address}
+              </DetailField>
+              <DetailField label='Ciudad'>
+                {data.deposit?.city?.name}
+              </DetailField>
+            </DetailFields>
             <Box mt={3}>
-              <strong>Contactos:</strong>
+              <DetailSubtitle>Contactos</DetailSubtitle>
               {renderContacts(data.deposit?.contacts || [])}
             </Box>
           </Accordion.ItemBody>
@@ -285,17 +279,15 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         </Heading>
         <Accordion.ItemContent>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {data.verifier?.name}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {data.verifier?.ruc}
-            </Text>
-            <Text>
-              <strong>Dirección:</strong> {data.verifier?.address}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>{data.verifier?.name}</DetailField>
+              <DetailField label='RUC'>{data.verifier?.ruc}</DetailField>
+              <DetailField label='Dirección'>
+                {data.verifier?.address}
+              </DetailField>
+            </DetailFields>
             <Box mt={3}>
-              <strong>Contactos:</strong>
+              <DetailSubtitle>Contactos</DetailSubtitle>
               {renderContacts(data.verifier?.contacts || [])}
             </Box>
           </Accordion.ItemBody>

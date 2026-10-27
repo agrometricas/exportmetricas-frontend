@@ -1,5 +1,6 @@
-import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
 const DetailBusiness = ({
@@ -11,8 +12,7 @@ const DetailBusiness = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-          >
+          <Accordion.ItemTrigger>
             <Box
               as='span'
               flex='1'
@@ -25,51 +25,57 @@ const DetailBusiness = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             <Box>
-              <Text><strong>Provincia:</strong> {business.province.name}</Text>
-              <Text><strong>Ciudad:</strong> {business.city.name}</Text>
-              <Text><strong>Dirección:</strong> {business.address}</Text>
-              <Text>
-                <strong>Dirección:</strong> {business.address}
-              </Text>
-              <Text>
-                <strong>Tipo de Fruta:</strong> {business.fruitType}
-              </Text>
+              <DetailFields>
+                <DetailField label='Provincia'>
+                  {business.province.name}
+                </DetailField>
+                <DetailField label='Ciudad'>{business.city.name}</DetailField>
+                <DetailField label='Dirección'>{business.address}</DetailField>
+                <DetailField label='Dirección'>{business.address}</DetailField>
+                <DetailField label='Tipo de Fruta'>
+                  {business.fruitType}
+                </DetailField>
+              </DetailFields>
             </Box>
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
       {business.latitude && business.longitude && (
         <Accordion.Item value='item-1'>
           <Heading>
-            <Accordion.ItemTrigger
-            >
+            <Accordion.ItemTrigger>
               <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                fontSize="md"
-                fontWeight="bold"
+                as='span'
+                flex='1'
+                textAlign='left'
+                fontSize='md'
+                fontWeight='bold'
               >
                 Geolocalización
               </Box>
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}>
+            <Accordion.ItemBody>
               <Box>
-                <Text>
-                  <strong>Latitud/Longitud:</strong> {business.latitude}/{business.longitude}
-                </Text>
+                <DetailFields>
+                  <DetailField label='Latitud/Longitud'>
+                    {business.latitude}/{business.longitude}
+                  </DetailField>
+                </DetailFields>
               </Box>
-            </Accordion.ItemBody></Accordion.ItemContent>
+            </Accordion.ItemBody>
+          </Accordion.ItemContent>
         </Accordion.Item>
       )}
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger
-          >
+          <Accordion.ItemTrigger>
             <Box
               as='span'
               flex='1'
@@ -82,12 +88,20 @@ const DetailBusiness = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             <Box>
-              <Text><strong>Código MAGAP:</strong> {business.codeMAGAP}</Text>
-              <Text><strong>Código AGROCALIDAD:</strong> {business.codeAGROCALIDAD}</Text>
+              <DetailFields>
+                <DetailField label='Código MAGAP'>
+                  {business.codeMAGAP}
+                </DetailField>
+                <DetailField label='Código AGROCALIDAD'>
+                  {business.codeAGROCALIDAD}
+                </DetailField>
+              </DetailFields>
             </Box>
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
     </Accordion.Root>
   );

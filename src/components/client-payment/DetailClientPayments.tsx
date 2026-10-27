@@ -1,5 +1,10 @@
 import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailSubtitle,
+} from '@/components/ui/DetailFields';
 import { ClientPayment } from '../../types/client-payment/client-payment.response';
 
 const DetailClientPayments = ({
@@ -22,18 +27,14 @@ const DetailClientPayments = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Nombre del Cliente:</strong> {client.businessName}
-            </p>
-            <p>
-              <strong>RUC:</strong> {client.businessId}
-            </p>
-            <p>
-              <strong>Email:</strong> {client.email}
-            </p>
-            <p>
-              <strong>Tipo:</strong> {client.type}
-            </p>
+            <DetailFields>
+              <DetailField label='Nombre del Cliente'>
+                {client.businessName}
+              </DetailField>
+              <DetailField label='RUC'>{client.businessId}</DetailField>
+              <DetailField label='Email'>{client.email}</DetailField>
+              <DetailField label='Tipo'>{client.type}</DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -49,32 +50,28 @@ const DetailClientPayments = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Cantidad de Cajas:</strong> {clientPayment.boxQuantity}
-            </p>
-            <p>
-              <strong>Marca:</strong> {boxBrand.name}
-            </p>
-            <p>
-              <strong>Código:</strong> {boxBrand.brandCode}
-            </p>
-            <p>
-              <strong>Peso Neto por Caja:</strong> {boxBrand.netWeightBox} LBS
-            </p>
-            <p>
-              <strong>Peso Bruto por Caja:</strong> {boxBrand.grossWeightBox}{' '}
-              LBS
-            </p>
-            <p>
-              <strong>Precio Unitario:</strong> ${clientPayment.price}
-            </p>
-            <p>
-              <strong>Total a Pagar:</strong> ${clientPayment.total}
-            </p>
-            <p>
-              <strong>Descripción:</strong>{' '}
-              {clientPayment.description || 'Sin observaciones'}
-            </p>
+            <DetailFields>
+              <DetailField label='Cantidad de Cajas'>
+                {clientPayment.boxQuantity}
+              </DetailField>
+              <DetailField label='Marca'>{boxBrand.name}</DetailField>
+              <DetailField label='Código'>{boxBrand.brandCode}</DetailField>
+              <DetailField label='Peso Neto por Caja'>
+                {boxBrand.netWeightBox} LBS
+              </DetailField>
+              <DetailField label='Peso Bruto por Caja'>
+                {boxBrand.grossWeightBox} LBS
+              </DetailField>
+              <DetailField label='Precio Unitario'>
+                ${clientPayment.price}
+              </DetailField>
+              <DetailField label='Total a Pagar'>
+                ${clientPayment.total}
+              </DetailField>
+              <DetailField label='Descripción'>
+                {clientPayment.description || 'Sin observaciones'}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -92,30 +89,46 @@ const DetailClientPayments = ({
           <Accordion.ItemBody>
             {clientPayment.sourceBankAccount && (
               <>
-                <p>
-                  <strong>Cuenta Origen:</strong>
-                </p>
-                <p>Propietario: {clientPayment.sourceBankAccount.owner}</p>
-                <p>Identificación: {clientPayment.sourceBankAccount.ownerID}</p>
-                <p>Cuenta: {clientPayment.sourceBankAccount.accountNumber}</p>
-                <p>Tipo: {clientPayment.sourceBankAccount.type}</p>
-                <p>Email: {clientPayment.sourceBankAccount.email}</p>
+                <DetailSubtitle>Cuenta Origen</DetailSubtitle>
+                <DetailFields>
+                  <DetailField label='Propietario'>
+                    {clientPayment.sourceBankAccount.owner}
+                  </DetailField>
+                  <DetailField label='Identificación'>
+                    {clientPayment.sourceBankAccount.ownerID}
+                  </DetailField>
+                  <DetailField label='Cuenta'>
+                    {clientPayment.sourceBankAccount.accountNumber}
+                  </DetailField>
+                  <DetailField label='Tipo'>
+                    {clientPayment.sourceBankAccount.type}
+                  </DetailField>
+                  <DetailField label='Email'>
+                    {clientPayment.sourceBankAccount.email}
+                  </DetailField>
+                </DetailFields>
               </>
             )}
             {clientPayment.destinationBankAccount && (
               <>
-                <p>
-                  <strong>Cuenta Destino:</strong>
-                </p>
-                <p>Propietario: {clientPayment.destinationBankAccount.owner}</p>
-                <p>
-                  Identificación: {clientPayment.destinationBankAccount.ownerID}
-                </p>
-                <p>
-                  Cuenta: {clientPayment.destinationBankAccount.accountNumber}
-                </p>
-                <p>Tipo: {clientPayment.destinationBankAccount.type}</p>
-                <p>Email: {clientPayment.destinationBankAccount.email}</p>
+                <DetailSubtitle>Cuenta Destino</DetailSubtitle>
+                <DetailFields>
+                  <DetailField label='Propietario'>
+                    {clientPayment.destinationBankAccount.owner}
+                  </DetailField>
+                  <DetailField label='Identificación'>
+                    {clientPayment.destinationBankAccount.ownerID}
+                  </DetailField>
+                  <DetailField label='Cuenta'>
+                    {clientPayment.destinationBankAccount.accountNumber}
+                  </DetailField>
+                  <DetailField label='Tipo'>
+                    {clientPayment.destinationBankAccount.type}
+                  </DetailField>
+                  <DetailField label='Email'>
+                    {clientPayment.destinationBankAccount.email}
+                  </DetailField>
+                </DetailFields>
               </>
             )}
           </Accordion.ItemBody>
@@ -133,9 +146,7 @@ const DetailClientPayments = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Evidencia:</strong>
-            </p>
+            <DetailSubtitle>Evidencia</DetailSubtitle>
             {clientPayment.transferUrl ? (
               <a
                 href={clientPayment.transferUrl}

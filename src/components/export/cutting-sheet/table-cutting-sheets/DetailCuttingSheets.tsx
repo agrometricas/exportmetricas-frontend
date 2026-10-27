@@ -1,5 +1,6 @@
-import { Accordion, Box, Heading, Text, Link } from '@chakra-ui/react';
+import { Accordion, Box, Heading, Link } from '@chakra-ui/react';
 import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
 import { sheetVersionLabel } from '@/utils/cuttingSheetOptions';
 
@@ -23,35 +24,35 @@ const DetailCuttingSheet = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>ID:</strong> {cuttingSheet.id}
-            </Text>
-            <Text>
-              <strong>Versión:</strong>{' '}
-              {sheetVersionLabel(cuttingSheet.version)}
-            </Text>
-            {cuttingSheet.correctionReason && (
-              <Text>
-                <strong>Motivo de la corrección:</strong>{' '}
-                {cuttingSheet.correctionReason}
-              </Text>
-            )}
-            <Text>
-              <strong>Altura Pallet:</strong> {cuttingSheet.palletsHeight}
-            </Text>
-            <Text>
-              <strong>Ubicación Contenedor:</strong>{' '}
-              {cuttingSheet.containerPositioning}
-            </Text>
-            <Text>
-              <strong>Debajo Cubierta:</strong> {cuttingSheet.belowDeck}
-            </Text>
-            <Text>
-              <strong>PDF:</strong>{' '}
-              <Link href={cuttingSheet.pdfUrl} target='_blank' color='blue.fg'>
-                Ver PDF
-              </Link>
-            </Text>
+            <DetailFields>
+              <DetailField label='ID'>{cuttingSheet.id}</DetailField>
+              <DetailField label='Versión'>
+                {sheetVersionLabel(cuttingSheet.version)}
+              </DetailField>
+              {cuttingSheet.correctionReason && (
+                <DetailField label='Motivo de la corrección'>
+                  {cuttingSheet.correctionReason}
+                </DetailField>
+              )}
+              <DetailField label='Altura Pallet'>
+                {cuttingSheet.palletsHeight}
+              </DetailField>
+              <DetailField label='Ubicación Contenedor'>
+                {cuttingSheet.containerPositioning}
+              </DetailField>
+              <DetailField label='Debajo Cubierta'>
+                {cuttingSheet.belowDeck}
+              </DetailField>
+              <DetailField label='PDF'>
+                <Link
+                  href={cuttingSheet.pdfUrl}
+                  target='_blank'
+                  color='blue.fg'
+                >
+                  Ver PDF
+                </Link>
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -67,30 +68,22 @@ const DetailCuttingSheet = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Productor:</strong> {ex.merchant.businessName}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {ex.merchant.businessId}
-            </Text>
-            <Text>
-              <strong>Finca:</strong> {ex.business.name}
-            </Text>
-            <Text>
-              <strong>Área:</strong> {ex.business.area} ha
-            </Text>
-            <Text>
-              <strong>Fruta:</strong> {ex.business.fruitType}
-            </Text>
-            <Text>
-              <strong>Dirección:</strong> {ex.business.address}
-            </Text>
-            <Text>
-              <strong>Código MAGAP:</strong> {ex.business.codeMAGAP}
-            </Text>
-            <Text>
-              <strong>Código AGROCALIDAD:</strong> {ex.business.codeAGROCALIDAD}
-            </Text>
+            <DetailFields>
+              <DetailField label='Productor'>
+                {ex.merchant.businessName}
+              </DetailField>
+              <DetailField label='RUC'>{ex.merchant.businessId}</DetailField>
+              <DetailField label='Finca'>{ex.business.name}</DetailField>
+              <DetailField label='Área'>{ex.business.area} ha</DetailField>
+              <DetailField label='Fruta'>{ex.business.fruitType}</DetailField>
+              <DetailField label='Dirección'>{ex.business.address}</DetailField>
+              <DetailField label='Código MAGAP'>
+                {ex.business.codeMAGAP}
+              </DetailField>
+              <DetailField label='Código AGROCALIDAD'>
+                {ex.business.codeAGROCALIDAD}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -106,21 +99,13 @@ const DetailCuttingSheet = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {ex.client.businessName}
-            </Text>
-            <Text>
-              <strong>RUC:</strong> {ex.client.businessId}
-            </Text>
-            <Text>
-              <strong>Tipo:</strong> {ex.client.type}
-            </Text>
-            <Text>
-              <strong>Correo:</strong> {ex.client.email}
-            </Text>
-            <Text>
-              <strong>Teléfono:</strong> {ex.client.phone}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>{ex.client.businessName}</DetailField>
+              <DetailField label='RUC'>{ex.client.businessId}</DetailField>
+              <DetailField label='Tipo'>{ex.client.type}</DetailField>
+              <DetailField label='Correo'>{ex.client.email}</DetailField>
+              <DetailField label='Teléfono'>{ex.client.phone}</DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -136,18 +121,20 @@ const DetailCuttingSheet = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Puerto Salida:</strong> {ex.harborDeparture.name}
-            </Text>
-            <Text>
-              <strong>Ubicación:</strong> {ex.harborDeparture.location}
-            </Text>
-            <Text>
-              <strong>Puerto Destino:</strong> {ex.harborDestination.name}
-            </Text>
-            <Text>
-              <strong>Ubicación:</strong> {ex.harborDestination.location}
-            </Text>
+            <DetailFields>
+              <DetailField label='Puerto Salida'>
+                {ex.harborDeparture.name}
+              </DetailField>
+              <DetailField label='Ubicación'>
+                {ex.harborDeparture.location}
+              </DetailField>
+              <DetailField label='Puerto Destino'>
+                {ex.harborDestination.name}
+              </DetailField>
+              <DetailField label='Ubicación'>
+                {ex.harborDestination.location}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -163,21 +150,19 @@ const DetailCuttingSheet = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {ex.boxBrand.name}
-            </Text>
-            <Text>
-              <strong>Código:</strong> {ex.boxBrand.brandCode}
-            </Text>
-            <Text>
-              <strong>Peso Neto:</strong> {ex.boxBrand.netWeightBox} lbs
-            </Text>
-            <Text>
-              <strong>Peso Bruto:</strong> {ex.boxBrand.grossWeightBox} lbs
-            </Text>
-            <Text>
-              <strong>Cantidad de Cajas:</strong> {ex.boxQuantity}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>{ex.boxBrand.name}</DetailField>
+              <DetailField label='Código'>{ex.boxBrand.brandCode}</DetailField>
+              <DetailField label='Peso Neto'>
+                {ex.boxBrand.netWeightBox} lbs
+              </DetailField>
+              <DetailField label='Peso Bruto'>
+                {ex.boxBrand.grossWeightBox} lbs
+              </DetailField>
+              <DetailField label='Cantidad de Cajas'>
+                {ex.boxQuantity}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
