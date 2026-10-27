@@ -2,6 +2,7 @@
 
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -46,7 +47,7 @@ export function CreateInitialStockForm({
   materialType,
   materialId,
   materialName,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { mutate, isPending: isLoading } = useCreateExporterMaterialStock();
 
   return (

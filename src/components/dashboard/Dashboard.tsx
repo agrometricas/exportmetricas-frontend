@@ -1,6 +1,7 @@
 'use client';
 import { Box, Stack, Text } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
+import React from 'react';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import { PageLayout } from '@/components/ui/page/PageLayout';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -8,7 +9,7 @@ import CalendarSummaryContainer from './CalendarSummaryContainer';
 import WorkQueuePanel from './WorkQueuePanel';
 import ContractUsageAlerts from '../contract-usage/ContractUsageAlerts';
 
-const Dashboard = (): JSX.Element => {
+const Dashboard = (): React.JSX.Element => {
   const { data: session, status } = useSession();
 
   if (status === 'loading') {

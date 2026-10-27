@@ -3,11 +3,11 @@
 import { Card, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import SignInForm from '../../../components/signin/SignInForm';
 import { Logo } from '../../../components/ui/Logo';
 
-function SignInFormWithParams(): JSX.Element {
+function SignInFormWithParams(): React.JSX.Element {
   const searchParams = useSearchParams();
   return (
     <SignInForm
@@ -17,7 +17,7 @@ function SignInFormWithParams(): JSX.Element {
   );
 }
 
-const SignInPage = (): JSX.Element => {
+const SignInPage = (): React.JSX.Element => {
   return (
     <Center minH='100vh'>
       <Flex

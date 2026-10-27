@@ -1,9 +1,10 @@
 'use client';
-
 import { Center, Flex, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
+
 import { Logo } from '@/components/ui/Logo';
 
-export default function AdjustmentSuccessPage(): JSX.Element {
+export default function AdjustmentSuccessPage(): React.JSX.Element {
   return (
     <Center minH='100vh'>
       <Flex

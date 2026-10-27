@@ -10,7 +10,7 @@ import {
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useMerchants } from '../../hooks/merchants/getMerchants';
 import { usePagination } from '../../hooks/usePagination';
@@ -55,7 +55,7 @@ const producerComponents = {
       false,
       GroupBase<Partial<MerchantResponse>>
     >
-  ): JSX.Element => (
+  ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
       <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
     </chakraComponents.DropdownIndicator>

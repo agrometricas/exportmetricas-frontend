@@ -5,7 +5,7 @@ import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormSubsectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -245,7 +245,7 @@ const SentMaterialsExportForm = ({
     material: any,
     quantity: any,
     unit = 'C/U'
-  ): JSX.Element | null => {
+  ): React.JSX.Element | null => {
     if (!material || !quantity || Number(quantity) <= 0) return null;
 
     return (

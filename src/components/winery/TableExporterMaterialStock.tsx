@@ -5,7 +5,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useSession } from 'next-auth/react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ErrorState from '@/components/ui/states/ErrorState';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailExporterMaterialStock from './DetailExporterMaterialStock';
@@ -13,7 +13,7 @@ import { useExporterMaterialStock } from '../../hooks/winery/getExporterMaterial
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock.response';
 import { MATERIAL_TYPE_LABELS } from '../../utils/materialTypeLabels';
 
-export default function TableExporterMaterialStock(): JSX.Element {
+export default function TableExporterMaterialStock(): React.JSX.Element {
   const { data: session } = useSession();
   const {
     data = [],

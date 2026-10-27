@@ -2,9 +2,10 @@
 
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import React from 'react';
 import { Logo } from '@/components/ui/Logo';
 
-export default function ResetSuccessPage(): JSX.Element {
+export default function ResetSuccessPage(): React.JSX.Element {
   return (
     <Center minH='100vh' bg='bg.subtle'>
       <Flex direction='column' align='center' maxW='480px' w='100%' p={4}>

@@ -67,7 +67,7 @@ function WeekStat({
   );
 }
 
-export default function CalendarSummaryContainer(): JSX.Element {
+export default function CalendarSummaryContainer(): React.JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [producer, setProducer] = useState<Party | null>(null);
   const [boxBrand, setBoxBrand] = useState<Party | null>(null);

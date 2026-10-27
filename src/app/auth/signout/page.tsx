@@ -3,10 +3,10 @@
 import { Center, Flex, Heading, Button, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
 
-const SignOutPage = (): JSX.Element => {
+const SignOutPage = (): React.JSX.Element => {
   const { data: session, status } = useSession();
   const router = useRouter();
 

@@ -10,6 +10,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useUpdateExporterMaterialStock } from '@/hooks/winery/useUpdateExporterMaterialStock';
@@ -35,7 +36,7 @@ export function UpdateStockModal({
   stockId,
   initialStock,
   initialCost,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { mutate, isPending: isLoading } =
     useUpdateExporterMaterialStock(stockId);
 

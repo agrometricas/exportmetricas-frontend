@@ -1,4 +1,5 @@
 import { Accordion, Box, Heading } from '@chakra-ui/react';
+import React from 'react';
 import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock.response';
 import { MATERIAL_TYPE_LABELS } from '../../utils/materialTypeLabels';
@@ -7,7 +8,7 @@ export default function DetailExporterMaterialStock({
   material,
 }: {
   material: ExporterMaterialStock;
-}): JSX.Element {
+}): React.JSX.Element {
   const {
     materialType,
     assignedStock,

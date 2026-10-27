@@ -2,6 +2,7 @@
 
 import { Box, Table, Text, Icon, VStack } from '@chakra-ui/react';
 import { format } from 'date-fns';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { MdArrowDropDown, MdArrowDropUp, MdDragHandle } from 'react-icons/md';
 import { SpotTrend, SpotWeek } from '@/types/weekSummary';
@@ -29,7 +30,7 @@ function spotDay(date: string): string {
   );
 }
 
-export function SpotPriceComparison({ spot }: Props): JSX.Element {
+export function SpotPriceComparison({ spot }: Props): React.JSX.Element {
   const { data: spotPrices } = useSpotPrices();
 
   const recentSpotPrices = spotPrices?.slice(0, 10) || [];

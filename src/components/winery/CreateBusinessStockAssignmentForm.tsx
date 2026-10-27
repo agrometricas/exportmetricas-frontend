@@ -2,6 +2,7 @@
 
 import { Box, Button, SimpleGrid, Text, Dialog } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBusinessStockAssignment } from '../../hooks/winery/useCreateBusinessStockAssignment';
@@ -39,7 +40,7 @@ export function CreateBusinessStockAssignmentForm({
   availableStock,
   onBack,
   onClose,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { mutate, isPending: isLoading } = useCreateBusinessStockAssignment();
 
   return (

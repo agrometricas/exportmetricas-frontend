@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -296,14 +296,14 @@ interface CuttingSheetFormProps {
 const renderQuantityField = (
   label: string,
   value?: number | '' | null
-): JSX.Element | null => {
+): React.JSX.Element | null => {
   const validNumber = typeof value === 'number' && value > 0;
   return validNumber ? (
     <DisplayField label={label} value={value.toString()} />
   ) : null;
 };
 
-const renderNameField = (label: string, value?: string): JSX.Element | null => {
+const renderNameField = (label: string, value?: string): React.JSX.Element | null => {
   return value && value.trim() !== '' ? (
     <DisplayField label={label} value={value} />
   ) : null;

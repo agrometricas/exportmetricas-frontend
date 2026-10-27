@@ -2,10 +2,11 @@
 
 import { Card, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import Link_Next from 'next/link';
+import React from 'react';
 import SignUpForm from '../../../components/signup/SignUpForm';
 import { Logo } from '../../../components/ui/Logo';
 
-const SignUpPage = (): JSX.Element => {
+const SignUpPage = (): React.JSX.Element => {
   return (
     <Center minH='100vh'>
       <Flex
