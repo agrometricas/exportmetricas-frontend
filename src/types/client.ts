@@ -1,5 +1,5 @@
-import { ContactType } from "./merchant/contact";
-import { TimeUnit } from "../utils/clientTerms";
+import { ContactType } from './merchant/contact';
+import { TimeUnit } from '../utils/clientTerms';
 
 export type ClientType = {
   id: number;

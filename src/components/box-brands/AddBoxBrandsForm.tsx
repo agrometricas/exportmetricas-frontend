@@ -1,4 +1,3 @@
- 
 'use client';
 import {
   Box,
@@ -1006,9 +1005,7 @@ const validationSchema = Yup.object({
         return value > 0;
       }
     ),
-  stickers: Yup.array()
-    .of(stickerSchema)
-    .min(0, 'Debe tener 0 o más stickers'),
+  stickers: Yup.array().of(stickerSchema).min(0, 'Debe tener 0 o más stickers'),
   sheets: Yup.array().of(sheetSchema).min(0, 'Debe tener 0 o más sheets'),
   insecticides: Yup.array()
     .of(insecticideSchema)
@@ -1245,7 +1242,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
             closable: true,
           });
 
-
           if (model === 'BoxBrand' && prop === 'brandCode') {
             formikHelpers.setFieldTouched(`${prop}`, true, false);
             formikHelpers.setFieldError(`${prop}`, message);
@@ -1260,7 +1256,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['boxBrands']
+            queryKey: ['boxBrands'],
           });
           formikHelpers.resetForm();
           router.push('/dashboard/box-brands/search');

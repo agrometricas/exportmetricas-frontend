@@ -21,10 +21,7 @@ export function sectionTabPaths(tabs: SectionTab[]): string[] {
   return tabs.flatMap((tab) => (tab.add ? [tab.to, tab.add] : [tab.to]));
 }
 
-export function activeSectionTab(
-  pathname: string,
-  tabs: SectionTab[]
-): number {
+export function activeSectionTab(pathname: string, tabs: SectionTab[]): number {
   return tabs.findIndex((tab) =>
     sectionTabPaths([tab]).some((path) => isPathUnder(pathname, path))
   );

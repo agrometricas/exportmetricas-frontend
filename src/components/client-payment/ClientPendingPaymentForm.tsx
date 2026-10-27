@@ -4,7 +4,10 @@ import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
@@ -131,9 +134,7 @@ const ClientPendingPaymentFields = ({
 
   return (
     <Flex flexDirection='column' gap={3}>
-      <FormSectionTitle>
-        Cliente
-      </FormSectionTitle>
+      <FormSectionTitle>Cliente</FormSectionTitle>
 
       <SelectClient
         name={'clientId'}
@@ -141,9 +142,7 @@ const ClientPendingPaymentFields = ({
         clientSelect={clientSelect as Partial<ClientType>}
       />
 
-      <FormSectionTitle>
-        Cobro
-      </FormSectionTitle>
+      <FormSectionTitle>Cobro</FormSectionTitle>
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -165,15 +164,11 @@ const ClientPendingPaymentFields = ({
 
       <InputFieldTextArea name={'description'} label={'Detalles del cobro'} />
 
-      <FormSectionTitle>
-        Cuenta bancaria origen
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria origen</FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} label='Razón social' />
 
-      <FormSectionTitle>
-        Cuenta bancaria destino
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria destino</FormSectionTitle>
 
       <SelectBankAccount
         name={'destinationBankAccountId'}
@@ -185,23 +180,27 @@ const ClientPendingPaymentFields = ({
         <ReadOnlyAmount label={'Monto'} value={quote?.total} />
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Subir transferencia
-      </FormSectionTitle>
+      <FormSectionTitle>Subir transferencia</FormSectionTitle>
 
       <UploadLogoFile name={'transferFile'} />
 
-      <FormActions start={<CheckboxForm
-          name='dataReviewed'
-          label='He revisado los datos agregados'
-        />}><Button
+      <FormActions
+        start={
+          <CheckboxForm
+            name='dataReviewed'
+            label='He revisado los datos agregados'
+          />
+        }
+      >
+        <Button
           type='submit'
           colorPalette='green'
           loading={isSubmitting}
           disabled={!isSettled}
         >
           Registrar cobro
-        </Button></FormActions>
+        </Button>
+      </FormActions>
     </Flex>
   );
 };
@@ -216,7 +215,8 @@ const ClientPendingPaymentForm = ({
     useState<ValuesProps>(initialValues);
   const { mutateAsync: createClientPayment, isPending: createLoading } =
     useCreateClientPayment();
-  const { uploadTransferImage, isPending: isLoading } = useUploadTransferImage();
+  const { uploadTransferImage, isPending: isLoading } =
+    useUploadTransferImage();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -262,17 +262,24 @@ const ClientPendingPaymentForm = ({
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['clientPayments']
+        queryKey: ['clientPayments'],
       });
       queryClient.invalidateQueries({
-        queryKey: ['exportsSentPending']
+        queryKey: ['exportsSentPending'],
       });
       queryClient.invalidateQueries({
-        queryKey: ['clientPaymentsPending']
+        queryKey: ['clientPaymentsPending'],
       });
       actions.resetForm();
-      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
-      router.push(returnTo('/dashboard/liquidation/client-payments', window.location.search));
+      PROGRESS_QUERIES.forEach((key) =>
+        queryClient.invalidateQueries({ queryKey: [key] })
+      );
+      router.push(
+        returnTo(
+          '/dashboard/liquidation/client-payments',
+          window.location.search
+        )
+      );
     } catch (error: unknown) {
       toaster.create({
         title: 'Error',

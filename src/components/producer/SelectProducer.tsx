@@ -15,7 +15,9 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
   producerSelect,
   setProducerSelect,
 }) => {
-  const [producer, setProducer] = useState<Partial<MerchantResponse> | null>(null);
+  const [producer, setProducer] = useState<Partial<MerchantResponse> | null>(
+    null
+  );
 
   useEffect(() => {
     if (!!producerSelect) {
@@ -34,8 +36,8 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldProducerSelect
           name={name}
-          label="Productor/Razón social"
-          placeholder="Selecciona el productor"
+          label='Productor/Razón social'
+          placeholder='Selecciona el productor'
           setProducer={setProducer}
         />
         <Box>
@@ -43,7 +45,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Input
             readOnly
             value={producer?.businessId || ''}
-            placeholder="RUC del productor"
+            placeholder='RUC del productor'
           />
         </Box>
         <Box>
@@ -51,25 +53,26 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Input
             readOnly
             value={producer?.address || ''}
-            placeholder="Dirección del productor"
+            placeholder='Dirección del productor'
           />
         </Box>
-        {producer?.city?.name &&
+        {producer?.city?.name && (
           <Box>
             <FormLabel fontSize='sm'>Ciudad</FormLabel>
             <Input
               readOnly
               value={producer?.city?.name || ''}
-              placeholder="Ciudad del productor"
+              placeholder='Ciudad del productor'
             />
-          </Box>}
+          </Box>
+        )}
         {!producer?.city?.name && (
           <Box>
             <FormLabel fontSize='sm'>Tipo de contrato</FormLabel>
             <Input
               readOnly
               value={producer?.contractType || 'No disponible'}
-              placeholder="Contrato del productor"
+              placeholder='Contrato del productor'
             />
           </Box>
         )}

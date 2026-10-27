@@ -1,4 +1,3 @@
- 
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -100,7 +99,6 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
 
     createLabel(formData, {
       onError: (error) => {
-
         toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
@@ -108,7 +106,6 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
           duration: 5000,
           closable: true,
         });
-
       },
       onSuccess: () => {
         toaster.create({
@@ -119,7 +116,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
         });
 
         queryClient.invalidateQueries({
-          queryKey: ['labels']
+          queryKey: ['labels'],
         });
         actions.resetForm();
         onClose?.();
@@ -138,9 +135,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>
-                Agregar etiqueta
-              </FormSectionTitle>
+              <FormSectionTitle>Agregar etiqueta</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <InputFieldNumber

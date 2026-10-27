@@ -1,4 +1,3 @@
- 
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -90,7 +89,6 @@ const AddMettoLabelForm = ({
     };
     createMettoLabel(formData, {
       onError: (error) => {
-
         toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
@@ -98,7 +96,6 @@ const AddMettoLabelForm = ({
           duration: 5000,
           closable: true,
         });
-
       },
       onSuccess: () => {
         toaster.create({
@@ -108,7 +105,7 @@ const AddMettoLabelForm = ({
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['mettoLabels']
+          queryKey: ['mettoLabels'],
         });
         actions.resetForm();
         onClose?.();
@@ -128,9 +125,7 @@ const AddMettoLabelForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>
-                Agregar etiqueta Metto
-              </FormSectionTitle>
+              <FormSectionTitle>Agregar etiqueta Metto</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

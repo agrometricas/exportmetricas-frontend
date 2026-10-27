@@ -42,11 +42,19 @@ const SelectCuttingType: React.FC<SelectCuttingTypeProps> = ({
         />
         <Box>
           <FormLabel fontSize='sm'>Calidad</FormLabel>
-          <Input readOnly={true} value={cuttingType?.quality || ''} placeholder='Calidad del corte' />
+          <Input
+            readOnly={true}
+            value={cuttingType?.quality || ''}
+            placeholder='Calidad del corte'
+          />
         </Box>
         <Box>
           <FormLabel fontSize='sm'>Detalle del cluster</FormLabel>
-          <Input readOnly={true} value={cuttingType?.clusterDetail || ''} placeholder='Detalle del cluster' />
+          <Input
+            readOnly={true}
+            value={cuttingType?.clusterDetail || ''}
+            placeholder='Detalle del cluster'
+          />
         </Box>
         <Box>
           <FormLabel fontSize='sm'>Patrón de empaque</FormLabel>

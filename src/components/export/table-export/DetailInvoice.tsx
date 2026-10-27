@@ -1,4 +1,12 @@
-import { Box, Card, Input, InputGroup, NumberInput, SimpleGrid, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Card,
+  Input,
+  InputGroup,
+  NumberInput,
+  SimpleGrid,
+  Textarea,
+} from '@chakra-ui/react';
 import React from 'react';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { ProducerPaymentType } from '../../../types/producerPayment';
@@ -22,13 +30,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       mb={'10px'}
       pb={'30px'}
     >
-      <FormSectionTitle>
-        Liquidación a productor
-      </FormSectionTitle>
+      <FormSectionTitle>Liquidación a productor</FormSectionTitle>
 
-      <FormSectionTitle>
-        Productor
-      </FormSectionTitle>
+      <FormSectionTitle>Productor</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -38,10 +42,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       >
         <Box>
           <FormLabel>Productor/Razón social:</FormLabel>
-          <Input
-            readOnly={true}
-            value={payment.merchant?.businessName || ''}
-          />
+          <Input readOnly={true} value={payment.merchant?.businessName || ''} />
         </Box>
         <Box>
           <FormLabel>RUC:</FormLabel>
@@ -69,9 +70,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Puerto de salida
-      </FormSectionTitle>
+      <FormSectionTitle>Puerto de salida</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -81,10 +80,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       >
         <Box>
           <FormLabel>Nombre</FormLabel>
-          <Input
-            readOnly={true}
-            value={payment.harborDeparture?.name || ''}
-          />
+          <Input readOnly={true} value={payment.harborDeparture?.name || ''} />
         </Box>
         <Box>
           <FormLabel>País</FormLabel>
@@ -138,9 +134,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Puerto de destino
-      </FormSectionTitle>
+      <FormSectionTitle>Puerto de destino</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -207,9 +201,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Compra
-      </FormSectionTitle>
+      <FormSectionTitle>Compra</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -219,10 +211,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       >
         <Box>
           <FormLabel>Precio:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.price).toFixed(2))}
               width={'100%'}
@@ -235,10 +232,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
         <Box>
           <FormLabel>Subtotal1</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.subtotal1).toFixed(2))}
               width={'100%'}
@@ -251,9 +253,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Gastos
-      </FormSectionTitle>
+      <FormSectionTitle>Gastos</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -263,10 +263,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       >
         <Box>
           <FormLabel>Transporte:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.transport).toFixed(2))}
               width={'100%'}
@@ -279,10 +284,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
         <Box>
           <FormLabel>Materiales:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.materials).toFixed(2))}
               width={'100%'}
@@ -295,10 +305,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
         <Box>
           <FormLabel>Varios:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.others).toFixed(2))}
               width={'100%'}
@@ -311,10 +326,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
         <Box>
           <FormLabel>Subtotal2:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.subtotal2).toFixed(2))}
               width={'100%'}
@@ -328,10 +348,15 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Box></Box>
         <Box>
           <FormLabel>Total:</FormLabel>
-          <InputGroup width={'100%'}
-  startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
-            
+          <InputGroup
+            width={'100%'}
+            startElement={<>$</>}
+            startElementProps={{
+              pointerEvents: 'none',
+              color: 'fg.subtle',
+              fontSize: '1.2em',
+            }}
+          >
             <NumberInput.Root
               value={String(Number(payment.total).toFixed(2))}
               width={'100%'}
@@ -349,9 +374,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Textarea value={payment.description} readOnly={true} />
       </Box>
 
-      <FormSectionTitle>
-        Cuenta bancaria origen
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria origen</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -389,9 +412,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <FormSectionTitle>
-        Cuenta bancaria destino
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria destino</FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}

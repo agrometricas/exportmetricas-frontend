@@ -5,14 +5,14 @@ import { serializeQueryResult } from '@/utils/serializeQueryResult';
 import { DepositResponse } from '../../types/deposit/deposit.response';
 
 function listDeposits(): Promise<AxiosResponse<DepositResponse[]>> {
-    return axios.get('/deposit');
+  return axios.get('/deposit');
 }
 
 export function useDeposits(): ReturnType<typeof serializeQueryResult> {
-    const result = useQuery({
-        queryKey: ['deposits'],
-        queryFn: () => listDeposits(),
-    });
+  const result = useQuery({
+    queryKey: ['deposits'],
+    queryFn: () => listDeposits(),
+  });
 
-    return serializeQueryResult(result);
+  return serializeQueryResult(result);
 }

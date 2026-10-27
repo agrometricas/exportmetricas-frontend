@@ -1,4 +1,3 @@
- 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -58,7 +57,9 @@ const harborComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -71,9 +72,7 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
   onChange,
   setHarbors,
 }) => {
-  const { data, isLoading, error } = useHarborsByType({ type,
-  });
-
+  const { data, isLoading, error } = useHarborsByType({ type });
 
   const handleChange = (newValues: MultiValue<Partial<HarborType>>): void => {
     if (setHarbors) {
@@ -93,17 +92,14 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          (({
+          ({
             ...provided,
             zIndex: 100,
-          }) as CSSObjectWithLabel),
+          }) as CSSObjectWithLabel,
       }}
-
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? serverErrorMessage(error)
-          : 'Ya no hay puerto/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay puerto/s disponible/s'
       }
       isLoading={isLoading}
       options={data}
@@ -116,9 +112,9 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
       onChange={(newValues) => handleChange(newValues as Partial<HarborType>[])}
       value={
         field?.value
-          ? data?.filter(
-            (opt: Partial<HarborType>) => field.value.some((id) => id === opt.id)
-          )
+          ? data?.filter((opt: Partial<HarborType>) =>
+              field.value.some((id) => id === opt.id)
+            )
           : []
       }
       closeMenuOnSelect={false}

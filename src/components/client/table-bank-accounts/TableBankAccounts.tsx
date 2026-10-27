@@ -1,4 +1,3 @@
- 
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -14,77 +13,79 @@ import { useBankAccounts } from '../../../hooks/bank-account/getBankAccounts';
 const TableBankAccounts = (): React.JSX.Element => {
   const { data = [] } = useBankAccounts();
 
-
-  const columns = useMemo<MRT_ColumnDef<BankAccountResponse>[]>(() => [
-    {
-      header: 'Entidad asociada',
-      columns: [
-        {
-          accessorFn: (row) =>
-            row.client ? 'Cliente' : row.merchant ? 'Productor' : 'N/A',
-          header: 'Tipo de entidad',
-        },
-        {
-          accessorFn: (row) =>
-            row.merchant?.businessName || row.client?.businessName || 'N/A',
-          header: 'Nombre comercial',
-        },
-        {
-          accessorFn: (row) =>
-            row.merchant?.businessId || row.client?.businessId || 'N/A',
-          header: 'RUC',
-        },
-        {
-          accessorFn: (row) => row.merchant?.city?.name || 'N/A',
-          header: 'Ciudad',
-        },
-        {
-          accessorFn: (row) => row.merchant?.address || 'N/A',
-          header: 'Dirección',
-        },
-      ],
-    },
-    {
-      header: 'Información bancaria',
-      columns: [
-        {
-          accessorKey: 'bank',
-          header: 'Banco',
-        },
-        {
-          accessorKey: 'owner',
-          header: 'Propietario',
-        },
-        {
-          accessorKey: 'accountNumber',
-          header: 'Número de cuenta',
-        },
-      ],
-    },
-    {
-      header: 'Contacto',
-      columns: [
-        {
-          accessorFn: (row) =>
-            row.client?.email || row.merchant?.email || 'N/A',
-          header: 'Correo electrónico',
-        },
-        {
-          accessorFn: (row) => row.client?.phone || 'N/A',
-          header: 'Teléfono',
-        },
-      ],
-    },
-    {
-      header: 'Tipo',
-      columns: [
-        {
-          accessorKey: 'type',
-          header: 'Tipo de cuenta',
-        },
-      ],
-    },
-  ], []);
+  const columns = useMemo<MRT_ColumnDef<BankAccountResponse>[]>(
+    () => [
+      {
+        header: 'Entidad asociada',
+        columns: [
+          {
+            accessorFn: (row) =>
+              row.client ? 'Cliente' : row.merchant ? 'Productor' : 'N/A',
+            header: 'Tipo de entidad',
+          },
+          {
+            accessorFn: (row) =>
+              row.merchant?.businessName || row.client?.businessName || 'N/A',
+            header: 'Nombre comercial',
+          },
+          {
+            accessorFn: (row) =>
+              row.merchant?.businessId || row.client?.businessId || 'N/A',
+            header: 'RUC',
+          },
+          {
+            accessorFn: (row) => row.merchant?.city?.name || 'N/A',
+            header: 'Ciudad',
+          },
+          {
+            accessorFn: (row) => row.merchant?.address || 'N/A',
+            header: 'Dirección',
+          },
+        ],
+      },
+      {
+        header: 'Información bancaria',
+        columns: [
+          {
+            accessorKey: 'bank',
+            header: 'Banco',
+          },
+          {
+            accessorKey: 'owner',
+            header: 'Propietario',
+          },
+          {
+            accessorKey: 'accountNumber',
+            header: 'Número de cuenta',
+          },
+        ],
+      },
+      {
+        header: 'Contacto',
+        columns: [
+          {
+            accessorFn: (row) =>
+              row.client?.email || row.merchant?.email || 'N/A',
+            header: 'Correo electrónico',
+          },
+          {
+            accessorFn: (row) => row.client?.phone || 'N/A',
+            header: 'Teléfono',
+          },
+        ],
+      },
+      {
+        header: 'Tipo',
+        columns: [
+          {
+            accessorKey: 'type',
+            header: 'Tipo de cuenta',
+          },
+        ],
+      },
+    ],
+    []
+  );
 
   const table = useMaterialReactTable({
     columns,

@@ -1,4 +1,3 @@
- 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -116,7 +115,6 @@ const AddPesticideForm = ({
       },
       {
         onError: (error) => {
-
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
@@ -124,7 +122,6 @@ const AddPesticideForm = ({
             duration: 5000,
             closable: true,
           });
-
         },
         onSuccess: () => {
           toaster.create({
@@ -135,7 +132,7 @@ const AddPesticideForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['pesticides']
+            queryKey: ['pesticides'],
           });
           actions.resetForm();
           onClose?.();
@@ -171,9 +168,7 @@ const AddPesticideForm = ({
         {({ isSubmitting }) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>
-                Agregar pesticida
-              </FormSectionTitle>
+              <FormSectionTitle>Agregar pesticida</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'brandName'} label={'Nombre comercial'} />

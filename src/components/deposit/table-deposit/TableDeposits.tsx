@@ -13,97 +13,111 @@ import { DepositResponse } from '../../../types/deposit/deposit.response';
 const TableDeposits = (): React.JSX.Element => {
   const { data = [] } = useDeposits();
 
-
-  const columns = useMemo<MRT_ColumnDef<DepositResponse>[]>(() => [
-    {
-      header: 'Depósito',
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Nombre del depósito',
-        },
-        {
-          accessorKey: 'code',
-          header: 'Código',
-        },
-      ],
-    },
-    {
-      header: 'Ubicación',
-      columns: [
-        {
-          accessorFn: (row) => row.city?.name || 'N/A',
-          header: 'Ciudad',
-        },
-        {
-          accessorKey: 'address',
-          header: 'Dirección',
-        },
-        {
-          accessorKey: 'latitude',
-          header: 'Latitud',
-          Cell: ({ cell }): React.ReactNode => {
-            const value = cell.getValue<number | null>();
-            return <span>{value !== null && value !== undefined ? value.toFixed(6) : 'No definida'}</span>;
+  const columns = useMemo<MRT_ColumnDef<DepositResponse>[]>(
+    () => [
+      {
+        header: 'Depósito',
+        columns: [
+          {
+            accessorKey: 'name',
+            header: 'Nombre del depósito',
           },
-        },
-        {
-          accessorKey: 'longitude',
-          header: 'Longitud',
-          Cell: ({ cell }): React.ReactNode => {
-            const value = cell.getValue<number | null>();
-            return <span>{value !== null && value !== undefined ? value.toFixed(6) : 'No definida'}</span>;
+          {
+            accessorKey: 'code',
+            header: 'Código',
           },
-        },
-      ],
-    },
-    {
-      header: 'Horario',
-      columns: [
-        {
-          accessorKey: 'openTime',
-          header: 'Hora de apertura',
-        },
-        {
-          accessorKey: 'closeTime',
-          header: 'Hora de cierre',
-        },
-      ],
-    },
-    {
-      header: 'Contactos',
-      columns: [
-        {
-          accessorKey: 'contacts',
-          header: 'Nombres',
-          Cell: ({ cell }): React.ReactNode => {
-            const contacts = cell.getValue<DepositResponse['contacts']>();
-            return (
-              <span>
-                {contacts.length > 0
-                  ? contacts.map((c) => c.name).join(', ')
-                  : 'Sin contactos'}
-              </span>
-            );
+        ],
+      },
+      {
+        header: 'Ubicación',
+        columns: [
+          {
+            accessorFn: (row) => row.city?.name || 'N/A',
+            header: 'Ciudad',
           },
-        },
-        {
-          accessorKey: 'contactsPhone',
-          header: 'Teléfonos',
-          Cell: ({ row }): React.ReactNode => {
-            const contacts = row.original.contacts;
-            return (
-              <span>
-                {contacts.length > 0
-                  ? contacts.map((c) => c.phone).join(', ')
-                  : 'Sin teléfonos'}
-              </span>
-            );
+          {
+            accessorKey: 'address',
+            header: 'Dirección',
           },
-        },
-      ],
-    },
-  ], []);
+          {
+            accessorKey: 'latitude',
+            header: 'Latitud',
+            Cell: ({ cell }): React.ReactNode => {
+              const value = cell.getValue<number | null>();
+              return (
+                <span>
+                  {value !== null && value !== undefined
+                    ? value.toFixed(6)
+                    : 'No definida'}
+                </span>
+              );
+            },
+          },
+          {
+            accessorKey: 'longitude',
+            header: 'Longitud',
+            Cell: ({ cell }): React.ReactNode => {
+              const value = cell.getValue<number | null>();
+              return (
+                <span>
+                  {value !== null && value !== undefined
+                    ? value.toFixed(6)
+                    : 'No definida'}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+      {
+        header: 'Horario',
+        columns: [
+          {
+            accessorKey: 'openTime',
+            header: 'Hora de apertura',
+          },
+          {
+            accessorKey: 'closeTime',
+            header: 'Hora de cierre',
+          },
+        ],
+      },
+      {
+        header: 'Contactos',
+        columns: [
+          {
+            accessorKey: 'contacts',
+            header: 'Nombres',
+            Cell: ({ cell }): React.ReactNode => {
+              const contacts = cell.getValue<DepositResponse['contacts']>();
+              return (
+                <span>
+                  {contacts.length > 0
+                    ? contacts.map((c) => c.name).join(', ')
+                    : 'Sin contactos'}
+                </span>
+              );
+            },
+          },
+          {
+            accessorKey: 'contactsPhone',
+            header: 'Teléfonos',
+            Cell: ({ row }): React.ReactNode => {
+              const contacts = row.original.contacts;
+              return (
+                <span>
+                  {contacts.length > 0
+                    ? contacts.map((c) => c.phone).join(', ')
+                    : 'Sin teléfonos'}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+    ],
+    []
+  );
 
   const table = useMaterialReactTable({
     columns,

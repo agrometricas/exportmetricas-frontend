@@ -28,11 +28,5 @@
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.eol": "\n",
-  "cSpell.words": [
-    "AGROCALIDAD",
-    "chakra",
-    "MAGAP",
-    "formik",
-    "Formik",
-  ]
+  "cSpell.words": ["AGROCALIDAD", "chakra", "MAGAP", "formik", "Formik"]
 }

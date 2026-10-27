@@ -14,7 +14,6 @@ import { HarborResponse } from '../../../types/harbor.response';
 const TableHarbors = (): React.JSX.Element => {
   const { data = [] } = useHarbors();
 
-
   const columns = useMemo<MRT_ColumnDef<HarborResponse>[]>(
     () => [
       {
@@ -65,7 +64,8 @@ const TableHarbors = (): React.JSX.Element => {
               const clients = cell.getValue<ClientType[]>();
               return (
                 <span>
-                  {clients?.map((client) => client.businessName).join(', ') || 'N/A'}
+                  {clients?.map((client) => client.businessName).join(', ') ||
+                    'N/A'}
                 </span>
               );
             },

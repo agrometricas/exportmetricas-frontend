@@ -1,4 +1,8 @@
-import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { MerchantType } from '@/types/merchant/merchant';
@@ -27,6 +31,6 @@ export const useCreateMerchant = (
 > => {
   return useMutation({
     mutationFn: createMerchant,
-    ...config
+    ...config,
   });
 };

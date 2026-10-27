@@ -33,7 +33,7 @@ const InputFieldDayDate: React.FC<InputFieldDayDateProps> = ({
     setText((current) =>
       parseDayMonthYear(current)?.toISOString() === field.value
         ? current
-        : formatDayMonthYear(field.value),
+        : formatDayMonthYear(field.value)
     );
   }, [field.value]);
 
@@ -41,7 +41,9 @@ const InputFieldDayDate: React.FC<InputFieldDayDateProps> = ({
     const masked = maskDayMonthYear(e.target.value);
     setText(masked);
     const date = parseDayMonthYear(masked);
-    helpers.setValue(date ? date.toISOString() : masked ? INVALID_DAY_DATE : '');
+    helpers.setValue(
+      date ? date.toISOString() : masked ? INVALID_DAY_DATE : ''
+    );
   };
 
   return (

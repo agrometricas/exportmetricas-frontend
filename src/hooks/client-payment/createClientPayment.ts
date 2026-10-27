@@ -36,6 +36,6 @@ export const useCreateClientPayment = (
 > => {
   return useMutation({
     mutationFn: createClientPayment,
-    ...config
+    ...config,
   });
 };

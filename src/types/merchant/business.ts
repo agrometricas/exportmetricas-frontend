@@ -7,7 +7,7 @@ export type BusinessType = {
   area: number;
   countryId: number | '';
   provinceId: number | '';
-  city: { id: number, name: string };
+  city: { id: number; name: string };
   cityId: number | '';
   address: string;
   fruitType: string;

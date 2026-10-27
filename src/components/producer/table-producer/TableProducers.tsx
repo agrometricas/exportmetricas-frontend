@@ -15,77 +15,83 @@ import { MerchantResponse } from '../../../types/merchant/merchant.response';
 const TableProducers = (): React.JSX.Element => {
   const { data = [] } = useMerchants();
 
-
-  const columns = useMemo<MRT_ColumnDef<MerchantResponse>[]>(() => [
-    {
-      accessorKey: 'businessName',
-      header: 'Productor',
-      columns: [
-        { accessorKey: 'businessName', header: 'Nombre' },
-        {
-          id: 'city.name',
-          accessorFn: (row) => row.city?.name ?? '',
-          header: 'Ciudad',
-        },
-        { accessorKey: 'email', header: 'Correo electrónico' },
-        { accessorKey: 'businessId', header: 'RUC' },
-      ],
-    },
-    {
-      accessorKey: 'details',
-      header: 'Detalles de finca',
-      columns: [
-        { accessorKey: 'address', header: 'Dirección' },
-        {
-          accessorKey: 'businesses',
-          header: 'Fincas',
-          Cell: ({ cell }): React.JSX.Element => {
-            const value = cell.getValue<MerchantResponse['businesses']>();
-            return <span>{value?.length || 0} asociadas</span>;
+  const columns = useMemo<MRT_ColumnDef<MerchantResponse>[]>(
+    () => [
+      {
+        accessorKey: 'businessName',
+        header: 'Productor',
+        columns: [
+          { accessorKey: 'businessName', header: 'Nombre' },
+          {
+            id: 'city.name',
+            accessorFn: (row) => row.city?.name ?? '',
+            header: 'Ciudad',
           },
-        },
-        {
-          accessorFn: (row) => row.businesses.map(b => b.name).join(', '),
-          header: 'Nombres',
-        },
-        {
-          accessorFn: (row) => row.businesses.map(b => b.fruitType).join(', '),
-          header: 'Tipo de cultivo',
-        },
-        {
-          accessorFn: (row) => row.businesses.map(b => `${b.area} ha`).join(', '),
-          header: 'Área',
-        },
-      ],
-    },
-    {
-      header: 'Logo',
-      columns: [
-        {
-          accessorKey: 'logoUrl',
-          header: 'Acceso',
-          Cell: ({ cell }): React.JSX.Element => {
-            const url = cell.getValue<string>();
-            return url ? (
-              <a href={url} target='_blank' rel='noopener noreferrer'>
-                <button style={{ display: 'flex', alignItems: 'center' }}>
-                  Ver logo
-                  <Icon color='green.fg' ml={2} asChild><BsImage /></Icon>
-                </button>
-              </a>
-            ) : <span>No disponible</span>;
+          { accessorKey: 'email', header: 'Correo electrónico' },
+          { accessorKey: 'businessId', header: 'RUC' },
+        ],
+      },
+      {
+        accessorKey: 'details',
+        header: 'Detalles de finca',
+        columns: [
+          { accessorKey: 'address', header: 'Dirección' },
+          {
+            accessorKey: 'businesses',
+            header: 'Fincas',
+            Cell: ({ cell }): React.JSX.Element => {
+              const value = cell.getValue<MerchantResponse['businesses']>();
+              return <span>{value?.length || 0} asociadas</span>;
+            },
           },
-          size: 150,
-        },
-      ],
-    },
-    {
-      header: 'Contrato',
-      columns: [
-        { accessorKey: 'contractType', header: 'Tipo de contrato' },
-      ],
-    },
-  ], []);
+          {
+            accessorFn: (row) => row.businesses.map((b) => b.name).join(', '),
+            header: 'Nombres',
+          },
+          {
+            accessorFn: (row) =>
+              row.businesses.map((b) => b.fruitType).join(', '),
+            header: 'Tipo de cultivo',
+          },
+          {
+            accessorFn: (row) =>
+              row.businesses.map((b) => `${b.area} ha`).join(', '),
+            header: 'Área',
+          },
+        ],
+      },
+      {
+        header: 'Logo',
+        columns: [
+          {
+            accessorKey: 'logoUrl',
+            header: 'Acceso',
+            Cell: ({ cell }): React.JSX.Element => {
+              const url = cell.getValue<string>();
+              return url ? (
+                <a href={url} target='_blank' rel='noopener noreferrer'>
+                  <button style={{ display: 'flex', alignItems: 'center' }}>
+                    Ver logo
+                    <Icon color='green.fg' ml={2} asChild>
+                      <BsImage />
+                    </Icon>
+                  </button>
+                </a>
+              ) : (
+                <span>No disponible</span>
+              );
+            },
+            size: 150,
+          },
+        ],
+      },
+      {
+        header: 'Contrato',
+        columns: [{ accessorKey: 'contractType', header: 'Tipo de contrato' }],
+      },
+    ],
+    []
+  );
 
   const table = useMaterialReactTable({
     columns,

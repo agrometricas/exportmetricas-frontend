@@ -17,14 +17,20 @@ const AddHarborModal = (): React.JSX.Element => {
         size='xs'
         colorPalette='green'
         variant='ghost'
-        onClick={onOpen}><AiFillPlusCircle size={'20px'} /></IconButton>
-      <Dialog.Root open={open} size='md' onOpenChange={e => {
-        if (!e.open) {
-          onClose();
-        }
-      }}>
+        onClick={onOpen}
+      >
+        <AiFillPlusCircle size={'20px'} />
+      </IconButton>
+      <Dialog.Root
+        open={open}
+        size='md'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            onClose();
+          }
+        }}
+      >
         <Portal>
-
           <Dialog.Backdrop />
           <Dialog.Positioner>
             <Dialog.Content>
@@ -34,7 +40,6 @@ const AddHarborModal = (): React.JSX.Element => {
               </Dialog.Body>
             </Dialog.Content>
           </Dialog.Positioner>
-
         </Portal>
       </Dialog.Root>
     </>

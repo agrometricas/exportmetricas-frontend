@@ -1,4 +1,3 @@
- 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -57,7 +56,9 @@ const clientComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -70,8 +71,6 @@ const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
   setClient,
 }) => {
   const { data, isLoading, error } = useClients();
-
-
 
   const handleChange = (newValue: SingleValue<Partial<ClientType>>): void => {
     if (setClient) {
@@ -90,17 +89,14 @@ const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          (({
+          ({
             ...provided,
             zIndex: 100,
-          }) as CSSObjectWithLabel),
+          }) as CSSObjectWithLabel,
       }}
-
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? serverErrorMessage(error)
-          : 'Ya no hay cliente/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay cliente/s disponible/s'
       }
       isLoading={isLoading}
       options={data}

@@ -22,10 +22,8 @@ export const useLastFarmExport = ({
   const result = useQuery({
     queryKey: ['lastFarmExport', businessId],
     queryFn: () => getLastFarmExport({ businessId: Number(businessId) }),
-    enabled: enabled && Number(businessId) > 0
+    enabled: enabled && Number(businessId) > 0,
   });
 
-  return serializeQueryResult(
-    result
-  ) as UseQueryResult<LastFarmExportResponse>;
+  return serializeQueryResult(result) as UseQueryResult<LastFarmExportResponse>;
 };

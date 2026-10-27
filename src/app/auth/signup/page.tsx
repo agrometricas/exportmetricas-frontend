@@ -44,8 +44,9 @@ const SignUpPage = (): React.JSX.Element => {
         <Center>
           <Text mt='20px'>
             ¿Ya estás registrado?{' '}
-            <Link color='green.fg' asChild><Link_Next href='/auth/signin'>Iniciar sesión
-                          </Link_Next></Link>
+            <Link color='green.fg' asChild>
+              <Link_Next href='/auth/signin'>Iniciar sesión</Link_Next>
+            </Link>
           </Text>
         </Center>
       </Flex>

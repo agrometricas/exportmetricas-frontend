@@ -15,7 +15,10 @@ const click = (
 describe('salir de un formulario con cambios', () => {
   it('un enlace a otra pantalla de la app se pregunta antes de seguir', () => {
     expect(
-      leavingTarget(click('https://app.test/dashboard/export/29/duplicate'), HERE)
+      leavingTarget(
+        click('https://app.test/dashboard/export/29/duplicate'),
+        HERE
+      )
     ).toBe('/dashboard/export/29/duplicate');
     expect(leavingTarget(click('/dashboard?semana=44#envios'), HERE)).toBe(
       '/dashboard?semana=44#envios'
@@ -31,7 +34,9 @@ describe('salir de un formulario con cambios', () => {
     expect(
       leavingTarget(click('/dashboard', { opensElsewhere: true }), HERE)
     ).toBeNull();
-    expect(leavingTarget(click('/dashboard', { modified: true }), HERE)).toBeNull();
+    expect(
+      leavingTarget(click('/dashboard', { modified: true }), HERE)
+    ).toBeNull();
   });
 
   it('un sitio de afuera lo pregunta el navegador, no la app', () => {

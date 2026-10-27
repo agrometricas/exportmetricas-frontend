@@ -15,7 +15,6 @@ import { ClientPayment } from '../../types/client-payment/client-payment.respons
 const TableClientPayments = (): React.JSX.Element => {
   const { rows: data, tableOptions } = useClientPayments();
 
-
   const columns = useMemo<MRT_ColumnDef<ClientPayment>[]>(
     () => [
       {
@@ -80,7 +79,9 @@ const TableClientPayments = (): React.JSX.Element => {
               return url ? (
                 <a href={url} target='_blank' rel='noopener noreferrer'>
                   Ver Transferencia{' '}
-                  <Icon color='green.fg' ml={2} asChild><BsImage /></Icon>
+                  <Icon color='green.fg' ml={2} asChild>
+                    <BsImage />
+                  </Icon>
                 </a>
               ) : (
                 <span>No disponible</span>

@@ -1,4 +1,8 @@
-import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { ClientType } from '../../../types/client';
@@ -27,6 +31,6 @@ export const useCreateClient = (
 > => {
   return useMutation({
     mutationFn: createClient,
-    ...config
+    ...config,
   });
 };

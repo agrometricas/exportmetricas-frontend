@@ -1,8 +1,16 @@
 'use client';
-import { Button, HStack, Box, Text, Badge, Dialog, Portal } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Box,
+  Text,
+  Badge,
+  Dialog,
+  Portal,
+} from '@chakra-ui/react';
 import React, { useRef } from 'react';
 import { FiInfo, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
-import { useColorModeValue } from "./color-mode";
+import { useColorModeValue } from './color-mode';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -61,35 +69,47 @@ const ConfirmationModal = ({
       open={isOpen}
       placement='center'
       initialFocusEl={() => cancelRef.current}
-      motionPreset="scale"
-      onOpenChange={e => {
+      motionPreset='scale'
+      onOpenChange={(e) => {
         if (!e.open) {
           onClose();
         }
       }}
     >
       <Portal>
-
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content
             borderWidth='1px'
             borderColor={borderColor}
-            borderRadius="xl"
-            boxShadow="2xl"
-            overflow="hidden"
-            borderTopWidth="4px"
-            borderTopColor={topBorder}>
+            borderRadius='xl'
+            boxShadow='2xl'
+            overflow='hidden'
+            borderTopWidth='4px'
+            borderTopColor={topBorder}
+          >
             <Dialog.Header bg={headerBg} pb={3}>
-              <HStack gap={3} align="center">
-                <Box p={2} bg={topBg} color={topColor} borderRadius="lg" display="flex">
+              <HStack gap={3} align='center'>
+                <Box
+                  p={2}
+                  bg={topBg}
+                  color={topColor}
+                  borderRadius='lg'
+                  display='flex'
+                >
                   <TopIcon size={18} />
                 </Box>
-                <HStack justify="space-between" w="full">
-                  <Text as="span" fontWeight="bold" color={titleColor}>
+                <HStack justify='space-between' w='full'>
+                  <Text as='span' fontWeight='bold' color={titleColor}>
                     {title}
                   </Text>
-                  <Badge colorPalette={scheme} variant="subtle" borderRadius="full" px={2} py={1}>
+                  <Badge
+                    colorPalette={scheme}
+                    variant='subtle'
+                    borderRadius='full'
+                    px={2}
+                    py={1}
+                  >
                     Confirmación
                   </Badge>
                 </HStack>
@@ -99,29 +119,33 @@ const ConfirmationModal = ({
             <Dialog.CloseTrigger />
 
             <Dialog.Body>
-              <Text fontSize="sm" color={descColor}>
+              <Text fontSize='sm' color={descColor}>
                 {description}
               </Text>
             </Dialog.Body>
 
             <Dialog.Footer gap={2}>
-              <Button ref={cancelRef} variant="outline" onClick={onClose} borderRadius="lg">
+              <Button
+                ref={cancelRef}
+                variant='outline'
+                onClick={onClose}
+                borderRadius='lg'
+              >
                 {cancelText}
               </Button>
               <Button
                 colorPalette={scheme}
                 onClick={onConfirm}
                 loading={isConfirmLoading}
-                borderRadius="lg"
+                borderRadius='lg'
                 _hover={{ transform: 'translateY(-1px)', boxShadow: 'md' }}
-                transition="all 0.15s ease"
+                transition='all 0.15s ease'
               >
                 {confirmText}
               </Button>
             </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Positioner>
-
       </Portal>
     </Dialog.Root>
   );

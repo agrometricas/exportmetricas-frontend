@@ -6,7 +6,11 @@ import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { FormSectionTitle, FormSubsectionTitle, FormActions } from '@/components/ui/form/FormSection';
+import {
+  FormSectionTitle,
+  FormSubsectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import InputFieldSentInsecticides from './ui/InputFieldSentInsecticides';
 import InputFieldSentPesticides from './ui/InputFieldSentPesticides';
@@ -200,7 +204,6 @@ const SentMaterialsExportForm = ({
           duration: 5000,
           closable: true,
         });
-
       },
       onSuccess: () => {
         toaster.create({
@@ -210,32 +213,39 @@ const SentMaterialsExportForm = ({
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['exports']
+          queryKey: ['exports'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsSent']
+          queryKey: ['exportsSent'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsSentPending']
+          queryKey: ['exportsSentPending'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsPending']
+          queryKey: ['exportsPending'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['clientPaymentsPending']
+          queryKey: ['clientPaymentsPending'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheets']
+          queryKey: ['cuttingSheets'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheetsPending']
+          queryKey: ['cuttingSheetsPending'],
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportSentCostsPending']
+          queryKey: ['exportSentCostsPending'],
         });
         actions.resetForm();
-        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
-        router.push(returnTo('/dashboard/liquidation/exports-sent', window.location.search));
+        PROGRESS_QUERIES.forEach((key) =>
+          queryClient.invalidateQueries({ queryKey: [key] })
+        );
+        router.push(
+          returnTo(
+            '/dashboard/liquidation/exports-sent',
+            window.location.search
+          )
+        );
       },
     });
   };
@@ -307,9 +317,7 @@ const SentMaterialsExportForm = ({
     >
       <Form>
         <Flex flexDirection='column' gap={3}>
-          <FormSectionTitle>
-            Exportación
-          </FormSectionTitle>
+          <FormSectionTitle>Exportación</FormSectionTitle>
           <Box p='4' borderWidth='1px' borderRadius='md' borderColor='border'>
             <Text fontSize='sm'>
               <strong>Marca de caja:</strong> {brand?.name || 'N/A'}
@@ -336,7 +344,8 @@ const SentMaterialsExportForm = ({
                 _hover={{ borderColor: 'border' }}
                 cursor='not-allowed'
                 textAlign='right'
-                opacity={0.8} />
+                opacity={0.8}
+              />
             </Box>
             <Box>
               <FormLabel>Contenedores</FormLabel>
@@ -346,7 +355,8 @@ const SentMaterialsExportForm = ({
                 _hover={{ borderColor: 'border' }}
                 cursor='not-allowed'
                 textAlign='right'
-                opacity={0.8} />
+                opacity={0.8}
+              />
             </Box>
           </SimpleGrid>
           <Text fontSize='sm' color='fg.muted'>
@@ -355,9 +365,7 @@ const SentMaterialsExportForm = ({
             contenedores; y la fumigación, en proporción a las cajas. Se pueden
             cambiar antes de enviar.
           </Text>
-          <FormSectionTitle>
-            Materiales para las cajas
-          </FormSectionTitle>
+          <FormSectionTitle>Materiales para las cajas</FormSectionTitle>
           {renderMaterialField(
             'bottomTypeQuantity',
             'Fondo',
@@ -448,9 +456,7 @@ const SentMaterialsExportForm = ({
             brand?.mettoLabelQuantity
           ) && (
             <>
-              <FormSectionTitle>
-                Materiales para contenedor
-              </FormSectionTitle>
+              <FormSectionTitle>Materiales para contenedor</FormSectionTitle>
             </>
           )}
           {renderMaterialField(
@@ -522,9 +528,7 @@ const SentMaterialsExportForm = ({
             brand?.blockingSheetQuantity
           ) && (
             <>
-              <FormSectionTitle>
-                Materiales adicionales
-              </FormSectionTitle>
+              <FormSectionTitle>Materiales adicionales</FormSectionTitle>
             </>
           )}
           {renderMaterialField(
@@ -583,12 +587,8 @@ const SentMaterialsExportForm = ({
               unit='U/C'
             />
           )}
-          <FormSectionTitle>
-            Materiales para post cosecha
-          </FormSectionTitle>
-          <FormSubsectionTitle>
-            Pesticidas
-          </FormSubsectionTitle>
+          <FormSectionTitle>Materiales para post cosecha</FormSectionTitle>
+          <FormSubsectionTitle>Pesticidas</FormSubsectionTitle>
           <InputFieldSentPesticides
             name='pesticideSent'
             pesticideCocktailSelected={pesticideCocktail}
@@ -596,25 +596,25 @@ const SentMaterialsExportForm = ({
           {brand?.insecticideCocktail &&
             brand.insecticideCocktail.length > 0 && (
               <Box>
-                <FormSubsectionTitle>
-                  Insecticidas
-                </FormSubsectionTitle>
+                <FormSubsectionTitle>Insecticidas</FormSubsectionTitle>
                 <InputFieldSentInsecticides
                   name='insecticideSent'
                   insecticideCocktailSelected={insecticideCocktail}
                 />
               </Box>
             )}
-          <FormActions start={<CheckboxForm
-            name='dataReviewed'
-            label='He revisado los datos agregados'
-          />}><Button
-            type='submit'
-            colorPalette='green'
-            loading={isLoading}
+          <FormActions
+            start={
+              <CheckboxForm
+                name='dataReviewed'
+                label='He revisado los datos agregados'
+              />
+            }
           >
-            Registrar envío
-          </Button></FormActions>
+            <Button type='submit' colorPalette='green' loading={isLoading}>
+              Registrar envío
+            </Button>
+          </FormActions>
         </Flex>
       </Form>
     </Formik>

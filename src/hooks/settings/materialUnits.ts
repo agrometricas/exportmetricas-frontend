@@ -1,4 +1,8 @@
-import { useMutation, UseMutationResult, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
@@ -10,15 +14,19 @@ function getMaterialUnits(): Promise<AxiosResponse<MaterialUnitsResponse>> {
 }
 
 export function useMaterialUnits(): ReturnType<typeof serializeQueryResult> {
-  return serializeQueryResult(useQuery({
-    queryKey: ['materialUnits'],
-    queryFn: getMaterialUnits
-  }));
+  return serializeQueryResult(
+    useQuery({
+      queryKey: ['materialUnits'],
+      queryFn: getMaterialUnits,
+    })
+  );
 }
 
 type UnitsBody = { units: { materialType: string; unit: string }[] };
 
-function updateMaterialUnits(body: UnitsBody): Promise<AxiosResponse<MaterialUnitsResponse>> {
+function updateMaterialUnits(
+  body: UnitsBody
+): Promise<AxiosResponse<MaterialUnitsResponse>> {
   return axios.put('/settings/material-units', body);
 }
 

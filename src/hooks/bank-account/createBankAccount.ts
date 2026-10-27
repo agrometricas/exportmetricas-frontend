@@ -1,4 +1,8 @@
-import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { BankAccountType } from '@/types/bankAccount';
@@ -19,12 +23,14 @@ export const useCreateBankAccount = (
     CreateBankAccountResponse,
     AxiosError<ServerErrorResponse>,
     Partial<BankAccountType>
-  >): UseMutationResult<
-    CreateBankAccountResponse,
-    AxiosError<ServerErrorResponse>,
-    Partial<BankAccountType>> => {
+  >
+): UseMutationResult<
+  CreateBankAccountResponse,
+  AxiosError<ServerErrorResponse>,
+  Partial<BankAccountType>
+> => {
   return useMutation({
     mutationFn: createBankAccount,
-    ...config
+    ...config,
   });
 };
