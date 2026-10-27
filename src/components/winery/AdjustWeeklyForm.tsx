@@ -17,6 +17,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { parseISO, getISOWeek } from 'date-fns';
 import { FieldArray, Form, Formik } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
@@ -97,7 +98,7 @@ const getValidationSchema = (): Yup.ObjectSchema<{
 const AdjustWeeklyForm = ({
   businessId,
   week,
-}: AdjustWeeklyFormProps): JSX.Element => {
+}: AdjustWeeklyFormProps): React.JSX.Element => {
   const { data: materials = [], isLoading } =
     useStockMovementsByBusiness(businessId);
   const mutation = useAdjustWeekly(businessId);

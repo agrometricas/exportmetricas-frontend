@@ -11,7 +11,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, FieldArray } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -46,7 +46,7 @@ const validationSchema = Yup.object().shape({
     .min(1),
 });
 
-export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.Element {
+export default function ExportSentCostForm({ }: ExportSentCostFormProps): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = useParams<{ id: string }>();

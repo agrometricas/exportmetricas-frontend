@@ -10,6 +10,7 @@ import {
   Separator,
 } from '@chakra-ui/react';
 import { getServerSession } from 'next-auth';
+import React from 'react';
 import { MdPerson, MdBusiness } from 'react-icons/md';
 import { CardPage } from '@/components/ui/page/PageLayout';
 import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
@@ -22,7 +23,7 @@ const Field = ({
 }: {
   label: string;
   value: React.ReactNode;
-}): JSX.Element => (
+}): React.JSX.Element => (
   <Box>
     <Text fontSize='sm' color='fg.muted' mb={1}>
       {label}
@@ -33,7 +34,7 @@ const Field = ({
   </Box>
 );
 
-const ProfilePage = async (): Promise<JSX.Element> => {
+const ProfilePage = async (): Promise<React.JSX.Element> => {
   const session = await getServerSession(authOptions);
 
   const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/auth/exporter/profile`, {

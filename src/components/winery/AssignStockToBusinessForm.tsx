@@ -9,6 +9,7 @@ import {
   Dialog,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useIncreaseBusinessStock } from '@/hooks/winery/useIncreaseBusinessStock';
@@ -47,7 +48,7 @@ export function AssignStockToBusinessForm({
   maxAssignableStock,
   onClose,
   onBack,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { mutate, isPending: isLoading } = useIncreaseBusinessStock(stockId);
 
   return (

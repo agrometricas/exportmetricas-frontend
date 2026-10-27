@@ -3,7 +3,7 @@
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import InputFieldPassword from '@/components/ui/form/InputFieldPassword';
 import { Logo } from '@/components/ui/Logo';
@@ -18,7 +18,7 @@ const ResetPasswordSchema = Yup.object({
     .required('Confirma tu contraseña'),
 });
 
-export default function ResetPasswordTokenPage(): JSX.Element {
+export default function ResetPasswordTokenPage(): React.JSX.Element {
   const { token } = useParams<{ token: string }>();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);

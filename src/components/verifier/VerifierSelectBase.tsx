@@ -11,7 +11,7 @@ import {
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePagination } from '../../hooks/usePagination';
 import { useVerifiers } from '../../hooks/verifier/getVerifiers';
@@ -56,7 +56,7 @@ const verifierComponents = {
       false,
       GroupBase<Partial<VerifierResponse>>
     >
-  ): JSX.Element => (
+  ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
       <Icon boxSize='13px' asChild>
         <MdOutlineArrowDropDownCircle />

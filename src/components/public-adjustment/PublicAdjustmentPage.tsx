@@ -12,7 +12,7 @@ import {
 import { Formik, Form } from 'formik';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
@@ -40,7 +40,7 @@ interface AdjustmentFormValues {
   materials: { exporterMaterialStockId: number; quantity: number }[];
 }
 
-export default function PublicAdjustmentPage(): JSX.Element {
+export default function PublicAdjustmentPage(): React.JSX.Element {
   const { token } = useParams<{ token: string }>();
   const [data, setData] = useState<AdjustmentData | null>(null);
   const [loading, setLoading] = useState(true);

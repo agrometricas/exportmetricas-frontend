@@ -3,6 +3,7 @@
 import { Button, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import Link_Next from 'next/link';
+import React from 'react';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { Logo } from '@/components/ui/Logo';
@@ -12,7 +13,7 @@ const ForgotPasswordSchema = Yup.object({
   email: Yup.string().email('Correo inválido').required('Requerido'),
 });
 
-export default function ForgotPasswordPage(): JSX.Element {
+export default function ForgotPasswordPage(): React.JSX.Element {
   return (
     <Center minH='100vh'>
       <Flex direction='column' w='100%' maxW='480px' p={4}>

@@ -18,7 +18,7 @@ import AdjustWeeklyForm from './AdjustWeeklyForm';
 import { useBusinessesByExporter } from '../../hooks/business/getAllBusinessesByExporter';
 import { useExporter } from '../../hooks/useUserProfile';
 
-const AdjustWeeklySelector = (): JSX.Element => {
+const AdjustWeeklySelector = (): React.JSX.Element => {
   const { user, isLoading: isLoadingExporter } = useExporter();
   const exporterId = user?.exporterDetails?.id;
   const [businessId, setBusinessId] = useState<number | null>(null);

@@ -10,7 +10,7 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AssignStockToBusinessForm } from './AssignStockToBusinessForm';
 import { CreateBusinessStockAssignmentForm } from './CreateBusinessStockAssignmentForm';
 import { useBusinessesByExporter } from '../../hooks/business/getAllBusinessesByExporter';
@@ -35,7 +35,7 @@ export function AssignStockToBusinessModal({
   exporterId,
   materialId,
   materialType,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(
     null
   );
@@ -76,7 +76,7 @@ export function AssignStockToBusinessModal({
                   <Spinner size='lg' />
                 </Center>
               ) : selectedBusiness ? (
-                ((): JSX.Element => {
+                ((): React.JSX.Element => {
                   const existing = existingStock(selectedBusiness.id);
                   return existing ? (
                     <AssignStockToBusinessForm

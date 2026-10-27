@@ -12,7 +12,7 @@ import {
   Separator,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { useExporterMaterialStock } from '@/hooks/winery/useExporterMaterialStock';
@@ -32,7 +32,7 @@ export function AddMaterialForm({
   materialType,
   materialId,
   materialName,
-}: AddMaterialFormProps): JSX.Element {
+}: AddMaterialFormProps): React.JSX.Element {
   const { open, onOpen, onClose } = useDisclosure();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -72,7 +72,7 @@ export function AddMaterialForm({
     RETURN: 'DEVUELTO',
   };
 
-  const getMovementIcon = (type: string): JSX.Element | null => {
+  const getMovementIcon = (type: string): React.JSX.Element | null => {
     switch (type) {
       case 'TRANSFER':
         return <MdArrowUpward color='orange' size={18} />;

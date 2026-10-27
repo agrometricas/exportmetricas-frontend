@@ -45,7 +45,7 @@ const shippingCompanyComponents = {
       false,
       GroupBase<Partial<ShippingCompanyType>>
     >
-  ): JSX.Element => (
+  ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
       <Icon boxSize='13px' asChild>
         <MdOutlineArrowDropDownCircle />

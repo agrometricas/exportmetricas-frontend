@@ -1,13 +1,14 @@
 'use client';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import React from 'react';
 import { useColorModeValue } from "../../components/ui/color-mode";
 
 export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>): JSX.Element {
+}>): React.JSX.Element {
   const scrollbarThumbColor = useColorModeValue('#2a9d5aff', '#1d573aff');
   const scrollbarThumbHover = useColorModeValue('#1d7c49ff', '#4da06dff');
 

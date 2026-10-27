@@ -240,6 +240,8 @@ the backend proposes.
 ## TypeScript
 
 - Path alias `@/*` → `src/*`. Prefer it over long relative imports.
+- A component's return type is `React.JSX.Element`: React 19's types have no
+  global `JSX` namespace.
 - Response and entity types live in `types/`, one folder or file per domain.
 - `no-explicit-any` and missing return types are lint warnings. Do not add a
   file-level `eslint-disable` to silence them in new files.

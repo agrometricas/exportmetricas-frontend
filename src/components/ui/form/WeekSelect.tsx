@@ -16,6 +16,7 @@ import {
   endOfMonth,
   eachWeekOfInterval,
 } from 'date-fns';
+import React from 'react';
 import { FaAngleDown } from 'react-icons/fa6';
 
 interface WeekOption {
@@ -75,7 +76,7 @@ export default function WeekSelect({
   onChange,
   placeholder = 'Filtrar por semana',
   month,
-}: WeekSelectProps): JSX.Element {
+}: WeekSelectProps): React.JSX.Element {
   const monthStart = startOfMonth(new Date(new Date().getFullYear(), month));
   const monthEnd = endOfMonth(monthStart);
   const weekDates = eachWeekOfInterval({ start: monthStart, end: monthEnd });

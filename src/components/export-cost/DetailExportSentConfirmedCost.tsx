@@ -1,6 +1,7 @@
 'use client';
-
 import { Accordion, Box, Heading, SimpleGrid, Text, VStack, Flex, Separator } from '@chakra-ui/react';
+import React from 'react';
+
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
@@ -8,7 +9,7 @@ export default function DetailExportSentConfirmedCost({
   item,
 }: {
   item: ExportSentConfirmedCost;
-}): JSX.Element {
+}): React.JSX.Element {
   const { export: exportData } = item;
 
   return (

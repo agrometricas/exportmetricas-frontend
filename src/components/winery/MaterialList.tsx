@@ -15,7 +15,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useExporterMaterials } from '@/hooks/winery/getExporterMaterials';
 import { ExporterMaterial } from '@/types/winery/exporterMateriales';
 import { useExporter } from '../../hooks/useUserProfile';
@@ -24,7 +24,7 @@ import {
   MATERIAL_TYPE_ORDER,
 } from '../../utils/materialTypeLabels';
 
-export function MaterialList(): JSX.Element {
+export function MaterialList(): React.JSX.Element {
   const { user, isLoading: isLoadingExporter } = useExporter();
   const exporterId = user?.exporterDetails?.id?.toString();
   const router = useRouter();

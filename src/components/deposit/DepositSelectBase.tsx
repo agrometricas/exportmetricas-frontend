@@ -11,7 +11,7 @@ import {
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useDeposits } from '../../hooks/deposit/getDeposits';
 import { usePagination } from '../../hooks/usePagination';
@@ -56,7 +56,7 @@ const depositComponents = {
       false,
       GroupBase<Partial<DepositResponse>>
     >
-  ): JSX.Element => (
+  ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
       <Icon boxSize='13px' asChild>
         <MdOutlineArrowDropDownCircle />

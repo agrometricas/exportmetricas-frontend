@@ -3,6 +3,7 @@
 import { Center, Text, Box, Heading, Card } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
+import React from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { useExporter } from '@/hooks/useUserProfile';
 import { useExporterMaterials } from '@/hooks/winery/getExporterMaterials';
@@ -11,7 +12,7 @@ import { ExporterMaterial } from '@/types/winery/exporterMateriales';
 import { AddMaterialForm } from '../../../../../components/winery/AddMaterialForm';
 import { CreateInitialStockForm } from '../../../../../components/winery/CreateInitialStockForm';
 
-export default function AddMaterialPage(): JSX.Element {
+export default function AddMaterialPage(): React.JSX.Element {
   const params = useParams();
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
 

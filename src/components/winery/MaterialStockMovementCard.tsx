@@ -14,7 +14,7 @@ import {
   Separator,
 } from '@chakra-ui/react';
 import { format, getISOWeek, getMonth, parseISO } from 'date-fns';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   MATERIAL_TYPE_LABELS,
   MATERIAL_TYPE_ORDER,
@@ -42,7 +42,7 @@ interface Props {
   materials: ExporterBusinessMaterialStock[];
 }
 
-const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
+const MaterialStockMovementGrid = ({ materials }: Props): React.JSX.Element => {
   const [filterType, setFilterType] = useState<string>('ALL');
   const [search, setSearch] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState<number>(
