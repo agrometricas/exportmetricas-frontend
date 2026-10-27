@@ -67,10 +67,13 @@ SMOKE_BASE_URL=http://localhost:3000 SMOKE_EMAIL=<usuario de prueba> SMOKE_PASSW
 
 En CI la corre `.github/workflows/smoke.yml` en cada pull request a
 `main-2`: levanta el `main` del backend con la exportadora demo en un Postgres
-desechable, le da al usuario demo una contraseña al azar y abre todo. El
-backend es privado: se descarga con una llave de despliegue de solo lectura
-guardada en el secreto `BACKEND_DEPLOY_KEY`. Sin ese secreto (también en un
-pull request desde un fork) el trabajo no corre y lo avisa.
+desechable, le da al usuario demo una contraseña al azar y abre todo. Los
+archivos van a S3Mock en lugar de R2. La demo no trae hojas de corte, porque la
+siembra no sube archivos: el CI genera una por la API para que la prueba llegue
+a la pantalla de corrección. El backend es privado: se descarga con una llave
+de despliegue de solo lectura guardada en el secreto `BACKEND_DEPLOY_KEY`. Sin
+ese secreto (también en un pull request desde un fork) el trabajo no corre y lo
+avisa.
 
 ## Verificación
 

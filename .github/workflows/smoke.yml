@@ -112,6 +112,21 @@ jobs:
             })();
           "
 
+      # S3Mock stands in for R2, so the cutting sheet below can store its PDF.
+      # The endpoint is an IP: with one the SDK puts the bucket in the path,
+      # the only style S3Mock serves.
+      - name: Almacenamiento de archivos
+        run: |
+          docker run -d --name s3 -p 9090:9090 \
+            -e COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=smoke \
+            adobe/s3mock:5.2.3
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://127.0.0.1:9090/ && exit 0
+            sleep 2
+          done
+          docker logs s3
+          exit 1
+
       - name: Levantar el backend
         working-directory: api
         env:
@@ -125,7 +140,7 @@ jobs:
           R2_ACCESS_KEY_ID: smoke
           R2_SECRET_ACCESS_KEY: smoke
           R2_BUCKET: smoke
-          R2_ENDPOINT: http://localhost:9000
+          R2_ENDPOINT: http://127.0.0.1:9090
           BACKEND_URL: http://localhost:8000
           FRONTEND_URL: http://localhost:3000
         run: |
@@ -136,6 +151,30 @@ jobs:
           done
           cat ../api.log
           exit 1
+
+      # The demo seed uploads no files, so it has no cutting sheet. One made
+      # through the API gives the smoke a link to the correction screen.
+      - name: Hoja de corte
+        run: |
+          set -o pipefail
+          api=http://localhost:8000
+          token=$(curl -sf -X POST "$api/auth/exporter/login" \
+            -H 'Content-Type: application/json' \
+            -d "$(jq -n --arg email "$SMOKE_EMAIL" --arg password "$SMOKE_PASSWORD" '{$email, $password}')" \
+            | jq -r .refreshToken)
+          echo "::add-mask::$token"
+          auth="Authorization: Bearer $token"
+          sent=$(curl -sf "$api/export/cutting-sheet/pending" -H "$auth" | jq '.[0].id')
+          cutting=$(curl -sf "$api/cutting-type" -H "$auth" | jq '.[0].id')
+          curl -sf -X POST "$api/export/cutting-sheet" -H "$auth" \
+            -H 'Content-Type: application/json' \
+            -d "$(jq -n --argjson sent "$sent" --argjson cutting "$cutting" '{
+              exportSentId: $sent,
+              cuttingTypeId: $cutting,
+              palletsHeight: "PALETS 9 DE ALTO",
+              containerPositioning: "CAMPO",
+              belowDeck: "NO"
+            }')" | jq '{id, version}' || { cat api.log; exit 1; }
 
       - name: Levantar la web
         working-directory: web
