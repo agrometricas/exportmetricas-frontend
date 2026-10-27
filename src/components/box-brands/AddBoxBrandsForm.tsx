@@ -12,6 +12,7 @@ import {
   Field,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   FieldArray,
   Form,
@@ -22,7 +23,6 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import {
   FormSectionTitle,
@@ -1161,7 +1161,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
   const perBox = (type: string): string => quantityUnit(unitOf(type), 'caja');
   const perContainer = (type: string): string =>
     quantityUnit(unitOf(type), 'contenedor');
-  const { createBoxBrand, isLoading } = useCreateBoxBrand();
+  const { createBoxBrand, isPending: isLoading } = useCreateBoxBrand();
   const { data: boxTypes } = useBoxTypes();
   const boxTypeOptions = ((boxTypes ?? []) as BoxTypeResponse[]).map(
     ({ id, name }) => ({ id, name })
@@ -1259,7 +1259,9 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
             closable: true,
           });
 
-          queryClient.invalidateQueries('boxBrands');
+          queryClient.invalidateQueries({
+            queryKey: ['boxBrands']
+          });
           formikHelpers.resetForm();
           router.push('/dashboard/box-brands/search');
         },

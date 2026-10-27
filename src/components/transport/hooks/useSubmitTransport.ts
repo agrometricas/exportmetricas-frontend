@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateTransport } from '../../../hooks/transport/createTransport';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -16,7 +16,7 @@ export function useSubmitTransport(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createTransport, isLoading } = useCreateTransport();
+    const { mutate: createTransport, isPending: isLoading } = useCreateTransport();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -46,7 +46,9 @@ export function useSubmitTransport(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('transports');
+                    queryClient.invalidateQueries({
+                        queryKey: ['transports']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/client/transports');
                 },

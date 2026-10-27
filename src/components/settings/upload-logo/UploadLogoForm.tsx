@@ -1,8 +1,8 @@
 import { Button, Flex, SimpleGrid, Text, Image } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({
 const UploadLogoForm = (): React.JSX.Element => {
   const router = useRouter();
   const { user } = useExporter();
-  const { uploadExporterLogo, isLoading } = useUploadExporterLogo();
+  const { uploadExporterLogo, isPending: isLoading } = useUploadExporterLogo();
   const queryClient = useQueryClient();
 
   const onSubmit = async (
@@ -81,7 +81,9 @@ const UploadLogoForm = (): React.JSX.Element => {
               closable: true,
             });
 
-            queryClient.invalidateQueries('exporter');
+            queryClient.invalidateQueries({
+              queryKey: ['exporter'],
+            });
             formikHelpers.resetForm();
             router.push('/dashboard');
           },

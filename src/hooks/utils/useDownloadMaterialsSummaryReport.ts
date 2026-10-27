@@ -1,9 +1,9 @@
-import { AxiosError, AxiosResponse } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 
@@ -26,5 +26,8 @@ export const useDownloadMaterialsSummaryReport = (
   AxiosError<ServerErrorResponse>,
   string
 > => {
-  return useMutation(downloadMaterialsSummary, config);
+  return useMutation({
+    mutationFn: downloadMaterialsSummary,
+    ...config,
+  });
 };

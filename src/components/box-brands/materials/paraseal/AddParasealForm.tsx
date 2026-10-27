@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
 const AddParasealForm = ({
   onClose,
 }: AddParasealFormProps): React.JSX.Element => {
-  const { createParaseal, isLoading } = useCreateParaseal();
+  const { createParaseal, isPending: isLoading } = useCreateParaseal();
   const queryClient = useQueryClient();
 
   const addParaseal = async (
@@ -75,7 +75,9 @@ const AddParasealForm = ({
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('paraseals');
+          queryClient.invalidateQueries({
+            queryKey: ['paraseals'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

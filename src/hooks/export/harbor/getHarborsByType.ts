@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -30,13 +30,11 @@ export function useHarborsByType({
   limit = 10,
   type,
 }: useHarborsProps) {
-  const result = useQuery(
-    ['harborsByType', search, page, limit, type],
-    () => listHarborsByType({ params: { search, page, limit }, type }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['harborsByType', search, page, limit, type],
+    queryFn: () => listHarborsByType({ params: { search, page, limit }, type }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result);
 }

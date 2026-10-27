@@ -93,7 +93,7 @@ de la exportación de una línea propone ese precio.
 
 ---
 
-### Claves de react-query
+### Claves de consulta
 
 `purchaseOrders` (lista) y `purchaseOrder` (detalle). Las invalidan guardar o
 eliminar la orden, crear o editar una exportación, cancelarla y el plan

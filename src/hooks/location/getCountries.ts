@@ -1,5 +1,5 @@
+import { keepPreviousData, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -48,13 +48,11 @@ export function useCountries({
     error: unknown;
     refetch: () => void;
 } {
-    const result: UseQueryResult<AxiosResponse<CountryResponse>> = useQuery(
-        ['countries', search, page, limit],
-        () => listCountries({ search, page, limit }),
-        {
-            keepPreviousData: true,
-        }
-    );
+    const result: UseQueryResult<AxiosResponse<CountryResponse>> = useQuery({
+        queryKey: ['countries', search, page, limit],
+        queryFn: () => listCountries({ search, page, limit }),
+        placeholderData: keepPreviousData
+    });
 
     const serialized = serializeQueryResult(result);
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -13,13 +13,11 @@ function listSeals(params: Params): Promise<AxiosResponse> {
 }
 
 export function useSeals({ search = '', page = 1, limit = 10 }: Params) {
-  const result = useQuery(
-    ['seals', search, page, limit],
-    () => listSeals({ search, page, limit }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['seals', search, page, limit],
+    queryFn: () => listSeals({ search, page, limit }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result);
 }

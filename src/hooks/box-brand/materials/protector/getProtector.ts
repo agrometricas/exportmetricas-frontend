@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ProtectorType } from '@/types/box-brand/materials/protector';
@@ -23,13 +27,11 @@ type UseProtectorOptions = {
 export const useProtector = ({
   protectorId,
 }: UseProtectorOptions): UseQueryResult<ProtectorType> => {
-  const result = useQuery(
-    ['protector', protectorId],
-    () => getProtector({ protectorId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['protector', protectorId],
+    queryFn: () => getProtector({ protectorId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<ProtectorType>;
 };

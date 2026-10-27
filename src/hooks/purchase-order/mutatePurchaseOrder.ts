@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import {
@@ -21,7 +21,7 @@ export function useSavePurchaseOrder(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SaveInput
 > {
-  return useMutation(savePurchaseOrder);
+  return useMutation({ mutationFn: savePurchaseOrder });
 }
 
 function deletePurchaseOrder(
@@ -35,5 +35,5 @@ export function useDeletePurchaseOrder(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   number
 > {
-  return useMutation(deletePurchaseOrder);
+  return useMutation({ mutationFn: deletePurchaseOrder });
 }

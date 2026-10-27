@@ -1,5 +1,5 @@
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { TransportType } from '../../types/transport/transport';
@@ -25,5 +25,8 @@ export const useCreateTransport = (
     AxiosError<ServerErrorResponse>,
     Partial<TransportType>
 > => {
-    return useMutation(createTransport, config);
+    return useMutation({
+        mutationFn: createTransport,
+        ...config
+    });
 };

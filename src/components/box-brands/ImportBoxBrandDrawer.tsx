@@ -31,7 +31,7 @@ const ImportFilesDrawer: React.FC = () => {
   const [boxBrandField, , boxBrandHelpers] = useField('import-boxBrand');
   const boxBrandFileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importBoxBrands, isLoading: isLoadingBoxBrand } = useImportBoxBrands({
+  const { importBoxBrands, isPending: isLoadingBoxBrand } = useImportBoxBrands({
     config: {
       onSuccess: (data) => {
         const { successCount, errorCount, errors } = data.details;
@@ -133,7 +133,7 @@ const ImportFilesDrawer: React.FC = () => {
   const [materialField, , materialHelpers] = useField('import-material');
   const materialFileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importBoxBrandMaterials, isLoading: isLoadingMaterials } = useImportBoxBrandMaterials({
+  const { importBoxBrandMaterials, isPending: isLoadingMaterials } = useImportBoxBrandMaterials({
     config: {
       onSuccess: (data) => {
         const { successCount, errorCount, errors } = data.details;

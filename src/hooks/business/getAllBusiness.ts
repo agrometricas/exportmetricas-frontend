@@ -1,5 +1,5 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { BusinessResponse } from '../../types/merchant/merchant.response';
 import { PaginationParams } from '../../types/paginationParams';
@@ -12,13 +12,11 @@ function listBusinesses(params: Params): Promise<AxiosResponse<BusinessResponse[
 }
 
 export function useBusinesses({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {
-  const result = useQuery(
-    ['businesses', search, page, limit],
-    () => listBusinesses({ search, page, limit }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['businesses', search, page, limit],
+    queryFn: () => listBusinesses({ search, page, limit }),
+    placeholderData: keepPreviousData
+  });
 
   return serializeQueryResult(result);
 }

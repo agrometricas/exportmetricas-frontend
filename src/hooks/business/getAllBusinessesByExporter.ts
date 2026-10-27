@@ -1,18 +1,16 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { Business } from '../../types/cuttingSheet.response';
 
 export const useBusinessesByExporter = (
   exporterId: number
 ): UseQueryResult<Business[], unknown> => {
-  return useQuery<Business[], unknown>(
-    ['businesses', exporterId],
-    async () => {
+  return useQuery({
+    queryKey: ['businesses', exporterId],
+    queryFn: async () => {
       const { data } = await axios.get(`/exporter/${exporterId}/business`);
       return data;
     },
-    {
-      enabled: !!exporterId,
-    }
-  );
+    enabled: !!exporterId,
+  });
 };

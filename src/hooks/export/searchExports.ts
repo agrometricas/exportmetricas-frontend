@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery } from 'react-query';
+import { keepPreviousData, UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { ExportSearchHit } from '@/types/exportSearch';
 import { isSearchable } from '@/utils/exportSearch';
@@ -13,7 +13,9 @@ export const searchExports = async (q: string): Promise<ExportSearchHit[]> => {
 export const useExportSearch = (
   q: string
 ): UseQueryResult<ExportSearchHit[]> =>
-  useQuery(['exportSearch', q], () => searchExports(q), {
+  useQuery({
+    queryKey: ['exportSearch', q],
+    queryFn: () => searchExports(q),
     enabled: isSearchable(q),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData
   });

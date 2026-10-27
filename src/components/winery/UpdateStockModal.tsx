@@ -36,7 +36,8 @@ export function UpdateStockModal({
   initialStock,
   initialCost,
 }: Props): JSX.Element {
-  const { mutate, isLoading } = useUpdateExporterMaterialStock(stockId);
+  const { mutate, isPending: isLoading } =
+    useUpdateExporterMaterialStock(stockId);
 
   return (
     <Dialog.Root

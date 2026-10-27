@@ -3,7 +3,7 @@
 > Contexto de dominio para la app web. Las reglas de negocio son
 > **autoritativas del backend** (`exportmetricas-backend`, NestJS) — esta app es
 > la capa de **captura y visualización**. Para la arquitectura técnica de
-> Next.js (axios, react-query, next-auth), ver la sección "Arquitectura técnica"
+> Next.js (axios, TanStack Query, next-auth), ver la sección "Arquitectura técnica"
 > al final y los docs de `agent/features/`.
 
 ---
@@ -161,8 +161,7 @@ local en ISO.
 ### Stack
 
 Next.js 15 App Router · TypeScript. El App Router corre con la copia de React 19
-que trae Next; `react` 18 sigue instalado porque react-query 3 no acepta
-React 19 como dependencia. UI con **Chakra UI v3**, con el tema de la marca en
+que trae Next; el paquete `react` instalado sigue en 18. UI con **Chakra UI v3**, con el tema de la marca en
 `theme/system.ts` y modo claro y oscuro con **next-themes**; tablas con
 **Material React Table** (que trae MUI como motor); gráficos con **recharts**;
 formularios con **Formik + Yup**; fechas con **date-fns**.
@@ -170,11 +169,11 @@ formularios con **Formik + Yup**; fechas con **date-fns**.
 Los colores, la tipografía y los radios salen de `design-system.md`, en la
 raíz del repo.
 
-### Datos: react-query (v3)
+### Datos: TanStack Query (v5)
 
 - Un hook por endpoint en `hooks/<dominio>/`.
 - El `QueryClient` activo se crea en `components/Providers.tsx` con
-  `staleTime: Infinity`, `cacheTime: Infinity` y sin refetch automático: **un
+  `staleTime: Infinity`, `gcTime: Infinity` y sin refetch automático: **un
   dato solo se vuelve a pedir si una mutación invalida su clave**. Con
   `refetchOnMount: true`, una clave invalidada mientras su pantalla no estaba
   abierta se vuelve a pedir al abrirla.

@@ -9,6 +9,7 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import {
@@ -19,7 +20,6 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import {
   initialValues,
@@ -50,8 +50,8 @@ export default function TransportRatesManager(): React.JSX.Element {
   const { paginationParams } = usePagination();
   const { data: countries } = useCountries(paginationParams);
   const ecuadorId = countries?.find((c) => c.code === ECUADOR)?.id;
-  const { mutate: save, isLoading } = useSaveTransportRate();
-  const { mutate: remove, isLoading: isDeleting } = useDeleteTransportRate();
+  const { mutate: save, isPending: isLoading } = useSaveTransportRate();
+  const { mutate: remove, isPending: isDeleting } = useDeleteTransportRate();
   const [editing, setEditing] = useState<TransportRateResponse | null>(null);
   const [toDelete, setToDelete] = useState<TransportRateResponse | null>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -72,7 +72,9 @@ export default function TransportRatesManager(): React.JSX.Element {
 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 4000, closable: true });
-    queryClient.invalidateQueries('transportRates');
+    queryClient.invalidateQueries({
+      queryKey: ['transportRates'],
+    });
     setEditing(null);
   };
 

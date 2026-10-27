@@ -8,11 +8,11 @@ import {
   Text,
   Field,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
-import { useQueryClient } from 'react-query';
 import {
   FormSectionTitle,
   FormActions,
@@ -50,7 +50,7 @@ export default function EditBusinessForm({
 }): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useUpdateBusiness();
+  const { mutate: save, isPending: isLoading } = useUpdateBusiness();
 
   const onSubmit = (
     values: EditBusinessValues,
@@ -84,8 +84,12 @@ export default function EditBusinessForm({
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('businesses');
-          queryClient.invalidateQueries('business');
+          queryClient.invalidateQueries({
+            queryKey: ['businesses'],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['business'],
+          });
           router.push(LIST_PATH);
         },
       }

@@ -1,6 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import {
   useDeleteShippingContract,
@@ -30,8 +30,8 @@ export function useSubmitShippingContract(
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useSaveShippingContract();
-  const { mutate: remove, isLoading: isDeleting } = useDeleteShippingContract();
+  const { mutate: save, isPending: isLoading } = useSaveShippingContract();
+  const { mutate: remove, isPending: isDeleting } = useDeleteShippingContract();
 
   const showError = (error: unknown): void => {
     if (isAxiosError(error) && error.response?.status === 401) {
@@ -49,8 +49,12 @@ export function useSubmitShippingContract(
 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
-    queryClient.invalidateQueries('shippingContracts');
-    queryClient.invalidateQueries('shippingContract');
+    queryClient.invalidateQueries({
+      queryKey: ['shippingContracts'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['shippingContract'],
+    });
     router.push(LIST_PATH);
   };
 

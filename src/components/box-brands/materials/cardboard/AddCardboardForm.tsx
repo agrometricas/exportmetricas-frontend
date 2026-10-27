@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
 const AddCardboardForm = ({
   onClose,
 }: AddCardboardFormProps): React.JSX.Element => {
-  const { createCardboard, isLoading } = useCreateCardboard();
+  const { createCardboard, isPending: isLoading } = useCreateCardboard();
   const queryClient = useQueryClient();
 
   const addCardboard = async (
@@ -75,7 +75,9 @@ const AddCardboardForm = ({
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('cardboards');
+          queryClient.invalidateQueries({
+            queryKey: ['cardboards'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

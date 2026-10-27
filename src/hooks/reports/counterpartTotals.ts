@@ -1,15 +1,17 @@
-import { useQuery } from 'react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { CounterpartReport } from '@/types/counterpartTotals';
 
 export function useCounterpartTotals(
   range: { from: string; to: string } | null
 ): { report: CounterpartReport | undefined; isLoading: boolean } {
-  const { data, isLoading } = useQuery<CounterpartReport>(
-    ['counterpartTotals', range?.from, range?.to],
-    async () =>
+  const { data, isLoading } = useQuery({
+    queryKey: ['counterpartTotals', range?.from, range?.to],
+    queryFn: async () =>
       (await axios.get('/reports/counterparts', { params: range })).data,
-    { enabled: range !== null, keepPreviousData: true, retry: false }
-  );
+    enabled: range !== null,
+    retry: false,
+    placeholderData: keepPreviousData,
+  });
   return { report: data, isLoading };
 }

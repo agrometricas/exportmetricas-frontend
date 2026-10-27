@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
 const AddMiniPalletForm = ({
   onClose,
 }: AddMiniPalletFormProps): React.JSX.Element => {
-  const { createMiniPallet, isLoading } = useCreateMiniPallet();
+  const { createMiniPallet, isPending: isLoading } = useCreateMiniPallet();
   const queryClient = useQueryClient();
 
   const addMiniPallet = async (
@@ -75,7 +75,9 @@ const AddMiniPalletForm = ({
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('minipallets');
+          queryClient.invalidateQueries({
+            queryKey: ['minipallets'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

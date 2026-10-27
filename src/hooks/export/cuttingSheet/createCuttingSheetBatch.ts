@@ -1,4 +1,4 @@
-import { UseMutationResult, useMutation } from 'react-query';
+import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import {
   CuttingSheetBatchItem,
@@ -23,4 +23,7 @@ export const useCreateCuttingSheetBatch = (): UseMutationResult<
   CuttingSheetBatchResult,
   unknown,
   CuttingSheetBatchItem[]
-> => useMutation(createCuttingSheetBatch);
+> =>
+  useMutation({
+    mutationFn: createCuttingSheetBatch,
+  });

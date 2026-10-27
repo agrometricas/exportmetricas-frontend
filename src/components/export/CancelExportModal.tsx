@@ -10,9 +10,9 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCancelExport } from '../../hooks/export/cancelExport';
 import { ExportResponse } from '../../types/export.response';
@@ -54,7 +54,7 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
   const [reason, setReason] = useState('');
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: cancelExport, isLoading } = useCancelExport();
+  const { mutate: cancelExport, isPending: isLoading } = useCancelExport();
 
   const close = (): void => {
     setReason('');
@@ -77,7 +77,9 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
             duration: 5000,
             closable: true,
           });
-          AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+          AFFECTED_QUERIES.forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] })
+          );
           close();
         },
         onError: (error) => {

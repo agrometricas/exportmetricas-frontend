@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { MerchantType } from '@/types/merchant/merchant';
@@ -29,5 +29,8 @@ export const useCreateOnboarding = (
   AxiosError<ServerErrorResponse>,
   Partial<MerchantType>
 > => {
-  return useMutation(createOnboarding, config);
+  return useMutation({
+    mutationFn: createOnboarding,
+    ...config
+  });
 };

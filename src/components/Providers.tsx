@@ -4,9 +4,9 @@ import {
   ThemeProvider as MuiThemeProvider,
   THEME_ID,
 } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode, useMemo } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ColorModeProvider, useColorMode } from './ui/color-mode';
 import SidenavProvider from './ui/sidenav/sidenav-context';
 import { Toaster } from './ui/toaster';
@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
       refetchOnMount: true,
       refetchOnReconnect: false,
       staleTime: Infinity,
-      cacheTime: Infinity,
+      gcTime: Infinity,
     },
   },
 });

@@ -9,11 +9,11 @@ import {
   Text,
   Field,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import {
   FormSectionTitle,
@@ -214,7 +214,7 @@ export default function ExportPlanForm({
   const router = useRouter();
   const queryClient = useQueryClient();
   const lineBorder = 'border';
-  const { mutate: create, isLoading } = useCreateExportPlan();
+  const { mutate: create, isPending: isLoading } = useCreateExportPlan();
   const { data: bookingData } = useBookings();
   const bookings = (bookingData ?? []) as BookingResponse[];
   const { paginationParams } = usePagination();
@@ -263,7 +263,9 @@ export default function ExportPlanForm({
           duration: 5000,
           closable: true,
         });
-        AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+        AFFECTED_QUERIES.forEach((key) =>
+          queryClient.invalidateQueries({ queryKey: [key] })
+        );
         router.push(`/dashboard/export/purchase-orders/${order.id}`);
       },
     });

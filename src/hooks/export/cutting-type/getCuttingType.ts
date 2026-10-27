@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../../lib/axios';
 import { CuttingType } from '../../../types/cuttingType';
 import { serializeQueryResult } from '../../../utils/serializeQueryResult';
@@ -12,7 +12,9 @@ export function useCuttingType(
   id: string
 ): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(['cuttingType', id], () => getCuttingType(id), {
+    useQuery({
+      queryKey: ['cuttingType', id],
+      queryFn: () => getCuttingType(id),
       enabled: Boolean(id),
     })
   );

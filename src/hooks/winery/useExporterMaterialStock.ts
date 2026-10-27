@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock';
 
@@ -33,9 +33,10 @@ export const useExporterMaterialStock = ({
   materialType: string;
   materialId: number;
 }): UseQueryResult<ExporterMaterialStock, unknown> => {
-  return useQuery(
-    ['exporterMaterialStock', exporterId, materialType, materialId],
-    () => getExporterMaterialStock({ exporterId, materialType, materialId }),
-    { enabled: !!exporterId && !!materialType && !!materialId }
-  );
+  return useQuery({
+    queryKey: ['exporterMaterialStock', exporterId, materialType, materialId],
+    queryFn: () =>
+      getExporterMaterialStock({ exporterId, materialType, materialId }),
+    enabled: !!exporterId && !!materialType && !!materialId,
+  });
 };

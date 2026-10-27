@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
 import { InsecticideType } from '@/types/box-brand/additions/insecticide';

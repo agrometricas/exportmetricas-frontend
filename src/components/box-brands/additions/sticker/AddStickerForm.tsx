@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
 const AddStickerForm = ({
   onClose,
 }: AddStickerFormProps): React.JSX.Element => {
-  const { mutate: createSticker, isLoading } = useCreateSticker();
+  const { mutate: createSticker, isPending: isLoading } = useCreateSticker();
   const queryClient = useQueryClient();
 
   const addSticker = async (
@@ -78,7 +78,9 @@ const AddStickerForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('stickers');
+          queryClient.invalidateQueries({
+            queryKey: ['stickers'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

@@ -54,7 +54,7 @@ const UpdateExporterForm = ({
 }: UpdateExporterFormProps): React.JSX.Element => {
   const router = useRouter();
   const { idUser: exporterId } = useParams<{ idUser: string }>();
-  const { updateExporter, isLoading } = useUpdateExporter();
+  const { updateExporter, isPending: isLoading } = useUpdateExporter();
 
   const [formValues, setFormValues] = useState<ValuesProps>({
     address: '',

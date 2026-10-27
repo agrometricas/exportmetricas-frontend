@@ -1,8 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateOnboarding } from '../../../hooks/merchants/createOnboarding';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -21,7 +21,7 @@ export function useSubmitOnboarding(): {
 } {
     const router = useRouter();
     const { update } = useSession();
-    const { mutate: createOnboarding, isLoading } = useCreateOnboarding();
+    const { mutate: createOnboarding, isPending: isLoading } = useCreateOnboarding();
     const queryClient = useQueryClient();
 
     const onSubmit = async (
@@ -70,7 +70,9 @@ export function useSubmitOnboarding(): {
                         closable: true,
                     });
 
-                    queryClient.invalidateQueries('merchants');
+                    queryClient.invalidateQueries({
+                        queryKey: ['merchants']
+                    });
                     formikHelpers.resetForm();
                     await update({ onboardingStatus: 'done' });
                     router.push('/dashboard/producer/producers');

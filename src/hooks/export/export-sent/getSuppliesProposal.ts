@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../../lib/axios';
 import { SuppliesProposal } from '../../../types/suppliesProposal';
 import { serializeQueryResult } from '../../../utils/serializeQueryResult';
@@ -14,10 +14,10 @@ export function useSuppliesProposal(
   exportId: number | undefined
 ): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(
-      ['suppliesProposal', exportId],
-      () => getSuppliesProposal(exportId as number),
-      { enabled: Boolean(exportId) }
-    )
+    useQuery({
+      queryKey: ['suppliesProposal', exportId],
+      queryFn: () => getSuppliesProposal(exportId as number),
+      enabled: Boolean(exportId),
+    })
   );
 }

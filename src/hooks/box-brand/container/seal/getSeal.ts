@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { SealType } from '@/types/box-brand/container/seal';
@@ -23,8 +27,10 @@ type UseSealOptions = {
 export const useSeal = ({
   sealId,
 }: UseSealOptions): UseQueryResult<SealType> => {
-  const result = useQuery(['seal', sealId], () => getSeal({ sealId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['seal', sealId],
+    queryFn: () => getSeal({ sealId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<SealType>;

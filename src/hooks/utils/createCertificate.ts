@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useSession } from 'next-auth/react';
-import { useMutation, UseMutationResult } from 'react-query';
 import { env } from '@/lib/env';
 import { MutationConfig } from '@/lib/react-query';
 interface CreateCertificateResponse {

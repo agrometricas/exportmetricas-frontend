@@ -47,7 +47,7 @@ const ExportList = (): React.JSX.Element => {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { mutateAsync, isLoading: isSending } = useCreateExportSentBatch();
+  const { mutateAsync, isPending: isSending } = useCreateExportSentBatch();
   const columns = useMemo(
     () => pendingExportColumns<Partial<ExportType>>((row) => row),
     []

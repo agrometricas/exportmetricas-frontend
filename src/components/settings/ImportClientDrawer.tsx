@@ -28,7 +28,7 @@ const ImportClientDrawer: React.FC = () => {
   const [field, meta, helpers] = useField('import-client');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importClients, isLoading } = useImportClients({
+  const { importClients, isPending: isLoading } = useImportClients({
     config: {
       onSuccess: (data) => {
         toaster.create({

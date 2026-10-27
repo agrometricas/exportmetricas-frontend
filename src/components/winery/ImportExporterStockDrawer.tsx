@@ -41,7 +41,7 @@ const ImportExporterStockDrawer: React.FC = () => {
   );
   const businessStockFileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importExporterStock, isLoading: isLoadingStock } =
+  const { importExporterStock, isPending: isLoadingStock } =
     useImportExporterStock({
       config: {
         onSuccess: (data) => {
@@ -95,7 +95,7 @@ const ImportExporterStockDrawer: React.FC = () => {
       },
     });
 
-  const { importBusinessStock, isLoading: isLoadingBusinessStock } =
+  const { importBusinessStock, isPending: isLoadingBusinessStock } =
     useImportBusinessStock({
       config: {
         onSuccess: (data) => {

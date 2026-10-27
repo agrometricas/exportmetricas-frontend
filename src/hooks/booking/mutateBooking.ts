@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import {
   BookingBody,
@@ -23,7 +23,7 @@ export function useSaveBooking(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SaveInput
 > {
-  return useMutation(saveBooking);
+  return useMutation({ mutationFn: saveBooking });
 }
 
 function deleteBooking(id: number): Promise<AxiosResponse<{ id: number }>> {
@@ -35,7 +35,7 @@ export function useDeleteBooking(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   number
 > {
-  return useMutation(deleteBooking);
+  return useMutation({ mutationFn: deleteBooking });
 }
 
 type SealsInput = {
@@ -60,5 +60,5 @@ export function useUpdateContainerSeals(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SealsInput
 > {
-  return useMutation(updateContainerSeals);
+  return useMutation({ mutationFn: updateContainerSeals });
 }

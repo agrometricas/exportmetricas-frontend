@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
 import { MiniPalletType } from '@/types/box-brand/materials/minipallet';

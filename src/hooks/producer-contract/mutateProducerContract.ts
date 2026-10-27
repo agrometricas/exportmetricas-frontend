@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import {
@@ -21,7 +21,7 @@ export function useSaveProducerContract(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SaveInput
 > {
-  return useMutation(saveProducerContract);
+  return useMutation({ mutationFn: saveProducerContract });
 }
 
 function deleteProducerContract(id: number): Promise<AxiosResponse<{ id: number }>> {
@@ -33,5 +33,5 @@ export function useDeleteProducerContract(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   number
 > {
-  return useMutation(deleteProducerContract);
+  return useMutation({ mutationFn: deleteProducerContract });
 }

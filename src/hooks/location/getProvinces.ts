@@ -1,5 +1,5 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -16,13 +16,11 @@ export function useProvinces(countryId?: number): {
     error: unknown;
     refetch: () => void;
 } {
-    const result: UseQueryResult<AxiosResponse<ProvinceResponse>> = useQuery(
-        ['provinces', countryId],
-        () => axios.get(`/location/provinces/${countryId}`),
-        {
-            enabled: !!countryId,
-        }
-    );
+    const result: UseQueryResult<AxiosResponse<ProvinceResponse>> = useQuery({
+        queryKey: ['provinces', countryId],
+        queryFn: () => axios.get(`/location/provinces/${countryId}`),
+        enabled: !!countryId
+    });
 
     const serialized = serializeQueryResult(result);
 

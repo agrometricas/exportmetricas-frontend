@@ -1,6 +1,6 @@
 // createVerifier.ts
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { VerifierType } from '../../types/verifier/verifier';
@@ -26,5 +26,8 @@ export const useCreateVerifier = (
     AxiosError<ServerErrorResponse>,
     Partial<VerifierType>
 > => {
-    return useMutation(createVerifier, config);
+    return useMutation({
+        mutationFn: createVerifier,
+        ...config
+    });
 };

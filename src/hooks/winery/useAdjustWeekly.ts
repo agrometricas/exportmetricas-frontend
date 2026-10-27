@@ -1,5 +1,9 @@
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query';
 import axios from '@/lib/axios';
 
 interface AdjustWeeklyDto {
@@ -25,7 +29,9 @@ export const useAdjustWeekly = (
   return useMutation({
     mutationFn: (dto) => adjustWeekly(businessId, dto),
     onSuccess: () => {
-      queryClient.invalidateQueries(['businessStock', businessId]);
+      queryClient.invalidateQueries({
+        queryKey: ['businessStock', businessId],
+      });
     },
   });
 };

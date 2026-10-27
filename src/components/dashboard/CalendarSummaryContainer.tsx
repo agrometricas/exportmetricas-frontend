@@ -86,7 +86,7 @@ export default function CalendarSummaryContainer(): JSX.Element {
     [currentDate]
   );
 
-  const { summary, isLoading, isPreviousData, isError, error, refetch } =
+  const { summary, isLoading, isPlaceholderData, isError, error, refetch } =
     useWeekSummary(weekStart.toISOString(), {
       merchantId: producer?.id,
       boxBrandId: boxBrand?.id,
@@ -143,8 +143,8 @@ export default function CalendarSummaryContainer(): JSX.Element {
       templateColumns={{ base: '1fr', lg: 'minmax(0, 2fr) minmax(0, 1fr)' }}
       gap={4}
       alignItems='start'
-      aria-busy={isPreviousData}
-      opacity={isPreviousData ? 0.6 : 1}
+      aria-busy={isPlaceholderData}
+      opacity={isPlaceholderData ? 0.6 : 1}
       transition='opacity 150ms'
     >
       <Stack gap={4}>

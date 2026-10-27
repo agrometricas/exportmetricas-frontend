@@ -1,8 +1,8 @@
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -369,9 +369,9 @@ const PendingPaymentForm = ({
 }): React.JSX.Element => {
   const [initialValuesPayment, setInitialValuesPayment] =
     useState<ValuesProps>(initialValues);
-  const { createProducerPayment, isLoading: createLoading } =
+  const { createProducerPayment, isPending: createLoading } =
     useCreateProducerPayment();
-  const { uploadTransferImage, isLoading } = useUploadTransferImage();
+  const { uploadTransferImage, isPending: isLoading } = useUploadTransferImage();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -431,10 +431,14 @@ const PendingPaymentForm = ({
         closable: true,
       });
 
-      queryClient.invalidateQueries('producerPayments');
-      queryClient.invalidateQueries('exportsSentPending');
+      queryClient.invalidateQueries({
+        queryKey: ['producerPayments']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['exportsSentPending']
+      });
       actions.resetForm();
-      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
       router.push(returnTo('/dashboard/liquidation/producer-payments', window.location.search));
     } catch (error: unknown) {
       toaster.create({

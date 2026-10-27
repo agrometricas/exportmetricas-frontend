@@ -1,5 +1,9 @@
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query';
 import axios from '@/lib/axios';
 import { BusinessMaterialStock } from '../../types/winery/businessMaterialStock';
 
@@ -30,7 +34,9 @@ export const useIncreaseBusinessStock = (
     mutationFn: (data: IncreaseStockDto) =>
       increaseBusinessStock({ businessStockId, data }),
     onSuccess: () => {
-      queryClient.invalidateQueries(['exporterMaterialStock']);
+      queryClient.invalidateQueries({
+        queryKey: ['exporterMaterialStock'],
+      });
     },
   });
 };

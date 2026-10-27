@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { MettoLabelType } from '@/types/box-brand/container/mettoLabel';
@@ -23,13 +27,11 @@ type UseMettoLabelOptions = {
 export const useMettoLabel = ({
   mettoLabelId,
 }: UseMettoLabelOptions): UseQueryResult<MettoLabelType> => {
-  const result = useQuery(
-    ['mettoLabel', mettoLabelId],
-    () => getMettoLabel({ mettoLabelId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['mettoLabel', mettoLabelId],
+    queryFn: () => getMettoLabel({ mettoLabelId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<MettoLabelType>;
 };

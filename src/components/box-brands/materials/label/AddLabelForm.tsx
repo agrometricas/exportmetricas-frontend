@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -84,7 +84,7 @@ const validationSchema = Yup.object({
 });
 
 const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
-  const { createLabel, isLoading } = useCreateLabel();
+  const { createLabel, isPending: isLoading } = useCreateLabel();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -124,7 +124,9 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
           closable: true,
         });
 
-        queryClient.invalidateQueries('labels');
+        queryClient.invalidateQueries({
+          queryKey: ['labels']
+        });
         actions.resetForm();
         !!onClose && onClose();
       },

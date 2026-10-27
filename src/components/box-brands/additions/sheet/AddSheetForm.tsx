@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
 });
 
 const AddSheetForm = ({ onClose }: AddSheetFormProps): React.JSX.Element => {
-  const { mutate: createSheet, isLoading } = useCreateSheet();
+  const { mutate: createSheet, isPending: isLoading } = useCreateSheet();
   const queryClient = useQueryClient();
 
   const addSheet = async (
@@ -76,7 +76,9 @@ const AddSheetForm = ({ onClose }: AddSheetFormProps): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('sheets');
+          queryClient.invalidateQueries({
+            queryKey: ['sheets'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

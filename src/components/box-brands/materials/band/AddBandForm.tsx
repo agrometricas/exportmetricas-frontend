@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -67,7 +67,7 @@ const validationSchema = Yup.object({
 });
 
 const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
-  const { createBand, isLoading } = useCreateBand();
+  const { createBand, isPending: isLoading } = useCreateBand();
   const queryClient = useQueryClient();
 
   const addBand = async (
@@ -99,7 +99,9 @@ const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('bands');
+          queryClient.invalidateQueries({
+            queryKey: ['bands'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

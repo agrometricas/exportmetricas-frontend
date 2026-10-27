@@ -1,5 +1,5 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -22,13 +22,11 @@ export function useBankAccountByMerchantId(
   { search = '', page = 1, limit = 10 }: Params,
   { id }: Body
 ) {
-  const result = useQuery(
-    ['bankAccountsByMerchantId', search, page, limit],
-    () => listBankAccountByMerchantId({ search, page, limit }, { id }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['bankAccountsByMerchantId', search, page, limit],
+    queryFn: () => listBankAccountByMerchantId({ search, page, limit }, { id }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result);
 }

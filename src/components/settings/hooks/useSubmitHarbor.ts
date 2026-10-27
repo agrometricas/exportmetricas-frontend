@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateHarbor } from '@/hooks/export/harbor/createHarbor';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -16,7 +16,7 @@ export function useSubmitHarbor(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createHarbor, isLoading } = useCreateHarbor();
+    const { mutate: createHarbor, isPending: isLoading } = useCreateHarbor();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -57,9 +57,15 @@ export function useSubmitHarbor(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('harbors');
-                    queryClient.invalidateQueries('harborsByType');
-                    queryClient.invalidateQueries('clients');
+                    queryClient.invalidateQueries({
+                        queryKey: ['harbors']
+                    });
+                    queryClient.invalidateQueries({
+                        queryKey: ['harborsByType']
+                    });
+                    queryClient.invalidateQueries({
+                        queryKey: ['clients']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/client/harbors');
                 },
