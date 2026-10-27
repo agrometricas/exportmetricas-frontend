@@ -289,9 +289,10 @@ un clic, abre su ficha.
 
 ## Tests
 
-Vitest sobre utilidades puras (`src/**/*.spec.ts`); no hay pruebas de
-componentes ni E2E. Ver [`coding-standards.md`](coding-standards.md) §
-_Testing_.
+Vitest sobre utilidades puras (`src/**/*.spec.ts`) y una prueba de humo con
+Playwright (`smoke/`, `npm run smoke`) que abre cada pantalla contra una web y
+un backend locales. No hay pruebas de componentes. Ver
+[`coding-standards.md`](coding-standards.md) § _Testing_.
 
 ---
 

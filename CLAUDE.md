@@ -49,9 +49,21 @@ npm run lint           # ESLint (next lint)
 npm run test           # Vitest (src/**/*.spec.ts)
 npm run format         # Prettier, solo verifica
 npm run format:fix     # Prettier, corrige
+npm run smoke          # Playwright: abre cada pantalla contra una web y un backend que ya corren
 ```
 
-Las pruebas cubren utilidades puras. No hay pruebas de componentes ni E2E.
+Las pruebas unitarias cubren utilidades puras. La prueba de humo
+(`smoke/`) inicia sesión y abre cada página de `app/dashboard/` sin
+segmento dinámico; falla si alguna lanza un error, escribe uno en consola,
+recibe un 4xx o 5xx o muestra la pantalla de error. Necesita la web y el
+backend levantados y un usuario de prueba, nunca uno de producción:
+
+```bash
+npx playwright install chromium   # una vez por máquina
+SMOKE_BASE_URL=http://localhost:3000 SMOKE_EMAIL=<usuario de prueba> SMOKE_PASSWORD=<contraseña> npm run smoke
+```
+
+No corre en CI: necesita un backend con datos.
 
 ## Verificación
 
@@ -64,8 +76,9 @@ npm run build
 
 `.github/workflows/ci.yml` corre esos cuatro en cada pull request a `main-2`.
 
-Las pruebas no cubren pantallas: para un cambio de interfaz, la verificación
-real sigue siendo abrir la pantalla y ejercitar el flujo contra un backend.
+La prueba de humo dice que cada pantalla abre, no que su flujo funcione: para
+un cambio de interfaz, además de correrla, hay que ejercitar el flujo contra un
+backend.
 
 ## Variables de entorno
 

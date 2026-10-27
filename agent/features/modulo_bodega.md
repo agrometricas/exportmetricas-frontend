@@ -43,7 +43,7 @@ Lectura de las cifras:
 
 | Menú | Ruta | Qué hace | Endpoint |
 |------|------|----------|----------|
-| Stock | `winery/stock` | Bodega completa, con el detalle de cada material | `GET /exporter-material-stock/exporter/:exporterId` |
+| Stock | `winery/stock` | Bodega completa, con el detalle de cada material | `GET /exporter-material-stock/exporter/:exporterId`, con la exportadora de la sesión |
 | Agregar Stock | `winery/add-material` | Lista de materiales para elegir uno, e importación CSV | `GET /exporter-materials/:exporterId` |
 | — | `winery/add-material/[slug]` | Un material: stock inicial, ingreso a bodega y asignación a fincas | `GET …/by-exporter-and-material`, `POST /exporter-material-stock`, `PATCH …/update/:id`, `POST …/assign` |
 | Trazabilidad de Stock | `winery/stock-movements` | Movimientos de una finca, material por material | `GET /exporter-material-stock/business/:businessId` |

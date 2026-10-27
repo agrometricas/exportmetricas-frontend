@@ -28,7 +28,7 @@ export const useExporterMaterialStock = ({
   const result = useQuery(
     ['exporterMaterialStock', exporterId],
     () => getExporterMaterialStock({ exporterId }),
-    { keepPreviousData: true }
+    { keepPreviousData: true, enabled: exporterId > 0 }
   );
 
   return serializeQueryResult(result) as UseQueryResult<
