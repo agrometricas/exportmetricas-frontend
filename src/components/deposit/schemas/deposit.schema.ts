@@ -13,8 +13,8 @@ export interface ValuesProps {
     provinceId: number | '';
     cityId: number | '';
     address: string;
-    latitude: number;
-    longitude: number;
+    latitude: number | '';
+    longitude: number | '';
     openTime: string;
     closeTime: string;
     contacts: ContactProps[];
@@ -28,8 +28,8 @@ export const initialValues: ValuesProps = {
     provinceId: '',
     cityId: '',
     address: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: '',
+    longitude: '',
     openTime: '',
     closeTime: '',
     contacts: [{ name: '', email: '', phone: '' }],

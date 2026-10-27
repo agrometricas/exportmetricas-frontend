@@ -23,7 +23,7 @@ interface Props {
 const validationSchema = (
   max: number
 ): Yup.ObjectSchema<{
-  quantity: number;
+  quantity: number | '';
 }> =>
   Yup.object({
     quantity: Yup.number()
@@ -45,7 +45,7 @@ export function CreateBusinessStockAssignmentForm({
 
   return (
     <Formik
-      initialValues={{ quantity: 0 }}
+      initialValues={{ quantity: '' }}
       validationSchema={validationSchema(availableStock)}
       onSubmit={(values) => {
         mutate(
@@ -54,7 +54,7 @@ export function CreateBusinessStockAssignmentForm({
             businessId: business.id,
             materialType,
             materialId,
-            quantity: values.quantity,
+            quantity: Number(values.quantity),
           },
           {
             onSuccess: () => {
@@ -112,7 +112,7 @@ export function CreateBusinessStockAssignmentForm({
               type='submit'
               colorPalette='green'
               loading={isLoading}
-              disabled={values.quantity <= 0}
+              disabled={Number(values.quantity) <= 0}
             >
               Asignar
             </Button>

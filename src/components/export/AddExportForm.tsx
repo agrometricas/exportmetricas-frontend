@@ -157,7 +157,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 name='boxQuantity'
                 label='Cantidad de cajas'
                 unit='cajas'
-                value={source || fromLine ? initialValues.boxQuantity : ''}
               />
               <InputFieldSelector
                 name={'contractType'}
@@ -267,16 +266,10 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   <InputFieldText
                     name='estimatedTravelTime'
                     label='Tiempo estimado de viaje'
-                    defaultValue={
-                      source ? initialValues.estimatedTravelTime : undefined
-                    }
                   />
                   <InputFieldText
                     name='bookingNumber'
                     label='Número de booking'
-                    defaultValue={
-                      source ? initialValues.bookingNumber : undefined
-                    }
                   />
                 </SimpleGrid>
               </>
@@ -301,7 +294,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               <InputFieldNumber
                 name='numberOfVerifiers'
                 label='Número de verificadores'
-                value={source ? initialValues.numberOfVerifiers : ''}
               />
             </SimpleGrid>
             <FormActions>

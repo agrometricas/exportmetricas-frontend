@@ -25,7 +25,11 @@ export function useSubmitDeposit(): {
         const { is24Hours, countryId, provinceId, ...depositData } = values;
         void is24Hours, countryId, provinceId;
         createDeposit(
-            { ...depositData },
+            {
+                ...depositData,
+                latitude: Number(depositData.latitude),
+                longitude: Number(depositData.longitude),
+            },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
                     const statusCode = error.response?.status;
