@@ -86,7 +86,7 @@ jobs:
           npx prisma migrate deploy
           npm run build:seeds
           npm run prisma:seed:prod
-          npx ts-node --files scripts/seed-demo.ts
+          npx ts-node scripts/seed-demo.ts
           npm run build
 
       # The seed gives the demo user the password it has in production; this

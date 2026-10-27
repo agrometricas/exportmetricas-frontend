@@ -41,26 +41,32 @@ export function SpotPriceComparison({ spot }: Props): React.JSX.Element {
         <Text as='h3' textStyle='h3' color='fg.heading' mb={3}>
           Últimos precios SPOT (Ecuador)
         </Text>
-        <Table.Root size='sm' variant='line'>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>Fecha</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign='end'>
-                Precio (USD)
-              </Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {recentSpotPrices.map((price) => (
-              <Table.Row key={price.id}>
-                <Table.Cell>{spotDay(price.date)}</Table.Cell>
-                <Table.Cell textAlign='end'>
-                  ${Number(price.price).toFixed(2)}
-                </Table.Cell>
+        {spotPrices && recentSpotPrices.length === 0 ? (
+          <Text fontSize='sm' color='fg.muted'>
+            Aún no hay precios SPOT registrados.
+          </Text>
+        ) : (
+          <Table.Root size='sm' variant='line'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Fecha</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>
+                  Precio (USD)
+                </Table.ColumnHeader>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+            <Table.Body>
+              {recentSpotPrices.map((price) => (
+                <Table.Row key={price.id}>
+                  <Table.Cell>{spotDay(price.date)}</Table.Cell>
+                  <Table.Cell textAlign='end'>
+                    ${Number(price.price).toFixed(2)}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        )}
       </Box>
 
       <Box>
