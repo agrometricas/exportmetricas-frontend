@@ -20,9 +20,9 @@ export interface BusinessesProps {
     cityId: number | '';
     address: string;
     fruitType: string;
-    area: number;
-    latitude: number | 0;
-    longitude: number | 0;
+    area: number | '';
+    latitude: number | '';
+    longitude: number | '';
     codeMAGAP: string;
     codeAGROCALIDAD: string;
     certificates: number[];
@@ -59,9 +59,9 @@ export const initialValues: ValuesProps = {
             cityId: '',
             address: '',
             fruitType: '',
-            area: 0,
-            latitude: 0,
-            longitude: 0,
+            area: '',
+            latitude: '',
+            longitude: '',
             codeMAGAP: '',
             codeAGROCALIDAD: '',
             certificates: [],

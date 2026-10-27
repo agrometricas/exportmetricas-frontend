@@ -100,6 +100,16 @@ the backend proposes.
 - A field never resets itself on mount: a form can arrive prefilled (edit,
   duplicate, a copied box brand). An N/A switch acts only when it flips, through
   `useBanChange` (`components/ui/form/`).
+- `InputFieldText` and `InputFieldNumber` show what the form holds. Their
+  `defaultValue` / `value` prop pushes a figure worked out elsewhere (a quote,
+  a proposal, the week of a date) into the form when it changes; do not pass
+  the form's own initial value back through it.
+- A number field that starts empty is `''` in the initial values, not `0`,
+  which would show in the box. Yup rejects `''` for a number, so by the time
+  the form submits it holds one; convert with `Number()` for the type.
+- `InputFieldQuantity` takes whole numbers: the quantities per box are
+  integers in the backend. A decimal goes in `InputFieldNumber` with
+  `isDecimal`.
 - A required select with a single option picks it (`BusinessSelectBase`,
   `BoxBrandSelectBase` do).
 - A long form renders `<UnsavedChangesGuard isDirty={dirty && !isSubmitting} />`

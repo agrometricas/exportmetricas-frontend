@@ -30,7 +30,7 @@ interface Props {
 
 const validationSchema = (
   max: number
-): Yup.ObjectSchema<{ addedStock: number }> =>
+): Yup.ObjectSchema<{ addedStock: number | '' }> =>
   Yup.object({
     addedStock: Yup.number()
       .min(1, 'Debe ser mayor a 0')
@@ -53,10 +53,10 @@ export function AssignStockToBusinessForm({
 
   return (
     <Formik
-      initialValues={{ addedStock: 0 }}
+      initialValues={{ addedStock: '' as number | '' }}
       validationSchema={validationSchema(maxAssignableStock)}
       onSubmit={(values) => {
-        const newStock = businessCurrentStock + values.addedStock;
+        const newStock = businessCurrentStock + Number(values.addedStock);
         mutate(
           { currentStock: newStock },
           {
@@ -100,7 +100,9 @@ export function AssignStockToBusinessForm({
 
           <Box mt={4} mb={2}>
             <Text fontWeight='bold'>Nuevo total de stock:</Text>
-            <Text ml={4}>{businessCurrentStock + values.addedStock}</Text>
+            <Text ml={4}>
+              {businessCurrentStock + Number(values.addedStock)}
+            </Text>
           </Box>
 
           <Box mt={4}>
@@ -129,7 +131,7 @@ export function AssignStockToBusinessForm({
               type='submit'
               colorPalette='green'
               loading={isLoading}
-              disabled={values.addedStock <= 0}
+              disabled={Number(values.addedStock) <= 0}
             >
               Asignar
             </Button>

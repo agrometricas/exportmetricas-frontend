@@ -7,7 +7,7 @@ interface WeekCuttingProps {
 }
 
 export interface ValuesProps {
-  boxQuantity: number;
+  boxQuantity: number | '';
   boxBrandId: number;
   merchantId: number;
   businessId: number;
@@ -19,7 +19,7 @@ export interface ValuesProps {
   estimatedTravelTime: string;
   bookingNumber: string;
   contractType: string;
-  numberOfVerifiers: number;
+  numberOfVerifiers: number | '';
   shippingCompanyId: number;
   departureHarborId: number;
   destinationHarborId: number;
@@ -32,7 +32,7 @@ export interface ValuesProps {
 }
 
 export const initialValues: ValuesProps = {
-  boxQuantity: 0,
+  boxQuantity: '',
   boxBrandId: 0,
   merchantId: 0,
   businessId: 0,
@@ -49,7 +49,7 @@ export const initialValues: ValuesProps = {
   estimatedTravelTime: '',
   bookingNumber: '',
   contractType: '',
-  numberOfVerifiers: 0,
+  numberOfVerifiers: '',
   shippingCompanyId: 0,
   departureHarborId: 0,
   destinationHarborId: 0,

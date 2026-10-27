@@ -15,7 +15,7 @@ export interface BusinessCodesProps {
 
 export interface ValuesProps {
     name: string;
-    area: number;
+    area: number | '';
     codeMAGAP: string;
     codeAGROCALIDAD: string;
     fruitType: string;
@@ -23,8 +23,8 @@ export interface ValuesProps {
     provinceId: number | '';
     cityId: number | '';
     address: string;
-    latitude: number | 0;
-    longitude: number | 0;
+    latitude: number | '';
+    longitude: number | '';
     certificates: number[];
     businessCodes: BusinessCodesProps[];
     contacts: ContactsProps[];
@@ -65,7 +65,7 @@ const businessCodeSchema = Yup.object().shape({
 
 export const initialValues: ValuesProps = {
     name: '',
-    area: 0,
+    area: '',
     codeMAGAP: '',
     codeAGROCALIDAD: '',
     fruitType: '',
@@ -73,8 +73,8 @@ export const initialValues: ValuesProps = {
     provinceId: '',
     cityId: '',
     address: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: '',
+    longitude: '',
     certificates: [],
     businessCodes: [{ code: '' }],
     contacts: [{ name: '', role: '', email: '', phone: '' }],
