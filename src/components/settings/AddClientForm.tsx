@@ -66,7 +66,7 @@ export default function AddClientForm(): React.JSX.Element {
               <InputFieldSelector
                 name='purchaseVolumePeriod'
                 label='Período del Volumen'
-                placeholder='Seleccione el período'
+                placeholder='Selecciona el período'
                 options={VOLUME_PERIOD_OPTIONS}
               />
               <InputFieldPlain
@@ -78,7 +78,7 @@ export default function AddClientForm(): React.JSX.Element {
               <InputFieldSelector
                 name='paymentTermUnit'
                 label='Unidad del Plazo'
-                placeholder='Seleccione la unidad'
+                placeholder='Selecciona la unidad'
                 options={PAYMENT_UNIT_OPTIONS}
               />
               <InputFieldSelector
@@ -89,25 +89,25 @@ export default function AddClientForm(): React.JSX.Element {
               <InputFieldCountrySelect
                 name='countryId'
                 label='País'
-                placeholder='Seleccione el país'
+                placeholder='Selecciona el país'
               />
               <InputFieldProvinceSelect
                 name='provinceId'
                 label='Provincia'
-                placeholder='Seleccione la provincia'
+                placeholder='Selecciona la provincia'
                 countryId={values.countryId || undefined}
               />
               <InputFieldCitySelect
                 name='cityId'
                 label='Ciudad'
-                placeholder='Seleccione la ciudad'
+                placeholder='Selecciona la ciudad'
                 provinceId={values.provinceId || undefined}
               />
               <InputFieldHarborMultiSelect
                 type='Internacional'
                 name='harbors'
                 label='Puerto/s'
-                placeholder='Seleccione el/los puerto/s'
+                placeholder='Selecciona el/los puerto/s'
               />
               <InputFieldIncotermMultiSelect
                 name='incoterms'
@@ -117,7 +117,7 @@ export default function AddClientForm(): React.JSX.Element {
               <InputFieldCertificateMultiSelect
                 name={'certificates'}
                 label={'Certificados'}
-                placeholder='Seleccione certificados'
+                placeholder='Selecciona certificados'
               />
             </SimpleGrid>
 
@@ -178,7 +178,7 @@ export default function AddClientForm(): React.JSX.Element {
 
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                Enviar
+                Crear cliente
               </Button>
             </FormActions>
           </Flex>

@@ -105,7 +105,7 @@ const buildValidationSchema = (boxBrand: any, boxQuantity: number): any => {
 
   shape.pesticideSent = Yup.array()
     .of(pesticideSchema)
-    .min(1, 'Debe de tener al menos un pesticida');
+    .min(1, 'Debe tener al menos un pesticida');
   shape.insecticideSent = Yup.array().of(insecticideSchema);
   shape.stickerSent = Yup.array().of(stickerSchema);
   shape.sheetSent = Yup.array().of(sheetSchema);
@@ -596,7 +596,7 @@ const SentMaterialsExportForm = ({
             colorPalette='green'
             loading={isLoading}
           >
-            Enviar
+            Registrar envío
           </Button></FormActions>
         </Flex>
       </Form>

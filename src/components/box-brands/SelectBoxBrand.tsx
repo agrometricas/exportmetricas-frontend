@@ -42,7 +42,7 @@ const SelectBoxBrand: React.FC<SelectBoxBrandProps> = ({
         <InputFieldBoxBrandSelect
           name={name}
           label={'Marca de caja'}
-          placeholder={'Seleccione la marca'}
+          placeholder={'Selecciona la marca'}
           setBoxBrand={setBoxBrand}
         />
 

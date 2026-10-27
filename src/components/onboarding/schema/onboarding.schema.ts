@@ -131,7 +131,7 @@ const businessSchema = Yup.object().shape({
         .required('Ciudad es requerida'),
     certificates: Yup.array()
         .of(Yup.number().typeError('Certificado inválido'))
-        .min(1, 'Debe seleccionar al menos un certificado')
+        .min(1, 'Selecciona al menos un certificado')
         .required('Los certificados son requeridos'),
     codeMAGAP: Yup.string()
         .min(5)

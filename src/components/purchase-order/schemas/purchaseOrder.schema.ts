@@ -60,8 +60,8 @@ export const isCompleteDay = (value: string): boolean =>
 
 export const validationSchema = Yup.object({
   merchantId: Yup.number()
-    .typeError('Seleccione el productor')
-    .required('Seleccione el productor'),
+    .typeError('Selecciona el productor')
+    .required('Selecciona el productor'),
   weekDay: Yup.string()
     .required('Requerido')
     .test(
@@ -74,11 +74,11 @@ export const validationSchema = Yup.object({
     .of(
       Yup.object({
         businessId: Yup.number()
-          .typeError('Seleccione la finca')
-          .required('Seleccione la finca'),
+          .typeError('Selecciona la finca')
+          .required('Selecciona la finca'),
         boxBrandId: Yup.number()
-          .typeError('Seleccione la alícuota')
-          .required('Seleccione la alícuota'),
+          .typeError('Selecciona la alícuota')
+          .required('Selecciona la alícuota'),
         boxQuantity: Yup.string()
           .required('Requerido')
           .matches(/^\d+$/, 'Debe ser un número entero')

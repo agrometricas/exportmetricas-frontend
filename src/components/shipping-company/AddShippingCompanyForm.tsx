@@ -49,7 +49,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                 name={'cargoType'}
                 label={'Tipo de Carga'}
                 options={CargoTypeOpt}
-                placeholder='Seleccione el tipo de carga'
+                placeholder='Selecciona el tipo de carga'
               />
               <InputFieldText
                 name='trackingPlatform'
@@ -59,7 +59,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
               <InputFieldCountrySelect
                 name={'countryId'}
                 label={'País'}
-                placeholder={'Seleccione el país'}
+                placeholder={'Selecciona el país'}
               />
             </SimpleGrid>
 

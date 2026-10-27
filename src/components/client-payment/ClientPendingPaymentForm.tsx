@@ -200,7 +200,7 @@ const ClientPendingPaymentFields = ({
           loading={isSubmitting}
           disabled={!isSettled}
         >
-          Enviar
+          Registrar cobro
         </Button></FormActions>
     </Flex>
   );

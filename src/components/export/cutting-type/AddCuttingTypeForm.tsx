@@ -194,7 +194,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name='quality'
                   label='Calidad'
-                  placeholder='Seleccione la calidad'
+                  placeholder='Selecciona la calidad'
                   options={(options?.qualities ?? []).map((quality) => ({
                     id: quality,
                     name: quality,
@@ -289,7 +289,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name={'firstLine'}
                   label={'Primera Línea '}
-                  placeholder='Seleccione el Diseño de la Primera Línea'
+                  placeholder='Selecciona el Diseño de la Primera Línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -300,7 +300,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name={'secondLine'}
                   label={'Segunda Línea '}
-                  placeholder='Seleccione el Diseño de la Segunda Línea'
+                  placeholder='Selecciona el Diseño de la Segunda Línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -311,7 +311,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name={'thirdLine'}
                   label={'Tercera Línea '}
-                  placeholder='Seleccione el Diseño de la Tercera Línea'
+                  placeholder='Selecciona el Diseño de la Tercera Línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -322,7 +322,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name={'fourthLine'}
                   label={'Cuarta Línea '}
-                  placeholder='Seleccione el Diseño de la Cuarta Línea'
+                  placeholder='Selecciona el Diseño de la Cuarta Línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -333,7 +333,7 @@ const AddCuttingTypeForm = ({
                 <InputFieldSelector
                   name={'packagingPattern'}
                   label={'Patrón de Empaque'}
-                  placeholder='Seleccione el Patrón de Empaque'
+                  placeholder='Selecciona el Patrón de Empaque'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -439,42 +439,42 @@ const AddCuttingTypeForm = ({
               <InputFieldPlain
                 name='palletDetail'
                 label='Detalle de los Pallets'
-                placeholder='Indique el Uso o Disposición de los Pallets'
+                placeholder='Indica el Uso o Disposición de los Pallets'
               />
               <InputFieldPlain
                 name='cornerProtectorsDetail'
                 label='Detalle de los Esquineros'
-                placeholder='Indique el Uso o Disposición de los Esquineros'
+                placeholder='Indica el Uso o Disposición de los Esquineros'
               />
               <InputFieldPlain
                 name='reinforcementsDetail'
                 label='Detalle de los Refuerzos'
-                placeholder='Indique el Uso o Disposición de los Refuerzos'
+                placeholder='Indica el Uso o Disposición de los Refuerzos'
               />
               <InputFieldPlain
                 name='plasticStrapsDetail'
                 label='Detalle de los Zunchos Plasticos'
-                placeholder='Indique el Uso o Disposición de los Zunchos Plasticos'
+                placeholder='Indica el Uso o Disposición de los Zunchos Plasticos'
               />
               <InputFieldPlain
                 name='staplesDetail'
                 label='Detalle de las Grapas'
-                placeholder='Indique el Uso o Disposición de las Grapas'
+                placeholder='Indica el Uso o Disposición de las Grapas'
               />
               <InputFieldPlain
                 name='blockingSheetsDetail'
                 label='Detalle de las Laminas de Bloqueo'
-                placeholder='Indique el Uso o Disposición de las Laminas de Bloqueo'
+                placeholder='Indica el Uso o Disposición de las Laminas de Bloqueo'
               />
               <InputFieldPlain
                 name='transportDetail'
                 label='Detalle del Termografo'
-                placeholder='Indique el Uso o Ubicación del Termografo'
+                placeholder='Indica el Uso o Ubicación del Termografo'
               />
               <InputFieldTextArea
                 name='generalObservations'
                 label='Observaciones Generales'
-                placeholder='Ingrese Cualquier Observación Adicional de Corte'
+                placeholder='Ingresa Cualquier Observación Adicional de Corte'
               />
               <FormActions>
                 <Button
@@ -483,7 +483,7 @@ const AddCuttingTypeForm = ({
                   loading={createLoading || updateLoading}
                   disabled={isSubmitting}
                 >
-                  {isEdit ? 'Guardar Cambios' : 'Enviar'}
+                  {isEdit ? 'Guardar cambios' : 'Crear tipo de corte'}
                 </Button>
               </FormActions>
             </Flex>

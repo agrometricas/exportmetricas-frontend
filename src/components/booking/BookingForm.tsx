@@ -56,7 +56,7 @@ export default function BookingForm({
               <InputFieldShippingCompanySelect
                 name='shippingCompanyId'
                 label='Naviera'
-                placeholder='Seleccione la naviera'
+                placeholder='Selecciona la naviera'
                 onSelect={() => {
                   setFieldValue('harborDepartureId', '');
                   setFieldValue('harborDestinationId', '');

@@ -127,7 +127,7 @@ export default function PurchaseOrderLineRow({
           {([field, , helpers]) => (
             <BusinessSelectBase
               field={field}
-              placeholder='Seleccione la finca'
+              placeholder='Selecciona la finca'
               merchant={merchant}
               onChange={(value) => helpers.setValue(value?.id ?? '')}
             />
@@ -137,7 +137,7 @@ export default function PurchaseOrderLineRow({
           {([field, , helpers]) => (
             <BoxBrandSelectBase
               field={field}
-              placeholder='Seleccione la alícuota'
+              placeholder='Selecciona la alícuota'
               onChange={(value) => helpers.setValue(value?.id ?? '')}
             />
           )}

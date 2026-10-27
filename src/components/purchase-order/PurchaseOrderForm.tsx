@@ -86,7 +86,7 @@ export default function PurchaseOrderForm({
                 <InputFieldProducerSelect
                   name='merchantId'
                   label='Productor'
-                  placeholder='Seleccione el productor'
+                  placeholder='Selecciona el productor'
                 />
               )}
               <InputFieldDayDate

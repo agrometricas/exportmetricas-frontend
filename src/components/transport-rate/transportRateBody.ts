@@ -20,11 +20,11 @@ const toAmount = (text: string): number =>
 
 export const validationSchema = Yup.object({
   transportId: Yup.number()
-    .typeError('Seleccione el transportista')
-    .required('Seleccione el transportista'),
+    .typeError('Selecciona el transportista')
+    .required('Selecciona el transportista'),
   provinceId: Yup.number()
-    .typeError('Seleccione la provincia')
-    .required('Seleccione la provincia'),
+    .typeError('Selecciona la provincia')
+    .required('Selecciona la provincia'),
   costPerContainer: Yup.string()
     .required('Requerido')
     .matches(MONEY, 'Monto inválido, máximo dos decimales')

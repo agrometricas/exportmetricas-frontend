@@ -39,7 +39,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
         <InputFieldClientSelect
           name={name}
           label={'Cliente'}
-          placeholder={'Seleccione el Cliente'}
+          placeholder={'Selecciona el Cliente'}
           setClient={setClient}
           harbor={harbor}
           isHarbor={isHarbor}

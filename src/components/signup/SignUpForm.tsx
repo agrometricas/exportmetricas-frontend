@@ -82,7 +82,7 @@ export default function SignUpForm(): React.JSX.Element {
 
       toaster.create({
         title: 'Registro exitoso',
-        description: 'Su cuenta ha sido creada.',
+        description: 'Tu cuenta quedó creada.',
         type: 'success',
         duration: 5000,
         closable: true,

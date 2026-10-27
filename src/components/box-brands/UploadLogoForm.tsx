@@ -98,7 +98,7 @@ const UploadLogoForm = (): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Seleccione la Marca de Caja</FormSectionTitle>
+            <FormSectionTitle>Selecciona la Marca de Caja</FormSectionTitle>
             <SelectBoxBrand name={'boxBrandId'} />
 
             <FormSectionTitle>Subir Logo</FormSectionTitle>

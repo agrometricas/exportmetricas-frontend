@@ -355,7 +355,7 @@ const PendingPaymentFields = ({
           loading={isSubmitting}
           disabled={!isSettled}
         >
-          Enviar
+          Registrar pago
         </Button></FormActions>
     </Flex>
   );

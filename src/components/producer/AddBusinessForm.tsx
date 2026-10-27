@@ -31,7 +31,7 @@ export default function AddBusinessForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Seleccione el Productor</FormSectionTitle>
+            <FormSectionTitle>Selecciona el Productor</FormSectionTitle>
             <SelectProducer name={'merchant'} />
 
             <FormSectionTitle>Finca</FormSectionTitle>
@@ -60,25 +60,25 @@ export default function AddBusinessForm(): React.JSX.Element {
               <InputFieldCountrySelect
                 name={'countryId'}
                 label={'País'}
-                placeholder={'Seleccione el país'}
+                placeholder={'Selecciona el país'}
               />
               <InputFieldProvinceSelect
                 name={'provinceId'}
                 label={'Provincia'}
-                placeholder={'Seleccione la provincia'}
+                placeholder={'Selecciona la provincia'}
                 countryId={values.countryId || undefined}
               />
               <InputFieldCitySelect
                 name={'cityId'}
                 label={'Ciudad'}
-                placeholder={'Seleccione la ciudad'}
+                placeholder={'Selecciona la ciudad'}
                 provinceId={values.provinceId || undefined}
               />
               <InputFieldText name={'address'} label={'Dirección'} />
               <InputFieldCertificateMultiSelect
                 name={'certificates'}
                 label={'Certificados'}
-                placeholder='Seleccione certificados'
+                placeholder='Selecciona certificados'
               />
               <InputFieldNumber
                 name={'latitude'}
@@ -179,7 +179,7 @@ export default function AddBusinessForm(): React.JSX.Element {
 
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                Enviar
+                Crear finca
               </Button>
             </FormActions>
           </Flex>

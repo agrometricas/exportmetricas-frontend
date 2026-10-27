@@ -367,7 +367,7 @@ export default function BookingDocuments({
                   <InputFieldSelector
                     name='type'
                     label='Tipo'
-                    placeholder='Seleccione el tipo'
+                    placeholder='Selecciona el tipo'
                     options={types.map(({ type, label }) => ({
                       id: type,
                       name: label,

@@ -17,7 +17,7 @@ const SelectExport: React.FC<SelectExportProps> = ({ name }) => {
       <InputFieldExportSelect
         name={name}
         label={'Exportación'}
-        placeholder={'Seleccione la exportación'}
+        placeholder={'Selecciona la exportación'}
         setExport={setExportSelected}
       />
       <Box>

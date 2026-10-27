@@ -43,18 +43,18 @@ const AddHarborForm: React.FC = () => {
               <InputFieldCountrySelect
                 name='countryId'
                 label='País'
-                placeholder='Seleccione el país'
+                placeholder='Selecciona el país'
               />
               <InputFieldProvinceSelect
                 name='provinceId'
                 label='Provincia'
-                placeholder='Seleccione la provincia'
+                placeholder='Selecciona la provincia'
                 countryId={values.countryId || undefined}
               />
               <InputFieldCitySelect
                 name='cityId'
                 label='Ciudad'
-                placeholder='Seleccione la ciudad'
+                placeholder='Selecciona la ciudad'
                 provinceId={values.provinceId || undefined}
               />
               <InputFieldText name='location' label='Ubicación' />
@@ -109,7 +109,7 @@ const AddHarborForm: React.FC = () => {
                 { value: 'Sabado', label: 'Sábado' },
                 { value: 'Domingo', label: 'Domingo' },
               ]}
-              placeholder='Seleccione los días de operación'
+              placeholder='Selecciona los días de operación'
             />
 
             <FormSectionTitle>Contactos</FormSectionTitle>
@@ -169,7 +169,7 @@ const AddHarborForm: React.FC = () => {
 
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                Enviar
+                Crear puerto
               </Button>
             </FormActions>
           </Flex>

@@ -35,7 +35,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
         <InputFieldProducerSelect
           name={name}
           label="Productor/Razón Social"
-          placeholder="Seleccione el productor"
+          placeholder="Selecciona el productor"
           setProducer={setProducer}
         />
         <Box>

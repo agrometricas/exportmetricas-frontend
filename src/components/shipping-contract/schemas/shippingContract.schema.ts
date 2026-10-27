@@ -62,7 +62,7 @@ const harbor = (message: string): Yup.NumberSchema =>
   Yup.number().typeError(message).required(message);
 
 export const validationSchema = Yup.object({
-  shippingCompanyId: harbor('Seleccione la naviera'),
+  shippingCompanyId: harbor('Selecciona la naviera'),
   reference: Yup.string().max(60, 'Máximo 60 caracteres'),
   startDate: Yup.string()
     .required('Requerido')
@@ -83,8 +83,8 @@ export const validationSchema = Yup.object({
   routes: Yup.array()
     .of(
       Yup.object({
-        harborDepartureId: harbor('Seleccione el puerto de salida'),
-        harborDestinationId: harbor('Seleccione el puerto de destino'),
+        harborDepartureId: harbor('Selecciona el puerto de salida'),
+        harborDestinationId: harbor('Selecciona el puerto de destino'),
         costPerContainer: Yup.string()
           .required('Requerido')
           .matches(MONEY, 'Monto inválido, máximo dos decimales')
@@ -98,5 +98,5 @@ export const validationSchema = Yup.object({
           .test('positivo', 'Debe ser mayor que 0', (v) => !v || Number(v) > 0),
       })
     )
-    .min(1, 'Agregue al menos una ruta'),
+    .min(1, 'Agrega al menos una ruta'),
 });

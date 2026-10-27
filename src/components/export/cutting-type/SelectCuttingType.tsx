@@ -37,7 +37,7 @@ const SelectCuttingType: React.FC<SelectCuttingTypeProps> = ({
         <InputFieldCuttingTypeSelect
           name={name}
           label={'Tipo de Corte'}
-          placeholder={'Seleccione el Tipo de Corte'}
+          placeholder={'Selecciona el Tipo de Corte'}
           setCuttingType={setCuttingType}
         />
         <Box>

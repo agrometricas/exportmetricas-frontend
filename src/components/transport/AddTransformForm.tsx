@@ -52,7 +52,7 @@ const AddTransportForm: React.FC = () => {
               <InputFieldCertificationMultiSelect
                 name='certifications'
                 label='Certificaciones'
-                placeholder='Seleccione los certificados'
+                placeholder='Selecciona los certificados'
               />
               <CheckboxForm
                 name='satelliteTracking'

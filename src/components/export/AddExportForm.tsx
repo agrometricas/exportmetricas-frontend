@@ -229,7 +229,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 <InputFieldShippingCompanySelect
                   name='shippingCompanyId'
                   label='Naviera'
-                  placeholder='Seleccione una Naviera'
+                  placeholder='Selecciona una Naviera'
                   onSelect={() => {
                     setFieldValue('departureHarborId', '');
                     setFieldValue('destinationHarborId', '');
@@ -306,7 +306,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             </SimpleGrid>
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                {editing ? 'Guardar cambios' : 'Enviar'}
+                {editing ? 'Guardar cambios' : 'Crear exportación'}
               </Button>
             </FormActions>
           </Flex>

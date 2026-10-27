@@ -80,7 +80,7 @@ export const validationSchema = Yup.object({
           .required('Tiempo estimado requerido'),
       })
     )
-    .min(1, 'Debe ingresar al menos un par de puertos')
+    .min(1, 'Ingresa al menos un par de puertos')
     .required('Requerido'),
   contacts: Yup.array()
     .of(
@@ -104,6 +104,6 @@ export const validationSchema = Yup.object({
           .required('Requerido'),
       })
     )
-    .min(1, 'Debe ingresar al menos un contacto')
+    .min(1, 'Ingresa al menos un contacto')
     .required('Requerido'),
 });

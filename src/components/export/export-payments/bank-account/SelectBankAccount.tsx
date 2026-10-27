@@ -37,7 +37,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       <InputFieldBankAccountSelect
         name={name}
         label={label ? label : 'Productor/Razón Social'}
-        placeholder={'Seleccione el productor'}
+        placeholder={'Selecciona el productor'}
         setBankAccount={setBankAccount}
       />
 

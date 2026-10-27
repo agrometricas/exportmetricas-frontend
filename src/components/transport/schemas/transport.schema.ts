@@ -67,6 +67,6 @@ export const validationSchema = Yup.object({
         .required('Requerido'),
     certifications: Yup.array()
         .of(Yup.number().required('Requerido'))
-        .min(1, 'Debe seleccionar al menos una certificación')
+        .min(1, 'Selecciona al menos una certificación')
         .required('Requerido'),
 });

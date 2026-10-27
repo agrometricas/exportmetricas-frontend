@@ -122,7 +122,7 @@ export const validationSchema = Yup.object({
     longitude: Yup.number().min(-180, 'Debe ser al menos -180').max(180, 'Debe ser como máximo 180').notRequired(),
     certificates: Yup.array()
         .of(Yup.number().typeError('Certificado inválido'))
-        .min(1, 'Debe seleccionar al menos un certificado')
+        .min(1, 'Selecciona al menos un certificado')
         .required('Los certificados son requeridos'),
     businessCodes: Yup.array().of(businessCodeSchema).min(1, 'Debe tener al menos un código'),
     contacts: Yup.array().of(contactSchema).min(1, 'Debe tener al menos un contacto'),

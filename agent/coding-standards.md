@@ -154,6 +154,11 @@ the backend proposes.
   straight into its card: the page title already names it. A page does not build
   its own wrapper or set `minH='100vh'`: the scroll area under the app bar is
   shorter than the viewport, so the page would always scroll.
+- UI copy is in Spanish and addresses the user as *tú*: "Selecciona la
+  finca", not "Seleccione". A validation message talks about the field
+  ("Debe ser mayor que 0") or tells the user what to do ("Selecciona al
+  menos un puerto"). A submit button says what it does ("Crear finca",
+  "Registrar pago"), never "Enviar".
 - A form section opens with `FormSectionTitle` (`FormSubsectionTitle` below
   it), and the submit goes in `FormActions` (`components/ui/form/FormSection.tsx`),
   which stays in view at the bottom of a long form. The review checkbox goes in

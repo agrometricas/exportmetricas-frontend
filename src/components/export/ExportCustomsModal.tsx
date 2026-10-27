@@ -183,7 +183,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
                         <InputFieldSelector
                           name='daeChannel'
                           label='Canal de Aforo'
-                          placeholder='Seleccione el canal'
+                          placeholder='Selecciona el canal'
                           options={CUSTOMS_CHANNEL_OPTIONS}
                         />
                         <InputFieldPlain
