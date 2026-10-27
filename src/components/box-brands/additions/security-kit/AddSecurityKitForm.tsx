@@ -83,7 +83,7 @@ const AddSecurityKitForm = ({
             queryKey: ['securityKits'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

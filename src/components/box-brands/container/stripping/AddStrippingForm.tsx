@@ -113,7 +113,7 @@ const AddStrippingForm = ({
             queryKey: ['strippings'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

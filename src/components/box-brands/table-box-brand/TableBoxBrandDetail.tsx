@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -60,7 +59,6 @@ const TableBoxBrandDetail = ({
         enableHiding: false,
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

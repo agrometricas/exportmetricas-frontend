@@ -83,7 +83,7 @@ const AddContainerSealPlasticForm = ({
             queryKey: ['containerSealPlastics'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

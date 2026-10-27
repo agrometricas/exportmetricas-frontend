@@ -99,7 +99,7 @@ const AddStapleForm = ({ onClose }: AddStapleFormProps): React.JSX.Element => {
             queryKey: ['staples'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

@@ -89,7 +89,7 @@ export default function SignUpForm(): React.JSX.Element {
       });
 
       router.push('/auth/signin');
-    } catch (error) {
+    } catch {
       toaster.create({
         title: 'Error de conexión',
         description: 'No se pudo conectar al servidor.',

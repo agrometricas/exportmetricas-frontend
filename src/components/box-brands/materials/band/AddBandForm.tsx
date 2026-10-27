@@ -103,7 +103,7 @@ const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
             queryKey: ['bands'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

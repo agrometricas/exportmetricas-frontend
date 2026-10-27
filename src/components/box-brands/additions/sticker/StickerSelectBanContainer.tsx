@@ -56,7 +56,7 @@ const SelectStickerBanContainer = ({
         {({ push, remove }) => (
           <>
             {stickers.map((_sticker, index) => {
-              isBan && remove(index);
+              if (isBan) remove(index);
 
               return (
                 <div key={index}>

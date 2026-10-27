@@ -32,13 +32,12 @@ const validationSchema = Yup.object({
 
 export default function SignInForm(props: Props): React.JSX.Element {
   const signin = async (values: ValuesProps): Promise<void> => {
-    const res = await signIn('credentials', {
+    await signIn('credentials', {
       username: values.email,
       password: values.password,
       redirect: true,
       callbackUrl: props.callbackUrl ?? `${env.NEXT_PORTAL_URL}/dashboard`,
     });
-    res;
   };
 
   return (

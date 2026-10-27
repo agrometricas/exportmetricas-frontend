@@ -79,7 +79,6 @@ const UpdateExporterForm = ({
     values: ValuesProps,
     formikHelpers: FormikHelpers<ValuesProps>
   ): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { ...exporterData } = values;
 
     try {

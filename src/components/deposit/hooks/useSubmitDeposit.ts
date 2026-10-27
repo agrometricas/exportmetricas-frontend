@@ -23,7 +23,7 @@ export function useSubmitDeposit(): {
         formikHelpers: FormikHelpers<ValuesProps>
     ): Promise<void> => {
         const { is24Hours, countryId, provinceId, ...depositData } = values;
-        void is24Hours, countryId, provinceId;
+        void [is24Hours, countryId, provinceId];
         createDeposit(
             {
                 ...depositData,

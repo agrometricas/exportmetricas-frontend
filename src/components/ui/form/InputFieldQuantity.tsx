@@ -49,7 +49,6 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
 
   useBanChange(isBan?.state, () => {
     if (!!isBan) {
-      field.onChange;
       if (isBan.state) {
         field.value = 0;
         helpers.setValue(Number(0));

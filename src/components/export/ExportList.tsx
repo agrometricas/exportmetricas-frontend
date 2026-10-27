@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Badge, Box, Button, Heading, VStack } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';

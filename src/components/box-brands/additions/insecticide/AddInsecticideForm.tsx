@@ -118,7 +118,7 @@ const AddInsecticideForm = ({
             queryKey: ['insecticides'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

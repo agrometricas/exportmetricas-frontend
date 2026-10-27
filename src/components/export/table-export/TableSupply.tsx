@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   MaterialReactTable,
   MRT_ColumnDef,
@@ -46,7 +45,6 @@ const TableSupply = ({ details }: props): React.JSX.Element => {
         enableHiding: false,
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
