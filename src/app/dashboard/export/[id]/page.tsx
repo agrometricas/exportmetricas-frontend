@@ -1,7 +1,7 @@
 'use client';
 import { Box, Card, Grid, SimpleGrid, Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
-import React, { useCallback, useRef, useState } from 'react';
+import React from 'react';
 import { MdOutlineLocalShipping } from 'react-icons/md';
 import { PageLayout } from '@/components/ui/page/PageLayout';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -12,22 +12,6 @@ import { useExportProgress } from '../../../../hooks/export/exportProgress';
 import { useExport } from '../../../../hooks/export/getExport';
 import { ExportProgress } from '../../../../types/exportProgress';
 import { formatDayMonthYear } from '../../../../utils/dayMonthYear';
-
-// A callback ref: the measured box only exists once the export has loaded,
-// after the first render.
-function useWidth(): [(node: HTMLDivElement | null) => void, number] {
-  const [width, setWidth] = useState(0);
-  const observer = useRef<ResizeObserver | null>(null);
-  const ref = useCallback((node: HTMLDivElement | null) => {
-    observer.current?.disconnect();
-    if (!node) return;
-    observer.current = new ResizeObserver(([entry]) =>
-      setWidth(Math.floor(entry.contentRect.width))
-    );
-    observer.current.observe(node);
-  }, []);
-  return [ref, width];
-}
 
 function Fact({
   label,
@@ -53,7 +37,6 @@ function ExportFilePage(): React.JSX.Element {
   const { data: exportItem, isLoading } = useExport({ exportId: id });
   const { data: progressData } = useExportProgress(id);
   const progress = progressData as ExportProgress | undefined;
-  const [detailRef, detailWidth] = useWidth();
 
   return (
     <PageLayout
@@ -111,14 +94,7 @@ function ExportFilePage(): React.JSX.Element {
                 <Text as='h2' textStyle='h3' color='fg.heading' mb={3}>
                   Detalle
                 </Text>
-                <Box ref={detailRef}>
-                  {detailWidth > 0 && (
-                    <DetailExport
-                      data={exportItem}
-                      width={{ sm: detailWidth, md: detailWidth }}
-                    />
-                  )}
-                </Box>
+                <DetailExport data={exportItem} />
               </Card.Body>
             </Card.Root>
           </Grid>

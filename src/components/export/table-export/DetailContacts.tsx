@@ -4,22 +4,12 @@ import { ContactType } from '../../../types/merchant/contact';
 
 const DetailContacts = ({
   businessContacts,
-  width,
 }: {
   businessContacts: Partial<ContactType>[];
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <>
-      <SimpleGrid
-        columns={4}
-        gap={0}
-        mb={'5px'}
-        width={{
-          sm: Number(width.sm) - 92,
-          md: Number(width.md) - 92,
-        }}
-      >
+      <SimpleGrid columns={4} gap={0} mb={'5px'}>
         <Heading fontSize={'md'} fontWeight={'bold'}>
           Nombre:{' '}
         </Heading>
@@ -34,15 +24,7 @@ const DetailContacts = ({
         </Heading>
       </SimpleGrid>
       {businessContacts.map((contact, index) => (
-        <SimpleGrid
-          key={index}
-          columns={4}
-          gap={0}
-          width={{
-            sm: Number(width.sm) - 92,
-            md: Number(width.md) - 92,
-          }}
-        >
+        <SimpleGrid key={index} columns={4} gap={0}>
           <Text as={'span'} fontWeight={'normal'} display={'block'}>
             {contact.name}
           </Text>

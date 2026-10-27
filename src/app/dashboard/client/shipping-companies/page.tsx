@@ -8,7 +8,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdDirectionsBoat } from 'react-icons/md';
 import { PageLayout } from '@/components/ui/page/PageLayout';
@@ -17,41 +17,12 @@ import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import SectionTabs from '../../../../components/ui/SectionTabs';
 import { LOGISTICS_TABS } from '../../../../components/ui/sidenav/navMenus';
 
-interface WindowSizeProps {
-  width: number | null;
-  height: number | null;
-}
-
 function ShippingCompaniesPage(): React.JSX.Element {
-  const [windowSize, setWindowSize] = useState<WindowSizeProps>({
-    width: null,
-    height: null,
-  });
-
-  useEffect(() => {
-    function handleResize(): void {
-      setWindowSize({
-        width: typeof window !== 'undefined' ? window.innerWidth : null,
-        height: typeof window !== 'undefined' ? window.innerHeight : null,
-      });
-    }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      handleResize();
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, []);
-
   const isMobile = useBreakpointValue({ base: true, md: false });
   const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
     base: 'sm',
     md: 'md',
   });
-
-  const tableWidth = {
-    sm: Number(windowSize.width) - 20,
-    md: Number(windowSize.width) - 300,
-  };
 
   return (
     <PageLayout
@@ -92,10 +63,7 @@ function ShippingCompaniesPage(): React.JSX.Element {
         <Card.Body p={0}>
           <Box>
             <Center>
-              <TableShippingCompanies
-                windowSize={windowSize}
-                width={tableWidth}
-              />
+              <TableShippingCompanies />
             </Center>
           </Box>
         </Card.Body>

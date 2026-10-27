@@ -6,10 +6,8 @@ import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 export default function DetailExportSentConfirmedCost({
   item,
-  width,
 }: {
   item: ExportSentConfirmedCost;
-  width: { sm: number; md: number };
 }): JSX.Element {
   const { export: exportData } = item;
 
@@ -17,14 +15,14 @@ export default function DetailExportSentConfirmedCost({
     <Accordion.Root defaultValue={['0', '1']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Información General de la Exportación
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap={4}>
               <Box>
                 <Text fontWeight='bold'>ID Exportación:</Text>
@@ -79,14 +77,14 @@ export default function DetailExportSentConfirmedCost({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalle de Materiales Utilizados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             {item.exportSentMaterials.length === 0 ? (
               <Text color='fg.muted'>
                 No se registraron materiales utilizados.

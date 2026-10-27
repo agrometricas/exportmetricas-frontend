@@ -4,26 +4,21 @@ import { ShippingCompanyResponse } from '../../../types/shippingCompany.response
 
 const DetailShippingCompanies = ({
   company,
-  width,
 }: {
   company: ShippingCompanyResponse;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles Generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>Nombre:</strong> {company.name}
@@ -50,17 +45,14 @@ const DetailShippingCompanies = ({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Puertos Asociados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             {company.harbors.map((harbor, index) => (
               <Box key={index} mt={3} borderBottomWidth='1px' pb={2}>
@@ -83,17 +75,14 @@ const DetailShippingCompanies = ({
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Contactos
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             {company.contacts.map((contact, index) => (
               <Box key={index} mt={3}>

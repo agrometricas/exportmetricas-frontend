@@ -14,10 +14,8 @@ import {
 
 const DetailExportSent = ({
   exportSent,
-  width,
 }: {
   exportSent: ExportSentType;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   const { export: ex } = exportSent;
 
@@ -25,17 +23,14 @@ const DetailExportSent = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Información Comercial del Exportador y Comerciante
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Nombre del Comerciante:</strong>{' '}
@@ -68,17 +63,14 @@ const DetailExportSent = ({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles del Producto
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Marca de Cajas:</strong> {ex.boxBrand.name}
@@ -103,17 +95,14 @@ const DetailExportSent = ({
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Materiales y Embalaje Enviados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <p>
@@ -226,17 +215,14 @@ const DetailExportSent = ({
 
       <Accordion.Item value='item-3'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Insumos Post Cosecha
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <p>
@@ -268,17 +254,14 @@ const DetailExportSent = ({
 
       <Accordion.Item value='item-4'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Logística de Envío
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <p>

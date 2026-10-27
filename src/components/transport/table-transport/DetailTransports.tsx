@@ -4,17 +4,14 @@ import { TransportResponse } from '../../../types/transport/transport.response';
 
 interface DetailTransportsProps {
   transport: TransportResponse;
-  width: { sm: number; md: number };
 }
 
-const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width }) => {
+const DetailTransports: React.FC<DetailTransportsProps> = ({ transport }) => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Detalles Generales
@@ -22,7 +19,7 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width })
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Text><strong>Nombre:</strong> {transport.name}</Text>
             <Text><strong>RUC:</strong> {transport.ruc}</Text>
             <Text><strong>Dirección:</strong> {transport.address}</Text>
@@ -34,8 +31,6 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width })
         <Accordion.Item value='item-1'>
           <Heading>
             <Accordion.ItemTrigger
-              pl="60px"
-              width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
             >
               <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
                 Certificaciones
@@ -43,7 +38,7 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width })
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
               {transport.transportCertifications.map((cert, i) => (
                 <Text key={i}>• {cert.certification.name}</Text>
               ))}
@@ -55,8 +50,6 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width })
         <Accordion.Item value='item-2'>
           <Heading>
             <Accordion.ItemTrigger
-              pl="60px"
-              width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
             >
               <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
                 Contactos
@@ -64,7 +57,7 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width })
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
               {transport.contacts.map((contact, i) => (
                 <Box key={i} mb={3}>
                   <Text><strong>Nombre:</strong> {contact.name}</Text>

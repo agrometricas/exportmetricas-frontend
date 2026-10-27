@@ -15,9 +15,8 @@ import {
 } from '../../../utils/documentStatus';
 interface DetailExportsProps {
   data: ExportResponse;
-  width: { sm: number; md: number };
 }
-const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
+const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
   const renderContacts = (contacts: any[]): React.JSX.Element[] =>
     contacts.map((c, i) => (
       <Box key={i} mb={2}>
@@ -39,7 +38,6 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
         <Alert.Root
           status='error'
           variant='subtle'
-          width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
           borderStartWidth='3px'
           borderStartColor='colorPalette.solid'
         >
@@ -54,9 +52,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
       )}
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Detalles Generales</strong>
             </Box>
@@ -117,9 +113,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Productor y Finca</strong>
             </Box>
@@ -152,9 +146,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Cliente</strong>
             </Box>
@@ -181,9 +173,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-3'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Puerto</strong>
             </Box>
@@ -206,9 +196,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-4'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Materiales y Marca de Caja</strong>
             </Box>
@@ -232,9 +220,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-5'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Transporte y Logística</strong>
             </Box>
@@ -262,9 +248,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-6'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Depósito</strong>
             </Box>
@@ -292,9 +276,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
 
       <Accordion.Item value='item-7'>
         <Heading>
-          <Accordion.ItemTrigger
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
               <strong>Verificadora</strong>
             </Box>

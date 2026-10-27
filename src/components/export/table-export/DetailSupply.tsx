@@ -12,16 +12,12 @@ import {
 interface props {
   boxBrand: Partial<BoxBrandType>;
   supply: Partial<ExportSentType>;
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
   pendingSent: boolean;
 }
 
 const DetailSupply = ({
   boxBrand,
   supply,
-  width,
-  windowSize,
   pendingSent,
 }: props): React.JSX.Element | undefined => {
   const convertToArray = ({
@@ -115,9 +111,9 @@ const DetailSupply = ({
   });
 
   return (
-    <Box p={'16px'} width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+    <Box p={'16px'}>
       <VStack gap={4} pl={'20px'} alignItems={'start'} width={'100%'}>
-        <TableSupply details={list} width={width} windowSize={windowSize} />
+        <TableSupply details={list} />
       </VStack>
     </Box>
   );

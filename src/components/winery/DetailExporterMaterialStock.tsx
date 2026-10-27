@@ -4,10 +4,8 @@ import { MATERIAL_TYPE_LABELS } from '../../utils/materialTypeLabels';
 
 export default function DetailExporterMaterialStock({
   material,
-  width,
 }: {
   material: ExporterMaterialStock;
-  width: { sm: number; md: number };
 }): JSX.Element {
   const {
     materialType,
@@ -22,17 +20,14 @@ export default function DetailExporterMaterialStock({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles del Material
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pl='60px' pb={4}>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Nombre Comercial:</strong> {materialDetail.name}

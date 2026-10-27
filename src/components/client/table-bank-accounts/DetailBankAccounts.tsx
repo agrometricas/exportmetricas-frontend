@@ -3,23 +3,21 @@ import { BankAccountResponse } from '../../../types/bankAccount.response';
 
 const DetailBankAccounts = ({
   account,
-  width,
 }: {
   account: BankAccountResponse;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Información de Cuenta
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Text><strong>Banco:</strong> {account.bank}</Text>
             <Text><strong>Propietario:</strong> {account.owner}</Text>
             <Text><strong>ID Propietario:</strong> {account.ownerID}</Text>
@@ -31,14 +29,14 @@ const DetailBankAccounts = ({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Información de Entidad Asociada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             {account.client && (
               <>
                 <Text><strong>Tipo:</strong> Cliente</Text>
