@@ -1049,7 +1049,7 @@ function CopyFromBoxBrand({
   onCopied: (shown: string[]) => void;
 }): React.JSX.Element | null {
   const { values, setValues } = useFormikContext<ValuesProps>();
-  const { data } = useBoxBrands({ search: '', page: 1, limit: 10 });
+  const { data } = useBoxBrands();
   const [isCopying, setIsCopying] = useState(false);
   const boxBrands = (data ?? []) as BoxBrandType[];
   if (boxBrands.length === 0) return null;

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useMiniPallets } from '@/hooks/box-brand/materials/minipallet/getMiniPallets';
-import { usePagination } from '@/hooks/usePagination';
 import { MiniPalletType } from '@/types/box-brand/materials/minipallet';
 
 interface MiniPalletSelectBaseProps {
@@ -73,8 +72,7 @@ const MiniPalletSelectBase: React.FC<MiniPalletSelectBaseProps> = ({
   setMiniPallet,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useMiniPallets(paginationParams);
+  const { data, isLoading, error } = useMiniPallets();
   const router = useRouter();
 
   useEffect(() => {

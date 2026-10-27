@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useProtectors } from '../../../../hooks/box-brand/materials/protector/getProtectors';
-import { usePagination } from '../../../../hooks/usePagination';
 import { ProtectorType } from '../../../../types/box-brand/materials/protector';
 
 interface ProtectorSelectBaseProps {
@@ -75,8 +74,7 @@ const ProtectorSelectBase: React.FC<ProtectorSelectBaseProps> = ({
   setProtector,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useProtectors(paginationParams);
+  const { data, isLoading, error } = useProtectors();
   const router = useRouter();
 
   useEffect(() => {
@@ -131,10 +129,6 @@ const ProtectorSelectBase: React.FC<ProtectorSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={protectorComponents}
     />
   );

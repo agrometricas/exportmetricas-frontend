@@ -10,14 +10,12 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
-import { usePagination } from '@/hooks/usePagination';
 import DetailProducers from './DetailProducers';
 import { useMerchants } from '../../../hooks/merchants/getMerchants';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
 const TableProducers = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useMerchants(paginationParams);
+  const { data = [], error } = useMerchants();
   const router = useRouter();
 
   useEffect(() => {

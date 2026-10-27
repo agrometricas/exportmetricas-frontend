@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBlockingSheets } from '../../../../hooks/box-brand/additions/blocking-sheet/getBlockingSheets';
-import { usePagination } from '../../../../hooks/usePagination';
 import { BlockingSheetType } from '../../../../types/box-brand/additions/blockingSheet';
 
 interface BlockingSheetSelectBaseProps {
@@ -75,8 +74,7 @@ const BlockingSheetSelectBase: React.FC<BlockingSheetSelectBaseProps> = ({
   setBlockingSheet,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useBlockingSheets(paginationParams);
+  const { data, isLoading, error } = useBlockingSheets();
   const router = useRouter();
 
   useEffect(() => {
@@ -134,10 +132,6 @@ const BlockingSheetSelectBase: React.FC<BlockingSheetSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={blockingSheetComponents}
     />
   );

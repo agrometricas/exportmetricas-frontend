@@ -10,12 +10,10 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailDeposits from './DetailDeposits';
 import { useDeposits } from '../../../hooks/deposit/getDeposits';
-import { usePagination } from '../../../hooks/usePagination';
 import { DepositResponse } from '../../../types/deposit/deposit.response';
 
 const TableDeposits = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useDeposits(paginationParams);
+  const { data = [], error } = useDeposits();
   const router = useRouter();
 
   useEffect(() => {

@@ -16,19 +16,16 @@ export function useNotifications(): {
   isLoading: boolean;
 } {
   const { data: cuttingSheets, isLoading: isLoadingCuttingSheets } =
-    useCuttingSheetsPending({ page: 1, limit: 10 });
-  const { data: supplies, isLoading: isLoadingSupplies } = useExportsPending({
-    page: 1,
-    limit: 10,
-  });
+    useCuttingSheetsPending();
+  const { data: supplies, isLoading: isLoadingSupplies } = useExportsPending();
   const { data: payments, isLoading: isLoadingPayments } =
-    useExportsSentPending({ page: 1, limit: 10 });
+    useExportsSentPending();
   const { data: clientPayments, isLoading: isLoadingClientPayments } =
-    useClientPaymentsPending({ page: 1, limit: 10 });
+    useClientPaymentsPending();
   const {
     data: exportSentCostsPendingData,
     isLoading: isExportSentCostsPendingLoading,
-  } = useExportSentCostsPending({ page: 1, limit: 1 });
+  } = useExportSentCostsPending();
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const isLoading =

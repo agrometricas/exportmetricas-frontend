@@ -13,7 +13,6 @@ import { FieldInputProps } from 'formik';
 import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBrands } from '@/hooks/box-brand/specifications/brand/getBrands';
-import { usePagination } from '@/hooks/usePagination';
 import { BrandType } from '@/types/box-brand/specifications/brand';
 
 const chakraStyles: ChakraStylesConfig<
@@ -59,8 +58,7 @@ const BrandSelectBase: React.FC<{
   field?: FieldInputProps<any>;
   placeholder: string;
 }> = ({ setBrand, onChange, field, placeholder, name }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading } = useBrands(paginationParams);
+  const { data, isLoading } = useBrands();
 
   const handleChange = (newValue: SingleValue<BrandType>): void => {
     if (setBrand) setBrand(newValue as BrandType);
@@ -92,10 +90,6 @@ const BrandSelectBase: React.FC<{
           : undefined
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={brandComponents}
     />
   );

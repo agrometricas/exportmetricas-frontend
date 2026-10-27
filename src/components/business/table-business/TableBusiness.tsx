@@ -12,12 +12,10 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBusiness from './DetailBusiness';
 import { useBusinesses } from '../../../hooks/business/getAllBusiness';
-import { usePagination } from '../../../hooks/usePagination';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
 const TableBusiness = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useBusinesses(paginationParams);
+  const { data = [], error } = useBusinesses();
   const router = useRouter();
 
   useEffect(() => {

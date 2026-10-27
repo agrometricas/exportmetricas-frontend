@@ -63,11 +63,9 @@ the backend proposes.
   the options it needs (`...tableOptions` in `useMaterialReactTable`). Those
   tables do not sort: sorting one page in the browser would hide the rest. Do
   not look a row up in a paged list; ask for it by id.
-- Every other list comes whole from the backend, which ignores `search`,
-  `page` and `limit`; those tables paginate and filter in the browser.
-- `usePagination()` returns a new `paginationParams` object on every render.
-  Never list it as an effect dependency: an effect that invalidates a query on
-  it refetches in a loop.
+- Every other list comes whole from the backend: its hook takes no paging
+  params and its key is the list's name (plus the parent id, if it has one).
+  Those tables paginate and filter in the browser.
 
 ## Mutations
 

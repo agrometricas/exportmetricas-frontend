@@ -20,7 +20,6 @@ import { useSubmitExport } from './hooks/useSubmitExport';
 import LastFarmExportAlert from './LastFarmExportAlert';
 import { initialValues as emptyValues } from './schemas/export.schema';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
-import { usePagination } from '../../hooks/usePagination';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { ClientType } from '../../types/client';
 import { ExportResponse } from '../../types/export.response';
@@ -86,9 +85,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
     }
     return emptyValues;
   }, [source, editing, fromLine]);
-  const { paginationParams } = usePagination();
   const { data: shippingCompanies = [] } =
-    useShippingCompanies(paginationParams);
+    useShippingCompanies();
   const shippingCompanyById = (
     id: number
   ): Partial<ShippingCompanyType> | null =>

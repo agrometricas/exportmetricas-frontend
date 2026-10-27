@@ -4,7 +4,6 @@ import React from 'react';
 import { useBoxBrands } from '../../hooks/box-brand/getBoxBrands';
 import { useBusinessesByMerchantId } from '../../hooks/business/getBusinesses';
 import { useMerchants } from '../../hooks/merchants/getMerchants';
-import { usePagination } from '../../hooks/usePagination';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { BusinessType } from '../../types/merchant/business';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
@@ -22,13 +21,10 @@ export default function ExportFromLine({
   order: PurchaseOrderResponse;
   lineId: number;
 }): React.JSX.Element {
-  const { paginationParams } = usePagination();
-  const { data: merchants = [], isLoading: loadingMerchants } =
-    useMerchants(paginationParams);
+  const { data: merchants = [], isLoading: loadingMerchants } = useMerchants();
   const { data: businesses = [], isLoading: loadingBusinesses } =
-    useBusinessesByMerchantId(paginationParams, { id: order.merchant.id });
-  const { data: boxBrands = [], isLoading: loadingBoxBrands } =
-    useBoxBrands(paginationParams);
+    useBusinessesByMerchantId({ id: order.merchant.id });
+  const { data: boxBrands = [], isLoading: loadingBoxBrands } = useBoxBrands();
   const line = order.lines.find((l) => l.id === lineId);
   const orderHref = `/dashboard/export/purchase-orders/${order.id}`;
 

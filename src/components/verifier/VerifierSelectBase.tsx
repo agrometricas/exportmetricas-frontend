@@ -13,7 +13,6 @@ import { FieldInputProps } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
-import { usePagination } from '../../hooks/usePagination';
 import { useVerifiers } from '../../hooks/verifier/getVerifiers';
 import { VerifierResponse } from '../../types/verifier/verifier.response';
 
@@ -72,8 +71,7 @@ const VerifierSelectBase: React.FC<VerifierSelectBaseProps> = ({
   onChange,
   setVerifier,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useVerifiers(paginationParams);
+  const { data = [], isLoading, error } = useVerifiers();
   const router = useRouter();
 
   useEffect(() => {

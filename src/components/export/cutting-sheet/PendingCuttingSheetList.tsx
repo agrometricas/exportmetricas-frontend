@@ -8,7 +8,6 @@ import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetBatchPanel from './CuttingSheetBatchPanel';
 import { useCuttingSheetsPending } from '../../../hooks/export/cuttingSheet/getExportsSentPending';
-import { usePagination } from '../../../hooks/usePagination';
 import { PendingSheet } from '../../../types/cuttingSheetBatch';
 import { ExportType } from '../../../types/export';
 import { ExportSentType } from '../../../types/exportSent';
@@ -23,13 +22,12 @@ type ApiErrorData = {
 };
 
 const PendingCuttingSheetList = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
   const {
     data = [],
     isLoading,
     error,
     refetch,
-  } = useCuttingSheetsPending(paginationParams);
+  } = useCuttingSheetsPending();
 
   const router = useRouter();
   const pathname = usePathname();

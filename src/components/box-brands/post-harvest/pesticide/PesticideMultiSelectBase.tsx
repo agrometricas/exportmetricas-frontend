@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePesticides } from '../../../../hooks/box-brand/post-harvest/pesticide/getPesticides';
-import { usePagination } from '../../../../hooks/usePagination';
 import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticide';
 
 interface PesticideMultiSelectBaseProps {
@@ -72,8 +71,7 @@ const PesticideMultiSelectBase: React.FC<PesticideMultiSelectBaseProps> = ({
   onChange,
   setPesticides,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = usePesticides(paginationParams);
+  const { data, isLoading, error } = usePesticides();
   const router = useRouter();
 
   useEffect(() => {

@@ -10,12 +10,10 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailTransports from './DetailTransports';
 import { useTransports } from '../../../hooks/transport/getTransports';
-import { usePagination } from '../../../hooks/usePagination';
 import { TransportResponse } from '../../../types/transport/transport.response';
 
 const TableTransports = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useTransports(paginationParams);
+  const { data = [], error } = useTransports();
   const router = useRouter();
 
   useEffect(() => {

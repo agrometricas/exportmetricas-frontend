@@ -11,11 +11,9 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBankAccounts from './DetailBankAccounts';
 import { useBankAccounts } from '../../../hooks/bank-account/getBankAccounts';
-import { usePagination } from '../../../hooks/usePagination';
 
 const TableBankAccounts = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useBankAccounts(paginationParams);
+  const { data = [], error } = useBankAccounts();
   const router = useRouter();
 
   useEffect(() => {

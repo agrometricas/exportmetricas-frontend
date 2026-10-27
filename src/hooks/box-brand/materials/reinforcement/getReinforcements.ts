@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listReinforcements(params: Params): Promise<AxiosResponse> {
-  return axios.get('/box-brand/reinforcement', { params });
+function listReinforcements(): Promise<AxiosResponse> {
+  return axios.get('/box-brand/reinforcement');
 }
 
-export function useReinforcements({
-  search = '',
-  page = 1,
-  limit = 10,
-}: Params) {
+export function useReinforcements() {
   const result = useQuery({
-    queryKey: ['reinforcements', search, page, limit],
-    queryFn: () => listReinforcements({ search, page, limit }),
-    placeholderData: keepPreviousData,
+    queryKey: ['reinforcements'],
+    queryFn: () => listReinforcements(),
   });
   return serializeQueryResult(result);
 }

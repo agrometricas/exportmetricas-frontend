@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useClientsByHarborId } from '../../hooks/export/client/getClientsByHarborId';
-import { usePagination } from '../../hooks/usePagination';
 import { ClientType } from '../../types/client';
 
 interface ClientByHarborSelectBaseProps {
@@ -74,11 +73,7 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
   onChange,
   setClient,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useClientsByHarborId(
-    { ...paginationParams },
-    { id: harbor ?? 0 }
-  );
+  const { data, isLoading, error } = useClientsByHarborId({ id: harbor ?? 0 });
 
   const router = useRouter();
 

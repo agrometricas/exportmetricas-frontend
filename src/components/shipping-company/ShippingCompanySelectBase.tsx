@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
-import { usePagination } from '../../hooks/usePagination';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 
 interface ShippingCompanySelectBaseProps {
@@ -60,14 +59,7 @@ const ShippingCompanySelectBase: React.FC<ShippingCompanySelectBaseProps> = ({
   value,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const {
-    data = [],
-    isLoading,
-    error,
-  } = useShippingCompanies({
-    ...paginationParams,
-  });
+  const { data = [], isLoading, error } = useShippingCompanies();
   const router = useRouter();
 
   useEffect(() => {

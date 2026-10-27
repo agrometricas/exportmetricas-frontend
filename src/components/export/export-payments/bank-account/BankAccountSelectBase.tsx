@@ -13,7 +13,6 @@ import { FieldInputProps } from 'formik';
 import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBankAccounts } from '../../../../hooks/bank-account/getBankAccounts';
-import { usePagination } from '../../../../hooks/usePagination';
 import { BankAccountType } from '../../../../types/bankAccount';
 
 interface BankAccountSelectBaseProps {
@@ -71,8 +70,7 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
   onChange,
   setBankAccount,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading } = useBankAccounts(paginationParams);
+  const { data, isLoading } = useBankAccounts();
 
   const handleChange = (
     newValue: SingleValue<Partial<BankAccountType>>

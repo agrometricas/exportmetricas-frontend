@@ -1,22 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listBoxBrands(params: Params): Promise<AxiosResponse> {
-  return axios.get('/box-brand', { params });
+function listBoxBrands(): Promise<AxiosResponse> {
+  return axios.get('/box-brand');
 }
 
-export function useBoxBrands({ search = '', page = 1, limit = 10 }: Params) {
+export function useBoxBrands() {
   const result = useQuery({
-    queryKey: ['boxBrands', search, page, limit],
-    queryFn: () => listBoxBrands({ search, page, limit }),
-    placeholderData: keepPreviousData,
+    queryKey: ['boxBrands'],
+    queryFn: () => listBoxBrands(),
   });
 
   return serializeQueryResult(result);

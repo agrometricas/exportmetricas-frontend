@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePallets } from '@/hooks/box-brand/materials/pallet/getPallets';
-import { usePagination } from '@/hooks/usePagination';
 import { PalletType } from '@/types/box-brand/materials/pallet';
 
 interface PalletSelectBaseProps {
@@ -75,8 +74,7 @@ const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
   setPallet,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = usePallets(paginationParams);
+  const { data, isLoading, error } = usePallets();
   const router = useRouter();
 
   useEffect(() => {

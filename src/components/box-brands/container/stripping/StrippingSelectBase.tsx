@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useStrippings } from '../../../../hooks/box-brand/container/stripping/getStrippings';
-import { usePagination } from '../../../../hooks/usePagination';
 import { StrippingType } from '../../../../types/box-brand/container/stripping';
 
 interface StrippingSelectBaseProps {
@@ -75,8 +74,7 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
   setStripping,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useStrippings(paginationParams);
+  const { data, isLoading, error } = useStrippings();
   const router = useRouter();
 
   useEffect(() => {
@@ -131,10 +129,6 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={strippingComponents}
     />
   );
