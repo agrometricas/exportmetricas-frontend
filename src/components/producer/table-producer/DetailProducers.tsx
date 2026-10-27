@@ -4,18 +4,14 @@ import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
 const DetailProducers = ({
   business,
-  width,
 }: {
   business: MerchantResponse;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
           >
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles Generales
@@ -23,7 +19,7 @@ const DetailProducers = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Text><strong>Nombre:</strong> {business.businessName}</Text>
             <Text><strong>ID del Negocio:</strong> {business.businessId}</Text>
             <Text><strong>Correo Electrónico:</strong> {business.email}</Text>
@@ -38,8 +34,6 @@ const DetailProducers = ({
       <Accordion.Item value='item-1'>
         <Heading>
           <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
           >
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Fincas Asociadas
@@ -47,7 +41,7 @@ const DetailProducers = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             {business.businesses.map((biz, index) => (
               <Box key={index} mt={4}>
                 <Text><strong>Nombre:</strong> {biz.name}</Text>
@@ -68,8 +62,6 @@ const DetailProducers = ({
         <Accordion.Item value='item-2'>
           <Heading>
             <Accordion.ItemTrigger
-              pl='60px'
-              width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
             >
               <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
                 Cuentas Bancarias
@@ -77,7 +69,7 @@ const DetailProducers = ({
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4} pl='60px'><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
               {business.bankAccounts.map((acc, i) => (
                 <Box key={i} mt={4}>
                   <Text><strong>Banco:</strong> {acc.bank}</Text>

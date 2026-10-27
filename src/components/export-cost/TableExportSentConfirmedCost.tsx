@@ -1,6 +1,5 @@
 'use client';
 
-import { Box } from '@chakra-ui/react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -8,18 +7,13 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useMemo } from 'react';
+import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailExportSentConfirmedCost from './DetailExportSentConfirmedCost';
 import { useConfirmedExportSents } from '../../hooks/export/export-sent/getConfirmedExportSents';
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
-export default function TableExportSentConfirmedCost({
-  windowSize,
-  width,
-}: {
-  windowSize: { width: number | null; height: number | null };
-  width: { sm: number; md: number };
-}): JSX.Element {
+export default function TableExportSentConfirmedCost(): JSX.Element {
   const { data = [] } = useConfirmedExportSents();
 
   const columns = useMemo<MRT_ColumnDef<ExportSentConfirmedCost>[]>(
@@ -110,15 +104,6 @@ export default function TableExportSentConfirmedCost({
       density: 'compact',
     },
     muiTableContainerProps: { sx: { maxHeight: '80%' } },
-    muiDetailPanelProps: () => ({
-      sx: (theme) => ({
-        padding: '0px',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? 'rgba(255,210,244,0.1)'
-            : 'rgba(0,0,0,0.1)',
-      }),
-    }),
     muiExpandButtonProps: ({ row, table }) => ({
       onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
       sx: {
@@ -127,23 +112,9 @@ export default function TableExportSentConfirmedCost({
       },
     }),
     renderDetailPanel: ({ row }) => (
-      <Box
-        css={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-around',
-
-          maxWidth:
-            windowSize.width && windowSize.width >= 768
-              ? `${width.md}px`
-              : `${width.sm}px`,
-
-          position: 'sticky',
-          width: '100%'
-        }}
-      >
-        <DetailExportSentConfirmedCost item={row.original} width={width} />
-      </Box>
+      <TableDetailPanel>
+        <DetailExportSentConfirmedCost item={row.original} />
+      </TableDetailPanel>
     ),
     localization: MRT_Localization_ES,
   });

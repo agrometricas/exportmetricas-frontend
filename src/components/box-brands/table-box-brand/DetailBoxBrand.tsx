@@ -15,12 +15,8 @@ import { QUANTITY_FIELDS, quantityUnit } from '../../../utils/materialUnits';
 
 const DetailBoxBrand = ({
   detail,
-  width,
-  windowSize,
 }: {
   detail: Partial<BoxBrandType>;
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
 }): React.JSX.Element => {
   const { data: unitsConfig } = useMaterialUnits();
   const unitOf = (type: string): string | undefined =>
@@ -156,13 +152,9 @@ const DetailBoxBrand = ({
   const outputArray = convertObjectToArray(detail);
 
   return (
-    <Box p={'16px'} width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
-      <VStack gap={4} pl={'60px'} alignItems={'start'} width={'100%'}>
-        <TableBoxBrandDetail
-          details={outputArray}
-          width={width}
-          windowSize={windowSize}
-        />
+    <Box p={'16px'}>
+      <VStack gap={4} alignItems={'start'} width={'100%'}>
+        <TableBoxBrandDetail details={outputArray} />
       </VStack>
     </Box>
   );

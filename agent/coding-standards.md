@@ -160,6 +160,12 @@ the backend proposes.
   its `start`. Do not draw a section with a `Heading` and a `Separator`.
 - Material React Table follows the color mode through `brandMuiTheme`
   (`theme/muiTheme/`): table colors change there, not per table.
+- A row's detail panel wraps its content in `TableDetailPanel`
+  (`components/ui/`): it stays as wide as the visible table while the table
+  scrolls sideways (`cqw` against the table container). Its background and
+  padding come from `brandMuiTheme`: do not set `muiDetailPanelProps`, and do
+  not pass a pixel width down to a table or a detail. A nested table uses
+  `layoutMode: 'grid'` so its columns fill the panel.
 - A list of pending items is a `PendingTable` (`components/ui/`): sortable,
   searchable, with its action column pinned right so it stays in view on a
   phone. A pending item that asks before opening uses `OpenWithConfirmation`.

@@ -4,7 +4,6 @@ import { harborPlace } from '../../../utils/harborPlace';
 
 const DetailProducerPayments = ({
   producerPayment,
-  width,
 }: {
   producerPayment: {
     id: number;
@@ -57,7 +56,6 @@ const DetailProducerPayments = ({
       email: string;
     };
   };
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   const { merchant, harborDeparture, harborDestination, boxBrand } = producerPayment;
 
@@ -65,14 +63,14 @@ const DetailProducerPayments = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Detalles del Productor
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <p><strong>Nombre del Productor:</strong> {merchant.businessName}</p>
             <p><strong>RUC:</strong> {merchant.businessId}</p>
             <p><strong>Email:</strong> {merchant.email}</p>
@@ -81,14 +79,14 @@ const DetailProducerPayments = ({
       </Accordion.Item>
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Información Logística
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <p>
               <strong>Puerto de Salida:</strong> {harborPlace(harborDeparture)}
             </p>
@@ -99,14 +97,14 @@ const DetailProducerPayments = ({
       </Accordion.Item>
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Detalles Financieros
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <p><strong>Cantidad de Cajas:</strong> {producerPayment.boxQuantity}</p>
             <p><strong>Marca:</strong> {boxBrand.name}</p>
             <p><strong>Código:</strong> {boxBrand.brandCode}</p>
@@ -124,14 +122,14 @@ const DetailProducerPayments = ({
       </Accordion.Item>
       <Accordion.Item value='item-3'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Cuentas Bancarias
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             {producerPayment.sourceBankAccount && (
               <>
                 <p><strong>Cuenta Origen:</strong></p>
@@ -156,14 +154,14 @@ const DetailProducerPayments = ({
       </Accordion.Item>
       <Accordion.Item value='item-4'>
         <Heading>
-          <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Transferencia Realizada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <p><strong>Monto Transferido:</strong> ${producerPayment.amount}</p>
             <p><strong>Evidencia:</strong></p>
             <a href={producerPayment.transferUrl} target="_blank" rel="noopener noreferrer">

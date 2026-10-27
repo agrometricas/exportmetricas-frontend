@@ -3,7 +3,6 @@ import React from 'react';
 
 const DetailCuttingTypes = ({
   cuttingType,
-  width,
 }: {
   cuttingType: {
     quality: string;
@@ -31,19 +30,12 @@ const DetailCuttingTypes = ({
     transportDetail: string;
     generalObservations?: string;
   };
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
-          >
+          <Accordion.ItemTrigger>
             <Box
               as='span'
               flex='1'
@@ -56,7 +48,7 @@ const DetailCuttingTypes = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <p>
@@ -86,13 +78,7 @@ const DetailCuttingTypes = ({
       </Accordion.Item>
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
-          >
+          <Accordion.ItemTrigger>
             <Box
               as='span'
               flex='1'
@@ -105,7 +91,7 @@ const DetailCuttingTypes = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <p>

@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
@@ -8,18 +7,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
+import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import { usePagination } from '@/hooks/usePagination';
 import DetailShippingCompanies from './DetailShippingCompanies';
 import { useShippingCompanies } from '../../../hooks/export/shippingCompany/getShippingCompanies';
 import { ShippingCompanyResponse } from '../../../types/shippingCompany.response';
 
-const TableShippingCompanies = ({
-  width,
-  windowSize,
-}: {
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
-}): React.JSX.Element => {
+const TableShippingCompanies = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
   const { data = [], error } = useShippingCompanies(paginationParams);
   const router = useRouter();
@@ -127,15 +121,6 @@ const TableShippingCompanies = ({
       density: 'compact',
     },
     muiTableContainerProps: { sx: { maxHeight: '575px' } },
-    muiDetailPanelProps: () => ({
-      sx: (theme) => ({
-        padding: '0px',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? 'rgba(255,210,244,0.1)'
-            : 'rgba(0,0,0,0.1)',
-      }),
-    }),
     muiExpandButtonProps: ({ row, table }) => ({
       onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
       sx: {
@@ -144,24 +129,9 @@ const TableShippingCompanies = ({
       },
     }),
     renderDetailPanel: ({ row }) => (
-      <Box
-        css={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-around',
-          left: '0px',
-
-          maxWidth:
-            windowSize.width && windowSize.width >= 768
-              ? `${width.md}px`
-              : `${width.sm}px`,
-
-          position: 'sticky',
-          width: '100%',
-        }}
-      >
-        <DetailShippingCompanies company={row.original} width={width} />
-      </Box>
+      <TableDetailPanel>
+        <DetailShippingCompanies company={row.original} />
+      </TableDetailPanel>
     ),
     localization: MRT_Localization_ES,
   });

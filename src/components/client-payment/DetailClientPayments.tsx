@@ -4,10 +4,8 @@ import { ClientPayment } from '../../types/client-payment/client-payment.respons
 
 const DetailClientPayments = ({
   clientPayment,
-  width,
 }: {
   clientPayment: ClientPayment;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   const { client, boxBrand } = clientPayment;
 
@@ -15,17 +13,14 @@ const DetailClientPayments = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles del Cliente
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Nombre del Cliente:</strong> {client.businessName}
@@ -45,17 +40,14 @@ const DetailClientPayments = ({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles Financieros
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Cantidad de Cajas:</strong> {clientPayment.boxQuantity}
@@ -89,17 +81,14 @@ const DetailClientPayments = ({
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Cuentas Bancarias
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             {clientPayment.sourceBankAccount && (
               <>
@@ -135,17 +124,14 @@ const DetailClientPayments = ({
 
       <Accordion.Item value='item-3'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{ sm: width.sm, md: width.md }}
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Transferencia Realizada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <p>
               <strong>Evidencia:</strong>

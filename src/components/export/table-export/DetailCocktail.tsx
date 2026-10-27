@@ -10,8 +10,6 @@ import {
 interface Props {
   cocktailNeed: PesticideCocktailPart[] | InsecticideCocktailPart[];
   cocktailSent: PesticideSentPartType[] | InsecticideSentPartType[];
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
 }
 
 interface CocktailProps {

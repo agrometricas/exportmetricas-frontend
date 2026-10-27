@@ -1,4 +1,4 @@
-import { Box, Icon } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
@@ -9,18 +9,13 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
+import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import { usePagination } from '@/hooks/usePagination';
 import DetailProducers from './DetailProducers';
 import { useMerchants } from '../../../hooks/merchants/getMerchants';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
-const TableProducers = ({
-  width,
-  windowSize,
-}: {
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
-}): React.JSX.Element => {
+const TableProducers = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
   const { data = [], error } = useMerchants(paginationParams);
   const router = useRouter();
@@ -120,15 +115,6 @@ const TableProducers = ({
       density: 'compact',
     },
     muiTableContainerProps: { sx: { maxHeight: '575px' } },
-    muiDetailPanelProps: () => ({
-      sx: (theme) => ({
-        padding: '0px',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? 'rgba(255,210,244,0.1)'
-            : 'rgba(0,0,0,0.1)',
-      }),
-    }),
     muiExpandButtonProps: ({ row, table }) => ({
       onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
       sx: {
@@ -137,24 +123,9 @@ const TableProducers = ({
       },
     }),
     renderDetailPanel: ({ row }) => (
-      <Box
-        css={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-around',
-          left: '0px',
-
-          maxWidth:
-            windowSize.width && windowSize.width >= 768
-              ? `${width.md}px`
-              : `${width.sm}px`,
-
-          position: 'sticky',
-          width: '100%'
-        }}
-      >
-        <DetailProducers business={row.original} width={width} />
-      </Box>
+      <TableDetailPanel>
+        <DetailProducers business={row.original} />
+      </TableDetailPanel>
     ),
     localization: MRT_Localization_ES,
   });

@@ -4,15 +4,14 @@ import { DepositResponse } from '../../../types/deposit/deposit.response';
 
 interface DetailDepositsProps {
   deposit: DepositResponse;
-  width: { sm: number; md: number };
 }
 
-const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit, width }) => {
+const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit }) => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles del Depósito
             </Box>
@@ -35,7 +34,7 @@ const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit, width }) => {
       {deposit.contacts.length > 0 && (
         <Accordion.Item value='item-1'>
           <Heading>
-            <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+            <Accordion.ItemTrigger>
               <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
                 Contactos
               </Box>

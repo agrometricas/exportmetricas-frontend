@@ -7,6 +7,7 @@ const BRAND = {
     primary: '#0D9E55',
     surface: '#FFFFFF',
     thead: '#EEF2F6',
+    inset: '#F8FBFD',
     text: '#33454F',
     secondaryText: '#6B8299',
     divider: '#DBE3EA',
@@ -15,6 +16,7 @@ const BRAND = {
     primary: '#4BD184',
     surface: '#0F1D2C',
     thead: '#17314D',
+    inset: '#07111B',
     text: '#E1E9F0',
     secondaryText: '#97ADC0',
     divider: '#17314D',
@@ -39,6 +41,10 @@ export function brandMuiTheme(mode: 'light' | 'dark'): Theme {
         styleOverrides: {
           root: { backgroundImage: 'none' },
           elevation2: {
+            // The table container below is size-contained (see
+            // MuiTableContainer): inside a shrink-to-fit parent, like the
+            // Center some pages wrap tables in, it would collapse to nothing.
+            width: '100%',
             boxShadow: 'none',
             border: `1px solid ${colors.divider}`,
             // Most lists sit inside a Chakra card, which already draws the edge.
@@ -46,10 +52,22 @@ export function brandMuiTheme(mode: 'light' | 'dark'): Theme {
           },
         },
       },
+      MuiTableContainer: {
+        styleOverrides: {
+          // A detail panel sizes itself to this box (cqw) while the table
+          // scrolls sideways under it.
+          root: { containerType: 'inline-size' },
+        },
+      },
       MuiTableCell: {
         styleOverrides: {
           root: {
             borderColor: colors.divider,
+            '&.Mui-TableBodyCell-DetailPanel': {
+              paddingLeft: 0,
+              paddingRight: 0,
+              backgroundColor: colors.inset,
+            },
             // A pinned column is see-through by default (the columns that
             // scroll under it show behind its text), and its ::before paints
             // near-white over the cell, also in the header and in dark mode.

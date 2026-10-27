@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
@@ -9,18 +9,13 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
+import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBusiness from './DetailBusiness';
 import { useBusinesses } from '../../../hooks/business/getAllBusiness';
 import { usePagination } from '../../../hooks/usePagination';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
-const TableBusiness = ({
-  width,
-  windowSize,
-}: {
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
-}): React.JSX.Element => {
+const TableBusiness = (): React.JSX.Element => {
   const { paginationParams } = usePagination();
   const { data = [], error } = useBusinesses(paginationParams);
   const router = useRouter();
@@ -139,15 +134,6 @@ const TableBusiness = ({
       density: 'compact',
     },
     muiTableContainerProps: { sx: { maxHeight: '575px' } },
-    muiDetailPanelProps: () => ({
-      sx: (theme) => ({
-        padding: '0px',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? 'rgba(255,210,244,0.1)'
-            : 'rgba(0,0,0,0.1)',
-      }),
-    }),
     muiExpandButtonProps: ({ row, table }) => ({
       onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
       sx: {
@@ -156,22 +142,9 @@ const TableBusiness = ({
       },
     }),
     renderDetailPanel: ({ row }) => (
-      <Box
-        css={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-around',
-          left: '0px',
-
-          maxWidth:
-            Number(windowSize.width) >= 768 ? `${width.md}px` : `${width.sm}px`,
-
-          position: 'sticky',
-          width: '100%',
-        }}
-      >
-        <DetailBusiness business={row.original} width={width} />
-      </Box>
+      <TableDetailPanel>
+        <DetailBusiness business={row.original} />
+      </TableDetailPanel>
     ),
     localization: MRT_Localization_ES,
   });

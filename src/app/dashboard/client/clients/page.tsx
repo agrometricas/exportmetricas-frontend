@@ -8,49 +8,20 @@ import {
   Center,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdPeopleOutline } from 'react-icons/md';
 import { PageLayout } from '@/components/ui/page/PageLayout';
 import TableClients from '../../../../components/client/table-client/TableClients';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
-interface WindowSizeProps {
-  width: number | null;
-  height: number | null;
-}
-
 function ClientsPage(): React.JSX.Element {
-  const [windowSize, setWindowSize] = useState<WindowSizeProps>({
-    width: null,
-    height: null,
-  });
-
-  useEffect(() => {
-    function handleResize(): void {
-      setWindowSize({
-        width: typeof window !== 'undefined' ? window.innerWidth : null,
-        height: typeof window !== 'undefined' ? window.innerHeight : null,
-      });
-    }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      handleResize();
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, []);
-
   // Responsive
   const isMobile = useBreakpointValue({ base: true, md: false });
   const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
     base: 'sm',
     md: 'md',
   });
-
-  const tableWidth = {
-    sm: Number(windowSize.width) - 20,
-    md: Number(windowSize.width) - 300,
-  };
 
   return (
     <PageLayout
@@ -90,7 +61,7 @@ function ClientsPage(): React.JSX.Element {
         <Card.Body p={0}>
           <Box>
             <Center>
-              <TableClients windowSize={windowSize} width={tableWidth} />
+              <TableClients />
             </Center>
           </Box>
         </Card.Body>

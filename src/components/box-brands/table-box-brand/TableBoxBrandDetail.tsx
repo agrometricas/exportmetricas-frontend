@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box } from '@mui/material';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import ExpandDetail from './ExpandDetail';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
 import { SheetCocktail } from '../../../types/box-brand/additions/sheet';
@@ -42,44 +42,22 @@ interface DetailType {
     | SheetCocktail[];
 }
 
-interface TableSizeProps {
-  sm: number | null;
-  md: number | null;
-}
-
 const TableBoxBrandDetail = ({
   details,
-  width,
-  windowSize,
 }: {
   details: DetailType[];
-  width: { sm: number; md: number };
-  windowSize: { width: number | null; height: number | null };
 }): React.JSX.Element => {
-  const [columnSize, setColumnSize] = useState<TableSizeProps>({
-    sm: (Number(width.sm) - 92 - 60) / 2,
-    md: (Number(width.md) - 92 - 60) / 2,
-  });
-
   const columns = useMemo<MRT_ColumnDef<Partial<DetailType>>[]>(
     () => [
       {
         accessorKey: 'name',
         header: 'Nombre',
         enableHiding: false,
-        size:
-          Number(windowSize.width) >= 768
-            ? Number(columnSize.md)
-            : Number(columnSize.sm),
       },
       {
         accessorKey: 'quantity',
         header: 'Cantidad',
         enableHiding: false,
-        size:
-          Number(windowSize.width) >= 768
-            ? Number(columnSize.md)
-            : Number(columnSize.sm),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,6 +67,7 @@ const TableBoxBrandDetail = ({
   const table = useMaterialReactTable({
     localization: MRT_Localization_ES,
     columns,
+    layoutMode: 'grid',
     data: details,
     enableBottomToolbar: false,
     enableColumnFilters: false,
@@ -104,15 +83,6 @@ const TableBoxBrandDetail = ({
       },
       density: 'compact',
     },
-    muiDetailPanelProps: () => ({
-      sx: (theme) => ({
-        padding: '0px',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? 'rgba(255,210,244,0.1)'
-            : 'rgba(0,0,0,0.1)',
-      }),
-    }),
     muiExpandButtonProps: ({ row, table }) => ({
       onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
       sx: {
@@ -122,24 +92,11 @@ const TableBoxBrandDetail = ({
     }),
     renderDetailPanel: ({ row }) =>
       row.original.object || row.original.array ? (
-        <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            justifyContent: 'space-around',
-            left: '0px',
-            maxWidth:
-              Number(windowSize.width) >= 768
-                ? `${Number(width.md - 92)}px`
-                : `${Number(width.sm - 92)}px`,
-            position: 'sticky',
-            width: '100%',
-          }}
-        >
+        <TableDetailPanel>
           <ExpandDetail
             detail={(row.original.object as ObjectType) || row.original.array}
           />
-        </Box>
+        </TableDetailPanel>
       ) : null,
   });
 

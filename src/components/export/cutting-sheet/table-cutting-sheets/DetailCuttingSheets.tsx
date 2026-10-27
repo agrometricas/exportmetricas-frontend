@@ -5,10 +5,8 @@ import { sheetVersionLabel } from '@/utils/cuttingSheetOptions';
 
 const DetailCuttingSheet = ({
   cuttingSheet,
-  width,
 }: {
   cuttingSheet: CuttingSheetResponse;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   const ex = cuttingSheet.exportSent.export;
 
@@ -16,14 +14,14 @@ const DetailCuttingSheet = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={width}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Información General
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>ID:</strong> {cuttingSheet.id}
@@ -60,14 +58,14 @@ const DetailCuttingSheet = ({
 
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={width}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Productor y Finca
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>Productor:</strong> {ex.merchant.businessName}
@@ -99,14 +97,14 @@ const DetailCuttingSheet = ({
 
       <Accordion.Item value='item-2'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={width}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Cliente
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>Nombre:</strong> {ex.client.businessName}
@@ -129,14 +127,14 @@ const DetailCuttingSheet = ({
 
       <Accordion.Item value='item-3'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={width}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Puertos
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>Puerto Salida:</strong> {ex.harborDeparture.name}
@@ -156,14 +154,14 @@ const DetailCuttingSheet = ({
 
       <Accordion.Item value='item-4'>
         <Heading>
-          <Accordion.ItemTrigger pl='60px' width={width}>
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Marca de Caja
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Text>
               <strong>Nombre:</strong> {ex.boxBrand.name}

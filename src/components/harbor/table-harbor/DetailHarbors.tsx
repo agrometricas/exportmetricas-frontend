@@ -3,21 +3,14 @@ import React from 'react';
 import { HarborResponse } from '../../../types/harbor.response';
 interface DetailHarborsProps {
   business: HarborResponse;
-  width: { sm: number; md: number };
 }
 
-const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
+const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-            pl='60px'
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
-          >
+          <Accordion.ItemTrigger>
             <Box
               as='span'
               flex='1'
@@ -30,7 +23,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl='60px'>
+        <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
               <Text>
@@ -84,13 +77,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
       {business.clients.length > 0 && (
         <Accordion.Item value='item-1'>
           <Heading>
-            <Accordion.ItemTrigger
-              pl='60px'
-              width={{
-                sm: Number(width.sm),
-                md: Number(width.md),
-              }}
-            >
+            <Accordion.ItemTrigger>
               <Box
                 as='span'
                 flex='1'
@@ -103,7 +90,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4} pl='60px'>
+          <Accordion.ItemContent pb={4}>
             <Accordion.ItemBody>
               <Box>
                 {business.clients.map((client) => (
@@ -133,13 +120,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
       {business.contacts.length > 0 && (
         <Accordion.Item value='item-2'>
           <Heading>
-            <Accordion.ItemTrigger
-              pl='60px'
-              width={{
-                sm: Number(width.sm),
-                md: Number(width.md),
-              }}
-            >
+            <Accordion.ItemTrigger>
               <Box
                 as='span'
                 flex='1'
@@ -152,7 +133,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business, width }) => {
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4} pl='60px'>
+          <Accordion.ItemContent pb={4}>
             <Accordion.ItemBody>
               <Box>
                 {business.contacts.map((contact) => (

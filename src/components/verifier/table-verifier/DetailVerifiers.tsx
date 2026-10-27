@@ -4,15 +4,14 @@ import { VerifierResponse } from '../../../types/verifier/verifier.response';
 
 interface DetailVerifiersProps {
   verifier: VerifierResponse;
-  width: { sm: number; md: number };
 }
 
-const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier, width }) => {
+const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier }) => {
   return (
     <Accordion.Root multiple defaultValue={['item-0']}>
       <Accordion.Item value='item-0'>
         <h2>
-          <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontWeight="bold">
               Detalles Generales
             </Box>
@@ -28,7 +27,7 @@ const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier, width }) =>
 
       <Accordion.Item value='item-1'>
         <h2>
-          <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger>
             <Box flex="1" textAlign="left" fontWeight="bold">
               Contactos Asociados
             </Box>

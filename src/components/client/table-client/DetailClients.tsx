@@ -4,21 +4,14 @@ import { ClientResponse } from '../../../types/client.response';
 
 const DetailClients = ({
   client,
-  width,
 }: {
   client: ClientResponse;
-  width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Datos Generales
@@ -26,7 +19,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               <Text><strong>Nombre:</strong> {client.businessName}</Text>
               <Text><strong>RUC:</strong> {client.businessId}</Text>
@@ -51,11 +44,6 @@ const DetailClients = ({
       <Accordion.Item value='item-1'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Ubicación
@@ -63,7 +51,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               <Text><strong>Dirección:</strong> {client.address}</Text>
               <Text><strong>Código Postal:</strong> {client.postalCode}</Text>
@@ -77,11 +65,6 @@ const DetailClients = ({
       <Accordion.Item value='item-2'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Puertos
@@ -89,7 +72,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               {client.harbors?.length > 0 ? (
                 client.harbors.map((harbor) => (
@@ -107,11 +90,6 @@ const DetailClients = ({
       <Accordion.Item value='item-3'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Incoterms
@@ -119,7 +97,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               {client.incoterms?.length > 0 ? (
                 client.incoterms.map((incoterm) => (
@@ -137,11 +115,6 @@ const DetailClients = ({
       <Accordion.Item value='item-4'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Certificados
@@ -149,7 +122,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               {client.certificates?.length > 0 ? (
                 client.certificates.map((cert) => (
@@ -167,11 +140,6 @@ const DetailClients = ({
       <Accordion.Item value='item-5'>
         <Heading>
           <Accordion.ItemTrigger
-            pl="60px"
-            width={{
-              sm: Number(width.sm),
-              md: Number(width.md),
-            }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Contactos
@@ -179,7 +147,7 @@ const DetailClients = ({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <Box>
               {client.contacts?.length > 0 ? (
                 client.contacts.map((contact) => (
