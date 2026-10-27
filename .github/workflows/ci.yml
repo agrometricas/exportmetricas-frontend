@@ -26,6 +26,8 @@ jobs:
         run: npx tsc --noEmit
       - name: Lint
         run: npm run lint
+      - name: Formato
+        run: npm run format
       - name: Pruebas
         run: npm run test
       - name: Build
