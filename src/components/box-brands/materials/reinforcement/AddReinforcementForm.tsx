@@ -70,7 +70,7 @@ const AddReinforcementForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Reinforcement creado con Éxito',
+            title: 'Reinforcement creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddReinforcementForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Reinforcement</FormSectionTitle>
+            <FormSectionTitle>Agregar reinforcement</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

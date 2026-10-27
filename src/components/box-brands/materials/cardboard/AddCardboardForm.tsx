@@ -70,7 +70,7 @@ const AddCardboardForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Cartón creado con Éxito',
+            title: 'Cartón creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddCardboardForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Cartón</FormSectionTitle>
+            <FormSectionTitle>Agregar cartón</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

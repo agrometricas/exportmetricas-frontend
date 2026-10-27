@@ -39,8 +39,8 @@ const SelectSheet: React.FC<SelectSheetProps> = ({
     <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldSheetSelect
         name={name1}
-        label={'Tipo de Hoja'}
-        placeholder={'Selecciona el Tipo de Hoja'}
+        label={'Tipo de hoja'}
+        placeholder={'Selecciona el tipo de hoja'}
         setSheet={setSheet}
       />
 

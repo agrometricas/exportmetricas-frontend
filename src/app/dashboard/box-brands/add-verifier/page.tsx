@@ -9,7 +9,7 @@ function AddVerifierPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdVerified}
-      title='Agregar Verificadora'
+      title='Agregar verificadora'
       description='Completa el formulario para registrar una verificadora'
     >
       <AddVerifierForm />

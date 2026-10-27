@@ -32,7 +32,7 @@ const TableBusiness = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<BusinessResponse>[]>(
     () => [
       {
-        header: 'Información Básica',
+        header: 'Información básica',
         columns: [
           {
             accessorKey: 'name',
@@ -49,7 +49,7 @@ const TableBusiness = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Detalles de la Finca',
+        header: 'Detalles de la finca',
         columns: [
           {
             accessorKey: 'area',
@@ -70,7 +70,7 @@ const TableBusiness = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Códigos Regulatorios',
+        header: 'Códigos regulatorios',
         columns: [
           {
             accessorKey: 'codeMAGAP',
@@ -87,7 +87,7 @@ const TableBusiness = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'fruitType',
-            header: 'Tipo de Fruta',
+            header: 'Tipo de fruta',
           },
         ],
       },

@@ -36,7 +36,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
     <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldBankAccountSelect
         name={name}
-        label={label ? label : 'Productor/Razón Social'}
+        label={label ? label : 'Productor/Razón social'}
         placeholder={'Selecciona el productor'}
         setBankAccount={setBankAccount}
       />
@@ -46,7 +46,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
         <Input
           readOnly={true}
           value={bankAccount?.type || ''}
-          placeholder='Tipo de Cuenta'
+          placeholder='Tipo de cuenta'
         />
       </Box>
       <Box>
@@ -54,7 +54,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
         <Input
           readOnly={true}
           value={bankAccount?.owner || ''}
-          placeholder='Nombre del Propietario'
+          placeholder='Nombre del propietario'
         />
       </Box>
       <Box>
@@ -62,7 +62,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
         <Input
           readOnly={true}
           value={bankAccount?.ownerID || ''}
-          placeholder='Identificación del Propietario'
+          placeholder='Identificación del propietario'
         />
       </Box>
     </SimpleGrid>

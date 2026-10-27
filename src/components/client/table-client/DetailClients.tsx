@@ -30,27 +30,27 @@ const DetailClients = ({
                 <DetailField label='Nombre'>{client.businessName}</DetailField>
                 <DetailField label='RUC'>{client.businessId}</DetailField>
                 <DetailField label='Tipo'>{client.type}</DetailField>
-                <DetailField label='Tipo Comercial'>
+                <DetailField label='Tipo comercial'>
                   {client.commercialType}
                 </DetailField>
                 <DetailField label='Correo'>{client.email}</DetailField>
                 <DetailField label='Teléfono'>{client.phone}</DetailField>
                 {client.website && (
-                  <DetailField label='Sitio Web'>
+                  <DetailField label='Sitio web'>
                     {client.website || 'N/A'}
                   </DetailField>
                 )}
                 {client.paymentTermLabel && (
-                  <DetailField label='Condiciones de Pago'>
+                  <DetailField label='Condiciones de pago'>
                     {client.paymentTermLabel}
                   </DetailField>
                 )}
                 {client.purchaseVolumeLabel && (
-                  <DetailField label='Volumen de Compra'>
+                  <DetailField label='Volumen de compra'>
                     {client.purchaseVolumeLabel}
                   </DetailField>
                 )}
-                <DetailField label='Método de Envío'>
+                <DetailField label='Método de envío'>
                   {client.shippingMethod || 'N/A'}
                 </DetailField>
               </DetailFields>
@@ -73,7 +73,7 @@ const DetailClients = ({
             <Box>
               <DetailFields>
                 <DetailField label='Dirección'>{client.address}</DetailField>
-                <DetailField label='Código Postal'>
+                <DetailField label='Código postal'>
                   {client.postalCode}
                 </DetailField>
                 <DetailField label='País'>{client.country?.name}</DetailField>

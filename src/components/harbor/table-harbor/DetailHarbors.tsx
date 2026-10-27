@@ -56,13 +56,13 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
                     </DetailField>
                   </>
                 )}
-                <DetailField label='Horario de Apertura'>
+                <DetailField label='Horario de apertura'>
                   {business.openTime}
                 </DetailField>
-                <DetailField label='Horario de Cierre'>
+                <DetailField label='Horario de cierre'>
                   {business.closeTime}
                 </DetailField>
-                <DetailField label='Días de Operación'>
+                <DetailField label='Días de operación'>
                   {business.daysOfOperation.join(', ')}
                 </DetailField>
               </DetailFields>
@@ -97,7 +97,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
                       </DetailField>
                       <DetailField label='RUC'>{client.businessId}</DetailField>
                       <DetailField label='Tipo'>{client.type}</DetailField>
-                      <DetailField label='Correo Electrónico'>
+                      <DetailField label='Correo electrónico'>
                         {client.email}
                       </DetailField>
                       <DetailField label='Teléfono'>{client.phone}</DetailField>
@@ -135,7 +135,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
                       {contact.web && (
                         <DetailField label='Web'>{contact.web}</DetailField>
                       )}
-                      <DetailField label='Correo Electrónico'>
+                      <DetailField label='Correo electrónico'>
                         {contact.email}
                       </DetailField>
                       <DetailField label='Teléfono'>

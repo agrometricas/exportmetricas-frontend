@@ -9,7 +9,7 @@ function AddExportPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdLocalShipping}
-      title='Agregar Exportación'
+      title='Agregar exportación'
       description='Completa el formulario para registrar una nueva exportación'
     >
       <AddExportForm />

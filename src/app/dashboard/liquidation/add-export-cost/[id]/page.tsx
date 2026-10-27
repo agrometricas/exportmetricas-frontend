@@ -44,7 +44,7 @@ function ExportSentCostPage(): React.JSX.Element {
   return (
     <CardPage
       icon={FiDollarSign}
-      title='Validación de Costos'
+      title='Validación de costos'
       description='Revisa y confirma los costos asociados al envío seleccionado'
     >
       <ExportSentCostForm pathname={pathname} />

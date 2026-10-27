@@ -16,7 +16,7 @@ describe('migas de pan', () => {
     expect(crumbs.map((crumb) => crumb.name)).toEqual([
       'Inicio',
       'Alícuotas',
-      'Agregar Marca',
+      'Agregar marca',
     ]);
     expect(crumbs[1].href).toBe('/dashboard/box-brands/search');
   });
@@ -32,8 +32,8 @@ describe('migas de pan', () => {
   it('nombran la edición de un contrato naviero sin repetir la lista', () => {
     expect(names('/dashboard/client/shipping-contracts/10')).toEqual([
       'Inicio',
-      'Contratos Navieros',
-      'Editar Contrato Naviero',
+      'Contratos navieros',
+      'Editar contrato naviero',
     ]);
   });
 
@@ -41,7 +41,7 @@ describe('migas de pan', () => {
     expect(names('/dashboard/producer/contracts/16')).toEqual([
       'Inicio',
       'Contratos',
-      'Editar Contrato de Productor',
+      'Editar contrato de productor',
     ]);
   });
 
@@ -51,7 +51,7 @@ describe('migas de pan', () => {
     expect(crumbs.map((crumb) => crumb.name)).toEqual([
       'Inicio',
       'Perfil',
-      'Modificar Ubicación',
+      'Modificar ubicación',
     ]);
     expect(crumbs[1].href).toBe('/dashboard/user/2');
     expect(crumbs[2].isCurrent).toBe(true);
@@ -60,7 +60,7 @@ describe('migas de pan', () => {
   it('traducen el registro inicial', () => {
     expect(names('/dashboard/onboarding')).toEqual([
       'Inicio',
-      'Registro Inicial',
+      'Registro inicial',
     ]);
   });
 });

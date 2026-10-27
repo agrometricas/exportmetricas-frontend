@@ -72,7 +72,7 @@ const DetailSupply = ({
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de Pesticidas',
+            ['name']: 'Cóctel de pesticidas',
             ['quantity']: 1,
             ['arrayNeed']:
               boxBrandObject['pesticideCocktail' as keyof BoxBrandType],
@@ -90,7 +90,7 @@ const DetailSupply = ({
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de Insecticidas',
+            ['name']: 'Cóctel de insecticidas',
             ['quantity']: 1,
             ['arrayNeed']:
               boxBrandObject['insecticideCocktail' as keyof BoxBrandType],

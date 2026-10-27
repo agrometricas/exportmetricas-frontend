@@ -30,7 +30,7 @@ export default function OnBoardingPage(): React.JSX.Element {
             mb={'20px'}
           >
             <Card.Header w={'100%'}>
-              <Heading>Registro Inicial</Heading>
+              <Heading>Registro inicial</Heading>
             </Card.Header>
             <Card.Body w='100%'>
               <OnboardingForm />

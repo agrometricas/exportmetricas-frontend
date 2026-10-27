@@ -72,7 +72,7 @@ const AddStickerForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Sticker Creado con Éxito',
+            title: 'Sticker creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -98,7 +98,7 @@ const AddStickerForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Sticker</FormSectionTitle>
+              <FormSectionTitle>Agregar sticker</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button

@@ -67,7 +67,7 @@ export function CreateInitialStockForm({
           {
             onSuccess: () => {
               toaster.create({
-                title: 'Stock Creado con Éxito.',
+                title: 'Stock creado con éxito.',
                 type: 'success',
                 duration: 3000,
                 closable: true,
@@ -76,7 +76,7 @@ export function CreateInitialStockForm({
             },
             onError: (error: unknown) => {
               toaster.create({
-                title: 'Error al Crear el Stock.',
+                title: 'Error al crear el stock.',
                 description: serverErrorMessage(error),
                 type: 'error',
                 duration: 3000,
@@ -94,12 +94,12 @@ export function CreateInitialStockForm({
             <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
               <InputFieldNumber
                 name='assignedStock'
-                label='Stock Asignado'
+                label='Stock asignado'
                 placeholder='Cantidad inicial'
               />
               <InputFieldNumber
                 name='assignedCost'
-                label='Costo Asignado'
+                label='Costo asignado'
                 placeholder='Costo unitario'
                 isDecimal
                 unit='$'

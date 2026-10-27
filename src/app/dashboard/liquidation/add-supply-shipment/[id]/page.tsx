@@ -48,7 +48,7 @@ const PendingExportPage = (): React.JSX.Element => {
   return (
     <CardPage
       icon={FiPackage}
-      title='Envío de Insumos'
+      title='Envío de insumos'
       description='Completa y confirma el envío de insumos de la exportación'
     >
       <SentMaterialsExportForm

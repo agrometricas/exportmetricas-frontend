@@ -68,7 +68,7 @@ const AddPadForm = ({ onClose }: AddPadFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Pad creado con Éxito',
+            title: 'Pad creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -90,7 +90,7 @@ const AddPadForm = ({ onClose }: AddPadFormProps): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Pad</FormSectionTitle>
+            <FormSectionTitle>Agregar pad</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

@@ -52,7 +52,7 @@ export function useSubmitHarbor(): {
                 },
                 onSuccess: () => {
                     toaster.create({
-                        title: 'Puerto Creado con Éxito',
+                        title: 'Puerto creado con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

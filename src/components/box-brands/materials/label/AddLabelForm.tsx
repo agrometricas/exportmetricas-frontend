@@ -118,7 +118,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
       },
       onSuccess: () => {
         toaster.create({
-          title: 'Etiqueta Creada con Éxito',
+          title: 'Etiqueta creada con éxito',
           type: 'success',
           duration: 5000,
           closable: true,

@@ -73,7 +73,7 @@ export default function PurchaseOrderForm({
       {({ values, errors }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Productor y Semana</FormSectionTitle>
+            <FormSectionTitle>Productor y semana</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {order ? (
                 <Field.Root>
@@ -148,7 +148,7 @@ export default function PurchaseOrderForm({
               )}
             </FieldArray>
 
-            <FormSectionTitle>Cupo de la Semana</FormSectionTitle>
+            <FormSectionTitle>Cupo de la semana</FormSectionTitle>
             <DraftQuota values={values} />
 
             <FormActions>
@@ -169,7 +169,7 @@ export default function PurchaseOrderForm({
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                {order ? 'Guardar Cambios' : 'Crear Orden de Compra'}
+                {order ? 'Guardar cambios' : 'Crear orden de compra'}
               </Button>
             </FormActions>
           </Flex>

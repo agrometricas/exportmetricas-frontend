@@ -37,12 +37,12 @@ export default function OnboardingForm(): React.JSX.Element {
             <FormSectionTitle>Productor</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
-              <InputFieldText name={'businessName'} label={'Razon Social'} />
+              <InputFieldText name={'businessName'} label={'Razon social'} />
               <InputFieldText name={'businessId'} label={'RUC'} />
               <InputFieldText name={'email'} label={'Email'} />
               <InputFieldSelector
                 name={'contractType'}
-                label={'Tipo de Contrato'}
+                label={'Tipo de contrato'}
                 options={ContractOpt}
               />
               <InputFieldCountrySelect
@@ -85,7 +85,7 @@ export default function OnboardingForm(): React.JSX.Element {
               />
               <InputFieldSelector
                 name={'businesses[0].fruitType'}
-                label={'Tipo de Fruta'}
+                label={'Tipo de fruta'}
                 options={FruitTypeOpt}
               />
               <InputFieldCountrySelect
@@ -128,7 +128,7 @@ export default function OnboardingForm(): React.JSX.Element {
               />
             </SimpleGrid>
 
-            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
+            <FormSectionTitle>Códigos de finca</FormSectionTitle>
 
             <FieldArray name='businesses[0].businessCodes'>
               {({ push, remove }) => (

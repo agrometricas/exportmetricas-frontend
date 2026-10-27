@@ -9,7 +9,7 @@ function MaterialUnitsPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdStraighten}
-      title='Unidades de Materiales'
+      title='Unidades de materiales'
       description='En qué unidad se mide cada tipo de material en las alícuotas.'
     >
       <MaterialUnitsForm />

@@ -134,7 +134,7 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
                         <Text>Cantidad: {material.quantity}</Text>
                         <InputFieldNumber
                           name={`materials[${index}].unitCost`}
-                          label='Costo Unitario'
+                          label='Costo unitario'
                           placeholder='0.00'
                           value={material.unitCost}
                           flexDirection='row'

@@ -128,7 +128,7 @@ const ImportProducerDrawer: React.FC = () => {
           <Drawer.Positioner>
             <Drawer.Content>
               <Drawer.CloseTrigger />
-              <Drawer.Header>Importar Productores</Drawer.Header>
+              <Drawer.Header>Importar productores</Drawer.Header>
 
               <Drawer.Body>
                 {fileName ? (

@@ -18,7 +18,7 @@ function PurchaseOrderPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAssignment}
-      title='Orden de Compra'
+      title='Orden de compra'
       description={
         order
           ? `${order.merchant.businessName} · ${getWeekInfo({ date: new Date(order.weekStart) }).week}`

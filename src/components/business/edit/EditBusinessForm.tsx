@@ -122,7 +122,7 @@ export default function EditBusinessForm({
               />
               <InputFieldSelector
                 name='fruitType'
-                label='Tipo de Fruta'
+                label='Tipo de fruta'
                 options={FRUIT_TYPES}
               />
               <InputFieldPlain
@@ -185,7 +185,7 @@ export default function EditBusinessForm({
               />
             </SimpleGrid>
 
-            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
+            <FormSectionTitle>Códigos de finca</FormSectionTitle>
             <FieldArray name='businessCodes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={3}>

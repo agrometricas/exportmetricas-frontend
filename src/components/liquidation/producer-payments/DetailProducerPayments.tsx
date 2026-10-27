@@ -79,12 +79,12 @@ const DetailProducerPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Nombre del Productor'>
+              <DetailField label='Nombre del productor'>
                 {merchant.businessName}
               </DetailField>
               <DetailField label='RUC'>{merchant.businessId}</DetailField>
               <DetailField label='Email'>{merchant.email}</DetailField>
-              <DetailField label='Tipo de Contrato'>
+              <DetailField label='Tipo de contrato'>
                 {merchant.contractType}
               </DetailField>
             </DetailFields>
@@ -103,10 +103,10 @@ const DetailProducerPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Puerto de Salida'>
+              <DetailField label='Puerto de salida'>
                 {harborPlace(harborDeparture)}
               </DetailField>
-              <DetailField label='Puerto de Destino'>
+              <DetailField label='Puerto de destino'>
                 {harborPlace(harborDestination)}
               </DetailField>
             </DetailFields>
@@ -125,36 +125,36 @@ const DetailProducerPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Cantidad de Cajas'>
+              <DetailField label='Cantidad de cajas'>
                 {producerPayment.boxQuantity}
               </DetailField>
               <DetailField label='Marca'>{boxBrand.name}</DetailField>
               <DetailField label='Código'>{boxBrand.brandCode}</DetailField>
-              <DetailField label='Peso Neto por Caja'>
+              <DetailField label='Peso neto por caja'>
                 {boxBrand.netWeightBox} LBS
               </DetailField>
-              <DetailField label='Peso Bruto por Caja'>
+              <DetailField label='Peso bruto por caja'>
                 {boxBrand.grossWeightBox} LBS
               </DetailField>
-              <DetailField label='Precio Unitario'>
+              <DetailField label='Precio unitario'>
                 ${producerPayment.price}
               </DetailField>
-              <DetailField label='Subtotal Inicial'>
+              <DetailField label='Subtotal inicial'>
                 ${producerPayment.subtotal1}
               </DetailField>
-              <DetailField label='Costo Transporte'>
+              <DetailField label='Costo transporte'>
                 ${producerPayment.transport}
               </DetailField>
-              <DetailField label='Costo Materiales'>
+              <DetailField label='Costo materiales'>
                 ${producerPayment.materials}
               </DetailField>
-              <DetailField label='Otros Costos'>
+              <DetailField label='Otros costos'>
                 ${producerPayment.others}
               </DetailField>
-              <DetailField label='Subtotal Final'>
+              <DetailField label='Subtotal final'>
                 ${producerPayment.subtotal2}
               </DetailField>
-              <DetailField label='Total a Pagar'>
+              <DetailField label='Total a pagar'>
                 ${producerPayment.total}
               </DetailField>
               <DetailField label='Descripción'>
@@ -177,7 +177,7 @@ const DetailProducerPayments = ({
           <Accordion.ItemBody>
             {producerPayment.sourceBankAccount && (
               <>
-                <DetailSubtitle>Cuenta Origen</DetailSubtitle>
+                <DetailSubtitle>Cuenta origen</DetailSubtitle>
                 <DetailFields>
                   <DetailField label='Propietario'>
                     {producerPayment.sourceBankAccount.owner}
@@ -199,7 +199,7 @@ const DetailProducerPayments = ({
             )}
             {producerPayment.destinationBankAccount && (
               <>
-                <DetailSubtitle>Cuenta Destino</DetailSubtitle>
+                <DetailSubtitle>Cuenta destino</DetailSubtitle>
                 <DetailFields>
                   <DetailField label='Propietario'>
                     {producerPayment.destinationBankAccount.owner}
@@ -235,7 +235,7 @@ const DetailProducerPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Monto Transferido'>
+              <DetailField label='Monto transferido'>
                 ${producerPayment.amount}
               </DetailField>
             </DetailFields>

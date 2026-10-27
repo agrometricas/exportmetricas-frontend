@@ -69,7 +69,7 @@ export default function AddMaterialPage(): JSX.Element {
             mb={'20px'}
           >
             <Card.Header w={'100%'}>
-              <Heading>Asignar Stock Inicial</Heading>
+              <Heading>Asignar stock inicial</Heading>
             </Card.Header>
             <Card.Body>
               <CreateInitialStockForm
@@ -99,7 +99,7 @@ export default function AddMaterialPage(): JSX.Element {
           mb={'20px'}
         >
           <Card.Header w={'100%'}>
-            <Heading>Movimientos del Material</Heading>
+            <Heading>Movimientos del material</Heading>
           </Card.Header>
           <Card.Body w={'100%'}>
             <AddMaterialForm

@@ -156,7 +156,7 @@ const ExportCostList = (): React.JSX.Element => {
               href={`${pathname}/${item.id}`}
               label='Revisar costos'
               title={`Abrir Validación de Costos: ${item.export?.merchant?.businessName || '—'}`}
-              description='¿Estás seguro de que deseas empezar esta Validación de Costos?'
+              description='¿Estás seguro de que deseas empezar esta validación de costos?'
             />
           )}
         />

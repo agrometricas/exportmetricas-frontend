@@ -329,7 +329,7 @@ export default function ExportPlanForm({
                       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                         <InputFieldDayDate
                           name={`lines[${index}].cuttingDate`}
-                          label='Día de Corte'
+                          label='Día de corte'
                         />
                         <InputFieldPlain
                           name={`lines[${index}].boxQuantity`}
@@ -356,7 +356,7 @@ export default function ExportPlanForm({
                 </Text>
               )}
 
-              <FormSectionTitle>Datos Comunes</FormSectionTitle>
+              <FormSectionTitle>Datos comunes</FormSectionTitle>
               <SelectClient name='clientId' />
               <PlanBookingSelect bookings={bookings} />
               {!values.bookingId && (
@@ -364,7 +364,7 @@ export default function ExportPlanForm({
                   <InputFieldShippingCompanySelect
                     name='shippingCompanyId'
                     label='Naviera'
-                    placeholder='Selecciona una Naviera'
+                    placeholder='Selecciona una naviera'
                     onSelect={() => {
                       setFieldValue('departureHarborId', '');
                       setFieldValue('destinationHarborId', '');
@@ -374,9 +374,9 @@ export default function ExportPlanForm({
                     <InputFieldHarborShippingCompany
                       key={`departure-${values.shippingCompanyId || 'none'}`}
                       name='departureHarborId'
-                      label='Puerto de Salida'
+                      label='Puerto de salida'
                       type='departure'
-                      placeholder='Selecciona un puerto de Salida'
+                      placeholder='Selecciona un puerto de salida'
                       shippingCompany={shippingCompanyById(
                         values.shippingCompanyId
                       )}
@@ -384,9 +384,9 @@ export default function ExportPlanForm({
                     <InputFieldHarborShippingCompany
                       key={`destination-${values.shippingCompanyId || 'none'}`}
                       name='destinationHarborId'
-                      label='Puerto de Destino'
+                      label='Puerto de destino'
                       type='destination'
-                      placeholder='Selecciona un puerto de Destino'
+                      placeholder='Selecciona un puerto de destino'
                       shippingCompany={shippingCompanyById(
                         values.shippingCompanyId
                       )}
@@ -395,7 +395,7 @@ export default function ExportPlanForm({
                   <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
                     <InputFieldShipName
                       name='shipName'
-                      label='Nombre de la Nave'
+                      label='Nombre de la nave'
                       shippingCompanyId={values.shippingCompanyId}
                     />
                     <InputFieldPlain
@@ -404,7 +404,7 @@ export default function ExportPlanForm({
                     />
                     <InputFieldPlain
                       name='bookingNumber'
-                      label='Número de Booking'
+                      label='Número de booking'
                     />
                   </SimpleGrid>
                 </>
@@ -412,26 +412,26 @@ export default function ExportPlanForm({
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <InputFieldDayDateTime
                   name='shippingDateTime'
-                  label='Fecha Máxima de Ingreso'
+                  label='Fecha máxima de ingreso'
                 />
                 <InputFieldDepositSelect
                   name='depositId'
                   label='Depósito'
-                  placeholder='Selecciona un Deposito'
+                  placeholder='Selecciona un deposito'
                 />
                 <InputFieldTransportSelect
                   name='transportId'
                   label='Transporte'
-                  placeholder='Selecciona un Transporte'
+                  placeholder='Selecciona un transporte'
                 />
                 <InputFieldVerifierSelect
                   name='verifierId'
                   label='Verificadora'
-                  placeholder='Selecciona una Verificadora'
+                  placeholder='Selecciona una verificadora'
                 />
                 <InputFieldPlain
                   name='numberOfVerifiers'
-                  label='Número de Verificadores'
+                  label='Número de verificadores'
                   inputMode='numeric'
                 />
               </SimpleGrid>

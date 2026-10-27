@@ -62,7 +62,7 @@ const AdjustWeeklySelector = (): JSX.Element => {
         <SimpleGrid columns={{ base: 1, md: 3 }} gap='4' mb={4}>
           <NativeSelect.Root>
             <NativeSelect.Field
-              placeholder='Selecciona una Finca'
+              placeholder='Selecciona una finca'
               onChange={(e) => setBusinessId(Number(e.target.value))}
             >
               {farms?.map((farm) => (
@@ -76,7 +76,7 @@ const AdjustWeeklySelector = (): JSX.Element => {
 
           <NativeSelect.Root>
             <NativeSelect.Field
-              placeholder='Selecciona un Mes'
+              placeholder='Selecciona un mes'
               onChange={handleMonthChange}
             >
               {Array.from({ length: 12 }, (_, i) => {
@@ -95,7 +95,7 @@ const AdjustWeeklySelector = (): JSX.Element => {
 
           <NativeSelect.Root disabled={month === null}>
             <NativeSelect.Field
-              placeholder='Selecciona una Semana'
+              placeholder='Selecciona una semana'
               onChange={(e) => setWeek(Number(e.target.value))}
             >
               {weeksInMonth.map((weekNumber) => (

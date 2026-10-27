@@ -64,7 +64,7 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
   return (
     <VStack gap={4} align="stretch">
       <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
-        <Heading size="md" color={headingColor}>Lista de Cortes Pendientes</Heading>
+        <Heading size="md" color={headingColor}>Lista de cortes pendientes</Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
@@ -87,7 +87,7 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
               href={`${pathname}/${item.export?.id ?? item.id}`}
               label='Realizar hoja de corte'
               title={`Abrir hoja de corte para: ${item.export?.merchant?.businessName || '—'} — ${item.export?.client?.businessName || '—'}`}
-              description='¿Estás seguro de que deseas empezar esta Hoja de Corte?'
+              description='¿Estás seguro de que deseas empezar esta hoja de corte?'
             />
           )}
         />

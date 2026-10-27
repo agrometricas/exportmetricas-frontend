@@ -122,7 +122,7 @@ const CorrectCuttingSheetForm = ({
     <Flex direction='column' gap={6}>
       <Box>
         <HStack gap={3} mb={1}>
-          <Text fontWeight='semibold'>Hoja de Corte Nº {sheet.id}</Text>
+          <Text fontWeight='semibold'>Hoja de corte Nº {sheet.id}</Text>
           <Badge colorPalette={sheet.version > 1 ? 'orange' : 'gray'}>
             Vigente: {sheetVersionLabel(sheet.version)}
           </Badge>
@@ -164,7 +164,7 @@ const CorrectCuttingSheetForm = ({
               <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
                 <InputFieldSelector
                   name='palletsHeight'
-                  label='Altura de Pallets'
+                  label='Altura de pallets'
                   options={palletsHeightOptions(
                     hasPallets,
                     sheet.palletsHeight
@@ -172,7 +172,7 @@ const CorrectCuttingSheetForm = ({
                 />
                 <InputFieldSelector
                   name='containerPositioning'
-                  label='Posición del Contenedor'
+                  label='Posición del contenedor'
                   options={CONTAINER_POSITIONS}
                 />
                 <Field.Root>

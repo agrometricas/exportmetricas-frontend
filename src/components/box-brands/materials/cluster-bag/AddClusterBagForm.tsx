@@ -120,7 +120,7 @@ const AddClusterBagForm = ({
       },
       onSuccess: () => {
         toaster.create({
-          title: 'Cluster Bag Creado con Éxito',
+          title: 'Cluster bag creado con éxito',
           type: 'success',
           duration: 5000,
           closable: true,

@@ -89,7 +89,7 @@ const AddStapleForm = ({ onClose }: AddStapleFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Grapa Creada con Éxito',
+            title: 'Grapa creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -115,7 +115,7 @@ const AddStapleForm = ({ onClose }: AddStapleFormProps): React.JSX.Element => {
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Grapa</FormSectionTitle>
+              <FormSectionTitle>Agregar grapa</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

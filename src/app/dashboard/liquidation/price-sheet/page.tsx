@@ -9,7 +9,7 @@ function PriceSheetPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdRequestQuote}
-      title='Hoja de Precios'
+      title='Hoja de precios'
       description='El precio por caja de cada línea de las órdenes de compra de la semana: es el que propone el pago al productor.'
       width='wide'
     >

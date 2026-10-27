@@ -29,7 +29,7 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport }) => {
               <DetailField label='Nombre'>{transport.name}</DetailField>
               <DetailField label='RUC'>{transport.ruc}</DetailField>
               <DetailField label='Dirección'>{transport.address}</DetailField>
-              <DetailField label='Rastreo Satelital'>
+              <DetailField label='Rastreo satelital'>
                 {transport.satelliteTracking ? 'Sí' : 'No'}
               </DetailField>
             </DetailFields>

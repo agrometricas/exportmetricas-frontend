@@ -70,7 +70,7 @@ const AddMiniPalletForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Mini pallet creado con Éxito',
+            title: 'Mini pallet creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddMiniPalletForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Mini Pallet</FormSectionTitle>
+            <FormSectionTitle>Agregar mini pallet</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

@@ -1027,8 +1027,8 @@ const specificationsInputFieldsText: InputFieldProps[] = [
 ];
 
 const weightInputFields: InputFieldProps[] = [
-  { name: 'netWeightBox', label: 'Peso Neto de Caja', unit: 'lb' },
-  { name: 'grossWeightBox', label: 'Peso Bruto de Caja', unit: 'lb' },
+  { name: 'netWeightBox', label: 'Peso neto de caja', unit: 'lb' },
+  { name: 'grossWeightBox', label: 'Peso bruto de caja', unit: 'lb' },
 ];
 
 function ClearPalletsOnBulk(): null {
@@ -1302,12 +1302,12 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
 
                 <InputFieldSelector
                   name='cargoType'
-                  label='Tipo de Carga'
+                  label='Tipo de carga'
                   options={CARGO_TYPE_OPTIONS}
                 />
                 <InputFieldSelector
                   name='boxTypeId'
-                  label='Tipo de Caja'
+                  label='Tipo de caja'
                   placeholder='Sin tipo de caja'
                   options={boxTypeOptions}
                 />
@@ -1339,7 +1339,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 <BottomSelectBanContanier
                   name1={'bottomTypeId'}
                   label1={'Fondo'}
-                  placeholder1={'Selecciona el Fondo'}
+                  placeholder1={'Selecciona el fondo'}
                   name2={'bottomTypeQuantity'}
                   label2={'Fondos/Caja'}
                   placeholder2={'Cantidad'}
@@ -1349,7 +1349,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 <LidSelectBanContanier
                   name1={'lidTypeId'}
                   label1={'Tapa'}
-                  placeholder1={'Selecciona la Tapa'}
+                  placeholder1={'Selecciona la tapa'}
                   name2={'lidTypeQuantity'}
                   label2={'Tapas/Caja'}
                   placeholder2={'Cantidad'}
@@ -1359,7 +1359,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 <CoverSelectBanContanier
                   name1={'coverTypeId'}
                   label1={'Funda'}
-                  placeholder1={'Selecciona la Funda'}
+                  placeholder1={'Selecciona la funda'}
                   name2={'coverTypeQuantity'}
                   label2={'Fundas/Caja'}
                   placeholder2={'Cantidad'}
@@ -1369,7 +1369,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 <CardboardSelectBanContanier
                   name1={'cardboardTypeId'}
                   label1={'Cartulina/Pad'}
-                  placeholder1={'Selecciona la Cartulina'}
+                  placeholder1={'Selecciona la cartulina'}
                   name2={'cardboardTypeQuantity'}
                   label2={'Cartulinas/Caja'}
                   placeholder2={'Cantidad'}
@@ -1391,8 +1391,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 {shown('padTypeId') && (
                   <PadSelectBanContainer
                     name1={'padTypeId'}
-                    label1={'Mini Pad'}
-                    placeholder1={'Selecciona el Pad'}
+                    label1={'Mini pad'}
+                    placeholder1={'Selecciona el pad'}
                     name2={'padTypeQuantity'}
                     label2={'Pads/Caja'}
                     placeholder2={'Cantidad'}
@@ -1404,7 +1404,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <SpongeSelectBanContainer
                     name1={'spongeTypeId'}
                     label1={'Esponja'}
-                    placeholder1={'Selecciona la Esponja'}
+                    placeholder1={'Selecciona la esponja'}
                     name2={'spongeTypeQuantity'}
                     label2={'Esponjas/Caja'}
                     placeholder2={'Cantidad'}
@@ -1416,7 +1416,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <LabelSelectBanContainer
                     name1={'labelId'}
                     label1={'Etiqueta'}
-                    placeholder1={'Selecciona la Etiqueta'}
+                    placeholder1={'Selecciona la etiqueta'}
                     name2={'labelQuantity'}
                     label2={'Etiquetas/Caja'}
                     placeholder2={'Cantidad'}
@@ -1427,7 +1427,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <BandSelectBanContanier
                     name1={'bandId'}
                     label1={'Banda'}
-                    placeholder1={'Selecciona la Banda'}
+                    placeholder1={'Selecciona la banda'}
                     name2={'bandQuantity'}
                     label2={'Bandas/Caja'}
                     placeholder2={'Cantidad'}
@@ -1438,7 +1438,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <SachetSelectBanContainer
                     name1={'sachetId'}
                     label1={'Sachet'}
-                    placeholder1={'Selecciona el Sachet'}
+                    placeholder1={'Selecciona el sachet'}
                     name2={'sachetQuantity'}
                     label2={'Sachets/Caja'}
                     placeholder2={'Cantidad'}
@@ -1449,7 +1449,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <RubberSelectBanContainer
                     name1={'rubberId'}
                     label1={'Liga'}
-                    placeholder1={'Selecciona la Liga'}
+                    placeholder1={'Selecciona la liga'}
                     name2={'rubberQuantity'}
                     label2={'Ligas/Caja'}
                     placeholder2={'Cantidad'}
@@ -1460,7 +1460,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <ProtectorSelectBanContainer
                     name1={'protectorId'}
                     label1={'Protector'}
-                    placeholder1={'Selecciona el Protector'}
+                    placeholder1={'Selecciona el protector'}
                     name2={'protectorQuantity'}
                     label2={'Protectores/Caja'}
                     placeholder2={'Cantidad'}
@@ -1470,10 +1470,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 {shown('clusterBagId') && (
                   <ClusterBagSelectBanContainer
                     name1={'clusterBagId'}
-                    label1={'Cluster Bag'}
-                    placeholder1={'Selecciona el Cluster Bag'}
+                    label1={'Cluster bag'}
+                    placeholder1={'Selecciona el cluster bag'}
                     name2={'clusterBagQuantity'}
-                    label2={'Cluster Bags/Caja'}
+                    label2={'Cluster bags/caja'}
                     placeholder2={'Cantidad'}
                     unit={perBox('CLUSTER_BAG')}
                   />
@@ -1531,7 +1531,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                     <PalletSelectBanContanier
                       name1={'palletsTypeId'}
                       label1={'Pallet'}
-                      placeholder1={'Selecciona el Pallet'}
+                      placeholder1={'Selecciona el pallet'}
                       name2={'palletsTypeQuantity'}
                       label2={'Pallets/Contenedor'}
                       placeholder2={'Cantidad'}
@@ -1540,10 +1540,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
 
                     <MiniPalletSelectBanContanier
                       name1={'miniPalletsTypeId'}
-                      label1={'Mini Pallet'}
-                      placeholder1={'Selecciona el Mini Pallet'}
+                      label1={'Mini pallet'}
+                      placeholder1={'Selecciona el mini pallet'}
                       name2={'miniPalletsTypeQuantity'}
-                      label2={'Mini Pallets/Contenedor'}
+                      label2={'Mini pallets/contenedor'}
                       placeholder2={'Cantidad'}
                       unit={perContainer('MINI_PALLET')}
                     />
@@ -1554,7 +1554,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <CornerSelectBanContainer
                     name1={'cornerTypeId'}
                     label1={'Esquineros'}
-                    placeholder1={'Selecciona el Esquinero'}
+                    placeholder1={'Selecciona el esquinero'}
                     name2={'cornerTypeQuantity'}
                     label2={'Esquineros/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1566,7 +1566,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <ReinforcementSelectBanContainer
                     name1={'reinforcementTypeId'}
                     label1={'Refuerzo'}
-                    placeholder1={'Selecciona el Refuerzo'}
+                    placeholder1={'Selecciona el refuerzo'}
                     name2={'reinforcementTypeQuantity'}
                     label2={'Refuerzos/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1578,7 +1578,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <StapleSelectBanContainer
                     name1={'stapleId'}
                     label1={'Grapa'}
-                    placeholder1={'Selecciona la Grapa'}
+                    placeholder1={'Selecciona la grapa'}
                     name2={'stapleQuantity'}
                     label2={'Grapas/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1589,7 +1589,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <StrippingSelectBanContainer
                     name1={'strippingId'}
                     label1={'Zuncho'}
-                    placeholder1={'Selecciona el Zuncho'}
+                    placeholder1={'Selecciona el zuncho'}
                     name2={'strippingQuantity'}
                     label2={'Zunchos/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1600,7 +1600,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <ThermographSelectBanContainer
                     name1={'thermographId'}
                     label1={'Termografo'}
-                    placeholder1={'Selecciona el Termografo'}
+                    placeholder1={'Selecciona el termografo'}
                     name2={'thermographQuantity'}
                     label2={'Termografos/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1611,7 +1611,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <SealSelectBanContainer
                     name1={'sealId'}
                     label1={'Sello'}
-                    placeholder1={'Selecciona el Sello'}
+                    placeholder1={'Selecciona el sello'}
                     name2={'sealQuantity'}
                     label2={'Sellos/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1642,7 +1642,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <PackingTapeSelectBanContanier
                     name1={'packingTapeTypeId'}
                     label1={'Cinta de embalaje'}
-                    placeholder1={'Selecciona la Cinta de embalaje'}
+                    placeholder1={'Selecciona la cinta de embalaje'}
                     name2={'packingTapeTypeQuantity'}
                     label2={'Cintas/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1654,7 +1654,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <LatexRemoverSelectBanContainer
                     name1={'latexRemoverId'}
                     label1={'Removedor de latex'}
-                    placeholder1={'Selecciona el Removedor de Latex'}
+                    placeholder1={'Selecciona el removedor de latex'}
                     name2={'latexRemoverQuantity'}
                     label2={'Removedores/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1665,7 +1665,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   <BlockingSheetSelectBanContainer
                     name1={'blockingSheetId'}
                     label1={'Lamina de bloqueo'}
-                    placeholder1={'Selecciona la Lamina de bloqueo'}
+                    placeholder1={'Selecciona la lamina de bloqueo'}
                     name2={'blockingSheetQuantity'}
                     label2={'Laminas/Contenedor'}
                     placeholder2={'Cantidad'}
@@ -1675,10 +1675,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 {shown('containerSealPlasticId') && (
                   <ContainerSealPlasticSelectBanContainer
                     name1={'containerSealPlasticId'}
-                    label1={'Plástico de Cierre Contenedor'}
-                    placeholder1={'Selecciona el Plástico de Cierre Contenedor'}
+                    label1={'Plástico de cierre contenedor'}
+                    placeholder1={'Selecciona el plástico de cierre contenedor'}
                     name2={'containerSealPlasticQuantity'}
-                    label2={'Plásticos de Cierre Contenedor/Contenedor'}
+                    label2={'Plásticos de cierre contenedor/contenedor'}
                     placeholder2={'Cantidad'}
                     unit={perContainer('CONTAINER_SEAL_PLASTIC')}
                   />
@@ -1686,10 +1686,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 {shown('securityKitId') && (
                   <SecurityKitSelectBanContainer
                     name1={'securityKitId'}
-                    label1={'Kit de Seguridad'}
-                    placeholder1={'Selecciona el Kit de Seguridad'}
+                    label1={'Kit de seguridad'}
+                    placeholder1={'Selecciona el kit de seguridad'}
                     name2={'securityKitQuantity'}
-                    label2={'Kits de Seguridad/Contenedor'}
+                    label2={'Kits de seguridad/contenedor'}
                     placeholder2={'Cantidad'}
                     unit={perContainer('SECURITY_KIT')}
                   />
@@ -1697,10 +1697,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 {shown('boardingCardId') && (
                   <BoardingCardSelectBanContainer
                     name1={'boardingCardId'}
-                    label1={'Tarjeta de Embarque'}
-                    placeholder1={'Selecciona la Tarjeta de Embarque'}
+                    label1={'Tarjeta de embarque'}
+                    placeholder1={'Selecciona la tarjeta de embarque'}
                     name2={'boardingCardQuantity'}
-                    label2={'Tarjetas de Embarque/Contenedor'}
+                    label2={'Tarjetas de embarque/contenedor'}
                     placeholder2={'Cantidad'}
                     unit={perContainer('BOARDING_CARD')}
                   />

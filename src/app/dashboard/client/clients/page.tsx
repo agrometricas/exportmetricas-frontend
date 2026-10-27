@@ -26,12 +26,12 @@ function ClientsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdPeopleOutline}
-      title='Gestión de Clientes'
+      title='Gestión de clientes'
       description='Visualiza y administra los clientes registrados'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Cliente'
+            aria-label='Agregar cliente'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

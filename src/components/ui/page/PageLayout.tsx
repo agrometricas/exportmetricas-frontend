@@ -25,14 +25,16 @@ export const PageHeader = ({
   description,
   actions,
 }: PageHeaderProps): React.JSX.Element => (
+  // The actions share the title's row, also on a phone, where the pages turn
+  // them into icon buttons; they wrap below only when they do not fit.
   <Flex
-    direction={{ base: 'column', md: 'row' }}
     justify='space-between'
-    align={{ base: 'stretch', md: 'center' }}
+    align={{ base: 'flex-start', md: 'center' }}
+    wrap='wrap'
     gap={4}
     mb={6}
   >
-    <HStack gap={4} align='center'>
+    <HStack gap={4} align='center' flex='1 1 16rem' minW={0}>
       <Flex
         align='center'
         justify='center'
@@ -57,7 +59,11 @@ export const PageHeader = ({
         )}
       </Box>
     </HStack>
-    {actions && <HStack gap={3}>{actions}</HStack>}
+    {actions && (
+      <HStack gap={3} flexShrink={0}>
+        {actions}
+      </HStack>
+    )}
   </Flex>
 );
 

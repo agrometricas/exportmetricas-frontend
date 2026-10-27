@@ -25,17 +25,17 @@ export default function DetailExportSentConfirmedCost({
         <Accordion.ItemContent pb={4}><Accordion.ItemBody>
             <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap={4}>
               <Box>
-                <Text fontWeight='bold'>ID Exportación:</Text>
+                <Text fontWeight='bold'>ID exportación:</Text>
                 <Text>{exportData.id}</Text>
               </Box>
               <Box>
-                <Text fontWeight='bold'>Fecha de Corte:</Text>
+                <Text fontWeight='bold'>Fecha de corte:</Text>
                 <Text>
                   {formatDayMonthYear(exportData.cuttingDate)}
                 </Text>
               </Box>
               <Box>
-                <Text fontWeight='bold'>Cajas Exportadas:</Text>
+                <Text fontWeight='bold'>Cajas exportadas:</Text>
                 <Text>{exportData.boxQuantity}</Text>
               </Box>
               <Box>
@@ -43,7 +43,7 @@ export default function DetailExportSentConfirmedCost({
                 <Text>{exportData.weekDescription}</Text>
               </Box>
               <Box>
-                <Text fontWeight='bold'>Tipo Contrato:</Text>
+                <Text fontWeight='bold'>Tipo contrato:</Text>
                 <Text>{exportData.contractType}</Text>
               </Box>
               <Box>
@@ -96,8 +96,8 @@ export default function DetailExportSentConfirmedCost({
                   <Box flex='1'>Nombre</Box>
                   <Box flex='1'>Código</Box>
                   <Box flex='1'>Cantidad</Box>
-                  <Box flex='1'>Costo Unitario</Box>
-                  <Box flex='1'>Costo Total</Box>
+                  <Box flex='1'>Costo unitario</Box>
+                  <Box flex='1'>Costo total</Box>
                 </Flex>
                 <Separator />
                 {/* Filas de materiales */}

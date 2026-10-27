@@ -68,7 +68,7 @@ const AddCornerForm = ({ onClose }: AddCornerFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Corner creado con Éxito',
+            title: 'Corner creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -90,7 +90,7 @@ const AddCornerForm = ({ onClose }: AddCornerFormProps): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Corner</FormSectionTitle>
+            <FormSectionTitle>Agregar corner</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

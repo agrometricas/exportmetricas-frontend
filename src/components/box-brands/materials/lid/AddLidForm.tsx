@@ -70,7 +70,7 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Tapa creada con Éxito',
+            title: 'Tapa creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
       {({}) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Tapa</FormSectionTitle>
+            <FormSectionTitle>Agregar tapa</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
 

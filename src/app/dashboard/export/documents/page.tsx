@@ -15,7 +15,7 @@ function DocumentBoardPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineFactCheck}
-      title='Documentos de Embarque'
+      title='Documentos de embarque'
       description='El set de cada booking: lo que falta, lo rechazado y cuánto lleva, desde una semana antes de hoy'
     >
       <Card.Root

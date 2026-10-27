@@ -9,7 +9,7 @@ function MinimumBoxPricePage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdAttachMoney}
-      title='Precio Mínimo'
+      title='Precio mínimo'
       description='Precio mínimo de sustentación por caja que se le propone al productor.'
     >
       <MinimumBoxPriceForm />

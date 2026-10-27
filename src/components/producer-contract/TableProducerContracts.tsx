@@ -37,7 +37,7 @@ const TableProducerContracts = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Cupo Semanal Aprobado',
+        header: 'Cupo semanal aprobado',
         columns: [
           {
             accessorKey: 'approvedHectares',

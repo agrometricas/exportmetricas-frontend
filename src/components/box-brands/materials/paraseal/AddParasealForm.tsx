@@ -70,7 +70,7 @@ const AddParasealForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Paraseal creado con Éxito',
+            title: 'Paraseal creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddParasealForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Paraseal</FormSectionTitle>
+            <FormSectionTitle>Agregar paraseal</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

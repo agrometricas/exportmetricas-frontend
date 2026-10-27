@@ -9,7 +9,7 @@ function BoxTypesPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineInventory2}
-      title='Tipos de Caja'
+      title='Tipos de caja'
       description='Los tipos de caja de la exportadora (22XU, 208…) que eligen las alícuotas.'
       width='wide'
     >

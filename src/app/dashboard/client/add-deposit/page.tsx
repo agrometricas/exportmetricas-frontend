@@ -12,7 +12,7 @@ function AddDepositPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdWarehouse}
-      title='Agregar Depósito Nuevo'
+      title='Agregar depósito nuevo'
       description='Completa el formulario para registrar un depósito'
     >
       <AddDepositForm />

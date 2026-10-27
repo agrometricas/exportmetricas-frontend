@@ -52,7 +52,7 @@ export function UpdateStockModal({
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
-            <Dialog.Header>Actualizar Stock</Dialog.Header>
+            <Dialog.Header>Actualizar stock</Dialog.Header>
             <Dialog.CloseTrigger />
             <Dialog.Body>
               <Formik
@@ -65,7 +65,7 @@ export function UpdateStockModal({
                     {
                       onSuccess: () => {
                         toaster.create({
-                          title: 'Stock Actualizado con Éxito.',
+                          title: 'Stock actualizado con éxito.',
                           type: 'success',
                           duration: 3000,
                           closable: true,
@@ -74,7 +74,7 @@ export function UpdateStockModal({
                       },
                       onError: (error: unknown) => {
                         toaster.create({
-                          title: 'Error al Actualizar el Stock.',
+                          title: 'Error al actualizar el stock.',
                           description: serverErrorMessage(error),
                           type: 'error',
                           duration: 3000,
@@ -90,25 +90,25 @@ export function UpdateStockModal({
                     <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
                       <InputFieldNumber
                         name='initialStock'
-                        label='Stock Actual'
+                        label='Stock actual'
                         value={initialStock}
                         isReadOnly
                       />
                       <InputFieldNumber
                         name='addedStock'
-                        label='Agregar Nuevo Stock'
+                        label='Agregar nuevo stock'
                         placeholder='Cantidad'
                       />
                     </SimpleGrid>
 
                     <Box mt={4} mb={2}>
-                      <Text fontWeight='bold'>Nuevo Total de Stock:</Text>
+                      <Text fontWeight='bold'>Nuevo total de stock:</Text>
                       <Text ml={4}>{initialStock + values.addedStock}</Text>
                     </Box>
 
                     <InputFieldNumber
                       name='cost'
-                      label='Costo Actual'
+                      label='Costo actual'
                       value={initialCost}
                       isDecimal
                       unit='$'

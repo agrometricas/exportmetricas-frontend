@@ -10,8 +10,8 @@ export const cargoTypeLabel = (cargoType?: CargoType | null): string =>
 
 export const boxQuantityLabel = (cargoType: CargoType | ''): string =>
   cargoType === 'BULK'
-    ? 'Base de Referencia (cajas)'
-    : 'Número de Cajas/Contenedor';
+    ? 'Base de referencia (cajas)'
+    : 'Número de cajas/contenedor';
 
 export function cargoBody(values: {
   cargoType: CargoType | '';

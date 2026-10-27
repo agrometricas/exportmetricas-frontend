@@ -48,7 +48,7 @@ function ExportPaymentPage(): React.JSX.Element {
   return (
     <CardPage
       icon={FiDollarSign}
-      title='Pago a Productores'
+      title='Pago a productores'
       description='Registra y confirma el pago del envío seleccionado'
     >
       <PendingPaymentForm

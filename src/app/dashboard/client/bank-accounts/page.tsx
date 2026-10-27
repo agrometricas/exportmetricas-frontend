@@ -25,12 +25,12 @@ function BankAccountsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdAccountBalance}
-      title='Gestión de Cuentas Bancarias'
+      title='Gestión de cuentas bancarias'
       description='Visualiza y administra las cuentas bancarias registradas'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Cuenta Bancaria'
+            aria-label='Agregar cuenta bancaria'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

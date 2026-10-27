@@ -22,8 +22,8 @@ describe('tipo de carga de la alícuota', () => {
   });
 
   it('con granel las cajas son una base de referencia', () => {
-    expect(boxQuantityLabel('BULK')).toBe('Base de Referencia (cajas)');
-    expect(boxQuantityLabel('CONTAINER')).toBe('Número de Cajas/Contenedor');
+    expect(boxQuantityLabel('BULK')).toBe('Base de referencia (cajas)');
+    expect(boxQuantityLabel('CONTAINER')).toBe('Número de cajas/contenedor');
   });
 
   it('rotula el tipo de carga en español', () => {

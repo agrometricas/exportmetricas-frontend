@@ -93,7 +93,7 @@ const AddThermographForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Termografo Creado con Éxito',
+            title: 'Termografo creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -119,7 +119,7 @@ const AddThermographForm = ({
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Termografo</FormSectionTitle>
+              <FormSectionTitle>Agregar termografo</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'type'} label={'Tipo'} />

@@ -20,7 +20,7 @@ const UpdateExporterPage = (): JSX.Element => {
   return (
     <CardPage
       icon={MdLocationOn}
-      title='Modificar Ubicación'
+      title='Modificar ubicación'
       description='Actualiza la información de ubicación y detalles de la exportadora.'
     >
       {exporter?.exporterDetails ? (

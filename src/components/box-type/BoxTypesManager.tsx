@@ -96,7 +96,7 @@ export default function BoxTypesManager(): React.JSX.Element {
           <Box maxW='sm'>
             <InputFieldPlain
               name='name'
-              label='Tipo de Caja'
+              label='Tipo de caja'
               placeholder='22XU'
             />
           </Box>
@@ -106,7 +106,7 @@ export default function BoxTypesManager(): React.JSX.Element {
           </Text>
           <HStack mt={4}>
             <Button type='submit' colorPalette='green' loading={isLoading}>
-              {editing ? 'Guardar Cambios' : 'Agregar Tipo de Caja'}
+              {editing ? 'Guardar cambios' : 'Agregar tipo de caja'}
             </Button>
             {editing && (
               <Button variant='ghost' onClick={() => setEditing(null)}>
@@ -133,7 +133,7 @@ export default function BoxTypesManager(): React.JSX.Element {
           <Table.Root size='sm'>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader>Tipo de Caja</Table.ColumnHeader>
+                <Table.ColumnHeader>Tipo de caja</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign='end'>
                   Alícuotas
                 </Table.ColumnHeader>

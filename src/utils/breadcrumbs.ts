@@ -17,181 +17,181 @@ type AddMap = Record<
 const VIEW_ROUTES: ViewMap = {
   '/dashboard/producer/producers': 'Productores',
   '/dashboard/producer/fincas': 'Fincas',
-  '/dashboard/producer/contract-usage': 'Cupos de la Semana',
-  '/dashboard/client/counterpart-totals': 'Totales por Contraparte',
+  '/dashboard/producer/contract-usage': 'Cupos de la semana',
+  '/dashboard/client/counterpart-totals': 'Totales por contraparte',
   '/dashboard/producer/contracts': 'Contratos',
 
   '/dashboard/client/clients': 'Clientes',
   '/dashboard/client/harbors': 'Puertos',
   '/dashboard/client/shipping-companies': 'Navieras',
-  '/dashboard/client/shipping-contracts': 'Contratos Navieros',
-  '/dashboard/client/transport-rates': 'Tarifas de Transporte',
+  '/dashboard/client/shipping-contracts': 'Contratos navieros',
+  '/dashboard/client/transport-rates': 'Tarifas de transporte',
   '/dashboard/client/deposits': 'Depósitos',
   '/dashboard/client/transports': 'Transportes',
 
   '/dashboard/box-brands/search': 'Alícuotas',
   '/dashboard/box-brands/verifiers': 'Verificadoras',
-  '/dashboard/box-brands/cutting-types': 'Tipos de Corte',
+  '/dashboard/box-brands/cutting-types': 'Tipos de corte',
 
   '/dashboard/winery/stock': 'Stock',
-  '/dashboard/winery/stock-movements': 'Trazabilidad de Stock',
-  '/dashboard/winery/adjust-weekly': 'Ajuste Semanal',
+  '/dashboard/winery/stock-movements': 'Trazabilidad de stock',
+  '/dashboard/winery/adjust-weekly': 'Ajuste semanal',
 
   '/dashboard/export/search': 'Exportaciones',
   '/dashboard/export/bookings': 'Bookings',
   '/dashboard/export/documents': 'Documentos',
-  '/dashboard/export/purchase-orders': 'Órdenes de Compra',
-  '/dashboard/liquidation/exports-sent': 'Envíos de Insumos',
+  '/dashboard/export/purchase-orders': 'Órdenes de compra',
+  '/dashboard/liquidation/exports-sent': 'Envíos de insumos',
 
-  '/dashboard/export/cutting-sheets': 'Hojas de Corte',
+  '/dashboard/export/cutting-sheets': 'Hojas de corte',
 
-  '/dashboard/liquidation/export-costs': 'Costos Validados',
-  '/dashboard/liquidation/producer-payments': 'Pago Productores',
-  '/dashboard/liquidation/client-payments': 'Cobro Clientes',
-  '/dashboard/client/bank-accounts': 'Cuentas Bancarias',
+  '/dashboard/liquidation/export-costs': 'Costos validados',
+  '/dashboard/liquidation/producer-payments': 'Pago productores',
+  '/dashboard/liquidation/client-payments': 'Cobro clientes',
+  '/dashboard/client/bank-accounts': 'Cuentas bancarias',
 
   '/dashboard/logos': 'Logos',
-  '/dashboard/settings/material-units': 'Unidades de Materiales',
-  '/dashboard/settings/minimum-box-price': 'Precio Mínimo',
-  '/dashboard/settings/box-types': 'Tipos de Caja',
+  '/dashboard/settings/material-units': 'Unidades de materiales',
+  '/dashboard/settings/minimum-box-price': 'Precio mínimo',
+  '/dashboard/settings/box-types': 'Tipos de caja',
   '/dashboard/settings/users': 'Usuarios',
-  '/dashboard/liquidation/price-sheet': 'Hoja de Precios',
+  '/dashboard/liquidation/price-sheet': 'Hoja de precios',
 };
 
 const ADD_ROUTES: AddMap = {
   '/dashboard/producer/add-producer': {
     parent: 'Productores',
-    addLabel: 'Agregar Productor',
+    addLabel: 'Agregar productor',
     parentHref: '/dashboard/producer/producers',
   },
   '/dashboard/producer/add-fincas': {
     parent: 'Fincas',
-    addLabel: 'Agregar Finca',
+    addLabel: 'Agregar finca',
     parentHref: '/dashboard/producer/fincas',
   },
   '/dashboard/producer/add-contract': {
     parent: 'Contratos',
-    addLabel: 'Agregar Contrato',
+    addLabel: 'Agregar contrato',
     parentHref: '/dashboard/producer/contracts',
   },
   '/dashboard/producer/add-bank-account': {
-    parent: 'Cuentas Bancarias',
-    addLabel: 'Agregar Cuenta Bancaria',
+    parent: 'Cuentas bancarias',
+    addLabel: 'Agregar cuenta bancaria',
     parentHref: '/dashboard/client/bank-accounts',
   },
 
   '/dashboard/client/add-client': {
     parent: 'Clientes',
-    addLabel: 'Agregar Cliente',
+    addLabel: 'Agregar cliente',
     parentHref: '/dashboard/client/clients',
   },
   '/dashboard/client/add-harbor': {
     parent: 'Puertos',
-    addLabel: 'Agregar Puerto',
+    addLabel: 'Agregar puerto',
     parentHref: '/dashboard/client/harbors',
   },
   '/dashboard/client/add-shipping-company': {
     parent: 'Navieras',
-    addLabel: 'Agregar Naviera',
+    addLabel: 'Agregar naviera',
     parentHref: '/dashboard/client/shipping-companies',
   },
   '/dashboard/client/add-shipping-contract': {
-    parent: 'Contratos Navieros',
-    addLabel: 'Agregar Contrato Naviero',
+    parent: 'Contratos navieros',
+    addLabel: 'Agregar contrato naviero',
     parentHref: '/dashboard/client/shipping-contracts',
   },
   '/dashboard/client/add-deposit': {
     parent: 'Depósitos',
-    addLabel: 'Agregar Depósito',
+    addLabel: 'Agregar depósito',
     parentHref: '/dashboard/client/deposits',
   },
   '/dashboard/client/add-transport': {
     parent: 'Transportes',
-    addLabel: 'Agregar Transporte',
+    addLabel: 'Agregar transporte',
     parentHref: '/dashboard/client/transports',
   },
   '/dashboard/client/add-bank-account': {
-    parent: 'Cuentas Bancarias',
-    addLabel: 'Agregar Cuenta Bancaria',
+    parent: 'Cuentas bancarias',
+    addLabel: 'Agregar cuenta bancaria',
     parentHref: '/dashboard/client/bank-accounts',
   },
 
   '/dashboard/box-brands/add-box-brand': {
     parent: 'Alícuotas',
-    addLabel: 'Agregar Alícuotas',
+    addLabel: 'Agregar alícuotas',
     parentHref: '/dashboard/box-brands/search',
   },
   '/dashboard/box-brands/add-brand': {
     parent: 'Alícuotas',
-    addLabel: 'Agregar Marca',
+    addLabel: 'Agregar marca',
     parentHref: '/dashboard/box-brands/search',
   },
   '/dashboard/box-brands/add-verifier': {
     parent: 'Verificadoras',
-    addLabel: 'Agregar Verificadora',
+    addLabel: 'Agregar verificadora',
     parentHref: '/dashboard/box-brands/verifiers',
   },
   '/dashboard/box-brands/add-cutting-type': {
-    parent: 'Tipos de Corte',
-    addLabel: 'Agregar Tipo de Corte',
+    parent: 'Tipos de corte',
+    addLabel: 'Agregar tipo de corte',
     parentHref: '/dashboard/box-brands/cutting-types',
   },
 
   '/dashboard/export/add-export': {
     parent: 'Exportaciones',
-    addLabel: 'Agregar Exportación',
+    addLabel: 'Agregar exportación',
     parentHref: '/dashboard/export/search',
   },
   '/dashboard/liquidation/add-supply-shipment': {
-    parent: 'Envíos de Insumos',
-    addLabel: 'Agregar Envío de Insumos',
+    parent: 'Envíos de insumos',
+    addLabel: 'Agregar envío de insumos',
     parentHref: '/dashboard/liquidation/exports-sent',
   },
 
   '/dashboard/export/add-booking': {
     parent: 'Bookings',
-    addLabel: 'Agregar Booking',
+    addLabel: 'Agregar booking',
     parentHref: '/dashboard/export/bookings',
   },
   '/dashboard/export/add-purchase-order': {
-    parent: 'Órdenes de Compra',
-    addLabel: 'Agregar Orden de Compra',
+    parent: 'Órdenes de compra',
+    addLabel: 'Agregar orden de compra',
     parentHref: '/dashboard/export/purchase-orders',
   },
 
   '/dashboard/export/add-cutting-sheet': {
-    parent: 'Hojas de Corte',
-    addLabel: 'Agregar Hoja de Corte',
+    parent: 'Hojas de corte',
+    addLabel: 'Agregar hoja de corte',
     parentHref: '/dashboard/export/cutting-sheets',
   },
 
   '/dashboard/winery/add-material': {
     parent: 'Stock',
-    addLabel: 'Agregar Stock',
+    addLabel: 'Agregar stock',
     parentHref: '/dashboard/winery/stock',
   },
 
   '/dashboard/liquidation/add-export-cost': {
-    parent: 'Costos Validados',
-    addLabel: 'Agregar Costos Validados',
+    parent: 'Costos validados',
+    addLabel: 'Agregar costos validados',
     parentHref: '/dashboard/liquidation/export-costs',
   },
   '/dashboard/liquidation/producer-pending-payments': {
-    parent: 'Pago Productores',
-    addLabel: 'Agregar Pago Productores',
+    parent: 'Pago productores',
+    addLabel: 'Agregar pago productores',
     parentHref: '/dashboard/liquidation/producer-payments',
   },
   '/dashboard/liquidation/client-pending-payments': {
-    parent: 'Cobro Clientes',
-    addLabel: 'Agregar Cobro Clientes',
+    parent: 'Cobro clientes',
+    addLabel: 'Agregar cobro clientes',
     parentHref: '/dashboard/liquidation/client-payments',
   },
 };
 
 const SEGMENT_ES: Record<string, string> = {
   dashboard: 'Inicio',
-  'update-user': 'Modificar Ubicación',
-  onboarding: 'Registro Inicial',
+  'update-user': 'Modificar ubicación',
+  onboarding: 'Registro inicial',
   producer: 'Productores',
   producers: 'Productores',
   fincas: 'Fincas',
@@ -200,29 +200,29 @@ const SEGMENT_ES: Record<string, string> = {
   clients: 'Clientes',
   harbors: 'Puertos',
   'shipping-companies': 'Navieras',
-  'shipping-contracts': 'Contratos Navieros',
+  'shipping-contracts': 'Contratos navieros',
   bookings: 'Bookings',
-  'purchase-orders': 'Órdenes de Compra',
+  'purchase-orders': 'Órdenes de compra',
   deposits: 'Depósitos',
   transports: 'Transportes',
-  'box-brands': 'Marcas de Caja',
+  'box-brands': 'Marcas de caja',
   brand: 'Marca',
   search: 'Buscar',
   verifiers: 'Verificadoras',
-  'cutting-types': 'Tipos de Corte',
-  'cutting-sheets': 'Hojas de Corte',
-  'upload-logo': 'Agregar Logo',
+  'cutting-types': 'Tipos de corte',
+  'cutting-sheets': 'Hojas de corte',
+  'upload-logo': 'Agregar logo',
   winery: 'Bodega',
   stock: 'Stock',
-  'stock-movements': 'Trazabilidad de Stock',
-  'adjust-weekly': 'Ajuste Semanal',
+  'stock-movements': 'Trazabilidad de stock',
+  'adjust-weekly': 'Ajuste semanal',
   export: 'Exportaciones',
-  'exports-sent': 'Envíos de Insumos',
+  'exports-sent': 'Envíos de insumos',
   liquidation: 'Liquidación',
-  'export-costs': 'Costos Validados',
-  'producer-payments': 'Pago Productores',
-  'client-payments': 'Cobro Clientes',
-  'bank-accounts': 'Cuentas Bancarias',
+  'export-costs': 'Costos validados',
+  'producer-payments': 'Pago productores',
+  'client-payments': 'Cobro clientes',
+  'bank-accounts': 'Cuentas bancarias',
   settings: 'Configuraciones',
   user: 'Perfil',
 };
@@ -307,8 +307,8 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     push('Exportaciones', '/dashboard/export/search', false);
     push(
       exportAction[1] === 'edit'
-        ? 'Editar Exportación'
-        : 'Duplicar Exportación',
+        ? 'Editar exportación'
+        : 'Duplicar exportación',
       cleanPath,
       true
     );
@@ -317,7 +317,7 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
   if (/^\/dashboard\/producer\/fincas\/\d+$/.test(cleanPath)) {
     push('Fincas', '/dashboard/producer/fincas', false);
-    push('Editar Finca', cleanPath, true);
+    push('Editar finca', cleanPath, true);
     return crumbs;
   }
 
@@ -326,34 +326,34 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   );
   if (orderLine) {
     const orderHref = `/dashboard/export/purchase-orders/${orderLine[1]}`;
-    push('Órdenes de Compra', '/dashboard/export/purchase-orders', false);
-    push('Orden de Compra', orderHref, !orderLine[2]);
-    if (orderLine[2] === '/plan') push('Plan Semanal', cleanPath, true);
-    else if (orderLine[2]) push('Crear Exportación', cleanPath, true);
+    push('Órdenes de compra', '/dashboard/export/purchase-orders', false);
+    push('Orden de compra', orderHref, !orderLine[2]);
+    if (orderLine[2] === '/plan') push('Plan semanal', cleanPath, true);
+    else if (orderLine[2]) push('Crear exportación', cleanPath, true);
     return crumbs;
   }
 
   if (/^\/dashboard\/box-brands\/cutting-types\/\d+$/.test(cleanPath)) {
-    push('Tipos de Corte', '/dashboard/box-brands/cutting-types', false);
-    push('Editar Tipo de Corte', cleanPath, true);
+    push('Tipos de corte', '/dashboard/box-brands/cutting-types', false);
+    push('Editar tipo de corte', cleanPath, true);
     return crumbs;
   }
 
   if (/^\/dashboard\/export\/cutting-sheets\/\d+$/.test(cleanPath)) {
-    push('Hojas de Corte', '/dashboard/export/cutting-sheets', false);
-    push('Corregir Hoja de Corte', cleanPath, true);
+    push('Hojas de corte', '/dashboard/export/cutting-sheets', false);
+    push('Corregir hoja de corte', cleanPath, true);
     return crumbs;
   }
 
   if (/^\/dashboard\/client\/shipping-contracts\/\d+$/.test(cleanPath)) {
-    push('Contratos Navieros', '/dashboard/client/shipping-contracts', false);
-    push('Editar Contrato Naviero', cleanPath, true);
+    push('Contratos navieros', '/dashboard/client/shipping-contracts', false);
+    push('Editar contrato naviero', cleanPath, true);
     return crumbs;
   }
 
   if (/^\/dashboard\/producer\/contracts\/\d+$/.test(cleanPath)) {
     push('Contratos', '/dashboard/producer/contracts', false);
-    push('Editar Contrato de Productor', cleanPath, true);
+    push('Editar contrato de productor', cleanPath, true);
     return crumbs;
   }
 
@@ -362,13 +362,13 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   );
   if (updateUser) {
     push('Perfil', `/dashboard/user/${updateUser[1]}`, false);
-    push('Modificar Ubicación', cleanPath, true);
+    push('Modificar ubicación', cleanPath, true);
     return crumbs;
   }
 
   if (/^\/dashboard\/export\/bookings\/\d+$/.test(cleanPath)) {
     push('Bookings', '/dashboard/export/bookings', false);
-    push('Editar Booking', cleanPath, true);
+    push('Editar booking', cleanPath, true);
     return crumbs;
   }
 

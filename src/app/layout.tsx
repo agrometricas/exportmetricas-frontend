@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'Exportmétricas',
-  description: 'App Generada en Next',
+  description: 'App generada en Next',
 };
 
 export default function RootLayout({

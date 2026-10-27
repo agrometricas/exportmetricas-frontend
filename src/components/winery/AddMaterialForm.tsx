@@ -107,22 +107,22 @@ export function AddMaterialForm({
         </Box>
 
         <Box>
-          <Text fontWeight='bold'>Stock Asignado:</Text>
+          <Text fontWeight='bold'>Stock asignado:</Text>
           <Text mb={2}>{stock.assignedStock}</Text>
         </Box>
 
         <Box>
-          <Text fontWeight='bold'>Stock Actual:</Text>
+          <Text fontWeight='bold'>Stock actual:</Text>
           <Text mb={2}>{stock.currentStock}</Text>
         </Box>
 
         <Box>
-          <Text fontWeight='bold'>Costo Asignado:</Text>
+          <Text fontWeight='bold'>Costo asignado:</Text>
           <Text mb={2}>${stock.assignedCost.toFixed(2)}</Text>
         </Box>
 
         <Box>
-          <Text fontWeight='bold'>Costo Actual:</Text>
+          <Text fontWeight='bold'>Costo actual:</Text>
           <Text mb={2}>${stock.currentCost.toFixed(2)}</Text>
         </Box>
       </SimpleGrid>

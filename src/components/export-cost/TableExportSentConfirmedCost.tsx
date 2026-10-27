@@ -19,25 +19,25 @@ export default function TableExportSentConfirmedCost(): JSX.Element {
   const columns = useMemo<MRT_ColumnDef<ExportSentConfirmedCost>[]>(
     () => [
       {
-        header: 'Información General',
+        header: 'Información general',
         columns: [
           {
             accessorKey: 'export.id',
-            header: 'ID Exportación',
+            header: 'ID exportación',
           },
           {
             accessorKey: 'export.contractType',
-            header: 'Tipo de Contrato',
+            header: 'Tipo de contrato',
           },
           {
             accessorKey: 'export.cuttingDate',
-            header: 'Fecha Corte',
+            header: 'Fecha corte',
             Cell: ({ cell }) =>
               formatDayMonthYear(cell.getValue<string>()),
           },
           {
             accessorKey: 'export.boxQuantity',
-            header: 'Cajas Exportadas',
+            header: 'Cajas exportadas',
           },
           {
             accessorKey: 'export.weekDescription',
@@ -46,7 +46,7 @@ export default function TableExportSentConfirmedCost(): JSX.Element {
         ],
       },
       {
-        header: 'Productor y Cliente',
+        header: 'Productor y cliente',
         columns: [
           {
             accessorKey: 'export.merchant.businessName',
@@ -62,21 +62,21 @@ export default function TableExportSentConfirmedCost(): JSX.Element {
           },
           {
             accessorKey: 'export.client.countryId',
-            header: 'País Cliente',
+            header: 'País cliente',
           },
         ],
       },
       {
-        header: 'Estado de Costos',
+        header: 'Estado de costos',
         columns: [
           {
             accessorKey: 'pendingProducerPayment',
-            header: 'Pendiente Pago Productor',
+            header: 'Pendiente pago productor',
             Cell: ({ cell }) => (cell.getValue<boolean>() ? 'Sí' : 'No'),
           },
           {
             accessorKey: 'pendingClientPayment',
-            header: 'Pendiente Cobro Cliente',
+            header: 'Pendiente cobro cliente',
             Cell: ({ cell }) => (cell.getValue<boolean>() ? 'Sí' : 'No'),
           },
         ],

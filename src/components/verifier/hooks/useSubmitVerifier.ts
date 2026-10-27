@@ -39,7 +39,7 @@ export function useSubmitVerifier(): {
                 },
                 onSuccess: () => {
                     toaster.create({
-                        title: 'Verificadora Creada con éxito',
+                        title: 'Verificadora creada con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

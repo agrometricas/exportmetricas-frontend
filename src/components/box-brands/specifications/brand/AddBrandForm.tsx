@@ -62,7 +62,7 @@ export default function AddBrandForm({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Marca Creada con Éxito',
+            title: 'Marca creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -88,7 +88,7 @@ export default function AddBrandForm({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Marca de Cajas</FormSectionTitle>
+              <FormSectionTitle>Agregar marca de cajas</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
 
               <Button

@@ -56,7 +56,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
-              <strong>Detalles Generales</strong>
+              <strong>Detalles generales</strong>
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -97,13 +97,13 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
                   {data.containers.map(containerLabel).join(', ')}
                 </DetailField>
               )}
-              <DetailField label='Nombre del Barco'>
+              <DetailField label='Nombre del barco'>
                 {data.shipName}
               </DetailField>
-              <DetailField label='Tiempo Estimado'>
+              <DetailField label='Tiempo estimado'>
                 {data.estimatedTravelTime}
               </DetailField>
-              <DetailField label='Fecha Máxima de Ingreso'>
+              <DetailField label='Fecha máxima de ingreso'>
                 {formatDayMonthYearTime(data.shippingDateTime)}
               </DetailField>
             </DetailFields>
@@ -115,7 +115,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
-              <strong>Productor y Finca</strong>
+              <strong>Productor y finca</strong>
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -123,7 +123,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         <Accordion.ItemContent>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Razón Social'>
+              <DetailField label='Razón social'>
                 {data.merchant?.businessName}
               </DetailField>
               <DetailField label='RUC'>{data.merchant?.businessId}</DetailField>
@@ -192,7 +192,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
-              <strong>Materiales y Marca de Caja</strong>
+              <strong>Materiales y marca de caja</strong>
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -204,7 +204,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
               <DetailField label='Código'>
                 {data.boxBrand?.brandCode}
               </DetailField>
-              <DetailField label='Cantidad de Cajas'>
+              <DetailField label='Cantidad de cajas'>
                 {data.boxQuantity}
               </DetailField>
             </DetailFields>
@@ -216,7 +216,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left'>
-              <strong>Transporte y Logística</strong>
+              <strong>Transporte y logística</strong>
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

@@ -36,7 +36,7 @@ const TableCuttingSheets = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        header: 'Hoja de Corte',
+        header: 'Hoja de corte',
         columns: [
           {
             accessorKey: 'id',
@@ -61,24 +61,24 @@ const TableCuttingSheets = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Detalles de Corte',
+        header: 'Detalles de corte',
         columns: [
           {
             accessorKey: 'containerPositioning',
-            header: 'Posicionamiento del Contenedor',
+            header: 'Posicionamiento del contenedor',
           },
           {
             accessorKey: 'palletsHeight',
-            header: 'Altura de Pallets',
+            header: 'Altura de pallets',
           },
           {
             accessorKey: 'exportSent.export.boxBrand.name',
-            header: 'Marca de Caja',
+            header: 'Marca de caja',
           },
         ],
       },
       {
-        header: 'Datos Comerciales',
+        header: 'Datos comerciales',
         columns: [
           {
             accessorKey: 'exportSent.export.merchant.businessName',
@@ -90,11 +90,11 @@ const TableCuttingSheets = (): React.JSX.Element => {
           },
           {
             accessorKey: 'exportSent.export.harborDeparture.name',
-            header: 'Puerto de Salida',
+            header: 'Puerto de salida',
           },
           {
             accessorKey: 'exportSent.export.harborDestination.name',
-            header: 'Puerto de Destino',
+            header: 'Puerto de destino',
           },
           {
             accessorKey: 'exportSent.export.client.businessName',
