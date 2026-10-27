@@ -187,8 +187,12 @@ raíz del repo.
 ### HTTP: `lib/axios.ts`
 
 - Instancia única, `baseURL = env.NEXT_PUBLIC_API_URL`, timeout de 10 s.
-- El interceptor llama a `getSession()` en **cada** petición y pone el refresh
-  token como Bearer.
+- El interceptor pone el refresh token de la sesión como Bearer. La sesión la
+  pide con `getSession()`, que es un viaje a `/api/auth/session`, y reusa la
+  respuesta durante un minuto: una pantalla con diez peticiones la pide una
+  vez. Las peticiones que salen juntas comparten esa misma consulta. Un
+  "sin sesión" no se guarda, así que la primera petición después de iniciar
+  sesión vuelve a preguntar.
 - El interceptor de respuesta cierra la sesión ante un **401** y vuelve al
   login, que después regresa a la pantalla donde estaba el usuario. Esa
   petición no termina nunca: la página está por irse y no conviene que alcance
@@ -208,8 +212,9 @@ raíz del repo.
 - El callback `jwt` de `authOptions.ts` **renueva los tokens del backend**
   (`POST /auth/exporter/refresh`) cuando al refresh token se le pasó la mitad
   de su vida (`needsRenewal`, `utils/sessionRenewal.ts`). Como el interceptor
-  pide la sesión en cada petición, un usuario activo no llega a ver el token
-  vencido. La renovación también trae el nombre y el rol guardados hoy. Si el
+  pide la sesión al menos una vez por minuto mientras hay peticiones, un
+  usuario activo no llega a ver el token vencido. El token que reusa ese
+  minuto sigue valiendo, porque se renueva con media vida por delante. La renovación también trae el nombre y el rol guardados hoy. Si el
   usuario estuvo inactivo más que la vida del token, o la renovación falla, la
   siguiente petición da 401 y vuelve al login.
 - El `onboardingStatus` se actualiza en la sesión con `update()` al terminar el
