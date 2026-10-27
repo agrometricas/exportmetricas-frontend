@@ -10,12 +10,23 @@ describe('migas de pan', () => {
     expect(names('/dashboard/export/search')[0]).toBe('Inicio');
   });
 
-  it('traducen el alta de una marca', () => {
-    expect(names('/dashboard/box-brands/add-brand')).toEqual([
+  it('llevan del alta de una marca a la lista de alícuotas', () => {
+    const crumbs = generateBreadcrumbs('/dashboard/box-brands/add-brand');
+
+    expect(crumbs.map((crumb) => crumb.name)).toEqual([
       'Inicio',
-      'Marcas de Caja',
+      'Alícuotas',
       'Agregar Marca',
     ]);
+    expect(crumbs[1].href).toBe('/dashboard/box-brands/search');
+  });
+
+  it('enlazan siempre dentro del panel', () => {
+    const crumbs = generateBreadcrumbs('/dashboard/winery/stock-movements');
+
+    expect(crumbs.every((crumb) => crumb.href.startsWith('/dashboard'))).toBe(
+      true
+    );
   });
 
   it('nombran la edición de un contrato naviero sin repetir la lista', () => {

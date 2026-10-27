@@ -121,6 +121,11 @@ const ADD_ROUTES: AddMap = {
     addLabel: 'Agregar Alícuotas',
     parentHref: '/dashboard/box-brands/search',
   },
+  '/dashboard/box-brands/add-brand': {
+    parent: 'Alícuotas',
+    addLabel: 'Agregar Marca',
+    parentHref: '/dashboard/box-brands/search',
+  },
   '/dashboard/box-brands/add-verifier': {
     parent: 'Verificadoras',
     addLabel: 'Agregar Verificadora',
@@ -373,7 +378,7 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   }
 
   const segments = cleanPath.split('/').filter(Boolean);
-  let acc = '';
+  let acc = '/dashboard';
   const labelSegments = segments.filter((s) => s !== 'dashboard');
 
   labelSegments.forEach((seg, idx) => {
