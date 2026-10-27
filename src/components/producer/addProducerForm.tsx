@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useSubmitProducer } from './hooks/useSubmitProducer';
@@ -46,7 +46,7 @@ export default function AddProducerForm(): React.JSX.Element {
               </Heading>
             </Flex>
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businessName'} label={'Razon Social'} />
               <InputFieldText name={'businessId'} label={'RUC'} />
               <InputFieldText name={'email'} label={'Email'} />
@@ -78,9 +78,9 @@ export default function AddProducerForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'16px'}>
               Finca
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businesses[0].name'} label={'Nombre'} />
               <InputFieldNumber
                 name={'businesses[0].area'}
@@ -144,12 +144,12 @@ export default function AddProducerForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'16px'}>
               Códigos de Finca
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
             <FieldArray name='businesses[0].businessCodes'>
               {({ push, remove }) => (
                 <>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                     {values.businesses[0].businessCodes.map(
                       (_businessCode, index) => (
                         <InputFieldText
@@ -180,14 +180,14 @@ export default function AddProducerForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'16px'}>
               Contactos
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
             <FieldArray name='businesses[0].contacts'>
               {({ push, remove }) => (
                 <>
                   {values.businesses[0].contacts.map((_contact, index) => (
                     <div key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                         <InputFieldText
                           name={`businesses[0].contacts[${index}].name`}
                           label={'Nombre'}
@@ -207,16 +207,14 @@ export default function AddProducerForm(): React.JSX.Element {
                         <Box></Box>
                         <Button
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={
-                            values.businesses[0].contacts.length === 1
-                          }
+                          colorPalette='red'
+                          disabled={values.businesses[0].contacts.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar Contacto
                         </Button>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt={'16px'}
                         mb={'8px'}
                         borderWidth={'2px'}
@@ -224,7 +222,7 @@ export default function AddProducerForm(): React.JSX.Element {
                       />
                     </div>
                   ))}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                     <Box></Box>
                     <Button
                       onClick={() =>
@@ -244,8 +242,8 @@ export default function AddProducerForm(): React.JSX.Element {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Enviar
               </Button>

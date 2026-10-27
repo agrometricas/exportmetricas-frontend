@@ -105,14 +105,12 @@ const TableBusiness = ({
             size: 90,
             header: '',
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/producer/fincas/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Editar
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/producer/fincas/${row.original.id}`}
+                >
+                  Editar
+                </Link_Next>
               </Button>
             ),
           },
@@ -159,13 +157,15 @@ const TableBusiness = ({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
           left: '0px',
+
           maxWidth:
             Number(windowSize.width) >= 768 ? `${width.md}px` : `${width.sm}px`,
+
           position: 'sticky',
           width: '100%',
         }}

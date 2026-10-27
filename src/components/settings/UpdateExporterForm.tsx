@@ -3,7 +3,6 @@ import {
   Flex,
   Heading,
   SimpleGrid,
-  useToast,
   Text,
   Badge,
   Box,
@@ -12,6 +11,7 @@ import { Formik, Form, FormikHelpers } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useUpdateExporter } from '../../hooks/settings/updateExporter';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -60,7 +60,6 @@ const UpdateExporterForm = ({
   exporterDetails,
 }: UpdateExporterFormProps): React.JSX.Element => {
   const router = useRouter();
-  const toast = useToast();
   const { idUser: exporterId } = useParams<{ idUser: string }>();
   const { updateExporter, isLoading } = useUpdateExporter();
 
@@ -92,21 +91,21 @@ const UpdateExporterForm = ({
 
     try {
       await updateExporter({ ...exporterData, exporterId });
-      toast({
+      toaster.create({
         title: 'Exportadora Actualizada con éxito',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
       formikHelpers.resetForm();
       router.push(`/dashboard/user/${exporterId}`);
     } catch (error) {
-      toast({
+      toaster.create({
         title: 'Error al actualizar',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     }
   };
@@ -121,7 +120,7 @@ const UpdateExporterForm = ({
       {({ values, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={2}>
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <Box display='flex' flexDirection='column' gap={7}>
                 <Heading fontSize={'2xl'} p={'12px'}>
                   Información General
@@ -140,7 +139,7 @@ const UpdateExporterForm = ({
                   <strong>Configuración inicial:</strong>{' '}
                   <Badge
                     ml={2}
-                    colorScheme={
+                    colorPalette={
                       exporterDetails.onboardingStatus === 'done'
                         ? 'green'
                         : 'red'
@@ -155,7 +154,7 @@ const UpdateExporterForm = ({
                   <strong>Estado de Cuenta:</strong>{' '}
                   <Badge
                     ml={2}
-                    colorScheme={
+                    colorPalette={
                       exporterDetails.accountStatus === 'active'
                         ? 'green'
                         : 'red'
@@ -211,8 +210,8 @@ const UpdateExporterForm = ({
             <Button
               mt='12px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Enviar
             </Button>

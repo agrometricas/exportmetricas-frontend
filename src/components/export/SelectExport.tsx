@@ -1,7 +1,8 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import InputFieldExportSelect from './InputFieldExportSelect';
 import { ExportType } from '../../types/export';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectExportProps {
   name: string;
@@ -12,7 +13,7 @@ const SelectExport: React.FC<SelectExportProps> = ({ name }) => {
     useState<Partial<ExportType> | null>(null);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldExportSelect
         name={name}
         label={'Exportación'}
@@ -21,7 +22,7 @@ const SelectExport: React.FC<SelectExportProps> = ({ name }) => {
       />
       <Box>
         <FormLabel>Cantidad de cajas</FormLabel>
-        <Input isReadOnly={true} value={exportSelected?.boxQuantity || ''} />
+        <Input readOnly={true} value={exportSelected?.boxQuantity || ''} />
       </Box>
     </SimpleGrid>
   );

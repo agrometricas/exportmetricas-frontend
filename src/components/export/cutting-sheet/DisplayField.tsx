@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Input, Field } from '@chakra-ui/react';
 import React from 'react';
 
 interface DisplayFieldProps {
@@ -8,12 +8,12 @@ interface DisplayFieldProps {
 
 const DisplayField: React.FC<DisplayFieldProps> = ({ label, value }) => {
     return (
-        <FormControl>
-            <FormLabel fontSize="sm" mb={1}>
+        <Field.Root>
+            <Field.Label fontSize="sm" mb={1}>
                 {label}
-            </FormLabel>
-            <Input value={value || ''} isReadOnly />
-        </FormControl>
+            </Field.Label>
+            <Input value={value || ''} readOnly />
+        </Field.Root>
     );
 };
 

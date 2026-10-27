@@ -1,7 +1,8 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldProducerSelect from './InputFieldProducerSelect';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectProducerProps {
   name: string;
@@ -30,7 +31,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldProducerSelect
           name={name}
           label="Productor/Razón Social"
@@ -40,7 +41,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
         <Box>
           <FormLabel fontSize='sm'>RUC</FormLabel>
           <Input
-            isReadOnly
+            readOnly
             value={producer?.businessId || ''}
             placeholder="RUC del Productor"
           />
@@ -48,7 +49,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
         <Box>
           <FormLabel fontSize='sm'>Dirección</FormLabel>
           <Input
-            isReadOnly
+            readOnly
             value={producer?.address || ''}
             placeholder="Dirección del Productor"
           />
@@ -57,7 +58,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Box>
             <FormLabel fontSize='sm'>Ciudad</FormLabel>
             <Input
-              isReadOnly
+              readOnly
               value={producer?.city?.name || ''}
               placeholder="Ciudad del Productor"
             />
@@ -66,7 +67,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Box>
             <FormLabel fontSize='sm'>Tipo de Contrato</FormLabel>
             <Input
-              isReadOnly
+              readOnly
               value={producer?.contractType || 'No disponible'}
               placeholder="Contrato del Productor"
             />

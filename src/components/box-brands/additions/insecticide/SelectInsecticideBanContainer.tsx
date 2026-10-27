@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  Divider,
   Heading,
   IconButton,
   SimpleGrid,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -41,18 +41,19 @@ const SelectInsecticideBanContainer = ({
         Agroquímico adicional{' '}
         {
           <IconButton
-            isRound={true}
+            rounded='full'
             ml={'5px'}
-            colorScheme={!!isBan ? 'orange' : 'gray'}
+            colorPalette={!!isBan ? 'orange' : 'gray'}
             aria-label='Ban'
-            size={'base'}
+            size='xs'
             variant={'outline'}
-            icon={<FaBan size={'20px'} />}
             onClick={setBanState}
-          />
+          >
+            <FaBan size={'20px'} />
+          </IconButton>
         }
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
       <FieldArray name={name}>
         {({ push, remove }) => (
           <>
@@ -70,7 +71,7 @@ const SelectInsecticideBanContainer = ({
                       remove(index);
                     }}
                   />
-                  <Divider
+                  <Separator
                     mt={'16px'}
                     mb={'8px'}
                     borderWidth={'2px'}
@@ -79,10 +80,10 @@ const SelectInsecticideBanContainer = ({
                 </div>
               );
             })}
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <Box></Box>
               <Button
-                isDisabled={isBan}
+                disabled={isBan}
                 onClick={() => push({ insecticideId: '', quantity: '' })}
               >
                 Agregar Insecticida

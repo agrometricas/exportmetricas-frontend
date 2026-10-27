@@ -60,8 +60,8 @@ export default function SignInForm(props: Props): React.JSX.Element {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isSubmitting}
+              colorPalette='green'
+              loading={isSubmitting}
             >
               Iniciar sesión
             </Button>

@@ -1,17 +1,21 @@
 'use client';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { createTheme as createMuiTheme, THEME_ID } from '@mui/material/styles';
+import { ChakraProvider } from '@chakra-ui/react';
+import {
+  ThemeProvider as MuiThemeProvider,
+  THEME_ID,
+} from '@mui/material/styles';
 import { SessionProvider } from 'next-auth/react';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ColorModeProvider, useColorMode } from './ui/color-mode';
 import SidenavProvider from './ui/sidenav/sidenav-context';
+import { Toaster } from './ui/toaster';
+import { brandMuiTheme } from '../theme/muiTheme';
+import { system } from '../theme/system';
 
 interface Props {
   children: ReactNode;
 }
-
-const muiTheme = createMuiTheme();
-const theme = extendTheme();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,13 +32,29 @@ const queryClient = new QueryClient({
   },
 });
 
+function TablesTheme({ children }: Props): React.JSX.Element {
+  const { colorMode } = useColorMode();
+  const theme = useMemo(
+    () => ({
+      [THEME_ID]: brandMuiTheme(colorMode === 'dark' ? 'dark' : 'light'),
+    }),
+    [colorMode]
+  );
+  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+}
+
 const Providers = ({ children }: Props): React.JSX.Element => {
   return (
     <SessionProvider refetchOnWindowFocus={false}>
-      <ChakraProvider theme={{ ...theme, [THEME_ID]: muiTheme }} resetCSS>
-        <QueryClientProvider client={queryClient}>
-          <SidenavProvider>{children}</SidenavProvider>
-        </QueryClientProvider>
+      <ChakraProvider value={system}>
+        <ColorModeProvider defaultTheme='light' enableSystem={false}>
+          <TablesTheme>
+            <QueryClientProvider client={queryClient}>
+              <SidenavProvider>{children}</SidenavProvider>
+            </QueryClientProvider>
+          </TablesTheme>
+          <Toaster />
+        </ColorModeProvider>
       </ChakraProvider>
     </SessionProvider>
   );

@@ -57,7 +57,7 @@ const TableCuttingSheets = ({
             Cell: ({ cell }): React.JSX.Element => {
               const version = cell.getValue<number>();
               return (
-                <Badge colorScheme={version > 1 ? 'orange' : 'gray'}>
+                <Badge colorPalette={version > 1 ? 'orange' : 'gray'}>
                   {sheetVersionLabel(version)}
                 </Badge>
               );
@@ -146,14 +146,12 @@ const TableCuttingSheets = ({
             size: 100,
             enableColumnActions: false,
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/export/cutting-sheets/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Corregir
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/export/cutting-sheets/${row.original.id}`}
+                >
+                  Corregir
+                </Link_Next>
               </Button>
             ),
           },
@@ -200,15 +198,17 @@ const TableCuttingSheets = ({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
           left: '0px',
+
           maxWidth:
             windowSize.width && windowSize.width >= 768
               ? `${width.md}px`
               : `${width.sm}px`,
+
           position: 'sticky',
           width: '100%',
         }}

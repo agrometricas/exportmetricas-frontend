@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-} from '@chakra-ui/react';
+import { Flex, Input, InputGroup, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { useEffect, useState } from 'react';
 
@@ -23,7 +14,7 @@ interface InputFieldProps {
   isDolar?: boolean;
   isGeo?: boolean;
   unit?: string;
-  size?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   flexDirection?: 'column' | 'row';
 }
 
@@ -95,7 +86,7 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched} w='100%'>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} w='100%'>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}
@@ -109,41 +100,28 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
             alignItems='center'
             marginRight={flexDirection === 'row' ? '2%' : '0'}
           >
-            <FormLabel
+            <Field.Label
               fontSize='sm'
               mb={'8px'}
               textAlign={flexDirection === 'row' ? 'left' : 'center'}
               overflow='hidden'
             >
               {label}
-            </FormLabel>
+            </Field.Label>
           </Flex>
         )}
         <Flex flex={label ? '2' : '1'} w='100%'>
-          <InputGroup w='100%'>
-            {isDolar && (
-              <InputLeftElement
-                pointerEvents='none'
-                color='gray.400'
-                fontSize='1.2em'
-              >
-                $
-              </InputLeftElement>
-            )}
-            {unit && (
-              <InputRightElement
-                pointerEvents='none'
-                color='gray.500'
-                fontSize='1em'
-                mr='8px'
-              >
-                {unit}
-              </InputRightElement>
-            )}
+          <InputGroup
+            w='100%'
+            startElement={isDolar ? '$' : undefined}
+            startElementProps={{ color: 'fg.subtle', fontSize: '1.2em' }}
+            endElement={unit}
+            endElementProps={{ color: 'fg.muted', fontSize: '1em', mr: '8px' }}
+          >
             <Input
               type='text'
               inputMode='decimal'
-              isReadOnly={isReadOnly}
+              readOnly={isReadOnly}
               placeholder={placeholder || label}
               textAlign={isDecimal && !isGeo ? 'right' : 'left'}
               size={size}
@@ -156,11 +134,11 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
         </Flex>
       </Flex>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

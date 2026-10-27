@@ -1,11 +1,11 @@
 'use client';
 import {
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
   Box,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
@@ -33,8 +33,8 @@ const AddDepositForm: React.FC = () => {
             <Heading fontSize='2xl' p='12px'>
               Depósito de Contenedores
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
                 label='Nombre del Depósito'
@@ -93,9 +93,7 @@ const AddDepositForm: React.FC = () => {
                 <CheckboxForm
                   name='is24Hours'
                   label='24 horas'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const checked = e.target.checked;
-                    setFieldValue('is24Hours', checked);
+                  onChange={(checked) => {
                     if (checked) {
                       setFieldValue('openTime', '12:00');
                       setFieldValue('closeTime', '12:00');
@@ -111,13 +109,13 @@ const AddDepositForm: React.FC = () => {
             <Heading fontSize='2xl' p='12px'>
               Contactos
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
                   {values.contacts.map((_, index) => (
                     <div key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 4 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 4 }} gap={5}>
                         <InputFieldText
                           name={`contacts[${index}].name`}
                           label='Nombre'
@@ -134,15 +132,15 @@ const AddDepositForm: React.FC = () => {
                           <Button
                             width='100%'
                             variant='solid'
-                            colorScheme='red'
-                            isDisabled={values.contacts.length === 1}
+                            colorPalette='red'
+                            disabled={values.contacts.length === 1}
                             onClick={() => remove(index)}
                           >
                             Eliminar
                           </Button>
                         </Flex>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt='16px'
                         mb='8px'
                         borderWidth='2px'
@@ -164,8 +162,8 @@ const AddDepositForm: React.FC = () => {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar
             </Button>

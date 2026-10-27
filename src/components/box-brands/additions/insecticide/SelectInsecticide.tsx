@@ -1,7 +1,8 @@
-import { Box, Button, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldInsecticideSelect from './InputFieldInsecticideSelect';
 import { InsecticideType } from '../../../../types/box-brand/additions/insecticide';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldQuantity from '../../../ui/form/InputFieldQuantity';
 
 interface SelectInsecticideProps {
@@ -37,7 +38,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
   }, [insecticide, setInsecticideSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldInsecticideSelect
         name={name1}
         label={'Insecticida'}
@@ -48,7 +49,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
       <Box>
         <FormLabel>Ingrediente Activo</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={insecticide?.activeIngredient || ''}
           placeholder={'Ingrediente Activo'}
         />
@@ -56,7 +57,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
       <Box>
         <FormLabel>Dosis</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={insecticide?.dose || ''}
           placeholder={'Dosis'}
         />
@@ -69,8 +70,8 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
       <Box display='flex' alignItems='flex-end'>
         <Button
           variant='solid'
-          colorScheme='red'
-          isDisabled={isDisabledRemove}
+          colorPalette='red'
+          disabled={isDisabledRemove}
           onClick={onClickRemove}
           width={'100%'}
         >

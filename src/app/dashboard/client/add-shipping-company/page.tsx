@@ -1,46 +1,34 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { MdDirectionsBoat } from 'react-icons/md';
 import AddShippingCompanyForm from '../../../../components/shipping-company/AddShippingCompanyForm';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function AddShippingCompanyPage(): React.JSX.Element {
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headingColor = 'fg.heading';
+  const textColor = 'fg';
 
   return (
     <Box minH="100vh" w="100%" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
-          boxShadow="lg"
+          boxShadow='sm'
           overflow="hidden"
-          border="1px solid"
+          borderWidth='1px'
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align="center">
-              <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdDirectionsBoat} boxSize={5} />
+          <Card.Header bg={'bg.subtle'} pb={4}>
+            <HStack gap={3} align="center">
+              <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
+                <Icon boxSize={5} asChild><MdDirectionsBoat /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -51,14 +39,14 @@ function AddShippingCompanyPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <AddShippingCompanyForm />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,11 +1,5 @@
 'use client';
-import {
-  Box,
-  Heading,
-  VStack,
-  Badge,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Heading, VStack, Badge } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -53,7 +47,7 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
     }
   }, [error, router]);
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   if (isLoading) {
     return (
@@ -68,10 +62,10 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
   const items = data as Partial<ExportType>[];
 
   return (
-    <VStack spacing={4} align="stretch">
+    <VStack gap={4} align="stretch">
       <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
         <Heading size="md" color={headingColor}>Lista de Cortes Pendientes</Heading>
-        <Badge colorScheme="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>

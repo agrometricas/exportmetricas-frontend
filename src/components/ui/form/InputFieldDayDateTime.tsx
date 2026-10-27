@@ -1,11 +1,4 @@
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
-  Input,
-} from '@chakra-ui/react';
+import { Flex, HStack, Input, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { INVALID_DAY_DATE } from './InputFieldDayDate';
@@ -51,14 +44,14 @@ const InputFieldDayDateTime: React.FC<InputFieldDayDateTimeProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       <Flex flexDirection='column'>
         {label && (
-          <FormLabel fontSize='sm' mb='8px'>
+          <Field.Label fontSize='sm' mb='8px'>
             {label}
-          </FormLabel>
+          </Field.Label>
         )}
-        <HStack spacing={2}>
+        <HStack gap={2}>
           <Input
             name={field.name}
             onBlur={field.onBlur}
@@ -86,12 +79,12 @@ const InputFieldDayDateTime: React.FC<InputFieldDayDateTimeProps> = ({
           />
         </HStack>
         {meta.error && meta.touched && (
-          <FormErrorMessage mt='8px' mb='16px'>
+          <Field.ErrorText mt='8px' mb='16px'>
             {meta.error}
-          </FormErrorMessage>
+          </Field.ErrorText>
         )}
       </Flex>
-    </FormControl>
+    </Field.Root>
   );
 };
 

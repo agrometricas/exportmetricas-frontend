@@ -1,18 +1,14 @@
 'use client';
 
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   Button,
   Text,
   Box,
   VStack,
   Spinner,
   Center,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { AssignStockToBusinessForm } from './AssignStockToBusinessForm';
@@ -53,83 +49,89 @@ export function AssignStockToBusinessModal({
     businessMaterialStocks.find((bms) => bms.businessId === businessId);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={() => {
-        handleReset();
-        onClose();
-      }}
+    <Dialog.Root
+      open={isOpen}
       size='lg'
-      isCentered
+      placement='center'
+      onOpenChange={(e) => {
+        if (!e.open) {
+          handleReset();
+          onClose();
+        }
+      }}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          {selectedBusiness
-            ? `Asignar Stock a ${selectedBusiness.name}`
-            : 'Selecciona una Finca'}
-        </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {isLoading ? (
-            <Center py={6}>
-              <Spinner size='lg' />
-            </Center>
-          ) : selectedBusiness ? (
-            ((): JSX.Element => {
-              const existing = existingStock(selectedBusiness.id);
-              return existing ? (
-                <AssignStockToBusinessForm
-                  stockId={existing.id}
-                  currentStock={availableStock}
-                  currentCost={existing.currentCost}
-                  businessName={existing.business.name}
-                  businessCurrentStock={existing.currentStock}
-                  businessAssignedStock={existing.assignedStock}
-                  maxAssignableStock={availableStock}
-                  onClose={onClose}
-                  onBack={handleReset}
-                />
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.Header>
+              {selectedBusiness
+                ? `Asignar Stock a ${selectedBusiness.name}`
+                : 'Selecciona una Finca'}
+            </Dialog.Header>
+            <Dialog.CloseTrigger />
+            <Dialog.Body>
+              {isLoading ? (
+                <Center py={6}>
+                  <Spinner size='lg' />
+                </Center>
+              ) : selectedBusiness ? (
+                ((): JSX.Element => {
+                  const existing = existingStock(selectedBusiness.id);
+                  return existing ? (
+                    <AssignStockToBusinessForm
+                      stockId={existing.id}
+                      currentStock={availableStock}
+                      currentCost={existing.currentCost}
+                      businessName={existing.business.name}
+                      businessCurrentStock={existing.currentStock}
+                      businessAssignedStock={existing.assignedStock}
+                      maxAssignableStock={availableStock}
+                      onClose={onClose}
+                      onBack={handleReset}
+                    />
+                  ) : (
+                    <CreateBusinessStockAssignmentForm
+                      exporterId={exporterId}
+                      materialType={materialType}
+                      materialId={materialId}
+                      business={selectedBusiness}
+                      availableStock={availableStock}
+                      onBack={handleReset}
+                      onClose={onClose}
+                    />
+                  );
+                })()
               ) : (
-                <CreateBusinessStockAssignmentForm
-                  exporterId={exporterId}
-                  materialType={materialType}
-                  materialId={materialId}
-                  business={selectedBusiness}
-                  availableStock={availableStock}
-                  onBack={handleReset}
-                  onClose={onClose}
-                />
-              );
-            })()
-          ) : (
-            <VStack spacing={3} align='stretch' mb={4}>
-              {(farms ?? []).map((farm) => (
-                <Box
-                  key={farm.id}
-                  p={3}
-                  border='1px solid #E2E8F0'
-                  borderRadius='md'
-                  cursor='pointer'
-                >
-                  <Text fontWeight='bold'>{farm.name}</Text>
-                  <Text fontSize='sm' color='gray.500'>
-                    MAGAP: {farm.codeMAGAP}
-                  </Text>
-                  <Button
-                    mt={2}
-                    size='sm'
-                    colorScheme='teal'
-                    onClick={() => setSelectedBusiness(farm)}
-                  >
-                    Seleccionar
-                  </Button>
-                </Box>
-              ))}
-            </VStack>
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                <VStack gap={3} align='stretch' mb={4}>
+                  {(farms ?? []).map((farm) => (
+                    <Box
+                      key={farm.id}
+                      p={3}
+                      borderWidth='1px'
+                      borderRadius='md'
+                      cursor='pointer'
+                    >
+                      <Text fontWeight='bold'>{farm.name}</Text>
+                      <Text fontSize='sm' color='fg.muted'>
+                        MAGAP: {farm.codeMAGAP}
+                      </Text>
+                      <Button
+                        mt={2}
+                        size='sm'
+                        colorPalette='green'
+                        onClick={() => setSelectedBusiness(farm)}
+                      >
+                        Seleccionar
+                      </Button>
+                    </Box>
+                  ))}
+                </VStack>
+              )}
+            </Dialog.Body>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   );
 }

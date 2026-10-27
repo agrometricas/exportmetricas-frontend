@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, Text } from '@chakra-ui/react';
+import { Alert, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useContractUsageCheck } from '../../hooks/contract-usage/contractUsage';
 import { ContractUsageCheckParams } from '../../types/contractUsage';
@@ -14,14 +14,14 @@ export default function ExportQuotaCheck({
 
   if (check.warning) {
     return (
-      <Alert status='warning' borderRadius='md'>
-        <AlertIcon />
-        <AlertDescription fontSize='sm'>{check.warning}</AlertDescription>
-      </Alert>
+      <Alert.Root status='warning' borderRadius='md'>
+        <Alert.Indicator />
+        <Alert.Description fontSize='sm'>{check.warning}</Alert.Description>
+      </Alert.Root>
     );
   }
   return (
-    <Text fontSize='sm' color='gray.600'>
+    <Text fontSize='sm' color='fg.muted'>
       {check.approvedWeeklyBoxes === null
         ? `${check.business.name} no tiene contrato vigente esa semana.`
         : `Cupo de ${check.business.name} esa semana: ${check.approvedWeeklyBoxes} cajas; con esta exportación lleva ${check.exportedBoxes}.`}

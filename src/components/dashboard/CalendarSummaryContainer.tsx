@@ -7,7 +7,7 @@ import {
   Text,
   Center,
   Skeleton,
-  Divider,
+  Separator,
 } from '@chakra-ui/react';
 import {
   startOfWeek,
@@ -255,12 +255,12 @@ export default function CalendarSummaryContainer(): JSX.Element {
           <Text fontSize='xl' fontWeight='normal' mb={2}>
             Egreso Total Semanal
           </Text>
-          <Divider
+          <Separator
             mb={6}
             borderTopWidth='2px'
             borderBottomWidth='0px'
             borderStyle='dashed'
-            borderColor='teal.500'
+            borderColor='green.solid'
           />
           <Text fontSize='2xl' fontWeight='semibold'>
             ${totalEgreso} USD
@@ -270,12 +270,12 @@ export default function CalendarSummaryContainer(): JSX.Element {
           <Text fontSize='xl' mb={2}>
             Ingreso Total Semanal
           </Text>
-          <Divider
+          <Separator
             mb={6}
             borderTopWidth='2px'
             borderBottomWidth='0px'
             borderStyle='dashed'
-            borderColor='teal.500'
+            borderColor='green.solid'
           />
           <Text fontSize='2xl' fontWeight='semibold'>
             ${totalIngreso} USD

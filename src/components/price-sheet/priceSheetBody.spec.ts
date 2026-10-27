@@ -7,7 +7,10 @@ import { INVALID_DAY_DATE } from '../ui/form/InputFieldDayDate';
 const THURSDAY = new Date(2026, 9, 22).toISOString();
 
 const line = (lineId: number, price: string | null): PriceSheetLine =>
-  ({ lineId, price }) as PriceSheetLine;
+  ({
+    lineId,
+    price,
+  }) as PriceSheetLine;
 
 const sheet = { lines: [line(300, '8.25'), line(301, null)] } as PriceSheet;
 

@@ -1,11 +1,11 @@
 'use client';
 import {
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
   Box,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
@@ -30,9 +30,9 @@ const AddTransportForm: React.FC = () => {
             <Heading fontSize='2xl' p='12px'>
               Transporte
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
                 label='Nombre de la Compañía de Transporte'
@@ -66,7 +66,7 @@ const AddTransportForm: React.FC = () => {
                   </Heading>
                   {values.contacts.map((_, index) => (
                     <Box key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 4 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 4 }} gap={5}>
                         <InputFieldText
                           name={`contacts[${index}].name`}
                           label='Nombre'
@@ -83,15 +83,15 @@ const AddTransportForm: React.FC = () => {
                           <Button
                             width='100%'
                             variant='solid'
-                            colorScheme='red'
-                            isDisabled={values.contacts.length === 1}
+                            colorPalette='red'
+                            disabled={values.contacts.length === 1}
                             onClick={() => remove(index)}
                           >
                             Eliminar
                           </Button>
                         </Flex>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt='16px'
                         mb='8px'
                         borderWidth='2px'
@@ -109,14 +109,14 @@ const AddTransportForm: React.FC = () => {
               )}
             </FieldArray>
 
-            <Divider my='16px' />
+            <Separator my='16px' />
             <Button
               mt='12px'
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar Transporte
             </Button>

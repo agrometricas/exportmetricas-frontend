@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Button,
-  Divider,
-  Flex,
-  FormLabel,
-  Heading,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateMettoLabel } from '../../../../hooks/box-brand/container/metto-label/createMettoLabel';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -81,7 +76,6 @@ const AddMettoLabelForm = ({
   onClose,
 }: AddMettoLabelFormProps): React.JSX.Element => {
   const { createMettoLabel, isLoading } = useCreateMettoLabel();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -99,12 +93,12 @@ const AddMettoLabelForm = ({
       onError: (error: any) => {
         const statusCode = error.response?.status;
 
-        toast({
+        toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
 
         if (statusCode === 401) {
@@ -112,11 +106,11 @@ const AddMettoLabelForm = ({
         }
       },
       onSuccess: () => {
-        toast({
+        toaster.create({
           title: 'Etiqueta Metto Creada con Éxito',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         queryClient.invalidateQueries('mettoLabels');
         actions.resetForm();
@@ -140,7 +134,7 @@ const AddMettoLabelForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Etiqueta Metto
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber
@@ -156,8 +150,8 @@ const AddMettoLabelForm = ({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

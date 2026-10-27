@@ -1,24 +1,12 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Flex,
   HStack,
   Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-  useColorModeValue,
-  useToast,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
@@ -27,6 +15,8 @@ import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
+import { Tooltip } from '@/components/ui/tooltip';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import {
   useDeleteBoxType,
@@ -44,11 +34,10 @@ const validationSchema = Yup.object({
 });
 
 export default function BoxTypesManager(): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
   const { data, isLoading: isLoadingList } = useBoxTypes();
   const boxTypes = (data ?? []) as BoxTypeResponse[];
   const { mutate: save, isLoading } = useSaveBoxType();
@@ -62,17 +51,17 @@ export default function BoxTypesManager(): React.JSX.Element {
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title,
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const done = (title: string): void => {
-    toast({ title, status: 'success', duration: 4000, isClosable: true });
+    toaster.create({ title, type: 'success', duration: 4000, closable: true });
     queryClient.invalidateQueries('boxTypes');
     queryClient.invalidateQueries('boxBrands');
     setEditing(null);
@@ -116,7 +105,7 @@ export default function BoxTypesManager(): React.JSX.Element {
             la lista de alícuotas.
           </Text>
           <HStack mt={4}>
-            <Button type='submit' colorScheme='teal' isLoading={isLoading}>
+            <Button type='submit' colorPalette='green' loading={isLoading}>
               {editing ? 'Guardar Cambios' : 'Agregar Tipo de Caja'}
             </Button>
             {editing && (
@@ -141,89 +130,103 @@ export default function BoxTypesManager(): React.JSX.Element {
           borderColor={borderColor}
           borderRadius='lg'
         >
-          <Table size='sm'>
-            <Thead>
-              <Tr>
-                <Th>Tipo de Caja</Th>
-                <Th isNumeric>Alícuotas</Th>
-                <Th />
-              </Tr>
-            </Thead>
-            <Tbody>
+          <Table.Root size='sm'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Tipo de Caja</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>
+                  Alícuotas
+                </Table.ColumnHeader>
+                <Table.ColumnHeader />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {boxTypes.map((boxType) => (
-                <Tr key={boxType.id}>
-                  <Td fontWeight='semibold'>{boxType.name}</Td>
-                  <Td isNumeric>{boxType.boxBrands}</Td>
-                  <Td>
-                    <HStack spacing={2} justify='flex-end'>
+                <Table.Row key={boxType.id}>
+                  <Table.Cell fontWeight='semibold'>{boxType.name}</Table.Cell>
+                  <Table.Cell textAlign='end'>{boxType.boxBrands}</Table.Cell>
+                  <Table.Cell>
+                    <HStack gap={2} justify='flex-end'>
                       <Button
                         size='sm'
                         variant='outline'
-                        colorScheme='green'
+                        colorPalette='green'
                         onClick={() => setEditing(boxType)}
                       >
                         Renombrar
                       </Button>
                       <Tooltip
-                        label='Lo usa al menos una alícuota'
-                        isDisabled={boxType.boxBrands === 0}
+                        content='Lo usa al menos una alícuota'
+                        disabled={boxType.boxBrands === 0}
                       >
                         <Button
                           size='sm'
                           variant='ghost'
-                          colorScheme='red'
-                          isDisabled={boxType.boxBrands > 0}
+                          colorPalette='red'
+                          disabled={boxType.boxBrands > 0}
                           onClick={() => setToDelete(boxType)}
                         >
                           Eliminar
                         </Button>
                       </Tooltip>
                     </HStack>
-                  </Td>
-                </Tr>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </Tbody>
-          </Table>
+            </Table.Body>
+          </Table.Root>
         </Box>
       )}
 
-      <AlertDialog
-        isOpen={!!toDelete}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setToDelete(null)}
+      <Dialog.Root
+        open={!!toDelete}
+        initialFocusEl={() => cancelRef.current}
+        role='alertdialog'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            setToDelete(null);
+          }
+        }}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Eliminar tipo de caja
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Se eliminará el tipo de caja {toDelete?.name}.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setToDelete(null)}>
-                Volver
-              </Button>
-              <Button
-                colorScheme='red'
-                ml={3}
-                isLoading={isDeleting}
-                onClick={() => {
-                  if (!toDelete) return;
-                  remove(toDelete.id, {
-                    onError: (error) =>
-                      showError('No se pudo eliminar el tipo de caja', error),
-                    onSuccess: () => done('Tipo de caja eliminado'),
-                  });
-                  setToDelete(null);
-                }}
-              >
-                Eliminar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        <Portal>
+          <Dialog.Backdrop>
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.Header fontSize='lg' fontWeight='bold'>
+                  Eliminar tipo de caja
+                </Dialog.Header>
+                <Dialog.Body>
+                  Se eliminará el tipo de caja {toDelete?.name}.
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Button ref={cancelRef} onClick={() => setToDelete(null)}>
+                    Volver
+                  </Button>
+                  <Button
+                    colorPalette='red'
+                    ml={3}
+                    loading={isDeleting}
+                    onClick={() => {
+                      if (!toDelete) return;
+                      remove(toDelete.id, {
+                        onError: (error) =>
+                          showError(
+                            'No se pudo eliminar el tipo de caja',
+                            error
+                          ),
+                        onSuccess: () => done('Tipo de caja eliminado'),
+                      });
+                      setToDelete(null);
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Backdrop>
+        </Portal>
+      </Dialog.Root>
     </Flex>
   );
 }

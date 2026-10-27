@@ -1,4 +1,4 @@
-import { Box, Button, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldPesticideSelect from './InputFieldPesticideSelect';
 import { useFumigationProposal } from '../../../../hooks/box-brand/post-harvest/pesticide/getFumigationProposal';
@@ -6,6 +6,7 @@ import { useDebouncedValue } from '../../../../hooks/useDebouncedValue';
 import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticide';
 import { FumigationProposal } from '../../../../types/suppliesProposal';
 import { proposedQuantity } from '../../../../utils/suppliesProposal';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldQuantity from '../../../ui/form/InputFieldQuantity';
 
 interface SelectPesticideProps {
@@ -48,7 +49,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
   }, [pesticide, setPesticideSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldPesticideSelect
         name={name1}
         label={'Agroquímico'}
@@ -59,7 +60,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       <Box>
         <FormLabel>Ingrediente Activo</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.activeIngredient || ''}
           placeholder={'Ingrediente Activo'}
         />
@@ -67,7 +68,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       <Box>
         <FormLabel>Presentación</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.presentation || ''}
           placeholder='Presentación'
         />
@@ -75,7 +76,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       <Box>
         <FormLabel>Dosis</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.dose || ''}
           placeholder={'Dosis'}
         />
@@ -96,8 +97,8 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       <Box display='flex' alignItems='flex-end'>
         <Button
           variant='solid'
-          colorScheme='red'
-          isDisabled={isDisabledRemove}
+          colorPalette='red'
+          disabled={isDisabledRemove}
           onClick={onClickRemove}
           width={'100%'}
         >

@@ -35,16 +35,16 @@ const chakraStyles: ChakraStylesConfig<
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: 'gray.600',
+    color: 'fg.muted',
   }),
   input: (provided) => ({
     ...provided,
-    color: 'gray.900',
+    color: 'fg.heading',
   }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 
@@ -57,7 +57,9 @@ const certificateComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} size='13px' />
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -104,9 +106,11 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       menuPortalTarget={menuPortalTarget}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          ({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel,
       }}
-      useBasicStyles
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
@@ -120,7 +124,7 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
         context === 'menu' && opt.description ? (
           <Box>
             <Text>{opt.name}</Text>
-            <Text fontSize='xs' color='gray.500'>
+            <Text fontSize='xs' color='fg.muted'>
               {opt.description}
             </Text>
           </Box>

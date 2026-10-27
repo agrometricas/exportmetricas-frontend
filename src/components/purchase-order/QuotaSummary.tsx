@@ -1,22 +1,12 @@
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Box,
   Flex,
   SimpleGrid,
   Spinner,
   Stat,
-  StatLabel,
-  StatNumber,
   Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { OrderQuota } from '../../types/purchaseOrder';
@@ -31,8 +21,8 @@ export default function QuotaSummary({
   quota: OrderQuota | undefined;
   isFetching?: boolean;
 }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   if (!quota) {
     return (
@@ -44,34 +34,34 @@ export default function QuotaSummary({
 
   return (
     <Flex direction='column' gap={4}>
-      <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={4}>
-        <Stat
+      <SimpleGrid columns={{ base: 1, sm: 3 }} gap={4}>
+        <Stat.Root
           borderWidth='1px'
           borderColor={borderColor}
           borderRadius='lg'
           p={3}
         >
-          <StatLabel>Cajas de contrato</StatLabel>
-          <StatNumber>{boxes(quota.totals.contractBoxes)}</StatNumber>
-        </Stat>
-        <Stat
+          <Stat.Label>Cajas de contrato</Stat.Label>
+          <Stat.ValueText>{boxes(quota.totals.contractBoxes)}</Stat.ValueText>
+        </Stat.Root>
+        <Stat.Root
           borderWidth='1px'
           borderColor={borderColor}
           borderRadius='lg'
           p={3}
         >
-          <StatLabel>Cajas spot</StatLabel>
-          <StatNumber>{boxes(quota.totals.spotBoxes)}</StatNumber>
-        </Stat>
-        <Stat
+          <Stat.Label>Cajas spot</Stat.Label>
+          <Stat.ValueText>{boxes(quota.totals.spotBoxes)}</Stat.ValueText>
+        </Stat.Root>
+        <Stat.Root
           borderWidth='1px'
           borderColor={borderColor}
           borderRadius='lg'
           p={3}
         >
-          <StatLabel>Total de la orden</StatLabel>
-          <StatNumber>{boxes(quota.totals.boxes)}</StatNumber>
-        </Stat>
+          <Stat.Label>Total de la orden</Stat.Label>
+          <Stat.ValueText>{boxes(quota.totals.boxes)}</Stat.ValueText>
+        </Stat.Root>
       </SimpleGrid>
 
       {quota.quota.length === 0 ? (
@@ -85,50 +75,58 @@ export default function QuotaSummary({
           borderColor={borderColor}
           borderRadius='lg'
         >
-          <Table size='sm'>
-            <Thead>
-              <Tr>
-                <Th>Finca</Th>
-                <Th isNumeric>Cupo semanal</Th>
-                <Th isNumeric>Contrato</Th>
-                <Th isNumeric>Queda</Th>
-                <Th isNumeric>Spot</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
+          <Table.Root size='sm'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Finca</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>
+                  Cupo semanal
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>
+                  Contrato
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>Queda</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>Spot</Table.ColumnHeader>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {quota.quota.map((row) => (
-                <Tr key={row.business.id}>
-                  <Td>{row.business.name}</Td>
-                  <Td isNumeric>
+                <Table.Row key={row.business.id}>
+                  <Table.Cell>{row.business.name}</Table.Cell>
+                  <Table.Cell textAlign='end'>
                     {row.approvedWeeklyBoxes === null
                       ? 'Sin contrato'
                       : boxes(row.approvedWeeklyBoxes)}
-                  </Td>
-                  <Td isNumeric>{boxes(row.contractBoxes)}</Td>
-                  <Td
-                    isNumeric
+                  </Table.Cell>
+                  <Table.Cell textAlign='end'>
+                    {boxes(row.contractBoxes)}
+                  </Table.Cell>
+                  <Table.Cell
                     color={
                       row.remaining !== null && row.remaining < 0
                         ? 'red.500'
                         : undefined
                     }
                     fontWeight='semibold'
+                    textAlign='end'
                   >
                     {boxes(row.remaining)}
-                  </Td>
-                  <Td isNumeric>{boxes(row.spotBoxes)}</Td>
-                </Tr>
+                  </Table.Cell>
+                  <Table.Cell textAlign='end'>
+                    {boxes(row.spotBoxes)}
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </Tbody>
-          </Table>
+            </Table.Body>
+          </Table.Root>
         </Box>
       )}
 
       {quota.warnings.map((warning) => (
-        <Alert key={warning} status='warning' borderRadius='lg'>
-          <AlertIcon />
-          <AlertDescription fontSize='sm'>{warning}</AlertDescription>
-        </Alert>
+        <Alert.Root key={warning} status='warning' borderRadius='lg'>
+          <Alert.Indicator />
+          <Alert.Description fontSize='sm'>{warning}</Alert.Description>
+        </Alert.Root>
       ))}
       {isFetching && <Spinner size='sm' alignSelf='flex-end' />}
     </Flex>

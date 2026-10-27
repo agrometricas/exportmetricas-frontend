@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,7 +11,6 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
   Center,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -50,14 +47,14 @@ function HarborsPage(): React.JSX.Element {
     }
   }, []);
 
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const textColor = 'fg';
+  const headingColor = 'fg.heading';
 
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -74,9 +71,9 @@ function HarborsPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
-            <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdAnchor} boxSize={5} />
+          <HStack gap={3}>
+            <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
+              <Icon boxSize={5} asChild><MdAnchor /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -91,60 +88,49 @@ function HarborsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/client/add-harbor"
+
                 aria-label="Agregar Puerto"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
-                boxShadow="md"
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/client/add-harbor"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/client/add-harbor"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
-                boxShadow="md"
                 fontWeight="semibold"
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition="all 0.2s"
-              >
-                Agregar Puerto
-              </Button>
+                asChild><Link_Next href="/dashboard/client/add-harbor"><FiPlus />Agregar Puerto
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
       </Box>
 
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
-          boxShadow="lg"
+          boxShadow='sm'
           overflow="hidden"
-          border="1px solid"
+          borderWidth='1px'
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
-              bg={useColorModeValue('gray.50', 'gray.750')}
+              py={4}
               borderBottom="1px solid"
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Puertos
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -161,8 +147,8 @@ function HarborsPage(): React.JSX.Element {
                 <TableHarbors windowSize={windowSize} width={tableWidth} />
               </Center>
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

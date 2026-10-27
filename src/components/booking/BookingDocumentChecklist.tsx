@@ -5,7 +5,6 @@ import {
   HStack,
   Progress,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -18,41 +17,45 @@ export default function BookingDocumentChecklist({
 }: {
   bookingId: number;
 }): React.JSX.Element | null {
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const { data } = useBookingDocumentStatus(bookingId);
   const status = data as BookingDocumentStatus | undefined;
   if (!status) return null;
   const done = status.items.length - status.missing.length;
 
   return (
-    <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
+    <Box borderWidth='1px' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
-        <HStack spacing={3}>
+        <HStack gap={3}>
           <Badge
-            colorScheme={SEMAPHORE_COLOR[status.semaphore]}
+            colorPalette={SEMAPHORE_COLOR[status.semaphore]}
             fontSize='sm'
             px={2}
           >
             {status.statusLabel}
           </Badge>
-          <Text fontSize='sm' color='gray.600'>
+          <Text fontSize='sm' color='fg.muted'>
             {done} de {status.items.length} listos
           </Text>
         </HStack>
         <Box flex='1' minW='160px' maxW='320px'>
-          <Progress
+          <Progress.Root
             value={status.progress}
-            colorScheme={SEMAPHORE_COLOR[status.semaphore]}
+            colorPalette={SEMAPHORE_COLOR[status.semaphore]}
             size='sm'
             borderRadius='md'
-          />
+          >
+            <Progress.Track>
+              <Progress.Range />
+            </Progress.Track>
+          </Progress.Root>
         </Box>
       </Flex>
-      <Text fontSize='xs' color='gray.500' mt={2}>
+      <Text fontSize='xs' color='fg.muted' mt={2}>
         Se bloquea con algo rechazado, o con algo pendiente a 24 horas del
         zarpe. No impide guardar nada.
       </Text>
-      <VStack align='stretch' spacing={2} mt={3}>
+      <VStack align='stretch' gap={2} mt={3}>
         {status.items.map((item) => (
           <Flex
             key={`${item.document}-${item.scope}`}
@@ -60,7 +63,7 @@ export default function BookingDocumentChecklist({
             align='flex-start'
           >
             <Badge
-              colorScheme={CHECKLIST_STATUS[item.status].colorScheme}
+              colorPalette={CHECKLIST_STATUS[item.status].colorScheme}
               minW='80px'
               textAlign='center'
             >
@@ -69,12 +72,12 @@ export default function BookingDocumentChecklist({
             <Box>
               <Text fontSize='sm' fontWeight='semibold'>
                 {item.document}{' '}
-                <Text as='span' fontWeight='normal' color='gray.600'>
+                <Text as='span' fontWeight='normal' color='fg.muted'>
                   · {item.scope}
                 </Text>
               </Text>
               {item.detail && (
-                <Text fontSize='sm' color='gray.600'>
+                <Text fontSize='sm' color='fg.muted'>
                   {item.detail}
                 </Text>
               )}

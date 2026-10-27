@@ -3,12 +3,11 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Icon,
   Text,
   VStack,
-  useToast,
+  Separator,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useParams } from 'next/navigation';
@@ -16,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldText from '../ui/form/InputFieldText';
 import { Logo } from '../ui/Logo';
@@ -44,7 +44,6 @@ export default function PublicAdjustmentPage(): JSX.Element {
   const { token } = useParams<{ token: string }>();
   const [data, setData] = useState<AdjustmentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const toast = useToast();
   const router = useRouter();
 
   useEffect(() => {
@@ -113,12 +112,12 @@ export default function PublicAdjustmentPage(): JSX.Element {
       );
 
       if (!res.ok) throw new Error('Error al enviar');
-      toast({
+      toaster.create({
         title: '¡Ajuste enviado!',
         description: 'Los datos fueron registrados correctamente.',
-        status: 'success',
+        type: 'success',
         duration: 3000,
-        isClosable: true,
+        closable: true,
       });
       setTimeout(() => {
         router.replace('/ajuste-materiales/success');
@@ -127,12 +126,12 @@ export default function PublicAdjustmentPage(): JSX.Element {
       const errMessage =
         error instanceof Error ? error.message : 'No se pudo enviar el ajuste.';
 
-      toast({
+      toaster.create({
         title: 'Error',
         description: errMessage,
-        status: 'error',
+        type: 'error',
         duration: 4000,
-        isClosable: true,
+        closable: true,
       });
     }
   };
@@ -150,14 +149,16 @@ export default function PublicAdjustmentPage(): JSX.Element {
         top={0}
       >
         <Flex align='center' gap={4}>
-          <Icon as={Logo} boxSize={8} />
+          <Icon boxSize={8} asChild>
+            <Logo />
+          </Icon>
           <Text fontSize='2xl' fontWeight='bold'>
             Ajuste de Materiales
           </Text>
           <Text fontSize='2xl' fontWeight='bold'>
             -
           </Text>
-          <Text fontSize='2xl' fontWeight='bold' color='teal'>
+          <Text fontSize='2xl' fontWeight='bold' color='green.fg'>
             {data.businessName}
           </Text>
         </Flex>
@@ -175,12 +176,12 @@ export default function PublicAdjustmentPage(): JSX.Element {
                 label='Responsable'
                 placeholder='Nombre del responsable'
               />
-              <Text mt={4} fontSize='sm' color='gray.500'>
+              <Text mt={4} fontSize='sm' color='fg.muted'>
                 Asegurate de ingresar las cantidades correctas de todos los
                 materiales asignados a la Finca.
               </Text>
-              <Divider my={4} />
-              <VStack align='stretch' spacing={4}>
+              <Separator my={4} />
+              <VStack align='stretch' gap={4}>
                 {data.materials.map((material, index) => (
                   <InputFieldNumber
                     key={material.exporterMaterialStockId}
@@ -192,7 +193,7 @@ export default function PublicAdjustmentPage(): JSX.Element {
               </VStack>
 
               <Flex mt={6}>
-                <Button colorScheme='teal' type='submit'>
+                <Button colorPalette='green' type='submit'>
                   Enviar Ajuste
                 </Button>
               </Flex>

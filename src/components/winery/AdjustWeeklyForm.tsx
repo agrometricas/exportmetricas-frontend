@@ -7,18 +7,18 @@ import {
   Heading,
   Text,
   VStack,
-  Divider,
   Badge,
   GridItem,
-  useToast,
   SimpleGrid,
-  Select,
+  NativeSelect,
   Flex,
+  Separator,
 } from '@chakra-ui/react';
 import { parseISO, getISOWeek } from 'date-fns';
 import { FieldArray, Form, Formik } from 'formik';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
 import { useStockMovementsByBusiness } from '../../hooks/winery/useStockMovementsByBusiness';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
@@ -100,7 +100,6 @@ const AdjustWeeklyForm = ({
 }: AdjustWeeklyFormProps): JSX.Element => {
   const { data: materials = [], isLoading } =
     useStockMovementsByBusiness(businessId);
-  const toast = useToast();
   const mutation = useAdjustWeekly(businessId);
   const queryClient = useQueryClient();
 
@@ -135,7 +134,7 @@ const AdjustWeeklyForm = ({
       .filter((x) => x.units > 0);
 
     if (updates.length === 0) {
-      toast({ title: 'No hay cambios para ajustar.', status: 'info' });
+      toaster.create({ title: 'No hay cambios para ajustar.', type: 'info' });
       return;
     }
 
@@ -145,20 +144,20 @@ const AdjustWeeklyForm = ({
 
     try {
       await mutation.mutateAsync({ realStocks });
-      toast({
+      toaster.create({
         title: 'Stock ajustado correctamente.',
-        status: 'success',
+        type: 'success',
         duration: 3000,
-        isClosable: true,
+        closable: true,
       });
       queryClient.invalidateQueries('stockMovements');
     } catch (error) {
-      toast({
+      toaster.create({
         title: 'Error al ajustar el stock.',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 4000,
-        isClosable: true,
+        closable: true,
       });
     }
   };
@@ -185,7 +184,7 @@ const AdjustWeeklyForm = ({
             <Form>
               <FieldArray name='stocks'>
                 {() => (
-                  <VStack spacing={4} align='stretch'>
+                  <VStack gap={4} align='stretch'>
                     {values.stocks.length === 0 && (
                       <Text>No hay materiales disponibles.</Text>
                     )}
@@ -248,7 +247,7 @@ const AdjustWeeklyForm = ({
                                 placeholder='Unidades a Ajustar'
                                 isDecimal={false}
                               />
-                              <Text fontSize='sm' color='gray.600'>
+                              <Text fontSize='sm' color='fg.muted'>
                                 Stock Proyectado: <strong>{projected}</strong>
                                 {' - '}
                                 Unidades Consideradas:{' '}
@@ -259,7 +258,7 @@ const AdjustWeeklyForm = ({
 
                           <SimpleGrid
                             columns={{ base: 1, md: 2 }}
-                            spacing='4'
+                            gap='4'
                             mb={4}
                           >
                             <Text>
@@ -267,28 +266,30 @@ const AdjustWeeklyForm = ({
                                 Seleccionar Costo para el Descuento:
                               </strong>
                             </Text>
-                            <Select
-                              value={
-                                values.selectedCosts[String(item.id)] ??
-                                item.currentCost
-                              }
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `selectedCosts.${item.id}`,
-                                  parseFloat(e.target.value)
-                                )
-                              }
-                              mt={1}
-                            >
-                              {costs.map((cost) => (
-                                <option key={cost} value={cost}>
-                                  ${cost.toFixed(2)}
-                                </option>
-                              ))}
-                            </Select>
+                            <NativeSelect.Root>
+                              <NativeSelect.Field
+                                value={
+                                  values.selectedCosts[String(item.id)] ??
+                                  item.currentCost
+                                }
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `selectedCosts.${item.id}`,
+                                    parseFloat(e.target.value)
+                                  )
+                                }
+                                mt={1}>
+                                {costs.map((cost) => (
+                                  <option key={cost} value={cost}>
+                                    ${cost.toFixed(2)}
+                                  </option>
+                                ))}
+                              </NativeSelect.Field>
+                              <NativeSelect.Indicator />
+                            </NativeSelect.Root>
                             <Box>
                               {item.current < 0 && (
-                                <Badge colorScheme='red' mb={2}>
+                                <Badge colorPalette='red' mb={2}>
                                   Stock negativo actual: {projected}/
                                   {item.current}
                                 </Badge>
@@ -305,21 +306,21 @@ const AdjustWeeklyForm = ({
                             </Text>
                           </SimpleGrid>
 
-                          <Divider my={2} />
+                          <Separator my={2} />
                           <Grid templateColumns='1fr 1fr' gap={4}>
                             <GridItem>
                               <Heading size='sm' mb={2}>
                                 Transferencias (Semana {week})
                               </Heading>
                               {item.transfers.length === 0 ? (
-                                <Text color='gray.500'>
+                                <Text color='fg.muted'>
                                   No hay transferencias.
                                 </Text>
                               ) : (
-                                <VStack align='start' spacing={1}>
+                                <VStack align='start' gap={1}>
                                   {item.transfers.map((m) => (
                                     <Box key={m.id}>
-                                      <Badge colorScheme='green'>
+                                      <Badge colorPalette='green'>
                                         {STOCK_MOVEMENT_LABELS[m.type] ??
                                           m.type}
                                       </Badge>{' '}
@@ -336,12 +337,12 @@ const AdjustWeeklyForm = ({
                                 Consumos (Semana {week})
                               </Heading>
                               {item.consumptions.length === 0 ? (
-                                <Text color='gray.500'>No hay consumos.</Text>
+                                <Text color='fg.muted'>No hay consumos.</Text>
                               ) : (
-                                <VStack align='start' spacing={1}>
+                                <VStack align='start' gap={1}>
                                   {item.consumptions.map((m) => (
                                     <Box key={m.id}>
-                                      <Badge colorScheme='red'>
+                                      <Badge colorPalette='red'>
                                         {!m.exportSentId
                                           ? 'DESCONTADO'
                                           : (STOCK_MOVEMENT_LABELS[m.type] ??
@@ -372,15 +373,15 @@ const AdjustWeeklyForm = ({
                           Total Descuento Estimado: ${totalDiscount.toFixed(2)}
                         </Text>
 
-                        <SimpleGrid columns={1} spacing={2}>
+                        <SimpleGrid columns={1} gap={2}>
                           <CheckboxForm
                             name='dataReviewed'
                             label='He revisado los datos antes de enviar'
                           />
                           <Button
                             type='submit'
-                            colorScheme='teal'
-                            isLoading={
+                            colorPalette='green'
+                            loading={
                               mutation.isLoading || isLoading || isSubmitting
                             }
                           >

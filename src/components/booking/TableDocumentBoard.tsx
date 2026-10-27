@@ -39,7 +39,7 @@ const TableDocumentBoard = (): React.JSX.Element => {
         header: 'Estado',
         size: 110,
         Cell: ({ row }): React.JSX.Element => (
-          <Badge colorScheme={SEMAPHORE_COLOR[row.original.semaphore]}>
+          <Badge colorPalette={SEMAPHORE_COLOR[row.original.semaphore]}>
             {row.original.statusLabel}
           </Badge>
         ),
@@ -49,11 +49,11 @@ const TableDocumentBoard = (): React.JSX.Element => {
         header: 'Booking',
         size: 170,
         Cell: ({ row }): React.JSX.Element => (
-          <VStack align='start' spacing={0}>
+          <VStack align='start' gap={0}>
             <Text fontSize='sm' fontWeight='semibold'>
               {row.original.bookingNumber}
             </Text>
-            <Text fontSize='xs' color='gray.600'>
+            <Text fontSize='xs' color='fg.muted'>
               {row.original.shippingCompany} · {row.original.shipName} →{' '}
               {row.original.destination}
             </Text>
@@ -73,14 +73,18 @@ const TableDocumentBoard = (): React.JSX.Element => {
         header: 'Avance',
         size: 130,
         Cell: ({ row }): React.JSX.Element => (
-          <HStack spacing={2} w='100%'>
+          <HStack gap={2} w='100%'>
             <Box flex='1'>
-              <Progress
+              <Progress.Root
                 value={row.original.progress}
-                colorScheme={SEMAPHORE_COLOR[row.original.semaphore]}
+                colorPalette={SEMAPHORE_COLOR[row.original.semaphore]}
                 size='sm'
                 borderRadius='md'
-              />
+              >
+                <Progress.Track>
+                  <Progress.Range />
+                </Progress.Track>
+              </Progress.Root>
             </Box>
             <Text fontSize='xs'>{row.original.progress} %</Text>
           </HStack>
@@ -93,11 +97,11 @@ const TableDocumentBoard = (): React.JSX.Element => {
         enableSorting: false,
         Cell: ({ row }): React.JSX.Element =>
           row.original.missing.length === 0 ? (
-            <Text fontSize='sm' color='gray.500'>
+            <Text fontSize='sm' color='fg.muted'>
               Nada
             </Text>
           ) : (
-            <VStack align='start' spacing={0}>
+            <VStack align='start' gap={0}>
               {missingSummary(row.original.missing).map((line) => (
                 <Text key={line} fontSize='xs'>
                   {line}
@@ -112,14 +116,12 @@ const TableDocumentBoard = (): React.JSX.Element => {
         size: 90,
         enableSorting: false,
         Cell: ({ row }): React.JSX.Element => (
-          <Button
-            as={Link_Next}
-            href={`/dashboard/export/bookings/${row.original.bookingId}`}
-            size='sm'
-            variant='outline'
-            colorScheme='green'
-          >
-            Documentos
+          <Button size='sm' variant='outline' colorPalette='green' asChild>
+            <Link_Next
+              href={`/dashboard/export/bookings/${row.original.bookingId}`}
+            >
+              Documentos
+            </Link_Next>
           </Button>
         ),
       },

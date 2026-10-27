@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import {
   useDeletePurchaseOrder,
   useSavePurchaseOrder,
@@ -26,7 +26,6 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
   isLoading: boolean;
   isDeleting: boolean;
 } {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading } = useSavePurchaseOrder();
@@ -37,12 +36,12 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title: 'No se pudo guardar la orden de compra',
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
@@ -57,13 +56,13 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
       {
         onError: showError,
         onSuccess: ({ data }) => {
-          toast({
+          toaster.create({
             title: order
               ? 'Orden de compra actualizada'
               : 'Orden de compra creada',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           refresh();
           // A new order opens on its own page, where each line becomes an
@@ -79,11 +78,11 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
     remove(order.id, {
       onError: showError,
       onSuccess: () => {
-        toast({
+        toaster.create({
           title: 'Orden de compra eliminada',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         refresh();
         router.push(LIST_PATH);

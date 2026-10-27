@@ -1,8 +1,9 @@
-import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import { addDays, format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useField } from 'formik';
 import React, { useEffect } from 'react';
+import { FormLabel } from '../../ui/form/FormLabel';
 import InputFieldQuantity from '../../ui/form/InputFieldQuantity';
 
 interface Props {
@@ -59,7 +60,7 @@ const DateGrid = ({
                 m='0px'
                 borderWidth={'0.5px'}
                 textAlign={'center'}
-                bg={'yellow.200'}
+                bg={'yellow.subtle'}
               >
                 {format(date, 'EEEE/dd', { locale: es })}
               </FormLabel>

@@ -1,32 +1,21 @@
 'use client';
-
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
   CloseButton,
   Flex,
   List,
-  ListItem,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Text,
-  useColorModeValue,
   useDisclosure,
-  useToast,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 export interface BatchOutcome {
@@ -69,16 +58,15 @@ function BatchActionBar<T>({
   run,
   onFinished,
 }: BatchActionBarProps<T>): React.JSX.Element {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const { open, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [failures, setFailures] = useState<
     { id: number; label: string; message: string }[]
   >([]);
 
-  const barBg = useColorModeValue('green.50', 'gray.700');
-  const hintColor = useColorModeValue('gray.600', 'gray.300');
+  const barBg = 'green.subtle';
+  const hintColor = 'fg.muted';
 
   const confirm = async (): Promise<void> => {
     const labels = new Map(
@@ -87,11 +75,11 @@ function BatchActionBar<T>({
     try {
       const outcome = await run([...labels.keys()]);
       affectedQueries.forEach((key) => queryClient.invalidateQueries(key));
-      toast({
+      toaster.create({
         title: outcome.summary.title,
-        status: outcome.summary.status,
+        type: outcome.summary.status,
         duration: 6000,
-        isClosable: true,
+        closable: true,
       });
       setFailures(
         outcome.failed.map((failure) => ({
@@ -106,12 +94,12 @@ function BatchActionBar<T>({
         router.push('/api/auth/signout');
         return;
       }
-      toast({
+      toaster.create({
         title: errorTitle,
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 6000,
-        isClosable: true,
+        closable: true,
       });
     }
   };
@@ -131,63 +119,80 @@ function BatchActionBar<T>({
           {hint}
         </Text>
         <Button
-          colorScheme='green'
-          leftIcon={icon}
-          isDisabled={selected.length === 0}
+          colorPalette='green'
+          disabled={selected.length === 0}
           onClick={onOpen}
           flexShrink={0}
         >
+          {icon}
           {actionLabel} ({selected.length})
         </Button>
       </Flex>
 
       {failures.length > 0 && (
-        <Alert status='warning' borderRadius='md' alignItems='flex-start'>
-          <AlertIcon />
+        <Alert.Root status='warning' borderRadius='md' alignItems='flex-start'>
+          <Alert.Indicator />
           <Box flex='1'>
-            <AlertTitle>{failuresTitle}</AlertTitle>
-            <AlertDescription>
-              <List spacing={1} mt={1}>
+            <Alert.Title>{failuresTitle}</Alert.Title>
+            <Alert.Description>
+              <List.Root gap={1} mt={1}>
                 {failures.map((failure) => (
-                  <ListItem key={failure.id}>
+                  <List.Item key={failure.id}>
                     <strong>{failure.label}:</strong> {failure.message}
-                  </ListItem>
+                  </List.Item>
                 ))}
-              </List>
-            </AlertDescription>
+              </List.Root>
+            </Alert.Description>
           </Box>
           <CloseButton
             aria-label='Cerrar el aviso'
             onClick={() => setFailures([])}
           />
-        </Alert>
+        </Alert.Root>
       )}
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size='lg'>
-        <ModalOverlay />
-        <ModalContent mx={4}>
-          <ModalHeader>{confirmTitle}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text mb={3}>{confirmText(selected.length)}</Text>
-            <List spacing={1} maxH='40vh' overflowY='auto'>
-              {selected.map((item) => (
-                <ListItem key={keyOf(item)} fontSize='sm'>
-                  {labelOf(item)}
-                </ListItem>
-              ))}
-            </List>
-          </ModalBody>
-          <ModalFooter gap={3}>
-            <Button variant='ghost' onClick={onClose} isDisabled={isRunning}>
-              Cancelar
-            </Button>
-            <Button colorScheme='green' onClick={confirm} isLoading={isRunning}>
-              {confirmLabel(selected.length)}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Dialog.Root
+        open={open}
+        placement='center'
+        size='lg'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            onClose();
+          }
+        }}
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content mx={4}>
+              <Dialog.Header>{confirmTitle}</Dialog.Header>
+              <Dialog.CloseTrigger />
+              <Dialog.Body>
+                <Text mb={3}>{confirmText(selected.length)}</Text>
+                <List.Root gap={1} maxH='40vh' overflowY='auto'>
+                  {selected.map((item) => (
+                    <List.Item key={keyOf(item)} fontSize='sm'>
+                      {labelOf(item)}
+                    </List.Item>
+                  ))}
+                </List.Root>
+              </Dialog.Body>
+              <Dialog.Footer gap={3}>
+                <Button variant='ghost' onClick={onClose} disabled={isRunning}>
+                  Cancelar
+                </Button>
+                <Button
+                  colorPalette='green'
+                  onClick={confirm}
+                  loading={isRunning}
+                >
+                  {confirmLabel(selected.length)}
+                </Button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 }

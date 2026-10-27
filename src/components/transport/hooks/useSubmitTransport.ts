@@ -1,8 +1,8 @@
-import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateTransport } from '../../../hooks/transport/createTransport';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -14,7 +14,6 @@ export function useSubmitTransport(): {
     initialValues: typeof initialValues;
     isLoading: boolean;
 } {
-    const toast = useToast();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { mutate: createTransport, isLoading } = useCreateTransport();
@@ -29,23 +28,23 @@ export function useSubmitTransport(): {
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
                     const statusCode = error.response?.status;
-                    toast({
+                    toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
-                        status: 'error',
+                        type: 'error',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     if (statusCode === 401) {
                         router.push('/api/auth/signout');
                     }
                 },
                 onSuccess: () => {
-                    toast({
+                    toaster.create({
                         title: 'Transporte Creado con éxito',
-                        status: 'success',
+                        type: 'success',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     queryClient.invalidateQueries('transports');
                     formikHelpers.resetForm();

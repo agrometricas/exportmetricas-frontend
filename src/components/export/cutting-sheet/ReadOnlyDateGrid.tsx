@@ -1,5 +1,6 @@
-import { Box, Grid, GridItem, FormLabel } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import DisplayField from './DisplayField';
+import { FormLabel } from '../../ui/form/FormLabel';
 
 interface ReadOnlyDateGridProps {
     weekDaysOfWeek: string[];

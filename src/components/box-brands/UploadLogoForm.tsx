@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  SimpleGrid,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import SelectBoxBrand from './SelectBoxBrand';
 import { useUploadBoxBrandLogo } from '../../hooks/box-brand/uploadBoxBrandLogo';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -47,7 +41,6 @@ const validationSchema = Yup.object().shape({
 
 const UploadLogoForm = (): React.JSX.Element => {
   const router = useRouter();
-  const toast = useToast();
   const { uploadBoxBrandLogo, isLoading } = useUploadBoxBrandLogo();
   const queryClient = useQueryClient();
 
@@ -65,12 +58,12 @@ const UploadLogoForm = (): React.JSX.Element => {
           onError: (error: any) => {
             const statusCode = error.response?.status;
             {
-              toast({
+              toaster.create({
                 title: 'No se pudo guardar',
                 description: serverErrorMessage(error),
-                status: 'error',
+                type: 'error',
                 duration: 5000,
-                isClosable: true,
+                closable: true,
               });
 
               if (statusCode === 401) {
@@ -79,11 +72,11 @@ const UploadLogoForm = (): React.JSX.Element => {
             }
           },
           onSuccess: async () => {
-            toast({
+            toaster.create({
               title: 'Imagen Subida con Éxito',
-              status: 'success',
+              type: 'success',
               duration: 5000,
-              isClosable: true,
+              closable: true,
             });
 
             queryClient.invalidateQueries('boxBrands');
@@ -107,13 +100,13 @@ const UploadLogoForm = (): React.JSX.Element => {
             <Heading fontSize={'2xl'} p={'12px'}>
               Seleccione la Marca de Caja
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
             <SelectBoxBrand name={'boxBrandId'} />
 
             <Heading fontSize={'2xl'} p={'12px'}>
               Subir Logo
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
             <UploadLogoFile name={'logoImg'} />
           </Flex>
@@ -123,8 +116,8 @@ const UploadLogoForm = (): React.JSX.Element => {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Subir Imagen
             </Button>

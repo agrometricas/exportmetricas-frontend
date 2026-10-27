@@ -82,13 +82,13 @@ const TableBookings = (): React.JSX.Element => {
             enableSorting: false,
             accessorFn: (row) => row.containerCount,
             Cell: ({ row }): React.JSX.Element => (
-              <VStack align='start' spacing={0}>
+              <VStack align='start' gap={0}>
                 <Text fontSize='sm'>
                   {row.original.containers.length} de{' '}
                   {row.original.containerCount} con número
                 </Text>
                 {row.original.containers.map((container) => (
-                  <Text key={container.id} fontSize='xs' color='gray.600'>
+                  <Text key={container.id} fontSize='xs' color='fg.muted'>
                     {container.number}
                     {container.exportId ? ` · exp. ${container.exportId}` : ''}
                   </Text>
@@ -101,11 +101,11 @@ const TableBookings = (): React.JSX.Element => {
             size: 115,
             header: 'Flete Est.',
             Cell: ({ row }): React.JSX.Element => (
-              <VStack align='start' spacing={0}>
+              <VStack align='start' gap={0}>
                 <Text fontSize='sm' fontWeight='semibold'>
                   {money(row.original.estimatedFreight)}
                 </Text>
-                <Text fontSize='xs' color='gray.600'>
+                <Text fontSize='xs' color='fg.muted'>
                   {money(row.original.costPerContainer)} c/u
                 </Text>
               </VStack>
@@ -122,14 +122,12 @@ const TableBookings = (): React.JSX.Element => {
             size: 80,
             header: '',
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/export/bookings/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Editar
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/export/bookings/${row.original.id}`}
+                >
+                  Editar
+                </Link_Next>
               </Button>
             ),
           },

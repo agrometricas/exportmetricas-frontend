@@ -116,14 +116,16 @@ export default function TableExporterMaterialStock({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
+
           maxWidth:
             windowSize.width && windowSize.width >= 768
               ? `${width.md}px`
               : `${width.sm}px`,
+
           position: 'sticky',
           width: '100%',
         }}

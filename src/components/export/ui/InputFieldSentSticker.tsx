@@ -1,14 +1,10 @@
 import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Grid,
   GridItem,
   Input,
   InputGroup,
-  InputRightElement,
   NumberInput,
-  NumberInputField,
+  Field,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
@@ -46,12 +42,12 @@ const InputFieldSentSticker: React.FC<InputFieldSentStickerProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       <Grid templateColumns='repeat(10, 1fr)' alignItems='center'>
         <GridItem colSpan={2}>
-          <FormLabel fontSize='sm' m={0} width={'100%'}>
+          <Field.Label fontSize='sm' m={0} width={'100%'}>
             {`${stickerSelected.sticker?.name}: `}
-          </FormLabel>
+          </Field.Label>
         </GridItem>
         <GridItem colSpan={4}></GridItem>
         <GridItem colSpan={2}>
@@ -61,45 +57,43 @@ const InputFieldSentSticker: React.FC<InputFieldSentStickerProps> = ({
             textAlign={'left'}
             p={'0px'}
             pl={'16px'}
-            isReadOnly={true}
-            focusBorderColor='gray.200'
-            _hover={{ borderColor: 'gray.200' }}
+            readOnly={true}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
         </GridItem>
         {showNumberInput && (
           <GridItem colSpan={2} pl={'4px'}>
-            <InputGroup width={'100%'}>
-              {unit && (
-                <InputRightElement
-                  pointerEvents='none'
-                  color='gray.500'
-                  fontSize='1em'
-                  mr={'8px'}
-                >
-                  {unit}
-                </InputRightElement>
-              )}
-              <NumberInput {...field}>
-                <NumberInputField
+            <InputGroup
+              width={'100%'}
+              endElement={unit ? unit : undefined}
+              endElementProps={{
+                pointerEvents: 'none',
+                color: 'fg.muted',
+                fontSize: '1em',
+                mr: '8px',
+              }}
+            >
+              <NumberInput.Root {...field}>
+                <NumberInput.Input
                   {...field}
                   onBlur={handleBlur}
                   onKeyDown={handleKeyDown}
                   placeholder={placeholder || stickerSelected.sticker?.name}
                   textAlign='left'
                 />
-              </NumberInput>
+              </NumberInput.Root>
             </InputGroup>
           </GridItem>
         )}
       </Grid>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

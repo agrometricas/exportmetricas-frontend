@@ -4,19 +4,14 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
   Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Select,
+  NativeSelect,
   SimpleGrid,
-  useToast,
+  Separator,
+  Field,
+  Portal,
 } from '@chakra-ui/react';
 import {
   FieldArray,
@@ -30,6 +25,7 @@ import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
 import { getBoxBrand } from '@/hooks/box-brand/getBoxBrand';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
@@ -1050,7 +1046,6 @@ function CopyFromBoxBrand({
 }): React.JSX.Element | null {
   const { values, setValues } = useFormikContext<ValuesProps>();
   const { data } = useBoxBrands({ search: '', page: 1, limit: 10 });
-  const toast = useToast();
   const [isCopying, setIsCopying] = useState(false);
   const boxBrands = (data ?? []) as BoxBrandType[];
   if (boxBrands.length === 0) return null;
@@ -1064,12 +1059,12 @@ function CopyFromBoxBrand({
       await setValues({ ...values, ...copied } as ValuesProps);
       onCopied(usedOptionalMaterials(copied));
     } catch (error) {
-      toast({
+      toaster.create({
         title: 'No se pudo copiar la alícuota',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     } finally {
       setIsCopying(false);
@@ -1077,26 +1072,28 @@ function CopyFromBoxBrand({
   };
 
   return (
-    <FormControl>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root>
+      <Field.Label fontSize='sm' mb='8px'>
         Partir de otra alícuota (opcional)
-      </FormLabel>
-      <Select
-        placeholder='Empezar en blanco'
-        isDisabled={isCopying}
-        onChange={(event) => copy(event.target.value)}
-      >
-        {boxBrands.map((boxBrand) => (
-          <option key={boxBrand.id} value={boxBrand.id}>
-            {boxBrand.brand?.name} - {boxBrand.name}
-          </option>
-        ))}
-      </Select>
-      <FormHelperText>
+      </Field.Label>
+      <NativeSelect.Root disabled={isCopying}>
+        <NativeSelect.Field
+          placeholder='Empezar en blanco'
+          onChange={(event) => copy(event.target.value)}
+        >
+          {boxBrands.map((boxBrand) => (
+            <option key={boxBrand.id} value={boxBrand.id}>
+              {boxBrand.brand?.name} - {boxBrand.name}
+            </option>
+          ))}
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+      </NativeSelect.Root>
+      <Field.HelperText>
         Copia sus materiales, cantidades y cócteles. El nombre y el código se
         escriben de nuevo.
-      </FormHelperText>
-    </FormControl>
+      </Field.HelperText>
+    </Field.Root>
   );
 }
 
@@ -1115,25 +1112,34 @@ function AddMaterialMenu({
   );
   if (hidden.length === 0) return null;
   return (
-    <Menu>
-      <MenuButton
-        as={Button}
-        size='sm'
-        variant='outline'
-        colorScheme='green'
-        leftIcon={<FiPlus />}
-        alignSelf='flex-start'
-      >
-        Agregar material
-      </MenuButton>
-      <MenuList>
-        {hidden.map((material) => (
-          <MenuItem key={material.field} onClick={() => onAdd(material.field)}>
-            {material.label}
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+    <Menu.Root>
+      <Menu.Trigger asChild>
+        <Button
+          size='sm'
+          variant='outline'
+          colorPalette='green'
+          alignSelf='flex-start'
+        >
+          <FiPlus />
+          Agregar material
+        </Button>
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content>
+            {hidden.map((material) => (
+              <Menu.Item
+                key={material.field}
+                onSelect={() => onAdd(material.field)}
+                value='item-0'
+              >
+                {material.label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
   );
 }
 
@@ -1143,7 +1149,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
   const addMaterial = (field: string): void =>
     setShownMaterials((current) => [...current, field]);
   const router = useRouter();
-  const toast = useToast();
   const { data: unitsConfig } = useMaterialUnits();
   const unitOf = (type: string): string | undefined =>
     (unitsConfig as MaterialUnitsResponse | undefined)?.materials.find(
@@ -1225,12 +1230,12 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
           const { statusCode, message, model, prop } =
             error.response?.data ?? {};
 
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           if (statusCode === 401) {
@@ -1243,11 +1248,11 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
           }
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Alícuota creada con éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('boxBrands');
@@ -1277,10 +1282,10 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 </Heading>
                 <ImportBoxBrandDrawer />
               </Flex>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <CopyFromBoxBrand onCopied={setShownMaterials} />
 
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <InputFieldBrandSelect
                   name={'brandId'}
                   label={'Marca'}
@@ -1332,8 +1337,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               <Heading fontSize={'2xl'} p={'12px'}>
                 Materiales por caja
               </Heading>
-              <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
+              <Separator mb={'16px'} />
+              <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 <BottomSelectBanContanier
                   name1={'bottomTypeId'}
                   label1={'Fondo'}
@@ -1486,12 +1491,12 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               <Heading fontSize={'2xl'} p={'12px'}>
                 Insumos post cosecha
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
 
               <Heading fontSize={'xl'} p={'12px'}>
                 Fumigación post cosecha
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <FieldArray name='pesticides'>
                 {({ push, remove }) => (
                   <>
@@ -1508,7 +1513,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                           boxQuantity={values.boxQuantity}
                           unit={perContainer('PESTICIDE')}
                         />
-                        <Divider
+                        <Separator
                           mt={'16px'}
                           mb={'8px'}
                           borderWidth={'2px'}
@@ -1516,7 +1521,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                         />
                       </div>
                     ))}
-                    <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
+                    <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                       <Box></Box>
                       <Button
                         onClick={() => push({ pesticideId: '', quantity: '' })}
@@ -1531,8 +1536,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               <Heading fontSize={'2xl'} p={'12px'}>
                 Materiales por contenedor
               </Heading>
-              <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
+              <Separator mb={'16px'} />
+              <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 {values.cargoType !== 'BULK' && (
                   <>
                     <PalletSelectBanContanier
@@ -1646,8 +1651,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
               <Heading fontSize={'2xl'} p={'12px'}>
                 Adicionales
               </Heading>
-              <Divider mb={'16px'} />
-              <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
+              <Separator mb={'16px'} />
+              <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 {shown('packingTapeTypeId') && (
                   <PackingTapeSelectBanContanier
                     name1={'packingTapeTypeId'}
@@ -1737,8 +1742,8 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                   py='8px'
                   px='16px'
                   type='submit'
-                  colorScheme='teal'
-                  isLoading={isSubmitting || isLoading}
+                  colorPalette='green'
+                  loading={isSubmitting || isLoading}
                 >
                   Enviar
                 </Button>

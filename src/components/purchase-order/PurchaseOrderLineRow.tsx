@@ -3,20 +3,17 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   IconButton,
-  Select,
+  NativeSelect,
   Grid,
   Text,
-  Tooltip,
-  useColorModeValue,
+  Field,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import Link_Next from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
+import { Tooltip } from '@/components/ui/tooltip';
 import { LINE_TYPES } from './schemas/purchaseOrder.schema';
 import { PurchaseOrderLine } from '../../types/purchaseOrder';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
@@ -45,13 +42,13 @@ function SelectField({
   const binding = useField(name);
   const meta = binding[1];
   return (
-    <FormControl isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px'>
         {label}
-      </FormLabel>
+      </Field.Label>
       {children(binding)}
-      <FormErrorMessage>{meta.error}</FormErrorMessage>
-    </FormControl>
+      <Field.ErrorText>{meta.error}</Field.ErrorText>
+    </Field.Root>
   );
 }
 
@@ -62,7 +59,7 @@ function ExportStatus({
   orderId?: number;
   saved?: PurchaseOrderLine;
 }): React.JSX.Element | null {
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const mutedColor = 'fg.muted';
   if (!saved || !orderId) {
     return (
       <Text fontSize='sm' color={mutedColor}>
@@ -74,7 +71,7 @@ function ExportStatus({
     const cutting = formatDayMonthYear(saved.export.cuttingDate);
     return (
       <Flex align='center' gap={2} wrap='wrap'>
-        <Badge colorScheme='green' variant='subtle'>
+        <Badge colorPalette='green' variant='subtle'>
           Exportación {saved.export.id}
         </Badge>
         <Text fontSize='sm' color={mutedColor}>
@@ -84,14 +81,12 @@ function ExportStatus({
     );
   }
   return (
-    <Button
-      as={Link_Next}
-      href={`/dashboard/export/purchase-orders/${orderId}/export/${saved.id}`}
-      size='sm'
-      colorScheme='green'
-      alignSelf='flex-start'
-    >
-      Crear exportación
+    <Button size='sm' colorPalette='green' alignSelf='flex-start' asChild>
+      <Link_Next
+        href={`/dashboard/export/purchase-orders/${orderId}/export/${saved.id}`}
+      >
+        Crear exportación
+      </Link_Next>
     </Button>
   );
 }
@@ -104,7 +99,7 @@ export default function PurchaseOrderLineRow({
   canRemove,
   onRemove,
 }: PurchaseOrderLineRowProps): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const borderColor = 'border';
   const prefix = `lines[${index}]`;
   const [, , businessHelpers] = useField(`${prefix}.businessId`);
   const previousMerchant = useRef(merchant);
@@ -154,25 +149,28 @@ export default function PurchaseOrderLineRow({
         />
         <SelectField name={`${prefix}.type`} label='Tipo'>
           {([field]) => (
-            <Select
-              name={field.name}
-              value={field.value as string}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-            >
-              {LINE_TYPES.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.name}
-                </option>
-              ))}
-            </Select>
+            <NativeSelect.Root>
+              <NativeSelect.Field
+                name={field.name}
+                value={field.value as string}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              >
+                {LINE_TYPES.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </NativeSelect.Field>
+              <NativeSelect.Indicator />
+            </NativeSelect.Root>
           )}
         </SelectField>
       </Grid>
       <Flex mt={3} justify='space-between' align='center' gap={3}>
         <ExportStatus orderId={orderId} saved={saved} />
         <Tooltip
-          label={
+          content={
             exported
               ? 'Cancela la exportación para quitar la línea'
               : 'Quitar la línea'
@@ -180,12 +178,13 @@ export default function PurchaseOrderLineRow({
         >
           <IconButton
             aria-label={`Quitar la línea ${index + 1}`}
-            icon={<FiTrash2 />}
             variant='ghost'
-            colorScheme='red'
-            isDisabled={exported || !canRemove}
+            colorPalette='red'
+            disabled={exported || !canRemove}
             onClick={onRemove}
-          />
+          >
+            <FiTrash2 />
+          </IconButton>
         </Tooltip>
       </Flex>
     </Box>

@@ -1,7 +1,8 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldHarborSelect from './InputFieldHarborSelect';
 import { HarborType } from '../../types/harbor';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectHarborProps {
   name: string;
@@ -32,7 +33,7 @@ const SelectHarbor: React.FC<SelectHarborProps> = ({
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldHarborSelect
           name={name}
           label={'Puerto'}
@@ -42,19 +43,19 @@ const SelectHarbor: React.FC<SelectHarborProps> = ({
         />
         <Box>
           <FormLabel>Tipo</FormLabel>
-          <Input isReadOnly={true} value={harbor?.type || ''} placeholder='Tipo de Puerto' />
+          <Input readOnly={true} value={harbor?.type || ''} placeholder='Tipo de Puerto' />
         </Box>
         <Box>
           <FormLabel>Dirección</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={harbor?.address || ''}
             placeholder='Tipo de Dirección del puerto'
           />
         </Box>
         <Box>
           <FormLabel>Locación</FormLabel>
-          <Input isReadOnly={true} value={harbor?.location || ''} />
+          <Input readOnly={true} value={harbor?.location || ''} />
         </Box>
       </SimpleGrid>
     </>

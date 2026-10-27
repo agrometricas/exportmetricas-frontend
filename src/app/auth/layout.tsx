@@ -1,6 +1,7 @@
 'use client';
-import { Box, Flex, Text, theme, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import { useColorModeValue } from "../../components/ui/color-mode";
 
 export default function AuthLayout({
   children,
@@ -36,16 +37,16 @@ export default function AuthLayout({
           display='flex'
           justifyContent='center'
           alignItems='center'
-          bgGradient='linear(to-b, rgba(40, 130, 93, 0.92), rgba(40, 130, 93, 0))'
+          bgImage='linear-gradient(to bottom, rgba(13, 122, 74, 0.92), rgba(13, 122, 74, 0))'
         >
           <Text
             fontSize={{
-              xl: theme.fontSizes['3xl'],
-              '2xl': theme.fontSizes['4xl'],
+              xl: '3xl',
+              '2xl': '4xl',
             }}
             fontWeight={{
-              xl: theme.fontWeights.extrabold,
-              '2xl': theme.fontWeights.extrabold,
+              xl: 'extrabold',
+              '2xl': 'extrabold',
             }}
             textAlign='center'
             color='white'
@@ -62,7 +63,7 @@ export default function AuthLayout({
           py={'24px'}
           px={'24px'}
           display='flex'
-          bgGradient='linear(to-b, rgba(40, 130, 93, 0), rgba(40, 130, 93, 0.92))'
+          bgImage='linear-gradient(to bottom, rgba(13, 122, 74, 0), rgba(13, 122, 74, 0.92))'
         ></Box>
       </Box>
 

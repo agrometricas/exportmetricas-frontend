@@ -1,17 +1,13 @@
 'use client';
-
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
-  Divider,
   Heading,
   HStack,
   Icon,
   SimpleGrid,
   Text,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
@@ -48,7 +44,7 @@ function Fact({
 }): React.JSX.Element {
   return (
     <Box>
-      <Text fontSize='xs' color='gray.500'>
+      <Text fontSize='xs' color='fg.muted'>
         {label}
       </Text>
       <Text fontSize='sm' fontWeight='semibold'>
@@ -64,45 +60,47 @@ function ExportFilePage(): React.JSX.Element {
   const { data: progressData } = useExportProgress(id);
   const progress = progressData as ExportProgress | undefined;
   const [detailRef, detailWidth] = useWidth();
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headBg = useColorModeValue('gray.50', 'gray.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headBg = 'bg.subtle';
 
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='6xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
-          boxShadow='lg'
-          border='1px solid'
+          boxShadow='sm'
+          borderWidth='1px'
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={headBg}>
-            <HStack spacing={3}>
-              <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdOutlineLocalShipping} boxSize={5} />
+          <Card.Header bg={headBg}>
+            <HStack gap={3}>
+              <Box p={2} bg='green.subtle' borderRadius='lg' color='green.fg'>
+                <Icon boxSize={5} asChild>
+                  <MdOutlineLocalShipping />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' fontWeight='bold'>
                   Exportación {id}
                 </Heading>
-                <Text fontSize='sm' color='gray.600'>
+                <Text fontSize='sm' color='fg.muted'>
                   Sus pasos, lo que sigue y el detalle
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
-          <Divider />
-          <CardBody>
+          </Card.Header>
+          <Separator />
+          <Card.Body>
             {isLoading || !exportItem ? (
               <LoadingState />
             ) : (
               <>
-                <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4} mb={5}>
+                <SimpleGrid columns={{ base: 2, md: 4 }} gap={4} mb={5}>
                   <Fact
                     label='Finca'
                     value={exportItem.business?.name ?? '—'}
@@ -136,8 +134,8 @@ function ExportFilePage(): React.JSX.Element {
                 </Box>
               </>
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -95,9 +95,9 @@ const TableProducerContracts = (): React.JSX.Element => {
             header: 'Estado',
             Cell: ({ cell }): React.JSX.Element =>
               cell.getValue<boolean>() ? (
-                <Badge colorScheme='green'>Vigente</Badge>
+                <Badge colorPalette='green'>Vigente</Badge>
               ) : (
-                <Badge colorScheme='gray'>No vigente</Badge>
+                <Badge colorPalette='gray'>No vigente</Badge>
               ),
           },
         ],
@@ -111,14 +111,12 @@ const TableProducerContracts = (): React.JSX.Element => {
             size: 95,
             header: '',
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/producer/contracts/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Editar
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/producer/contracts/${row.original.id}`}
+                >
+                  Editar
+                </Link_Next>
               </Button>
             ),
           },

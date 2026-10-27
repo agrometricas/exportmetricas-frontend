@@ -6,7 +6,6 @@ import {
   HStack,
   Progress,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -20,6 +19,7 @@ import {
   stepAction,
 } from '../../../utils/exportSteps';
 import { seesQueue } from '../../../utils/workQueueAccess';
+import { useColorModeValue } from '../../ui/color-mode';
 import ExportCustomsModal from '../ExportCustomsModal';
 
 const STATE_COLOR: Record<ExportProgress['state'], string> = {
@@ -38,31 +38,35 @@ export default function ExportSteps({
   const [customsOpen, setCustomsOpen] = useState(false);
   const { data: session } = useSession();
   const role = session?.user?.role;
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const nextBg = useColorModeValue('orange.50', 'whiteAlpha.100');
   const canEdit =
     !exportItem.cancelledAt && exportItem.pendingExportSent !== false;
   const back = exportPage(progress.exportId);
 
   return (
-    <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
+    <Box borderWidth='1px' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
-        <Badge colorScheme={STATE_COLOR[progress.state]} fontSize='sm' px={2}>
+        <Badge colorPalette={STATE_COLOR[progress.state]} fontSize='sm' px={2}>
           {progress.stateLabel}
         </Badge>
-        <HStack flex='1' minW='180px' maxW='360px' spacing={2}>
-          <Progress
+        <HStack flex='1' minW='180px' maxW='360px' gap={2}>
+          <Progress.Root
             flex='1'
             value={progress.progress}
-            colorScheme={STATE_COLOR[progress.state]}
+            colorPalette={STATE_COLOR[progress.state]}
             size='sm'
             borderRadius='md'
-          />
+          >
+            <Progress.Track>
+              <Progress.Range />
+            </Progress.Track>
+          </Progress.Root>
           <Text fontSize='sm'>{progress.progress} %</Text>
         </HStack>
       </Flex>
 
-      <VStack align='stretch' spacing={2} mt={4}>
+      <VStack align='stretch' gap={2} mt={4}>
         {progress.steps.map((step, index) => {
           const action =
             progress.state === 'CANCELLED' || !seesQueue(role, step.key)
@@ -79,11 +83,11 @@ export default function ExportSteps({
               bg={isNext ? nextBg : undefined}
               wrap='wrap'
             >
-              <Text w='20px' color='gray.500' fontSize='sm'>
+              <Text w='20px' color='fg.muted' fontSize='sm'>
                 {index + 1}
               </Text>
               <Badge
-                colorScheme={STEP_STATUS[step.status].colorScheme}
+                colorPalette={STEP_STATUS[step.status].colorScheme}
                 minW='84px'
                 textAlign='center'
               >
@@ -93,14 +97,14 @@ export default function ExportSteps({
                 <Text fontSize='sm' fontWeight='semibold'>
                   {step.label}
                   {isNext && (
-                    <Text as='span' fontWeight='normal' color='orange.600'>
+                    <Text as='span' fontWeight='normal' color='orange.fg'>
                       {' '}
                       · sigue
                     </Text>
                   )}
                 </Text>
                 {step.detail && (
-                  <Text fontSize='sm' color='gray.600'>
+                  <Text fontSize='sm' color='fg.muted'>
                     {step.detail}
                   </Text>
                 )}
@@ -109,7 +113,7 @@ export default function ExportSteps({
                 ('modal' in action ? (
                   <Button
                     size='sm'
-                    colorScheme='green'
+                    colorPalette='green'
                     variant={isNext ? 'solid' : 'outline'}
                     onClick={() => setCustomsOpen(true)}
                   >
@@ -117,13 +121,12 @@ export default function ExportSteps({
                   </Button>
                 ) : (
                   <Button
-                    as={Link_Next}
-                    href={action.href}
                     size='sm'
-                    colorScheme='green'
+                    colorPalette='green'
                     variant={isNext ? 'solid' : 'outline'}
+                    asChild
                   >
-                    {action.label}
+                    <Link_Next href={action.href}>{action.label}</Link_Next>
                   </Button>
                 ))}
             </Flex>

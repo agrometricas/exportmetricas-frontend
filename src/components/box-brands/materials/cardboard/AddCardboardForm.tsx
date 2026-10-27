@@ -1,9 +1,10 @@
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateCardboard } from '@/hooks/box-brand/materials/cardboard/createCardboard';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
@@ -48,7 +49,6 @@ const AddCardboardForm = ({
   onClose,
 }: AddCardboardFormProps): React.JSX.Element => {
   const { createCardboard, isLoading } = useCreateCardboard();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addCardboard = async (
@@ -59,20 +59,20 @@ const AddCardboardForm = ({
       { ...values },
       {
         onError: (error: TypeError) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Cartón creado con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('cardboards');
           actions.resetForm();
@@ -94,7 +94,7 @@ const AddCardboardForm = ({
             <Heading fontSize='2xl' p='12px'>
               Agregar Cartón
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button
@@ -102,8 +102,8 @@ const AddCardboardForm = ({
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar
             </Button>

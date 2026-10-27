@@ -17,12 +17,12 @@ import { Province } from '@/types/location/province';
 
 const chakraStyles: ChakraStylesConfig<Province, false, GroupBase<Province>> = {
   container: (provided) => ({ ...provided, w: 'full' }),
-  placeholder: (provided) => ({ ...provided, color: 'gray.600' }),
-  input: (provided) => ({ ...provided, color: 'gray.900' }),
+  placeholder: (provided) => ({ ...provided, color: 'fg.muted' }),
+  input: (provided) => ({ ...provided, color: 'fg.heading' }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 
@@ -31,7 +31,9 @@ const provinceComponents = {
     props: DropdownIndicatorProps<Province, false, GroupBase<Province>>
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} boxSize='16px' />
+      <Icon boxSize='16px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -112,9 +114,11 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
       menuPortalTarget={menuPortalTarget}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          ({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel,
       }}
-      useBasicStyles
       chakraStyles={chakraStyles}
       noOptionsMessage={() => 'Provincias no encontradas'}
       isLoading={isLoading}

@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardBody,
-  Center,
-  Flex,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Card, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -47,7 +39,7 @@ const SignInPage = (): JSX.Element => {
           fontSize='3xl'
           mt='0px'
           textAlign={'center'}
-          color={'green.700'}
+          color={'green.fg'}
         >
           Exportmétricas
         </Heading>
@@ -58,20 +50,20 @@ const SignInPage = (): JSX.Element => {
           Introduce la información que proporcionaste al registrarte.
         </Text>
 
-        <Card variant='unstyled' mt='20px'>
-          <CardBody w='100%'>
+        <Card.Root mt='20px' unstyled>
+          <Card.Body w='100%'>
             {/* useSearchParams needs a Suspense boundary to build. */}
             <Suspense fallback={null}>
               <SignInFormWithParams />
             </Suspense>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
         <Center>
           <Text mt='20px'>
             ¿No tienes una cuenta?{' '}
-            <Link as={Link_Next} color='teal.500' href='/auth/signup'>
-              Registrarse
+            <Link color='green.fg' asChild>
+              <Link_Next href='/auth/signup'>Registrarse</Link_Next>
             </Link>
           </Text>
         </Center>
@@ -79,8 +71,10 @@ const SignInPage = (): JSX.Element => {
         <Center>
           <Text mt='10px'>
             ¿Olvidaste tu contraseña?{' '}
-            <Link as={Link_Next} color='teal.500' href='/auth/forgot-password'>
-              Restablecer contraseña
+            <Link color='green.fg' asChild>
+              <Link_Next href='/auth/forgot-password'>
+                Restablecer contraseña
+              </Link_Next>
             </Link>
           </Text>
         </Center>

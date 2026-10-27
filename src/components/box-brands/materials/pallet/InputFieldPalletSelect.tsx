@@ -1,9 +1,4 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  IconButton,
-} from '@chakra-ui/react';
+import { IconButton, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import { FaBan } from 'react-icons/fa';
@@ -53,24 +48,25 @@ const InputFieldPalletSelect: React.FC<InputFieldPalletSelectProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px' h='21px'>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px' h='21px'>
         {label} <AddPalletModal />
         {isBan && (
           <IconButton
             position='relative'
             top='-5px'
-            isRound
+            rounded='full'
             ml='5px'
-            colorScheme={isBan.state ? 'orange' : 'gray'}
+            colorPalette={isBan.state ? 'orange' : 'gray'}
             aria-label='Ban'
-            size='base'
+            size='xs'
             variant='outline'
-            icon={<FaBan size='20px' />}
             onClick={banClick}
-          />
+          >
+            <FaBan size='20px' />
+          </IconButton>
         )}
-      </FormLabel>
+      </Field.Label>
       <PalletSelectBase
         name={name}
         placeholder={placeholder}
@@ -79,11 +75,11 @@ const InputFieldPalletSelect: React.FC<InputFieldPalletSelectProps> = ({
         field={field}
       />
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
-import {
-  Badge,
-  Box,
-  Button,
-  Heading,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Badge, Box, Button, Heading, VStack } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import NextLink from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -61,7 +53,7 @@ const ExportList = (): React.JSX.Element => {
     []
   );
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {
@@ -88,7 +80,7 @@ const ExportList = (): React.JSX.Element => {
   );
 
   return (
-    <VStack spacing={4} align="stretch">
+    <VStack gap={4} align="stretch">
       <Box
         display="flex"
         alignItems="center"
@@ -99,7 +91,7 @@ const ExportList = (): React.JSX.Element => {
         <Heading size="md" color={headingColor}>
           Exportaciones Pendientes
         </Heading>
-        <Badge colorScheme="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
@@ -150,14 +142,8 @@ const ExportList = (): React.JSX.Element => {
           selectedIds={selectedIds}
           onSelectedChange={setSelectedIds}
           renderAction={(item) => (
-            <Button
-              as={NextLink}
-              href={`${pathname}/${item.id}`}
-              size='sm'
-              colorScheme='green'
-            >
-              Realizar envío
-            </Button>
+            <Button size='sm' colorPalette='green' asChild><NextLink href={`${pathname}/${item.id}`}>Realizar envío
+                          </NextLink></Button>
           )}
         />
       )}

@@ -13,7 +13,7 @@ const DetailContacts = ({
     <>
       <SimpleGrid
         columns={4}
-        spacing={0}
+        gap={0}
         mb={'5px'}
         width={{
           sm: Number(width.sm) - 92,
@@ -37,7 +37,7 @@ const DetailContacts = ({
         <SimpleGrid
           key={index}
           columns={4}
-          spacing={0}
+          gap={0}
           width={{
             sm: Number(width.sm) - 92,
             md: Number(width.md) - 92,

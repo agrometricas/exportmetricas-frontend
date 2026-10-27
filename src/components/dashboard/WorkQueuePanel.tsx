@@ -3,14 +3,12 @@ import {
   Box,
   Button,
   Card,
-  CardBody,
   Flex,
   Heading,
   HStack,
   Link,
   SimpleGrid,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -35,39 +33,32 @@ function GroupCard({
   listHref: string;
   children: React.ReactNode;
 }): React.JSX.Element {
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
   return (
-    <Card
+    <Card.Root
       bg={cardBg}
-      border='1px solid'
+      borderWidth='1px'
       borderColor={borderColor}
       borderRadius='xl'
     >
-      <CardBody>
+      <Card.Body>
         <Flex justify='space-between' align='center' mb={3}>
           <Heading size='sm'>{title}</Heading>
-          <Badge colorScheme='orange' fontSize='sm'>
+          <Badge colorPalette='orange' fontSize='sm'>
             {count}
           </Badge>
         </Flex>
-        <VStack align='stretch' spacing={3}>
+        <VStack align='stretch' gap={3}>
           {children}
         </VStack>
         {count > SHOWN && (
-          <Link
-            as={Link_Next}
-            href={listHref}
-            fontSize='sm'
-            color='green.600'
-            mt={3}
-            display='block'
-          >
-            Ver las {count}
+          <Link fontSize='sm' color='green.fg' mt={3} display='block' asChild>
+            <Link_Next href={listHref}>Ver las {count}</Link_Next>
           </Link>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 }
 
@@ -93,9 +84,9 @@ export default function WorkQueuePanel({
         Lo que falta
       </Heading>
       {nothing ? (
-        <Text color='gray.600'>Nada pendiente para tu área. Todo al día.</Text>
+        <Text color='fg.muted'>Nada pendiente para tu área. Todo al día.</Text>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={4}>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={4}>
           {groups.map((group) => (
             <GroupCard
               key={group.key}
@@ -117,15 +108,12 @@ export default function WorkQueuePanel({
                     gap={2}
                   >
                     <Box minW={0}>
-                      <Link
-                        as={Link_Next}
-                        href={exportPage(item.exportId)}
-                        fontSize='sm'
-                        fontWeight='semibold'
-                      >
-                        {item.farm}
+                      <Link fontSize='sm' fontWeight='semibold' asChild>
+                        <Link_Next href={exportPage(item.exportId)}>
+                          {item.farm}
+                        </Link_Next>
                       </Link>
-                      <Text fontSize='xs' color='gray.600' noOfLines={1}>
+                      <Text fontSize='xs' color='fg.muted' lineClamp={1}>
                         {item.client} · {item.boxes} cajas
                         {item.cuttingDate
                           ? ` · corte ${formatDayMonthYear(item.cuttingDate)}`
@@ -135,23 +123,25 @@ export default function WorkQueuePanel({
                     {action &&
                       ('href' in action ? (
                         <Button
-                          as={Link_Next}
-                          href={action.href}
                           size='xs'
-                          colorScheme='green'
+                          colorPalette='green'
                           variant='outline'
+                          asChild
                         >
-                          {action.label}
+                          <Link_Next href={action.href}>
+                            {action.label}
+                          </Link_Next>
                         </Button>
                       ) : (
                         <Button
-                          as={Link_Next}
-                          href={exportPage(item.exportId)}
                           size='xs'
-                          colorScheme='green'
+                          colorPalette='green'
                           variant='outline'
+                          asChild
                         >
-                          Abrir
+                          <Link_Next href={exportPage(item.exportId)}>
+                            Abrir
+                          </Link_Next>
                         </Button>
                       ))}
                   </Flex>
@@ -173,26 +163,29 @@ export default function WorkQueuePanel({
                   gap={2}
                 >
                   <Box minW={0}>
-                    <HStack spacing={2}>
+                    <HStack gap={2}>
                       <Text fontSize='sm' fontWeight='semibold'>
                         {booking.bookingNumber}
                       </Text>
-                      <Badge colorScheme={SEMAPHORE_COLOR[booking.semaphore]}>
+                      <Badge colorPalette={SEMAPHORE_COLOR[booking.semaphore]}>
                         {booking.statusLabel}
                       </Badge>
                     </HStack>
-                    <Text fontSize='xs' color='gray.600' noOfLines={1}>
+                    <Text fontSize='xs' color='fg.muted' lineClamp={1}>
                       {missingSummary(booking.missing, 1)[0] ?? ''}
                     </Text>
                   </Box>
                   <Button
-                    as={Link_Next}
-                    href={`/dashboard/export/bookings/${booking.bookingId}`}
                     size='xs'
-                    colorScheme='green'
+                    colorPalette='green'
                     variant='outline'
+                    asChild
                   >
-                    Documentos
+                    <Link_Next
+                      href={`/dashboard/export/bookings/${booking.bookingId}`}
+                    >
+                      Documentos
+                    </Link_Next>
                   </Button>
                 </Flex>
               ))}

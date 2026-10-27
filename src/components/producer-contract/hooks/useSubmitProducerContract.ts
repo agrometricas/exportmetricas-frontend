@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import {
   useDeleteProducerContract,
   useSaveProducerContract,
@@ -26,7 +26,6 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
   isLoading: boolean;
   isDeleting: boolean;
 } {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading } = useSaveProducerContract();
@@ -42,17 +41,17 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title: 'No se pudo guardar el contrato',
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const done = (title: string): void => {
-    toast({ title, status: 'success', duration: 5000, isClosable: true });
+    toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries('producerContracts');
     queryClient.invalidateQueries('producerContract');
     router.push(LIST_PATH);

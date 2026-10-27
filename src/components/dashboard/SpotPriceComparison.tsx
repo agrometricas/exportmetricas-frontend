@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Text,
-  Icon,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Table, Text, Icon, VStack } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import { MdArrowDropDown, MdArrowDropUp, MdDragHandle } from 'react-icons/md';
 import { useSpotPrices } from '../../hooks/utils/getSpotPrices';
@@ -89,49 +78,55 @@ export function SpotPriceComparison({ exportSentData }: Props): JSX.Element {
   );
 
   return (
-    <VStack align='stretch' spacing={2}>
+    <VStack align='stretch' gap={2}>
       <Box>
         <Text fontSize='xl' fontWeight='bold' mb={4}>
           Últimos precios SPOT (Ecuador)
         </Text>
-        <Table size='sm' variant='simple'>
-          <Thead>
-            <Tr>
-              <Th>Fecha</Th>
-              <Th isNumeric>Precio (USD)</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+        <Table.Root size='sm' variant='line'>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Fecha</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign='end'>
+                Precio (USD)
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {recentSpotPrices.map((price) => (
-              <Tr key={price.id}>
-                <Td>
+              <Table.Row key={price.id}>
+                <Table.Cell>
                   {format(
                     new Date(
                       new Date(price.date).getTime() + 5 * 60 * 60 * 1000
                     ),
                     'dd/MM/yyyy'
                   )}
-                </Td>
-                <Td isNumeric>${Number(price.price).toFixed(2)}</Td>
-              </Tr>
+                </Table.Cell>
+                <Table.Cell textAlign='end'>
+                  ${Number(price.price).toFixed(2)}
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </Tbody>
-        </Table>
+          </Table.Body>
+        </Table.Root>
       </Box>
 
       <Box>
         <Text fontSize='xl' fontWeight='bold' mb={4}>
           Precio SPOT por productor
         </Text>
-        <Table size='sm' variant='simple'>
-          <Thead>
-            <Tr>
-              <Th>Productor</Th>
-              <Th isNumeric>Promedio</Th>
-              <Th textAlign='center'>Tendencia</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+        <Table.Root size='sm' variant='line'>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Productor</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign='end'>Promedio</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign='center'>
+                Tendencia
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {producerAverages.map(({ producer, averagePrice }) => {
               const diff = averagePrice - lastSpotPrice;
               const isEqual = Math.abs(diff) < 0.01;
@@ -146,17 +141,21 @@ export function SpotPriceComparison({ exportSentData }: Props): JSX.Element {
               }
 
               return (
-                <Tr key={producer}>
-                  <Td>{producer}</Td>
-                  <Td isNumeric>${averagePrice.toFixed(2)}</Td>
-                  <Td textAlign='center'>
-                    <Icon as={IconComponent} color={iconColor} fontSize='xl' />
-                  </Td>
-                </Tr>
+                <Table.Row key={producer}>
+                  <Table.Cell>{producer}</Table.Cell>
+                  <Table.Cell textAlign='end'>
+                    ${averagePrice.toFixed(2)}
+                  </Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <Icon color={iconColor} fontSize='xl' asChild>
+                      <IconComponent />
+                    </Icon>
+                  </Table.Cell>
+                </Table.Row>
               );
             })}
-          </Tbody>
-        </Table>
+          </Table.Body>
+        </Table.Root>
       </Box>
     </VStack>
   );

@@ -36,7 +36,7 @@ const SelectSheet: React.FC<SelectSheetProps> = ({
   }, [sheet, setSheetSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldSheetSelect
         name={name1}
         label={'Tipo de Hoja'}
@@ -51,8 +51,8 @@ const SelectSheet: React.FC<SelectSheetProps> = ({
       <Box display='flex' alignItems='flex-end'>
         <Button
           variant='solid'
-          colorScheme='red'
-          isDisabled={isDisabledRemove}
+          colorPalette='red'
+          disabled={isDisabledRemove}
           onClick={onClickRemove}
           width={'100%'}
         >

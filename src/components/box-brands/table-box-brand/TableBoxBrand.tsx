@@ -70,7 +70,7 @@ const TableBoxBrand = ({
             id: 'cargo',
             header: 'Carga y Tipo de Caja',
             Cell: ({ row }): React.JSX.Element => (
-              <HStack spacing={3}>
+              <HStack gap={3}>
                 <Text fontSize='sm'>
                   {cargoTypeLabel(row.original.cargoType)} ·{' '}
                   {row.original.boxType?.name ?? 'Sin tipo'}
@@ -78,7 +78,7 @@ const TableBoxBrand = ({
                 <Button
                   size='xs'
                   variant='outline'
-                  colorScheme='green'
+                  colorPalette='green'
                   onClick={() =>
                     setCargoTarget({
                       id: Number(row.original.id),

@@ -34,7 +34,7 @@ const TablePurchaseOrders = (): React.JSX.Element => {
             size: 170,
             header: 'Semana',
             Cell: ({ row }): React.JSX.Element => (
-              <VStack align='start' spacing={0}>
+              <VStack align='start' gap={0}>
                 <Text fontSize='sm' fontWeight='semibold'>
                   {
                     getWeekInfo({
@@ -42,7 +42,7 @@ const TablePurchaseOrders = (): React.JSX.Element => {
                     }).week.split(' //')[0]
                   }
                 </Text>
-                <Text fontSize='xs' color='gray.600'>
+                <Text fontSize='xs' color='fg.muted'>
                   desde el {formatDayMonthYear(row.original.weekStart)}
                 </Text>
               </VStack>
@@ -87,7 +87,7 @@ const TablePurchaseOrders = (): React.JSX.Element => {
             size: 160,
             header: 'Notas',
             Cell: ({ cell }): React.JSX.Element => (
-              <Text fontSize='sm' noOfLines={2}>
+              <Text fontSize='sm' lineClamp={2}>
                 {cell.getValue<string | null>() ?? ''}
               </Text>
             ),
@@ -103,14 +103,12 @@ const TablePurchaseOrders = (): React.JSX.Element => {
             size: 80,
             header: '',
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/export/purchase-orders/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Abrir
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/export/purchase-orders/${row.original.id}`}
+                >
+                  Abrir
+                </Link_Next>
               </Button>
             ),
           },

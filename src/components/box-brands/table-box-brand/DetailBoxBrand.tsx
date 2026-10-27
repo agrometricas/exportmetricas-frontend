@@ -157,7 +157,7 @@ const DetailBoxBrand = ({
 
   return (
     <Box p={'16px'} width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
-      <VStack spacing={4} pl={'60px'} alignItems={'start'} width={'100%'}>
+      <VStack gap={4} pl={'60px'} alignItems={'start'} width={'100%'}>
         <TableBoxBrandDetail
           details={outputArray}
           width={width}

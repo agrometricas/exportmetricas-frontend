@@ -1,9 +1,10 @@
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateLid } from '@/hooks/box-brand/materials/lid/createLid';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
@@ -46,7 +47,6 @@ const validationSchema = Yup.object({
 
 const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
   const { createLid, isLoading } = useCreateLid();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addLid = async (
@@ -59,20 +59,20 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
       { ...lidData },
       {
         onError: (error: TypeError) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Tapa creada con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('lids');
           actions.resetForm();
@@ -94,7 +94,7 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
             <Heading fontSize='2xl' p='12px'>
               Agregar Tapa
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
 
@@ -103,8 +103,8 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar
             </Button>

@@ -30,16 +30,16 @@ const chakraStyles: ChakraStylesConfig<Option, true, GroupBase<Option>> = {
     }),
     placeholder: (provided) => ({
         ...provided,
-        color: 'gray.600',
+        color: 'fg.muted',
     }),
     input: (provided) => ({
         ...provided,
-        color: 'gray.900',
+        color: 'fg.heading',
     }),
     option: (provided) => ({
         ...provided,
         borderBottom: '1px solid',
-        borderColor: 'gray.200',
+        borderColor: 'border',
     }),
 };
 
@@ -64,7 +64,7 @@ const MultiSelectBase: React.FC<MultiSelectBaseProps> = ({
                 menuPortal: (provided) =>
                     ({ ...provided, zIndex: 100 } as CSSObjectWithLabel),
             }}
-            useBasicStyles
+
             chakraStyles={chakraStyles}
             options={options}
             getOptionLabel={(opt: Option) => opt.label}

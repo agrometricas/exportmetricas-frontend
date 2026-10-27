@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
-  Divider,
   Heading,
   SimpleGrid,
   Text,
   VStack,
+  Separator,
 } from '@chakra-ui/react';
 import React from 'react';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
@@ -134,7 +134,7 @@ const ExpandDetail = ({
 }): React.JSX.Element | undefined => {
   if (isDetailType(detail)) {
     return (
-      <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'60px'}>
+      <SimpleGrid columns={2} gap={0} width={'100%'} ml={'60px'}>
         {detail.name && (
           <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
             Nombre:{' '}
@@ -237,7 +237,7 @@ const ExpandDetail = ({
 
   if (isRequiredCertificateTypeArray(detail)) {
     return (
-      <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'60px'}>
+      <SimpleGrid columns={2} gap={0} width={'100%'} ml={'60px'}>
         <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
           Certificados:
         </Heading>
@@ -261,7 +261,7 @@ const ExpandDetail = ({
       <VStack>
         {detail.map((pesticide) => (
           <Box key={pesticide.id}>
-            <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'0px'}>
+            <SimpleGrid columns={2} gap={0} width={'100%'} ml={'0px'}>
               <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
                 Nombre:{' '}
                 <Text as={'span'} fontWeight={'normal'}>
@@ -304,7 +304,7 @@ const ExpandDetail = ({
                 </Text>
               </Heading>
             </SimpleGrid>
-            <Divider
+            <Separator
               mt={'16px'}
               mb={'8px'}
               borderWidth={'2px'}
@@ -322,7 +322,7 @@ const ExpandDetail = ({
       <VStack>
         {detail.map((insecticide) => (
           <Box key={insecticide.id}>
-            <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'0px'}>
+            <SimpleGrid columns={2} gap={0} width={'100%'} ml={'0px'}>
               <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
                 Nombre:{' '}
                 <Text as={'span'} fontWeight={'normal'}>
@@ -351,7 +351,7 @@ const ExpandDetail = ({
                 </Text>
               </Heading>
             </SimpleGrid>
-            <Divider
+            <Separator
               mt={'16px'}
               mb={'8px'}
               borderWidth={'2px'}
@@ -369,7 +369,7 @@ const ExpandDetail = ({
       <VStack>
         {detail.map((sheet) => (
           <Box key={sheet.id}>
-            <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'0px'}>
+            <SimpleGrid columns={2} gap={0} width={'100%'} ml={'0px'}>
               <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
                 Nombre:{' '}
                 <Text as={'span'} fontWeight={'normal'}>
@@ -384,7 +384,7 @@ const ExpandDetail = ({
                 </Text>
               </Heading>
             </SimpleGrid>
-            <Divider
+            <Separator
               mt={'16px'}
               mb={'8px'}
               borderWidth={'2px'}
@@ -402,7 +402,7 @@ const ExpandDetail = ({
       <VStack>
         {detail.map((sticker) => (
           <Box key={sticker.id}>
-            <SimpleGrid columns={2} spacing={0} width={'100%'} ml={'0px'}>
+            <SimpleGrid columns={2} gap={0} width={'100%'} ml={'0px'}>
               <Heading fontSize={'md'} fontWeight={'bold'} p={'16px'}>
                 Nombre:{' '}
                 <Text as={'span'} fontWeight={'normal'}>
@@ -417,7 +417,7 @@ const ExpandDetail = ({
                 </Text>
               </Heading>
             </SimpleGrid>
-            <Divider
+            <Separator
               mt={'16px'}
               mb={'8px'}
               borderWidth={'2px'}

@@ -1,22 +1,21 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   IconButton,
   Input,
   SimpleGrid,
   Text,
-  useToast,
+  Separator,
+  Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import {
   EditBusinessValues,
   editBusinessBody,
@@ -47,7 +46,6 @@ export default function EditBusinessForm({
 }: {
   business: BusinessDetail;
 }): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading } = useUpdateBusiness();
@@ -69,20 +67,20 @@ export default function EditBusinessForm({
             helpers.setFieldTouched(data.prop, true, false);
             helpers.setFieldError(data.prop, data.message);
           }
-          toast({
+          toaster.create({
             title: 'No se pudo guardar la finca',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Finca actualizada',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('businesses');
           queryClient.invalidateQueries('business');
@@ -105,17 +103,17 @@ export default function EditBusinessForm({
             <Heading fontSize='2xl' p='12px'>
               Finca
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
-              <FormControl>
-                <FormLabel fontSize='sm' mb='8px'>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
+              <Field.Root>
+                <Field.Label fontSize='sm' mb='8px'>
                   Productor
-                </FormLabel>
+                </Field.Label>
                 <Input
-                  isReadOnly
+                  readOnly
                   value={business.merchant?.businessName ?? '—'}
                 />
-              </FormControl>
+              </Field.Root>
               <InputFieldPlain name='name' label='Nombre' />
               <InputFieldPlain
                 name='area'
@@ -146,8 +144,8 @@ export default function EditBusinessForm({
             <Heading fontSize='2xl' p='16px'>
               Ubicación
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldCountrySelect
                 name='countryId'
                 label='País'
@@ -194,11 +192,11 @@ export default function EditBusinessForm({
             <Heading fontSize='2xl' p='16px'>
               Códigos de Finca
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='businessCodes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={3}>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     {values.businessCodes.map((code, index) => (
                       <Flex key={code.id ?? `new-${index}`} gap={2}>
                         <InputFieldPlain
@@ -207,29 +205,30 @@ export default function EditBusinessForm({
                         />
                         <IconButton
                           aria-label={`Quitar el código ${index + 1}`}
-                          icon={<FiTrash2 />}
                           variant='ghost'
-                          colorScheme='red'
-                          isDisabled={
+                          colorPalette='red'
+                          disabled={
                             values.businessCodes.length === 1 && !!code.id
                           }
                           onClick={() => remove(index)}
-                        />
+                        >
+                          <FiTrash2 />
+                        </IconButton>
                       </Flex>
                     ))}
                   </SimpleGrid>
                   {typeof errors.businessCodes === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.businessCodes}
                     </Text>
                   )}
                   <Button
                     alignSelf='flex-start'
-                    leftIcon={<FiPlus />}
                     variant='outline'
-                    colorScheme='green'
+                    colorPalette='green'
                     onClick={() => push({ code: '' })}
                   >
+                    <FiPlus />
                     Agregar Código
                   </Button>
                 </Flex>
@@ -239,7 +238,7 @@ export default function EditBusinessForm({
             <Heading fontSize='2xl' p='16px'>
               Contactos
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={4}>
@@ -250,7 +249,7 @@ export default function EditBusinessForm({
                       borderRadius='lg'
                       p={4}
                     >
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                         <InputFieldPlain
                           name={`contacts[${index}].name`}
                           label='Nombre'
@@ -273,30 +272,30 @@ export default function EditBusinessForm({
                         <Button
                           size='sm'
                           variant='ghost'
-                          colorScheme='red'
-                          leftIcon={<FiTrash2 />}
-                          isDisabled={
+                          colorPalette='red'
+                          disabled={
                             values.contacts.length === 1 && !!contact.id
                           }
                           onClick={() => remove(index)}
                         >
+                          <FiTrash2 />
                           Quitar Contacto
                         </Button>
                       </Flex>
                     </Box>
                   ))}
                   {typeof errors.contacts === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.contacts}
                     </Text>
                   )}
                   <Button
                     alignSelf='flex-start'
-                    leftIcon={<FiPlus />}
                     variant='outline'
-                    colorScheme='green'
+                    colorPalette='green'
                     onClick={() => push(emptyContact)}
                   >
+                    <FiPlus />
                     Agregar Contacto
                   </Button>
                 </Flex>
@@ -306,8 +305,8 @@ export default function EditBusinessForm({
             <Button
               mt='12px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Guardar Cambios
             </Button>

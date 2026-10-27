@@ -1,19 +1,7 @@
-import {
-  Box,
-  Card,
-  Divider,
-  FormLabel,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  NumberInput,
-  NumberInputField,
-  SimpleGrid,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, Input, InputGroup, NumberInput, SimpleGrid, Textarea, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { ProducerPaymentType } from '../../../types/producerPayment';
+import { FormLabel } from '../../ui/form/FormLabel';
 
 interface props {
   payment: Partial<ProducerPaymentType>;
@@ -21,7 +9,7 @@ interface props {
 
 const DetailInvoice = ({ payment }: props): React.JSX.Element => {
   return (
-    <Card
+    <Card.Root
       w={{
         base: '95%',
         sm: '95%',
@@ -36,34 +24,34 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'} m={'16px'}>
         Liquidación a Productor
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <Heading fontSize={'2xl'} p={'12px'}>
         Productor
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Productor/Razón Social:</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.merchant?.businessName || ''}
           />
         </Box>
         <Box>
           <FormLabel>RUC:</FormLabel>
-          <Input isReadOnly={true} value={payment.merchant?.businessId || ''} />
+          <Input readOnly={true} value={payment.merchant?.businessId || ''} />
         </Box>
         <Box>
           <FormLabel>Ciudad:</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.merchant?.city || ''}
             placeholder={
               payment.merchant?.city ? 'No se ha agregado información' : ''
@@ -73,7 +61,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Box>
           <FormLabel>Dirección:</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.merchant?.address || ''}
             placeholder={
               payment.merchant?.address ? 'No se ha agregado información' : ''
@@ -85,32 +73,32 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'}>
         Puerto de Salida
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Nombre</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDeparture?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>País</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDeparture?.country?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>Latitud</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={
               payment.harborDeparture?.latitude !== undefined &&
               payment.harborDeparture?.latitude !== null
@@ -128,14 +116,14 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Box>
           <FormLabel>Ciudad</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDeparture?.city?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>Longitud</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={
               payment.harborDeparture?.longitude !== undefined &&
               payment.harborDeparture?.longitude !== null
@@ -155,32 +143,32 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'}>
         Puerto de Destino
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Nombre</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDestination?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>País</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDestination?.country?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>Latitud</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={
               payment.harborDestination?.latitude !== undefined &&
               payment.harborDestination?.latitude !== null
@@ -198,14 +186,14 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Box>
           <FormLabel>Ciudad</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.harborDestination?.city?.name || ''}
           />
         </Box>
         <Box>
           <FormLabel>Longitud</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={
               payment.harborDestination?.longitude !== undefined &&
               payment.harborDestination?.longitude !== null
@@ -225,52 +213,44 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'}>
         Compra
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Precio:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.price).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.price).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
         <Box>
           <FormLabel>Subtotal1</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.subtotal1).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.subtotal1).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
       </SimpleGrid>
@@ -278,158 +258,138 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'}>
         Gastos
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Transporte:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.transport).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.transport).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
         <Box>
           <FormLabel>Materiales:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.materials).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.materials).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
         <Box>
           <FormLabel>Varios:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.others).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.others).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
         <Box>
           <FormLabel>Subtotal2:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.subtotal2).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.subtotal2).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
         <Box></Box>
         <Box>
           <FormLabel>Total:</FormLabel>
-          <InputGroup width={'100%'}>
-            <InputLeftElement
-              pointerEvents='none'
-              color='gray.400'
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <NumberInput
-              value={Number(payment.total).toFixed(2)}
+          <InputGroup width={'100%'}
+  startElement={<>$</>}
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
+            
+            <NumberInput.Root
+              value={String(Number(payment.total).toFixed(2))}
               width={'100%'}
-              isReadOnly={true}
+              readOnly={true}
               step={0.01}
             >
-              <NumberInputField textAlign={'right'} />
-            </NumberInput>
+              <NumberInput.Input textAlign={'right'} />
+            </NumberInput.Root>
           </InputGroup>
         </Box>
       </SimpleGrid>
 
       <Box px={'20px'} mt={3}>
         <FormLabel>Descripción de los gastos:</FormLabel>
-        <Textarea value={payment.description} isReadOnly={true} />
+        <Textarea value={payment.description} readOnly={true} />
       </Box>
 
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Origen
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Tipo</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.sourceBankAccount?.bank || ''}
           />
         </Box>
         <Box>
           <FormLabel>Tipo</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.sourceBankAccount?.type || ''}
           />
         </Box>
         <Box>
           <FormLabel>Propietario</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.sourceBankAccount?.owner || ''}
           />
         </Box>
         <Box>
           <FormLabel>Identificación</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.sourceBankAccount?.ownerID || ''}
           />
         </Box>
@@ -438,44 +398,44 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Destino
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
-        spacingX={5}
-        spacingY={3}
+        columnGap={5}
+        rowGap={3}
         px={'20px'}
       >
         <Box>
           <FormLabel>Tipo</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.destinationBankAccount?.bank || ''}
           />
         </Box>
         <Box>
           <FormLabel>Tipo</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.destinationBankAccount?.type || ''}
           />
         </Box>
         <Box>
           <FormLabel>Propietario</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.destinationBankAccount?.owner || ''}
           />
         </Box>
         <Box>
           <FormLabel>Identificación</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={payment.destinationBankAccount?.ownerID || ''}
           />
         </Box>
       </SimpleGrid>
-    </Card>
+    </Card.Root>
   );
 };
 

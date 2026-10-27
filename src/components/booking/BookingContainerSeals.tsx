@@ -6,14 +6,13 @@ import {
   Heading,
   SimpleGrid,
   Text,
-  useColorModeValue,
-  useToast,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useUpdateContainerSeals } from '../../hooks/booking/mutateBooking';
 import { BookingContainer } from '../../types/booking';
 import {
@@ -33,10 +32,9 @@ function ContainerSealsRow({
   bookingId: number;
   container: BookingContainer;
 }): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const { mutate: save, isLoading } = useUpdateContainerSeals();
 
   const onSubmit = (values: SealsValues): void =>
@@ -48,20 +46,20 @@ function ContainerSealsRow({
             router.push('/api/auth/signout');
             return;
           }
-          toast({
+          toaster.create({
             title: `No se guardaron los sellos de ${container.number}`,
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: `Sellos de ${container.number} guardados`,
-            status: 'success',
+            type: 'success',
             duration: 4000,
-            isClosable: true,
+            closable: true,
           });
           AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
         },
@@ -85,18 +83,14 @@ function ContainerSealsRow({
             <Flex gap={3} align='center' wrap='wrap' mb={3}>
               <Text fontWeight='semibold'>{container.number}</Text>
               {container.exportId ? (
-                <Badge colorScheme='green'>
+                <Badge colorPalette='green'>
                   Exportación {container.exportId}
                 </Badge>
               ) : (
                 <Badge>Libre</Badge>
               )}
             </Flex>
-            <SimpleGrid
-              columns={{ base: 1, md: 3 }}
-              spacing={4}
-              alignItems='end'
-            >
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} alignItems='end'>
               <InputFieldPlain
                 name='shippingLineSeal'
                 label='Sello de la naviera'
@@ -107,10 +101,10 @@ function ContainerSealsRow({
               />
               <Button
                 type='submit'
-                colorScheme='teal'
+                colorPalette='green'
                 variant='outline'
-                isLoading={isLoading}
-                isDisabled={!dirty}
+                loading={isLoading}
+                disabled={!dirty}
               >
                 Guardar sellos
               </Button>
@@ -134,12 +128,12 @@ export default function BookingContainerSeals({
       <Heading fontSize='2xl' p='12px'>
         Sellos de los contenedores
       </Heading>
-      <Text fontSize='sm' color='gray.600'>
+      <Text fontSize='sm' color='fg.muted'>
         El sello de la naviera y los sellos extra (verificadora, exportadora…)
         de cada contenedor. La hoja de corte y el packing list los imprimen.
       </Text>
       {containers.length === 0 ? (
-        <Text fontSize='sm' color='gray.500'>
+        <Text fontSize='sm' color='fg.muted'>
           El booking todavía no tiene números de contenedor.
         </Text>
       ) : (

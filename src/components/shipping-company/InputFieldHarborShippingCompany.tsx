@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import HarborSelectBaseShipping from './HarborSelectBaseShipping';
@@ -24,10 +24,10 @@ const InputFieldHarborShippingCompany: React.FC<
   const [field, meta, helpers] = useField(name);
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px'>
         {label}
-      </FormLabel>
+      </Field.Label>
       <HarborSelectBaseShipping
         name={name}
         placeholder={placeholder}
@@ -38,11 +38,11 @@ const InputFieldHarborShippingCompany: React.FC<
         setHarbor={setHarbor}
       />
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

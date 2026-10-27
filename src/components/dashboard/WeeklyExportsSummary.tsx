@@ -1,18 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Text,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  useTheme,
-} from '@chakra-ui/react';
-import { transparentize } from '@chakra-ui/theme-tools';
+import { Box, Text, Popover } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { ExportResponse } from '@/types/export.response';
 
@@ -52,7 +40,6 @@ export default function WeeklyExportsSummary({
     }, 0);
     return accGroup + groupContainers;
   }, 0);
-  const theme = useTheme();
   return (
     <Box display='flex' flexDirection='column' minH='100%'>
       <Text fontSize='2xl' fontWeight='bold' mb={4}>
@@ -61,20 +48,25 @@ export default function WeeklyExportsSummary({
       <Box flex='1'>
         {exportGroups.map((group) => {
           const color = getExportColor(group.exportId);
-          const tenueColor = transparentize(color, 0.5)(theme);
+          const tenueColor = `color-mix(in srgb, ${color} 50%, transparent)`;
           const groupContainers = group.exports.reduce((acc, exp) => {
             const boxesPerContainer = exp.boxBrand.boxQuantity || 1;
             return acc + Math.ceil(exp.boxQuantity / boxesPerContainer);
           }, 0);
           return (
-            <Popover key={group.exportId} placement='auto' trigger='click'>
-              <PopoverTrigger>
+            <Popover.Root
+              key={group.exportId}
+              positioning={{
+                placement: 'bottom-start',
+              }}
+            >
+              <Popover.Trigger asChild>
                 <Box
                   mb={2}
                   borderRadius='md'
                   cursor='pointer'
                   display={'flex'}
-                  border={'1px'}
+                  borderWidth='1px'
                   borderColor={tenueColor}
                   alignItems={'stretch'}
                   boxShadow={'md'}
@@ -113,73 +105,76 @@ export default function WeeklyExportsSummary({
                     {'LBS'} - Contenedores: {groupContainers}
                   </Text>
                 </Box>
-              </PopoverTrigger>
-              <PopoverContent
-                minW='400px'
-                borderColor={color}
-                borderWidth='4px'
-              >
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>
-                  {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
-                  {group.exports[0].harborDestination?.country?.region} (
-                  {group.exports[0].boxBrand?.boxQuantity}){' '}
-                  {((): string => {
-                    const certificates = group.exports[0].client?.certificates;
-                    if (Array.isArray(certificates)) {
-                      return certificates.some(
-                        (item) =>
-                          item.certificate?.name === 'RAINFOREST ALLIANCE'
-                      )
-                        ? 'RFA'
-                        : '';
-                    }
-                    return '';
-                  })()}{' '}
-                  {group.exports[0].harborDestination?.country?.code}{' '}
-                  {group.exports[0].harborDestination?.code}{' '}
-                  {group.exports[0].deposit?.code}{' '}
-                  {group.exports[0].shippingCompany?.code}{' '}
-                  {group.exports[0].boxBrand?.grossWeightBox}
-                  {'LBS'}
-                </PopoverHeader>
-                <PopoverBody>
-                  {group.exports.map((exp) => (
-                    <Box key={exp.id} mb={2}>
-                      <Text>
-                        <strong>Cajas Procesadas:</strong> {exp.boxQuantity}
-                      </Text>
-                      <Text>
-                        <strong>Cut-Off:</strong>{' '}
-                        {exp.shippingDateTime ?? 'Sin hora asignada'}
-                      </Text>
-                      <Text>
-                        <strong>Productor:</strong>{' '}
-                        {exp.merchant?.businessName ?? 'Sin productor'}
-                      </Text>
-                      <Text>
-                        <strong>Finca:</strong>{' '}
-                        {exp.business?.name ?? 'Sin finca'}
-                      </Text>
-                      <Text>
-                        <strong>Marca:</strong>{' '}
-                        {exp.boxBrand?.name ?? 'Sin marca'}
-                        {' - '}
-                        {exp.boxBrand?.brand.name ?? 'Sin marca'}
-                      </Text>
-                      <Text>
-                        <strong>Cliente:</strong>{' '}
-                        {exp.client?.businessName ?? 'Sin cliente'}
-                      </Text>
-                      <Text>
-                        <strong>Contenedores:</strong> {groupContainers}
-                      </Text>
-                    </Box>
-                  ))}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+              </Popover.Trigger>
+              <Popover.Positioner>
+                <Popover.Content
+                  minW='400px'
+                  borderColor={color}
+                  borderWidth='4px'
+                >
+                  <Popover.Arrow />
+                  <Popover.CloseTrigger />
+                  <Popover.Title>
+                    {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
+                    {group.exports[0].harborDestination?.country?.region} (
+                    {group.exports[0].boxBrand?.boxQuantity}){' '}
+                    {((): string => {
+                      const certificates =
+                        group.exports[0].client?.certificates;
+                      if (Array.isArray(certificates)) {
+                        return certificates.some(
+                          (item) =>
+                            item.certificate?.name === 'RAINFOREST ALLIANCE'
+                        )
+                          ? 'RFA'
+                          : '';
+                      }
+                      return '';
+                    })()}{' '}
+                    {group.exports[0].harborDestination?.country?.code}{' '}
+                    {group.exports[0].harborDestination?.code}{' '}
+                    {group.exports[0].deposit?.code}{' '}
+                    {group.exports[0].shippingCompany?.code}{' '}
+                    {group.exports[0].boxBrand?.grossWeightBox}
+                    {'LBS'}
+                  </Popover.Title>
+                  <Popover.Body>
+                    {group.exports.map((exp) => (
+                      <Box key={exp.id} mb={2}>
+                        <Text>
+                          <strong>Cajas Procesadas:</strong> {exp.boxQuantity}
+                        </Text>
+                        <Text>
+                          <strong>Cut-Off:</strong>{' '}
+                          {exp.shippingDateTime ?? 'Sin hora asignada'}
+                        </Text>
+                        <Text>
+                          <strong>Productor:</strong>{' '}
+                          {exp.merchant?.businessName ?? 'Sin productor'}
+                        </Text>
+                        <Text>
+                          <strong>Finca:</strong>{' '}
+                          {exp.business?.name ?? 'Sin finca'}
+                        </Text>
+                        <Text>
+                          <strong>Marca:</strong>{' '}
+                          {exp.boxBrand?.name ?? 'Sin marca'}
+                          {' - '}
+                          {exp.boxBrand?.brand.name ?? 'Sin marca'}
+                        </Text>
+                        <Text>
+                          <strong>Cliente:</strong>{' '}
+                          {exp.client?.businessName ?? 'Sin cliente'}
+                        </Text>
+                        <Text>
+                          <strong>Contenedores:</strong> {groupContainers}
+                        </Text>
+                      </Box>
+                    ))}
+                  </Popover.Body>
+                </Popover.Content>
+              </Popover.Positioner>
+            </Popover.Root>
           );
         })}
       </Box>

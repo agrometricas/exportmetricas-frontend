@@ -1,6 +1,6 @@
 'use client';
 
-import { Select, Spinner, VStack, Text, Center } from '@chakra-ui/react';
+import { NativeSelect, Spinner, VStack, Text, Center } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import MaterialStockMovementCard from './MaterialStockMovementCard';
 import { useBusinessesByExporter } from '../../hooks/business/getAllBusinessesByExporter';
@@ -28,22 +28,25 @@ const StockMovementsSelector = (): React.JSX.Element => {
   }
 
   return (
-    <VStack align='stretch' spacing={4}>
+    <VStack align='stretch' gap={4}>
       {loadingFarms ? (
         <Center py={10}>
           <Spinner />{' '}
         </Center>
       ) : (
-        <Select
-          placeholder='Selecciona una Finca'
-          onChange={(e) => setSelectedBusinessId(Number(e.target.value))}
-        >
-          {farms?.map((farm) => (
-            <option key={farm.id} value={farm.id}>
-              {farm.name}
-            </option>
-          ))}
-        </Select>
+        <NativeSelect.Root>
+          <NativeSelect.Field
+            placeholder='Selecciona una Finca'
+            onChange={(e) => setSelectedBusinessId(Number(e.target.value))}
+          >
+            {farms?.map((farm) => (
+              <option key={farm.id} value={farm.id}>
+                {farm.name}
+              </option>
+            ))}
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
       )}
 
       {!loadingStock && selectedBusinessId && stockMovements?.length === 0 && (

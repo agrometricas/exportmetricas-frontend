@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Button,
-  Divider,
-  Flex,
-  FormLabel,
-  Heading,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateLabel } from '../../../../hooks/box-brand/materials/label/createLabel';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -89,7 +84,6 @@ const validationSchema = Yup.object({
 
 const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
   const { createLabel, isLoading } = useCreateLabel();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -109,12 +103,12 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
       onError: (error: any) => {
         const statusCode = error.response?.status;
 
-        toast({
+        toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
 
         if (statusCode === 401) {
@@ -122,11 +116,11 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
         }
       },
       onSuccess: () => {
-        toast({
+        toaster.create({
           title: 'Etiqueta Creada con Éxito',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
 
         queryClient.invalidateQueries('labels');
@@ -150,7 +144,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Etiqueta
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <InputFieldNumber
@@ -167,8 +161,8 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

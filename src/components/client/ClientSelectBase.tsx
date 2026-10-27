@@ -36,16 +36,16 @@ const chakraStyles: ChakraStylesConfig<
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: 'gray.600',
+    color: 'fg.muted',
   }),
   input: (provided) => ({
     ...provided,
-    color: 'gray.900',
+    color: 'fg.heading',
   }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 
@@ -58,7 +58,7 @@ const clientComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} size='13px' />
+      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -107,9 +107,12 @@ const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          (({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel),
       }}
-      useBasicStyles
+
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error

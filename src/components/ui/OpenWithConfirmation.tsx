@@ -18,15 +18,15 @@ const OpenWithConfirmation: React.FC<OpenWithConfirmationProps> = ({
   title,
   description,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   return (
     <>
-      <Button size='sm' colorScheme='green' onClick={onOpen}>
+      <Button size='sm' colorPalette='green' onClick={onOpen}>
         {label}
       </Button>
       <ConfirmationModal
-        isOpen={isOpen}
+        isOpen={open}
         onClose={onClose}
         onConfirm={() => router.push(href)}
         title={title}

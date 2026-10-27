@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import AddInsecticideModal from './AddInsecticideModal';
@@ -18,10 +18,10 @@ const InputFieldInsecticideSelect: React.FC<
   const [field, meta, helpers] = useField(name);
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px' h={'21px'}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px' h={'21px'}>
         {label} <AddInsecticideModal />
-      </FormLabel>
+      </Field.Label>
 
       <InsecticideSelectBase
         name={name}
@@ -32,11 +32,11 @@ const InputFieldInsecticideSelect: React.FC<
       />
 
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

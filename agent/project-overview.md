@@ -161,10 +161,14 @@ local en ISO.
 ### Stack
 
 Next.js 15 App Router · TypeScript. El App Router corre con la copia de React 19
-que trae Next; `react` 18 sigue instalado porque react-query 3 y
-chakra-react-select 4 no aceptan React 19 como dependencia. UI con
-**Chakra UI**; tablas con **Material React Table** (que trae MUI como motor); gráficos con **recharts**;
+que trae Next; `react` 18 sigue instalado porque react-query 3 no acepta
+React 19 como dependencia. UI con **Chakra UI v3**, con el tema de la marca en
+`theme/system.ts` y modo claro y oscuro con **next-themes**; tablas con
+**Material React Table** (que trae MUI como motor); gráficos con **recharts**;
 formularios con **Formik + Yup**; fechas con **date-fns**.
+
+Los colores, la tipografía y los radios salen de `design-system.md`, en la
+raíz del repo.
 
 ### Datos: react-query (v3)
 
@@ -247,9 +251,17 @@ esconde el menú y, en la ficha y en *Lo que falta*, las acciones de otras área
 ### Layout
 
 `app/dashboard/layout.tsx` → `components/ui/ClientLayoutWrapper.tsx`: barra
-lateral colapsable, `AppBar` y el contenido con scroll propio. Soporta modo
-claro y oscuro con `useColorModeValue`. En pantallas angostas la barra es un
-cajón que se cierra solo al cambiar de página (`SidenavBar`).
+lateral colapsable, `AppBar` y el contenido con scroll propio. En pantallas
+angostas la barra es un cajón que se cierra solo al cambiar de página
+(`SidenavBar`).
+
+En el menú lateral, cada lista va en una fila junto con su alta: el `+` a la
+derecha abre el formulario (`menuRows`, `components/ui/sidenav/`). Con la
+barra colapsada, pasar el mouse por un ícono muestra las entradas del grupo.
+
+El modo oscuro se elige en el menú del usuario (arriba a la derecha) y queda
+guardado en el navegador. La app abre en claro. Las tablas lo siguen: el tema
+de MUI se arma con el modo activo (`brandMuiTheme`, `theme/muiTheme/`).
 
 Los formularios largos (exportación, alícuota, hoja de corte) avisan antes de
 perder lo llenado (`UnsavedChangesGuard`, `components/ui/form/`): con un

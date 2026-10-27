@@ -1,7 +1,8 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBankAccountSelect from './InputFieldBankAccountSelect';
 import { BankAccountType } from '../../../../types/bankAccount';
+import { FormLabel } from '../../../ui/form/FormLabel';
 
 interface SelectBankAccountProps {
   name: string;
@@ -32,7 +33,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
   }, [bankAccount, setBankAccountSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldBankAccountSelect
         name={name}
         label={label ? label : 'Productor/Razón Social'}
@@ -43,7 +44,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       <Box>
         <FormLabel>Tipo</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.type || ''}
           placeholder='Tipo de Cuenta'
         />
@@ -51,7 +52,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       <Box>
         <FormLabel>Propietario</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.owner || ''}
           placeholder='Nombre del Propietario'
         />
@@ -59,7 +60,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       <Box>
         <FormLabel>Identificación</FormLabel>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.ownerID || ''}
           placeholder='Identificación del Propietario'
         />

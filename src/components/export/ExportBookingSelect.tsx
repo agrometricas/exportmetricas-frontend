@@ -1,14 +1,11 @@
 import {
   Box,
   Checkbox,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Select,
+  NativeSelect,
   SimpleGrid,
   Text,
-  useColorModeValue,
   VStack,
+  Field,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import React from 'react';
@@ -36,7 +33,7 @@ export default function ExportBookingSelect({
   const { data } = useBookings();
   const bookings = (data ?? []) as BookingResponse[];
   const selected = bookings.find((b) => b.id === values.bookingId);
-  const summaryBg = useColorModeValue('gray.50', 'gray.700');
+  const summaryBg = 'bg.subtle';
 
   const choose = (id: number | ''): void => {
     const booking = bookings.find((b) => b.id === id);
@@ -65,32 +62,35 @@ export default function ExportBookingSelect({
   };
 
   return (
-    <VStack align='stretch' spacing={4}>
-      <FormControl>
-        <FormLabel fontSize='sm' mb='8px'>
+    <VStack align='stretch' gap={4}>
+      <Field.Root>
+        <Field.Label fontSize='sm' mb='8px'>
           Booking (opcional)
-        </FormLabel>
-        <Select
-          placeholder='Sin booking: llenar la naviera y la nave a mano'
-          value={values.bookingId}
-          onChange={(event) =>
-            choose(event.target.value ? Number(event.target.value) : '')
-          }
-        >
-          {bookings.map((booking) => (
-            <option key={booking.id} value={booking.id}>
-              {bookingLabel(booking)}
-            </option>
-          ))}
-        </Select>
-        <FormHelperText>
+        </Field.Label>
+        <NativeSelect.Root>
+          <NativeSelect.Field
+            placeholder='Sin booking: llenar la naviera y la nave a mano'
+            value={values.bookingId}
+            onChange={(event) =>
+              choose(event.target.value ? Number(event.target.value) : '')
+            }
+          >
+            {bookings.map((booking) => (
+              <option key={booking.id} value={booking.id}>
+                {bookingLabel(booking)}
+              </option>
+            ))}
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
+        <Field.HelperText>
           Con booking, la naviera, la ruta, la nave y el número salen de él.
-        </FormHelperText>
-      </FormControl>
+        </Field.HelperText>
+      </Field.Root>
 
       {selected && (
         <Box bg={summaryBg} borderRadius='md' p={4}>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} fontSize='sm'>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={2} fontSize='sm'>
             <Text>
               <strong>Naviera:</strong> {selected.shippingCompany.name}
             </Text>
@@ -119,34 +119,38 @@ export default function ExportBookingSelect({
             Contenedores que carga esta exportación
           </Text>
           {selected.containers.length === 0 ? (
-            <Text fontSize='sm' color='gray.500'>
+            <Text fontSize='sm' color='fg.muted'>
               El booking todavía no tiene números de contenedor.
             </Text>
           ) : (
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={2}>
               {selected.containers.map((container) => {
                 const taken =
                   !!container.exportId &&
                   container.exportId !== editingExportId;
                 return (
-                  <Checkbox
+                  <Checkbox.Root
                     key={container.id}
-                    isChecked={values.bookingContainerIds.includes(
-                      container.id
-                    )}
-                    isDisabled={taken}
-                    onChange={(event) =>
-                      toggle(container.id, event.target.checked)
+                    disabled={taken}
+                    onCheckedChange={(event) =>
+                      toggle(container.id, event.checked === true)
                     }
+                    checked={values.bookingContainerIds.includes(container.id)}
                   >
-                    {container.number}
-                    {taken && (
-                      <Text as='span' color='gray.500' fontSize='sm'>
-                        {' '}
-                        · en la exportación {container.exportId}
-                      </Text>
-                    )}
-                  </Checkbox>
+                    <Checkbox.HiddenInput />
+                    <Checkbox.Control>
+                      <Checkbox.Indicator />
+                    </Checkbox.Control>
+                    <Checkbox.Label>
+                      {container.number}
+                      {taken && (
+                        <Text as='span' color='fg.muted' fontSize='sm'>
+                          {' '}
+                          · en la exportación {container.exportId}
+                        </Text>
+                      )}
+                    </Checkbox.Label>
+                  </Checkbox.Root>
                 );
               })}
             </SimpleGrid>

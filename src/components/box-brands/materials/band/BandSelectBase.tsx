@@ -37,17 +37,17 @@ const chakraStyles: ChakraStylesConfig<
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: 'gray.600',
+    color: 'fg.muted',
     h: 'auto',
   }),
   input: (provided) => ({
     ...provided,
-    color: 'gray.900',
+    color: 'fg.heading',
   }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 
@@ -60,7 +60,9 @@ const bandComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} size='13px' />
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -102,9 +104,11 @@ const BandSelectBase: React.FC<BandSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          ({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel,
       }}
-      useBasicStyles
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
@@ -112,7 +116,7 @@ const BandSelectBase: React.FC<BandSelectBaseProps> = ({
           : 'Ya no hay banda/s disponible/s'
       }
       isLoading={isLoading}
-      isReadOnly={isReadOnly}
+      readOnly={isReadOnly}
       options={data}
       getOptionLabel={(opt: Partial<BandType>) => `${opt.name}`}
       getOptionValue={(opt: Partial<BandType>) =>

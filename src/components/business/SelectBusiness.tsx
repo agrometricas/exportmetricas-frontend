@@ -1,7 +1,8 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBusinessSelect from './InputFieldBusinessSelect';
 import { BusinessType } from '../../types/merchant/business';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectBusinessProps {
   name: string;
@@ -24,7 +25,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldBusinessSelect
           name={name}
           label={'Finca/Razón Social'}
@@ -36,7 +37,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
         <Box>
           <FormLabel fontSize='sm'>Área</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={business?.area || ''}
             placeholder='Área de la Finca'
           />
@@ -44,7 +45,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
         <Box>
           <FormLabel fontSize='sm'>Dirección</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={business?.address || ''}
             placeholder='Dirección de la Finca'
           />
@@ -52,7 +53,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
         <Box>
           <FormLabel fontSize='sm'>Ciudad</FormLabel>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={business?.city?.name || ''}
             placeholder='Ciudad de la Finca'
           />

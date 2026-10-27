@@ -1,8 +1,9 @@
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateSticker } from '../../../../hooks/box-brand/additions/sticker/createSticker';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -48,7 +49,6 @@ const AddStickerForm = ({
   onClose,
 }: AddStickerFormProps): React.JSX.Element => {
   const { mutate: createSticker, isLoading } = useCreateSticker();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addSticker = async (
@@ -61,20 +61,20 @@ const AddStickerForm = ({
       },
       {
         onError: (error: TypeError) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Sticker Creado con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('stickers');
@@ -100,7 +100,7 @@ const AddStickerForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Sticker
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button
@@ -108,8 +108,8 @@ const AddStickerForm = ({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

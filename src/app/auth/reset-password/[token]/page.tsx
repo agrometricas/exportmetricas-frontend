@@ -1,20 +1,13 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import InputFieldPassword from '@/components/ui/form/InputFieldPassword';
 import { Logo } from '@/components/ui/Logo';
+import { toaster } from '@/components/ui/toaster';
 
 const ResetPasswordSchema = Yup.object({
   password: Yup.string()
@@ -28,7 +21,6 @@ const ResetPasswordSchema = Yup.object({
 export default function ResetPasswordTokenPage(): JSX.Element {
   const { token } = useParams<{ token: string }>();
   const router = useRouter();
-  const toast = useToast();
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -38,7 +30,7 @@ export default function ResetPasswordTokenPage(): JSX.Element {
         <Heading fontSize='2xl' mt={4} mb={2}>
           Nueva Contraseña
         </Heading>
-        <Text fontSize='sm' color='gray.600' mb={8}>
+        <Text fontSize='sm' color='fg.muted' mb={8}>
           Ingresa una nueva contraseña segura y confírmala.
         </Text>
 
@@ -61,21 +53,21 @@ export default function ResetPasswordTokenPage(): JSX.Element {
               );
 
               if (!res.ok) throw new Error('Token inválido o expirado');
-              toast({
+              toaster.create({
                 title: 'Contraseña actualizada',
                 description: 'Ahora puedes iniciar sesión con tu nueva clave.',
-                status: 'success',
+                type: 'success',
                 duration: 4000,
-                isClosable: true,
+                closable: true,
               });
               router.replace('/auth/reset-password/success');
             } catch {
-              toast({
+              toaster.create({
                 title: 'Error',
                 description: 'No se pudo actualizar la contraseña.',
-                status: 'error',
+                type: 'error',
                 duration: 4000,
-                isClosable: true,
+                closable: true,
               });
             } finally {
               setSubmitting(false);
@@ -95,9 +87,9 @@ export default function ResetPasswordTokenPage(): JSX.Element {
               </Box>
               <Button
                 type='submit'
-                colorScheme='teal'
+                colorPalette='green'
                 mt={6}
-                isLoading={submitting}
+                loading={submitting}
                 w='full'
               >
                 Actualizar contraseña

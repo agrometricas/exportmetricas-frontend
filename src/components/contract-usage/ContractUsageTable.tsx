@@ -1,32 +1,21 @@
-import {
-  Badge,
-  Box,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Badge, Box, Table, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FarmUsage } from '../../types/contractUsage';
 
 function Status({ farm }: { farm: FarmUsage }): React.JSX.Element {
   if (farm.approvedWeeklyBoxes === null) {
     return (
-      <Badge colorScheme='gray' variant='subtle'>
+      <Badge colorPalette='gray' variant='subtle'>
         Sin contrato
       </Badge>
     );
   }
   return farm.exceeded ? (
-    <Badge colorScheme='red' variant='subtle'>
+    <Badge colorPalette='red' variant='subtle'>
       Pasó el cupo
     </Badge>
   ) : (
-    <Badge colorScheme='green' variant='subtle'>
+    <Badge colorPalette='green' variant='subtle'>
       Dentro del cupo
     </Badge>
   );
@@ -37,8 +26,8 @@ export default function ContractUsageTable({
 }: {
   farms: FarmUsage[];
 }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   return (
     <Box
@@ -47,48 +36,52 @@ export default function ContractUsageTable({
       borderColor={borderColor}
       borderRadius='lg'
     >
-      <Table size='sm'>
-        <Thead>
-          <Tr>
-            <Th>Productor</Th>
-            <Th>Finca</Th>
-            <Th isNumeric>Cupo semanal</Th>
-            <Th isNumeric>Exportado</Th>
-            <Th isNumeric>Queda</Th>
-            <Th>Estado</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
+      <Table.Root size='sm'>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>Productor</Table.ColumnHeader>
+            <Table.ColumnHeader>Finca</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>
+              Cupo semanal
+            </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>Exportado</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>Queda</Table.ColumnHeader>
+            <Table.ColumnHeader>Estado</Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {farms.map((farm) => (
-            <Tr key={farm.business.id}>
-              <Td>{farm.merchant?.businessName ?? '—'}</Td>
-              <Td>{farm.business.name}</Td>
-              <Td isNumeric>{farm.approvedWeeklyBoxes ?? '—'}</Td>
-              <Td isNumeric>
+            <Table.Row key={farm.business.id}>
+              <Table.Cell>{farm.merchant?.businessName ?? '—'}</Table.Cell>
+              <Table.Cell>{farm.business.name}</Table.Cell>
+              <Table.Cell textAlign='end'>
+                {farm.approvedWeeklyBoxes ?? '—'}
+              </Table.Cell>
+              <Table.Cell textAlign='end'>
                 <Text fontWeight='semibold'>{farm.exportedBoxes}</Text>
                 <Text fontSize='xs' color={mutedColor}>
                   contrato {farm.contractBoxes} · spot {farm.spotBoxes} · sin
                   orden {farm.unplannedBoxes}
                 </Text>
-              </Td>
-              <Td
-                isNumeric
+              </Table.Cell>
+              <Table.Cell
                 fontWeight='semibold'
                 color={
                   farm.remaining !== null && farm.remaining < 0
                     ? 'red.500'
                     : undefined
                 }
+                textAlign='end'
               >
                 {farm.remaining ?? '—'}
-              </Td>
-              <Td>
+              </Table.Cell>
+              <Table.Cell>
                 <Status farm={farm} />
-              </Td>
-            </Tr>
+              </Table.Cell>
+            </Table.Row>
           ))}
-        </Tbody>
-      </Table>
+        </Table.Body>
+      </Table.Root>
     </Box>
   );
 }

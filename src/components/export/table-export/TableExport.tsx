@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Badge,
-  Center,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
-} from '@chakra-ui/react';
+import { Badge, Center, IconButton, Menu, Portal } from '@chakra-ui/react';
 import { Box } from '@mui/material';
 import {
   MRT_ColumnDef,
@@ -126,7 +117,7 @@ const TableExport = ({
             Cell: ({ renderedCellValue, row }) => (
               <Center>
                 {row.original.cancelledAt ? (
-                  <Badge colorScheme='red'>Cancelada</Badge>
+                  <Badge colorPalette='red'>Cancelada</Badge>
                 ) : renderedCellValue === 'false' ? (
                   <BsFillSendCheckFill color='green' />
                 ) : (
@@ -144,7 +135,7 @@ const TableExport = ({
               const step = CUSTOMS_STEP[row.original.customsStep ?? 'PENDING'];
               return (
                 <Center>
-                  <Badge colorScheme={step.colorScheme}>{step.label}</Badge>
+                  <Badge colorPalette={step.colorScheme}>{step.label}</Badge>
                 </Center>
               );
             },
@@ -161,65 +152,80 @@ const TableExport = ({
           const canEdit = !cancelledAt && pendingExportSent !== false;
           return (
             <Center>
-              <Menu isLazy placement='bottom-end'>
-                <MenuButton
-                  as={IconButton}
-                  icon={<FiMoreVertical />}
-                  aria-label='Acciones de la exportación'
-                  size='sm'
-                  variant='ghost'
-                />
+              <Menu.Root
+                lazyMount
+                unmountOnExit
+                positioning={{
+                  placement: 'bottom-end',
+                }}
+              >
+                <Menu.Trigger asChild>
+                  <IconButton
+                    aria-label='Acciones de la exportación'
+                    size='sm'
+                    variant='ghost'
+                  >
+                    <FiMoreVertical />
+                  </IconButton>
+                </Menu.Trigger>
                 <Portal>
-                  <MenuList zIndex='popover'>
-                    <MenuItem
-                      icon={<MdTimeline />}
-                      onClick={() => router.push(`/dashboard/export/${id}`)}
-                    >
-                      Ver pasos y detalle
-                    </MenuItem>
-                    <MenuItem
-                      icon={<MdEdit />}
-                      isDisabled={!canEdit}
-                      onClick={() =>
-                        router.push(`/dashboard/export/${id}/edit`)
-                      }
-                    >
-                      {canEdit
-                        ? 'Editar'
-                        : cancelledAt
-                          ? 'Editar (está cancelada)'
-                          : 'Editar (ya tiene envío de insumos)'}
-                    </MenuItem>
-                    <MenuItem
-                      icon={<MdAssignment />}
-                      isDisabled={!!cancelledAt}
-                      onClick={() => setCustomsOf(row.original)}
-                    >
-                      AUCP y DAE
-                    </MenuItem>
-                    <MenuItem
-                      icon={<MdContentCopy />}
-                      onClick={() =>
-                        router.push(`/dashboard/export/${id}/duplicate`)
-                      }
-                    >
-                      Duplicar
-                    </MenuItem>
-                    <MenuItem
-                      icon={<MdBlock />}
-                      color='red.500'
-                      isDisabled={!!cancelledAt}
-                      onClick={() => setToCancel(row.original)}
-                    >
-                      Cancelar
-                    </MenuItem>
-                    <ExportDocumentsMenuItems
-                      exportId={id}
-                      isCancelled={!!cancelledAt}
-                    />
-                  </MenuList>
+                  <Menu.Positioner>
+                    <Menu.Content>
+                      <Menu.Item
+                        onSelect={() => router.push(`/dashboard/export/${id}`)}
+                        value='item-0'
+                      >
+                        <MdTimeline />
+                        Ver pasos y detalle
+                      </Menu.Item>
+                      <Menu.Item
+                        disabled={!canEdit}
+                        onSelect={() =>
+                          router.push(`/dashboard/export/${id}/edit`)
+                        }
+                        value='item-1'
+                      >
+                        <MdEdit />
+                        {canEdit
+                          ? 'Editar'
+                          : cancelledAt
+                            ? 'Editar (está cancelada)'
+                            : 'Editar (ya tiene envío de insumos)'}
+                      </Menu.Item>
+                      <Menu.Item
+                        disabled={!!cancelledAt}
+                        onSelect={() => setCustomsOf(row.original)}
+                        value='item-2'
+                      >
+                        <MdAssignment />
+                        AUCP y DAE
+                      </Menu.Item>
+                      <Menu.Item
+                        onSelect={() =>
+                          router.push(`/dashboard/export/${id}/duplicate`)
+                        }
+                        value='item-3'
+                      >
+                        <MdContentCopy />
+                        Duplicar
+                      </Menu.Item>
+                      <Menu.Item
+                        color='fg.error'
+                        disabled={!!cancelledAt}
+                        onSelect={() => setToCancel(row.original)}
+                        value='item-4'
+                      >
+                        <MdBlock />
+                        Cancelar
+                      </Menu.Item>
+                      <ExportDocumentsMenuItems
+                        exportId={id}
+                        isCancelled={!!cancelledAt}
+                      />
+                    </Menu.Content>
+                  </Menu.Positioner>
                 </Portal>
-              </Menu>
+              </Menu.Root>
             </Center>
           );
         },

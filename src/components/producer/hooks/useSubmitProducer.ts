@@ -1,9 +1,9 @@
-import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateMerchant } from '../../../hooks/merchants/createMerchant';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -19,7 +19,6 @@ export function useSubmitProducer(): {
     initialValues: typeof initialValues;
     isLoading: boolean;
 } {
-    const toast = useToast();
     const router = useRouter();
     const { update } = useSession();
     const { mutate: createMerchant, isLoading } = useCreateMerchant();
@@ -41,12 +40,12 @@ export function useSubmitProducer(): {
                     const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
                         error.response?.data ?? {};
 
-                    toast({
+                    toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
-                        status: 'error',
+                        type: 'error',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
 
                     if (statusCode === 401) {
@@ -64,11 +63,11 @@ export function useSubmitProducer(): {
                     }
                 },
                 onSuccess: async () => {
-                    toast({
+                    toaster.create({
                         title: 'Productor Creado con Éxito',
-                        status: 'success',
+                        type: 'success',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
 
                     queryClient.invalidateQueries('merchants');

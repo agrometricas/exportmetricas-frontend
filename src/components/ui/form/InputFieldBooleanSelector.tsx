@@ -1,9 +1,4 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Select,
-} from '@chakra-ui/react';
+import { NativeSelect, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 
 interface InputFieldBooleanSelectorProps {
@@ -31,28 +26,31 @@ const InputFieldBooleanSelector: React.FC<InputFieldBooleanSelectorProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px'>
         {label}
-      </FormLabel>
-      <Select {...field} onChange={handleChange}>
-        {!!placeholder ? (
-          <option value={''}>{placeholder}</option>
-        ) : (
-          <option value={''}>{label}</option>
-        )}
-        {options.map((option, index) => (
-          <option key={index} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </Select>
+      </Field.Label>
+      <NativeSelect.Root>
+        <NativeSelect.Field {...field} onChange={handleChange}>
+          {!!placeholder ? (
+            <option value={''}>{placeholder}</option>
+          ) : (
+            <option value={''}>{label}</option>
+          )}
+          {options.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+      </NativeSelect.Root>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

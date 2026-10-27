@@ -1,15 +1,12 @@
 'use client';
-
 import {
   Badge,
   Box,
   Card,
-  CardBody,
   Heading,
   HStack,
   Icon,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MdOutlineFactCheck } from 'react-icons/md';
@@ -17,19 +14,21 @@ import TableDocumentBoard from '../../../../components/booking/TableDocumentBoar
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function DocumentBoardPage(): React.JSX.Element {
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const headBg = useColorModeValue('gray.50', 'gray.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const textColor = 'fg';
+  const headingColor = 'fg.heading';
+  const headBg = 'bg.subtle';
 
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box mb={6} maxW='8xl' mx='auto'>
-        <HStack spacing={3}>
-          <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-            <Icon as={MdOutlineFactCheck} boxSize={5} />
+        <HStack gap={3}>
+          <Box p={2} bg='green.subtle' borderRadius='lg' color='green.fg'>
+            <Icon boxSize={5} asChild>
+              <MdOutlineFactCheck />
+            </Icon>
           </Box>
           <Box>
             <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -44,33 +43,37 @@ function DocumentBoardPage(): React.JSX.Element {
       </Box>
 
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
-          boxShadow='lg'
+          boxShadow='sm'
           overflow='hidden'
-          border='1px solid'
+          borderWidth='1px'
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={headBg}
               borderBottom='1px solid'
               borderColor={borderColor}
             >
-              <HStack spacing={3}>
+              <HStack gap={3}>
                 <Text fontSize='lg' fontWeight='semibold' color={headingColor}>
                   Tablero
                 </Text>
-                <Badge colorScheme='green' variant='subtle' borderRadius='full'>
+                <Badge
+                  colorPalette='green'
+                  variant='subtle'
+                  borderRadius='full'
+                >
                   Verde listo · Amarillo en proceso · Rojo bloqueado
                 </Badge>
               </HStack>
             </Box>
             <TableDocumentBoard />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

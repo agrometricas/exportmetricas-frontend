@@ -1,5 +1,5 @@
 'use client';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { AppBar } from './header/AppBar';
 import SidenavProvider from './sidenav/sidenav-context';
@@ -11,20 +11,16 @@ export default function ClientLayoutWrapper({
   children: React.ReactNode;
 }): React.JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-
-  const scrollbarThumbColor = useColorModeValue('#2a9d5aff', '#1d573aff');
-  const scrollbarThumbHover = useColorModeValue('#1d7c49ff', '#4da06dff');
 
   return (
     <SidenavProvider>
-      <Box bgColor={bgColor} minH='100vh'>
+      <Box bg='bg.canvas' minH='100vh'>
         <Flex height='100vh' width='100%'>
           <Box
             as='aside'
             flexShrink={0}
             w={{ base: 0, md: isCollapsed ? '80px' : '280px' }}
-            transition='width 0.3s ease'
+            transition='width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             overflow='hidden'
           >
             <SidenavBar
@@ -38,19 +34,8 @@ export default function ClientLayoutWrapper({
               flex='1'
               overflow='auto'
               css={{
-                '&::-webkit-scrollbar': {
-                  width: '10px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  background: 'transparent',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: scrollbarThumbColor,
-                  borderRadius: '3px',
-                },
-                '&::-webkit-scrollbar-thumb:hover': {
-                  background: scrollbarThumbHover,
-                },
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'var(--chakra-colors-border) transparent',
               }}
             >
               {children}

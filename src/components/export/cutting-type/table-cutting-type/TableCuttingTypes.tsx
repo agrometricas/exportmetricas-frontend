@@ -45,16 +45,19 @@ const TableCuttingTypes = ({
             accessorKey: 'shipmentType',
             header: 'Tipo de Corte',
             Cell: ({ row }): React.JSX.Element => (
-              <HStack spacing={2}>
+              <HStack gap={2}>
                 <Text>{row.original.shipmentType}</Text>
                 <Button
-                  as={Link_Next}
-                  href={`/dashboard/box-brands/cutting-types/${row.original.id}`}
                   size='xs'
                   variant='outline'
-                  colorScheme='green'
+                  colorPalette='green'
+                  asChild
                 >
-                  Editar
+                  <Link_Next
+                    href={`/dashboard/box-brands/cutting-types/${row.original.id}`}
+                  >
+                    Editar
+                  </Link_Next>
                 </Button>
               </HStack>
             ),
@@ -187,15 +190,17 @@ const TableCuttingTypes = ({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
           left: '0px',
+
           maxWidth:
             windowSize.width && windowSize.width >= 768
               ? `${width.md}px`
               : `${width.sm}px`,
+
           position: 'sticky',
           width: '100%',
         }}

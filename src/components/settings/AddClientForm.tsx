@@ -1,11 +1,11 @@
 'use client';
 import {
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
   Box,
+  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik, FieldArray } from 'formik';
 import React from 'react';
@@ -53,9 +53,9 @@ export default function AddClientForm(): React.JSX.Element {
                 Cliente
               </Heading>
             </Flex>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText name='businessName' label='Nombre/Razón Social' />
               <InputFieldText name='businessId' label='RUC' />
               <InputFieldText name='address' label='Dirección' />
@@ -132,13 +132,13 @@ export default function AddClientForm(): React.JSX.Element {
             <Heading fontSize='2xl' p='16px'>
               Contactos
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
                   {values.contacts.map((_, index) => (
                     <div key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                         <InputFieldText
                           name={`contacts[${index}].name`}
                           label='Nombre'
@@ -158,14 +158,14 @@ export default function AddClientForm(): React.JSX.Element {
                         <Box />
                         <Button
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={values.contacts.length === 1}
+                          colorPalette='red'
+                          disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar Contacto
                         </Button>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt='16px'
                         mb='8px'
                         borderWidth='2px'
@@ -173,7 +173,7 @@ export default function AddClientForm(): React.JSX.Element {
                       />
                     </div>
                   ))}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     <Box />
                     <Button
                       onClick={() =>
@@ -193,8 +193,8 @@ export default function AddClientForm(): React.JSX.Element {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Enviar
               </Button>

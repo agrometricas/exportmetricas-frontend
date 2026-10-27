@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,7 +11,6 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -45,14 +42,14 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const headBg = useColorModeValue('gray.50', 'gray.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const textColor = 'fg';
+  const headingColor = 'fg.heading';
+  const headBg = 'bg.subtle';
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -68,9 +65,9 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
-            <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdAssignment} boxSize={5} />
+          <HStack gap={3}>
+            <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
+              <Icon boxSize={5} asChild><MdAssignment /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -85,47 +82,36 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/export/add-cutting-sheet"
+
                 aria-label="Agregar Hoja de Corte"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
-                boxShadow="md"
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/export/add-cutting-sheet"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/export/add-cutting-sheet"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
-                boxShadow="md"
                 fontWeight="semibold"
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition="all 0.2s"
-              >
-                Agregar Hoja de Corte
-              </Button>
+                asChild><Link_Next href="/dashboard/export/add-cutting-sheet"><FiPlus />Agregar Hoja de Corte
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
       </Box>
 
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
-          boxShadow="lg"
+          boxShadow='sm'
           overflow="hidden"
-          border="1px solid"
+          borderWidth='1px'
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={headBg}
@@ -133,12 +119,12 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Hojas de Corte
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -153,8 +139,8 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
             <Box>
               <TableCuttingSheets windowSize={windowSize} width={tableWidth} />
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,13 +1,10 @@
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
   Input,
   InputGroup,
-  InputRightElement,
   IconButton,
   Text,
   Flex,
+  Field,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import { useEffect, useRef } from 'react';
@@ -92,11 +89,7 @@ const InputFieldText: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <FormControl
-      id={name}
-      isInvalid={!!meta.error && meta.touched}
-      width={'100%'}
-    >
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} width={'100%'}>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}
@@ -109,7 +102,7 @@ const InputFieldText: React.FC<InputFieldProps> = ({
             alignItems='center'
             marginRight={flexDirection === 'row' ? '2%' : '0'}
           >
-            <FormLabel
+            <Field.Label
               fontSize='sm'
               m={0}
               mb={flexDirection === 'column' ? '8px' : '0'}
@@ -120,18 +113,19 @@ const InputFieldText: React.FC<InputFieldProps> = ({
                 {label}{' '}
                 {!!isBan && (
                   <IconButton
-                    isRound={true}
+                    rounded='full'
                     ml={'5px'}
-                    colorScheme={!!isBan.state ? 'orange' : 'gray'}
+                    colorPalette={!!isBan.state ? 'orange' : 'gray'}
                     aria-label='Ban'
                     size='sm'
                     variant='outline'
-                    icon={<FaBan size='16px' />}
                     onClick={banClick}
-                  />
+                  >
+                    <FaBan size='16px' />
+                  </IconButton>
                 )}
               </Text>
-            </FormLabel>
+            </Field.Label>
           </Flex>
         )}
         <Flex
@@ -139,46 +133,44 @@ const InputFieldText: React.FC<InputFieldProps> = ({
           width='100%'
           marginLeft={label ? '0' : '0'}
         >
-          {' '}
-          <InputGroup>
-            {unit && (
-              <InputRightElement
-                pointerEvents="none"
-                color="gray.500"
-                fontSize="1em"
-                mr="16px"
-              >
-                {unit}
-              </InputRightElement>
-            )}
+          <InputGroup
+            endElement={
+              onClickRemove ? (
+                <IconButton
+                  variant='ghost'
+                  colorPalette='red'
+                  aria-label='Eliminar'
+                  size='sm'
+                  disabled={isDisabledRemove}
+                  onClick={onClickRemove}
+                >
+                  <TiDelete />
+                </IconButton>
+              ) : (
+                unit
+              )
+            }
+            endElementProps={
+              onClickRemove
+                ? { pointerEvents: 'auto', pe: '1' }
+                : { color: 'fg.muted', mr: '16px' }
+            }
+          >
             <Input
               {...field}
               ref={inputRef}
-              isReadOnly={isBan?.state || isReadOnly}
+              readOnly={isBan?.state || isReadOnly}
               placeholder={placeholder || label}
             />
-            {onClickRemove && (
-              <InputRightElement>
-                <IconButton
-                  variant='solid'
-                  colorScheme='red'
-                  aria-label='Eliminar'
-                  fontSize='20px'
-                  icon={<TiDelete />}
-                  isDisabled={isDisabledRemove}
-                  onClick={onClickRemove}
-                />
-              </InputRightElement>
-            )}
           </InputGroup>
         </Flex>
       </Flex>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

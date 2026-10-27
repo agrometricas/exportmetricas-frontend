@@ -1,17 +1,17 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
-  useToast,
+  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
 import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
@@ -140,7 +140,7 @@ const ClientPendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Cliente
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectClient
         name={'clientId'}
@@ -151,7 +151,7 @@ const ClientPendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Cobro
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -176,21 +176,21 @@ const ClientPendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Origen
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBankAccount name={'sourceBankAccountId'} label='Razón Social' />
 
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Destino
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBankAccount
         name={'destinationBankAccountId'}
         label='Razón Social'
       />
 
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <Box></Box>
         <ReadOnlyAmount label={'Monto'} value={quote?.total} />
       </SimpleGrid>
@@ -198,7 +198,7 @@ const ClientPendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Subir Transferencia
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <UploadLogoFile name={'transferFile'} />
 
@@ -212,9 +212,9 @@ const ClientPendingPaymentFields = ({
           py='8px'
           px='16px'
           type='submit'
-          colorScheme='teal'
-          isLoading={isSubmitting}
-          isDisabled={!isSettled}
+          colorPalette='green'
+          loading={isSubmitting}
+          disabled={!isSettled}
         >
           Enviar
         </Button>
@@ -234,7 +234,6 @@ const ClientPendingPaymentForm = ({
   const { mutateAsync: createClientPayment, isLoading: createLoading } =
     useCreateClientPayment();
   const { uploadTransferImage, isLoading } = useUploadTransferImage();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -272,11 +271,11 @@ const ClientPendingPaymentForm = ({
         });
       }
 
-      toast({
+      toaster.create({
         title: 'Cobro y Archivo Subidos con Éxito',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       queryClient.invalidateQueries('clientPayments');
@@ -286,12 +285,12 @@ const ClientPendingPaymentForm = ({
       PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
       router.push(returnTo('/dashboard/liquidation/client-payments', window.location.search));
     } catch (error: unknown) {
-      toast({
+      toaster.create({
         title: 'Error',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     }
   };

@@ -1,9 +1,10 @@
-import { Button, Flex, SimpleGrid, Text, useToast } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
 import {
   useMinimumBoxPrice,
   useUpdateMinimumBoxPrice,
@@ -25,7 +26,6 @@ const validationSchema = Yup.object({
 });
 
 export default function MinimumBoxPriceForm(): React.JSX.Element {
-  const toast = useToast();
   const queryClient = useQueryClient();
   const { data, isLoading } = useMinimumBoxPrice();
   const { mutate: save, isLoading: isSaving } = useUpdateMinimumBoxPrice();
@@ -41,20 +41,20 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
       },
       {
         onError: (error) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar el precio mínimo',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Precio mínimo guardado',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('minimumBoxPrice');
           queryClient.invalidateQueries('priceSheet');
@@ -77,14 +77,14 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
     >
       <Form>
         <Flex flexDirection='column' gap={5}>
-          <Text fontSize='sm' color='gray.500'>
+          <Text fontSize='sm' color='fg.muted'>
             Es el precio por caja que se le propone al productor cuando la hoja
             semanal no tiene uno: el FAS a los productores con contrato FAS y el
             FOB a los demás.
             {minimum.isDefault &&
               ' Todavía no se ha guardado: rige el de 2026.'}
           </Text>
-          <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+          <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
             <InputFieldPlain
               name='fasBoxPrice'
               label='FAS (al pie del barco)'
@@ -98,7 +98,7 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
               unit='USD por caja'
             />
           </SimpleGrid>
-          <Button type='submit' colorScheme='teal' isLoading={isSaving}>
+          <Button type='submit' colorPalette='green' loading={isSaving}>
             Guardar Precio Mínimo
           </Button>
         </Flex>

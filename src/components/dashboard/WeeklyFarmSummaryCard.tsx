@@ -3,10 +3,10 @@ import {
   Grid,
   GridItem,
   Text,
-  Divider,
   VStack,
   HStack,
   Button,
+  Separator,
 } from '@chakra-ui/react';
 import { AxiosResponse, AxiosError } from 'axios';
 import { format } from 'date-fns';
@@ -150,41 +150,41 @@ export const WeeklyFarmSummaryCard = ({
         </Text>
         <Button
           size='sm'
-          leftIcon={<BiDownload />}
           onClick={() => downloadReport(weekStart.toISOString())}
         >
+          <BiDownload />
           Descargar Reporte
         </Button>
       </HStack>
 
-      <Divider
+      <Separator
         mb={6}
         borderTopWidth='2px'
         borderBottomWidth='0px'
         borderStyle='dashed'
-        borderColor='teal.500'
+        borderColor='green.solid'
       />
       <Grid templateColumns={{ base: '1fr', md: 'repeat(5, 1fr)' }} gap={4}>
         {farmsSummary.map((item, idx) => (
           <GridItem
             key={idx}
             borderWidth='1px'
-            borderColor='gray.200'
+            borderColor='border'
             boxShadow='sm'
             borderRadius='md'
             p={4}
             height='100%'
           >
-            <VStack align='start' spacing={2} h={'100%'}>
+            <VStack align='start' gap={2} h={'100%'}>
               <Text fontSize='md' fontWeight='bold'>
                 {item.farm}
               </Text>
-              <Text fontSize='sm' color='gray.600'>
+              <Text fontSize='sm' color='fg.muted'>
                 <strong>{item.producer}</strong>
               </Text>
-              <VStack align='start' spacing={1}>
+              <VStack align='start' gap={1}>
                 {item.processes.map((proc, index) => (
-                  <HStack key={index} spacing={2}>
+                  <HStack key={index} gap={2}>
                     <Box
                       minWidth='5px'
                       height='90%'

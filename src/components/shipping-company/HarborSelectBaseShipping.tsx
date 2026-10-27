@@ -33,12 +33,12 @@ const chakraStyles: ChakraStylesConfig<
   GroupBase<Partial<HarborType>>
 > = {
   container: (provided) => ({ ...provided, w: 'full' }),
-  placeholder: (provided) => ({ ...provided, color: 'gray.600' }),
-  input: (provided) => ({ ...provided, color: 'gray.900' }),
+  placeholder: (provided) => ({ ...provided, color: 'fg.muted' }),
+  input: (provided) => ({ ...provided, color: 'fg.heading' }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 
@@ -51,7 +51,9 @@ const harborComponents = {
     >
   ): JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} size='13px' />
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -98,9 +100,11 @@ const HarborSelectBaseShipping: React.FC<HarborSelectBaseShippingProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          ({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel,
       }}
-      useBasicStyles
       chakraStyles={chakraStyles}
       noOptionsMessage={() => 'No hay puertos disponibles'}
       isLoading={false}
