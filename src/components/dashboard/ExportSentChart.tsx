@@ -1,8 +1,7 @@
 'use client';
 
 import { Box, Text } from '@chakra-ui/react';
-import { parseISO } from 'date-fns';
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   BarChart,
   Bar,
@@ -13,89 +12,23 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import ErrorState from '@/components/ui/states/ErrorState';
-import LoadingState from '@/components/ui/states/LoadingState';
 import { CHART_SERIES } from '@/theme/chartColors';
-import { useExportsSent } from '../../hooks/export/getExportSents';
-
-interface ExportSent {
-  id: number;
-  export: {
-    id: number;
-    boxBrand: {
-      id: number;
-      name: string;
-    };
-    merchantId: number;
-    merchant?: { businessName: string } | null;
-    clientId: number;
-    client?: { businessName: string } | null;
-    cuttingDate: string;
-  };
-  producerPayment?: {
-    merchantId: number;
-    boxQuantity: number;
-  } | null;
-  clientPayment?: {
-    clientId: number;
-    boxQuantity: number;
-  } | null;
-}
-
-interface ChartData {
-  groupKey: string;
-  label: string;
-  producerTotal: number;
-  clientTotal: number;
-}
+import { PaymentBoxes } from '@/types/weekSummary';
 
 interface ExportSentChartProps {
-  weekStart: Date;
-  weekEnd: Date;
+  payments: PaymentBoxes[];
 }
 
 export function ExportSentChart({
-  weekStart,
-  weekEnd,
+  payments,
 }: ExportSentChartProps): React.JSX.Element {
-  const {
-    data: sentData,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useExportsSent({
-    search: '',
-    page: 1,
-    limit: 100,
-  });
-
-  const filteredSentData: ExportSent[] = useMemo(() => {
-    return sentData.filter((sent: ExportSent) => {
-      if (!sent.export?.cuttingDate) return false;
-      try {
-        const date = parseISO(sent.export.cuttingDate);
-        return date >= weekStart && date <= weekEnd;
-      } catch (error) {
-        return false;
-      }
-    });
-  }, [sentData, weekStart, weekEnd]);
-
   const title = (
     <Text as='h3' textStyle='h3' color='fg.heading' mb={4}>
       Cajas cobradas y pagadas
     </Text>
   );
 
-  if (isLoading) {
-    return <LoadingState />;
-  }
-  if (isError || !sentData) {
-    return <ErrorState error={error} onRetry={() => refetch()} />;
-  }
-
-  if (filteredSentData.length === 0) {
+  if (payments.length === 0) {
     return (
       <Box>
         {title}
@@ -106,43 +39,13 @@ export function ExportSentChart({
     );
   }
 
-  const groupedData: { [key: string]: ChartData } = {};
-
-  filteredSentData.forEach((item: ExportSent) => {
-    const boxBrand = item.export.boxBrand;
-    const merchantId = item.export?.merchantId ?? 'sinProd';
-    const clientId = item.export?.clientId ?? 'sinCli';
-
-    const groupKey = `${boxBrand.id}_${merchantId}_${clientId}`;
-
-    if (!groupedData[groupKey]) {
-      groupedData[groupKey] = {
-        groupKey,
-        label: [
-          boxBrand.name,
-          item.export.merchant?.businessName,
-          item.export.client?.businessName,
-        ]
-          .filter(Boolean)
-          .join('\n'),
-        producerTotal: 0,
-        clientTotal: 0,
-      };
-    }
-
-    if (item.producerPayment) {
-      groupedData[groupKey].producerTotal += Number(
-        item.producerPayment.boxQuantity
-      );
-    }
-    if (item.clientPayment) {
-      groupedData[groupKey].clientTotal += Number(
-        item.clientPayment.boxQuantity
-      );
-    }
-  });
-
-  const chartData: ChartData[] = Object.values(groupedData);
+  const chartData = payments.map((payment) => ({
+    label: [payment.boxBrand.name, payment.merchant.name, payment.client.name]
+      .filter(Boolean)
+      .join('\n'),
+    clientTotal: payment.clientBoxes,
+    producerTotal: payment.producerBoxes,
+  }));
 
   function splitTextByLength(text: string, maxLineLength: number): string[] {
     const words = text.split(' ');

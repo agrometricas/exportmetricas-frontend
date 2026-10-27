@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import {
@@ -9,26 +8,17 @@ import {
   Stack,
   Stat,
 } from '@chakra-ui/react';
-import {
-  startOfWeek,
-  endOfWeek,
-  parseISO,
-  isSameWeek,
-  addDays,
-  format,
-} from 'date-fns';
-import { es } from 'date-fns/locale';
+import { startOfWeek, endOfWeek, isSameWeek } from 'date-fns';
 import React, { useState, useMemo, useRef } from 'react';
 import ErrorState from '@/components/ui/states/ErrorState';
-import { ExportResponse } from '@/types/export.response';
+import { useWeekSummary } from '@/hooks/reports/weekSummary';
+import { Party, WeekSummaryExport } from '@/types/weekSummary';
 import { formatUsd } from '@/utils/costBatch';
 import { ExportSentChart } from './ExportSentChart';
 import { SpotPriceComparison } from './SpotPriceComparison';
 import WeeklyExportsCalendar from './WeeklyExportsCalendar';
 import WeeklyExportsSummary from './WeeklyExportsSummary';
 import { WeeklyFarmSummaryCard } from './WeeklyFarmSummaryCard';
-import { useExports } from '../../hooks/export/getExports';
-import { useExportsSent } from '../../hooks/export/getExportSents';
 
 const colorPalette = [
   '#f87171',
@@ -79,32 +69,9 @@ function WeekStat({
 
 export default function CalendarSummaryContainer(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [selectedProducer, setSelectedProducer] = useState<string>('');
-  const [selectedBoxBrand, setSelectedBoxBrand] = useState<string>('');
-  const [selectedClient, setSelectedClient] = useState<string>('');
-
-  const { data, isLoading, isError, error, refetch } = useExports({
-    search: '',
-    page: 1,
-    limit: 100,
-  });
-
-  const {
-    data: sentData,
-    isLoading: isLoadingSent,
-    isError: isErrorSent,
-    error: errorSent,
-    refetch: refetchSent,
-  } = useExportsSent({
-    search: '',
-    page: 1,
-    limit: 100,
-  });
-
-  const exportsData = useMemo(
-    () => (data ? (data as ExportResponse[]) : []),
-    [data]
-  );
+  const [producer, setProducer] = useState<Party | null>(null);
+  const [boxBrand, setBoxBrand] = useState<Party | null>(null);
+  const [client, setClient] = useState<Party | null>(null);
 
   const weekStart = useMemo(
     () => startOfWeek(currentDate, { weekStartsOn: 1 }),
@@ -119,56 +86,20 @@ export default function CalendarSummaryContainer(): JSX.Element {
     [currentDate]
   );
 
-  const computedDayLabels = useMemo(() => {
-    return Array.from({ length: 7 }, (_, i) =>
-      format(addDays(weekStart, i), 'EEE d', { locale: es })
-    );
-  }, [weekStart]);
-
-  const filteredData = useMemo(() => {
-    return exportsData.filter((exp) => {
-      const expDate = parseISO(exp.cuttingDate);
-      if (expDate < weekStart || expDate > weekEnd) return false;
-      if (selectedProducer && exp.merchant?.businessName !== selectedProducer)
-        return false;
-      if (selectedBoxBrand && exp.boxBrand?.name !== selectedBoxBrand)
-        return false;
-      if (selectedClient && exp.client?.businessName !== selectedClient)
-        return false;
-      return true;
+  const { summary, isLoading, isPreviousData, isError, error, refetch } =
+    useWeekSummary(weekStart.toISOString(), {
+      merchantId: producer?.id,
+      boxBrandId: boxBrand?.id,
+      clientId: client?.id,
     });
-  }, [
-    exportsData,
-    weekStart,
-    weekEnd,
-    selectedProducer,
-    selectedBoxBrand,
-    selectedClient,
-  ]);
 
-  const boxesMatrix = useMemo(() => {
-    const matrix: Record<
-      number,
-      { exportId: number; boxQuantity: number; exportData: ExportResponse }[]
-    > = {};
-    for (let i = 0; i < 7; i++) {
-      matrix[i] = [];
-    }
-    filteredData.forEach((exp) => {
-      if (exp.weekBoxesOfDay) {
-        exp.weekBoxesOfDay.forEach((quantity, dayIndex) => {
-          if (quantity > 0) {
-            matrix[dayIndex].push({
-              exportId: exp.id,
-              boxQuantity: quantity,
-              exportData: exp,
-            });
-          }
-        });
-      }
-    });
-    return matrix;
-  }, [filteredData]);
+  const exportsById = useMemo(
+    () =>
+      new Map<number, WeekSummaryExport>(
+        (summary?.exports ?? []).map((exp) => [exp.id, exp])
+      ),
+    [summary]
+  );
 
   const exportColorMap = useRef<Record<number, string>>({});
   const colorIndexRef = useRef<number>(0);
@@ -182,39 +113,7 @@ export default function CalendarSummaryContainer(): JSX.Element {
     return exportColorMap.current[exportId];
   }
 
-  const exportSentData = useMemo(() => (sentData ? sentData : []), [sentData]);
-
-  const filteredExportSent = useMemo(() => {
-    return exportSentData.filter((sent: any) => {
-      if (!sent?.export?.cuttingDate) return false;
-      try {
-        const cuttingDate = parseISO(sent.export.cuttingDate);
-        return cuttingDate >= weekStart && cuttingDate <= weekEnd;
-      } catch (error) {
-        return false;
-      }
-    });
-  }, [exportSentData, weekStart, weekEnd]);
-
-  const totalEgreso = useMemo(() => {
-    return filteredExportSent.reduce((acc: number, sent: any) => {
-      if (sent.producerPayment && sent.producerPayment.total) {
-        return acc + Number(sent.producerPayment.amount);
-      }
-      return acc;
-    }, 0);
-  }, [filteredExportSent]);
-
-  const totalIngreso = useMemo(() => {
-    return filteredExportSent.reduce((acc: number, sent: any) => {
-      if (sent.clientPayment && sent.clientPayment.total) {
-        return acc + Number(sent.clientPayment.total);
-      }
-      return acc;
-    }, 0);
-  }, [filteredExportSent]);
-
-  if (isLoading || isLoadingSent) {
+  if (isLoading) {
     return (
       <Grid
         templateColumns={{ base: '1fr', lg: 'minmax(0, 2fr) minmax(0, 1fr)' }}
@@ -227,16 +126,13 @@ export default function CalendarSummaryContainer(): JSX.Element {
       </Grid>
     );
   }
-  if (isError || isErrorSent || !data || !sentData) {
+  if (isError || !summary) {
     return (
       <SummaryCard>
         <ErrorState
-          error={error ?? errorSent}
+          error={error}
           title='No se pudo cargar la semana'
-          onRetry={() => {
-            refetch();
-            refetchSent();
-          }}
+          onRetry={refetch}
         />
       </SummaryCard>
     );
@@ -247,62 +143,63 @@ export default function CalendarSummaryContainer(): JSX.Element {
       templateColumns={{ base: '1fr', lg: 'minmax(0, 2fr) minmax(0, 1fr)' }}
       gap={4}
       alignItems='start'
+      aria-busy={isPreviousData}
+      opacity={isPreviousData ? 0.6 : 1}
+      transition='opacity 150ms'
     >
       <Stack gap={4}>
         <SummaryCard>
           <WeeklyExportsCalendar
             setCurrentDate={setCurrentDate}
             isCurrentWeek={isCurrentWeek}
-            allData={exportsData}
-            selectedProducer={selectedProducer}
-            setSelectedProducer={setSelectedProducer}
-            selectedBoxBrand={selectedBoxBrand}
-            setSelectedBoxBrand={setSelectedBoxBrand}
-            selectedClient={selectedClient}
-            setSelectedClient={setSelectedClient}
             weekStart={weekStart}
             weekEnd={weekEnd}
+            filters={summary.filters}
+            producer={producer}
+            setProducer={setProducer}
+            boxBrand={boxBrand}
+            setBoxBrand={setBoxBrand}
+            client={client}
+            setClient={setClient}
+            days={summary.days}
+            exportsById={exportsById}
             getExportColor={getExportColor}
-            weekDaysOfWeek={computedDayLabels}
-            boxesMatrix={boxesMatrix}
           />
         </SummaryCard>
         <SummaryCard>
           <WeeklyFarmSummaryCard
-            exportSentData={filteredExportSent}
+            farms={summary.farms}
             weekStart={weekStart}
             weekEnd={weekEnd}
             getExportColor={getExportColor}
-            selectedProducer={selectedProducer}
-            selectedBoxBrand={selectedBoxBrand}
-            selectedClient={selectedClient}
           />
         </SummaryCard>
         <SummaryCard>
-          <ExportSentChart weekStart={weekStart} weekEnd={weekEnd} />
+          <ExportSentChart payments={summary.payments} />
         </SummaryCard>
       </Stack>
       <Stack gap={4}>
         <SimpleGrid columns={{ base: 1, sm: 2, lg: 1 }} gap={4}>
           <WeekStat
             label='Egreso de la semana'
-            value={formatUsd(totalEgreso)}
+            value={formatUsd(Number(summary.totals.producerPaid))}
             help='Pagos a productores'
           />
           <WeekStat
             label='Ingreso de la semana'
-            value={formatUsd(totalIngreso)}
+            value={formatUsd(Number(summary.totals.clientCollected))}
             help='Cobros a clientes'
           />
         </SimpleGrid>
         <SummaryCard>
           <WeeklyExportsSummary
-            filteredData={filteredData}
+            exports={summary.exports}
+            totals={summary.totals}
             getExportColor={getExportColor}
           />
         </SummaryCard>
         <SummaryCard>
-          <SpotPriceComparison exportSentData={filteredExportSent} />
+          <SpotPriceComparison spot={summary.spot} />
         </SummaryCard>
       </Stack>
     </Grid>
