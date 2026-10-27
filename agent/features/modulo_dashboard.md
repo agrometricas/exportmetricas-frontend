@@ -42,7 +42,9 @@ Todos ven el saludo con su nombre y el menú lateral de su rol.
 | Fincas que pasaron su cupo esta semana | `useContractUsage` | `GET /contract-usage?week=` |
 
 `CalendarSummaryContainer` mantiene la semana seleccionada y filtra las listas
-completas en memoria.
+completas en memoria. Arma dos columnas: a la izquierda el calendario, las
+fincas y el gráfico; a la derecha el egreso y el ingreso de la semana, el
+resumen y los precios spot.
 
 ---
 
@@ -54,7 +56,7 @@ completas en memoria.
 | `ExportCardWithPopover` | Cada exportación dentro del calendario, con su detalle |
 | `WeeklyExportsSummary` | Totales de la semana: cajas y contenedores |
 | `WeeklyFarmSummaryCard` | Resumen por finca y descarga del Excel de materiales |
-| `ExportSentChart` | Barras con el total del cliente frente al del productor (recharts) |
+| `ExportSentChart` | Barras con las cajas cobradas al cliente frente a las pagadas al productor, por marca, productor y cliente (recharts, colores de `CHART_SERIES`) |
 | `SpotPriceComparison` | Últimos precios spot y lo pagado a productores con contrato `SPOT` |
 
 ---

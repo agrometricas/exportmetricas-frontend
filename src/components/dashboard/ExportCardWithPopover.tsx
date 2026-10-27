@@ -1,8 +1,10 @@
 'use client';
 
-import { Box, Text, Popover } from '@chakra-ui/react';
+import { Box, Text, Popover, Portal } from '@chakra-ui/react';
 import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import { ExportResponse } from '@/types/export.response';
+import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 
 interface ExportCardWithPopoverProps {
   exportData: ExportResponse;
@@ -16,56 +18,62 @@ export default function ExportCardWithPopover({
   dailyQuantity,
 }: ExportCardWithPopoverProps): React.JSX.Element {
   return (
-    <Popover.Root
-      positioning={{
-        placement: 'bottom-start',
-      }}
-    >
+    <Popover.Root positioning={{ placement: 'bottom-start' }}>
       <Popover.Trigger asChild>
         <Box
-          mb={2}
-          p={2}
-          borderRadius='md'
+          as='button'
+          w='full'
+          mb={1}
+          px={2}
+          py={1.5}
+          borderRadius='l1'
           bg={color}
           color='white'
-          fontSize='sm'
-          boxShadow='md'
+          textAlign='left'
           cursor='pointer'
         >
-          <Text fontWeight='bold'>{dailyQuantity} cajas</Text>
+          <Text fontSize='xs' fontWeight='semibold'>
+            {dailyQuantity} cajas
+          </Text>
         </Box>
       </Popover.Trigger>
-      <Popover.Positioner>
-        <Popover.Content minW='400px' borderColor={color} borderWidth='4px'>
-          <Popover.Arrow />
-          <Popover.CloseTrigger />
-          <Popover.Title>
-            <strong>Detalle de Exportación</strong>
-          </Popover.Title>
-          <Popover.Body>
-            <Text>
-              <strong>Cut-Off:</strong>{' '}
-              {exportData.shippingDateTime ?? 'Sin hora asignada'}
-            </Text>
-            <Text>
-              <strong>Productor:</strong>{' '}
-              {exportData.merchant?.businessName ?? 'Sin productor'}
-            </Text>
-            <Text>
-              <strong>Finca:</strong> {exportData.business?.name ?? 'Sin finca'}
-            </Text>
-            <Text>
-              <strong>Marca:</strong> {exportData.boxBrand?.name ?? 'Sin marca'}
-              {' - '}
-              {exportData.boxBrand?.brand.name ?? 'Sin marca'}
-            </Text>
-            <Text>
-              <strong>Cliente:</strong>{' '}
-              {exportData.client?.businessName ?? 'Sin cliente'}
-            </Text>
-          </Popover.Body>
-        </Popover.Content>
-      </Popover.Positioner>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content
+            minW='360px'
+            borderTopWidth='4px'
+            borderTopColor={color}
+          >
+            <Popover.Arrow />
+            <Popover.CloseTrigger />
+            <Popover.Header>
+              <Popover.Title fontWeight='semibold'>
+                Exportación {exportData.id}
+              </Popover.Title>
+            </Popover.Header>
+            <Popover.Body>
+              <DetailFields>
+                <DetailField label='Cut-off'>
+                  {formatDayMonthYearTime(exportData.shippingDateTime)}
+                </DetailField>
+                <DetailField label='Productor'>
+                  {exportData.merchant?.businessName}
+                </DetailField>
+                <DetailField label='Finca'>
+                  {exportData.business?.name}
+                </DetailField>
+                <DetailField label='Marca'>
+                  {exportData.boxBrand?.name} ·{' '}
+                  {exportData.boxBrand?.brand.name}
+                </DetailField>
+                <DetailField label='Cliente'>
+                  {exportData.client?.businessName}
+                </DetailField>
+              </DetailFields>
+            </Popover.Body>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
     </Popover.Root>
   );
 }

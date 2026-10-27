@@ -63,7 +63,7 @@ export default function WeeklyExportsCalendar({
     setCurrentDate(new Date());
   };
 
-  const weekRangeLabel = `${format(weekStart, 'd MMM yyyy', { locale: es })} - ${format(
+  const weekRangeLabel = `${format(weekStart, 'd MMM yyyy', { locale: es })} – ${format(
     weekEnd,
     'd MMM yyyy',
     { locale: es }
@@ -94,22 +94,33 @@ export default function WeeklyExportsCalendar({
 
   return (
     <Box>
-      <Flex justify='space-between' align='center' mb={4}>
-        <Text fontSize='xl' fontWeight='bold'>
+      <Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
+        <Text as='h3' textStyle='h3' color='fg.heading'>
           {weekRangeLabel}
         </Text>
         <Flex gap={2}>
           <Button
+            size='sm'
             onClick={handleToday}
             variant='outline'
             disabled={isCurrentWeek}
           >
             Hoy
           </Button>
-          <IconButton aria-label='Semana anterior' onClick={handlePrevWeek}>
+          <IconButton
+            size='sm'
+            variant='outline'
+            aria-label='Semana anterior'
+            onClick={handlePrevWeek}
+          >
             <IoIosArrowBack />
           </IconButton>
-          <IconButton aria-label='Semana siguiente' onClick={handleNextWeek}>
+          <IconButton
+            size='sm'
+            variant='outline'
+            aria-label='Semana siguiente'
+            onClick={handleNextWeek}
+          >
             <IoIosArrowForward />
           </IconButton>
         </Flex>
@@ -117,9 +128,9 @@ export default function WeeklyExportsCalendar({
 
       <Flex gap={2} mb={4} wrap='wrap' width='100%'>
         <Flex flex='1' align='center'>
-          <NativeSelect.Root>
+          <NativeSelect.Root size='sm'>
             <NativeSelect.Field
-              placeholder='Filtrar por Productor'
+              placeholder='Productor'
               width='100%'
               onChange={(e) => setSelectedProducer(e.target.value)}
               value={selectedProducer}
@@ -143,9 +154,9 @@ export default function WeeklyExportsCalendar({
           )}
         </Flex>
         <Flex flex='1' align='center'>
-          <NativeSelect.Root>
+          <NativeSelect.Root size='sm'>
             <NativeSelect.Field
-              placeholder='Filtrar por Marca de Caja'
+              placeholder='Marca'
               width='100%'
               onChange={(e) => setSelectedBoxBrand(e.target.value)}
               value={selectedBoxBrand}
@@ -169,9 +180,9 @@ export default function WeeklyExportsCalendar({
           )}
         </Flex>
         <Flex flex='1' align='center'>
-          <NativeSelect.Root>
+          <NativeSelect.Root size='sm'>
             <NativeSelect.Field
-              placeholder='Filtrar por Cliente'
+              placeholder='Cliente'
               width='100%'
               onChange={(e) => setSelectedClient(e.target.value)}
               value={selectedClient}
@@ -196,7 +207,7 @@ export default function WeeklyExportsCalendar({
         </Flex>
       </Flex>
 
-      <SimpleGrid columns={7} gap={4} h='100%' gridAutoRows='1fr'>
+      <SimpleGrid columns={7} gap={2} h='100%' gridAutoRows='1fr'>
         {weekDaysOfWeek.map((dayLabel, dayIndex) => {
           const exportsForDay = boxesMatrix[dayIndex] || [];
           const dayTotal = exportsForDay.reduce(
@@ -208,17 +219,23 @@ export default function WeeklyExportsCalendar({
             <Box
               key={dayIndex}
               p={2}
-              borderRadius='md'
-              borderColor='border'
+              borderRadius='l2'
               borderWidth='1px'
-              boxShadow='sm'
+              bg='bg.subtle'
               minH='200px'
               h='100%'
               display='flex'
               flexDirection='column'
               minW={0}
             >
-              <Text fontSize='md' fontWeight='semibold' mb={2} lineClamp={1}>
+              <Text
+                fontSize='xs'
+                fontWeight='semibold'
+                color='fg.muted'
+                textTransform='capitalize'
+                mb={2}
+                truncate
+              >
                 {dayLabel}
               </Text>
 
@@ -233,16 +250,18 @@ export default function WeeklyExportsCalendar({
                 ))}
               </Box>
 
-              <Text
-                mt='auto'
-                pt={2}
-                textAlign='center'
-                fontWeight='bold'
-                borderTopWidth='1px'
-                borderColor='border'
-              >
-                {dayTotal} Cajas
-              </Text>
+              <Box mt='auto' pt={2} textAlign='center' borderTopWidth='1px'>
+                <Text
+                  fontSize='sm'
+                  fontWeight='semibold'
+                  fontVariantNumeric='tabular-nums'
+                >
+                  {dayTotal}
+                </Text>
+                <Text fontSize='xs' color='fg.muted'>
+                  cajas
+                </Text>
+              </Box>
             </Box>
           );
         })}

@@ -25,6 +25,7 @@ los estados usan las paletas semánticas de Chakra (`red`, `orange`, `green`).
 
 | Token | Claro | Oscuro | Uso |
 |---|---|---|---|
+| `bg` | blanco | `slate.900` | Lo que pintan los componentes de Chakra (filas de tabla, selectores nativos, pestañas); en oscuro, Chakra lo dejaría negro |
 | `bg.canvas` | `slate.25` | `slate.950` | Fondo de página |
 | `bg.panel` | blanco | `slate.900` | Tarjeta, panel, modal |
 | `bg.thead` | `slate.50` | `slate.800` | Encabezado de tabla |
@@ -35,6 +36,15 @@ los estados usan las paletas semánticas de Chakra (`red`, `orange`, `green`).
 
 Una pantalla no elige colores para claro y oscuro: usa estos tokens.
 `useColorModeValue` queda solo para lo que no tiene token.
+
+### Gráficos
+
+Las series van en el orden de `CHART_SERIES` (`theme/chartColors.ts`): verde
+`#0D9E55` y azul `#4A93E8`, los mismos en claro y en oscuro. Pasan el
+validador de paleta contra `bg.panel` en los dos modos (banda de luminosidad,
+separación para daltonismo y contraste de 3:1). Los ejes, la grilla y la
+leyenda de recharts toman `fg.muted` y `border` por CSS, porque recharts pinta
+con atributos SVG y el CSS les gana.
 
 ## CSS global
 
