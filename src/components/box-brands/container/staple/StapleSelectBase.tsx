@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useStaples } from '../../../../hooks/box-brand/container/staple/getStaples';
-import { usePagination } from '../../../../hooks/usePagination';
 import { StapleType } from '../../../../types/box-brand/container/staple';
 
 interface StapleSelectBaseProps {
@@ -75,8 +74,7 @@ const StapleSelectBase: React.FC<StapleSelectBaseProps> = ({
   setStaple,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useStaples(paginationParams);
+  const { data, isLoading, error } = useStaples();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const StapleSelectBase: React.FC<StapleSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={stableComponents}
     />
   );

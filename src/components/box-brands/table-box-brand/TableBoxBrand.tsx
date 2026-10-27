@@ -11,15 +11,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBoxBrand from './DetailBoxBrand';
 import { useBoxBrands } from '../../../hooks/box-brand/getBoxBrands';
-import { usePagination } from '../../../hooks/usePagination';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
 import { formatBoxWeight } from '../../../utils/boxWeight';
 import { cargoTypeLabel } from '../../../utils/cargoType';
 import BoxBrandCargoModal, { CargoTarget } from '../BoxBrandCargoModal';
 
 const TableBoxBrand = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useBoxBrands(paginationParams);
+  const { data = [], error } = useBoxBrands();
   const router = useRouter();
   const [cargoTarget, setCargoTarget] = useState<CargoTarget | null>(null);
 

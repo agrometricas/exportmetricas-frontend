@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listCuttingSheetsPending(params: Params): Promise<AxiosResponse> {
-  return axios.get('/export/cutting-sheet/pending', { params });
+function listCuttingSheetsPending(): Promise<AxiosResponse> {
+  return axios.get('/export/cutting-sheet/pending');
 }
 
-export function useCuttingSheetsPending({
-  search = '',
-  page = 1,
-  limit = 10,
-}: Params) {
+export function useCuttingSheetsPending() {
   const result = useQuery({
-    queryKey: ['cuttingSheetsPending', search, page, limit],
-    queryFn: () => listCuttingSheetsPending({ search, page, limit }),
-    placeholderData: keepPreviousData,
+    queryKey: ['cuttingSheetsPending'],
+    queryFn: () => listCuttingSheetsPending(),
   });
 
   return serializeQueryResult(result);

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
-import { usePagination } from '@/hooks/usePagination';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 
 interface BoxBrandSelectBaseProps {
@@ -72,8 +71,7 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
   placeholder,
   name,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useBoxBrands(paginationParams);
+  const { data = [], isLoading, error } = useBoxBrands();
   const router = useRouter();
   const onlyOption: Partial<BoxBrandType> | null =
     data.length === 1 ? data[0] : null;
@@ -138,10 +136,6 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={brandComponents}
     />
   );

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useMettoLabels } from '../../../../hooks/box-brand/container/metto-label/getMettoLabels';
-import { usePagination } from '../../../../hooks/usePagination';
 import { MettoLabelType } from '../../../../types/box-brand/container/mettoLabel';
 
 interface MettoLabelSelectBaseProps {
@@ -73,8 +72,7 @@ const MettoLabelSelectBase: React.FC<MettoLabelSelectBaseProps> = ({
   setMettoLabel,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useMettoLabels(paginationParams);
+  const { data, isLoading, error } = useMettoLabels();
   const router = useRouter();
 
   useEffect(() => {
@@ -130,10 +128,6 @@ const MettoLabelSelectBase: React.FC<MettoLabelSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={mettoLabelComponents}
     />
   );

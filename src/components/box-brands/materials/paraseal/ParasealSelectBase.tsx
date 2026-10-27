@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useParaseals } from '@/hooks/box-brand/materials/paraseal/getParaseals';
-import { usePagination } from '@/hooks/usePagination';
 import { ParasealType } from '@/types/box-brand/materials/paraseal';
 
 interface ParasealSelectBaseProps {
@@ -75,8 +74,7 @@ const ParasealSelectBase: React.FC<ParasealSelectBaseProps> = ({
   setParaseal,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useParaseals(paginationParams);
+  const { data, isLoading, error } = useParaseals();
   const router = useRouter();
 
   useEffect(() => {

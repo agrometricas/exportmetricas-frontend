@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useCorners } from '@/hooks/box-brand/materials/corner/getCorners';
-import { usePagination } from '@/hooks/usePagination';
 import { CornerType } from '@/types/box-brand/materials/corner';
 
 interface CornerSelectBaseProps {
@@ -75,8 +74,7 @@ const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
   setCorner,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useCorners(paginationParams);
+  const { data, isLoading, error } = useCorners();
   const router = useRouter();
 
   useEffect(() => {

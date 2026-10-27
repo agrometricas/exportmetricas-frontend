@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useClusterBags } from '../../../../hooks/box-brand/materials/cluster-bag/getClusterBags';
-import { usePagination } from '../../../../hooks/usePagination';
 import { ClusterBagType } from '../../../../types/box-brand/materials/clusterBag';
 
 interface ClusterBagSelectBaseProps {
@@ -73,8 +72,7 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
   setClusterBag,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useClusterBags(paginationParams);
+  const { data, isLoading, error } = useClusterBags();
   const router = useRouter();
 
   useEffect(() => {
@@ -130,10 +128,6 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={clusterBagComponents}
     />
   );

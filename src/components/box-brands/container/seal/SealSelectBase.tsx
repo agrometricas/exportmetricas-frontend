@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useSeals } from '../../../../hooks/box-brand/container/seal/getSeals';
-import { usePagination } from '../../../../hooks/usePagination';
 import { SealType } from '../../../../types/box-brand/container/seal';
 
 interface SealSelectBaseProps {
@@ -75,8 +74,7 @@ const SealSelectBase: React.FC<SealSelectBaseProps> = ({
   setSeal,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useSeals(paginationParams);
+  const { data, isLoading, error } = useSeals();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const SealSelectBase: React.FC<SealSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={sealComponents}
     />
   );

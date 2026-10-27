@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useThermographs } from '../../../../hooks/box-brand/container/thermograph/getThermographs';
-import { usePagination } from '../../../../hooks/usePagination';
 import { ThermographType } from '../../../../types/box-brand/container/thermograph';
 
 interface ThermographSelectBaseProps {
@@ -75,8 +74,7 @@ const ThermographSelectBase: React.FC<ThermographSelectBaseProps> = ({
   setThermo,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useThermographs(paginationParams);
+  const { data, isLoading, error } = useThermographs();
   const router = useRouter();
 
   useEffect(() => {
@@ -133,10 +131,6 @@ const ThermographSelectBase: React.FC<ThermographSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={thermoComponents}
     />
   );

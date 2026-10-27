@@ -12,11 +12,9 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailCuttingTypes from './DetailCuttingTypes';
 import { useCuttingTypes } from '../../../../hooks/export/cutting-type/getCuttingTypes';
-import { usePagination } from '../../../../hooks/usePagination';
 
 const TableCuttingTypes = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useCuttingTypes(paginationParams);
+  const { data = [], error } = useCuttingTypes();
   const router = useRouter();
 
   useEffect(() => {

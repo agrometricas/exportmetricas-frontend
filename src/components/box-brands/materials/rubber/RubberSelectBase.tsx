@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useRubbers } from '../../../../hooks/box-brand/materials/rubber/getRubbers';
-import { usePagination } from '../../../../hooks/usePagination';
 import { RubberType } from '../../../../types/box-brand/materials/rubber';
 
 interface RubberSelectBaseProps {
@@ -75,8 +74,7 @@ const RubberSelectBase: React.FC<RubberSelectBaseProps> = ({
   setRubber,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useRubbers(paginationParams);
+  const { data, isLoading, error } = useRubbers();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const RubberSelectBase: React.FC<RubberSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={rubberComponents}
     />
   );

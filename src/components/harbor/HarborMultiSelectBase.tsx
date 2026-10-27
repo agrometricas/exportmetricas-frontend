@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useHarborsByType } from '../../hooks/export/harbor/getHarborsByType';
-import { usePagination } from '../../hooks/usePagination';
 import { HarborType } from '../../types/harbor';
 
 interface HarborMultiSelectBaseProps {
@@ -72,10 +71,7 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
   onChange,
   setHarbors,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useHarborsByType({
-    ...paginationParams,
-    type,
+  const { data, isLoading, error } = useHarborsByType({ type,
   });
   const router = useRouter();
 

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useSecurityKits } from '../../../../hooks/box-brand/additions/security-kit/getSecurityKits';
-import { usePagination } from '../../../../hooks/usePagination';
 import { SecurityKitType } from '../../../../types/box-brand/additions/securityKit';
 
 interface SecurityKitSelectBaseProps {
@@ -74,8 +73,7 @@ const SecurityKitSelectBase: React.FC<SecurityKitSelectBaseProps> = ({
   setSecurityKit,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useSecurityKits(paginationParams);
+  const { data = [], isLoading, error } = useSecurityKits();
   const router = useRouter();
 
   useEffect(() => {

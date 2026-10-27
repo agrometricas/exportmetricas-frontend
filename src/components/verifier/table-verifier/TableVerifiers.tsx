@@ -9,13 +9,11 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailVerifiers from './DetailVerifiers';
-import { usePagination } from '../../../hooks/usePagination';
 import { useVerifiers } from '../../../hooks/verifier/getVerifiers';
 import { VerifierResponse } from '../../../types/verifier/verifier.response';
 
 const TableVerifiers = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useVerifiers(paginationParams);
+  const { data = [], error } = useVerifiers();
   const router = useRouter();
 
   useEffect(() => {

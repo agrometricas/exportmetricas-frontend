@@ -29,7 +29,6 @@ import {
 import { useBookings } from '../../hooks/booking/getBookings';
 import { useCreateExportPlan } from '../../hooks/export/createExportPlan';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
-import { usePagination } from '../../hooks/usePagination';
 import { BookingResponse } from '../../types/booking';
 import { PurchaseOrderResponse } from '../../types/purchaseOrder';
 import { ShippingCompanyType } from '../../types/shippingCompany';
@@ -217,9 +216,7 @@ export default function ExportPlanForm({
   const { mutate: create, isPending: isLoading } = useCreateExportPlan();
   const { data: bookingData } = useBookings();
   const bookings = (bookingData ?? []) as BookingResponse[];
-  const { paginationParams } = usePagination();
-  const { data: shippingCompanies = [] } =
-    useShippingCompanies(paginationParams);
+  const { data: shippingCompanies = [] } = useShippingCompanies();
   const shippingCompanyById = (
     companyId: number | ''
   ): Partial<ShippingCompanyType> | null =>

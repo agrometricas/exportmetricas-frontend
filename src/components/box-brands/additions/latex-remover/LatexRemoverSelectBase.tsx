@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useLatexRemovers } from '../../../../hooks/box-brand/additions/latex-remover/getLatexRemovers';
-import { usePagination } from '../../../../hooks/usePagination';
 import { LatexRemoverType } from '../../../../types/box-brand/additions/latexRemover';
 
 interface LatexRemoverSelectBaseProps {
@@ -75,8 +74,7 @@ const LatexRemoverSelectBase: React.FC<LatexRemoverSelectBaseProps> = ({
   setLatexRemover,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useLatexRemovers(paginationParams);
+  const { data, isLoading, error } = useLatexRemovers();
   const router = useRouter();
 
   useEffect(() => {
@@ -133,10 +131,6 @@ const LatexRemoverSelectBase: React.FC<LatexRemoverSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={latexRemoverComponents}
     />
   );

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBands } from '../../../../hooks/box-brand/materials/band/getBands';
-import { usePagination } from '../../../../hooks/usePagination';
 import { BandType } from '../../../../types/box-brand/materials/band';
 
 interface BandSelectBaseProps {
@@ -75,8 +74,7 @@ const BandSelectBase: React.FC<BandSelectBaseProps> = ({
   setBand,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useBands(paginationParams);
+  const { data, isLoading, error } = useBands();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const BandSelectBase: React.FC<BandSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={bandComponents}
     />
   );

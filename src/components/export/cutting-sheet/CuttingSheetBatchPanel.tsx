@@ -27,7 +27,6 @@ import { MdContentCut, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { toaster } from '@/components/ui/toaster';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCreateCuttingSheetBatch } from '../../../hooks/export/cuttingSheet/createCuttingSheetBatch';
-import { usePagination } from '../../../hooks/usePagination';
 import { PendingSheet, SheetBatchRow } from '../../../types/cuttingSheetBatch';
 import { CuttingType } from '../../../types/cuttingType';
 import {
@@ -75,8 +74,7 @@ interface CuttingSheetBatchPanelProps {
 const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
   items,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data: cuttingTypesData = [] } = useCuttingTypes(paginationParams);
+  const { data: cuttingTypesData = [] } = useCuttingTypes();
   const cuttingTypes = cuttingTypesData as CuttingType[];
   const { open, onOpen, onClose } = useDisclosure();
   const router = useRouter();

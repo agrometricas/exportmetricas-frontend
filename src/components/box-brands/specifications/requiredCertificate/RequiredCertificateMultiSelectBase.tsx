@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useRequiredCertificates } from '../../../../hooks/box-brand/specifications/certificate/getRequiredCertificates';
-import { usePagination } from '../../../../hooks/usePagination';
 import { RequiredCertificateType } from '../../../../types/box-brand/specifications/requiredCertificate';
 
 interface RequiredCertificateMultiSelectBaseProps {
@@ -68,8 +67,7 @@ const certificateComponents = {
 const RequiredCertificateMultiSelectBase: React.FC<
   RequiredCertificateMultiSelectBaseProps
 > = ({ name, placeholder, field, onChange, setCertificates }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useRequiredCertificates(paginationParams);
+  const { data, isLoading, error } = useRequiredCertificates();
   const router = useRouter();
 
   useEffect(() => {

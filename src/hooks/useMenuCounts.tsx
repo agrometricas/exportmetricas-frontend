@@ -25,31 +25,31 @@ export function useMenuCounts(): {
     data: supplyData,
     isLoading: isSupplyLoading,
     error: supplyError,
-  } = useExportsPending({ page: 1, limit: 1 });
+  } = useExportsPending();
 
   const {
     data: producerData,
     isLoading: isProducerLoading,
     error: producerError,
-  } = useExportsSentPending({ page: 1, limit: 1 });
+  } = useExportsSentPending();
 
   const {
     data: clientData,
     isLoading: isClientLoading,
     error: clientError,
-  } = useClientPaymentsPending({ page: 1, limit: 1 });
+  } = useClientPaymentsPending();
 
   const {
     data: cuttingData,
     isLoading: isCuttingLoading,
     error: cuttingError,
-  } = useCuttingSheetsPending({ page: 1, limit: 1 });
+  } = useCuttingSheetsPending();
 
   const {
     data: exportSentCostsPendingData,
     isLoading: isExportSentCostsPendingLoading,
     error: exportSentCostsPendingError,
-  } = useExportSentCostsPending({ page: 1, limit: 1 });
+  } = useExportSentCostsPending();
 
   const [counts, setCounts] = useState<MenuCounts>({
     addSupplyShipment: 0,
