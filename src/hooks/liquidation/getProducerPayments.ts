@@ -1,9 +1,27 @@
-import { PagedList, usePagedList } from '@/hooks/usePagedList';
-import { ProducerPaymentListItem } from '@/types/producerPayment';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import axios from '@/lib/axios';
+import { PaginationParams } from '@/types/paginationParams';
+import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-export function useProducerPayments(): PagedList<ProducerPaymentListItem> {
-  return usePagedList<ProducerPaymentListItem>(
-    'producerPayments',
-    '/export/producer-payments'
-  );
+type Params = PaginationParams;
+
+function listProducerPayments(params: Params): Promise<AxiosResponse> {
+  return axios.get('/export/producer-payments', { params });
+}
+
+export function useProducerPayments({
+  search = '',
+  page = 1,
+  limit = 10,
+}: Params) {
+  const result = useQuery({
+    queryKey: ['producerPayments', search, page, limit],
+    queryFn: () => listProducerPayments({ search, page, limit }),
+    placeholderData: keepPreviousData,
+  });
+
+  return serializeQueryResult(result);
 }

@@ -20,6 +20,7 @@ import {
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailExport from './DetailExport';
 import { useExports } from '../../../hooks/export/getExports';
+import { usePagination } from '../../../hooks/usePagination';
 import { ExportResponse } from '../../../types/export.response';
 import { CUSTOMS_STEP } from '../../../utils/customs';
 import { formatDayMonthYearTime } from '../../../utils/dayMonthYear';
@@ -28,7 +29,8 @@ import ExportCustomsModal from '../ExportCustomsModal';
 import ExportDocumentsMenuItems from '../ExportDocumentsMenuItems';
 
 const TableExport = (): React.JSX.Element => {
-  const { rows: data, error, tableOptions } = useExports();
+  const { paginationParams } = usePagination();
+  const { data = [], error } = useExports(paginationParams);
   const router = useRouter();
   const [toCancel, setToCancel] = useState<ExportResponse | null>(null);
   const [customsOf, setCustomsOf] = useState<ExportResponse | null>(null);
@@ -230,7 +232,6 @@ const TableExport = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
-    ...tableOptions,
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
@@ -239,6 +240,7 @@ const TableExport = (): React.JSX.Element => {
     enableColumnDragging: false,
     enableHiding: false,
     initialState: {
+      pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand', 'boxQuantity'],
         right: ['enviado', 'aduana', 'acciones'],

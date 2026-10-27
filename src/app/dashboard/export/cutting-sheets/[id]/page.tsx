@@ -7,11 +7,17 @@ import { CardPage } from '@/components/ui/page/PageLayout';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CorrectCuttingSheetForm from '../../../../../components/export/cutting-sheet/CorrectCuttingSheetForm';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
-import { useCuttingSheet } from '../../../../../hooks/export/cuttingSheet/getCuttingSheets';
+import { useCuttingSheets } from '../../../../../hooks/export/cuttingSheet/getCuttingSheets';
+import { usePagination } from '../../../../../hooks/usePagination';
+import { CuttingSheetResponse } from '../../../../../types/cuttingSheet.response';
 
 function CorrectCuttingSheetPage(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const { sheet, isLoading } = useCuttingSheet(Number(id));
+  const { paginationParams } = usePagination();
+  const { data, isLoading } = useCuttingSheets(paginationParams);
+  const sheet = ((data ?? []) as CuttingSheetResponse[]).find(
+    (row) => row.id === Number(id)
+  );
 
   return (
     <CardPage
