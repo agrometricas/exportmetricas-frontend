@@ -2,12 +2,12 @@
 'use client';
 
 import {
+  Card,
   Grid,
-  GridItem,
-  Text,
-  Center,
+  SimpleGrid,
   Skeleton,
-  Separator,
+  Stack,
+  Stat,
 } from '@chakra-ui/react';
 import {
   startOfWeek,
@@ -19,7 +19,9 @@ import {
 } from 'date-fns';
 import { es } from 'date-fns/locale';
 import React, { useState, useMemo, useRef } from 'react';
+import ErrorState from '@/components/ui/states/ErrorState';
 import { ExportResponse } from '@/types/export.response';
+import { formatUsd } from '@/utils/costBatch';
 import { ExportSentChart } from './ExportSentChart';
 import { SpotPriceComparison } from './SpotPriceComparison';
 import WeeklyExportsCalendar from './WeeklyExportsCalendar';
@@ -41,13 +43,47 @@ const colorPalette = [
   '#d946ef',
 ];
 
+function SummaryCard({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.JSX.Element {
+  return (
+    <Card.Root boxShadow='sm'>
+      <Card.Body p={5}>{children}</Card.Body>
+    </Card.Root>
+  );
+}
+
+function WeekStat({
+  label,
+  value,
+  help,
+}: {
+  label: string;
+  value: string;
+  help: string;
+}): React.JSX.Element {
+  return (
+    <SummaryCard>
+      <Stat.Root>
+        <Stat.Label>{label}</Stat.Label>
+        <Stat.ValueText textStyle='h2' fontVariantNumeric='tabular-nums'>
+          {value}
+        </Stat.ValueText>
+        <Stat.HelpText>{help}</Stat.HelpText>
+      </Stat.Root>
+    </SummaryCard>
+  );
+}
+
 export default function CalendarSummaryContainer(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedProducer, setSelectedProducer] = useState<string>('');
   const [selectedBoxBrand, setSelectedBoxBrand] = useState<string>('');
   const [selectedClient, setSelectedClient] = useState<string>('');
 
-  const { data, isLoading, isError } = useExports({
+  const { data, isLoading, isError, error, refetch } = useExports({
     search: '',
     page: 1,
     limit: 100,
@@ -57,6 +93,8 @@ export default function CalendarSummaryContainer(): JSX.Element {
     data: sentData,
     isLoading: isLoadingSent,
     isError: isErrorSent,
+    error: errorSent,
+    refetch: refetchSent,
   } = useExportsSent({
     search: '',
     page: 1,
@@ -83,7 +121,7 @@ export default function CalendarSummaryContainer(): JSX.Element {
 
   const computedDayLabels = useMemo(() => {
     return Array.from({ length: 7 }, (_, i) =>
-      format(addDays(weekStart, i), 'EEEE/dd', { locale: es })
+      format(addDays(weekStart, i), 'EEE d', { locale: es })
     );
   }, [weekStart]);
 
@@ -178,163 +216,95 @@ export default function CalendarSummaryContainer(): JSX.Element {
 
   if (isLoading || isLoadingSent) {
     return (
-      <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }} gap={4}>
-        <GridItem>
-          <Skeleton height='300px' borderRadius='md' boxShadow='md' p={4} />
-        </GridItem>
-        <GridItem>
-          <Skeleton height='300px' borderRadius='md' boxShadow='md' p={4} />
-        </GridItem>
-        <GridItem>
-          <Skeleton height='300px' borderRadius='md' boxShadow='md' p={4} />
-        </GridItem>
-        <Grid gap={4}>
-          <GridItem>
-            <Skeleton height='150px' borderRadius='md' boxShadow='md' p={4} />
-          </GridItem>
-          <GridItem>
-            <Skeleton height='150px' borderRadius='md' boxShadow='md' p={4} />
-          </GridItem>
-        </Grid>
-        <GridItem>
-          <Skeleton height='500px' borderRadius='md' boxShadow='md' p={4} />
-        </GridItem>
-        <GridItem>
-          <Skeleton height='500px' borderRadius='md' boxShadow='md' p={4} />
-        </GridItem>
+      <Grid
+        templateColumns={{ base: '1fr', lg: 'minmax(0, 2fr) minmax(0, 1fr)' }}
+        gap={4}
+      >
+        <Skeleton height='360px' borderRadius='l3' />
+        <Skeleton height='360px' borderRadius='l3' />
+        <Skeleton height='280px' borderRadius='l3' />
+        <Skeleton height='280px' borderRadius='l3' />
       </Grid>
     );
   }
   if (isError || isErrorSent || !data || !sentData) {
     return (
-      <Center>
-        <Text>Error al cargar exportaciones.</Text>
-      </Center>
+      <SummaryCard>
+        <ErrorState
+          error={error ?? errorSent}
+          title='No se pudo cargar la semana'
+          onRetry={() => {
+            refetch();
+            refetchSent();
+          }}
+        />
+      </SummaryCard>
     );
   }
 
   return (
-    <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }} gap={4}>
-      <GridItem
-        bg='bg.panel'
-        p={4}
-        borderWidth='1px'
-        borderRadius='l3'
-        boxShadow='sm'
-      >
-        <WeeklyExportsCalendar
-          setCurrentDate={setCurrentDate}
-          isCurrentWeek={isCurrentWeek}
-          allData={exportsData}
-          selectedProducer={selectedProducer}
-          setSelectedProducer={setSelectedProducer}
-          selectedBoxBrand={selectedBoxBrand}
-          setSelectedBoxBrand={setSelectedBoxBrand}
-          selectedClient={selectedClient}
-          setSelectedClient={setSelectedClient}
-          weekStart={weekStart}
-          weekEnd={weekEnd}
-          getExportColor={getExportColor}
-          weekDaysOfWeek={computedDayLabels}
-          boxesMatrix={boxesMatrix}
-        />
-      </GridItem>
-      <GridItem
-        bg='bg.panel'
-        p={4}
-        borderWidth='1px'
-        borderRadius='l3'
-        boxShadow='sm'
-      >
-        <WeeklyExportsSummary
-          filteredData={filteredData}
-          getExportColor={getExportColor}
-        />
-      </GridItem>
-      <GridItem
-        bg='bg.panel'
-        p={4}
-        borderWidth='1px'
-        borderRadius='l3'
-        boxShadow='sm'
-      >
-        <WeeklyFarmSummaryCard
-          exportSentData={filteredExportSent}
-          weekStart={weekStart}
-          weekEnd={weekEnd}
-          getExportColor={getExportColor}
-          selectedProducer={selectedProducer}
-          selectedBoxBrand={selectedBoxBrand}
-          selectedClient={selectedClient}
-        />
-      </GridItem>
-      <Grid gap={4}>
-        <GridItem
-          bg='bg.panel'
-          p={6}
-          borderWidth='1px'
-          borderRadius='l3'
-          boxShadow='sm'
-        >
-          <Text fontSize='xl' fontWeight='normal' mb={2}>
-            Egreso Total Semanal
-          </Text>
-          <Separator
-            mb={6}
-            borderTopWidth='2px'
-            borderBottomWidth='0px'
-            borderStyle='dashed'
-            borderColor='green.solid'
+    <Grid
+      templateColumns={{ base: '1fr', lg: 'minmax(0, 2fr) minmax(0, 1fr)' }}
+      gap={4}
+      alignItems='start'
+    >
+      <Stack gap={4}>
+        <SummaryCard>
+          <WeeklyExportsCalendar
+            setCurrentDate={setCurrentDate}
+            isCurrentWeek={isCurrentWeek}
+            allData={exportsData}
+            selectedProducer={selectedProducer}
+            setSelectedProducer={setSelectedProducer}
+            selectedBoxBrand={selectedBoxBrand}
+            setSelectedBoxBrand={setSelectedBoxBrand}
+            selectedClient={selectedClient}
+            setSelectedClient={setSelectedClient}
+            weekStart={weekStart}
+            weekEnd={weekEnd}
+            getExportColor={getExportColor}
+            weekDaysOfWeek={computedDayLabels}
+            boxesMatrix={boxesMatrix}
           />
-          <Text fontSize='2xl' fontWeight='semibold'>
-            ${totalEgreso} USD
-          </Text>
-        </GridItem>
-        <GridItem
-          bg='bg.panel'
-          p={6}
-          borderWidth='1px'
-          borderRadius='l3'
-          boxShadow='sm'
-        >
-          <Text fontSize='xl' mb={2}>
-            Ingreso Total Semanal
-          </Text>
-          <Separator
-            mb={6}
-            borderTopWidth='2px'
-            borderBottomWidth='0px'
-            borderStyle='dashed'
-            borderColor='green.solid'
+        </SummaryCard>
+        <SummaryCard>
+          <WeeklyFarmSummaryCard
+            exportSentData={filteredExportSent}
+            weekStart={weekStart}
+            weekEnd={weekEnd}
+            getExportColor={getExportColor}
+            selectedProducer={selectedProducer}
+            selectedBoxBrand={selectedBoxBrand}
+            selectedClient={selectedClient}
           />
-          <Text fontSize='2xl' fontWeight='semibold'>
-            ${totalIngreso} USD
-          </Text>
-        </GridItem>
-      </Grid>
-      <GridItem
-        bg='bg.panel'
-        p={6}
-        borderWidth='1px'
-        borderRadius='l3'
-        boxShadow='sm'
-        mb={4}
-      >
-        <Text as='h3' textStyle='h3' color='fg.heading' mb={4}>
-          Diagrama Cliente/Productor
-        </Text>
-        <ExportSentChart weekStart={weekStart} weekEnd={weekEnd} />
-      </GridItem>
-      <GridItem
-        bg='bg.panel'
-        p={6}
-        borderWidth='1px'
-        borderRadius='l3'
-        boxShadow='sm'
-        mb={4}
-      >
-        <SpotPriceComparison exportSentData={filteredExportSent} />
-      </GridItem>
+        </SummaryCard>
+        <SummaryCard>
+          <ExportSentChart weekStart={weekStart} weekEnd={weekEnd} />
+        </SummaryCard>
+      </Stack>
+      <Stack gap={4}>
+        <SimpleGrid columns={{ base: 1, sm: 2, lg: 1 }} gap={4}>
+          <WeekStat
+            label='Egreso de la semana'
+            value={formatUsd(totalEgreso)}
+            help='Pagos a productores'
+          />
+          <WeekStat
+            label='Ingreso de la semana'
+            value={formatUsd(totalIngreso)}
+            help='Cobros a clientes'
+          />
+        </SimpleGrid>
+        <SummaryCard>
+          <WeeklyExportsSummary
+            filteredData={filteredData}
+            getExportColor={getExportColor}
+          />
+        </SummaryCard>
+        <SummaryCard>
+          <SpotPriceComparison exportSentData={filteredExportSent} />
+        </SummaryCard>
+      </Stack>
     </Grid>
   );
 }

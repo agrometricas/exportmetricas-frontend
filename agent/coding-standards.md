@@ -163,6 +163,11 @@ the backend proposes.
   it), and the submit goes in `FormActions` (`components/ui/form/FormSection.tsx`),
   which stays in view at the bottom of a long form. The review checkbox goes in
   its `start`. Do not draw a section with a `Heading` and a `Separator`.
+- A chart takes its series colors from `CHART_SERIES`
+  (`theme/chartColors.ts`), in order, and styles recharts' axes, grid and
+  legend with tokens through CSS on its classes (`fg.muted`, `border`). A new
+  series color is checked with the palette validator in both modes and added
+  to `design-system.md` first.
 - Material React Table follows the color mode through `brandMuiTheme`
   (`theme/muiTheme/`): table colors change there, not per table.
 - Read-only data in a detail goes in `DetailFields` with one `DetailField`

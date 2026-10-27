@@ -78,9 +78,9 @@ export function SpotPriceComparison({ exportSentData }: Props): JSX.Element {
   );
 
   return (
-    <VStack align='stretch' gap={2}>
+    <VStack align='stretch' gap={6}>
       <Box>
-        <Text fontSize='xl' fontWeight='bold' mb={4}>
+        <Text as='h3' textStyle='h3' color='fg.heading' mb={3}>
           Últimos precios SPOT (Ecuador)
         </Text>
         <Table.Root size='sm' variant='line'>
@@ -113,7 +113,7 @@ export function SpotPriceComparison({ exportSentData }: Props): JSX.Element {
       </Box>
 
       <Box>
-        <Text fontSize='xl' fontWeight='bold' mb={4}>
+        <Text as='h3' textStyle='h3' color='fg.heading' mb={3}>
           Precio SPOT por productor
         </Text>
         <Table.Root size='sm' variant='line'>
@@ -133,11 +133,11 @@ export function SpotPriceComparison({ exportSentData }: Props): JSX.Element {
               const isAbove = diff > 0;
 
               let IconComponent = MdDragHandle;
-              let iconColor = 'yellow.500';
+              let iconColor = 'yellow.fg';
 
               if (!isEqual) {
                 IconComponent = isAbove ? MdArrowDropUp : MdArrowDropDown;
-                iconColor = isAbove ? 'green.500' : 'red.500';
+                iconColor = isAbove ? 'green.fg' : 'red.fg';
               }
 
               return (

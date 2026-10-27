@@ -1,18 +1,11 @@
-import {
-  Box,
-  Grid,
-  GridItem,
-  Text,
-  VStack,
-  HStack,
-  Button,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { AxiosResponse, AxiosError } from 'axios';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import React, { useMemo } from 'react';
 import { BiDownload } from 'react-icons/bi';
+import { toaster } from '@/components/ui/toaster';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useDownloadMaterialsSummaryReport } from '../../hooks/utils/useDownloadMaterialsSummaryReport';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { ExportSentType } from '../../types/exportSent.response';
@@ -53,7 +46,11 @@ export const WeeklyFarmSummaryCard = ({
       window.URL.revokeObjectURL(url);
     },
     onError: (error: AxiosError<ServerErrorResponse>) => {
-      console.error('Error al descargar el reporte:', error);
+      toaster.create({
+        type: 'error',
+        title: 'No se pudo descargar el reporte',
+        description: serverErrorMessage(error),
+      });
     },
   });
 
@@ -132,78 +129,84 @@ export const WeeklyFarmSummaryCard = ({
     return Object.values(grouped);
   }, [filteredData, getExportColor]);
 
+  const header = (
+    <Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
+      <Text as='h3' textStyle='h3' color='fg.heading'>
+        Exportaciones por finca
+      </Text>
+      <Button
+        size='sm'
+        variant='outline'
+        onClick={() => downloadReport(weekStart.toISOString())}
+      >
+        <BiDownload />
+        Descargar reporte
+      </Button>
+    </Flex>
+  );
+
   if (farmsSummary.length === 0) {
     return (
-      <Box p={4}>
-        <Text fontSize='xl'>
-          Aún no se han incluido exportaciones para la semana seleccionada.
+      <Box>
+        {header}
+        <Text fontSize='sm' color='fg.muted'>
+          Aún no hay envíos de insumos para la semana seleccionada.
         </Text>
       </Box>
     );
   }
 
   return (
-    <Box height='100%'>
-      <HStack width='100%' justify='space-between' align='center' mb={2}>
-        <Text fontSize='xl' fontWeight='bold'>
-          Exportaciones por Finca
-        </Text>
-        <Button
-          size='sm'
-          onClick={() => downloadReport(weekStart.toISOString())}
-        >
-          <BiDownload />
-          Descargar Reporte
-        </Button>
-      </HStack>
-
-      <Separator
-        mb={6}
-        borderTopWidth='2px'
-        borderBottomWidth='0px'
-        borderStyle='dashed'
-        borderColor='green.solid'
-      />
-      <Grid templateColumns={{ base: '1fr', md: 'repeat(5, 1fr)' }} gap={4}>
+    <Box>
+      {header}
+      <SimpleGrid minChildWidth='200px' gap={3}>
         {farmsSummary.map((item, idx) => (
-          <GridItem
+          <Flex
             key={idx}
+            direction='column'
+            gap={2}
+            p={3}
             borderWidth='1px'
-            borderColor='border'
-            boxShadow='sm'
-            borderRadius='md'
-            p={4}
-            height='100%'
+            borderRadius='l2'
           >
-            <VStack align='start' gap={2} h={'100%'}>
-              <Text fontSize='md' fontWeight='bold'>
+            <Box>
+              <Text fontSize='sm' fontWeight='semibold'>
                 {item.farm}
               </Text>
-              <Text fontSize='sm' color='fg.muted'>
-                <strong>{item.producer}</strong>
+              <Text fontSize='xs' color='fg.muted'>
+                {item.producer}
               </Text>
-              <VStack align='start' gap={1}>
-                {item.processes.map((proc, index) => (
-                  <HStack key={index} gap={2}>
-                    <Box
-                      minWidth='5px'
-                      height='90%'
-                      borderRadius='full'
-                      bg={proc.color}
-                    />
-                    <Text fontSize='sm'>
-                      Envió {proc.quantity} {proc.brand} - {proc.weight}lbs
-                    </Text>
-                  </HStack>
-                ))}
-              </VStack>
-              <Text mt='auto' textAlign='center' w='100%' fontSize={'md'}>
-                <strong>Cajas Totales:</strong> {item.totalBoxes}
-              </Text>{' '}
+            </Box>
+            <VStack align='stretch' gap={1}>
+              {item.processes.map((proc, index) => (
+                <Flex key={index} align='center' gap={2}>
+                  <Box
+                    boxSize={2}
+                    flexShrink={0}
+                    borderRadius='full'
+                    bg={proc.color}
+                  />
+                  <Text fontSize='xs'>
+                    {proc.quantity} cajas · {proc.brand} · {proc.weight} lb
+                  </Text>
+                </Flex>
+              ))}
             </VStack>
-          </GridItem>
+            <Flex
+              mt='auto'
+              pt={2}
+              borderTopWidth='1px'
+              justify='space-between'
+              fontSize='xs'
+            >
+              <Text color='fg.muted'>Total</Text>
+              <Text fontWeight='semibold' fontVariantNumeric='tabular-nums'>
+                {item.totalBoxes} cajas
+              </Text>
+            </Flex>
+          </Flex>
         ))}
-      </Grid>
+      </SimpleGrid>
     </Box>
   );
 };

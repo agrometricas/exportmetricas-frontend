@@ -1,8 +1,14 @@
 'use client';
 
-import { Box, Text, Popover } from '@chakra-ui/react';
+import { Box, Text, Popover, Portal } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { ExportResponse } from '@/types/export.response';
+import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 
 interface WeeklyExportsSummaryProps {
   filteredData: ExportResponse[];
@@ -46,141 +52,130 @@ export default function WeeklyExportsSummary({
         Resumen
       </Text>
       <Box flex='1'>
+        {exportGroups.length === 0 && (
+          <Text fontSize='sm' color='fg.muted'>
+            Aún no hay exportaciones para la semana seleccionada.
+          </Text>
+        )}
         {exportGroups.map((group) => {
           const color = getExportColor(group.exportId);
-          const tenueColor = `color-mix(in srgb, ${color} 50%, transparent)`;
+          const first = group.exports[0];
           const groupContainers = group.exports.reduce((acc, exp) => {
             const boxesPerContainer = exp.boxBrand.boxQuantity || 1;
             return acc + Math.ceil(exp.boxQuantity / boxesPerContainer);
           }, 0);
+          const certificates = first.client?.certificates;
+          const rainforest =
+            Array.isArray(certificates) &&
+            certificates.some(
+              (item) => item.certificate?.name === 'RAINFOREST ALLIANCE'
+            );
+          const route = [
+            first.harborDestination?.country?.region,
+            rainforest && 'RFA',
+            [
+              first.harborDestination?.country?.code,
+              first.harborDestination?.code,
+            ]
+              .filter(Boolean)
+              .join(''),
+            first.deposit?.code,
+            first.shippingCompany?.code,
+            first.boxBrand?.grossWeightBox &&
+              `${first.boxBrand.grossWeightBox} lb`,
+          ]
+            .filter(Boolean)
+            .join(' · ');
+          const containers = `${groupContainers} ${
+            groupContainers === 1 ? 'contenedor' : 'contenedores'
+          }${first.boxBrand?.boxQuantity ? ` de ${first.boxBrand.boxQuantity} cajas` : ''}`;
           return (
             <Popover.Root
               key={group.exportId}
-              positioning={{
-                placement: 'bottom-start',
-              }}
+              positioning={{ placement: 'bottom-start' }}
             >
               <Popover.Trigger asChild>
                 <Box
+                  as='button'
+                  w='full'
+                  textAlign='left'
                   mb={2}
-                  borderRadius='md'
-                  cursor='pointer'
-                  display={'flex'}
+                  pl={3}
+                  pr={2}
+                  py={2}
+                  borderRadius='l2'
                   borderWidth='1px'
-                  borderColor={tenueColor}
-                  alignItems={'stretch'}
-                  boxShadow={'md'}
+                  borderLeftWidth='4px'
+                  borderLeftColor={color}
+                  cursor='pointer'
+                  _hover={{ bg: 'bg.muted' }}
                 >
-                  <Box
-                    w='20px'
-                    bg={color}
-                    borderTopLeftRadius='md'
-                    borderBottomLeftRadius='md'
-                    borderTopRightRadius='0'
-                    borderBottomRightRadius='0'
-                    mr={2}
-                  />
-                  <Text fontWeight='bold' p={2}>
-                    {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
-                    {group.exports[0].harborDestination?.country?.region} (
-                    {group.exports[0].boxBrand?.boxQuantity}){' '}
-                    {((): string => {
-                      const certificates =
-                        group.exports[0].client?.certificates;
-                      if (Array.isArray(certificates)) {
-                        return certificates.some(
-                          (item) =>
-                            item.certificate?.name === 'RAINFOREST ALLIANCE'
-                        )
-                          ? 'RFA'
-                          : '';
-                      }
-                      return '';
-                    })()}{' '}
-                    {group.exports[0].harborDestination?.country?.code}{' '}
-                    {group.exports[0].harborDestination?.code}{' '}
-                    {group.exports[0].deposit?.code}{' '}
-                    {group.exports[0].shippingCompany?.code}{' '}
-                    {group.exports[0].boxBrand?.grossWeightBox}
-                    {'LBS'} - Contenedores: {groupContainers}
+                  <Text fontSize='sm' fontWeight='semibold'>
+                    {group.totalBoxes} cajas · {first.boxBrand?.brand.name}
+                  </Text>
+                  <Text fontSize='xs' color='fg.muted'>
+                    {route}
+                  </Text>
+                  <Text fontSize='xs' color='fg.muted'>
+                    {containers}
                   </Text>
                 </Box>
               </Popover.Trigger>
-              <Popover.Positioner>
-                <Popover.Content
-                  minW='400px'
-                  borderColor={color}
-                  borderWidth='4px'
-                >
-                  <Popover.Arrow />
-                  <Popover.CloseTrigger />
-                  <Popover.Title>
-                    {group.totalBoxes} {group.exports[0].boxBrand?.brand.name}{' '}
-                    {group.exports[0].harborDestination?.country?.region} (
-                    {group.exports[0].boxBrand?.boxQuantity}){' '}
-                    {((): string => {
-                      const certificates =
-                        group.exports[0].client?.certificates;
-                      if (Array.isArray(certificates)) {
-                        return certificates.some(
-                          (item) =>
-                            item.certificate?.name === 'RAINFOREST ALLIANCE'
-                        )
-                          ? 'RFA'
-                          : '';
-                      }
-                      return '';
-                    })()}{' '}
-                    {group.exports[0].harborDestination?.country?.code}{' '}
-                    {group.exports[0].harborDestination?.code}{' '}
-                    {group.exports[0].deposit?.code}{' '}
-                    {group.exports[0].shippingCompany?.code}{' '}
-                    {group.exports[0].boxBrand?.grossWeightBox}
-                    {'LBS'}
-                  </Popover.Title>
-                  <Popover.Body>
-                    {group.exports.map((exp) => (
-                      <Box key={exp.id} mb={2}>
-                        <Text>
-                          <strong>Cajas Procesadas:</strong> {exp.boxQuantity}
-                        </Text>
-                        <Text>
-                          <strong>Cut-Off:</strong>{' '}
-                          {exp.shippingDateTime ?? 'Sin hora asignada'}
-                        </Text>
-                        <Text>
-                          <strong>Productor:</strong>{' '}
-                          {exp.merchant?.businessName ?? 'Sin productor'}
-                        </Text>
-                        <Text>
-                          <strong>Finca:</strong>{' '}
-                          {exp.business?.name ?? 'Sin finca'}
-                        </Text>
-                        <Text>
-                          <strong>Marca:</strong>{' '}
-                          {exp.boxBrand?.name ?? 'Sin marca'}
-                          {' - '}
-                          {exp.boxBrand?.brand.name ?? 'Sin marca'}
-                        </Text>
-                        <Text>
-                          <strong>Cliente:</strong>{' '}
-                          {exp.client?.businessName ?? 'Sin cliente'}
-                        </Text>
-                        <Text>
-                          <strong>Contenedores:</strong> {groupContainers}
-                        </Text>
-                      </Box>
-                    ))}
-                  </Popover.Body>
-                </Popover.Content>
-              </Popover.Positioner>
+              <Portal>
+                <Popover.Positioner>
+                  <Popover.Content
+                    minW='360px'
+                    borderTopWidth='4px'
+                    borderTopColor={color}
+                  >
+                    <Popover.Arrow />
+                    <Popover.CloseTrigger />
+                    <Popover.Header>
+                      <Popover.Title fontWeight='semibold'>
+                        {group.totalBoxes} cajas · {first.boxBrand?.brand.name}
+                      </Popover.Title>
+                      <Text fontSize='xs' color='fg.muted'>
+                        {route}
+                      </Text>
+                    </Popover.Header>
+                    <Popover.Body>
+                      {group.exports.map((exp) => (
+                        <DetailItem key={exp.id}>
+                          <DetailFields>
+                            <DetailField label='Cajas procesadas'>
+                              {exp.boxQuantity}
+                            </DetailField>
+                            <DetailField label='Cut-off'>
+                              {formatDayMonthYearTime(exp.shippingDateTime)}
+                            </DetailField>
+                            <DetailField label='Productor'>
+                              {exp.merchant?.businessName}
+                            </DetailField>
+                            <DetailField label='Finca'>
+                              {exp.business?.name}
+                            </DetailField>
+                            <DetailField label='Marca'>
+                              {exp.boxBrand?.name} · {exp.boxBrand?.brand.name}
+                            </DetailField>
+                            <DetailField label='Cliente'>
+                              {exp.client?.businessName}
+                            </DetailField>
+                          </DetailFields>
+                        </DetailItem>
+                      ))}
+                    </Popover.Body>
+                  </Popover.Content>
+                </Popover.Positioner>
+              </Portal>
             </Popover.Root>
           );
         })}
       </Box>
-      <Box mt='auto' textAlign='center'>
-        <Text fontWeight='bold'>Total Contenedores: {totalContainers}</Text>
-        <Text fontWeight='bold'>Total Cajas: {totalBoxes}</Text>
+      <Box mt={4} pt={4} borderTopWidth='1px'>
+        <DetailFields>
+          <DetailField label='Contenedores'>{totalContainers}</DetailField>
+          <DetailField label='Cajas'>{totalBoxes}</DetailField>
+        </DetailFields>
       </Box>
     </Box>
   );

@@ -68,6 +68,9 @@ const config = defineConfig({
       },
       colors: {
         bg: {
+          // Chakra's own recipes (table rows, native selects, tabs) paint with
+          // bare `bg`, which it makes pure black in dark mode.
+          DEFAULT: { value: { _light: 'white', _dark: '{colors.slate.900}' } },
           canvas: {
             value: { _light: '{colors.slate.25}', _dark: '{colors.slate.950}' },
           },
