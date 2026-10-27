@@ -1,4 +1,5 @@
 import { Accordion, Box, Heading } from '@chakra-ui/react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock.response';
 import { MATERIAL_TYPE_LABELS } from '../../utils/materialTypeLabels';
 
@@ -29,28 +30,27 @@ export default function DetailExporterMaterialStock({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Nombre Comercial:</strong> {materialDetail.name}
-            </p>
-            <p>
-              <strong>Código:</strong> {materialDetail.code}
-            </p>
-            <p>
-              <strong>Tipo de Material:</strong>{' '}
-              {MATERIAL_TYPE_LABELS[materialType] ?? materialType}
-            </p>
-            <p>
-              <strong>Stock Asignado:</strong> {assignedStock} unidades
-            </p>
-            <p>
-              <strong>Stock Actual:</strong> {currentStock} unidades
-            </p>
-            <p>
-              <strong>Costo Asignado:</strong> ${assignedCost.toFixed(2)}
-            </p>
-            <p>
-              <strong>Costo Actual:</strong> ${currentCost.toFixed(2)}
-            </p>
+            <DetailFields>
+              <DetailField label='Nombre Comercial'>
+                {materialDetail.name}
+              </DetailField>
+              <DetailField label='Código'>{materialDetail.code}</DetailField>
+              <DetailField label='Tipo de Material'>
+                {MATERIAL_TYPE_LABELS[materialType] ?? materialType}
+              </DetailField>
+              <DetailField label='Stock Asignado'>
+                {assignedStock} unidades
+              </DetailField>
+              <DetailField label='Stock Actual'>
+                {currentStock} unidades
+              </DetailField>
+              <DetailField label='Costo Asignado'>
+                ${assignedCost.toFixed(2)}
+              </DetailField>
+              <DetailField label='Costo Actual'>
+                ${currentCost.toFixed(2)}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>

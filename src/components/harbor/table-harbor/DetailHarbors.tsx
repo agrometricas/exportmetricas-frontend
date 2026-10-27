@@ -1,5 +1,10 @@
-import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { HarborResponse } from '../../../types/harbor.response';
 interface DetailHarborsProps {
   business: HarborResponse;
@@ -26,50 +31,41 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <Text>
-                <strong>Nombre:</strong> {business.name}
-              </Text>
-              <Text>
-                <strong>Código:</strong> {business.code}
-              </Text>
-              <Text>
-                <strong>Dirección:</strong> {business.address}
-              </Text>
-              <Text>
-                <strong>Ubicación:</strong> {business.location}
-              </Text>
-              <Text>
-                <strong>País:</strong> {business.country?.name ?? '—'}
-              </Text>
-              <Text>
-                <strong>Provincia:</strong> {business.province?.name ?? '—'}
-              </Text>
-              <Text>
-                <strong>Ciudad:</strong> {business.city?.name ?? '—'}
-              </Text>
-              <Text>
-                <strong>Tipo:</strong> {business.type}
-              </Text>
-              {business.latitude && business.longitude && (
-                <>
-                  <Text>
-                    <strong>Latitud:</strong> {business.latitude ?? 'N/A'}
-                  </Text>
-                  <Text>
-                    <strong>Longitud:</strong> {business.longitude ?? 'N/A'}
-                  </Text>
-                </>
-              )}
-              <Text>
-                <strong>Horario de Apertura:</strong> {business.openTime}
-              </Text>
-              <Text>
-                <strong>Horario de Cierre:</strong> {business.closeTime}
-              </Text>
-              <Text>
-                <strong>Días de Operación:</strong>{' '}
-                {business.daysOfOperation.join(', ')}
-              </Text>
+              <DetailFields>
+                <DetailField label='Nombre'>{business.name}</DetailField>
+                <DetailField label='Código'>{business.code}</DetailField>
+                <DetailField label='Dirección'>{business.address}</DetailField>
+                <DetailField label='Ubicación'>{business.location}</DetailField>
+                <DetailField label='País'>
+                  {business.country?.name ?? '—'}
+                </DetailField>
+                <DetailField label='Provincia'>
+                  {business.province?.name ?? '—'}
+                </DetailField>
+                <DetailField label='Ciudad'>
+                  {business.city?.name ?? '—'}
+                </DetailField>
+                <DetailField label='Tipo'>{business.type}</DetailField>
+                {business.latitude && business.longitude && (
+                  <>
+                    <DetailField label='Latitud'>
+                      {business.latitude ?? 'N/A'}
+                    </DetailField>
+                    <DetailField label='Longitud'>
+                      {business.longitude ?? 'N/A'}
+                    </DetailField>
+                  </>
+                )}
+                <DetailField label='Horario de Apertura'>
+                  {business.openTime}
+                </DetailField>
+                <DetailField label='Horario de Cierre'>
+                  {business.closeTime}
+                </DetailField>
+                <DetailField label='Días de Operación'>
+                  {business.daysOfOperation.join(', ')}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
@@ -94,23 +90,19 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
             <Accordion.ItemBody>
               <Box>
                 {business.clients.map((client) => (
-                  <Box key={client.id} mb={4}>
-                    <Text>
-                      <strong>Nombre:</strong> {client.businessName}
-                    </Text>
-                    <Text>
-                      <strong>RUC:</strong> {client.businessId}
-                    </Text>
-                    <Text>
-                      <strong>Tipo:</strong> {client.type}
-                    </Text>
-                    <Text>
-                      <strong>Correo Electrónico:</strong> {client.email}
-                    </Text>
-                    <Text>
-                      <strong>Teléfono:</strong> {client.phone}
-                    </Text>
-                  </Box>
+                  <DetailItem key={client.id}>
+                    <DetailFields>
+                      <DetailField label='Nombre'>
+                        {client.businessName}
+                      </DetailField>
+                      <DetailField label='RUC'>{client.businessId}</DetailField>
+                      <DetailField label='Tipo'>{client.type}</DetailField>
+                      <DetailField label='Correo Electrónico'>
+                        {client.email}
+                      </DetailField>
+                      <DetailField label='Teléfono'>{client.phone}</DetailField>
+                    </DetailFields>
+                  </DetailItem>
                 ))}
               </Box>
             </Accordion.ItemBody>
@@ -137,22 +129,20 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
             <Accordion.ItemBody>
               <Box>
                 {business.contacts.map((contact) => (
-                  <Box key={contact.id} mb={4}>
-                    <Text>
-                      <strong>Nombre:</strong> {contact.name}
-                    </Text>
-                    {contact.web && (
-                      <Text>
-                        <strong>Web:</strong> {contact.web}
-                      </Text>
-                    )}
-                    <Text>
-                      <strong>Correo Electrónico:</strong> {contact.email}
-                    </Text>
-                    <Text>
-                      <strong>Teléfono:</strong> {contact.phone}
-                    </Text>
-                  </Box>
+                  <DetailItem key={contact.id}>
+                    <DetailFields>
+                      <DetailField label='Nombre'>{contact.name}</DetailField>
+                      {contact.web && (
+                        <DetailField label='Web'>{contact.web}</DetailField>
+                      )}
+                      <DetailField label='Correo Electrónico'>
+                        {contact.email}
+                      </DetailField>
+                      <DetailField label='Teléfono'>
+                        {contact.phone}
+                      </DetailField>
+                    </DetailFields>
+                  </DetailItem>
                 ))}
               </Box>
             </Accordion.ItemBody>

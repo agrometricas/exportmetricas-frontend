@@ -1,5 +1,10 @@
-import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { ShippingCompanyResponse } from '../../../types/shippingCompany.response';
 
 const DetailShippingCompanies = ({
@@ -20,25 +25,20 @@ const DetailShippingCompanies = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <Text>
-              <strong>Nombre:</strong> {company.name}
-            </Text>
-            <Text>
-              <strong>Código:</strong> {company.code}
-            </Text>
-            <Text>
-              <strong>Frecuencia:</strong> {company.frequencies}
-            </Text>
-            <Text>
-              <strong>Tipo de Carga:</strong> {company.cargoType}
-            </Text>
-            <Text>
-              <strong>País:</strong> {company.country.name}
-            </Text>
-            <Text>
-              <strong>Plataforma de Tracking:</strong>{' '}
-              {company.trackingPlatform || 'No disponible'}
-            </Text>
+            <DetailFields>
+              <DetailField label='Nombre'>{company.name}</DetailField>
+              <DetailField label='Código'>{company.code}</DetailField>
+              <DetailField label='Frecuencia'>
+                {company.frequencies}
+              </DetailField>
+              <DetailField label='Tipo de Carga'>
+                {company.cargoType}
+              </DetailField>
+              <DetailField label='País'>{company.country.name}</DetailField>
+              <DetailField label='Plataforma de Tracking'>
+                {company.trackingPlatform || 'No disponible'}
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -56,17 +56,17 @@ const DetailShippingCompanies = ({
           <Accordion.ItemBody>
             {company.harbors.map((harbor, index) => (
               <Box key={index} mt={3} borderBottomWidth='1px' pb={2}>
-                <Text>
-                  <strong>Puerto de Salida:</strong>{' '}
-                  {harbor.harborDeparture.name}
-                </Text>
-                <Text>
-                  <strong>Puerto de Llegada:</strong>{' '}
-                  {harbor.harborDestination.name}
-                </Text>
-                <Text>
-                  <strong>Duración Estimada:</strong> {harbor.estDuration}
-                </Text>
+                <DetailFields>
+                  <DetailField label='Puerto de Salida'>
+                    {harbor.harborDeparture.name}
+                  </DetailField>
+                  <DetailField label='Puerto de Llegada'>
+                    {harbor.harborDestination.name}
+                  </DetailField>
+                  <DetailField label='Duración Estimada'>
+                    {harbor.estDuration}
+                  </DetailField>
+                </DetailFields>
               </Box>
             ))}
           </Accordion.ItemBody>
@@ -85,20 +85,16 @@ const DetailShippingCompanies = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             {company.contacts.map((contact, index) => (
-              <Box key={index} mt={3}>
-                <Text>
-                  <strong>Nombre:</strong> {contact.name}
-                </Text>
-                <Text>
-                  <strong>Rol:</strong> {contact.role || 'No especificado'}
-                </Text>
-                <Text>
-                  <strong>Email:</strong> {contact.email}
-                </Text>
-                <Text>
-                  <strong>Teléfono:</strong> {contact.phone}
-                </Text>
-              </Box>
+              <DetailItem key={index}>
+                <DetailFields>
+                  <DetailField label='Nombre'>{contact.name}</DetailField>
+                  <DetailField label='Rol'>
+                    {contact.role || 'No especificado'}
+                  </DetailField>
+                  <DetailField label='Email'>{contact.email}</DetailField>
+                  <DetailField label='Teléfono'>{contact.phone}</DetailField>
+                </DetailFields>
+              </DetailItem>
             ))}
           </Accordion.ItemBody>
         </Accordion.ItemContent>

@@ -165,6 +165,12 @@ the backend proposes.
   its `start`. Do not draw a section with a `Heading` and a `Separator`.
 - Material React Table follows the color mode through `brandMuiTheme`
   (`theme/muiTheme/`): table colors change there, not per table.
+- Read-only data in a detail goes in `DetailFields` with one `DetailField`
+  per value (`components/ui/DetailFields.tsx`, on Chakra's `DataList`): the
+  label small above the value, in as many columns as fit, and "—" when the
+  value is empty. A group inside a section opens with `DetailSubtitle`, and
+  each of several records (a farm, a contact, an account) goes in a
+  `DetailItem`. Not `<strong>Label:</strong> value`.
 - A row's detail panel wraps its content in `TableDetailPanel`
   (`components/ui/`): it stays as wide as the visible table while the table
   scrolls sideways (`cqw` against the table container). Its background and

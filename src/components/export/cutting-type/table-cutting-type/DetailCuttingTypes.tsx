@@ -1,5 +1,6 @@
 import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 
 const DetailCuttingTypes = ({
   cuttingType,
@@ -51,27 +52,27 @@ const DetailCuttingTypes = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <p>
-                <strong>Calidad:</strong> {cuttingType.quality}
-              </p>
-              <p>
-                <strong>Tipo de Envío:</strong> {cuttingType.shipmentType}
-              </p>
-              <p>
-                <strong>Hojas en Cosecha:</strong> {cuttingType.leavesAtHarvest}
-              </p>
-              <p>
-                <strong>Edad Máxima al Corte:</strong> {cuttingType.maxAgeAtCut}
-              </p>
-              <p>
-                <strong>Calibre Mínimo:</strong> {cuttingType.minCaliber}
-              </p>
-              <p>
-                <strong>Calibre Máximo:</strong> {cuttingType.maxCaliber}
-              </p>
-              <p>
-                <strong>Longitud del Dedo:</strong> {cuttingType.fingerLength}
-              </p>
+              <DetailFields>
+                <DetailField label='Calidad'>{cuttingType.quality}</DetailField>
+                <DetailField label='Tipo de Envío'>
+                  {cuttingType.shipmentType}
+                </DetailField>
+                <DetailField label='Hojas en Cosecha'>
+                  {cuttingType.leavesAtHarvest}
+                </DetailField>
+                <DetailField label='Edad Máxima al Corte'>
+                  {cuttingType.maxAgeAtCut}
+                </DetailField>
+                <DetailField label='Calibre Mínimo'>
+                  {cuttingType.minCaliber}
+                </DetailField>
+                <DetailField label='Calibre Máximo'>
+                  {cuttingType.maxCaliber}
+                </DetailField>
+                <DetailField label='Longitud del Dedo'>
+                  {cuttingType.fingerLength}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
@@ -94,59 +95,53 @@ const DetailCuttingTypes = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <p>
-                <strong>Detalle del Racimo:</strong> {cuttingType.clusterDetail}
-              </p>
-              <p>
-                <strong>Detalle de la Etiqueta:</strong>{' '}
-                {cuttingType.labelDetail}
-              </p>
-              <p>
-                <strong>Primera Línea:</strong> {cuttingType.firstLine || 'N/A'}
-              </p>
-              <p>
-                <strong>Segunda Línea:</strong>{' '}
-                {cuttingType.secondLine || 'N/A'}
-              </p>
-              <p>
-                <strong>Tercera Línea:</strong> {cuttingType.thirdLine || 'N/A'}
-              </p>
-              <p>
-                <strong>Cuarta Línea:</strong> {cuttingType.fourthLine || 'N/A'}
-              </p>
-              <p>
-                <strong>Patrón de Empaquetado:</strong>{' '}
-                {cuttingType.packagingPattern}
-              </p>
-              <p>
-                <strong>Detalle de Pallet:</strong> {cuttingType.palletDetail}
-              </p>
-              <p>
-                <strong>Esquineros:</strong>{' '}
-                {cuttingType.cornerProtectorsDetail}
-              </p>
-              <p>
-                <strong>Refuerzos:</strong> {cuttingType.reinforcementsDetail}
-              </p>
-              <p>
-                <strong>Cintas Plásticas:</strong>{' '}
-                {cuttingType.plasticStrapsDetail}
-              </p>
-              <p>
-                <strong>Grapas:</strong> {cuttingType.staplesDetail}
-              </p>
-              <p>
-                <strong>Hojas de Bloqueo:</strong>{' '}
-                {cuttingType.blockingSheetsDetail}
-              </p>
-              <p>
-                <strong>Detalle de Transporte:</strong>{' '}
-                {cuttingType.transportDetail}
-              </p>
-              <p>
-                <strong>Observaciones Generales:</strong>{' '}
-                {cuttingType.generalObservations || 'Sin observaciones'}
-              </p>
+              <DetailFields>
+                <DetailField label='Detalle del Racimo'>
+                  {cuttingType.clusterDetail}
+                </DetailField>
+                <DetailField label='Detalle de la Etiqueta'>
+                  {cuttingType.labelDetail}
+                </DetailField>
+                <DetailField label='Primera Línea'>
+                  {cuttingType.firstLine || 'N/A'}
+                </DetailField>
+                <DetailField label='Segunda Línea'>
+                  {cuttingType.secondLine || 'N/A'}
+                </DetailField>
+                <DetailField label='Tercera Línea'>
+                  {cuttingType.thirdLine || 'N/A'}
+                </DetailField>
+                <DetailField label='Cuarta Línea'>
+                  {cuttingType.fourthLine || 'N/A'}
+                </DetailField>
+                <DetailField label='Patrón de Empaquetado'>
+                  {cuttingType.packagingPattern}
+                </DetailField>
+                <DetailField label='Detalle de Pallet'>
+                  {cuttingType.palletDetail}
+                </DetailField>
+                <DetailField label='Esquineros'>
+                  {cuttingType.cornerProtectorsDetail}
+                </DetailField>
+                <DetailField label='Refuerzos'>
+                  {cuttingType.reinforcementsDetail}
+                </DetailField>
+                <DetailField label='Cintas Plásticas'>
+                  {cuttingType.plasticStrapsDetail}
+                </DetailField>
+                <DetailField label='Grapas'>
+                  {cuttingType.staplesDetail}
+                </DetailField>
+                <DetailField label='Hojas de Bloqueo'>
+                  {cuttingType.blockingSheetsDetail}
+                </DetailField>
+                <DetailField label='Detalle de Transporte'>
+                  {cuttingType.transportDetail}
+                </DetailField>
+                <DetailField label='Observaciones Generales'>
+                  {cuttingType.generalObservations || 'Sin observaciones'}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>

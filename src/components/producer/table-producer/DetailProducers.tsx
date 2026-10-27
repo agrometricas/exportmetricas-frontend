@@ -1,5 +1,10 @@
-import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
 const DetailProducers = ({
@@ -11,78 +16,108 @@ const DetailProducers = ({
     <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
-          <Accordion.ItemTrigger
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles Generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
-            <Text><strong>Nombre:</strong> {business.businessName}</Text>
-            <Text><strong>ID del Negocio:</strong> {business.businessId}</Text>
-            <Text><strong>Correo Electrónico:</strong> {business.email}</Text>
-            <Text><strong>Provincia:</strong> {business.province.name}</Text>
-            <Text><strong>Ciudad:</strong> {business.city.name}</Text>
-            <Text><strong>Dirección:</strong> {business.address}</Text>
-            <Text>
-              <strong>Tipo de Contrato:</strong> {business.contractType}
-            </Text>
-          </Accordion.ItemBody></Accordion.ItemContent>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
+            <DetailFields>
+              <DetailField label='Nombre'>{business.businessName}</DetailField>
+              <DetailField label='ID del Negocio'>
+                {business.businessId}
+              </DetailField>
+              <DetailField label='Correo Electrónico'>
+                {business.email}
+              </DetailField>
+              <DetailField label='Provincia'>
+                {business.province.name}
+              </DetailField>
+              <DetailField label='Ciudad'>{business.city.name}</DetailField>
+              <DetailField label='Dirección'>{business.address}</DetailField>
+              <DetailField label='Tipo de Contrato'>
+                {business.contractType}
+              </DetailField>
+            </DetailFields>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
       <Accordion.Item value='item-1'>
         <Heading>
-          <Accordion.ItemTrigger
-          >
+          <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Fincas Asociadas
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             {business.businesses.map((biz, index) => (
-              <Box key={index} mt={4}>
-                <Text><strong>Nombre:</strong> {biz.name}</Text>
-                <Text><strong>Tipo de Fruta:</strong> {biz.fruitType}</Text>
-                <Text><strong>Área:</strong> {biz.area} hectáreas</Text>
-                <Text><strong>Provincia:</strong> {biz.province.name}</Text>
-                <Text><strong>Ciudad:</strong> {biz.city.name}</Text>
-                <Text><strong>Dirección:</strong> {biz.address}</Text>
-                {biz.latitude && biz.longitude && (
-                  <Text><strong>Latitud/Longitud:</strong> {biz.latitude}/{biz.longitude}</Text>)}
-                <Text><strong>Código MAGAP:</strong> {biz.codeMAGAP}</Text>
-                <Text><strong>Código AGROCALIDAD:</strong> {biz.codeAGROCALIDAD}</Text>
-              </Box>
+              <DetailItem key={index}>
+                <DetailFields>
+                  <DetailField label='Nombre'>{biz.name}</DetailField>
+                  <DetailField label='Tipo de Fruta'>
+                    {biz.fruitType}
+                  </DetailField>
+                  <DetailField label='Área'>{biz.area} hectáreas</DetailField>
+                  <DetailField label='Provincia'>
+                    {biz.province.name}
+                  </DetailField>
+                  <DetailField label='Ciudad'>{biz.city.name}</DetailField>
+                  <DetailField label='Dirección'>{biz.address}</DetailField>
+                  {biz.latitude && biz.longitude && (
+                    <DetailField label='Latitud/Longitud'>
+                      {biz.latitude}/{biz.longitude}
+                    </DetailField>
+                  )}
+                  <DetailField label='Código MAGAP'>
+                    {biz.codeMAGAP}
+                  </DetailField>
+                  <DetailField label='Código AGROCALIDAD'>
+                    {biz.codeAGROCALIDAD}
+                  </DetailField>
+                </DetailFields>
+              </DetailItem>
             ))}
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
       {business.bankAccounts.length > 0 && (
         <Accordion.Item value='item-2'>
           <Heading>
-            <Accordion.ItemTrigger
-            >
+            <Accordion.ItemTrigger>
               <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
                 Cuentas Bancarias
               </Box>
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
           </Heading>
-          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+          <Accordion.ItemContent pb={4}>
+            <Accordion.ItemBody>
               {business.bankAccounts.map((acc, i) => (
-                <Box key={i} mt={4}>
-                  <Text><strong>Banco:</strong> {acc.bank}</Text>
-                  <Text><strong>Propietario:</strong> {acc.owner}</Text>
-                  <Text><strong>ID Propietario:</strong> {acc.ownerID}</Text>
-                  <Text><strong>Número de Cuenta:</strong> {acc.accountNumber}</Text>
-                  <Text><strong>Tipo de Cuenta:</strong> {acc.type}</Text>
-                  <Text><strong>Email:</strong> {acc.email}</Text>
-                </Box>
+                <DetailItem key={i}>
+                  <DetailFields>
+                    <DetailField label='Banco'>{acc.bank}</DetailField>
+                    <DetailField label='Propietario'>{acc.owner}</DetailField>
+                    <DetailField label='ID Propietario'>
+                      {acc.ownerID}
+                    </DetailField>
+                    <DetailField label='Número de Cuenta'>
+                      {acc.accountNumber}
+                    </DetailField>
+                    <DetailField label='Tipo de Cuenta'>{acc.type}</DetailField>
+                    <DetailField label='Email'>{acc.email}</DetailField>
+                  </DetailFields>
+                </DetailItem>
               ))}
-            </Accordion.ItemBody></Accordion.ItemContent>
-        </Accordion.Item>)
-      }
+            </Accordion.ItemBody>
+          </Accordion.ItemContent>
+        </Accordion.Item>
+      )}
     </Accordion.Root>
   );
 };

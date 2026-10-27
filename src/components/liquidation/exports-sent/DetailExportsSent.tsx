@@ -4,6 +4,7 @@
 
 import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
 import {
   ExportSentType,
   InsecticideSent,
@@ -32,31 +33,26 @@ const DetailExportSent = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Nombre del Comerciante:</strong>{' '}
-              {ex.merchant.businessName}
-            </p>
-            <p>
-              <strong>RUC:</strong> {ex.merchant.businessId}
-            </p>
-            <p>
-              <strong>Email:</strong> {ex.merchant.email}
-            </p>
-            <p>
-              <strong>Dirección:</strong> {ex.merchant.address},{' '}
-            </p>
-            <p>
-              <strong>Tipo de Contrato:</strong> {ex.merchant.contractType}
-            </p>
-            <p>
-              <strong>Finca:</strong> {ex.business.name}, {ex.business.address}
-            </p>
-            <p>
-              <strong>Tipo de Fruta:</strong> {ex.business.fruitType}
-            </p>
-            <p>
-              <strong>Área Cultivada:</strong> {ex.business.area} ha
-            </p>
+            <DetailFields>
+              <DetailField label='Nombre del Comerciante'>
+                {ex.merchant.businessName}
+              </DetailField>
+              <DetailField label='RUC'>{ex.merchant.businessId}</DetailField>
+              <DetailField label='Email'>{ex.merchant.email}</DetailField>
+              <DetailField label='Dirección'>{ex.merchant.address}</DetailField>
+              <DetailField label='Tipo de Contrato'>
+                {ex.merchant.contractType}
+              </DetailField>
+              <DetailField label='Finca'>
+                {ex.business.name}, {ex.business.address}
+              </DetailField>
+              <DetailField label='Tipo de Fruta'>
+                {ex.business.fruitType}
+              </DetailField>
+              <DetailField label='Área Cultivada'>
+                {ex.business.area} ha
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -72,23 +68,23 @@ const DetailExportSent = ({
         </Heading>
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
-            <p>
-              <strong>Marca de Cajas:</strong> {ex.boxBrand.name}
-            </p>
-            <p>
-              <strong>Código de Marca:</strong> {ex.boxBrand.brandCode}
-            </p>
-            <p>
-              <strong>Cantidad Total:</strong> {ex.boxQuantity} cajas
-            </p>
-            <p>
-              <strong>Peso Neto por Caja:</strong> {ex.boxBrand.netWeightBox}{' '}
-              lbs
-            </p>
-            <p>
-              <strong>Peso Bruto por Caja:</strong> {ex.boxBrand.grossWeightBox}{' '}
-              lbs
-            </p>
+            <DetailFields>
+              <DetailField label='Marca de Cajas'>
+                {ex.boxBrand.name}
+              </DetailField>
+              <DetailField label='Código de Marca'>
+                {ex.boxBrand.brandCode}
+              </DetailField>
+              <DetailField label='Cantidad Total'>
+                {ex.boxQuantity} cajas
+              </DetailField>
+              <DetailField label='Peso Neto por Caja'>
+                {ex.boxBrand.netWeightBox} lbs
+              </DetailField>
+              <DetailField label='Peso Bruto por Caja'>
+                {ex.boxBrand.grossWeightBox} lbs
+              </DetailField>
+            </DetailFields>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
       </Accordion.Item>
@@ -105,109 +101,97 @@ const DetailExportSent = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <p>
-                <strong>Fondo:</strong> {exportSent.bottomTypeQuantity} unidades
-              </p>
-              <p>
-                <strong>Tapa:</strong> {exportSent.lidTypeQuantity} unidades
-              </p>
-              <p>
-                <strong>Funda:</strong> {exportSent.coverTypeQuantity} unidades
-              </p>
-              <p>
-                <strong>Cartulina:</strong> {exportSent.cardboardTypeQuantity}{' '}
-                unidades
-              </p>
-              <p>
-                <strong>Paraseal:</strong> {exportSent.parasealTypeQuantity}{' '}
-                unidades
-              </p>
-              <p>
-                <strong>Pad:</strong> {exportSent.padTypeQuantity} unidades
-              </p>
-              <p>
-                <strong>Esponja:</strong> {exportSent.spongeTypeQuantity}
-              </p>
-              <p>
-                <strong>Etiquetas:</strong> {exportSent.labelQuantity} unidades
-              </p>
-              <p>
-                <strong>Bandas:</strong> {exportSent.bandQuantity} unidades
-              </p>
-              <p>
-                <strong>Sachets:</strong> {exportSent.sachetQuantity} unidades
-              </p>
-              <p>
-                <strong>Gomas:</strong> {exportSent.rubberQuantity} unidades
-              </p>
-              <p>
-                <strong>Protectores:</strong> {exportSent.protectorQuantity}{' '}
-                unidades
-              </p>
-              <p>
-                <strong>Bolsas de Racimo:</strong>{' '}
-                {exportSent.clusterBagQuantity} unidades
-              </p>
-              <p>
-                <strong>Grampas:</strong> {exportSent.stapleQuantity} unidades
-              </p>
-              <p>
-                <strong>Stripping:</strong> {exportSent.strippingQuantity}{' '}
-                unidades
-              </p>
-              <p>
-                <strong>Termógrafos:</strong> {exportSent.thermographQuantity}{' '}
-                unidades
-              </p>
-              <p>
-                <strong>Sellos:</strong> {exportSent.sealQuantity} unidades
-              </p>
-              <p>
-                <strong>Etiquetas Metto:</strong>{' '}
-                {exportSent.mettoLabelQuantity} unidades
-              </p>
-              <p>
-                <strong>Removedor de Látex:</strong>{' '}
-                {exportSent.latexRemoverQuantity} unidades
-              </p>
-              <p>
-                <strong>Hojas de Bloqueo:</strong>{' '}
-                {exportSent.blockingSheetQuantity} unidades
-              </p>
-              <p>
-                <strong>Plástico de Cierre Contenedor:</strong>{' '}
-                {exportSent.containerSealPlasticQuantity} unidades
-              </p>
-              <p>
-                <strong>Kit de Seguridad:</strong>{' '}
-                {exportSent.securityKitQuantity} unidades
-              </p>
-              <p>
-                <strong>Tarjeta de Embarque:</strong>{' '}
-                {exportSent.boardingCardQuantity} unidades
-              </p>
-              <p>
-                <strong>Stickers:</strong>{' '}
-                {exportSent.stickerSent.length
-                  ? exportSent.stickerSent
-                      .map(
-                        (s: StickerSent) =>
-                          `${s.sticker.name} (${s.quantity} unidades)`
-                      )
-                      .join(', ')
-                  : 'No disponible'}
-              </p>
-              <p>
-                <strong>Hojas:</strong>{' '}
-                {exportSent.sheetSent.length
-                  ? exportSent.sheetSent
-                      .map(
-                        (s: SheetSent) =>
-                          `${s.sheet.name} (${s.quantity} unidades)`
-                      )
-                      .join(', ')
-                  : 'No disponible'}
-              </p>
+              <DetailFields>
+                <DetailField label='Fondo'>
+                  {exportSent.bottomTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Tapa'>
+                  {exportSent.lidTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Funda'>
+                  {exportSent.coverTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Cartulina'>
+                  {exportSent.cardboardTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Paraseal'>
+                  {exportSent.parasealTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Pad'>
+                  {exportSent.padTypeQuantity} unidades
+                </DetailField>
+                <DetailField label='Esponja'>
+                  {exportSent.spongeTypeQuantity}
+                </DetailField>
+                <DetailField label='Etiquetas'>
+                  {exportSent.labelQuantity} unidades
+                </DetailField>
+                <DetailField label='Bandas'>
+                  {exportSent.bandQuantity} unidades
+                </DetailField>
+                <DetailField label='Sachets'>
+                  {exportSent.sachetQuantity} unidades
+                </DetailField>
+                <DetailField label='Gomas'>
+                  {exportSent.rubberQuantity} unidades
+                </DetailField>
+                <DetailField label='Protectores'>
+                  {exportSent.protectorQuantity} unidades
+                </DetailField>
+                <DetailField label='Bolsas de Racimo'>
+                  {exportSent.clusterBagQuantity} unidades
+                </DetailField>
+                <DetailField label='Grampas'>
+                  {exportSent.stapleQuantity} unidades
+                </DetailField>
+                <DetailField label='Stripping'>
+                  {exportSent.strippingQuantity} unidades
+                </DetailField>
+                <DetailField label='Termógrafos'>
+                  {exportSent.thermographQuantity} unidades
+                </DetailField>
+                <DetailField label='Sellos'>
+                  {exportSent.sealQuantity} unidades
+                </DetailField>
+                <DetailField label='Etiquetas Metto'>
+                  {exportSent.mettoLabelQuantity} unidades
+                </DetailField>
+                <DetailField label='Removedor de Látex'>
+                  {exportSent.latexRemoverQuantity} unidades
+                </DetailField>
+                <DetailField label='Hojas de Bloqueo'>
+                  {exportSent.blockingSheetQuantity} unidades
+                </DetailField>
+                <DetailField label='Plástico de Cierre Contenedor'>
+                  {exportSent.containerSealPlasticQuantity} unidades
+                </DetailField>
+                <DetailField label='Kit de Seguridad'>
+                  {exportSent.securityKitQuantity} unidades
+                </DetailField>
+                <DetailField label='Tarjeta de Embarque'>
+                  {exportSent.boardingCardQuantity} unidades
+                </DetailField>
+                <DetailField label='Stickers'>
+                  {exportSent.stickerSent.length
+                    ? exportSent.stickerSent
+                        .map(
+                          (s: StickerSent) =>
+                            `${s.sticker.name} (${s.quantity} unidades)`
+                        )
+                        .join(', ')
+                    : 'No disponible'}
+                </DetailField>
+                <DetailField label='Hojas'>
+                  {exportSent.sheetSent.length
+                    ? exportSent.sheetSent
+                        .map(
+                          (s: SheetSent) =>
+                            `${s.sheet.name} (${s.quantity} unidades)`
+                        )
+                        .join(', ')
+                    : 'No disponible'}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
@@ -225,28 +209,28 @@ const DetailExportSent = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <p>
-                <strong>Pesticidas:</strong>{' '}
-                {exportSent.pesticideSent.length
-                  ? exportSent.pesticideSent
-                      .map(
-                        (p: PesticideSent) =>
-                          `${p.pesticide.name} (${p.quantity} unidades)`
-                      )
-                      .join(', ')
-                  : 'No disponible'}
-              </p>
-              <p>
-                <strong>Insecticidas:</strong>{' '}
-                {exportSent.insecticideSent.length
-                  ? exportSent.insecticideSent
-                      .map(
-                        (i: InsecticideSent) =>
-                          `${i.insecticide.name} (${i.quantity} unidades)`
-                      )
-                      .join(', ')
-                  : 'No disponible'}
-              </p>
+              <DetailFields>
+                <DetailField label='Pesticidas'>
+                  {exportSent.pesticideSent.length
+                    ? exportSent.pesticideSent
+                        .map(
+                          (p: PesticideSent) =>
+                            `${p.pesticide.name} (${p.quantity} unidades)`
+                        )
+                        .join(', ')
+                    : 'No disponible'}
+                </DetailField>
+                <DetailField label='Insecticidas'>
+                  {exportSent.insecticideSent.length
+                    ? exportSent.insecticideSent
+                        .map(
+                          (i: InsecticideSent) =>
+                            `${i.insecticide.name} (${i.quantity} unidades)`
+                        )
+                        .join(', ')
+                    : 'No disponible'}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>
@@ -264,18 +248,18 @@ const DetailExportSent = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <Box>
-              <p>
-                <strong>Puerto de Salida:</strong>{' '}
-                {ex.harborDeparture
-                  ? `${ex.harborDeparture.name}, ${ex.harborDeparture.address}, ${ex.harborDeparture.type}`
-                  : 'No disponible'}
-              </p>
-              <p>
-                <strong>Puerto de Destino:</strong>{' '}
-                {ex.harborDestination
-                  ? `${ex.harborDestination.name}, ${ex.harborDestination.address}, ${ex.harborDestination.type}`
-                  : 'No disponible'}
-              </p>
+              <DetailFields>
+                <DetailField label='Puerto de Salida'>
+                  {ex.harborDeparture
+                    ? `${ex.harborDeparture.name}, ${ex.harborDeparture.address}, ${ex.harborDeparture.type}`
+                    : 'No disponible'}
+                </DetailField>
+                <DetailField label='Puerto de Destino'>
+                  {ex.harborDestination
+                    ? `${ex.harborDestination.name}, ${ex.harborDestination.address}, ${ex.harborDestination.type}`
+                    : 'No disponible'}
+                </DetailField>
+              </DetailFields>
             </Box>
           </Accordion.ItemBody>
         </Accordion.ItemContent>

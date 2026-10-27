@@ -1,5 +1,10 @@
 import { Accordion, Box, Text } from '@chakra-ui/react';
 import React from 'react';
+import {
+  DetailField,
+  DetailFields,
+  DetailItem,
+} from '@/components/ui/DetailFields';
 import { VerifierResponse } from '../../../types/verifier/verifier.response';
 
 interface DetailVerifiersProps {
@@ -12,41 +17,49 @@ const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier }) => {
       <Accordion.Item value='item-0'>
         <h2>
           <Accordion.ItemTrigger>
-            <Box flex="1" textAlign="left" fontWeight="bold">
+            <Box flex='1' textAlign='left' fontWeight='bold'>
               Detalles Generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </h2>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
-            <Text><strong>Nombre:</strong> {verifier.name}</Text>
-            <Text><strong>RUC:</strong> {verifier.ruc}</Text>
-            <Text><strong>Dirección:</strong> {verifier.address}</Text>
-          </Accordion.ItemBody></Accordion.ItemContent>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
+            <DetailFields>
+              <DetailField label='Nombre'>{verifier.name}</DetailField>
+              <DetailField label='RUC'>{verifier.ruc}</DetailField>
+              <DetailField label='Dirección'>{verifier.address}</DetailField>
+            </DetailFields>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
 
       <Accordion.Item value='item-1'>
         <h2>
           <Accordion.ItemTrigger>
-            <Box flex="1" textAlign="left" fontWeight="bold">
+            <Box flex='1' textAlign='left' fontWeight='bold'>
               Contactos Asociados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </h2>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             {verifier.contacts.length ? (
               verifier.contacts.map((contact) => (
-                <Box key={contact.id} mb={3}>
-                  <Text><strong>Nombre:</strong> {contact.name}</Text>
-                  <Text><strong>Email:</strong> {contact.email}</Text>
-                  <Text><strong>Teléfono:</strong> {contact.phone}</Text>
-                </Box>
+                <DetailItem key={contact.id}>
+                  <DetailFields>
+                    <DetailField label='Nombre'>{contact.name}</DetailField>
+                    <DetailField label='Email'>{contact.email}</DetailField>
+                    <DetailField label='Teléfono'>{contact.phone}</DetailField>
+                  </DetailFields>
+                </DetailItem>
               ))
             ) : (
               <Text>No hay contactos registrados.</Text>
             )}
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
     </Accordion.Root>
   );
