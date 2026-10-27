@@ -160,11 +160,10 @@ local en ISO.
 
 ### Stack
 
-Next.js 15 App Router · React 19 · TypeScript. Material React Table 2 fija una
-`@tanstack/react-virtual` que no acepta React 19; `overrides` en `package.json`
-la sube a 3.13.26 y se quita cuando la tabla traiga una que sí. UI con **Chakra UI v3**, con el tema de la marca en
+Next.js 15 App Router · React 19 · TypeScript. UI con **Chakra UI v3**, con el tema de la marca en
 `theme/system.ts` y modo claro y oscuro con **next-themes**; tablas con
-**Material React Table** (que trae MUI como motor); gráficos con **recharts**;
+**Material React Table 3** (que trae MUI 6 como motor); gráficos con
+**recharts 3**;
 formularios con **Formik + Yup**; fechas con **date-fns**.
 
 Los colores, la tipografía y los radios salen de `design-system.md`, en la
