@@ -1,11 +1,11 @@
 'use client';
 import { Box, Heading, VStack, Badge } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { MRT_ColumnDef } from 'material-react-table';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdFactCheck } from 'react-icons/md';
-import { useQueryClient } from 'react-query';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -49,7 +49,7 @@ const ExportCostList = (): React.JSX.Element => {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { mutateAsync, isLoading: isConfirming } = useConfirmExportSentCosts();
+  const { mutateAsync, isPending: isConfirming } = useConfirmExportSentCosts();
   const columns = useMemo<MRT_ColumnDef<PendingCost>[]>(
     () => [
       ...pendingExportColumns<PendingCost>((row) => row.export),
@@ -68,7 +68,9 @@ const ExportCostList = (): React.JSX.Element => {
   // Once per visit: paginationParams is a new object on every render, and
   // depending on it refetched the list in a loop.
   useEffect(() => {
-    queryClient.invalidateQueries('exportSentCostsPending');
+    queryClient.invalidateQueries({
+      queryKey: ['exportSentCostsPending']
+    });
   }, [queryClient]);
 
   const headingColor = 'fg.heading';

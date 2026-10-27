@@ -1,6 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import {
   useDeletePurchaseOrder,
@@ -28,8 +28,8 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useSavePurchaseOrder();
-  const { mutate: remove, isLoading: isDeleting } = useDeletePurchaseOrder();
+  const { mutate: save, isPending: isLoading } = useSavePurchaseOrder();
+  const { mutate: remove, isPending: isDeleting } = useDeletePurchaseOrder();
 
   const showError = (error: unknown): void => {
     if (isAxiosError(error) && error.response?.status === 401) {
@@ -46,8 +46,12 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
   };
 
   const refresh = (): void => {
-    queryClient.invalidateQueries('purchaseOrders');
-    queryClient.invalidateQueries('purchaseOrder');
+    queryClient.invalidateQueries({
+      queryKey: ['purchaseOrders'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['purchaseOrder'],
+    });
   };
 
   const onSubmit = (values: ValuesProps): void => {

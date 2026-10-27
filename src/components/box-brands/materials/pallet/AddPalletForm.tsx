@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
 });
 
 const AddPalletForm = ({ onClose }: AddPalletFormProps): React.JSX.Element => {
-  const { createPallet, isLoading } = useCreatePallet();
+  const { createPallet, isPending: isLoading } = useCreatePallet();
   const queryClient = useQueryClient();
 
   const addPallet = async (
@@ -73,7 +73,9 @@ const AddPalletForm = ({ onClose }: AddPalletFormProps): React.JSX.Element => {
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('pallets');
+          queryClient.invalidateQueries({
+            queryKey: ['pallets'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

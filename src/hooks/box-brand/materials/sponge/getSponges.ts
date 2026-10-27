@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -13,12 +13,10 @@ function listSponges(params: Params): Promise<AxiosResponse> {
 }
 
 export function useSponges({ search = '', page = 1, limit = 10 }: Params) {
-  const result = useQuery(
-    ['sponges', search, page, limit],
-    () => listSponges({ search, page, limit }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['sponges', search, page, limit],
+    queryFn: () => listSponges({ search, page, limit }),
+    placeholderData: keepPreviousData,
+  });
   return serializeQueryResult(result);
 }

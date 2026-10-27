@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateShippingCompany } from '@/hooks/export/shippingCompany/createShippingCompany';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -23,7 +23,7 @@ export function useSubmitShippingCompany(): {
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: createShippingCompany, isLoading } =
+  const { mutate: createShippingCompany, isPending: isLoading } =
     useCreateShippingCompany();
 
   const onSubmit = async (
@@ -97,7 +97,9 @@ export function useSubmitShippingCompany(): {
           duration: 5000,
           closable: true,
         });
-        queryClient.invalidateQueries('shipping-companies');
+        queryClient.invalidateQueries({
+          queryKey: ['shipping-companies']
+        });
         formikHelpers.resetForm();
         router.push('/dashboard/client/shipping-companies');
       },

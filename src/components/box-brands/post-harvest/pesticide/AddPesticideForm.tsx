@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -101,7 +101,7 @@ const validationSchema = Yup.object({
 const AddPesticideForm = ({
   onClose,
 }: AddPesticideFormProps): React.JSX.Element => {
-  const { createPesticide, isLoading } = useCreatePesticide();
+  const { createPesticide, isPending: isLoading } = useCreatePesticide();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -140,7 +140,9 @@ const AddPesticideForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('pesticides');
+          queryClient.invalidateQueries({
+            queryKey: ['pesticides']
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

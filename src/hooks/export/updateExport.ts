@@ -1,9 +1,9 @@
-import { AxiosError, AxiosResponse } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { ExportType } from '@/types/export';
 import { ServerErrorResponse } from '../../types/errorResponse';
@@ -31,5 +31,8 @@ export const useUpdateExport = (
   AxiosError<ServerErrorResponse>,
   UpdateExportVariables
 > => {
-  return useMutation(updateExport, config);
+  return useMutation({
+    mutationFn: updateExport,
+    ...config,
+  });
 };

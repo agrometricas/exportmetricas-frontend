@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
 import {
   CorrectCuttingSheetBody,
@@ -21,5 +21,5 @@ export function useCorrectCuttingSheet(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   CorrectionInput
 > {
-  return useMutation(correctCuttingSheet);
+  return useMutation({ mutationFn: correctCuttingSheet });
 }

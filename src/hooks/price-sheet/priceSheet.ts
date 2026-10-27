@@ -1,5 +1,10 @@
+import {
+  keepPreviousData,
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { PriceSheet, PriceSheetBody } from '@/types/priceSheet';
@@ -12,11 +17,12 @@ export function usePriceSheet(week: string | null): {
   isLoading: boolean;
   error: unknown;
 } {
-  const { data, isLoading, error } = useQuery(
-    ['priceSheet', week],
-    async () => (await axios.get('/price-sheet', { params: { week } })).data,
-    { enabled: week !== null }
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['priceSheet', week],
+    queryFn: async () =>
+      (await axios.get('/price-sheet', { params: { week } })).data,
+    enabled: week !== null,
+  });
   return { sheet: data, isLoading, error };
 }
 
@@ -28,13 +34,15 @@ export function usePriceSheetQuote(body: PriceSheetBody | null): {
 } {
   const current = body ? JSON.stringify(body) : null;
   const settled = useDebouncedValue(current, TYPING_PAUSE_MS);
-  const { data, isFetching, isSuccess } = useQuery<PriceSheet>(
-    ['priceSheetQuote', settled],
-    async () =>
+  const { data, isFetching, isSuccess } = useQuery({
+    queryKey: ['priceSheetQuote', settled],
+    queryFn: async () =>
       (await axios.post('/price-sheet/quote', JSON.parse(settled as string)))
         .data,
-    { enabled: settled !== null, keepPreviousData: true, retry: false }
-  );
+    enabled: settled !== null,
+    retry: false,
+    placeholderData: keepPreviousData,
+  });
   return {
     quote: data,
     isSettled:
@@ -53,5 +61,5 @@ export function useSavePriceSheet(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   PriceSheetBody
 > {
-  return useMutation(savePriceSheet);
+  return useMutation({ mutationFn: savePriceSheet });
 }

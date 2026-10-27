@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -61,7 +61,7 @@ const validationSchema = Yup.object({
 });
 
 const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
-  const { createSeal, isLoading } = useCreateSeal();
+  const { createSeal, isPending: isLoading } = useCreateSeal();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -97,7 +97,9 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('seals');
+          queryClient.invalidateQueries({
+            queryKey: ['seals'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

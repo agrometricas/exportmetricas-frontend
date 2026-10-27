@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -49,7 +49,8 @@ const validationSchema = Yup.object({
 const AddBoardingCardForm = ({
   onClose,
 }: AddBoardingCardFormProps): React.JSX.Element => {
-  const { mutate: createBoardingCard, isLoading } = useCreateBoardingCard();
+  const { mutate: createBoardingCard, isPending: isLoading } =
+    useCreateBoardingCard();
   const queryClient = useQueryClient();
 
   const addBoardingCard = async (
@@ -78,7 +79,9 @@ const AddBoardingCardForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('boardingCards');
+          queryClient.invalidateQueries({
+            queryKey: ['boardingCards'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

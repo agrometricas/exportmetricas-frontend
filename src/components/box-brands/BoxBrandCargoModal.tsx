@@ -1,9 +1,9 @@
 import { Button, Flex, Text, Dialog, Portal } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import { useUpdateBoxBrandCargo } from '../../hooks/box-type/mutateBoxType';
@@ -33,7 +33,7 @@ export default function BoxBrandCargoModal({
     id,
     name,
   }));
-  const { mutate: save, isLoading } = useUpdateBoxBrandCargo();
+  const { mutate: save, isPending: isLoading } = useUpdateBoxBrandCargo();
 
   return (
     <Dialog.Root
@@ -82,8 +82,12 @@ export default function BoxBrandCargoModal({
                           duration: 4000,
                           closable: true,
                         });
-                        queryClient.invalidateQueries('boxBrands');
-                        queryClient.invalidateQueries('boxTypes');
+                        queryClient.invalidateQueries({
+                          queryKey: ['boxBrands'],
+                        });
+                        queryClient.invalidateQueries({
+                          queryKey: ['boxTypes'],
+                        });
                         onClose();
                       },
                     }

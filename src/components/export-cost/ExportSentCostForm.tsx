@@ -8,10 +8,10 @@ import {
   Heading,
   Text,
   } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, FieldArray } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import { useMemo } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -91,7 +91,7 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
         closable: true,
       });
       COST_CONFIRMATION_QUERIES.forEach((key) =>
-        queryClient.invalidateQueries(key)
+        queryClient.invalidateQueries({ queryKey: [key] })
       );
       router.push(returnTo('/dashboard/liquidation/export-costs', window.location.search));
     } catch (error) {

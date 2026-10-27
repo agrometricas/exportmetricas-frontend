@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { PurchaseOrderResponse } from '../../types/purchaseOrder';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -14,7 +14,9 @@ export function usePurchaseOrder(
   id: string
 ): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(['purchaseOrder', id], () => getPurchaseOrder(id), {
+    useQuery({
+      queryKey: ['purchaseOrder', id],
+      queryFn: () => getPurchaseOrder(id),
       enabled: Boolean(id),
     })
   );

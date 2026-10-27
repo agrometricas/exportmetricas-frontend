@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { BoxTypeResponse } from '../../types/boxType';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -9,5 +9,10 @@ function listBoxTypes(): Promise<AxiosResponse<BoxTypeResponse[]>> {
 }
 
 export function useBoxTypes(): ReturnType<typeof serializeQueryResult> {
-  return serializeQueryResult(useQuery(['boxTypes'], listBoxTypes));
+  return serializeQueryResult(
+    useQuery({
+      queryKey: ['boxTypes'],
+      queryFn: listBoxTypes,
+    })
+  );
 }

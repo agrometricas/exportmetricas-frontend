@@ -1,9 +1,9 @@
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -111,7 +111,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
   const [initialValuesBankAccount, setInitialValuesBankAccount] =
     useState<ValuesProps>(initialValues);
 
-  const { mutate: createBankAccount, isLoading } = useCreateBankAccount();
+  const { mutate: createBankAccount, isPending: isLoading } = useCreateBankAccount();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -203,7 +203,9 @@ const AddBankAccountForm = (): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('merchants');
+          queryClient.invalidateQueries({
+            queryKey: ['merchants']
+          });
           formikHelpers.resetForm();
           setProducer(null);
           setClient(null);

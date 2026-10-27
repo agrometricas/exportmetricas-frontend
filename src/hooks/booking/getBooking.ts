@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { BookingResponse } from '../../types/booking';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -12,6 +12,10 @@ export function useBooking(
   id: string
 ): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(['booking', id], () => getBooking(id), { enabled: Boolean(id) })
+    useQuery({
+      queryKey: ['booking', id],
+      queryFn: () => getBooking(id),
+      enabled: Boolean(id),
+    })
   );
 }

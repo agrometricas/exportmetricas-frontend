@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -20,15 +20,13 @@ export function useBusinessesByMerchantId(
   { search = '', page = 1, limit = 10 }: Params,
   { id }: Body
 ) {
-  const result = useQuery(
-    ['businesses', search, page, limit, id],
-    () => listBusinesses({ search, page, limit }, { id }),
-    {
-      keepPreviousData: true,
-      // Without a producer there are no farms to ask for.
-      enabled: id > 0,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['businesses', search, page, limit, id],
+    queryFn: () => listBusinesses({ search, page, limit }, { id }),
+    // Without a producer there are no farms to ask for.
+    enabled: id > 0,
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result);
 }

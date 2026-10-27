@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient, UseMutationResult } from 'react-query';
+import {
+  useMutation,
+  useQueryClient,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { BusinessMaterialStock } from '@/types/winery/businessMaterialStock';
 
@@ -26,7 +30,9 @@ export const useCreateBusinessStockAssignment = (): UseMutationResult<
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('exporterMaterialStock');
+      queryClient.invalidateQueries({
+        queryKey: ['exporterMaterialStock'],
+      });
     },
   });
 };

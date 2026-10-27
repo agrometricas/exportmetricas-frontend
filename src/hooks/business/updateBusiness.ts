@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import {
@@ -21,5 +21,5 @@ export function useUpdateBusiness(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   UpdateInput
 > {
-  return useMutation(updateBusiness);
+  return useMutation({ mutationFn: updateBusiness });
 }

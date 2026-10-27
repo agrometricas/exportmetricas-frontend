@@ -1,9 +1,9 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateExport } from '@/hooks/export/createExport';
 import { useUpdateExport } from '@/hooks/export/updateExport';
@@ -25,8 +25,8 @@ export function useSubmitExport({
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: createExport, isLoading: isCreating } = useCreateExport();
-  const { mutate: updateExport, isLoading: isUpdating } = useUpdateExport();
+  const { mutate: createExport, isPending: isCreating } = useCreateExport();
+  const { mutate: updateExport, isPending: isUpdating } = useUpdateExport();
 
   const onSubmit = async (
     values: ValuesProps,
@@ -63,21 +63,49 @@ export function useSubmitExport({
           duration: 5000,
           closable: true,
         });
-        queryClient.invalidateQueries('exports');
-        queryClient.invalidateQueries('exportsPending');
-        queryClient.invalidateQueries('cuttingSheets');
-        queryClient.invalidateQueries('cuttingSheetsPending');
-        queryClient.invalidateQueries('bookings');
-        queryClient.invalidateQueries('vessels');
-        queryClient.invalidateQueries('purchaseOrders');
-        queryClient.invalidateQueries('purchaseOrder');
-        queryClient.invalidateQueries('contractUsage');
-        queryClient.invalidateQueries('contractUsageCheck');
-        queryClient.invalidateQueries('exportProgress');
-        queryClient.invalidateQueries('workQueue');
-        queryClient.invalidateQueries('lastFarmExport');
+        queryClient.invalidateQueries({
+          queryKey: ['exports'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportsPending'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheets'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheetsPending'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['bookings'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['vessels'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['purchaseOrders'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['purchaseOrder'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['contractUsage'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['contractUsageCheck'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportProgress'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['workQueue'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['lastFarmExport'],
+        });
         if (exportId) {
-          queryClient.invalidateQueries(['export', String(exportId)]);
+          queryClient.invalidateQueries({
+            queryKey: ['export', String(exportId)],
+          });
         }
         formikHelpers.resetForm();
         router.push(

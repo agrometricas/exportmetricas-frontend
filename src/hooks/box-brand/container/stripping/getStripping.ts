@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { StrippingType } from '@/types/box-brand/container/stripping';
@@ -23,13 +27,11 @@ type UseStrippingOptions = {
 export const useStripping = ({
   strippingId,
 }: UseStrippingOptions): UseQueryResult<StrippingType> => {
-  const result = useQuery(
-    ['stripping', strippingId],
-    () => getStripping({ strippingId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['stripping', strippingId],
+    queryFn: () => getStripping({ strippingId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<StrippingType>;
 };

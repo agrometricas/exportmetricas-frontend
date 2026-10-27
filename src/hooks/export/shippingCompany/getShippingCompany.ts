@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ShippingCompanyType } from '@/types/shippingCompany';
@@ -23,13 +27,11 @@ type UseShippingCompanyOptions = {
 export const useShippingCompany = ({
   shippingCompanyId,
 }: UseShippingCompanyOptions): UseQueryResult<ShippingCompanyType> => {
-  const result = useQuery(
-    ['shipping-company', shippingCompanyId],
-    () => getShippingCompany({ shippingCompanyId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['shipping-company', shippingCompanyId],
+    queryFn: () => getShippingCompany({ shippingCompanyId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<ShippingCompanyType>;
 };

@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -23,13 +27,11 @@ type UseMerchantOptions = {
 export const useMerchant = ({
   merchantId,
 }: UseMerchantOptions): UseQueryResult<MerchantType> => {
-  const result = useQuery(
-    ['merchant', merchantId],
-    () => getMerchant({ merchantId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['merchant', merchantId],
+    queryFn: () => getMerchant({ merchantId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<MerchantType>;
 };

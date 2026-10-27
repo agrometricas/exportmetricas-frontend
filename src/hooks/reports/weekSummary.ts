@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { WeekSummary, WeekSummaryFilters } from '@/types/weekSummary';
 
@@ -8,26 +8,24 @@ export function useWeekSummary(
 ): {
   summary: WeekSummary | undefined;
   isLoading: boolean;
-  isPreviousData: boolean;
+  isPlaceholderData: boolean;
   isError: boolean;
   error: unknown;
   refetch: () => void;
 } {
-  const { data, isLoading, isPreviousData, isError, error, refetch } =
-    useQuery<WeekSummary>(
-      ['weekSummary', week, filters],
-      async () =>
+  const { data, isLoading, isPlaceholderData, isError, error, refetch } =
+    useQuery({
+      queryKey: ['weekSummary', week, filters],
+      queryFn: async () =>
         (await axios.get('/reports/week', { params: { week, ...filters } }))
           .data,
-      // Almost every write in the app changes some figure of the week, so the
-      // home asks again each time it opens instead of waiting to be
-      // invalidated.
-      { keepPreviousData: true, staleTime: 0 }
-    );
+      staleTime: 0,
+      placeholderData: keepPreviousData,
+    });
   return {
     summary: data,
     isLoading,
-    isPreviousData,
+    isPlaceholderData,
     isError,
     error,
     refetch,

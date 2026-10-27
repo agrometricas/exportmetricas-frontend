@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import {
   ContractUsage,
@@ -13,11 +13,12 @@ export function useContractUsage(week: string | null): {
   usage: ContractUsage | undefined;
   isLoading: boolean;
 } {
-  const { data, isLoading } = useQuery<ContractUsage>(
-    ['contractUsage', week],
-    async () => (await axios.get('/contract-usage', { params: { week } })).data,
-    { enabled: week !== null }
-  );
+  const { data, isLoading } = useQuery({
+    queryKey: ['contractUsage', week],
+    queryFn: async () =>
+      (await axios.get('/contract-usage', { params: { week } })).data,
+    enabled: week !== null,
+  });
   return { usage: data, isLoading };
 }
 
@@ -28,15 +29,17 @@ export function useContractUsageCheck(
     params ? JSON.stringify(params) : null,
     TYPING_PAUSE_MS
   );
-  const { data } = useQuery<ContractUsageCheck>(
-    ['contractUsageCheck', settled],
-    async () =>
+  const { data } = useQuery({
+    queryKey: ['contractUsageCheck', settled],
+    queryFn: async () =>
       (
         await axios.get('/contract-usage/check', {
           params: JSON.parse(settled as string),
         })
       ).data,
-    { enabled: settled !== null, keepPreviousData: true, retry: false }
-  );
+    enabled: settled !== null,
+    retry: false,
+    placeholderData: keepPreviousData,
+  });
   return params ? data : undefined;
 }

@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ExportCustomsBody } from '../../types/customs';
 import { ServerErrorResponse } from '../../types/errorResponse';
@@ -18,5 +18,5 @@ export function useUpdateExportCustoms(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   Input
 > {
-  return useMutation(updateExportCustoms);
+  return useMutation({ mutationFn: updateExportCustoms });
 }

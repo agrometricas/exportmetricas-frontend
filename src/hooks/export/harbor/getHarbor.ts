@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { HarborType } from '@/types/harbor';
@@ -23,8 +27,10 @@ type UseHarborOptions = {
 export const useHarbor = ({
   harborId,
 }: UseHarborOptions): UseQueryResult<HarborType> => {
-  const result = useQuery(['harbor', harborId], () => getHarbor({ harborId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['harbor', harborId],
+    queryFn: () => getHarbor({ harborId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<HarborType>;

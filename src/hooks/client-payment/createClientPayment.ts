@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { ClientPaymentType } from '../../types/client-payment/client-payment';
 import { ServerErrorResponse } from '../../types/errorResponse';
@@ -34,5 +34,8 @@ export const useCreateClientPayment = (
   AxiosError<ServerErrorResponse>,
   Partial<ClientPaymentType>
 > => {
-  return useMutation(createClientPayment, config);
+  return useMutation({
+    mutationFn: createClientPayment,
+    ...config
+  });
 };

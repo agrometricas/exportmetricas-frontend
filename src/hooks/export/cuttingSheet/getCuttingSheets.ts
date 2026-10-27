@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { PagedList, usePagedList } from '@/hooks/usePagedList';
 import axios from '@/lib/axios';
 import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
@@ -15,10 +15,12 @@ export function useCuttingSheet(id: number): {
   isLoading: boolean;
   error: unknown;
 } {
-  const { data, isLoading, error } = useQuery<CuttingSheetResponse>(
-    ['cuttingSheets', 'detail', id],
-    async () => (await axios.get(`/export/cutting-sheets/${id}`)).data,
-    { enabled: Number.isInteger(id) && id > 0, retry: false }
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['cuttingSheets', 'detail', id],
+    queryFn: async (): Promise<CuttingSheetResponse> =>
+      (await axios.get(`/export/cutting-sheets/${id}`)).data,
+    enabled: Number.isInteger(id) && id > 0,
+    retry: false,
+  });
   return { sheet: data, isLoading, error };
 }

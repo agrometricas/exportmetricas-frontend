@@ -1,5 +1,5 @@
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query';
 import axios from '@/lib/axios';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { HarborType } from '../../../types/harbor';
@@ -25,5 +25,8 @@ export const useCreateHarbor = (
   AxiosError<ServerErrorResponse>,
   Partial<HarborType>
 > => {
-  return useMutation(createHarbor, config);
+  return useMutation({
+    mutationFn: createHarbor,
+    ...config
+  });
 };

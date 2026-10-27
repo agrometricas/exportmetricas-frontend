@@ -13,11 +13,11 @@ import {
   Portal,
   Field,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers, useField } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import BookingDocumentChecklist from './BookingDocumentChecklist';
@@ -134,7 +134,7 @@ function DeleteDocumentButton({
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
   const queryClient = useQueryClient();
-  const { mutate: remove, isLoading } = useDeleteBookingDocument();
+  const { mutate: remove, isPending: isLoading } = useDeleteBookingDocument();
 
   const confirm = (): void =>
     remove(
@@ -150,7 +150,9 @@ function DeleteDocumentButton({
           });
         },
         onSuccess: () => {
-          AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+          AFFECTED_QUERIES.forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] })
+          );
           setIsOpen(false);
         },
       }
@@ -221,7 +223,7 @@ export default function BookingDocuments({
   const [fileKey, setFileKey] = useState(0);
   const { data: documentsData } = useBookingDocuments(bookingId);
   const { data: typesData } = useDocumentTypes();
-  const { mutate: upload, isLoading } = useUploadBookingDocument();
+  const { mutate: upload, isPending: isLoading } = useUploadBookingDocument();
   const documents = (documentsData ?? []) as BookingDocument[];
   const types = (typesData ?? []) as DocumentTypeOption[];
 
@@ -253,7 +255,9 @@ export default function BookingDocuments({
             duration: 4000,
             closable: true,
           });
-          AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+          AFFECTED_QUERIES.forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] })
+          );
           helpers.resetForm();
           setFileKey((key) => key + 1);
         },

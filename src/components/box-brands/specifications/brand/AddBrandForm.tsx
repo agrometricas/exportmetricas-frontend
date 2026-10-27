@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -33,7 +33,7 @@ const validationSchema = Yup.object({
 export default function AddBrandForm({
   onClose,
 }: AddBrandFormProps): React.JSX.Element {
-  const { createBrand, isLoading } = useCreateBrand();
+  const { createBrand, isPending: isLoading } = useCreateBrand();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -68,7 +68,9 @@ export default function AddBrandForm({
             closable: true,
           });
 
-          queryClient.invalidateQueries('brands');
+          queryClient.invalidateQueries({
+            queryKey: ['brands'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

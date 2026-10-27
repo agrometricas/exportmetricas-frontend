@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -23,8 +27,10 @@ type UseExportOptions = {
 export const useExport = ({
   exportId,
 }: UseExportOptions): UseQueryResult<ExportResponse> => {
-  const result = useQuery(['export', exportId], () => getExport({ exportId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['export', exportId],
+    queryFn: () => getExport({ exportId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<ExportResponse>;

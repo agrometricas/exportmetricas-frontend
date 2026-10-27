@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { StickerType } from '../../../../types/box-brand/additions/sticker';
 import { ServerErrorResponse } from '../../../../types/errorResponse';
@@ -29,5 +29,8 @@ export const useCreateSticker = (
   AxiosError<ServerErrorResponse>,
   Partial<StickerType>
 > => {
-  return useMutation(createSticker, config);
+  return useMutation({
+    mutationFn: createSticker,
+    ...config,
+  });
 };

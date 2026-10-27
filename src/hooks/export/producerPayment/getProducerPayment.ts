@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ProducerPaymentType } from '@/types/producerPayment';
@@ -23,13 +27,11 @@ type UseProducerPaymentOptions = {
 export const useProducerPayment = ({
   producerPaymentId,
 }: UseProducerPaymentOptions): UseQueryResult<ProducerPaymentType> => {
-  const result = useQuery(
-    ['producerPayment', producerPaymentId],
-    () => getProducerPayment({ producerPaymentId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['producerPayment', producerPaymentId],
+    queryFn: () => getProducerPayment({ producerPaymentId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<ProducerPaymentType>;
 };

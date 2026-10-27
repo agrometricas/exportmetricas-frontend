@@ -1,7 +1,7 @@
 import { Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
 import {
@@ -21,7 +21,7 @@ type Values = Record<string, string>;
 export default function MaterialUnitsForm(): React.JSX.Element {
   const queryClient = useQueryClient();
   const { data, isLoading } = useMaterialUnits();
-  const { mutate: save, isLoading: isSaving } = useUpdateMaterialUnits();
+  const { mutate: save, isPending: isSaving } = useUpdateMaterialUnits();
   const config = data as MaterialUnitsResponse | undefined;
 
   if (isLoading || !config) return <LoadingState />;
@@ -58,7 +58,9 @@ export default function MaterialUnitsForm(): React.JSX.Element {
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('materialUnits');
+          queryClient.invalidateQueries({
+            queryKey: ['materialUnits']
+          });
         },
       }
     );

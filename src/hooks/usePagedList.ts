@@ -1,10 +1,10 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import {
   MRT_PaginationState,
   MRT_RowData,
   MRT_TableOptions,
 } from 'material-react-table';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { Page } from '@/types/page';
 import { useDebouncedValue } from './useDebouncedValue';
@@ -28,9 +28,9 @@ export function usePagedList<T extends MRT_RowData>(
   const [globalFilter, setGlobalFilter] = useState('');
   const search = useDebouncedValue(globalFilter.trim(), TYPING_PAUSE_MS);
 
-  const { data, error, isLoading, isFetching } = useQuery<Page<T>>(
-    [key, 'page', pagination.pageIndex, pagination.pageSize, search],
-    async () =>
+  const { data, error, isLoading, isFetching } = useQuery({
+    queryKey: [key, 'page', pagination.pageIndex, pagination.pageSize, search],
+    queryFn: async (): Promise<Page<T>> =>
       (
         await axios.get(url, {
           params: {
@@ -40,8 +40,8 @@ export function usePagedList<T extends MRT_RowData>(
           },
         })
       ).data,
-    { keepPreviousData: true }
-  );
+    placeholderData: keepPreviousData,
+  });
 
   return {
     rows: data?.items ?? [],

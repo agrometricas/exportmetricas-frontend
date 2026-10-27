@@ -1,5 +1,9 @@
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import {
   BookingDocument,
@@ -12,22 +16,22 @@ export function useBookingDocuments(
   bookingId: number
 ): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(
-      ['bookingDocuments', bookingId],
-      (): Promise<AxiosResponse<BookingDocument[]>> =>
+    useQuery({
+      queryKey: ['bookingDocuments', bookingId],
+      queryFn: (): Promise<AxiosResponse<BookingDocument[]>> =>
         axios.get(`/bookings/${bookingId}/documents`),
-      { enabled: Boolean(bookingId) }
-    )
+      enabled: Boolean(bookingId),
+    })
   );
 }
 
 export function useDocumentTypes(): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(
-      ['bookingDocumentTypes'],
-      (): Promise<AxiosResponse<DocumentTypeOption[]>> =>
-        axios.get('/bookings/document-types')
-    )
+    useQuery({
+      queryKey: ['bookingDocumentTypes'],
+      queryFn: (): Promise<AxiosResponse<DocumentTypeOption[]>> =>
+        axios.get('/bookings/document-types'),
+    })
   );
 }
 
@@ -47,7 +51,7 @@ export function useUploadBookingDocument(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   UploadInput
 > {
-  return useMutation(uploadBookingDocument);
+  return useMutation({ mutationFn: uploadBookingDocument });
 }
 
 type DeleteInput = { bookingId: number; documentId: number };
@@ -64,5 +68,5 @@ export function useDeleteBookingDocument(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   DeleteInput
 > {
-  return useMutation(deleteBookingDocument);
+  return useMutation({ mutationFn: deleteBookingDocument });
 }

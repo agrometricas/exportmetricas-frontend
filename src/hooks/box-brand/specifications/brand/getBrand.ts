@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { BrandType } from '@/types/box-brand/specifications/brand';
@@ -23,8 +27,10 @@ type UseBrandOptions = {
 export const useBrand = ({
   brandId,
 }: UseBrandOptions): UseQueryResult<BrandType> => {
-  const result = useQuery(['brand', brandId], () => getBrand({ brandId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['brand', brandId],
+    queryFn: () => getBrand({ brandId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<BrandType>;

@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { LabelType } from '@/types/box-brand/materials/label';
@@ -23,8 +27,10 @@ type UseLabelOptions = {
 export const useLabel = ({
   labelId,
 }: UseLabelOptions): UseQueryResult<LabelType> => {
-  const result = useQuery(['label', labelId], () => getLabel({ labelId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['label', labelId],
+    queryFn: () => getLabel({ labelId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<LabelType>;

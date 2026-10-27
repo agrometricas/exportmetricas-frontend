@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import {
   BoxBrandCargoBody,
@@ -22,7 +22,7 @@ export function useSaveBoxType(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SaveInput
 > {
-  return useMutation(saveBoxType);
+  return useMutation({ mutationFn: saveBoxType });
 }
 
 function deleteBoxType(id: number): Promise<AxiosResponse<{ id: number }>> {
@@ -34,7 +34,7 @@ export function useDeleteBoxType(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   number
 > {
-  return useMutation(deleteBoxType);
+  return useMutation({ mutationFn: deleteBoxType });
 }
 
 type CargoInput = { boxBrandId: number; body: BoxBrandCargoBody };
@@ -51,5 +51,5 @@ export function useUpdateBoxBrandCargo(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   CargoInput
 > {
-  return useMutation(updateBoxBrandCargo);
+  return useMutation({ mutationFn: updateBoxBrandCargo });
 }

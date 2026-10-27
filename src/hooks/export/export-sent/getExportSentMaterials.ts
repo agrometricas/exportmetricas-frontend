@@ -1,4 +1,8 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ExportSentMaterialResponse } from '@/types/export-sent/exportSentMaterial.response';
@@ -27,12 +31,10 @@ export const useExportSentMaterials = ({
 }: UseExportSentMaterialsOptions): UseQueryResult<
   ExportSentMaterialResponse[]
 > => {
-  return useQuery<ExportSentMaterialResponse[]>(
-    ['exportSentMaterials', exportSentId],
-    () => getExportSentMaterials({ exportSentId }),
-    {
-      keepPreviousData: true,
-      ...config,
-    }
-  );
+  return useQuery({
+    queryKey: ['exportSentMaterials', exportSentId],
+    queryFn: () => getExportSentMaterials({ exportSentId }),
+    placeholderData: keepPreviousData,
+    ...config,
+  });
 };

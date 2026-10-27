@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -317,7 +317,7 @@ const CuttingSheetForm = ({
     initialFinalFormValues
   );
 
-  const { createCuttingSheet, isLoading } = useCreateCuttingSheet();
+  const { createCuttingSheet, isPending: isLoading } = useCreateCuttingSheet();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -360,10 +360,14 @@ const CuttingSheetForm = ({
             onClick: () => window.open(response.pdfUrl, '_blank'),
           },
         });
-        queryClient.invalidateQueries('cuttingSheets');
-        queryClient.invalidateQueries('cuttingSheetsPending');
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheets']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheetsPending']
+        });
         formikHelpers.resetForm();
-        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
         router.push(returnTo('/dashboard/export/cutting-sheets', window.location.search));
       },
     });

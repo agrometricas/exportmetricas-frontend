@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import {
@@ -27,7 +27,7 @@ export function useInviteUser(): UseMutationResult<
   MutationError,
   { exporterId: string; body: InviteUserBody }
 > {
-  return useMutation(inviteUser);
+  return useMutation({ mutationFn: inviteUser });
 }
 
 function changeRole({
@@ -43,7 +43,7 @@ export function useChangeRole(): UseMutationResult<
   MutationError,
   UserRef & { role: UserRole }
 > {
-  return useMutation(changeRole);
+  return useMutation({ mutationFn: changeRole });
 }
 
 function resendInvitation({
@@ -58,7 +58,7 @@ export function useResendInvitation(): UseMutationResult<
   MutationError,
   UserRef
 > {
-  return useMutation(resendInvitation);
+  return useMutation({ mutationFn: resendInvitation });
 }
 
 function removeUser({ exporterId, userId }: UserRef): Promise<AxiosResponse> {
@@ -70,5 +70,5 @@ export function useRemoveUser(): UseMutationResult<
   MutationError,
   UserRef
 > {
-  return useMutation(removeUser);
+  return useMutation({ mutationFn: removeUser });
 }

@@ -1,5 +1,5 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -15,10 +15,10 @@ export function useCertifications(): {
     error: unknown;
     refetch: () => void;
 } {
-    const result: UseQueryResult<AxiosResponse<CertificationResponse>> = useQuery(
-        ['certifications'],
-        () => axios.get(`/certification`),
-    );
+    const result: UseQueryResult<AxiosResponse<CertificationResponse>> = useQuery({
+        queryKey: ['certifications'],
+        queryFn: () => axios.get(`/certification`)
+    });
 
     const serialized = serializeQueryResult(result);
 

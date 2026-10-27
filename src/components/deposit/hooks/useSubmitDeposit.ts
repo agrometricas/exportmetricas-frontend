@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateDeposit } from '../../../hooks/deposit/createDeposit';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -16,7 +16,7 @@ export function useSubmitDeposit(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createDeposit, isLoading } = useCreateDeposit();
+    const { mutate: createDeposit, isPending: isLoading } = useCreateDeposit();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -47,7 +47,9 @@ export function useSubmitDeposit(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('deposits');
+                    queryClient.invalidateQueries({
+                        queryKey: ['deposits']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/client/deposits');
                 },

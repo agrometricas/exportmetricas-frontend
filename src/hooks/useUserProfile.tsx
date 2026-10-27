@@ -1,5 +1,5 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useQuery, useQueryClient } from 'react-query';
 import { env } from '../lib/env';
 
 export interface UserProfile {
@@ -63,29 +63,30 @@ export function useExporter(): {
     data: user,
     isLoading,
     error,
-  } = useQuery<UserProfile>(
-    ['exporter', session?.refreshToken],
-    () => {
+  } = useQuery({
+    queryKey: ['exporter', session?.refreshToken],
+    queryFn: () => {
       if (!session) throw new Error('No hay sesión activa');
       return fetchExporter(session.refreshToken);
     },
-    {
-      enabled: !!session,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      placeholderData: () =>
-        queryClient.getQueryData(['exporter', session?.refreshToken]),
-    }
-  );
+    enabled: !!session,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    placeholderData: () =>
+      queryClient.getQueryData(['exporter', session?.refreshToken]),
+  });
 
   return {
     user,
     isLoading,
     error,
-    reloadExporter: () => queryClient.invalidateQueries(['exporter']),
+    reloadExporter: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['exporter'],
+      }),
   };
 }
 export type UseExporterReturn = ReturnType<typeof useExporter>;

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -69,7 +69,7 @@ const validationSchema = Yup.object({
 });
 
 const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
-  const { createSachet, isLoading } = useCreateSachet();
+  const { createSachet, isPending: isLoading } = useCreateSachet();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -108,7 +108,9 @@ const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('sachets');
+          queryClient.invalidateQueries({
+            queryKey: ['sachets'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

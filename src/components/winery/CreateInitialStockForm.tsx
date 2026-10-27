@@ -47,7 +47,7 @@ export function CreateInitialStockForm({
   materialId,
   materialName,
 }: Props): JSX.Element {
-  const { mutate, isLoading } = useCreateExporterMaterialStock();
+  const { mutate, isPending: isLoading } = useCreateExporterMaterialStock();
 
   return (
     <Formik

@@ -1,6 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import {
   useDeleteBooking,
@@ -28,8 +28,8 @@ export function useSubmitBooking(booking?: BookingResponse): {
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useSaveBooking();
-  const { mutate: remove, isLoading: isDeleting } = useDeleteBooking();
+  const { mutate: save, isPending: isLoading } = useSaveBooking();
+  const { mutate: remove, isPending: isDeleting } = useDeleteBooking();
 
   const showError = (error: unknown): void => {
     if (isAxiosError(error) && error.response?.status === 401) {
@@ -47,9 +47,15 @@ export function useSubmitBooking(booking?: BookingResponse): {
 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
-    queryClient.invalidateQueries('bookings');
-    queryClient.invalidateQueries('booking');
-    queryClient.invalidateQueries('vessels');
+    queryClient.invalidateQueries({
+      queryKey: ['bookings'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['booking'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['vessels'],
+    });
     router.push(LIST_PATH);
   };
 
