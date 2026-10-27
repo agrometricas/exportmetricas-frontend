@@ -1,9 +1,8 @@
 'use client';
 import { Badge, Box, Button, Heading, VStack } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import NextLink from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import React, { useMemo, useState } from 'react';
 import { MdLocalShipping } from 'react-icons/md';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
@@ -33,15 +32,8 @@ const SHIPMENT_QUERIES = [
   'workQueue',
 ];
 
-type ApiErrorData = {
-  statusCode?: number;
-  message?: string;
-  error?: string;
-};
-
 const ExportList = (): React.JSX.Element => {
   const { data = [], isLoading, error, refetch } = useExportsPending();
-  const router = useRouter();
   const pathname = usePathname();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const { mutateAsync, isPending: isSending } = useCreateExportSentBatch();
@@ -52,14 +44,6 @@ const ExportList = (): React.JSX.Element => {
 
   const headingColor = 'fg.heading';
 
-  useEffect(() => {
-    if (error && isAxiosError<ApiErrorData>(error)) {
-      const statusCode = error.response?.data?.statusCode;
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   if (isLoading) {
     return (

@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useParaseals } from '@/hooks/box-brand/materials/paraseal/getParaseals';
 import { ParasealType } from '@/types/box-brand/materials/paraseal';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface ParasealSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const ParasealSelectBase: React.FC<ParasealSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useParaseals();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<ParasealType>>): void => {
     if (setParaseal) setParaseal(newValue as Partial<ParasealType>);
@@ -106,9 +95,7 @@ const ParasealSelectBase: React.FC<ParasealSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay paraseal/es disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay paraseal/es disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

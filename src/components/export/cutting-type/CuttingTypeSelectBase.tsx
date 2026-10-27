@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { CuttingType } from '../../../types/cuttingType';
 
@@ -72,20 +72,6 @@ const CuttingTypeSelectBase: React.FC<CuttingTypeSelectBaseProps> = ({
   setCuttingType,
 }) => {
   const { data = [], isLoading, error } = useCuttingTypes();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<CuttingType>>): void => {
     if (setCuttingType) {
@@ -111,9 +97,7 @@ const CuttingTypeSelectBase: React.FC<CuttingTypeSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay corte/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay corte/s disponible/s'
       }
       isLoading={isLoading}
       options={data}

@@ -10,9 +10,9 @@ import {
   SingleValue,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useLatexRemovers } from '../../../../hooks/box-brand/additions/latex-remover/getLatexRemovers';
 import { LatexRemoverType } from '../../../../types/box-brand/additions/latexRemover';
 
@@ -75,20 +75,6 @@ const LatexRemoverSelectBase: React.FC<LatexRemoverSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useLatexRemovers();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<LatexRemoverType>>
@@ -112,7 +98,7 @@ const LatexRemoverSelectBase: React.FC<LatexRemoverSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay etiqueta/s disponible/s'
       }
       isLoading={isLoading}

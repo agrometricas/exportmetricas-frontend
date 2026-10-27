@@ -12,8 +12,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -59,7 +57,6 @@ function BatchActionBar<T>({
   onFinished,
 }: BatchActionBarProps<T>): React.JSX.Element {
   const { open, onOpen, onClose } = useDisclosure();
-  const router = useRouter();
   const queryClient = useQueryClient();
   const [failures, setFailures] = useState<
     { id: number; label: string; message: string }[]
@@ -92,10 +89,6 @@ function BatchActionBar<T>({
       onFinished(outcome.failed.map((failure) => failure.id));
       onClose();
     } catch (error) {
-      if (isAxiosError(error) && error.response?.status === 401) {
-        router.push('/api/auth/signout');
-        return;
-      }
       toaster.create({
         title: errorTitle,
         description: serverErrorMessage(error),

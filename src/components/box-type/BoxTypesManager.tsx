@@ -9,9 +9,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -34,7 +32,6 @@ const validationSchema = Yup.object({
 });
 
 export default function BoxTypesManager(): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const borderColor = 'border';
   const mutedColor = 'fg.muted';
@@ -47,10 +44,6 @@ export default function BoxTypesManager(): React.JSX.Element {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const showError = (title: string, error: unknown): void => {
-    if (isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title,
       description: serverErrorMessage(error),

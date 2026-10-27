@@ -28,7 +28,7 @@ export function useSubmitHarbor(): {
             { ...harborData },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
-                    const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+                    const { message, model, prop }: Partial<ServerErrorResponse> =
                         error.response?.data ?? {};
 
                     toaster.create({
@@ -39,10 +39,6 @@ export function useSubmitHarbor(): {
                         closable: true,
                     });
 
-                    if (statusCode === 401) {
-                        router.push('/api/auth/signout');
-                        return;
-                    }
 
                     if (model && prop) {
                         const path = `${prop}`;

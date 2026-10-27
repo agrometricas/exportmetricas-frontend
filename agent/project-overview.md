@@ -189,10 +189,14 @@ raíz del repo.
 - Instancia única, `baseURL = env.NEXT_PUBLIC_API_URL`, timeout de 10 s.
 - El interceptor llama a `getSession()` en **cada** petición y pone el refresh
   token como Bearer.
-- El interceptor de respuesta solo reporta el error (ver
-  [observabilidad_logs](features/observabilidad_logs.md)) y lo deja pasar: cada
-  hook o formulario sigue manejando el suyo. Ante un 401 el patrón es redirigir
-  a `/api/auth/signout`.
+- El interceptor de respuesta cierra la sesión ante un **401** y vuelve al
+  login, que después regresa a la pantalla donde estaba el usuario. Esa
+  petición no termina nunca: la página está por irse y no conviene que alcance
+  a mostrar un error. El backend solo responde 401 cuando la sesión ya no vale,
+  así que ningún hook ni formulario lo maneja.
+- Cualquier otro error lo reporta (ver
+  [observabilidad_logs](features/observabilidad_logs.md)) y lo deja pasar:
+  cada hook o formulario maneja el suyo.
 - Las páginas públicas y algunas de servidor usan `fetch` directo
   (el login de next-auth, recuperación de contraseña, ajuste de materiales).
 

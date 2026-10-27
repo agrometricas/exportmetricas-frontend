@@ -1,27 +1,17 @@
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailShippingCompanies from './DetailShippingCompanies';
 import { useShippingCompanies } from '../../../hooks/export/shippingCompany/getShippingCompanies';
 import { ShippingCompanyResponse } from '../../../types/shippingCompany.response';
 
 const TableShippingCompanies = (): React.JSX.Element => {
-  const { data = [], error } = useShippingCompanies();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const status = error.response?.data?.statusCode;
-      if (status === 401) router.push('/api/auth/signout');
-    }
-  }, [error, router]);
+  const { data = [] } = useShippingCompanies();
 
   const columns = useMemo<MRT_ColumnDef<ShippingCompanyResponse>[]>(
     () => [

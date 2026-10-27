@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -10,9 +9,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useDeposits } from '../../hooks/deposit/getDeposits';
 import { DepositResponse } from '../../types/deposit/deposit.response';
 
@@ -72,19 +71,6 @@ const DepositSelectBase: React.FC<DepositSelectBaseProps> = ({
   setDeposit,
 }) => {
   const { data = [], isLoading, error } = useDeposits();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const handleChange = (
     newValue: SingleValue<Partial<DepositResponse>>
@@ -112,9 +98,7 @@ const DepositSelectBase: React.FC<DepositSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'No hay depositos disponible/s'
+        !!error ? serverErrorMessage(error) : 'No hay depositos disponible/s'
       }
       isLoading={isLoading}
       options={data}

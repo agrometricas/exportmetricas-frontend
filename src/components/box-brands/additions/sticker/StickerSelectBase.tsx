@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useStickers } from '../../../../hooks/box-brand/additions/sticker/getStickers';
 import { StickerType } from '../../../../types/box-brand/additions/sticker';
 
@@ -72,20 +72,6 @@ const StickerSelectBase: React.FC<StickerSelectBaseProps> = ({
   onChange,
 }) => {
   const { data = [], isLoading, error } = useStickers();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   useEffect(() => {
     if (!!setSticker)
@@ -119,9 +105,7 @@ const StickerSelectBase: React.FC<StickerSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay stickers disponibles'
+        !!error ? serverErrorMessage(error) : 'Ya no hay stickers disponibles'
       }
       isLoading={isLoading}
       options={data}

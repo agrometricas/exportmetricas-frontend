@@ -2,7 +2,6 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
@@ -71,7 +70,6 @@ const AddStrippingForm = ({
   onClose,
 }: AddStrippingFormProps): React.JSX.Element => {
   const { createStripping, isPending: isLoading } = useCreateStripping();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addStripping = async (
@@ -87,8 +85,6 @@ const AddStrippingForm = ({
       },
       {
         onError: (error: any) => {
-          const statusCode = error.response?.status;
-
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
@@ -96,10 +92,6 @@ const AddStrippingForm = ({
             duration: 5000,
             closable: true,
           });
-
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
         },
         onSuccess: () => {
           toaster.create({

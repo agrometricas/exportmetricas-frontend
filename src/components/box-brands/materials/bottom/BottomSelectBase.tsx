@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useBottoms } from '../../../../hooks/box-brand/materials/bottom/getBottoms';
 import { BottomType } from '../../../../types/box-brand/materials/bottom';
 
@@ -75,20 +75,6 @@ const BottomSelectBase: React.FC<BottomSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useBottoms();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<BottomType>>): void => {
     if (setBottom) setBottom(newValue as Partial<BottomType>);
@@ -109,9 +95,7 @@ const BottomSelectBase: React.FC<BottomSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay fondo/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay fondo/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

@@ -10,10 +10,10 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { ExportType } from '@/types/export';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
 
 interface ExportSelectBaseProps {
@@ -72,20 +72,6 @@ const ExportSelectBase: React.FC<ExportSelectBaseProps> = ({
   setExport,
 }) => {
   const { data, isLoading, error } = useExportsPending();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<ExportType>>): void => {
     if (setExport) {
@@ -111,7 +97,7 @@ const ExportSelectBase: React.FC<ExportSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay exportacion/es pendiente/s'
       }
       isLoading={isLoading}

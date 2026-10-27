@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useSachets } from '../../../../hooks/box-brand/materials/sachet/getSachets';
 import { SachetType } from '../../../../types/box-brand/materials/sachet';
 
@@ -75,20 +75,6 @@ const SachetSelectBase: React.FC<SachetSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useSachets();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<SachetType>>): void => {
     if (setSachet) setSachet(newValue as Partial<SachetType>);
@@ -109,9 +95,7 @@ const SachetSelectBase: React.FC<SachetSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay sachet/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay sachet/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

@@ -11,10 +11,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik, FormikErrors, useFormikContext } from 'formik';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
@@ -266,7 +264,6 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
 }
 
 export default function PriceSheetForm(): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isPending: isSaving } = useSavePriceSheet();
   const initialValues = useMemo(
@@ -286,10 +283,6 @@ export default function PriceSheetForm(): React.JSX.Element {
     if (!body) return;
     save(body, {
       onError: (error) => {
-        if (isAxiosError(error) && error.response?.status === 401) {
-          router.push('/api/auth/signout');
-          return;
-        }
         toaster.create({
           title: 'No se pudieron guardar los precios',
           description: serverErrorMessage(error),

@@ -10,10 +10,10 @@ import {
   SingleValue,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 
 interface BoxBrandSelectBaseProps {
@@ -72,22 +72,8 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
   name,
 }) => {
   const { data = [], isLoading, error } = useBoxBrands();
-  const router = useRouter();
   const onlyOption: Partial<BoxBrandType> | null =
     data.length === 1 ? data[0] : null;
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<BoxBrandType>>): void => {
     if (setBoxBrand) {
@@ -118,7 +104,7 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay tipo/s de caja disponible/s'
       }
       isLoading={isLoading}

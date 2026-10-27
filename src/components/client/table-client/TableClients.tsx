@@ -1,29 +1,18 @@
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailClients from './DetailClients';
 import { useClients } from '../../../hooks/export/client/getClients';
 import { ClientResponse } from '../../../types/client.response';
 
 const TableClients = (): React.JSX.Element => {
-  const { data = [], error } = useClients();
-  const router = useRouter();
+  const { data = [] } = useClients();
 
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const dataRes = error.response?.data;
-      if (dataRes?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<ClientResponse>[]>(() => [
     {

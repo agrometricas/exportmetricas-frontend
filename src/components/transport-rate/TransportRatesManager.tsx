@@ -10,7 +10,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import {
   MRT_ColumnDef,
@@ -18,7 +17,6 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
 import React, { useMemo, useRef, useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
 import {
@@ -43,7 +41,6 @@ import InputFieldPlain from '../ui/form/InputFieldPlain';
 const ECUADOR = 'EC';
 
 export default function TransportRatesManager(): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { data = [] } = useTransportRates();
   const { data: countries } = useCountries();
@@ -55,10 +52,6 @@ export default function TransportRatesManager(): React.JSX.Element {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const showError = (error: unknown): void => {
-    if (isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title: 'No se pudo guardar la tarifa',
       description: serverErrorMessage(error),

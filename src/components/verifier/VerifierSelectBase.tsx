@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -10,9 +9,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useVerifiers } from '../../hooks/verifier/getVerifiers';
 import { VerifierResponse } from '../../types/verifier/verifier.response';
 
@@ -72,19 +71,6 @@ const VerifierSelectBase: React.FC<VerifierSelectBaseProps> = ({
   setVerifier,
 }) => {
   const { data = [], isLoading, error } = useVerifiers();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const handleChange = (
     newValue: SingleValue<Partial<VerifierResponse>>
@@ -113,7 +99,7 @@ const VerifierSelectBase: React.FC<VerifierSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'No hay verificadoras disponible/s'
       }
       isLoading={isLoading}

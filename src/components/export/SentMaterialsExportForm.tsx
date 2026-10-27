@@ -197,9 +197,6 @@ const SentMaterialsExportForm = ({
           closable: true,
         });
 
-        if (error?.response?.status === 401) {
-          router.push('/api/auth/signout');
-        }
       },
       onSuccess: () => {
         toaster.create({

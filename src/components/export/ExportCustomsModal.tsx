@@ -7,9 +7,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
@@ -95,7 +93,6 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
   exportItem,
   onClose,
 }) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isPending: isLoading } = useUpdateExportCustoms();
 
@@ -105,10 +102,6 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
       { exportId: exportItem.id, body: customsBody(values) },
       {
         onError: (error) => {
-          if (isAxiosError(error) && error.response?.status === 401) {
-            router.push('/api/auth/signout');
-            return;
-          }
           toaster.create({
             title: 'No se pudo guardar la AUCP y la DAE',
             description: serverErrorMessage(error),

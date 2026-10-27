@@ -1,29 +1,18 @@
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailVerifiers from './DetailVerifiers';
 import { useVerifiers } from '../../../hooks/verifier/getVerifiers';
 import { VerifierResponse } from '../../../types/verifier/verifier.response';
 
 const TableVerifiers = (): React.JSX.Element => {
-  const { data = [], error } = useVerifiers();
-  const router = useRouter();
+  const { data = [] } = useVerifiers();
 
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const dataRes = error.response?.data;
-      if (dataRes?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<VerifierResponse>[]>(() => [
     {

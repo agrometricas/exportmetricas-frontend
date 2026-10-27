@@ -48,11 +48,8 @@ export function useSubmitClient(): {
                         duration: 5000,
                         closable: true,
                     });
-                    const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+                    const { message, model, prop }: Partial<ServerErrorResponse> =
                         error.response?.data ?? {};
-                    if (statusCode === 401) {
-                        router.push('/api/auth/signout');
-                    }
                     if (model === 'Client' && prop === 'businessId') {
                         formikHelpers.setFieldTouched(prop, true, false);
                         formikHelpers.setFieldError(prop, message);

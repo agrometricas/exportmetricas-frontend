@@ -10,9 +10,9 @@ import {
     MultiValue,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useIncoterms } from '../../hooks/export/client/incoterm/getIncoterms';
 
 export interface IncotermType {
@@ -74,19 +74,7 @@ const IncotermMultiSelectBase: React.FC<IncotermMultiSelectBaseProps> = ({
     setIncoterms,
 }) => {
     const { data, isLoading, error } = useIncoterms();
-    const router = useRouter();
 
-    useEffect(() => {
-        if (!!error) {
-            const { response } = error as any;
-            const { data } = response;
-            const { statusCode } = data;
-
-            if (statusCode === 401) {
-                router.push('/api/auth/signout');
-            }
-        }
-    }, [error, router]);
 
     const handleChange = (newValues: MultiValue<Partial<IncotermType>>): void => {
         if (setIncoterms) {
@@ -115,7 +103,7 @@ const IncotermMultiSelectBase: React.FC<IncotermMultiSelectBaseProps> = ({
             chakraStyles={chakraStyles}
             noOptionsMessage={() =>
                 !!error
-                    ? (error as any).response.data.message
+                    ? serverErrorMessage(error)
                     : 'Ya no hay puerto/s disponible/s'
             }
             isLoading={isLoading}

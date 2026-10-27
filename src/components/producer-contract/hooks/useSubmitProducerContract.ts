@@ -32,15 +32,6 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
   const { mutate: remove, isPending: isDeleting } = useDeleteProducerContract();
 
   const showError = (error: unknown): void => {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'response' in error &&
-      (error as { response?: { status?: number } }).response?.status === 401
-    ) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title: 'No se pudo guardar el contrato',
       description: serverErrorMessage(error),

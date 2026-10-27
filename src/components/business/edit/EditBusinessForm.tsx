@@ -61,10 +61,6 @@ export default function EditBusinessForm({
       {
         onError: (error) => {
           const data = error.response?.data;
-          if (data?.statusCode === 401) {
-            router.push('/api/auth/signout');
-            return;
-          }
           if (data?.prop) {
             helpers.setFieldTouched(data.prop, true, false);
             helpers.setFieldError(data.prop, data.message);

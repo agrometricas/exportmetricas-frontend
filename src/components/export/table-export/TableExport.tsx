@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Center, IconButton, Menu, Portal } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
@@ -7,7 +6,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BsFillSendCheckFill, BsFillSendDashFill } from 'react-icons/bs';
 import { FiMoreVertical } from 'react-icons/fi';
 import {
@@ -28,23 +27,10 @@ import ExportCustomsModal from '../ExportCustomsModal';
 import ExportDocumentsMenuItems from '../ExportDocumentsMenuItems';
 
 const TableExport = (): React.JSX.Element => {
-  const { rows: data, error, tableOptions } = useExports();
+  const { rows: data, tableOptions } = useExports();
   const router = useRouter();
   const [toCancel, setToCancel] = useState<ExportResponse | null>(null);
   const [customsOf, setCustomsOf] = useState<ExportResponse | null>(null);
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const columns = useMemo<MRT_ColumnDef<ExportResponse>[]>(
     () => [

@@ -11,9 +11,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useRef, useState } from 'react';
 import * as Yup from 'yup';
@@ -62,7 +60,6 @@ const validationSchema = Yup.object({
 });
 
 export default function UsersManager(): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const exporterId = session?.user?.exporterId
@@ -83,10 +80,6 @@ export default function UsersManager(): React.JSX.Element {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const showError = (title: string, failure: unknown): void => {
-    if (isAxiosError(failure) && failure.response?.status === 401) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title,
       description: serverErrorMessage(failure),

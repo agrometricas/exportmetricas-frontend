@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
 import {
@@ -32,10 +31,6 @@ export function useSubmitBooking(booking?: BookingResponse): {
   const { mutate: remove, isPending: isDeleting } = useDeleteBooking();
 
   const showError = (error: unknown): void => {
-    if (isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title: 'No se pudo guardar el booking',
       description: serverErrorMessage(error),

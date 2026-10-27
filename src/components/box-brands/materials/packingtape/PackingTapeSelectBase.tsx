@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePackingTapes } from '@/hooks/box-brand/materials/packingtape/getPackingTapes';
 import { PackingTapeType } from '@/types/box-brand/materials/packingtape';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface PackingTapeSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const PackingTapeSelectBase: React.FC<PackingTapeSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = usePackingTapes();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<PackingTapeType>>
@@ -109,7 +98,7 @@ const PackingTapeSelectBase: React.FC<PackingTapeSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay packingTape/s disponible/s'
       }
       isLoading={isLoading}

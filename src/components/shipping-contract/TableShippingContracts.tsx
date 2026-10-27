@@ -1,5 +1,4 @@
 import { Badge, Button, Text, VStack } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,8 +6,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useShippingContracts } from '../../hooks/shipping-contract/getShippingContracts';
 import {
   ShippingContractResponse,
@@ -17,14 +15,7 @@ import {
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 const TableShippingContracts = (): React.JSX.Element => {
-  const { data = [], error } = useShippingContracts();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-    }
-  }, [error, router]);
+  const { data = [] } = useShippingContracts();
 
   const columns = useMemo<MRT_ColumnDef<ShippingContractResponse>[]>(
     () => [

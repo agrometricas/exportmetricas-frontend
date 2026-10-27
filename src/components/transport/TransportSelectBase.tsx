@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -10,9 +9,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useTransports } from '../../hooks/transport/getTransports';
 import { TransportResponse } from '../../types/transport/transport.response';
 
@@ -72,20 +71,8 @@ const TransportSelectBase: React.FC<TransportSelectBaseProps> = ({
   setTransport,
 }) => {
   const { data = [], isLoading, error } = useTransports();
-  const router = useRouter();
   const menuPortalTarget =
     typeof document !== 'undefined' ? document.body : undefined;
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const handleChange = (
     newValue: SingleValue<Partial<TransportResponse>>
@@ -113,9 +100,7 @@ const TransportSelectBase: React.FC<TransportSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'No hay trasnportes disponible/s'
+        !!error ? serverErrorMessage(error) : 'No hay trasnportes disponible/s'
       }
       isLoading={isLoading}
       options={data}

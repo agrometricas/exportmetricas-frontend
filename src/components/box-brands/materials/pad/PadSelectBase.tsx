@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePads } from '@/hooks/box-brand/materials/pad/getPads';
 import { PadType } from '@/types/box-brand/materials/pad';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface PadSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const PadSelectBase: React.FC<PadSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = usePads();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<PadType>>): void => {
     if (setPad) setPad(newValue as Partial<PadType>);
@@ -106,9 +95,7 @@ const PadSelectBase: React.FC<PadSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay pad/s disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay pad/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

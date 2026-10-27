@@ -20,8 +20,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { MdContentCut, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { toaster } from '@/components/ui/toaster';
@@ -77,7 +75,6 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
   const { data: cuttingTypesData = [] } = useCuttingTypes();
   const cuttingTypes = cuttingTypesData as CuttingType[];
   const { open, onOpen, onClose } = useDisclosure();
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutateAsync, isPending: isLoading } = useCreateCuttingSheetBatch();
   const [edits, setEdits] = useState<Record<number, Partial<Editable>>>({});
@@ -156,10 +153,6 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
       setSelectedIds(result.failed.map((failure) => failure.exportSentId));
       onClose();
     } catch (error) {
-      if (isAxiosError(error) && error.response?.status === 401) {
-        router.push('/api/auth/signout');
-        return;
-      }
       toaster.create({
         title: 'No se pudieron generar las hojas',
         description: serverErrorMessage(error),

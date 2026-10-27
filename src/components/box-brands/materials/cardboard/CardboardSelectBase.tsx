@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useCardboards } from '@/hooks/box-brand/materials/cardboard/getCardboards';
 import { CardboardType } from '@/types/box-brand/materials/cardboard';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface CardboardSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const CardboardSelectBase: React.FC<CardboardSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useCardboards();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<CardboardType>>
@@ -108,9 +97,7 @@ const CardboardSelectBase: React.FC<CardboardSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay cartón/es disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay cartón/es disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

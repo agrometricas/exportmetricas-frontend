@@ -173,7 +173,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
       },
       {
         onError: (error: AxiosError<ServerErrorResponse>) => {
-          const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
+          const { message, model, prop }: Partial<ServerErrorResponse> =
             error.response?.data ?? {};
 
           toaster.create({
@@ -184,9 +184,6 @@ const AddBankAccountForm = (): React.JSX.Element => {
             closable: true,
           });
 
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
 
           if (!!model && !!prop) {
             if (model === 'BankAccount' && prop === 'accountNumber') {

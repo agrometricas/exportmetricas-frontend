@@ -11,7 +11,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
 import { useCancelExport } from '../../hooks/export/cancelExport';
@@ -52,7 +51,6 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
   onClose,
 }) => {
   const [reason, setReason] = useState('');
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: cancelExport, isPending: isLoading } = useCancelExport();
 
@@ -90,9 +88,6 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
             duration: 6000,
             closable: true,
           });
-          if (error.response?.status === 401) {
-            router.push('/api/auth/signout');
-          }
         },
       }
     );

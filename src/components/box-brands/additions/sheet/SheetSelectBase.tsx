@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useSheets } from '../../../../hooks/box-brand/additions/sheet/getSheets';
 import { SheetType } from '../../../../types/box-brand/additions/sheet';
 
@@ -72,20 +72,6 @@ const SheetSelectBase: React.FC<SheetSelectBaseProps> = ({
   onChange,
 }) => {
   const { data = [], isLoading, error } = useSheets();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   useEffect(() => {
     if (!!setSheet)
@@ -119,9 +105,7 @@ const SheetSelectBase: React.FC<SheetSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay hojas disponibles'
+        !!error ? serverErrorMessage(error) : 'Ya no hay hojas disponibles'
       }
       isLoading={isLoading}
       options={data}

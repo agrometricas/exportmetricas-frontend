@@ -14,9 +14,7 @@ import {
   Field,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers, useField } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
@@ -217,7 +215,6 @@ export default function BookingDocuments({
   bookingId: number;
   containers: BookingContainer[];
 }): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const borderColor = 'border';
   const [fileKey, setFileKey] = useState(0);
@@ -235,10 +232,6 @@ export default function BookingDocuments({
       { bookingId, body: bookingDocumentBody(values) },
       {
         onError: (error) => {
-          if (isAxiosError(error) && error.response?.status === 401) {
-            router.push('/api/auth/signout');
-            return;
-          }
           toaster.create({
             title: 'No se subió el documento',
             description: serverErrorMessage(error),

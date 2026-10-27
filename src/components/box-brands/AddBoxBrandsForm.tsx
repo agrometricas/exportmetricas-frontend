@@ -1230,7 +1230,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
       },
       {
         onError: (error: any) => {
-          const { statusCode, message, model, prop } =
+          const { message, model, prop } =
             error.response?.data ?? {};
 
           toaster.create({
@@ -1241,9 +1241,6 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
             closable: true,
           });
 
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
 
           if (model === 'BoxBrand' && prop === 'brandCode') {
             formikHelpers.setFieldTouched(`${prop}`, true, false);

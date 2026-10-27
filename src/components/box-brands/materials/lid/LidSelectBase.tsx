@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useLids } from '@/hooks/box-brand/materials/lid/getLids';
 import { LidType } from '@/types/box-brand/materials/lid';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface LidSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const LidSelectBase: React.FC<LidSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useLids();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<LidType>>): void => {
     if (setLid) setLid(newValue as Partial<LidType>);
@@ -106,9 +95,7 @@ const LidSelectBase: React.FC<LidSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay tapa/s disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay tapa/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

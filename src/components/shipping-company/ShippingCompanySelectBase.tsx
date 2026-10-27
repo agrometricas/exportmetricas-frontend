@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -9,8 +8,7 @@ import {
   chakraComponents,
   CSSObjectWithLabel,
 } from 'chakra-react-select';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
 import { ShippingCompanyType } from '../../types/shippingCompany';
@@ -60,19 +58,6 @@ const ShippingCompanySelectBase: React.FC<ShippingCompanySelectBaseProps> = ({
   onChange,
 }) => {
   const { data = [], isLoading, error } = useShippingCompanies();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const handleChange = (
     newValue: SingleValue<Partial<ShippingCompanyType>>

@@ -44,9 +44,6 @@ export function useSubmitExport({
           duration: 5000,
           closable: true,
         });
-        if (data?.statusCode === 401) {
-          router.push('/api/auth/signout');
-        }
         if (data?.model && data?.prop) {
           formikHelpers.setFieldError(`${data.prop}`, data.message);
         }

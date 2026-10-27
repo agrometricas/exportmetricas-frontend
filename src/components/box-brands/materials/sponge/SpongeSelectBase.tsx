@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useSponges } from '@/hooks/box-brand/materials/sponge/getSponges';
 import { SpongeType } from '@/types/box-brand/materials/sponge';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface SpongeSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const SpongeSelectBase: React.FC<SpongeSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useSponges();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<SpongeType>>): void => {
     if (setSponge) setSponge(newValue as Partial<SpongeType>);
@@ -106,9 +95,7 @@ const SpongeSelectBase: React.FC<SpongeSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay esponja/s disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay esponja/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

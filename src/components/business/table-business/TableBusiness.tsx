@@ -1,5 +1,4 @@
 import { Button } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,25 +6,14 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBusiness from './DetailBusiness';
 import { useBusinesses } from '../../../hooks/business/getAllBusiness';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
 const TableBusiness = (): React.JSX.Element => {
-  const { data = [], error } = useBusinesses();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const dataRes = error.response?.data;
-      if (dataRes?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
+  const { data = [] } = useBusinesses();
 
   const columns = useMemo<MRT_ColumnDef<BusinessResponse>[]>(
     () => [

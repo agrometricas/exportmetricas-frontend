@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useCertificates } from '../../hooks/utils/getCertificates';
 import { Certificate } from '../../types/utils/certificate';
 
@@ -72,21 +72,8 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
   setCertificates,
 }) => {
   const { data, isLoading, error } = useCertificates();
-  const router = useRouter();
   const menuPortalTarget =
     typeof document !== 'undefined' ? document.body : undefined;
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValues: MultiValue<Partial<Certificate>>): void => {
     if (setCertificates) {
@@ -115,7 +102,7 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay certificados disponibles'
       }
       isLoading={isLoading}
