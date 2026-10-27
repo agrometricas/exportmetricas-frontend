@@ -2,7 +2,6 @@
 'use client';
 import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -22,7 +21,10 @@ import {
   CONTAINER_POSITIONS,
   palletsHeightOptions,
 } from '../../../utils/cuttingSheetOptions';
-import { formatDayMonthYear } from '../../../utils/dayMonthYear';
+import {
+  formatDayMonthYear,
+  formatDayMonthYearTime,
+} from '../../../utils/dayMonthYear';
 import { returnTo } from '../../../utils/exportSteps';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import CheckboxForm from '../../ui/form/CheckboxForm';
@@ -31,7 +33,6 @@ import InputFieldText from '../../ui/form/InputFieldText';
 import UnsavedChangesGuard from '../../ui/form/UnsavedChangesGuard';
 import SelectCuttingType from '../cutting-type/SelectCuttingType';
 
-const timeZone = 'America/Guayaquil';
 
 const emptyExportData: ExportResponse = {
   id: 0,
@@ -419,23 +420,14 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.estimatedTravelTime}
           />
           <DisplayField
-            label='Numero de booking'
+            label='Número de booking'
             value={finalValues.exportData?.bookingNumber}
           />
           <DisplayField
             label='Fecha máxima de ingreso'
-            value={
+            value={formatDayMonthYearTime(
               finalValues.exportData?.shippingDateTime
-                ? format(
-                  toZonedTime(
-                    finalValues.exportData?.shippingDateTime,
-                    timeZone
-                  ),
-                  'yyyy-MM-dd HH:mm:ss',
-                  { timeZone }
-                )
-                : ''
-            }
+            )}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
@@ -478,7 +470,7 @@ const CuttingSheetForm = ({
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
-            label='Deposito'
+            label='Depósito'
             value={finalValues.exportData?.deposit?.name}
           />
           <DisplayField
