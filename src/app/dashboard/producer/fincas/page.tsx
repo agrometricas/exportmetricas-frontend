@@ -3,10 +3,7 @@ import {
   Box,
   Button,
   Card,
-  HStack,
   IconButton,
-  Text,
-  Badge,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -39,9 +36,6 @@ function FincasPage(): React.JSX.Element {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  const cardBg = 'bg.panel';
-  const borderColor = 'border';
-  const headingColor = 'fg.heading';
   const isMobile = useBreakpointValue({ base: true, md: false });
   const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
     base: 'sm',
@@ -92,35 +86,8 @@ function FincasPage(): React.JSX.Element {
         </>
       }
     >
-      <Card.Root
-        bg={cardBg}
-        borderColor={borderColor}
-        borderRadius='xl'
-        boxShadow='sm'
-        overflow='hidden'
-        borderWidth='1px'
-      >
+      <Card.Root boxShadow='sm' overflow='hidden'>
         <Card.Body p={0}>
-          {/* Cabecera */}
-          <Box p={6} py={4} borderBottom='1px solid' borderColor={borderColor}>
-            <HStack justify='space-between' align='center'>
-              <HStack gap={3}>
-                <Text fontSize='lg' fontWeight='semibold' color={headingColor}>
-                  Fincas
-                </Text>
-                <Badge
-                  colorPalette='green'
-                  variant='subtle'
-                  borderRadius='full'
-                  px={3}
-                  py={1}
-                >
-                  Lista actual
-                </Badge>
-              </HStack>
-            </HStack>
-          </Box>
-
           {/* Tabla */}
           <Box>
             <TableBusiness windowSize={windowSize} width={tableWidth} />

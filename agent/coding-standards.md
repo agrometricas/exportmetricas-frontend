@@ -150,7 +150,8 @@ the backend proposes.
 - A page is a `PageLayout` (a list: its card goes inside) or a `CardPage` (a
   form or a detail: the content goes in one card), from
   `components/ui/page/PageLayout.tsx`. They draw the header and the width:
-  `narrow` for a form, `wide` for anything with a table. A page does not build
+  `narrow` for a form, `wide` for anything with a table. A list's table goes
+  straight into its card: the page title already names it. A page does not build
   its own wrapper or set `minH='100vh'`: the scroll area under the app bar is
   shorter than the viewport, so the page would always scroll.
 - A form section opens with `FormSectionTitle` (`FormSubsectionTitle` below

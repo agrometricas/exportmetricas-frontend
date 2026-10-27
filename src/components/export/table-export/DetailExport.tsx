@@ -34,7 +34,7 @@ const DetailExport: React.FC<DetailExportsProps> = ({ data, width }) => {
     ));
 
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       {data.cancelledAt && (
         <Alert.Root
           status='error'

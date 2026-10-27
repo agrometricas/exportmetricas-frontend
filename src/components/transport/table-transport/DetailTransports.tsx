@@ -9,7 +9,7 @@ interface DetailTransportsProps {
 
 const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width }) => {
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger

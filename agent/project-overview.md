@@ -257,8 +257,8 @@ angostas la barra es un cajón que se cierra solo al cambiar de página
 
 Cada página arma su marco con `components/ui/page/PageLayout.tsx`: arriba el
 encabezado (ícono, título, descripción, botón y, si hay, las pestañas de la
-sección) y debajo el contenido. Las listas usan `PageLayout` con su tarjeta
-adentro; los formularios y las fichas usan `CardPage`, que pone el contenido en
+sección) y debajo el contenido. Las listas usan `PageLayout` con la tabla
+directo en su tarjeta; los formularios y las fichas usan `CardPage`, que pone el contenido en
 una sola tarjeta. Los formularios van a 1024 px de ancho y lo que lleva una
 tabla, a 1440 px. Dentro del formulario, cada sección abre con
 `FormSectionTitle` y el botón de guardar va en `FormActions`, que queda fijo

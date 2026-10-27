@@ -142,7 +142,7 @@ export default function PublicAdjustmentPage(): JSX.Element {
         flexShrink={0}
         px={6}
         py={4}
-        bg='white'
+        bg='bg.panel'
         boxShadow='sm'
         zIndex={1}
         position='sticky'

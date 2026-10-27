@@ -1,11 +1,9 @@
 import {
   Badge,
   Box,
-  Button,
   Card,
   Flex,
-  Heading,
-  HStack,
+  Icon,
   Link,
   SimpleGrid,
   Text,
@@ -13,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React from 'react';
+import { FiChevronRight } from 'react-icons/fi';
 import { useWorkQueue } from '../../hooks/export/exportProgress';
 import { WorkQueue } from '../../types/exportProgress';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
@@ -33,32 +32,75 @@ function GroupCard({
   listHref: string;
   children: React.ReactNode;
 }): React.JSX.Element {
-  const cardBg = 'bg.panel';
-  const borderColor = 'border';
   return (
-    <Card.Root
-      bg={cardBg}
-      borderWidth='1px'
-      borderColor={borderColor}
-      borderRadius='xl'
-    >
-      <Card.Body>
-        <Flex justify='space-between' align='center' mb={3}>
-          <Heading size='sm'>{title}</Heading>
-          <Badge colorPalette='orange' fontSize='sm'>
+    <Card.Root boxShadow='sm'>
+      <Card.Body p={4}>
+        <Flex justify='space-between' align='center' gap={3} mb={2}>
+          <Text as='h3' textStyle='md' fontWeight='semibold' color='fg.heading'>
+            {title}
+          </Text>
+          <Badge colorPalette='orange' variant='subtle'>
             {count}
           </Badge>
         </Flex>
-        <VStack align='stretch' gap={3}>
+        <VStack align='stretch' gap={0}>
           {children}
         </VStack>
         {count > SHOWN && (
-          <Link fontSize='sm' color='green.fg' mt={3} display='block' asChild>
+          <Link textStyle='sm' color='green.fg' mt={2} asChild>
             <Link_Next href={listHref}>Ver las {count}</Link_Next>
           </Link>
         )}
       </Card.Body>
     </Card.Root>
+  );
+}
+
+function QueueRow({
+  href,
+  action,
+  title,
+  badge,
+  detail,
+}: {
+  href: string;
+  action: string;
+  title: string;
+  badge?: React.ReactNode;
+  detail: string;
+}): React.JSX.Element {
+  return (
+    <Flex
+      align='center'
+      gap={3}
+      mx={-2}
+      px={2}
+      py={2}
+      borderRadius='l2'
+      _hover={{ bg: 'bg.muted' }}
+      _focusVisible={{ outline: '2px solid', outlineColor: 'green.focusRing' }}
+      asChild
+    >
+      <Link_Next href={href} title={action} aria-label={`${action}: ${title}`}>
+        <Box flex='1' minW={0}>
+          <Flex align='center' gap={2} minW={0}>
+            <Text textStyle='sm' fontWeight='semibold' truncate>
+              {title}
+            </Text>
+            {badge}
+          </Flex>
+          <Text textStyle='xs' color='fg.muted' truncate>
+            {detail}
+          </Text>
+        </Box>
+        <Icon
+          as={FiChevronRight}
+          boxSize={4}
+          color='fg.subtle'
+          flexShrink={0}
+        />
+      </Link_Next>
+    </Flex>
   );
 }
 
@@ -79,14 +121,18 @@ export default function WorkQueuePanel({
   const nothing = groups.length === 0 && !showDocuments;
 
   return (
-    <Box>
-      <Heading size='md' mb={3}>
+    <Box as='section'>
+      <Text as='h2' textStyle='h2' color='fg.heading' mb={4}>
         Lo que falta
-      </Heading>
+      </Text>
       {nothing ? (
         <Text color='fg.muted'>Nada pendiente para tu área. Todo al día.</Text>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={4}>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, xl: 3 }}
+          gap={4}
+          alignItems='start'
+        >
           {groups.map((group) => (
             <GroupCard
               key={group.key}
@@ -100,51 +146,22 @@ export default function WorkQueuePanel({
                   { ...item, bookingId: null },
                   '/dashboard'
                 );
+                const link =
+                  action && 'href' in action
+                    ? { href: action.href, label: action.label }
+                    : { href: exportPage(item.exportId), label: 'Abrir' };
                 return (
-                  <Flex
+                  <QueueRow
                     key={item.exportId}
-                    justify='space-between'
-                    align='center'
-                    gap={2}
-                  >
-                    <Box minW={0}>
-                      <Link fontSize='sm' fontWeight='semibold' asChild>
-                        <Link_Next href={exportPage(item.exportId)}>
-                          {item.farm}
-                        </Link_Next>
-                      </Link>
-                      <Text fontSize='xs' color='fg.muted' lineClamp={1}>
-                        {item.client} · {item.boxes} cajas
-                        {item.cuttingDate
-                          ? ` · corte ${formatDayMonthYear(item.cuttingDate)}`
-                          : ''}
-                      </Text>
-                    </Box>
-                    {action &&
-                      ('href' in action ? (
-                        <Button
-                          size='xs'
-                          colorPalette='green'
-                          variant='outline'
-                          asChild
-                        >
-                          <Link_Next href={action.href}>
-                            {action.label}
-                          </Link_Next>
-                        </Button>
-                      ) : (
-                        <Button
-                          size='xs'
-                          colorPalette='green'
-                          variant='outline'
-                          asChild
-                        >
-                          <Link_Next href={exportPage(item.exportId)}>
-                            Abrir
-                          </Link_Next>
-                        </Button>
-                      ))}
-                  </Flex>
+                    href={link.href}
+                    action={link.label}
+                    title={item.farm}
+                    detail={`${item.client} · ${item.boxes} cajas${
+                      item.cuttingDate
+                        ? ` · corte ${formatDayMonthYear(item.cuttingDate)}`
+                        : ''
+                    }`}
+                  />
                 );
               })}
             </GroupCard>
@@ -156,38 +173,21 @@ export default function WorkQueuePanel({
               listHref={QUEUE_LIST_PAGE.documents}
             >
               {queue.documents.bookings.slice(0, SHOWN).map((booking) => (
-                <Flex
+                <QueueRow
                   key={booking.bookingId}
-                  justify='space-between'
-                  align='center'
-                  gap={2}
-                >
-                  <Box minW={0}>
-                    <HStack gap={2}>
-                      <Text fontSize='sm' fontWeight='semibold'>
-                        {booking.bookingNumber}
-                      </Text>
-                      <Badge colorPalette={SEMAPHORE_COLOR[booking.semaphore]}>
-                        {booking.statusLabel}
-                      </Badge>
-                    </HStack>
-                    <Text fontSize='xs' color='fg.muted' lineClamp={1}>
-                      {missingSummary(booking.missing, 1)[0] ?? ''}
-                    </Text>
-                  </Box>
-                  <Button
-                    size='xs'
-                    colorPalette='green'
-                    variant='outline'
-                    asChild
-                  >
-                    <Link_Next
-                      href={`/dashboard/export/bookings/${booking.bookingId}`}
+                  href={`/dashboard/export/bookings/${booking.bookingId}`}
+                  action='Documentos'
+                  title={booking.bookingNumber}
+                  badge={
+                    <Badge
+                      colorPalette={SEMAPHORE_COLOR[booking.semaphore]}
+                      flexShrink={0}
                     >
-                      Documentos
-                    </Link_Next>
-                  </Button>
-                </Flex>
+                      {booking.statusLabel}
+                    </Badge>
+                  }
+                  detail={missingSummary(booking.missing, 1)[0] ?? ''}
+                />
               ))}
             </GroupCard>
           )}
