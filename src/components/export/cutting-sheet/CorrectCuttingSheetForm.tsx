@@ -126,12 +126,12 @@ const CorrectCuttingSheetForm = ({
             Vigente: {sheetVersionLabel(sheet.version)}
           </Badge>
         </HStack>
-        <Text fontSize='sm' color='gray.600'>
+        <Text fontSize='sm' color='fg.muted'>
           Exportación {sheet.exportSent.exportId} ·{' '}
           {shipment.merchant?.businessName} · {shipment.business?.name}
         </Text>
         {sheet.correctionReason && (
-          <Text fontSize='sm' color='gray.600'>
+          <Text fontSize='sm' color='fg.muted'>
             Último motivo: {sheet.correctionReason}
           </Text>
         )}

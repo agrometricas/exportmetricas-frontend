@@ -39,7 +39,7 @@ const SignInPage = (): JSX.Element => {
           fontSize='3xl'
           mt='0px'
           textAlign={'center'}
-          color={'green.700'}
+          color={'green.fg'}
         >
           Exportmétricas
         </Heading>

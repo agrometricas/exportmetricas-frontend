@@ -11,21 +11,20 @@ import React from 'react';
 import { useBookingDocumentStatus } from '../../hooks/booking/documentStatus';
 import { BookingDocumentStatus } from '../../types/shipmentStatus';
 import { CHECKLIST_STATUS, SEMAPHORE_COLOR } from '../../utils/shipmentStatus';
-import { useColorModeValue } from '../ui/color-mode';
 
 export default function BookingDocumentChecklist({
   bookingId,
 }: {
   bookingId: number;
 }): React.JSX.Element | null {
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const { data } = useBookingDocumentStatus(bookingId);
   const status = data as BookingDocumentStatus | undefined;
   if (!status) return null;
   const done = status.items.length - status.missing.length;
 
   return (
-    <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
+    <Box borderWidth='1px' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
         <HStack gap={3}>
           <Badge
@@ -35,7 +34,7 @@ export default function BookingDocumentChecklist({
           >
             {status.statusLabel}
           </Badge>
-          <Text fontSize='sm' color='gray.600'>
+          <Text fontSize='sm' color='fg.muted'>
             {done} de {status.items.length} listos
           </Text>
         </HStack>
@@ -52,7 +51,7 @@ export default function BookingDocumentChecklist({
           </Progress.Root>
         </Box>
       </Flex>
-      <Text fontSize='xs' color='gray.500' mt={2}>
+      <Text fontSize='xs' color='fg.muted' mt={2}>
         Se bloquea con algo rechazado, o con algo pendiente a 24 horas del
         zarpe. No impide guardar nada.
       </Text>
@@ -73,12 +72,12 @@ export default function BookingDocumentChecklist({
             <Box>
               <Text fontSize='sm' fontWeight='semibold'>
                 {item.document}{' '}
-                <Text as='span' fontWeight='normal' color='gray.600'>
+                <Text as='span' fontWeight='normal' color='fg.muted'>
                   · {item.scope}
                 </Text>
               </Text>
               {item.detail && (
-                <Text fontSize='sm' color='gray.600'>
+                <Text fontSize='sm' color='fg.muted'>
                   {item.detail}
                 </Text>
               )}

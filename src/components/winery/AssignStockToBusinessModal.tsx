@@ -108,12 +108,12 @@ export function AssignStockToBusinessModal({
                     <Box
                       key={farm.id}
                       p={3}
-                      border='1px solid #E2E8F0'
+                      borderWidth='1px'
                       borderRadius='md'
                       cursor='pointer'
                     >
                       <Text fontWeight='bold'>{farm.name}</Text>
-                      <Text fontSize='sm' color='gray.500'>
+                      <Text fontSize='sm' color='fg.muted'>
                         MAGAP: {farm.codeMAGAP}
                       </Text>
                       <Button

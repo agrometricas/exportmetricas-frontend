@@ -1,24 +1,34 @@
 'use client';
-import { Badge, Box, Circle, Flex, Float, Heading, Icon, IconButton, Menu, SkeletonCircle, Text, Portal } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Circle,
+  Flex,
+  Float,
+  Heading,
+  Icon,
+  IconButton,
+  Menu,
+  SkeletonCircle,
+  Text,
+  Portal,
+} from '@chakra-ui/react';
 import React from 'react';
 import { MdOutlineNotifications } from 'react-icons/md';
 import { useNotifications } from '../../../hooks/useNotifications';
-import { useColorModeValue } from "../color-mode";
 
 const formatCount = (n: number): string => (n > 99 ? '99+' : n.toString());
 
 const MenuNotification = (): React.JSX.Element => {
   const { notifications, isLoading } = useNotifications();
-  const listBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textPrimary = useColorModeValue('gray.800', 'gray.100');
-  const textSecondary = useColorModeValue('gray.500', 'gray.400');
-  const hoverRow = useColorModeValue('gray.50', 'gray.700');
+  const listBg = 'bg.panel';
+  const borderColor = 'border';
+  const textPrimary = 'fg.heading';
+  const textSecondary = 'fg.muted';
+  const hoverRow = 'bg.subtle';
 
   if (isLoading) {
-    return (
-      <SkeletonCircle size='10' />
-    );
+    return <SkeletonCircle size='10' />;
   }
 
   const total = notifications.length;
@@ -50,7 +60,9 @@ const MenuNotification = (): React.JSX.Element => {
         </IconButton>
       </Menu.Trigger>
 
-      <Portal><Menu.Positioner><Menu.Content>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content>
             <Box
               position='sticky'
               top='0'
@@ -94,7 +106,8 @@ const MenuNotification = (): React.JSX.Element => {
             >
               {total > 0 ? (
                 notifications.map((n, i) => (
-                  <Menu.Item key={i}
+                  <Menu.Item
+                    key={i}
                     alignItems='flex-start'
                     px='12px'
                     py='10px'
@@ -106,14 +119,16 @@ const MenuNotification = (): React.JSX.Element => {
                       transform: 'translateX(4px)',
                     }}
                     value={String(i)}
-                    asChild><a href={n.href}>
+                    asChild
+                  >
+                    <a href={n.href}>
                       <Flex w='full' gap={3}>
                         <Box
                           mt='6px'
                           minW='8px'
                           h='8px'
                           borderRadius='full'
-                          bg='green.400'
+                          bg='green.solid'
                         />
                         <Box flex='1' minW={0}>
                           <Text
@@ -124,19 +139,26 @@ const MenuNotification = (): React.JSX.Element => {
                             {n.message}
                           </Text>
                           {n.detail && (
-                            <Text fontSize='sm' color={textSecondary} lineClamp={2}>
+                            <Text
+                              fontSize='sm'
+                              color={textSecondary}
+                              lineClamp={2}
+                            >
                               {n.detail}
                             </Text>
                           )}
                         </Box>
                       </Flex>
-                    </a></Menu.Item>
+                    </a>
+                  </Menu.Item>
                 ))
               ) : (
                 <>
                   <Menu.Separator borderColor={borderColor} />
                   <Flex direction='column' align='center' py='28px' gap={2}>
-                    <Icon boxSize='28px' color={textSecondary} asChild><MdOutlineNotifications /></Icon>
+                    <Icon boxSize='28px' color={textSecondary} asChild>
+                      <MdOutlineNotifications />
+                    </Icon>
                     <Heading as='h5' fontSize='sm' color={textPrimary}>
                       Sin notificaciones
                     </Heading>
@@ -147,7 +169,9 @@ const MenuNotification = (): React.JSX.Element => {
                 </>
               )}
             </Box>
-          </Menu.Content></Menu.Positioner></Portal>
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
     </Menu.Root>
   );
 };

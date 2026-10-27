@@ -209,7 +209,7 @@ export default function WeeklyExportsCalendar({
               key={dayIndex}
               p={2}
               borderRadius='md'
-              borderColor='gray.100'
+              borderColor='border'
               borderWidth='1px'
               boxShadow='sm'
               minH='200px'
@@ -238,8 +238,8 @@ export default function WeeklyExportsCalendar({
                 pt={2}
                 textAlign='center'
                 fontWeight='bold'
-                borderTop='1px'
-                borderColor='gray.100'
+                borderTopWidth='1px'
+                borderColor='border'
               >
                 {dayTotal} Cajas
               </Text>

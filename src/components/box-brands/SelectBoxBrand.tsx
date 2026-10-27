@@ -1,7 +1,8 @@
-import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBoxBrandSelect from './InputFieldBoxBrandSelect';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
+import { FormLabel } from '../ui/form/FormLabel';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 
 interface SelectBoxBrandProps {
@@ -46,7 +47,7 @@ const SelectBoxBrand: React.FC<SelectBoxBrandProps> = ({
         />
 
         <Box>
-          <Field.Label fontSize='sm'>Código</Field.Label>
+          <FormLabel fontSize='sm'>Código</FormLabel>
           <Input readOnly={true} value={boxBrand?.brandCode || ''} />
         </Box>
 

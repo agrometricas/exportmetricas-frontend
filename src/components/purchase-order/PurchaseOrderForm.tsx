@@ -102,7 +102,7 @@ export default function PurchaseOrderForm({
               Líneas
             </Heading>
             <Separator mb='16px' />
-            <Text fontSize='sm' color='gray.600'>
+            <Text fontSize='sm' color='fg.muted'>
               Cada línea es una finca, una alícuota y sus cajas. Márcala como
               contrato si va contra el cupo del productor, o como spot.
             </Text>
@@ -135,7 +135,7 @@ export default function PurchaseOrderForm({
                     />
                   ))}
                   {typeof errors.lines === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.lines}
                     </Text>
                   )}

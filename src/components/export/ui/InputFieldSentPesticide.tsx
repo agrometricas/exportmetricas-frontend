@@ -47,7 +47,7 @@ const InputFieldSentPesticide: React.FC<InputFieldSentPesticideProps> = ({
             pl={'8px'}
             value={`${pesticideSelected.pesticide?.activeIngredient}`}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -60,7 +60,7 @@ const InputFieldSentPesticide: React.FC<InputFieldSentPesticideProps> = ({
             textAlign={'left'}
             value={`${pesticideSelected.pesticide?.dose}`}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -72,7 +72,7 @@ const InputFieldSentPesticide: React.FC<InputFieldSentPesticideProps> = ({
             pl={'8px'}
             value={`${pesticideSelected.pesticide?.presentation}`}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -85,7 +85,7 @@ const InputFieldSentPesticide: React.FC<InputFieldSentPesticideProps> = ({
             p={'0px'}
             pl={'8px'}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />

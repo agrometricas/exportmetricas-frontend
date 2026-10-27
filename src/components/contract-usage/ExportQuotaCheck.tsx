@@ -21,7 +21,7 @@ export default function ExportQuotaCheck({
     );
   }
   return (
-    <Text fontSize='sm' color='gray.600'>
+    <Text fontSize='sm' color='fg.muted'>
       {check.approvedWeeklyBoxes === null
         ? `${check.business.name} no tiene contrato vigente esa semana.`
         : `Cupo de ${check.business.name} esa semana: ${check.approvedWeeklyBoxes} cajas; con esta exportación lleva ${check.exportedBoxes}.`}

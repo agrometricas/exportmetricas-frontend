@@ -247,7 +247,7 @@ const AdjustWeeklyForm = ({
                                 placeholder='Unidades a Ajustar'
                                 isDecimal={false}
                               />
-                              <Text fontSize='sm' color='gray.600'>
+                              <Text fontSize='sm' color='fg.muted'>
                                 Stock Proyectado: <strong>{projected}</strong>
                                 {' - '}
                                 Unidades Consideradas:{' '}
@@ -313,7 +313,7 @@ const AdjustWeeklyForm = ({
                                 Transferencias (Semana {week})
                               </Heading>
                               {item.transfers.length === 0 ? (
-                                <Text color='gray.500'>
+                                <Text color='fg.muted'>
                                   No hay transferencias.
                                 </Text>
                               ) : (
@@ -337,7 +337,7 @@ const AdjustWeeklyForm = ({
                                 Consumos (Semana {week})
                               </Heading>
                               {item.consumptions.length === 0 ? (
-                                <Text color='gray.500'>No hay consumos.</Text>
+                                <Text color='fg.muted'>No hay consumos.</Text>
                               ) : (
                                 <VStack align='start' gap={1}>
                                   {item.consumptions.map((m) => (

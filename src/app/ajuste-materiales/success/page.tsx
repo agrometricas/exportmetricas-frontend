@@ -19,14 +19,14 @@ export default function AdjustmentSuccessPage(): JSX.Element {
           fontSize='3xl'
           mt='0px'
           textAlign='center'
-          color='green.700'
+          color='green.fg'
         >
           Exportmétricas
         </Heading>
-        <Heading fontSize='2xl' mt='32px' color='green.600' textAlign='center'>
+        <Heading fontSize='2xl' mt='32px' color='green.fg' textAlign='center'>
           ¡Ajuste enviado exitosamente!
         </Heading>
-        <Text fontSize='md' mt='12px' textAlign='center' color='gray.600'>
+        <Text fontSize='md' mt='12px' textAlign='center' color='fg.muted'>
           Gracias por enviar el ajuste de materiales.
         </Text>
       </Flex>

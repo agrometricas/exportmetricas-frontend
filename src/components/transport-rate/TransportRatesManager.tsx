@@ -8,7 +8,6 @@ import {
   Text,
   Dialog,
   Portal,
-  Field,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
@@ -39,6 +38,7 @@ import { TransportRateResponse } from '../../types/transportRate';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
+import { FormLabel } from '../ui/form/FormLabel';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 const ECUADOR = 'EC';
@@ -178,11 +178,11 @@ export default function TransportRatesManager(): React.JSX.Element {
             {editing ? (
               <>
                 <Box>
-                  <Field.Label fontSize='sm'>Transportista</Field.Label>
+                  <FormLabel fontSize='sm'>Transportista</FormLabel>
                   <Input readOnly value={editing.transport.name} />
                 </Box>
                 <Box>
-                  <Field.Label fontSize='sm'>Provincia</Field.Label>
+                  <FormLabel fontSize='sm'>Provincia</FormLabel>
                   <Input readOnly value={editing.province.name} />
                 </Box>
               </>
@@ -209,7 +209,7 @@ export default function TransportRatesManager(): React.JSX.Element {
               inputMode='decimal'
             />
           </SimpleGrid>
-          <Text fontSize='sm' color='gray.600' mt={2}>
+          <Text fontSize='sm' color='fg.muted' mt={2}>
             Un servicio por contenedor: del depósito o el puerto a la finca, y
             de la finca al puerto.
           </Text>

@@ -24,7 +24,6 @@ import {
 } from '../../hooks/box-type/mutateBoxType';
 import { BoxTypeResponse } from '../../types/boxType';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 const validationSchema = Yup.object({
@@ -37,8 +36,8 @@ const validationSchema = Yup.object({
 export default function BoxTypesManager(): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
   const { data, isLoading: isLoadingList } = useBoxTypes();
   const boxTypes = (data ?? []) as BoxTypeResponse[];
   const { mutate: save, isLoading } = useSaveBoxType();

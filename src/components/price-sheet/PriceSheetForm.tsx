@@ -35,7 +35,6 @@ import { getWeekInfo } from '../../utils/getWeekInfo';
 import { isMoney } from '../../utils/money';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import { isCompleteDay } from '../purchase-order/schemas/purchaseOrder.schema';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
@@ -56,8 +55,8 @@ function validate(values: Values): FormikErrors<Values> {
 }
 
 function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   return (
     <Box
@@ -151,8 +150,8 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
 
 function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
   const { values, setFieldValue } = useFormikContext<Values>();
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const mutedColor = 'fg.muted';
+  const borderColor = 'border';
   const week = isCompleteDay(values.weekDay) ? values.weekDay : null;
   const { sheet, isLoading } = usePriceSheet(week);
   const { quote, isSettled } = usePriceSheetQuote(
@@ -192,7 +191,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
             <Text fontSize='xs' color={mutedColor}>
               Una línea sin precio usa el mínimo del contrato de su productor.{' '}
               {shown.minimum.isDefault && 'Es el de 2026: '}
-              <Link color='green.600' asChild>
+              <Link color='green.fg' asChild>
                 <Link_Next href='/dashboard/settings/minimum-box-price'>
                   cámbialo en Configuraciones
                 </Link_Next>
@@ -207,7 +206,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
       {shown && shown.lines.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>
           No hay órdenes de compra esa semana.{' '}
-          <Link color='green.600' asChild>
+          <Link color='green.fg' asChild>
             <Link_Next href='/dashboard/export/add-purchase-order'>
               Crear una orden
             </Link_Next>

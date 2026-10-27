@@ -46,7 +46,7 @@ const InputFieldSentQuantity: React.FC<InputFieldSentQuantityProps> = ({
           id={materialSelected}
           value={materialSelected}
           readOnly={true}
-          _hover={{ borderColor: 'gray.200' }}
+          _hover={{ borderColor: 'border' }}
           cursor={'not-allowed'}
           // textAlign='right'
           opacity={0.8} />
@@ -56,13 +56,13 @@ const InputFieldSentQuantity: React.FC<InputFieldSentQuantityProps> = ({
         id={`${name} need`}
         value={quantity}
         readOnly={true}
-        _hover={{ borderColor: 'gray.200' }}
+        _hover={{ borderColor: 'border' }}
         cursor={'not-allowed'}
         textAlign='left'
         opacity={0.8} />
       <InputGroup width={'100%'}
   endElement={unit ? unit : undefined}
-  endElementProps={{ pointerEvents: 'none', color: 'gray.500', fontSize: '1em', mr: '8px' }}>
+  endElementProps={{ pointerEvents: 'none', color: 'fg.muted', fontSize: '1em', mr: '8px' }}>
         
         <NumberInput.Root {...field}>
           <NumberInput.Input

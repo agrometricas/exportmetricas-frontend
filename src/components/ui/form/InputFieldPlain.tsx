@@ -35,7 +35,7 @@ const InputFieldPlain: React.FC<InputFieldPlainProps> = ({
         endElement={unit ? unit : undefined}
         endElementProps={{
           pointerEvents: 'none',
-          color: 'gray.500',
+          color: 'fg.muted',
           width: 'auto',
           pr: '12px',
         }}

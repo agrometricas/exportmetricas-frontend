@@ -3,23 +3,22 @@ import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
-import { useColorModeValue } from '../ui/color-mode';
 
 export default function ContractUsageAlerts(): React.JSX.Element | null {
   const today = useMemo(() => startOfLocalDay(new Date().toISOString()), []);
   const { usage } = useContractUsage(today);
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
 
   if (!usage) return null;
 
   return (
     <Card.Root
       bg={cardBg}
-      border='1px solid'
+      borderWidth='1px'
       borderColor={borderColor}
       borderRadius='xl'
-      boxShadow='md'
+      boxShadow='sm'
     >
       <Card.Body>
         <Flex

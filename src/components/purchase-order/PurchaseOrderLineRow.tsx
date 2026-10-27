@@ -19,7 +19,6 @@ import { PurchaseOrderLine } from '../../types/purchaseOrder';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import BoxBrandSelectBase from '../box-brands/BoxBrandSelectBase';
 import BusinessSelectBase from '../business/BusinessSelectBase';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 interface PurchaseOrderLineRowProps {
@@ -60,7 +59,7 @@ function ExportStatus({
   orderId?: number;
   saved?: PurchaseOrderLine;
 }): React.JSX.Element | null {
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const mutedColor = 'fg.muted';
   if (!saved || !orderId) {
     return (
       <Text fontSize='sm' color={mutedColor}>
@@ -100,7 +99,7 @@ export default function PurchaseOrderLineRow({
   canRemove,
   onRemove,
 }: PurchaseOrderLineRowProps): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const borderColor = 'border';
   const prefix = `lines[${index}]`;
   const [, , businessHelpers] = useField(`${prefix}.businessId`);
   const previousMerchant = useRef(merchant);

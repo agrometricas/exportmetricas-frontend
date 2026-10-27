@@ -133,8 +133,8 @@ const ImportClientDrawer: React.FC = () => {
               <Drawer.Body>
                 {fileName ? (
                   <Box
-                    border='1px solid'
-                    borderColor='gray.200'
+                    borderWidth='1px'
+                    borderColor='border'
                     borderRadius='md'
                     p={4}
                     bg='green.subtle'
@@ -145,10 +145,10 @@ const ImportClientDrawer: React.FC = () => {
                         <Text fontWeight='bold' fontSize='lg'>
                           Archivo seleccionado
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{fileName}</b>
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Tamaño: <b>{(fileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>

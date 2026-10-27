@@ -114,9 +114,9 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
           <InputGroup
             w='100%'
             startElement={isDolar ? '$' : undefined}
-            startElementProps={{ color: 'gray.400', fontSize: '1.2em' }}
+            startElementProps={{ color: 'fg.subtle', fontSize: '1.2em' }}
             endElement={unit}
-            endElementProps={{ color: 'gray.500', fontSize: '1em', mr: '8px' }}
+            endElementProps={{ color: 'fg.muted', fontSize: '1em', mr: '8px' }}
           >
             <Input
               type='text'

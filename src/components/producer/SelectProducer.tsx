@@ -1,7 +1,8 @@
-import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldProducerSelect from './InputFieldProducerSelect';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectProducerProps {
   name: string;
@@ -38,7 +39,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           setProducer={setProducer}
         />
         <Box>
-          <Field.Label fontSize='sm'>RUC</Field.Label>
+          <FormLabel fontSize='sm'>RUC</FormLabel>
           <Input
             readOnly
             value={producer?.businessId || ''}
@@ -46,7 +47,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           />
         </Box>
         <Box>
-          <Field.Label fontSize='sm'>Dirección</Field.Label>
+          <FormLabel fontSize='sm'>Dirección</FormLabel>
           <Input
             readOnly
             value={producer?.address || ''}
@@ -55,7 +56,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
         </Box>
         {producer?.city?.name &&
           <Box>
-            <Field.Label fontSize='sm'>Ciudad</Field.Label>
+            <FormLabel fontSize='sm'>Ciudad</FormLabel>
             <Input
               readOnly
               value={producer?.city?.name || ''}
@@ -64,7 +65,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           </Box>}
         {!producer?.city?.name && (
           <Box>
-            <Field.Label fontSize='sm'>Tipo de Contrato</Field.Label>
+            <FormLabel fontSize='sm'>Tipo de Contrato</FormLabel>
             <Input
               readOnly
               value={producer?.contractType || 'No disponible'}

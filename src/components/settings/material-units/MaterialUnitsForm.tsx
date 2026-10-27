@@ -68,7 +68,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
     <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
       <Form>
         <Flex flexDirection='column' gap={5}>
-          <Text fontSize='sm' color='gray.500'>
+          <Text fontSize='sm' color='fg.muted'>
             Es la unidad en que la alícuota dice cuánto consume cada caja o cada
             contenedor. Se configura una vez; mientras tanto rige la unidad por
             defecto.

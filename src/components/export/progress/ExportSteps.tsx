@@ -38,14 +38,14 @@ export default function ExportSteps({
   const [customsOpen, setCustomsOpen] = useState(false);
   const { data: session } = useSession();
   const role = session?.user?.role;
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const nextBg = useColorModeValue('orange.50', 'whiteAlpha.100');
   const canEdit =
     !exportItem.cancelledAt && exportItem.pendingExportSent !== false;
   const back = exportPage(progress.exportId);
 
   return (
-    <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
+    <Box borderWidth='1px' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
         <Badge colorPalette={STATE_COLOR[progress.state]} fontSize='sm' px={2}>
           {progress.stateLabel}
@@ -83,7 +83,7 @@ export default function ExportSteps({
               bg={isNext ? nextBg : undefined}
               wrap='wrap'
             >
-              <Text w='20px' color='gray.500' fontSize='sm'>
+              <Text w='20px' color='fg.muted' fontSize='sm'>
                 {index + 1}
               </Text>
               <Badge
@@ -97,14 +97,14 @@ export default function ExportSteps({
                 <Text fontSize='sm' fontWeight='semibold'>
                   {step.label}
                   {isNext && (
-                    <Text as='span' fontWeight='normal' color='orange.600'>
+                    <Text as='span' fontWeight='normal' color='orange.fg'>
                       {' '}
                       · sigue
                     </Text>
                   )}
                 </Text>
                 {step.detail && (
-                  <Text fontSize='sm' color='gray.600'>
+                  <Text fontSize='sm' color='fg.muted'>
                     {step.detail}
                   </Text>
                 )}

@@ -36,6 +36,15 @@ los estados usan las paletas semánticas de Chakra (`red`, `orange`, `green`).
 Una pantalla no elige colores para claro y oscuro: usa estos tokens.
 `useColorModeValue` queda solo para lo que no tiene token.
 
+## CSS global
+
+El sistema corre con las *cascade layers* de Chakra apagadas
+(`disableLayers`): con capas, los estilos que llegan renderizados del servidor
+pueden quedar antes de la declaración del orden, y el reset de Chakra les gana
+a los componentes. Sin capas manda la especificidad de siempre: una clase le
+gana a un selector de etiqueta. `app/globals.css` solo lleva reglas sobre
+etiquetas (`html`, `body`, `a`).
+
 ## Tipografía
 
 Inter, cargada con `next/font` (`--font-inter`). Estilos de texto del tema:
@@ -49,9 +58,15 @@ la clase `num`.
 
 - Espaciado en base 4 de Chakra: `1`=4px, `2`=8, `3`=12, `4`=16, `6`=24, `8`=32,
   `12`=48, `16`=64. Nada fuera de esa escala.
-- Radios: `sm` 6px (input, badge), `md` 10px (botón), `lg` 16px (tarjeta,
-  modal), `xl` 24px, `full` (pill).
+- Radios: los componentes de Chakra toman los de la marca por sus radios
+  semánticos: `l1` 6px (badge, input chico), `l2` 10px (botón, input), `l3`
+  16px (tarjeta, modal). Los radios base (`md`, `lg`, `xl`…) quedan en la escala
+  de Chakra, que es con la que están escritas las pantallas.
 - Sombras azuladas `sm`, `md`, `lg`; en oscuro la jerarquía la da la superficie.
+  Una tarjeta lleva borde y `boxShadow='sm'`; un botón no se levanta al pasar el
+  mouse.
+- Un borde se escribe `borderWidth='1px'` y su color con `borderColor`: la
+  abreviatura `border='1px solid'` pone el color del texto.
 
 ## Modo oscuro
 

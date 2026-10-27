@@ -1,4 +1,10 @@
-import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
+import {
+  createSystem,
+  defaultConfig,
+  defineConfig,
+  defineSlotRecipe,
+} from '@chakra-ui/react';
+import { fieldAnatomy } from '@chakra-ui/react/anatomy';
 
 // Tokens of the brand design system (design-system.md at the repo root of
 // agrometricas). Gray is the brand's slate, so every default component that
@@ -19,6 +25,10 @@ const slate = {
 };
 
 const config = defineConfig({
+  // Server-rendered emotion styles can land in <head> ahead of the layer order
+  // statement, and then Chakra's reset layer beats its recipes. Unlayered,
+  // the order they are inserted in stops mattering.
+  disableLayers: true,
   globalCss: {
     'html, body': { bg: 'bg.canvas', color: 'fg', fontFamily: 'body' },
     '.num': { fontVariantNumeric: 'tabular-nums', textAlign: 'right' },
@@ -46,15 +56,16 @@ const config = defineConfig({
         heading: { value: 'var(--font-inter), system-ui, sans-serif' },
         body: { value: 'var(--font-inter), system-ui, sans-serif' },
       },
-      radii: {
-        sm: { value: '6px' },
-        md: { value: '10px' },
-        lg: { value: '16px' },
-        xl: { value: '24px' },
-        full: { value: '9999px' },
-      },
     },
     semanticTokens: {
+      // What Chakra's own components use: inputs and badges, buttons, then
+      // cards and dialogs. The base radii keep Chakra's scale, which the
+      // screens were written against.
+      radii: {
+        l1: { value: '6px' },
+        l2: { value: '10px' },
+        l3: { value: '16px' },
+      },
       colors: {
         bg: {
           canvas: {
@@ -143,6 +154,25 @@ const config = defineConfig({
           },
         },
       },
+    },
+    slotRecipes: {
+      // v2's spacing: the form helpers were written for a FormControl that
+      // was a block and a FormLabel with its own bottom margin, and most of
+      // them still set that margin, which v3's gap would add to.
+      field: defineSlotRecipe({
+        slots: fieldAnatomy.keys(),
+        base: {
+          root: { gap: 0 },
+          label: { mb: 2 },
+          errorText: { mt: 2 },
+          helperText: { mt: 2 },
+        },
+        variants: {
+          orientation: {
+            vertical: { root: { alignItems: 'stretch' } },
+          },
+        },
+      }),
     },
     textStyles: {
       h1: {

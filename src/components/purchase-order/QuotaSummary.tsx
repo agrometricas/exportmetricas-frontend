@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { OrderQuota } from '../../types/purchaseOrder';
-import { useColorModeValue } from '../ui/color-mode';
 
 const boxes = (value: number | null): string =>
   value === null ? '—' : String(value);
@@ -22,8 +21,8 @@ export default function QuotaSummary({
   quota: OrderQuota | undefined;
   isFetching?: boolean;
 }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   if (!quota) {
     return (

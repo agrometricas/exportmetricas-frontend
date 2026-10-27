@@ -1,4 +1,11 @@
-import { Input, InputGroup, IconButton, Text, Flex, Field } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  IconButton,
+  Text,
+  Flex,
+  Field,
+} from '@chakra-ui/react';
 import { useField } from 'formik';
 import { useEffect, useRef } from 'react';
 import { FaBan } from 'react-icons/fa';
@@ -82,11 +89,7 @@ const InputFieldText: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <Field.Root
-      id={name}
-      invalid={!!meta.error && meta.touched}
-      width={'100%'}
-    >
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} width={'100%'}>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}
@@ -116,7 +119,10 @@ const InputFieldText: React.FC<InputFieldProps> = ({
                     aria-label='Ban'
                     size='sm'
                     variant='outline'
-                    onClick={banClick}><FaBan size='16px' /></IconButton>
+                    onClick={banClick}
+                  >
+                    <FaBan size='16px' />
+                  </IconButton>
                 )}
               </Text>
             </Field.Label>

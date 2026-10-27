@@ -10,7 +10,6 @@ import { useClientPaymentsPending } from '../../hooks/client-payment/getClientPa
 import { usePagination } from '../../hooks/usePagination';
 import { ExportSentType } from '../../types/exportSent';
 import { pendingExportColumns } from '../export/pendingColumns';
-import { useColorModeValue } from "../ui/color-mode";
 import OpenWithConfirmation from '../ui/OpenWithConfirmation';
 import PendingTable from '../ui/PendingTable';
 
@@ -31,7 +30,7 @@ const PendingPaymentList = (): React.JSX.Element => {
     []
   );
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {

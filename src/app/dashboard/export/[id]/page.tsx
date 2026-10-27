@@ -15,7 +15,6 @@ import { MdOutlineLocalShipping } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import ExportSteps from '../../../../components/export/progress/ExportSteps';
 import DetailExport from '../../../../components/export/table-export/DetailExport';
-import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import { useExportProgress } from '../../../../hooks/export/exportProgress';
 import { useExport } from '../../../../hooks/export/getExport';
@@ -45,7 +44,7 @@ function Fact({
 }): React.JSX.Element {
   return (
     <Box>
-      <Text fontSize='xs' color='gray.500'>
+      <Text fontSize='xs' color='fg.muted'>
         {label}
       </Text>
       <Text fontSize='sm' fontWeight='semibold'>
@@ -61,10 +60,10 @@ function ExportFilePage(): React.JSX.Element {
   const { data: progressData } = useExportProgress(id);
   const progress = progressData as ExportProgress | undefined;
   const [detailRef, detailWidth] = useWidth();
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headBg = useColorModeValue('gray.50', 'gray.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headBg = 'bg.subtle';
 
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
@@ -73,14 +72,14 @@ function ExportFilePage(): React.JSX.Element {
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
-          boxShadow='lg'
-          border='1px solid'
+          boxShadow='sm'
+          borderWidth='1px'
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
           <Card.Header bg={headBg}>
             <HStack gap={3}>
-              <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
+              <Box p={2} bg='green.subtle' borderRadius='lg' color='green.fg'>
                 <Icon boxSize={5} asChild>
                   <MdOutlineLocalShipping />
                 </Icon>
@@ -89,7 +88,7 @@ function ExportFilePage(): React.JSX.Element {
                 <Heading size='lg' fontWeight='bold'>
                   Exportación {id}
                 </Heading>
-                <Text fontSize='sm' color='gray.600'>
+                <Text fontSize='sm' color='fg.muted'>
                   Sus pasos, lo que sigue y el detalle
                 </Text>
               </Box>

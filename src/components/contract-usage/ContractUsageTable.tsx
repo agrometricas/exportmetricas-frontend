@@ -1,7 +1,6 @@
 import { Badge, Box, Table, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FarmUsage } from '../../types/contractUsage';
-import { useColorModeValue } from '../ui/color-mode';
 
 function Status({ farm }: { farm: FarmUsage }): React.JSX.Element {
   if (farm.approvedWeeklyBoxes === null) {
@@ -27,8 +26,8 @@ export default function ContractUsageTable({
 }: {
   farms: FarmUsage[];
 }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   return (
     <Box

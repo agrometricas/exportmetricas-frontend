@@ -18,7 +18,6 @@ import {
   ProducerTotals,
 } from '../../types/counterpartTotals';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 
 type Column<T> = {
@@ -39,8 +38,8 @@ function TotalsTable<T extends CounterpartCounts>({
   columns: Column<T>[];
   empty: string;
 }): React.JSX.Element {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
   if (rows.length === 0) {
     return (
       <Text fontSize='sm' color={mutedColor}>
@@ -106,7 +105,7 @@ const paidColumn = <T extends ProducerTotals>(): Column<T> => ({
   value: (row) => (
     <>
       <Text fontWeight='semibold'>{usd(row.paid)}</Text>
-      <Text fontSize='xs' color='gray.600'>
+      <Text fontSize='xs' color='fg.muted'>
         {of(row.paidExports, row.exports)} pagadas
       </Text>
     </>
@@ -149,7 +148,7 @@ function ReportTabs({
               value: (row) => (
                 <>
                   <Text fontWeight='semibold'>{usd(row.collected)}</Text>
-                  <Text fontSize='xs' color='gray.600'>
+                  <Text fontSize='xs' color='fg.muted'>
                     {of(row.collectedExports, row.exports)} cobradas
                   </Text>
                 </>
@@ -235,7 +234,7 @@ function ReportTabs({
               value: (row) => (
                 <>
                   <Text fontWeight='semibold'>{usd(row.freight)}</Text>
-                  <Text fontSize='xs' color='gray.600'>
+                  <Text fontSize='xs' color='fg.muted'>
                     {of(row.exportsWithFreight, row.exports)} con booking
                   </Text>
                 </>
@@ -273,8 +272,8 @@ function ReportTabs({
 
 function Report(): React.JSX.Element {
   const { values } = useFormikContext<{ from: string; to: string }>();
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
   const range = counterpartRange(values.from, values.to);
   const { report, isLoading } = useCounterpartTotals(range);
 

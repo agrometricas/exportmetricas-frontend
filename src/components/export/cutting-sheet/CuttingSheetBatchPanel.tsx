@@ -46,7 +46,6 @@ import {
 import { formatDayMonthYear } from '../../../utils/dayMonthYear';
 import { toggleId } from '../../../utils/selection';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
-import { useColorModeValue } from '../../ui/color-mode';
 
 const AFFECTED_QUERIES = [
   'cuttingSheets',
@@ -93,10 +92,10 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
     { exportSentId: number; label: string; message: string }[]
   >([]);
 
-  const panelBg = useColorModeValue('green.50', 'gray.700');
-  const rowBorder = useColorModeValue('gray.200', 'gray.600');
-  const hintColor = useColorModeValue('gray.600', 'gray.300');
-  const rowBg = useColorModeValue('white', 'gray.800');
+  const panelBg = 'green.subtle';
+  const rowBorder = 'border';
+  const hintColor = 'fg.muted';
+  const rowBg = 'bg.panel';
 
   const rowOf = (sheet: PendingSheet): SheetBatchRow => ({
     ...initialSheetRow(sheet, cuttingTypes),
@@ -462,7 +461,7 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
                 justify='flex-end'
               >
                 {selected.length > 0 && !allReady && (
-                  <Text fontSize='sm' color='orange.600'>
+                  <Text fontSize='sm' color='orange.fg'>
                     Completa las elegidas marcadas en rojo.
                   </Text>
                 )}

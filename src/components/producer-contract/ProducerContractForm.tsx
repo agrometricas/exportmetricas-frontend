@@ -9,7 +9,6 @@ import {
   Dialog,
   Portal,
   Separator,
-  Field,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef } from 'react';
@@ -17,6 +16,7 @@ import { useSubmitProducerContract } from './hooks/useSubmitProducerContract';
 import { ProducerContractResponse } from '../../types/producerContract';
 import SelectBusiness from '../business/SelectBusiness';
 import SelectProducer from '../producer/SelectProducer';
+import { FormLabel } from '../ui/form/FormLabel';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
@@ -59,14 +59,14 @@ export default function ProducerContractForm({
             {contract ? (
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <Box>
-                  <Field.Label fontSize='sm'>Productor</Field.Label>
+                  <FormLabel fontSize='sm'>Productor</FormLabel>
                   <Input
                     readOnly
                     value={contract.business.merchant?.businessName ?? ''}
                   />
                 </Box>
                 <Box>
-                  <Field.Label fontSize='sm'>Finca</Field.Label>
+                  <FormLabel fontSize='sm'>Finca</FormLabel>
                   <Input readOnly value={contract.business.name} />
                 </Box>
               </SimpleGrid>

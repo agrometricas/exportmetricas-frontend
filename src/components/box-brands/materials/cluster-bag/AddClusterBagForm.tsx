@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Flex, Heading, Separator, Field } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -9,6 +9,7 @@ import { toaster } from '@/components/ui/toaster';
 import { useCreateClusterBag } from '../../../../hooks/box-brand/materials/cluster-bag/createClusterBag';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -154,9 +155,9 @@ const AddClusterBagForm = ({
                 name={'quantityPerPack'}
                 label={'Cantidad por funda'}
               />
-              <Field.Label fontSize='sm' mb={0}>
+              <FormLabel fontSize='sm' mb={0}>
                 Arte
-              </Field.Label>
+              </FormLabel>
               <UploadLogoFile name={'art'} />
               <Button
                 mt='32px'

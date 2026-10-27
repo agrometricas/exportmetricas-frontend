@@ -33,12 +33,12 @@ const chakraStyles: ChakraStylesConfig<
   GroupBase<Partial<HarborType>>
 > = {
   container: (provided) => ({ ...provided, w: 'full' }),
-  placeholder: (provided) => ({ ...provided, color: 'gray.600' }),
-  input: (provided) => ({ ...provided, color: 'gray.900' }),
+  placeholder: (provided) => ({ ...provided, color: 'fg.muted' }),
+  input: (provided) => ({ ...provided, color: 'fg.heading' }),
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
 };
 

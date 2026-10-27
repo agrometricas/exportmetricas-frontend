@@ -21,7 +21,6 @@ import {
   SealsValues,
 } from '../../utils/containerSeals';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 const AFFECTED_QUERIES = ['booking', 'bookings', 'exports', 'export'];
@@ -35,7 +34,7 @@ function ContainerSealsRow({
 }): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const { mutate: save, isLoading } = useUpdateContainerSeals();
 
   const onSubmit = (values: SealsValues): void =>
@@ -129,12 +128,12 @@ export default function BookingContainerSeals({
       <Heading fontSize='2xl' p='12px'>
         Sellos de los contenedores
       </Heading>
-      <Text fontSize='sm' color='gray.600'>
+      <Text fontSize='sm' color='fg.muted'>
         El sello de la naviera y los sellos extra (verificadora, exportadora…)
         de cada contenedor. La hoja de corte y el packing list los imprimen.
       </Text>
       {containers.length === 0 ? (
-        <Text fontSize='sm' color='gray.500'>
+        <Text fontSize='sm' color='fg.muted'>
           El booking todavía no tiene números de contenedor.
         </Text>
       ) : (

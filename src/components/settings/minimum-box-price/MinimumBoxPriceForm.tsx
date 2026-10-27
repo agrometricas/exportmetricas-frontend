@@ -77,7 +77,7 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
     >
       <Form>
         <Flex flexDirection='column' gap={5}>
-          <Text fontSize='sm' color='gray.500'>
+          <Text fontSize='sm' color='fg.muted'>
             Es el precio por caja que se le propone al productor cuando la hoja
             semanal no tiene uno: el FAS a los productores con contrato FAS y el
             FOB a los demás.

@@ -66,7 +66,7 @@ export default function WeeklyExportsSummary({
                   borderRadius='md'
                   cursor='pointer'
                   display={'flex'}
-                  border={'1px'}
+                  borderWidth='1px'
                   borderColor={tenueColor}
                   alignItems={'stretch'}
                   boxShadow={'md'}

@@ -3,7 +3,6 @@ import { Button, Center, Heading, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
-import { useColorModeValue } from '../color-mode';
 
 interface ErrorStateProps {
   error: unknown;
@@ -18,12 +17,12 @@ const ErrorState: React.FC<ErrorStateProps> = ({
   onRetry,
   minH = '200px',
 }) => {
-  const titleColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
+  const titleColor = 'fg.heading';
+  const textColor = 'fg.muted';
   return (
     <Center minH={minH} py={6}>
       <VStack gap={3} maxW='md' textAlign='center' role='alert'>
-        <Icon boxSize={10} color='red.400' asChild>
+        <Icon boxSize={10} color='red.fg' asChild>
           <MdErrorOutline />
         </Icon>
         <Heading size='sm' color={titleColor}>

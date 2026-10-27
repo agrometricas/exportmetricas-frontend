@@ -1,7 +1,8 @@
-import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBusinessSelect from './InputFieldBusinessSelect';
 import { BusinessType } from '../../types/merchant/business';
+import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectBusinessProps {
   name: string;
@@ -34,7 +35,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
         />
 
         <Box>
-          <Field.Label fontSize='sm'>Área</Field.Label>
+          <FormLabel fontSize='sm'>Área</FormLabel>
           <Input
             readOnly={true}
             value={business?.area || ''}
@@ -42,7 +43,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
           />
         </Box>
         <Box>
-          <Field.Label fontSize='sm'>Dirección</Field.Label>
+          <FormLabel fontSize='sm'>Dirección</FormLabel>
           <Input
             readOnly={true}
             value={business?.address || ''}
@@ -50,7 +51,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
           />
         </Box>
         <Box>
-          <Field.Label fontSize='sm'>Ciudad</Field.Label>
+          <FormLabel fontSize='sm'>Ciudad</FormLabel>
           <Input
             readOnly={true}
             value={business?.city?.name || ''}

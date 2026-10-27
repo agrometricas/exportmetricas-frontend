@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { Box, Button, Flex, Heading, Input, SimpleGrid, Text, Separator, Field } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Input, SimpleGrid, Text, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -22,6 +22,7 @@ import { returnTo } from '../../utils/exportSteps';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import { proposedQuantity } from '../../utils/suppliesProposal';
 import CheckboxForm from '../ui/form/CheckboxForm';
+import { FormLabel } from '../ui/form/FormLabel';
 
 const pesticideSchema = Yup.object().shape({
   quantity: Yup.number()
@@ -292,7 +293,7 @@ const SentMaterialsExportForm = ({
             Exportación
           </Heading>
           <Separator mb='16px' />
-          <Box p='4' border='1px' borderRadius='md' borderColor='gray.200'>
+          <Box p='4' borderWidth='1px' borderRadius='md' borderColor='border'>
             <Text fontSize='sm'>
               <strong>Marca de Caja:</strong> {brand?.name || 'N/A'}
             </Text>
@@ -311,27 +312,27 @@ const SentMaterialsExportForm = ({
           </Box>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt='16px'>
             <Box>
-              <Field.Label>Cantidad de cajas</Field.Label>
+              <FormLabel>Cantidad de cajas</FormLabel>
               <Input
                 value={quantity}
                 readOnly
-                _hover={{ borderColor: 'gray.200' }}
+                _hover={{ borderColor: 'border' }}
                 cursor='not-allowed'
                 textAlign='right'
                 opacity={0.8} />
             </Box>
             <Box>
-              <Field.Label>Contenedores</Field.Label>
+              <FormLabel>Contenedores</FormLabel>
               <Input
                 value={proposal?.containers ?? ''}
                 readOnly
-                _hover={{ borderColor: 'gray.200' }}
+                _hover={{ borderColor: 'border' }}
                 cursor='not-allowed'
                 textAlign='right'
                 opacity={0.8} />
             </Box>
           </SimpleGrid>
-          <Text fontSize='sm' color='gray.600'>
+          <Text fontSize='sm' color='fg.muted'>
             Las cantidades las propone el sistema: lo que la alícuota pone por
             caja, por las cajas; lo que pone por contenedor, por los
             contenedores; y la fumigación, en proporción a las cajas. Se pueden

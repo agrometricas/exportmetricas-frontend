@@ -18,7 +18,6 @@ import { MdContentCopy, MdEdit } from 'react-icons/md';
 import AddExportForm from './AddExportForm';
 import { useExport } from '../../hooks/export/getExport';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import { useColorModeValue } from '../ui/color-mode';
 
 interface ExportFormPageProps {
   exportId: string;
@@ -51,12 +50,12 @@ function editBlockedReason(
 
 const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
   const { data, isLoading, error } = useExport({ exportId });
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headerBg = useColorModeValue('gray.50', 'gray.750');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headerBg = 'bg.subtle';
+  const headingColor = 'fg.heading';
+  const textColor = 'fg';
   const { icon, title, subtitle } = COPY[mode];
 
   const blocked =
@@ -71,15 +70,15 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
-          boxShadow='lg'
+          boxShadow='sm'
           overflow='hidden'
-          border='1px solid'
+          borderWidth='1px'
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
           <Card.Header bg={headerBg} pb={4}>
             <HStack gap={3} align='center'>
-              <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
+              <Box p={2} bg='green.subtle' borderRadius='lg' color='green.fg'>
                 <Icon as={icon} boxSize={5} />
               </Box>
               <Box>
@@ -98,7 +97,7 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
           <Card.Body>
             {isLoading && (
               <Center py={10}>
-                <Spinner color='green.500' />
+                <Spinner color='green.fg' />
               </Center>
             )}
             {!!error && (

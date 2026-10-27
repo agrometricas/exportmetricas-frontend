@@ -42,15 +42,15 @@ const chakraStyles: ChakraStylesConfig<
   option: (provided) => ({
     ...provided,
     borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    borderColor: 'border',
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: 'gray.600',
+    color: 'fg.muted',
   }),
   input: (provided) => ({
     ...provided,
-    color: 'gray.900',
+    color: 'fg.heading',
   }),
   menuList: (base) => ({
     ...base,

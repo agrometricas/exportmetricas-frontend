@@ -20,7 +20,7 @@ export default function ForgotPasswordPage(): JSX.Element {
         <Heading fontSize='2xl' mt={4} mb={2}>
           Restablecer contraseña
         </Heading>
-        <Text fontSize='sm' color='gray.600' mb={8}>
+        <Text fontSize='sm' color='fg.muted' mb={8}>
           Introduce tu correo para recibir el enlace de recuperación.
         </Text>
         <Formik

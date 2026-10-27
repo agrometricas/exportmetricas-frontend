@@ -30,7 +30,7 @@ export default function ResetPasswordTokenPage(): JSX.Element {
         <Heading fontSize='2xl' mt={4} mb={2}>
           Nueva Contraseña
         </Heading>
-        <Text fontSize='sm' color='gray.600' mb={8}>
+        <Text fontSize='sm' color='fg.muted' mb={8}>
           Ingresa una nueva contraseña segura y confírmala.
         </Text>
 

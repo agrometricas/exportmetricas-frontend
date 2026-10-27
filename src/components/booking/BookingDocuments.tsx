@@ -44,7 +44,6 @@ import {
   documentTrace,
 } from '../../utils/documentStatus';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
 } from '../ui/form/InputFieldDayDate';
@@ -218,7 +217,7 @@ export default function BookingDocuments({
 }): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = 'border';
   const [fileKey, setFileKey] = useState(0);
   const { data: documentsData } = useBookingDocuments(bookingId);
   const { data: typesData } = useDocumentTypes();
@@ -265,7 +264,7 @@ export default function BookingDocuments({
     <Flex direction='column' gap={4}>
       <Box>
         <Heading size='md'>Documentos del embarque</Heading>
-        <Text fontSize='sm' color='gray.600' mt={1}>
+        <Text fontSize='sm' color='fg.muted' mt={1}>
           BL, fitosanitario, certificado de origen, inspección de cada
           contenedor, DAE, seguro y sanitario. Valen para todas las
           exportaciones del booking. El sistema avisa por correo a la
@@ -277,7 +276,7 @@ export default function BookingDocuments({
 
       {documents.length > 0 ? (
         <Table.ScrollArea
-          border='1px solid'
+          borderWidth='1px'
           borderColor={borderColor}
           borderRadius='md'
           whiteSpace='normal'
@@ -300,7 +299,7 @@ export default function BookingDocuments({
                     <Text fontWeight='semibold'>{document.typeLabel}</Text>
                     <Link
                       href={document.fileUrl}
-                      color='green.600'
+                      color='green.fg'
                       fontSize='sm'
                       target='_blank'
                       rel='noopener noreferrer'
@@ -309,7 +308,7 @@ export default function BookingDocuments({
                     </Link>
                     <Text
                       fontSize='xs'
-                      color='gray.500'
+                      color='fg.muted'
                       title={document.sha256 ?? undefined}
                     >
                       {documentTrace(document)}
@@ -341,7 +340,7 @@ export default function BookingDocuments({
           </Table.Root>
         </Table.ScrollArea>
       ) : (
-        <Text fontSize='sm' color='gray.600'>
+        <Text fontSize='sm' color='fg.muted'>
           Todavía no hay documentos en este booking.
         </Text>
       )}
@@ -356,7 +355,7 @@ export default function BookingDocuments({
           return (
             <Form>
               <Box
-                border='1px solid'
+                borderWidth='1px'
                 borderColor={borderColor}
                 borderRadius='md'
                 p={4}

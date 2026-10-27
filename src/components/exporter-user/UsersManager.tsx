@@ -31,7 +31,6 @@ import {
 import { ExporterUser, UserRole } from '../../types/exporterUser';
 import { ROLE_OPTIONS, roleLabel } from '../../utils/roles';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import { getNavItems, NavCounts } from '../ui/sidenav/SideNavItems';
@@ -71,8 +70,8 @@ export default function UsersManager(): React.JSX.Element {
     : undefined;
   const myId = Number(session?.user?.id);
   const isMaster = session?.user?.role === 'MASTER';
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const borderColor = 'border';
+  const mutedColor = 'fg.muted';
 
   const { data, isLoading, error, refetch } = useExporterUsers(exporterId);
   const users = (data ?? []) as ExporterUser[];

@@ -100,7 +100,7 @@ export default function BookingForm({
                 inputMode='numeric'
               />
             </SimpleGrid>
-            <Text fontSize='sm' color='gray.600'>
+            <Text fontSize='sm' color='fg.muted'>
               Los números se pueden cargar ahora o cuando la naviera los asigne.
             </Text>
             <FieldArray name='containers'>
@@ -123,7 +123,7 @@ export default function BookingForm({
                     </HStack>
                   ))}
                   {typeof errors.containers === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.containers}
                     </Text>
                   )}

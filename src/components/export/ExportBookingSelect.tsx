@@ -16,7 +16,6 @@ import {
   formatDayMonthYear,
   formatDayMonthYearTime,
 } from '../../utils/dayMonthYear';
-import { useColorModeValue } from '../ui/color-mode';
 
 interface ExportBookingSelectProps {
   editingExportId?: number;
@@ -34,7 +33,7 @@ export default function ExportBookingSelect({
   const { data } = useBookings();
   const bookings = (data ?? []) as BookingResponse[];
   const selected = bookings.find((b) => b.id === values.bookingId);
-  const summaryBg = useColorModeValue('gray.50', 'gray.700');
+  const summaryBg = 'bg.subtle';
 
   const choose = (id: number | ''): void => {
     const booking = bookings.find((b) => b.id === id);
@@ -120,7 +119,7 @@ export default function ExportBookingSelect({
             Contenedores que carga esta exportación
           </Text>
           {selected.containers.length === 0 ? (
-            <Text fontSize='sm' color='gray.500'>
+            <Text fontSize='sm' color='fg.muted'>
               El booking todavía no tiene números de contenedor.
             </Text>
           ) : (
@@ -145,7 +144,7 @@ export default function ExportBookingSelect({
                     <Checkbox.Label>
                       {container.number}
                       {taken && (
-                        <Text as='span' color='gray.500' fontSize='sm'>
+                        <Text as='span' color='fg.muted' fontSize='sm'>
                           {' '}
                           · en la exportación {container.exportId}
                         </Text>

@@ -51,7 +51,7 @@ export default function ExportFromLine({
   if (loadingMerchants || loadingBusinesses || loadingBoxBrands) {
     return (
       <Center py={10}>
-        <Spinner color='green.500' />
+        <Spinner color='green.fg' />
       </Center>
     );
   }

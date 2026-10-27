@@ -1,7 +1,8 @@
-import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBankAccountSelect from './InputFieldBankAccountSelect';
 import { BankAccountType } from '../../../../types/bankAccount';
+import { FormLabel } from '../../../ui/form/FormLabel';
 
 interface SelectBankAccountProps {
   name: string;
@@ -41,7 +42,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       />
 
       <Box>
-        <Field.Label>Tipo</Field.Label>
+        <FormLabel>Tipo</FormLabel>
         <Input
           readOnly={true}
           value={bankAccount?.type || ''}
@@ -49,7 +50,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
         />
       </Box>
       <Box>
-        <Field.Label>Propietario</Field.Label>
+        <FormLabel>Propietario</FormLabel>
         <Input
           readOnly={true}
           value={bankAccount?.owner || ''}
@@ -57,7 +58,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
         />
       </Box>
       <Box>
-        <Field.Label>Identificación</Field.Label>
+        <FormLabel>Identificación</FormLabel>
         <Input
           readOnly={true}
           value={bankAccount?.ownerID || ''}

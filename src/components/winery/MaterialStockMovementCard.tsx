@@ -186,7 +186,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                     Transferencias
                   </Heading>
                   {filteredTransfers.length === 0 ? (
-                    <Text color='gray.500'>
+                    <Text color='fg.muted'>
                       No hay transferencias esta semana.
                     </Text>
                   ) : (
@@ -215,7 +215,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                     Consumos
                   </Heading>
                   {filteredConsumptions.length === 0 ? (
-                    <Text color='gray.500'>No hay consumos esta semana.</Text>
+                    <Text color='fg.muted'>No hay consumos esta semana.</Text>
                   ) : (
                     <VStack align='start' gap={1}>
                       {filteredConsumptions.map((movement) => (

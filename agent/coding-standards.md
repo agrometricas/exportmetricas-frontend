@@ -123,9 +123,32 @@ the backend proposes.
   `refetch`; a raw status code or an English message never reaches the user.
   `serverErrorMessage` already turns a request without an answer, a timeout
   and Nest's default 500 into Spanish.
-- The theme under `src/theme/` is **not mounted**: `Providers.tsx` runs on
-  Chakra's default `extendTheme()`. Use Chakra tokens (`gray.700`, `green.500`)
-  and `useColorModeValue`; do not add hex literals.
+- Chakra UI v3, with the brand system in `theme/system.ts` (values from
+  `design-system.md`). Use the semantic tokens — `bg.canvas`, `bg.panel`,
+  `bg.subtle`, `fg`, `fg.muted`, `fg.heading`, `border`, `green.solid`,
+  `green.fg`, `green.subtle` — and the radii `l1`/`l2`/`l3`. They already
+  switch with the color mode: do not reach for `useColorModeValue`, a
+  `_dark` override or a hex literal when a token exists. A value the system
+  lacks goes to `design-system.md` first.
+- Draw a border with `borderWidth` (and `borderColor` if it is not the
+  default). The `border='1px solid'` shorthand resets the color to the text
+  color.
+- Chakra runs with `disableLayers` (`theme/system.ts`): server-rendered styles
+  could land ahead of the layer order and lose to the reset. Global CSS
+  (`app/globals.css`) targets tags only, so any component class beats it.
+- v3 components are compound: `Field.Root` with `Field.Label` and
+  `Field.ErrorText`, `Dialog.*`, `Menu.*`, `Tabs.*`, `NativeSelect.*`. A
+  label or error text outside a `Field.Root` uses `FormLabel`,
+  `FormErrorText` or `FormHelperText` (`components/ui/form/FormLabel.tsx`);
+  a `Field` part without its root throws at runtime.
+- An input with an adornment uses `InputGroup` with `startElement` /
+  `endElement` around a single input. A link styled as a button or a Chakra
+  `Link` uses `asChild` with Next's `Link` inside, carrying the `href`.
+- Toasts go through `toaster.create({ type, title, description })`
+  (`components/ui/toaster.tsx`), not a hook. `useDisclosure` returns `open`;
+  the props are `colorPalette`, `loading` and `disabled`.
+- Material React Table follows the color mode through `brandMuiTheme`
+  (`theme/muiTheme/`): table colors change there, not per table.
 - A list of pending items is a `PendingTable` (`components/ui/`): sortable,
   searchable, with its action column pinned right so it stays in view on a
   phone. A pending item that asks before opening uses `OpenWithConfirmation`.

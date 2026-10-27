@@ -16,7 +16,6 @@ import { usePagination } from '../../hooks/usePagination';
 import { ExportType } from '../../types/export';
 import { shipmentBatchSummary } from '../../utils/shipmentBatch';
 import BatchActionBar from '../ui/BatchActionBar';
-import { useColorModeValue } from "../ui/color-mode";
 import PendingTable from '../ui/PendingTable';
 
 const SHIPMENT_QUERIES = [
@@ -54,7 +53,7 @@ const ExportList = (): React.JSX.Element => {
     []
   );
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {

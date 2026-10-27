@@ -60,7 +60,7 @@ export function AddMaterialForm({
   if (error || !stock) {
     return (
       <Center py={10}>
-        <Text color='red.500'>No se pudo cargar el stock del material</Text>
+        <Text color='red.fg'>No se pudo cargar el stock del material</Text>
       </Center>
     );
   }
@@ -224,7 +224,7 @@ export function AddMaterialForm({
             </Box>
           </Box>
         ) : (
-          <Text textAlign='center' py={4} color='gray.500'>
+          <Text textAlign='center' py={4} color='fg.muted'>
             Aún no se han registrado movimientos para este material.
           </Text>
         )}

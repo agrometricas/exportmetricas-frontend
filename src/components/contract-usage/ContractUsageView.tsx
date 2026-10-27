@@ -7,12 +7,11 @@ import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 import { isCompleteDay } from '../purchase-order/schemas/purchaseOrder.schema';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 
 function WeekUsage(): React.JSX.Element {
   const { values } = useFormikContext<{ weekDay: string }>();
-  const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const mutedColor = 'fg.muted';
   const week = isCompleteDay(values.weekDay) ? values.weekDay : null;
   const { usage, isLoading } = useContractUsage(week);
 

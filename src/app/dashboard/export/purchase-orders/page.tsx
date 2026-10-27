@@ -17,15 +17,14 @@ import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdOutlineAssignment } from 'react-icons/md';
 import TablePurchaseOrders from '../../../../components/purchase-order/TablePurchaseOrders';
-import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function PurchaseOrdersPage(): React.JSX.Element {
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const textColor = 'fg';
+  const headingColor = 'fg.heading';
   const isMobile = useBreakpointValue({ base: true, md: false });
   const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
     base: 'sm',
@@ -42,7 +41,7 @@ function PurchaseOrdersPage(): React.JSX.Element {
           gap={4}
         >
           <HStack gap={3}>
-            <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
+            <Box p={2} bg='green.subtle' borderRadius='lg' color='green.fg'>
               <Icon boxSize={5} asChild>
                 <MdOutlineAssignment />
               </Icon>
@@ -65,9 +64,6 @@ function PurchaseOrdersPage(): React.JSX.Element {
                 colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'
-                boxShadow='md'
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition='all 0.2s'
                 asChild
               >
                 <Link_Next href='/dashboard/export/add-purchase-order'>
@@ -79,10 +75,7 @@ function PurchaseOrdersPage(): React.JSX.Element {
                 colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'
-                boxShadow='md'
                 fontWeight='semibold'
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                transition='all 0.2s'
                 asChild
               >
                 <Link_Next href='/dashboard/export/add-purchase-order'>
@@ -100,14 +93,14 @@ function PurchaseOrdersPage(): React.JSX.Element {
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
-          boxShadow='lg'
+          boxShadow='sm'
           overflow='hidden'
-          border='1px solid'
+          borderWidth='1px'
         >
           <Card.Body p={0}>
             <Box
               p={6}
-              bg={useColorModeValue('gray.50', 'gray.750')}
+              py={4}
               borderBottom='1px solid'
               borderColor={borderColor}
             >

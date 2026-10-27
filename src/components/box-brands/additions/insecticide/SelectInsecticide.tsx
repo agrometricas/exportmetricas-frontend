@@ -1,7 +1,8 @@
-import { Box, Button, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Button, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldInsecticideSelect from './InputFieldInsecticideSelect';
 import { InsecticideType } from '../../../../types/box-brand/additions/insecticide';
+import { FormLabel } from '../../../ui/form/FormLabel';
 import InputFieldQuantity from '../../../ui/form/InputFieldQuantity';
 
 interface SelectInsecticideProps {
@@ -46,7 +47,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
       />
 
       <Box>
-        <Field.Label>Ingrediente Activo</Field.Label>
+        <FormLabel>Ingrediente Activo</FormLabel>
         <Input
           readOnly={true}
           value={insecticide?.activeIngredient || ''}
@@ -54,7 +55,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
         />
       </Box>
       <Box>
-        <Field.Label>Dosis</Field.Label>
+        <FormLabel>Dosis</FormLabel>
         <Input
           readOnly={true}
           value={insecticide?.dose || ''}

@@ -1,108 +1,86 @@
 'use client';
-import { Box, Flex, Icon, IconButton, Text, Breadcrumb, HStack } from '@chakra-ui/react';
+import { Box, Breadcrumb, Flex, HStack, IconButton } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { FiMenu, FiHome } from 'react-icons/fi';
+import { FiHome, FiMenu } from 'react-icons/fi';
 import MenuIcon from './MenuIcon';
 import MenuNotification from './MenuNotifications';
 import QuickSearch from './QuickSearch';
 import { generateBreadcrumbs } from '../../../utils/breadcrumbs';
-import { useColorModeValue } from "../color-mode";
 import { useSidenav } from '../sidenav/sidenav-context';
 
 export const AppBar = (): React.JSX.Element => {
   const { onOpen } = useSidenav();
   const pathname = usePathname();
-  const bg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const hoverBg = useColorModeValue('gray.50', 'gray.700');
-  const shadowColor = useColorModeValue(
-    'rgba(0, 0, 0, 0.05)',
-    'rgba(0, 0, 0, 0.2)'
-  );
   const breadcrumbs = generateBreadcrumbs(pathname);
 
   return (
     <Box
       as='header'
-      px={{ base: '16px', md: '24px' }}
-      py='16px'
-      w='100%'
-      h='90px'
-      bg={bg}
-      borderBottom='1px solid'
-      borderColor={borderColor}
+      position='sticky'
+      top='0'
+      zIndex='docked'
+      h='16'
+      px={{ base: 4, md: 6 }}
+      bg='bg.panel'
+      borderBottomWidth='1px'
       display='flex'
       alignItems='center'
       justifyContent='space-between'
-      position='sticky'
-      top='0'
-      zIndex='100'
-      boxShadow={`0 2px 12px ${shadowColor}`}
-      backdropFilter='blur(8px)'
+      gap={4}
+      flexShrink={0}
     >
-      <Flex align='center' display={{ base: 'none', md: 'flex' }}>
-        <Breadcrumb.Root fontSize='sm'>
-          <Breadcrumb.List gap='12px'>{breadcrumbs.map((bc, idx: number) => (
-              <Breadcrumb.Item key={idx}>
-                <Breadcrumb.Link
-                  href={bc.href}
-                  color={bc.isCurrent ? 'green.600' : textColor}
-                  fontWeight={bc.isCurrent ? 'semibold' : 'medium'}
-                  px={2}
-                  py={1}
-                  borderRadius='md'
-                  transition='all 0.2s'
-                  _hover={{
-                    textDecoration: 'none',
-                    color: 'green.600',
-                    bg: hoverBg,
-                    transform: 'translateY(-1px)',
-                  }}
-                  display='flex'
-                  alignItems='center'
-                >
-                  {idx === 0 ? (
-                    <HStack gap={2}>
-                      <Icon boxSize={4} asChild><FiHome /></Icon>
-                      <Text>Dashboard</Text>
-                    </HStack>
+      <IconButton
+        aria-label='Abrir menú'
+        display={{ base: 'flex', md: 'none' }}
+        onClick={onOpen}
+        variant='ghost'
+        size='sm'
+      >
+        <FiMenu />
+      </IconButton>
+
+      <Flex align='center' minW='0' display={{ base: 'none', md: 'flex' }}>
+        <Breadcrumb.Root size='sm'>
+          <Breadcrumb.List>
+            {breadcrumbs.map((bc, idx) => (
+              <React.Fragment key={bc.href + idx}>
+                {idx > 0 && <Breadcrumb.Separator />}
+                <Breadcrumb.Item>
+                  {bc.isCurrent ? (
+                    <Breadcrumb.CurrentLink
+                      color='fg.heading'
+                      fontWeight='medium'
+                      display='flex'
+                      alignItems='center'
+                      gap='1.5'
+                    >
+                      {idx === 0 ? <FiHome /> : null}
+                      {bc.name}
+                    </Breadcrumb.CurrentLink>
                   ) : (
-                    bc.name
+                    <Breadcrumb.Link
+                      asChild
+                      color='fg.muted'
+                      display='flex'
+                      alignItems='center'
+                      gap='1.5'
+                    >
+                      <NextLink href={bc.href}>
+                        {idx === 0 ? <FiHome /> : null}
+                        {bc.name}
+                      </NextLink>
+                    </Breadcrumb.Link>
                   )}
-                </Breadcrumb.Link>
-              </Breadcrumb.Item>
-            ))}</Breadcrumb.List>
+                </Breadcrumb.Item>
+              </React.Fragment>
+            ))}
+          </Breadcrumb.List>
         </Breadcrumb.Root>
       </Flex>
 
-      <HStack
-        gap={4}
-        align='center'
-        justifyContent={{ base: 'flex-end' }}
-        flex={{ base: 1, md: 'auto' }}
-      >
-        <IconButton
-          aria-label='Abrir menú'
-          display={{ base: 'flex', md: 'none' }}
-          onClick={onOpen}
-          variant='ghost'
-          size='md'
-          color={textColor}
-          borderRadius='lg'
-          h='44px'
-          w='44px'
-          transition='all 0.2s'
-          _hover={{
-            bg: useColorModeValue('green.50', 'green.900'),
-            color: 'green.600',
-            transform: 'scale(1.05)',
-          }}
-          _active={{
-            bg: useColorModeValue('green.100', 'green.800'),
-            transform: 'scale(0.95)',
-          }}><FiMenu /></IconButton>
+      <HStack gap={2} align='center'>
         <QuickSearch />
         <MenuNotification />
         <MenuIcon />

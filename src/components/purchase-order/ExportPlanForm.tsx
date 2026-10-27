@@ -39,7 +39,6 @@ import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarbo
 import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
-import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
 } from '../ui/form/InputFieldDayDate';
@@ -173,7 +172,7 @@ function LineContainers({
 
   if (free.length === 0) {
     return (
-      <Text fontSize='sm' color='gray.500'>
+      <Text fontSize='sm' color='fg.muted'>
         El booking no tiene contenedores libres.
       </Text>
     );
@@ -212,7 +211,7 @@ export default function ExportPlanForm({
 }): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const lineBorder = useColorModeValue('gray.200', 'gray.600');
+  const lineBorder = 'border';
   const { mutate: create, isLoading } = useCreateExportPlan();
   const { data: bookingData } = useBookings();
   const bookings = (bookingData ?? []) as BookingResponse[];
@@ -284,7 +283,7 @@ export default function ExportPlanForm({
                 Líneas
               </Heading>
               <Separator mb='16px' />
-              <Text fontSize='sm' color='gray.600'>
+              <Text fontSize='sm' color='fg.muted'>
                 Cada línea marcada será una exportación con todas sus cajas en
                 el día de corte. El día tiene que ser de la semana de la orden.
               </Text>
@@ -322,7 +321,7 @@ export default function ExportPlanForm({
                     >
                       {line.type === 'CONTRACT' ? 'Contrato' : 'Spot'}
                     </Badge>
-                    <Text fontSize='sm' color='gray.600'>
+                    <Text fontSize='sm' color='fg.muted'>
                       Pedidas: {line.boxQuantity} cajas
                     </Text>
                   </Flex>
@@ -353,7 +352,7 @@ export default function ExportPlanForm({
                 </Box>
               ))}
               {typeof errors.lines === 'string' && (
-                <Text color='red.500' fontSize='sm'>
+                <Text color='red.fg' fontSize='sm'>
                   {errors.lines}
                 </Text>
               )}
@@ -441,7 +440,7 @@ export default function ExportPlanForm({
                 />
               </SimpleGrid>
 
-              <Text fontSize='sm' color='gray.600' mt={2}>
+              <Text fontSize='sm' color='fg.muted' mt={2}>
                 Se crean todas o ninguna: si una línea no pasa, no se guarda
                 nada y el mensaje dice cuál.
               </Text>

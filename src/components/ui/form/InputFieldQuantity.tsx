@@ -73,17 +73,15 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
   );
   useEffect(() => {
     if (Number(text) !== Number(field.value)) {
-      setText(field.value === '' || field.value == null ? '' : String(field.value));
+      setText(
+        field.value === '' || field.value == null ? '' : String(field.value)
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [field.value]);
 
   return (
-    <Field.Root
-      id={name}
-      invalid={!!meta.error && meta.touched}
-      width={'100%'}
-    >
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} width={'100%'}>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}

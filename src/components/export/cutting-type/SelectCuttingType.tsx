@@ -1,7 +1,8 @@
-import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldCuttingTypeSelect from './InputFieldCuttingTypeSelect';
 import { CuttingType } from '../../../types/cuttingType';
+import { FormLabel } from '../../ui/form/FormLabel';
 
 interface SelectCuttingTypeProps {
   name: string;
@@ -40,15 +41,15 @@ const SelectCuttingType: React.FC<SelectCuttingTypeProps> = ({
           setCuttingType={setCuttingType}
         />
         <Box>
-          <Field.Label fontSize='sm'>Calidad</Field.Label>
+          <FormLabel fontSize='sm'>Calidad</FormLabel>
           <Input readOnly={true} value={cuttingType?.quality || ''} placeholder='Calidad del Corte' />
         </Box>
         <Box>
-          <Field.Label fontSize='sm'>Detalle del Cluster</Field.Label>
+          <FormLabel fontSize='sm'>Detalle del Cluster</FormLabel>
           <Input readOnly={true} value={cuttingType?.clusterDetail || ''} placeholder='Detalle del Cluster' />
         </Box>
         <Box>
-          <Field.Label fontSize='sm'>Patrón de Empaque</Field.Label>
+          <FormLabel fontSize='sm'>Patrón de Empaque</FormLabel>
           <Input
             readOnly={true}
             value={cuttingType?.packagingPattern || ''}

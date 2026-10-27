@@ -176,7 +176,7 @@ export default function PublicAdjustmentPage(): JSX.Element {
                 label='Responsable'
                 placeholder='Nombre del responsable'
               />
-              <Text mt={4} fontSize='sm' color='gray.500'>
+              <Text mt={4} fontSize='sm' color='fg.muted'>
                 Asegurate de ingresar las cantidades correctas de todos los
                 materiales asignados a la Finca.
               </Text>

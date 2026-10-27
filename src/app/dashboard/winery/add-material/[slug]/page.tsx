@@ -49,7 +49,7 @@ export default function AddMaterialPage(): JSX.Element {
   if (!exporterId || !selectedMaterial) {
     return (
       <Center py={10}>
-        <Text color='red.500'>No se encontró el material solicitado</Text>
+        <Text color='red.fg'>No se encontró el material solicitado</Text>
       </Center>
     );
   }

@@ -169,7 +169,7 @@ export const WeeklyFarmSummaryCard = ({
           <GridItem
             key={idx}
             borderWidth='1px'
-            borderColor='gray.200'
+            borderColor='border'
             boxShadow='sm'
             borderRadius='md'
             p={4}
@@ -179,7 +179,7 @@ export const WeeklyFarmSummaryCard = ({
               <Text fontSize='md' fontWeight='bold'>
                 {item.farm}
               </Text>
-              <Text fontSize='sm' color='gray.600'>
+              <Text fontSize='sm' color='fg.muted'>
                 <strong>{item.producer}</strong>
               </Text>
               <VStack align='start' gap={1}>

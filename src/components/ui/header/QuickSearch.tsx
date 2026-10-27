@@ -21,7 +21,6 @@ import { FiSearch } from 'react-icons/fi';
 import { useExportSearch } from '../../../hooks/export/searchExports';
 import { isSearchable, searchHitSummary } from '../../../utils/exportSearch';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
-import { useColorModeValue } from '../color-mode';
 
 const DEBOUNCE_MS = 250;
 
@@ -41,10 +40,10 @@ const QuickSearch = (): React.JSX.Element => {
   // keepPreviousData would leave the last search's hits under an empty box.
   const hits = searchable ? data : [];
 
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const mutedColor = useColorModeValue('gray.500', 'gray.400');
-  const activeBg = useColorModeValue('green.50', 'green.900');
-  const buttonBg = useColorModeValue('gray.50', 'gray.700');
+  const textColor = 'fg';
+  const mutedColor = 'fg.muted';
+  const activeBg = 'green.subtle';
+  const buttonBg = 'bg.subtle';
 
   useEffect(() => {
     const timer = setTimeout(() => setQuery(text.trim()), DEBOUNCE_MS);
@@ -120,7 +119,9 @@ const QuickSearch = (): React.JSX.Element => {
         <Text flex='1' textAlign='left'>
           Buscar exportación…
         </Text>
-        <Kbd fontSize='xs'>Ctrl K</Kbd>
+        <Kbd size='sm' wordSpacing='normal'>
+          Ctrl K
+        </Kbd>
       </Button>
 
       <Dialog.Root
@@ -164,7 +165,7 @@ const QuickSearch = (): React.JSX.Element => {
                   </Text>
                 )}
                 {searchable && !!error && (
-                  <Text fontSize='sm' color='red.500' mt={3}>
+                  <Text fontSize='sm' color='red.fg' mt={3}>
                     {serverErrorMessage(error, 'No se pudo buscar.')}
                   </Text>
                 )}

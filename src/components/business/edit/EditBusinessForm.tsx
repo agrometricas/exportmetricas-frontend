@@ -218,7 +218,7 @@ export default function EditBusinessForm({
                     ))}
                   </SimpleGrid>
                   {typeof errors.businessCodes === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.businessCodes}
                     </Text>
                   )}
@@ -285,7 +285,7 @@ export default function EditBusinessForm({
                     </Box>
                   ))}
                   {typeof errors.contacts === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.contacts}
                     </Text>
                   )}

@@ -215,9 +215,9 @@ const AddCuttingTypeForm = ({
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
-                  border='1px'
+                  borderWidth='1px'
                   borderRadius='md'
-                  borderColor='gray.200'
+                  borderColor='border'
                 >
                   <Text fontSize='sm'>
                     <strong>Cluster Bag:</strong>{' '}
@@ -362,9 +362,9 @@ const AddCuttingTypeForm = ({
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
-                  border='1px'
+                  borderWidth='1px'
                   borderRadius='md'
-                  borderColor='gray.200'
+                  borderColor='border'
                   overflow='hidden'
                 >
                   <SimpleGrid columns={2} gap={4}>

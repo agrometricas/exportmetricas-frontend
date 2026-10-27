@@ -22,7 +22,6 @@ import {
   pendingExportLabel,
 } from '../export/pendingColumns';
 import BatchActionBar from '../ui/BatchActionBar';
-import { useColorModeValue } from "../ui/color-mode";
 import OpenWithConfirmation from '../ui/OpenWithConfirmation';
 import PendingTable from '../ui/PendingTable';
 
@@ -72,7 +71,7 @@ const ExportCostList = (): React.JSX.Element => {
     queryClient.invalidateQueries('exportSentCostsPending');
   }, [queryClient]);
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   useEffect(() => {
     if (error && isAxiosError<ApiErrorData>(error)) {

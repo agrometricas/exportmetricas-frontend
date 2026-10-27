@@ -42,7 +42,7 @@ const TablePurchaseOrders = (): React.JSX.Element => {
                     }).week.split(' //')[0]
                   }
                 </Text>
-                <Text fontSize='xs' color='gray.600'>
+                <Text fontSize='xs' color='fg.muted'>
                   desde el {formatDayMonthYear(row.original.weekStart)}
                 </Text>
               </VStack>

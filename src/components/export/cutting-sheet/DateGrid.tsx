@@ -1,8 +1,9 @@
-import { Grid, GridItem, Field } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import { addDays, format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useField } from 'formik';
 import React, { useEffect } from 'react';
+import { FormLabel } from '../../ui/form/FormLabel';
 import InputFieldQuantity from '../../ui/form/InputFieldQuantity';
 
 interface Props {
@@ -44,34 +45,34 @@ const DateGrid = ({
         gap={0}
       >
         <GridItem colSpan={4} rowSpan={2}>
-          <Field.Label fontSize='sm' m='0px'>
+          <FormLabel fontSize='sm' m='0px'>
             Dias de corte:
-          </Field.Label>
-          <Field.Label fontSize='sm' m='0px'>
+          </FormLabel>
+          <FormLabel fontSize='sm' m='0px'>
             Volumen de cajas:
-          </Field.Label>
+          </FormLabel>
         </GridItem>
         {daysOfWeek.map((date, index) => {
           return (
             <GridItem colSpan={3} rowSpan={2} key={index}>
-              <Field.Label
+              <FormLabel
                 fontSize='sm'
                 m='0px'
                 borderWidth={'0.5px'}
                 textAlign={'center'}
-                bg={'yellow.200'}
+                bg={'yellow.subtle'}
               >
                 {format(date, 'EEEE/dd', { locale: es })}
-              </Field.Label>
+              </FormLabel>
               <InputFieldQuantity name={`${nameBoxes}[${index}]`} size={'xs'} />
             </GridItem>
           );
         })}
         <GridItem colSpan={2} rowSpan={2}>
-          <Field.Label fontSize='sm' m='0px' textAlign={'right'}>
+          <FormLabel fontSize='sm' m='0px' textAlign={'right'}>
             Total
-          </Field.Label>
-          <Field.Label
+          </FormLabel>
+          <FormLabel
             fontSize='sm'
             m='0px'
             h={'23px'}
@@ -79,7 +80,7 @@ const DateGrid = ({
             alignItems={'center'}
           >
             {boxQuantity}
-          </Field.Label>
+          </FormLabel>
         </GridItem>
       </Grid>
     </>

@@ -139,7 +139,7 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
                       : 'Todavía no tiene envío de insumos: no se mueve stock.'}
                   </Alert.Description>
                 </Alert.Root>
-                <Text fontSize='sm' color='gray.600'>
+                <Text fontSize='sm' color='fg.muted'>
                   Queda en el historial como cancelada y no admite más pasos. No
                   se puede cancelar si ya tiene pago al productor o cobro al
                   cliente.

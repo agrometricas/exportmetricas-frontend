@@ -21,8 +21,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   minH = '200px',
 }) => {
   const iconColor = useColorModeValue('gray.400', 'gray.500');
-  const titleColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
+  const titleColor = 'fg.heading';
+  const textColor = 'fg.muted';
   return (
     <Center minH={minH} py={6}>
       <VStack gap={2} maxW='md' textAlign='center'>

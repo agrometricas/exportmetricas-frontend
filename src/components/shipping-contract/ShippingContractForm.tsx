@@ -12,7 +12,6 @@ import {
   Dialog,
   Portal,
   Separator,
-  Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
@@ -22,7 +21,7 @@ import { emptyRoute } from './schemas/shippingContract.schema';
 import { ShippingContractResponse } from '../../types/shippingContract';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
-import { useColorModeValue } from '../ui/color-mode';
+import { FormLabel } from '../ui/form/FormLabel';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
@@ -41,7 +40,7 @@ export default function ShippingContractForm({
   } = useSubmitShippingContract(contract);
   const confirm = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const routeBorder = useColorModeValue('gray.200', 'gray.600');
+  const routeBorder = 'border';
 
   return (
     <Formik
@@ -60,7 +59,7 @@ export default function ShippingContractForm({
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {contract ? (
                 <Box>
-                  <Field.Label fontSize='sm'>Naviera</Field.Label>
+                  <FormLabel fontSize='sm'>Naviera</FormLabel>
                   <Input readOnly value={contract.shippingCompany.name} />
                 </Box>
               ) : (
@@ -144,7 +143,7 @@ export default function ShippingContractForm({
                     </Box>
                   ))}
                   {typeof errors.routes === 'string' && (
-                    <Text color='red.500' fontSize='sm'>
+                    <Text color='red.fg' fontSize='sm'>
                       {errors.routes}
                     </Text>
                   )}

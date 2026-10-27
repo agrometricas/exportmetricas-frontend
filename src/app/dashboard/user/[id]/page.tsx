@@ -24,10 +24,10 @@ const Field = ({
   value: React.ReactNode;
 }): JSX.Element => (
   <Box>
-    <Text fontSize="sm" color="gray.500" mb={1}>
+    <Text fontSize="sm" color="fg.muted" mb={1}>
       {label}
     </Text>
-    <Text fontWeight="semibold" color="gray.800">
+    <Text fontWeight="semibold" color="fg">
       {value}
     </Text>
   </Box>
@@ -57,26 +57,26 @@ const ProfilePage = async (): Promise<JSX.Element> => {
   const logoUrl = user?.exporterDetails?.logoUrl;
 
   return (
-    <Box minH="100vh" bg="gray.50" p={{ base: 4, md: 6, lg: 8 }}>
+    <Box minH="100vh" bg="bg.subtle" p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="7xl" mx="auto">
         <Card.Root
           bg="white"
-          border="1px solid"
-          borderColor="gray.200"
+          borderWidth='1px'
+          borderColor="border"
           borderRadius="xl"
-          boxShadow="lg"
+          boxShadow='sm'
           overflow="hidden"
         >
-          <Card.Header bg="gray.50">
+          <Card.Header bg="bg.subtle">
             <HStack gap={3} align="center">
-              <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
+              <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
                 <MdPerson size={20} />
               </Box>
               <Box>
-                <Heading size="lg" color="gray.900" fontWeight="bold">
+                <Heading size="lg" color="fg.heading" fontWeight="bold">
                   Perfil de la Cuenta
                 </Heading>
-                <Text fontSize="sm" color="gray.600" mt={1}>
+                <Text fontSize="sm" color="fg.muted" mt={1}>
                   Detalles del usuario y de la exportadora
                 </Text>
               </Box>
@@ -87,10 +87,10 @@ const ProfilePage = async (): Promise<JSX.Element> => {
             {/* Usuario */}
             <Box mb={6}>
               <HStack gap={3} mb={3}>
-                <Box p={2} bg="green.50" borderRadius="md" color="green.700">
+                <Box p={2} bg="green.subtle" borderRadius="md" color="green.fg">
                   <MdPerson size={16} />
                 </Box>
-                <Heading size="md" color="gray.800">
+                <Heading size="md" color="fg">
                   Usuario
                 </Heading>
                 <Badge
@@ -116,10 +116,10 @@ const ProfilePage = async (): Promise<JSX.Element> => {
             {/* Exportadora */}
             <Box>
               <HStack gap={3} mb={3}>
-                <Box p={2} bg="green.50" borderRadius="md" color="green.700">
+                <Box p={2} bg="green.subtle" borderRadius="md" color="green.fg">
                   <MdBusiness size={16} />
                 </Box>
-                <Heading size="md" color="gray.800">
+                <Heading size="md" color="fg">
                   Exportadora
                 </Heading>
                 <Badge
@@ -165,7 +165,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
               </SimpleGrid>
 
               <VStack gap={2} align="start">
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="fg.muted">
                   Logo
                 </Text>
                 {logoUrl ? (
@@ -174,8 +174,8 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                     alt="Logo de la Empresa"
                     boxSize="88px"
                     objectFit="contain"
-                    border="1px solid"
-                    borderColor="gray.200"
+                    borderWidth='1px'
+                    borderColor="border"
                     borderRadius="md"
                     bg="white"
                     p={2}

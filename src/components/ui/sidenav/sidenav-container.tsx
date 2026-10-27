@@ -1,17 +1,19 @@
 'use client';
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { ReactNode, ReactElement } from 'react';
-import { useColorModeValue } from "../color-mode";
 
 export interface SidenavContainerProps {
   children: ReactNode;
   sidenav: ReactElement;
 }
 
-export function SidenavContainer({ children, sidenav }: SidenavContainerProps): ReactElement {
-  const bg = useColorModeValue('white', 'gray.900');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const mainBg = useColorModeValue('gray.50', 'gray.800');
+export function SidenavContainer({
+  children,
+  sidenav,
+}: SidenavContainerProps): ReactElement {
+  const bg = 'bg.panel';
+  const borderColor = 'border';
+  const mainBg = 'bg.subtle';
 
   return (
     <Grid

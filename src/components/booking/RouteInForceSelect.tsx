@@ -29,7 +29,7 @@ export default function RouteInForceSelect(): React.JSX.Element {
 
   if (!values.shippingCompanyId || !day) {
     return (
-      <Text fontSize='sm' color='gray.500'>
+      <Text fontSize='sm' color='fg.muted'>
         Elija la naviera y el día de zarpe para ver las rutas con contrato
         vigente.
       </Text>
@@ -91,7 +91,7 @@ export default function RouteInForceSelect(): React.JSX.Element {
       </NativeSelect.Root>
       <Field.ErrorText>{errors.harborDepartureId}</Field.ErrorText>
       {selected && (
-        <Text fontSize='sm' color='gray.600' mt={2}>
+        <Text fontSize='sm' color='fg.muted' mt={2}>
           ${Number(selected.costPerContainer).toFixed(2)} por contenedor
           {selected.transitDays
             ? ` · ${selected.transitDays} días de tránsito`

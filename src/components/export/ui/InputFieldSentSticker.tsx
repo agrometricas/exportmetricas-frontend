@@ -58,7 +58,7 @@ const InputFieldSentSticker: React.FC<InputFieldSentStickerProps> = ({
             p={'0px'}
             pl={'16px'}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -70,7 +70,7 @@ const InputFieldSentSticker: React.FC<InputFieldSentStickerProps> = ({
               endElement={unit ? unit : undefined}
               endElementProps={{
                 pointerEvents: 'none',
-                color: 'gray.500',
+                color: 'fg.muted',
                 fontSize: '1em',
                 mr: '8px',
               }}

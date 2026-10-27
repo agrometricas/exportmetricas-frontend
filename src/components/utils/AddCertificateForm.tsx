@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Separator, Field } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import { ServerErrorResponse } from '@/types/errorResponse';
 import { useExporter } from '../../hooks/useUserProfile';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import UploadLogoFile from '../producer/UploadLogoFile';
+import { FormLabel } from '../ui/form/FormLabel';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldText from '../ui/form/InputFieldText';
 import InputFieldTextArea from '../ui/form/InputFieldTextArea';
@@ -148,9 +149,9 @@ const AddCertificateForm = ({
               name='expirationDate'
               label='Fecha de Expiración'
             />
-            <Field.Label fontSize='sm' mb={0}>
+            <FormLabel fontSize='sm' mb={0}>
               Logo
-            </Field.Label>
+            </FormLabel>
             <UploadLogoFile name='logo' />
             <Button
               mt='32px'

@@ -65,7 +65,7 @@ export function MaterialList(): JSX.Element {
   if (error) {
     return (
       <Center py={10}>
-        <Text color='red.500'>Error al cargar los materiales</Text>
+        <Text color='red.fg'>Error al cargar los materiales</Text>
       </Center>
     );
   }

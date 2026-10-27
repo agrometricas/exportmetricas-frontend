@@ -309,7 +309,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                 <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
                   Importar Stock de Exportadora
                 </Text>
-                <Text mb={4} fontSize='sm' color='gray.600'>
+                <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
@@ -321,8 +321,8 @@ const ImportExporterStockDrawer: React.FC = () => {
                 </Text>
                 {stockFileName ? (
                   <Box
-                    border='1px solid'
-                    borderColor='gray.200'
+                    borderWidth='1px'
+                    borderColor='border'
                     borderRadius='md'
                     p={4}
                     bg='green.subtle'
@@ -333,10 +333,10 @@ const ImportExporterStockDrawer: React.FC = () => {
                         <Text fontWeight='bold' fontSize='lg'>
                           Archivo de Stock seleccionado
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{stockFileName}</b>
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Tamaño: <b>{(stockFileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>
@@ -402,7 +402,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                 <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
                   Importar Stock de Fincas
                 </Text>
-                <Text mb={4} fontSize='sm' color='gray.600'>
+                <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
@@ -414,8 +414,8 @@ const ImportExporterStockDrawer: React.FC = () => {
                 </Text>
                 {businessStockFileName ? (
                   <Box
-                    border='1px solid'
-                    borderColor='gray.200'
+                    borderWidth='1px'
+                    borderColor='border'
                     borderRadius='md'
                     p={4}
                     bg='green.subtle'
@@ -426,10 +426,10 @@ const ImportExporterStockDrawer: React.FC = () => {
                         <Text fontWeight='bold' fontSize='lg'>
                           Archivo de Stock de Fincas seleccionado
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{businessStockFileName}</b>
                         </Text>
-                        <Text fontSize='sm' color='gray.600'>
+                        <Text fontSize='sm' color='fg.muted'>
                           Tamaño:{' '}
                           <b>{(businessStockFileSize / 1024).toFixed(2)} KB</b>
                         </Text>

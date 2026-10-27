@@ -282,7 +282,7 @@ const ImportFilesDrawer: React.FC = () => {
               <Drawer.CloseTrigger />
               <Drawer.Body>
                 <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar Marcas de Caja</Text>
-                <Text mb={4} fontSize="sm" color="gray.600">
+                <Text mb={4} fontSize="sm" color="fg.muted">
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
@@ -294,8 +294,8 @@ const ImportFilesDrawer: React.FC = () => {
                 </Text>
                 {boxBrandFileName ? (
                   <Box
-                    border="1px solid"
-                    borderColor="gray.200"
+                    borderWidth='1px'
+                    borderColor="border"
                     borderRadius="md"
                     p={4}
                     bg='green.subtle'
@@ -306,10 +306,10 @@ const ImportFilesDrawer: React.FC = () => {
                         <Text fontWeight="bold" fontSize="lg">
                           Archivo de Marcas seleccionado
                         </Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="sm" color="fg.muted">
                           Nombre: <b>{boxBrandFileName}</b>
                         </Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="sm" color="fg.muted">
                           Tamaño: <b>{(boxBrandFileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>
@@ -368,7 +368,7 @@ const ImportFilesDrawer: React.FC = () => {
                   </Field.Root>
                 )}
                 <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar Materiales</Text>
-                <Text mb={4} fontSize="sm" color="gray.600">
+                <Text mb={4} fontSize="sm" color="fg.muted">
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
@@ -380,8 +380,8 @@ const ImportFilesDrawer: React.FC = () => {
                 </Text>
                 {materialFileName ? (
                   <Box
-                    border="1px solid"
-                    borderColor="gray.200"
+                    borderWidth='1px'
+                    borderColor="border"
                     borderRadius="md"
                     p={4}
                     bg='green.subtle'
@@ -392,10 +392,10 @@ const ImportFilesDrawer: React.FC = () => {
                         <Text fontWeight="bold" fontSize="lg">
                           Archivo de Materiales seleccionado
                         </Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="sm" color="fg.muted">
                           Nombre: <b>{materialFileName}</b>
                         </Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="sm" color="fg.muted">
                           Tamaño: <b>{(materialFileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>

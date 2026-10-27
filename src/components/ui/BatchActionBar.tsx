@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
-import { useColorModeValue } from './color-mode';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 export interface BatchOutcome {
@@ -66,8 +65,8 @@ function BatchActionBar<T>({
     { id: number; label: string; message: string }[]
   >([]);
 
-  const barBg = useColorModeValue('green.50', 'gray.700');
-  const hintColor = useColorModeValue('gray.600', 'gray.300');
+  const barBg = 'green.subtle';
+  const hintColor = 'fg.muted';
 
   const confirm = async (): Promise<void> => {
     const labels = new Map(

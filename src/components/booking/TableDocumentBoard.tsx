@@ -53,7 +53,7 @@ const TableDocumentBoard = (): React.JSX.Element => {
             <Text fontSize='sm' fontWeight='semibold'>
               {row.original.bookingNumber}
             </Text>
-            <Text fontSize='xs' color='gray.600'>
+            <Text fontSize='xs' color='fg.muted'>
               {row.original.shippingCompany} · {row.original.shipName} →{' '}
               {row.original.destination}
             </Text>
@@ -97,7 +97,7 @@ const TableDocumentBoard = (): React.JSX.Element => {
         enableSorting: false,
         Cell: ({ row }): React.JSX.Element =>
           row.original.missing.length === 0 ? (
-            <Text fontSize='sm' color='gray.500'>
+            <Text fontSize='sm' color='fg.muted'>
               Nada
             </Text>
           ) : (

@@ -108,7 +108,7 @@ export default function BoxBrandCargoModal({
                         placeholder='Sin tipo de caja'
                         options={options}
                       />
-                      <Text fontSize='sm' color='gray.600'>
+                      <Text fontSize='sm' color='fg.muted'>
                         Una alícuota con pallets o mini pallets no puede pasar a
                         granel.
                       </Text>

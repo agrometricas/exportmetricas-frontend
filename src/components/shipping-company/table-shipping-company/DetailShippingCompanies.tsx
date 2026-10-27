@@ -63,7 +63,7 @@ const DetailShippingCompanies = ({
         <Accordion.ItemContent pl='60px' pb={4}>
           <Accordion.ItemBody>
             {company.harbors.map((harbor, index) => (
-              <Box key={index} mt={3} borderBottom='1px solid #e2e8f0' pb={2}>
+              <Box key={index} mt={3} borderBottomWidth='1px' pb={2}>
                 <Text>
                   <strong>Puerto de Salida:</strong>{' '}
                   {harbor.harborDeparture.name}

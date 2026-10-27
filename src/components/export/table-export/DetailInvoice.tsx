@@ -1,6 +1,7 @@
-import { Box, Card, Heading, Input, InputGroup, NumberInput, SimpleGrid, Textarea, Separator, Field } from '@chakra-ui/react';
+import { Box, Card, Heading, Input, InputGroup, NumberInput, SimpleGrid, Textarea, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { ProducerPaymentType } from '../../../types/producerPayment';
+import { FormLabel } from '../../ui/form/FormLabel';
 
 interface props {
   payment: Partial<ProducerPaymentType>;
@@ -37,18 +38,18 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Productor/Razón Social:</Field.Label>
+          <FormLabel>Productor/Razón Social:</FormLabel>
           <Input
             readOnly={true}
             value={payment.merchant?.businessName || ''}
           />
         </Box>
         <Box>
-          <Field.Label>RUC:</Field.Label>
+          <FormLabel>RUC:</FormLabel>
           <Input readOnly={true} value={payment.merchant?.businessId || ''} />
         </Box>
         <Box>
-          <Field.Label>Ciudad:</Field.Label>
+          <FormLabel>Ciudad:</FormLabel>
           <Input
             readOnly={true}
             value={payment.merchant?.city || ''}
@@ -58,7 +59,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           />
         </Box>
         <Box>
-          <Field.Label>Dirección:</Field.Label>
+          <FormLabel>Dirección:</FormLabel>
           <Input
             readOnly={true}
             value={payment.merchant?.address || ''}
@@ -81,21 +82,21 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Nombre</Field.Label>
+          <FormLabel>Nombre</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDeparture?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>País</Field.Label>
+          <FormLabel>País</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDeparture?.country?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Latitud</Field.Label>
+          <FormLabel>Latitud</FormLabel>
           <Input
             readOnly={true}
             value={
@@ -113,14 +114,14 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           />
         </Box>
         <Box>
-          <Field.Label>Ciudad</Field.Label>
+          <FormLabel>Ciudad</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDeparture?.city?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Longitud</Field.Label>
+          <FormLabel>Longitud</FormLabel>
           <Input
             readOnly={true}
             value={
@@ -151,21 +152,21 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Nombre</Field.Label>
+          <FormLabel>Nombre</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDestination?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>País</Field.Label>
+          <FormLabel>País</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDestination?.country?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Latitud</Field.Label>
+          <FormLabel>Latitud</FormLabel>
           <Input
             readOnly={true}
             value={
@@ -183,14 +184,14 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           />
         </Box>
         <Box>
-          <Field.Label>Ciudad</Field.Label>
+          <FormLabel>Ciudad</FormLabel>
           <Input
             readOnly={true}
             value={payment.harborDestination?.city?.name || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Longitud</Field.Label>
+          <FormLabel>Longitud</FormLabel>
           <Input
             readOnly={true}
             value={
@@ -221,10 +222,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Precio:</Field.Label>
+          <FormLabel>Precio:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.price).toFixed(2))}
@@ -237,10 +238,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           </InputGroup>
         </Box>
         <Box>
-          <Field.Label>Subtotal1</Field.Label>
+          <FormLabel>Subtotal1</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.subtotal1).toFixed(2))}
@@ -266,10 +267,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Transporte:</Field.Label>
+          <FormLabel>Transporte:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.transport).toFixed(2))}
@@ -282,10 +283,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           </InputGroup>
         </Box>
         <Box>
-          <Field.Label>Materiales:</Field.Label>
+          <FormLabel>Materiales:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.materials).toFixed(2))}
@@ -298,10 +299,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           </InputGroup>
         </Box>
         <Box>
-          <Field.Label>Varios:</Field.Label>
+          <FormLabel>Varios:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.others).toFixed(2))}
@@ -314,10 +315,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
           </InputGroup>
         </Box>
         <Box>
-          <Field.Label>Subtotal2:</Field.Label>
+          <FormLabel>Subtotal2:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.subtotal2).toFixed(2))}
@@ -331,10 +332,10 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
         <Box></Box>
         <Box>
-          <Field.Label>Total:</Field.Label>
+          <FormLabel>Total:</FormLabel>
           <InputGroup width={'100%'}
   startElement={<>$</>}
-  startElementProps={{ pointerEvents: 'none', color: 'gray.400', fontSize: '1.2em' }}>
+  startElementProps={{ pointerEvents: 'none', color: 'fg.subtle', fontSize: '1.2em' }}>
             
             <NumberInput.Root
               value={String(Number(payment.total).toFixed(2))}
@@ -349,7 +350,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       </SimpleGrid>
 
       <Box px={'20px'} mt={3}>
-        <Field.Label>Descripción de los gastos:</Field.Label>
+        <FormLabel>Descripción de los gastos:</FormLabel>
         <Textarea value={payment.description} readOnly={true} />
       </Box>
 
@@ -365,28 +366,28 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Tipo</Field.Label>
+          <FormLabel>Tipo</FormLabel>
           <Input
             readOnly={true}
             value={payment.sourceBankAccount?.bank || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Tipo</Field.Label>
+          <FormLabel>Tipo</FormLabel>
           <Input
             readOnly={true}
             value={payment.sourceBankAccount?.type || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Propietario</Field.Label>
+          <FormLabel>Propietario</FormLabel>
           <Input
             readOnly={true}
             value={payment.sourceBankAccount?.owner || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Identificación</Field.Label>
+          <FormLabel>Identificación</FormLabel>
           <Input
             readOnly={true}
             value={payment.sourceBankAccount?.ownerID || ''}
@@ -406,28 +407,28 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <Field.Label>Tipo</Field.Label>
+          <FormLabel>Tipo</FormLabel>
           <Input
             readOnly={true}
             value={payment.destinationBankAccount?.bank || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Tipo</Field.Label>
+          <FormLabel>Tipo</FormLabel>
           <Input
             readOnly={true}
             value={payment.destinationBankAccount?.type || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Propietario</Field.Label>
+          <FormLabel>Propietario</FormLabel>
           <Input
             readOnly={true}
             value={payment.destinationBankAccount?.owner || ''}
           />
         </Box>
         <Box>
-          <Field.Label>Identificación</Field.Label>
+          <FormLabel>Identificación</FormLabel>
           <Input
             readOnly={true}
             value={payment.destinationBankAccount?.ownerID || ''}

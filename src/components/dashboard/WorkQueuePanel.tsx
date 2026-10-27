@@ -19,7 +19,6 @@ import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { exportPage, stepAction } from '../../utils/exportSteps';
 import { missingSummary, SEMAPHORE_COLOR } from '../../utils/shipmentStatus';
 import { QUEUE_LIST_PAGE, seesQueue } from '../../utils/workQueueAccess';
-import { useColorModeValue } from '../ui/color-mode';
 
 const SHOWN = 4;
 
@@ -34,12 +33,12 @@ function GroupCard({
   listHref: string;
   children: React.ReactNode;
 }): React.JSX.Element {
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
   return (
     <Card.Root
       bg={cardBg}
-      border='1px solid'
+      borderWidth='1px'
       borderColor={borderColor}
       borderRadius='xl'
     >
@@ -54,7 +53,7 @@ function GroupCard({
           {children}
         </VStack>
         {count > SHOWN && (
-          <Link fontSize='sm' color='green.600' mt={3} display='block' asChild>
+          <Link fontSize='sm' color='green.fg' mt={3} display='block' asChild>
             <Link_Next href={listHref}>Ver las {count}</Link_Next>
           </Link>
         )}
@@ -85,7 +84,7 @@ export default function WorkQueuePanel({
         Lo que falta
       </Heading>
       {nothing ? (
-        <Text color='gray.600'>Nada pendiente para tu área. Todo al día.</Text>
+        <Text color='fg.muted'>Nada pendiente para tu área. Todo al día.</Text>
       ) : (
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={4}>
           {groups.map((group) => (
@@ -114,7 +113,7 @@ export default function WorkQueuePanel({
                           {item.farm}
                         </Link_Next>
                       </Link>
-                      <Text fontSize='xs' color='gray.600' lineClamp={1}>
+                      <Text fontSize='xs' color='fg.muted' lineClamp={1}>
                         {item.client} · {item.boxes} cajas
                         {item.cuttingDate
                           ? ` · corte ${formatDayMonthYear(item.cuttingDate)}`
@@ -172,7 +171,7 @@ export default function WorkQueuePanel({
                         {booking.statusLabel}
                       </Badge>
                     </HStack>
-                    <Text fontSize='xs' color='gray.600' lineClamp={1}>
+                    <Text fontSize='xs' color='fg.muted' lineClamp={1}>
                       {missingSummary(booking.missing, 1)[0] ?? ''}
                     </Text>
                   </Box>

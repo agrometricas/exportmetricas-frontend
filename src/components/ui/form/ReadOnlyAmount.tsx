@@ -17,7 +17,7 @@ const ReadOnlyAmount: React.FC<ReadOnlyAmountProps> = ({ label, value }) => {
         startElement={<>$</>}
         startElementProps={{
           pointerEvents: 'none',
-          color: 'gray.400',
+          color: 'fg.subtle',
           fontSize: '1.2em',
         }}
       >

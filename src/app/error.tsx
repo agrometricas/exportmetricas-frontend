@@ -19,7 +19,7 @@ export default function Error({
     <Box minH='60vh' display='flex' alignItems='center' justifyContent='center'>
       <VStack gap={4} textAlign='center' px={6}>
         <Heading size='lg'>Algo salió mal</Heading>
-        <Text color='gray.600' maxW='md'>
+        <Text color='fg.muted' maxW='md'>
           Ocurrió un error inesperado al mostrar esta página. Puedes
           reintentarlo; si el problema sigue, recarga la página o vuelve a
           iniciar sesión.

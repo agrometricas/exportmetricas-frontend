@@ -88,7 +88,7 @@ const TableBookings = (): React.JSX.Element => {
                   {row.original.containerCount} con número
                 </Text>
                 {row.original.containers.map((container) => (
-                  <Text key={container.id} fontSize='xs' color='gray.600'>
+                  <Text key={container.id} fontSize='xs' color='fg.muted'>
                     {container.number}
                     {container.exportId ? ` · exp. ${container.exportId}` : ''}
                   </Text>
@@ -105,7 +105,7 @@ const TableBookings = (): React.JSX.Element => {
                 <Text fontSize='sm' fontWeight='semibold'>
                   {money(row.original.estimatedFreight)}
                 </Text>
-                <Text fontSize='xs' color='gray.600'>
+                <Text fontSize='xs' color='fg.muted'>
                   {money(row.original.costPerContainer)} c/u
                 </Text>
               </VStack>

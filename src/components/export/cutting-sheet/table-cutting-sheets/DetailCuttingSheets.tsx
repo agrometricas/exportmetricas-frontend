@@ -50,7 +50,7 @@ const DetailCuttingSheet = ({
             </Text>
             <Text>
               <strong>PDF:</strong>{' '}
-              <Link href={cuttingSheet.pdfUrl} target='_blank' color='blue.500'>
+              <Link href={cuttingSheet.pdfUrl} target='_blank' color='blue.fg'>
                 Ver PDF
               </Link>
             </Text>

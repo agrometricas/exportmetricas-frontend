@@ -88,7 +88,7 @@ export default function DetailExportSentConfirmedCost({
         </Heading>
         <Accordion.ItemContent pl='60px' pb={4}><Accordion.ItemBody>
             {item.exportSentMaterials.length === 0 ? (
-              <Text color='gray.500'>
+              <Text color='fg.muted'>
                 No se registraron materiales utilizados.
               </Text>
             ) : (

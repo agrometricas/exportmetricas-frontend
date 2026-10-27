@@ -12,7 +12,7 @@ export const SignInButton = (): React.JSX.Element => {
       <>
         <Container backgroundColor={'gray.200'}>
           <Text color='navy.400'>{session?.user?.name}</Text>
-          <Link color={'green.400'} asChild>
+          <Link color={'green.fg'} asChild>
             <NextLink href={'/api/auth/signout'}>Sign Out</NextLink>
           </Link>
         </Container>
@@ -21,10 +21,10 @@ export const SignInButton = (): React.JSX.Element => {
 
   return (
     <Container backgroundColor={'gray.200'}>
-      <Link color={'red.400'} asChild>
+      <Link color={'red.fg'} asChild>
         <NextLink href={'/api/auth/signin'}>Sign in</NextLink>
       </Link>
-      <Link color={'green.400'} asChild>
+      <Link color={'green.fg'} asChild>
         <NextLink href={'/signup'}>Sign up</NextLink>
       </Link>
     </Container>

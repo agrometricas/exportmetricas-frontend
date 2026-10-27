@@ -3,18 +3,17 @@ import { Box, Card, HStack, Heading, Icon, Text, Flex, Separator } from '@chakra
 import { Formik } from 'formik';
 import React from 'react';
 import { MdInventory2 } from 'react-icons/md';
-import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import ImportExporterStockDrawer from '../../../../components/winery/ImportExporterStockDrawer';
 import { MaterialList } from '../../../../components/winery/MaterialList';
 
 function AddMaterialPage(): React.JSX.Element {
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const headBg = useColorModeValue('gray.50', 'gray.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headingColor = 'fg.heading';
+  const textColor = 'fg';
+  const headBg = 'bg.subtle';
 
   return (
     <Formik
@@ -28,9 +27,9 @@ function AddMaterialPage(): React.JSX.Element {
               bg={cardBg}
               borderColor={borderColor}
               borderRadius="xl"
-              boxShadow="lg"
+              boxShadow='sm'
               overflow="hidden"
-              border="1px solid"
+              borderWidth='1px'
               borderTopWidth="4px"
               borderTopColor="green.500"
             >
@@ -42,7 +41,7 @@ function AddMaterialPage(): React.JSX.Element {
                   gap={3}
                 >
                   <HStack gap={3} align="center">
-                    <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
+                    <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
                       <Icon boxSize={5} asChild><MdInventory2 /></Icon>
                     </Box>
                     <Box>

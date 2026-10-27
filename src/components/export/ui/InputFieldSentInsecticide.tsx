@@ -47,7 +47,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             pl={'8px'}
             value={`${insecticideSelected.insecticide?.activeIngredient}`}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -60,7 +60,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             textAlign={'left'}
             value={`${insecticideSelected.insecticide?.dose}`}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />
@@ -73,7 +73,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             p={'0px'}
             pl={'8px'}
             readOnly={true}
-            _hover={{ borderColor: 'gray.200' }}
+            _hover={{ borderColor: 'border' }}
             cursor={'not-allowed'}
             opacity={0.8}
           />

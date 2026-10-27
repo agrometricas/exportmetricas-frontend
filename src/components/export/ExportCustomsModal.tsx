@@ -167,7 +167,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
                   <Dialog.CloseTrigger />
                   <Dialog.Body>
                     <VStack align='stretch' gap={5}>
-                      <Text fontSize='sm' color='gray.600'>
+                      <Text fontSize='sm' color='fg.muted'>
                         Al exportar se emite la AUCP y el evaluador la convierte
                         en DAE. Deja un campo vacío para borrarlo.
                       </Text>

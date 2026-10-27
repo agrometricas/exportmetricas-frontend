@@ -12,7 +12,6 @@ import { usePagination } from '../../../hooks/usePagination';
 import { PendingSheet } from '../../../types/cuttingSheetBatch';
 import { ExportType } from '../../../types/export';
 import { ExportSentType } from '../../../types/exportSent';
-import { useColorModeValue } from "../../ui/color-mode";
 import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
 import PendingTable from '../../ui/PendingTable';
 import { pendingExportColumns } from '../pendingColumns';
@@ -48,7 +47,7 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
     }
   }, [error, router]);
 
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   if (isLoading) {
     return (

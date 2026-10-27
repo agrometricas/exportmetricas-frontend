@@ -6,7 +6,6 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { MdContentCut } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetForm from '../../../../../components/export/cutting-sheet/CuttingSheetForm';
-import { useColorModeValue } from "../../../../../components/ui/color-mode";
 import { useExportSent } from '../../../../../hooks/export/export-sent/getExportSent';
 import { useExport } from '../../../../../hooks/export/getExport';
 import { ExportResponse } from '../../../../../types/export.response';
@@ -49,12 +48,12 @@ const CuttingSheetPage = (): React.JSX.Element => {
     }
   }, [isLoading, isLoadingSent, pendingCuttingSheet, pathname]);
 
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
-  const textColor = useColorModeValue('gray.700', 'gray.200');
-  const grayColor = useColorModeValue('green.50', 'green.750');
+  const bgColor = 'bg.canvas';
+  const cardBg = 'bg.panel';
+  const borderColor = 'border';
+  const headingColor = 'fg.heading';
+  const textColor = 'fg';
+  const grayColor = 'green.subtle';
 
   if (isLoading || isLoadingSent) {
     return (
@@ -67,17 +66,17 @@ const CuttingSheetPage = (): React.JSX.Element => {
       <Box maxW="8xl" mx="auto">
         <Card.Root
           bg={cardBg}
-          border="1px solid"
+          borderWidth='1px'
           borderColor={borderColor}
           borderRadius="xl"
-          boxShadow="lg"
+          boxShadow='sm'
           overflow="hidden"
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
           <Card.Header bg={grayColor} pb={4}>
             <HStack gap={3} align="center">
-              <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
+              <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
                 <Icon boxSize={5} asChild><MdContentCut /></Icon>
               </Box>
               <Box>

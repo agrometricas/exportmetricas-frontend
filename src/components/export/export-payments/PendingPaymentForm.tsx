@@ -280,7 +280,7 @@ const PendingPaymentFields = ({
             isDolar
           />
           {proposal?.priceProposal && (
-            <Text fontSize='sm' color='gray.600' mt={1}>
+            <Text fontSize='sm' color='fg.muted' mt={1}>
               {priceProposalText(proposal.priceProposal)}
             </Text>
           )}
@@ -304,7 +304,7 @@ const PendingPaymentFields = ({
             isDolar
           />
           {proposal?.transportProposal && (
-            <Text fontSize='sm' color='gray.600' mt={1}>
+            <Text fontSize='sm' color='fg.muted' mt={1}>
               Tarifa de {proposal.transportProposal.transport} para{' '}
               {proposal.transportProposal.province}:{' '}
               {proposal.transportProposal.containers} contenedor(es) × $
@@ -321,7 +321,7 @@ const PendingPaymentFields = ({
             isDolar
           />
           {proposal?.materialsProposal && (
-            <Text fontSize='sm' color='gray.600' mt={1}>
+            <Text fontSize='sm' color='fg.muted' mt={1}>
               Costo validado de los {proposal.materialsProposal.lines}{' '}
               materiales del envío
             </Text>

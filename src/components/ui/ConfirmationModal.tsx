@@ -29,10 +29,10 @@ const ConfirmationModal = ({
 }: ConfirmationModalProps): React.JSX.Element => {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headerBg = useColorModeValue('gray.50', 'gray.750');
-  const titleColor = useColorModeValue('gray.900', 'gray.100');
-  const descColor = useColorModeValue('gray.700', 'gray.300');
+  const borderColor = 'border';
+  const headerBg = 'bg.subtle';
+  const titleColor = 'fg.heading';
+  const descColor = 'fg';
 
   const greenStrong = useColorModeValue('green.600', 'green.300');
   const greenSoft = useColorModeValue('green.100', 'green.900');
@@ -73,7 +73,7 @@ const ConfirmationModal = ({
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content
-            border="1px solid"
+            borderWidth='1px'
             borderColor={borderColor}
             borderRadius="xl"
             boxShadow="2xl"

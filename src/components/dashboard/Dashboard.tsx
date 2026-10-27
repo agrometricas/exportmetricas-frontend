@@ -11,7 +11,7 @@ const Dashboard = (): JSX.Element => {
   const { data: session, status } = useSession();
 
   const pageBg = useColorModeValue('transparent', 'transparent');
-  const headingColor = useColorModeValue('gray.900', 'gray.100');
+  const headingColor = 'fg.heading';
 
   if (status === 'loading') {
     return <LoadingState minH='60vh' />;
