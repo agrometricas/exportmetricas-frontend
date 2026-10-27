@@ -62,7 +62,7 @@ const DetailProducerPayments = ({
   const { merchant, harborDeparture, harborDestination, boxBrand } = producerPayment;
 
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger pl="60px" width={{ sm: width.sm, md: width.md }}>

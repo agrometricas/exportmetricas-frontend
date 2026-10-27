@@ -105,9 +105,11 @@ sus números si ya se conocen.
 
 ### Ficha de la exportación (`/dashboard/export/[id]`)
 
-Junta la exportación en una sola pantalla: finca, cliente, cajas y corte, sus
-pasos (`ExportSteps`, de `GET /export/:id/progress`) y debajo el detalle de
-siempre (`DetailExport`). Cada paso muestra su estado tal como lo da el backend
+Junta la exportación en una sola pantalla: una tarjeta con finca, cliente,
+cajas, corte y sus pasos (`ExportSteps`, de `GET /export/:id/progress`), y otra
+con el detalle de siempre (`DetailExport`). Van lado a lado cuando el área de
+contenido mide 1040 px o más (una *container query*, porque el menú lateral
+puede estar abierto o colapsado), y una debajo de la otra si no. Cada paso muestra su estado tal como lo da el backend
 y, si se puede hacer, su botón (`stepAction`, `utils/exportSteps.ts`): el envío
 y la hoja de corte van con el id de la exportación; costos, pago y cobro con el
 del envío; la aduana abre su ventana ahí mismo. El paso que sigue va resaltado.

@@ -19,7 +19,7 @@ export default function DetailExporterMaterialStock({
   } = material;
 
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger

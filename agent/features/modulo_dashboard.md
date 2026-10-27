@@ -22,8 +22,9 @@ cómo se compara con el precio spot.
 | `LOGISTICS` | Las alertas de cupo; *Lo que falta* dice que no hay nada para su área |
 
 *Lo que falta* (`WorkQueuePanel`) muestra una tarjeta por paso con algo
-pendiente, con las primeras cuatro exportaciones: la finca enlaza a su ficha
-y el botón abre el paso, con regreso a Inicio. Qué paso ve cada rol está en
+pendiente, con las primeras cuatro exportaciones. Cada fila es un enlace que
+abre el paso, con regreso a Inicio; si el paso se hace desde la ficha (la
+aduana), abre la ficha. La acción va en el título del enlace. Qué paso ve cada rol está en
 `utils/workQueueAccess.ts`, con las mismas áreas que el menú.
 
 Todos ven el saludo con su nombre y el menú lateral de su rol.

@@ -9,7 +9,7 @@ interface DetailVerifiersProps {
 
 const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier, width }) => {
   return (
-    <Accordion.Root multiple defaultValue={['0']}>
+    <Accordion.Root multiple defaultValue={['item-0']}>
       <Accordion.Item value='item-0'>
         <h2>
           <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>

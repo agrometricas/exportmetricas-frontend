@@ -83,7 +83,7 @@ function Panel({
           borderTopWidth='1px'
           flexShrink={0}
         >
-          © 2025 Exportmétricas
+          © {new Date().getFullYear()} Exportmétricas
         </Text>
       )}
     </Flex>

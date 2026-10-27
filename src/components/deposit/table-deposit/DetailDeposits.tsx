@@ -9,7 +9,7 @@ interface DetailDepositsProps {
 
 const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit, width }) => {
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>

@@ -215,7 +215,13 @@ export default function CalendarSummaryContainer(): JSX.Element {
 
   return (
     <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }} gap={4}>
-      <GridItem bg='white' p={4} borderRadius='md' boxShadow={'md'}>
+      <GridItem
+        bg='bg.panel'
+        p={4}
+        borderWidth='1px'
+        borderRadius='l3'
+        boxShadow='sm'
+      >
         <WeeklyExportsCalendar
           setCurrentDate={setCurrentDate}
           isCurrentWeek={isCurrentWeek}
@@ -233,13 +239,25 @@ export default function CalendarSummaryContainer(): JSX.Element {
           boxesMatrix={boxesMatrix}
         />
       </GridItem>
-      <GridItem bg='white' p={4} borderRadius='md' boxShadow={'md'}>
+      <GridItem
+        bg='bg.panel'
+        p={4}
+        borderWidth='1px'
+        borderRadius='l3'
+        boxShadow='sm'
+      >
         <WeeklyExportsSummary
           filteredData={filteredData}
           getExportColor={getExportColor}
         />
       </GridItem>
-      <GridItem bg='white' p={4} borderRadius='md' boxShadow={'md'}>
+      <GridItem
+        bg='bg.panel'
+        p={4}
+        borderWidth='1px'
+        borderRadius='l3'
+        boxShadow='sm'
+      >
         <WeeklyFarmSummaryCard
           exportSentData={filteredExportSent}
           weekStart={weekStart}
@@ -251,7 +269,13 @@ export default function CalendarSummaryContainer(): JSX.Element {
         />
       </GridItem>
       <Grid gap={4}>
-        <GridItem bg='white' p={6} borderRadius='md' boxShadow='md'>
+        <GridItem
+          bg='bg.panel'
+          p={6}
+          borderWidth='1px'
+          borderRadius='l3'
+          boxShadow='sm'
+        >
           <Text fontSize='xl' fontWeight='normal' mb={2}>
             Egreso Total Semanal
           </Text>
@@ -266,7 +290,13 @@ export default function CalendarSummaryContainer(): JSX.Element {
             ${totalEgreso} USD
           </Text>
         </GridItem>
-        <GridItem bg='white' p={6} borderRadius='md' boxShadow='md'>
+        <GridItem
+          bg='bg.panel'
+          p={6}
+          borderWidth='1px'
+          borderRadius='l3'
+          boxShadow='sm'
+        >
           <Text fontSize='xl' mb={2}>
             Ingreso Total Semanal
           </Text>
@@ -282,13 +312,27 @@ export default function CalendarSummaryContainer(): JSX.Element {
           </Text>
         </GridItem>
       </Grid>
-      <GridItem bg='white' p={6} borderRadius='md' boxShadow={'md'} mb={4}>
-        <Text fontSize='2xl' fontWeight='bold' mb={4}>
+      <GridItem
+        bg='bg.panel'
+        p={6}
+        borderWidth='1px'
+        borderRadius='l3'
+        boxShadow='sm'
+        mb={4}
+      >
+        <Text as='h3' textStyle='h3' color='fg.heading' mb={4}>
           Diagrama Cliente/Productor
         </Text>
         <ExportSentChart weekStart={weekStart} weekEnd={weekEnd} />
       </GridItem>
-      <GridItem bg='white' p={6} borderRadius='md' boxShadow={'md'} mb={4}>
+      <GridItem
+        bg='bg.panel'
+        p={6}
+        borderWidth='1px'
+        borderRadius='l3'
+        boxShadow='sm'
+        mb={4}
+      >
         <SpotPriceComparison exportSentData={filteredExportSent} />
       </GridItem>
     </Grid>

@@ -34,7 +34,7 @@ const DetailCuttingTypes = ({
   width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger

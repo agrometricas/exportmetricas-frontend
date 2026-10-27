@@ -42,7 +42,7 @@ export default function WeeklyExportsSummary({
   }, 0);
   return (
     <Box display='flex' flexDirection='column' minH='100%'>
-      <Text fontSize='2xl' fontWeight='bold' mb={4}>
+      <Text as='h3' textStyle='h3' color='fg.heading' mb={4}>
         Resumen
       </Text>
       <Box flex='1'>

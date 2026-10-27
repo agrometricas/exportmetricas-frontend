@@ -13,7 +13,7 @@ const DetailCuttingSheet = ({
   const ex = cuttingSheet.exportSent.export;
 
   return (
-    <Accordion.Root defaultValue={['0']} multiple>
+    <Accordion.Root defaultValue={['item-0']} multiple>
       <Accordion.Item value='item-0'>
         <Heading>
           <Accordion.ItemTrigger pl='60px' width={width}>
