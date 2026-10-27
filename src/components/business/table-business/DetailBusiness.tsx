@@ -20,7 +20,7 @@ const DetailBusiness = ({
               fontSize='md'
               fontWeight='bold'
             >
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

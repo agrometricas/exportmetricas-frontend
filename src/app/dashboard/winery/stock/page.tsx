@@ -49,7 +49,7 @@ function SearchStockPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/winery/add-material'>
               <FiPlus />
-              Agregar Stock
+              Agregar stock
             </Link_Next>
           </Button>
         )

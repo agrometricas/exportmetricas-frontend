@@ -14,7 +14,6 @@ import {
   useConfirmExportSentCosts,
 } from '../../hooks/export/export-sent/confirmExportSentCostReview';
 import { useExportSentCostsPending } from '../../hooks/export/export-sent/getExportSentCostsPending';
-import { usePagination } from '../../hooks/usePagination';
 import { ExportSentType } from '../../types/exportSent';
 import { costBatchSummary, formatUsd } from '../../utils/costBatch';
 import {
@@ -42,8 +41,7 @@ type ApiErrorData = {
 };
 
 const ExportCostList = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error, refetch } = useExportSentCostsPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportSentCostsPending();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -65,8 +63,8 @@ const ExportCostList = (): React.JSX.Element => {
     []
   );
 
-  // Once per visit: paginationParams is a new object on every render, and
-  // depending on it refetched the list in a loop.
+  // Nothing marks this list stale on its own (staleTime is Infinity): load it
+  // again on every visit.
   useEffect(() => {
     queryClient.invalidateQueries({
       queryKey: ['exportSentCostsPending']
@@ -101,7 +99,7 @@ const ExportCostList = (): React.JSX.Element => {
     <VStack gap={4} align="stretch">
       <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
         <Heading size="md" color={headingColor}>
-          Costos de Exportación Pendientes
+          Costos de exportación pendientes
         </Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}

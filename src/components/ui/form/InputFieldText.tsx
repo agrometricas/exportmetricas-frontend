@@ -10,6 +10,7 @@ import { useField } from 'formik';
 import { useEffect, useRef } from 'react';
 import { FaBan } from 'react-icons/fa';
 import { TiDelete } from 'react-icons/ti';
+import { useBanChange } from './useBanChange';
 
 interface InputFieldProps {
   name: string;
@@ -43,6 +44,7 @@ const InputFieldText: React.FC<InputFieldProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastDefault = useRef('');
 
   useEffect(() => {
     if (meta.error && meta.touched) {
@@ -50,36 +52,30 @@ const InputFieldText: React.FC<InputFieldProps> = ({
     }
   }, [meta.error, meta.touched]);
 
-  useEffect(() => {
-    if (!!isBan) {
-      inputRef.current?.blur();
-      if (isBan?.state) {
-        field.value = 'N/A';
-        helpers.setValue('N/A');
-        if (isBan.firstChange) {
-          helpers.setTouched(false);
-        }
-      } else {
-        field.value = '';
-        helpers.setValue(meta.initialValue);
-        if (isBan.firstChange) {
-          helpers.setTouched(true);
-        }
+  useBanChange(isBan?.state, () => {
+    if (!isBan) return;
+    inputRef.current?.blur();
+    if (isBan.state) {
+      helpers.setValue('N/A');
+      if (isBan.firstChange) {
+        helpers.setTouched(false);
+      }
+    } else {
+      helpers.setValue(meta.initialValue);
+      if (isBan.firstChange) {
+        helpers.setTouched(true);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBan?.state]);
+  });
 
+  // defaultValue pushes a value worked out elsewhere into the form, and only
+  // when it changes: a form that arrives prefilled keeps what it holds.
   useEffect(() => {
-    if (!!defaultValue) {
-      helpers.setValue(defaultValue);
-      field.value = defaultValue;
-    } else {
-      helpers.setValue('');
-      field.value = '';
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValue]);
+    const next = defaultValue ?? '';
+    if (next === lastDefault.current) return;
+    lastDefault.current = next;
+    helpers.setValue(next);
+  }, [defaultValue, helpers]);
 
   const banClick = (): void => {
     if (isBan?.setBanState) {

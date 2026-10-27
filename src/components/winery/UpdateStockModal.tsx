@@ -58,10 +58,13 @@ export function UpdateStockModal({
             <Dialog.CloseTrigger />
             <Dialog.Body>
               <Formik
-                initialValues={{ addedStock: 0, cost: initialCost }}
+                initialValues={{
+                  addedStock: '' as number | '',
+                  cost: initialCost,
+                }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
-                  const currentStock = initialStock + values.addedStock;
+                  const currentStock = initialStock + Number(values.addedStock);
                   mutate(
                     { currentStock, currentCost: values.cost },
                     {
@@ -105,7 +108,9 @@ export function UpdateStockModal({
 
                     <Box mt={4} mb={2}>
                       <Text fontWeight='bold'>Nuevo total de stock:</Text>
-                      <Text ml={4}>{initialStock + values.addedStock}</Text>
+                      <Text ml={4}>
+                        {initialStock + Number(values.addedStock)}
+                      </Text>
                     </Box>
 
                     <InputFieldNumber
@@ -126,7 +131,7 @@ export function UpdateStockModal({
                         type='submit'
                         colorPalette='green'
                         loading={isLoading}
-                        disabled={values.addedStock <= 0}
+                        disabled={Number(values.addedStock) <= 0}
                       >
                         Guardar
                       </Button>

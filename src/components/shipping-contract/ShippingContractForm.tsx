@@ -147,7 +147,7 @@ export default function ShippingContractForm({
                     onClick={() => push(emptyRoute)}
                   >
                     <FiPlus />
-                    Agregar Ruta
+                    Agregar ruta
                   </Button>
                 </Flex>
               )}
@@ -161,7 +161,7 @@ export default function ShippingContractForm({
                   onClick={confirm.onOpen}
                   loading={isDeleting}
                 >
-                  Eliminar Contrato
+                  Eliminar contrato
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>

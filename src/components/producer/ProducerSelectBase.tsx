@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useMerchants } from '../../hooks/merchants/getMerchants';
-import { usePagination } from '../../hooks/usePagination';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
 
 interface ProducerSelectBaseProps {
@@ -69,8 +68,7 @@ const ProducerSelectBase: React.FC<ProducerSelectBaseProps> = ({
   onChange,
   setProducer,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useMerchants(paginationParams);
+  const { data = [], isLoading, error } = useMerchants();
   const router = useRouter();
 
   useEffect(() => {

@@ -102,7 +102,7 @@ const AddContainerSealPlasticForm = ({
           <Form>
             <Flex flexDirection='column' gap={3}>
               <FormSectionTitle>
-                Agregar Plástico de Cierre Contenedor
+                Agregar plástico de cierre contenedor
               </FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />

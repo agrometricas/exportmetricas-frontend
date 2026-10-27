@@ -1,22 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listCardboards(params: Params): Promise<AxiosResponse> {
-  return axios.get('/box-brand/cardboard', { params });
+function listCardboards(): Promise<AxiosResponse> {
+  return axios.get('/box-brand/cardboard');
 }
 
-export function useCardboards({ search = '', page = 1, limit = 10 }: Params) {
+export function useCardboards() {
   const result = useQuery({
-    queryKey: ['cardboards', search, page, limit],
-    queryFn: () => listCardboards({ search, page, limit }),
-    placeholderData: keepPreviousData,
+    queryKey: ['cardboards'],
+    queryFn: () => listCardboards(),
   });
   return serializeQueryResult(result);
 }

@@ -12,7 +12,6 @@ import {
 import { FieldInputProps } from 'formik';
 import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
-import { usePagination } from '@/hooks/usePagination';
 import { useCountries } from '../../hooks/location/getCountries';
 import { Country } from '../../types/location/country';
 
@@ -55,8 +54,7 @@ const CountrySelectBase: React.FC<{
   field?: FieldInputProps<any>;
   placeholder: string;
 }> = ({ setCountry, onChange, field, placeholder, name }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading } = useCountries(paginationParams);
+  const { data, isLoading } = useCountries();
   const menuPortalTarget =
     typeof document !== 'undefined' ? document.body : undefined;
 

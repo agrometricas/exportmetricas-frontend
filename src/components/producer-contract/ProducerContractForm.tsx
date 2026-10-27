@@ -85,13 +85,11 @@ export default function ProducerContractForm({
                 name='approvedHectares'
                 label='Hectáreas aprobadas'
                 unit='ha'
-                value={initialValues.approvedHectares}
               />
               <InputFieldNumber
                 name='approvedWeeklyBoxesPerHectare'
                 label='Cajas aprobadas por hectárea a la semana'
                 unit='cajas/ha'
-                value={initialValues.approvedWeeklyBoxesPerHectare}
               />
               <InputFieldSelector
                 name='contractType'
@@ -118,7 +116,7 @@ export default function ProducerContractForm({
                   onClick={confirm.onOpen}
                   loading={isDeleting}
                 >
-                  Eliminar Contrato
+                  Eliminar contrato
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>

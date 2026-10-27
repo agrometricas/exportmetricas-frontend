@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useTransports } from '../../hooks/transport/getTransports';
-import { usePagination } from '../../hooks/usePagination';
 import { TransportResponse } from '../../types/transport/transport.response';
 
 interface TransportSelectBaseProps {
@@ -72,8 +71,7 @@ const TransportSelectBase: React.FC<TransportSelectBaseProps> = ({
   onChange,
   setTransport,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useTransports(paginationParams);
+  const { data = [], isLoading, error } = useTransports();
   const router = useRouter();
   const menuPortalTarget =
     typeof document !== 'undefined' ? document.body : undefined;

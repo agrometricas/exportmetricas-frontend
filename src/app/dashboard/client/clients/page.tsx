@@ -51,7 +51,7 @@ function ClientsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-client'>
               <FiPlus />
-              Agregar Cliente
+              Agregar cliente
             </Link_Next>
           </Button>
         )

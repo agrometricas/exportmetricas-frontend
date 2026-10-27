@@ -88,7 +88,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
             ))}
           </SimpleGrid>
           <Button type='submit' colorPalette='green' loading={isSaving}>
-            Guardar Unidades
+            Guardar unidades
           </Button>
         </Flex>
       </Form>

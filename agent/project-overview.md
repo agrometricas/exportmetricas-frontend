@@ -179,8 +179,7 @@ raíz del repo.
   `refetchOnMount: true`, una clave invalidada mientras su pantalla no estaba
   abierta se vuelve a pedir al abrirla.
 - Helpers de tipos en `lib/react-query.ts`: `QueryConfig<fn>`,
-  `MutationConfig<fn>`, `ExtractFnReturnType<fn>`. El `queryClient` que exporta
-  ese archivo no está montado.
+  `MutationConfig<fn>`, `ExtractFnReturnType<fn>`.
 - Las claves de lista más usadas: `exports`, `exportsPending`, `exportsSent`,
   `exportsSentPending`, `cuttingSheets`, `cuttingSheetsPending`,
   `exportSentCostsPending`, `clientPaymentsPending`, `merchants`, `clients`,
@@ -291,7 +290,8 @@ un clic, abre su ficha.
 
 Vitest sobre utilidades puras (`src/**/*.spec.ts`) y una prueba de humo con
 Playwright (`smoke/`, `npm run smoke`) que abre cada pantalla contra una web y
-un backend locales. No hay pruebas de componentes. Ver
+un backend; en CI, contra el `main` del backend con la demo sembrada. No hay
+pruebas de componentes. Ver
 [`coding-standards.md`](coding-standards.md) § _Testing_.
 
 ---

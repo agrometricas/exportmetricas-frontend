@@ -56,7 +56,7 @@ const SelectSheet: React.FC<SelectSheetProps> = ({
           onClick={onClickRemove}
           width={'100%'}
         >
-          Eliminar Sheet
+          Eliminar sheet
         </Button>
       </Box>
     </SimpleGrid>

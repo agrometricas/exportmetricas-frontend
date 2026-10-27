@@ -64,7 +64,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
             </SimpleGrid>
 
             <Heading fontSize='lg' p='8px'>
-              Puertos de Origen y Destino
+              Puertos de origen y destino
             </Heading>
 
             <FieldArray name='harbors'>
@@ -115,7 +115,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                     }
                     mb='10px'
                   >
-                    Agregar Puertos
+                    Agregar puertos
                   </Button>
                 </>
               )}
@@ -162,7 +162,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                     onClick={() => push({ name: '', email: '', phone: '' })}
                     mb='10px'
                   >
-                    Agregar Contacto
+                    Agregar contacto
                   </Button>
                 </>
               )}

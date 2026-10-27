@@ -23,7 +23,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       pb={'30px'}
     >
       <FormSectionTitle>
-        Liquidación a Productor
+        Liquidación a productor
       </FormSectionTitle>
 
       <FormSectionTitle>
@@ -70,7 +70,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       </SimpleGrid>
 
       <FormSectionTitle>
-        Puerto de Salida
+        Puerto de salida
       </FormSectionTitle>
 
       <SimpleGrid
@@ -139,7 +139,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       </SimpleGrid>
 
       <FormSectionTitle>
-        Puerto de Destino
+        Puerto de destino
       </FormSectionTitle>
 
       <SimpleGrid
@@ -350,7 +350,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       </Box>
 
       <FormSectionTitle>
-        Cuenta Bancaria Origen
+        Cuenta bancaria origen
       </FormSectionTitle>
 
       <SimpleGrid
@@ -390,7 +390,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       </SimpleGrid>
 
       <FormSectionTitle>
-        Cuenta Bancaria Destino
+        Cuenta bancaria destino
       </FormSectionTitle>
 
       <SimpleGrid

@@ -226,7 +226,7 @@ export default function EditBusinessForm({
                     onClick={() => push({ code: '' })}
                   >
                     <FiPlus />
-                    Agregar Código
+                    Agregar código
                   </Button>
                 </Flex>
               )}
@@ -273,7 +273,7 @@ export default function EditBusinessForm({
                           onClick={() => remove(index)}
                         >
                           <FiTrash2 />
-                          Quitar Contacto
+                          Quitar contacto
                         </Button>
                       </Flex>
                     </Box>
@@ -290,7 +290,7 @@ export default function EditBusinessForm({
                     onClick={() => push(emptyContact)}
                   >
                     <FiPlus />
-                    Agregar Contacto
+                    Agregar contacto
                   </Button>
                 </Flex>
               )}
@@ -298,7 +298,7 @@ export default function EditBusinessForm({
 
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                Guardar Cambios
+                Guardar cambios
               </Button>
             </FormActions>
           </Flex>

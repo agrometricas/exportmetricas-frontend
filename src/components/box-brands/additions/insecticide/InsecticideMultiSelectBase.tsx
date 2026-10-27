@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useInsecticides } from '../../../../hooks/box-brand/additions/insecticide/getInsecticides';
-import { usePagination } from '../../../../hooks/usePagination';
 import { InsecticideType } from '../../../../types/box-brand/additions/insecticide';
 
 interface InsecticideMultiSelectBaseProps {
@@ -72,8 +71,7 @@ const InsecticideMultiSelectBase: React.FC<InsecticideMultiSelectBaseProps> = ({
   setInsecticides,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useInsecticides(paginationParams);
+  const { data, isLoading, error } = useInsecticides();
   const router = useRouter();
 
   useEffect(() => {
@@ -134,10 +132,6 @@ const InsecticideMultiSelectBase: React.FC<InsecticideMultiSelectBaseProps> = ({
           : []
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={insecticideComponents}
     />
   );

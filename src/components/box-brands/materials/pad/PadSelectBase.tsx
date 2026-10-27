@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePads } from '@/hooks/box-brand/materials/pad/getPads';
-import { usePagination } from '@/hooks/usePagination';
 import { PadType } from '@/types/box-brand/materials/pad';
 
 interface PadSelectBaseProps {
@@ -75,8 +74,7 @@ const PadSelectBase: React.FC<PadSelectBaseProps> = ({
   setPad,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = usePads(paginationParams);
+  const { data, isLoading, error } = usePads();
   const router = useRouter();
 
   useEffect(() => {

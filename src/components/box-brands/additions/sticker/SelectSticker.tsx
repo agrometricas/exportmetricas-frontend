@@ -56,7 +56,7 @@ const SelectSticker: React.FC<SelectStickerProps> = ({
           onClick={onClickRemove}
           width={'100%'}
         >
-          Eliminar Sticker
+          Eliminar sticker
         </Button>
       </Box>
     </SimpleGrid>

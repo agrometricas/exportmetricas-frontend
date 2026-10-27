@@ -52,7 +52,7 @@ function ShippingContractsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-shipping-contract'>
               <FiPlus />
-              Agregar Contrato
+              Agregar contrato
             </Link_Next>
           </Button>
         )

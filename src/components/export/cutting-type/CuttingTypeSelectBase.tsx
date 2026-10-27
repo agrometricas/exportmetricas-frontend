@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
-import { usePagination } from '../../../hooks/usePagination';
 import { CuttingType } from '../../../types/cuttingType';
 
 interface CuttingTypeSelectBaseProps {
@@ -72,8 +71,7 @@ const CuttingTypeSelectBase: React.FC<CuttingTypeSelectBaseProps> = ({
   onChange,
   setCuttingType,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useCuttingTypes(paginationParams);
+  const { data = [], isLoading, error } = useCuttingTypes();
   const router = useRouter();
 
   useEffect(() => {

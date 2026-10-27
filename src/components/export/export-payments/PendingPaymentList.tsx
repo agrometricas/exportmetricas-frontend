@@ -7,7 +7,6 @@ import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { useExportsSentPending } from '../../../hooks/export/export-sent/getExportsSentPending';
-import { usePagination } from '../../../hooks/usePagination';
 import { ExportSentType } from '../../../types/exportSent';
 import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
 import PendingTable from '../../ui/PendingTable';
@@ -20,8 +19,7 @@ type ApiErrorData = {
 };
 
 const PendingPaymentList = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error, refetch } = useExportsSentPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportsSentPending();
   const router = useRouter();
   const pathname = usePathname();
   const columns = useMemo(
@@ -62,7 +60,7 @@ const PendingPaymentList = (): React.JSX.Element => {
         w="100%"
       >
         <Heading size="md" color={headingColor}>
-          Pagos Pendientes
+          Pagos pendientes
         </Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}

@@ -52,7 +52,7 @@ function ProducerContractsPage(): React.JSX.Element {
               >
                 <Link_Next href='/dashboard/producer/add-contract'>
                   <FiPlus />
-                  Agregar Contrato
+                  Agregar contrato
                 </Link_Next>
               </Button>
             )}

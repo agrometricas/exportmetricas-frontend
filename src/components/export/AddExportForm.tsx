@@ -20,7 +20,6 @@ import { useSubmitExport } from './hooks/useSubmitExport';
 import LastFarmExportAlert from './LastFarmExportAlert';
 import { initialValues as emptyValues } from './schemas/export.schema';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
-import { usePagination } from '../../hooks/usePagination';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { ClientType } from '../../types/client';
 import { ExportResponse } from '../../types/export.response';
@@ -86,9 +85,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
     }
     return emptyValues;
   }, [source, editing, fromLine]);
-  const { paginationParams } = usePagination();
   const { data: shippingCompanies = [] } =
-    useShippingCompanies(paginationParams);
+    useShippingCompanies();
   const shippingCompanyById = (
     id: number
   ): Partial<ShippingCompanyType> | null =>
@@ -157,7 +155,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 name='boxQuantity'
                 label='Cantidad de cajas'
                 unit='cajas'
-                value={source || fromLine ? initialValues.boxQuantity : ''}
               />
               <InputFieldSelector
                 name={'contractType'}
@@ -267,16 +264,10 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   <InputFieldText
                     name='estimatedTravelTime'
                     label='Tiempo estimado de viaje'
-                    defaultValue={
-                      source ? initialValues.estimatedTravelTime : undefined
-                    }
                   />
                   <InputFieldText
                     name='bookingNumber'
                     label='Número de booking'
-                    defaultValue={
-                      source ? initialValues.bookingNumber : undefined
-                    }
                   />
                 </SimpleGrid>
               </>
@@ -301,7 +292,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               <InputFieldNumber
                 name='numberOfVerifiers'
                 label='Número de verificadores'
-                value={source ? initialValues.numberOfVerifiers : ''}
               />
             </SimpleGrid>
             <FormActions>

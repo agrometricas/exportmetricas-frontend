@@ -24,7 +24,7 @@ export default function DetailExporterMaterialStock({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles del Material
+              Detalles del material
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

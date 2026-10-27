@@ -53,7 +53,7 @@ function VerifiersPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/box-brands/add-verifier'>
               <FiPlus />
-              Agregar Verificadora
+              Agregar verificadora
             </Link_Next>
           </Button>
         )

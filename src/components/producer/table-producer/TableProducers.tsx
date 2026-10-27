@@ -10,14 +10,12 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
-import { usePagination } from '@/hooks/usePagination';
 import DetailProducers from './DetailProducers';
 import { useMerchants } from '../../../hooks/merchants/getMerchants';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
 const TableProducers = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useMerchants(paginationParams);
+  const { data = [], error } = useMerchants();
   const router = useRouter();
 
   useEffect(() => {
@@ -78,7 +76,7 @@ const TableProducers = (): React.JSX.Element => {
             return url ? (
               <a href={url} target='_blank' rel='noopener noreferrer'>
                 <button style={{ display: 'flex', alignItems: 'center' }}>
-                  Ver Logo
+                  Ver logo
                   <Icon color='green.fg' ml={2} asChild><BsImage /></Icon>
                 </button>
               </a>

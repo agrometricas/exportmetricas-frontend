@@ -102,7 +102,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
           onClick={onClickRemove}
           width={'100%'}
         >
-          Eliminar Pesticida
+          Eliminar pesticida
         </Button>
       </Box>
     </SimpleGrid>

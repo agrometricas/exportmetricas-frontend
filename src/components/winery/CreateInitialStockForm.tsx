@@ -19,14 +19,14 @@ interface Props {
 }
 
 export interface ValuesProps {
-  assignedStock: number;
-  assignedCost: number;
+  assignedStock: number | '';
+  assignedCost: number | '';
   dataReviewed: boolean;
 }
 
 const initialValues: ValuesProps = {
-  assignedStock: 0,
-  assignedCost: 0,
+  assignedStock: '',
+  assignedCost: '',
   dataReviewed: false,
 };
 
@@ -63,7 +63,8 @@ export function CreateInitialStockForm({
             materialType,
             materialId,
             materialName,
-            ...sanitizedValues,
+            assignedStock: Number(sanitizedValues.assignedStock),
+            assignedCost: Number(sanitizedValues.assignedCost),
           },
           {
             onSuccess: () => {
@@ -119,7 +120,7 @@ export function CreateInitialStockForm({
                 colorPalette='green'
                 loading={isLoading}
               >
-                Crear Stock Inicial
+                Crear stock inicial
               </Button>
             </SimpleGrid>
           </Flex>

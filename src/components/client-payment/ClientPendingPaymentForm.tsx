@@ -166,13 +166,13 @@ const ClientPendingPaymentFields = ({
       <InputFieldTextArea name={'description'} label={'Detalles del cobro'} />
 
       <FormSectionTitle>
-        Cuenta Bancaria Origen
+        Cuenta bancaria origen
       </FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} label='Razón social' />
 
       <FormSectionTitle>
-        Cuenta Bancaria Destino
+        Cuenta bancaria destino
       </FormSectionTitle>
 
       <SelectBankAccount
@@ -186,7 +186,7 @@ const ClientPendingPaymentFields = ({
       </SimpleGrid>
 
       <FormSectionTitle>
-        Subir Transferencia
+        Subir transferencia
       </FormSectionTitle>
 
       <UploadLogoFile name={'transferFile'} />

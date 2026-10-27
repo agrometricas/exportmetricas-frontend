@@ -84,7 +84,7 @@ const SelectSheetBanContainer = ({
                 disabled={isBan}
                 onClick={() => push({ sheetId: '', quantity: '' })}
               >
-                Agregar Hojas
+                Agregar hojas
               </Button>
             </SimpleGrid>
           </>

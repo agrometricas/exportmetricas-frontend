@@ -27,8 +27,9 @@ the backend proposes.
 
 - A formula lives in one function, in `utils/`. If the same calculation appears
   in two components, extract it before adding the third.
-- The dashboard aggregates (boxes per day, totals per farm, producer vs. client
-  totals) are computed inline in components today. Extract before reusing.
+- The dashboard's figures (boxes per day, totals per farm, producer vs. client
+  totals) come ready from `GET /reports/week` through `useWeekSummary`. Its
+  components lay them out; they do not add them up.
 
 ## Data fetching: TanStack Query v5
 
@@ -51,8 +52,8 @@ the backend proposes.
   with `staleTime: Infinity`, `gcTime: Infinity` and no automatic refetch. Nothing refreshes by
   itself: every mutation must invalidate the keys it affects (a key invalidated
   while its page is closed loads again when the page opens), including the
-  `…Pending` lists that feed the sidebar badges. The `queryClient` exported from
-  `lib/react-query.ts` is not mounted — get the client with `useQueryClient()`.
+  `…Pending` lists that feed the sidebar badges. Get the client with
+  `useQueryClient()`.
 - The backend answers **200 with `[]` for an empty list**. Do not catch a 404
   in a list hook to return `[]`: it hides a mistyped route, which is how two
   hooks pointed at endpoints that never existed.
@@ -63,11 +64,9 @@ the backend proposes.
   the options it needs (`...tableOptions` in `useMaterialReactTable`). Those
   tables do not sort: sorting one page in the browser would hide the rest. Do
   not look a row up in a paged list; ask for it by id.
-- Every other list comes whole from the backend, which ignores `search`,
-  `page` and `limit`; those tables paginate and filter in the browser.
-- `usePagination()` returns a new `paginationParams` object on every render.
-  Never list it as an effect dependency: an effect that invalidates a query on
-  it refetches in a loop.
+- Every other list comes whole from the backend: its hook takes no paging
+  params and its key is the list's name (plus the parent id, if it has one).
+  Those tables paginate and filter in the browser.
 
 ## Mutations
 
@@ -100,6 +99,16 @@ the backend proposes.
 - A field never resets itself on mount: a form can arrive prefilled (edit,
   duplicate, a copied box brand). An N/A switch acts only when it flips, through
   `useBanChange` (`components/ui/form/`).
+- `InputFieldText` and `InputFieldNumber` show what the form holds. Their
+  `defaultValue` / `value` prop pushes a figure worked out elsewhere (a quote,
+  a proposal, the week of a date) into the form when it changes; do not pass
+  the form's own initial value back through it.
+- A number field that starts empty is `''` in the initial values, not `0`,
+  which would show in the box. Yup rejects `''` for a number, so by the time
+  the form submits it holds one; convert with `Number()` for the type.
+- `InputFieldQuantity` takes whole numbers: the quantities per box are
+  integers in the backend. A decimal goes in `InputFieldNumber` with
+  `isDecimal`.
 - A required select with a single option picks it (`BusinessSelectBase`,
   `BoxBrandSelectBase` do).
 - A long form renders `<UnsavedChangesGuard isDirty={dirty && !isSubmitting} />`
@@ -278,11 +287,14 @@ the backend proposes.
 - Expected values are calculated by hand, never pasted from a run. A test name
   is a sentence in Spanish that states the rule.
 - Components have no unit tests. Screens have a smoke test: `npm run smoke`
-  (Playwright, `smoke/`) signs in and opens every page of `app/dashboard/`
-  without a dynamic segment, against a running web and backend. A page fails
-  if it throws, logs an error to the console, gets a 4xx or 5xx from a data
-  request or shows the error boundary. A new page is covered without touching
-  it; a page that needs an id in the URL is not.
+  (Playwright, `smoke/`) signs in and opens every page of `app/dashboard/`,
+  against a running web and backend; CI runs it against the backend's `main`
+  seeded with the demo exporter (`smoke.yml`). A page fails if it throws, logs
+  an error to the console, gets a 4xx or 5xx from a data request or shows the
+  error boundary. A new page is covered without touching it. A page with an id
+  in its URL is reached through the links of the pages that list it (or from
+  its parent, for the subpages a button opens); the run names the ones no
+  link reached.
 - The smoke test proves a screen opens, not that its flow works. For a change
   in a screen, run it and say how the flow was exercised.
 

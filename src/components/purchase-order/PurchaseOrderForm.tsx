@@ -142,7 +142,7 @@ export default function PurchaseOrderForm({
                     onClick={() => push(emptyLine)}
                   >
                     <FiPlus />
-                    Agregar Línea
+                    Agregar línea
                   </Button>
                 </Flex>
               )}
@@ -165,7 +165,7 @@ export default function PurchaseOrderForm({
                       : undefined
                   }
                 >
-                  Eliminar Orden
+                  Eliminar orden
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>

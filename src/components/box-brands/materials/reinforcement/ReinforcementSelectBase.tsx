@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useReinforcements } from '@/hooks/box-brand/materials/reinforcement/getReinforcements';
-import { usePagination } from '@/hooks/usePagination';
 import { ReinforcementType } from '@/types/box-brand/materials/reinforcement';
 
 interface ReinforcementSelectBaseProps {
@@ -75,8 +74,7 @@ const ReinforcementSelectBase: React.FC<ReinforcementSelectBaseProps> = ({
   setReinforcement,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useReinforcements(paginationParams);
+  const { data, isLoading, error } = useReinforcements();
   const router = useRouter();
 
   useEffect(() => {

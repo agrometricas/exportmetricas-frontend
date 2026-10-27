@@ -15,7 +15,6 @@ import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { ExportType } from '@/types/export';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
-import { usePagination } from '../../hooks/usePagination';
 
 interface ExportSelectBaseProps {
   name?: string;
@@ -72,8 +71,7 @@ const ExportSelectBase: React.FC<ExportSelectBaseProps> = ({
   onChange,
   setExport,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useExportsPending(paginationParams);
+  const { data, isLoading, error } = useExportsPending();
   const router = useRouter();
 
   useEffect(() => {

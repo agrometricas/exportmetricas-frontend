@@ -178,7 +178,7 @@ const AddPesticideForm = ({
           <Form>
             <Flex flexDirection='column' gap={3}>
               <FormSectionTitle>
-                Agregar Pesticida
+                Agregar pesticida
               </FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />

@@ -266,7 +266,7 @@ const AdjustWeeklyForm = ({
                           >
                             <Text>
                               <strong>
-                                Seleccionar Costo para el Descuento:
+                                Seleccionar costo para el descuento:
                               </strong>
                             </Text>
                             <NativeSelect.Root>
@@ -388,7 +388,7 @@ const AdjustWeeklyForm = ({
                               mutation.isPending || isLoading || isSubmitting
                             }
                           >
-                            Enviar Ajuste
+                            Enviar ajuste
                           </Button>
                         </SimpleGrid>
                       </>

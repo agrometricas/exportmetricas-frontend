@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useDeposits } from '../../hooks/deposit/getDeposits';
-import { usePagination } from '../../hooks/usePagination';
 import { DepositResponse } from '../../types/deposit/deposit.response';
 
 interface DepositSelectBaseProps {
@@ -72,8 +71,7 @@ const DepositSelectBase: React.FC<DepositSelectBaseProps> = ({
   onChange,
   setDeposit,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useDeposits(paginationParams);
+  const { data = [], isLoading, error } = useDeposits();
   const router = useRouter();
 
   useEffect(() => {

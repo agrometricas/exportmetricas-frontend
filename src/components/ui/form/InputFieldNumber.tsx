@@ -2,7 +2,7 @@
 
 import { Flex, Input, InputGroup, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface InputFieldProps {
   name: string;
@@ -31,34 +31,39 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
   size = 'md',
   flexDirection = 'column',
 }) => {
-  const [, meta, helpers] = useField(name);
-  const [internalValue, setInternalValue] = useState<string>('');
+  const [field, meta, helpers] = useField(name);
+  // What the user is typing; otherwise the box shows what the form holds, so a
+  // row that takes the place of a removed one shows its own number.
+  const [draft, setDraft] = useState<string | null>(null);
+  const lastValue = useRef<number | ''>('');
 
+  const format = (n: number): string =>
+    isGeo ? n.toFixed(6) : isDecimal ? n.toFixed(2) : n.toString();
+
+  const held = field.value;
+  const shown =
+    draft ??
+    (held === '' || held == null || isNaN(Number(held))
+      ? ''
+      : format(Number(held)));
+
+  // value pushes a figure worked out elsewhere (a quote, a proposal) into the
+  // form, and only when it changes: a form that arrives prefilled keeps it.
   useEffect(() => {
-    if (value !== '') {
-      const formatted =
-        isDecimal || isGeo
-          ? Number(value).toFixed(isGeo ? 6 : 2)
-          : String(value);
-      setInternalValue(formatted);
-      helpers.setValue(Number(formatted));
-    } else {
-      setInternalValue('');
-      helpers.setValue('');
-    }
-  }, [helpers, isDecimal, isGeo, value]);
+    if (value === lastValue.current) return;
+    lastValue.current = value;
+    setDraft(null);
+    helpers.setValue(value === '' ? '' : Number(format(Number(value))));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, helpers]);
 
   const handleBlur = (): void => {
-    const parsed = parseFloat(internalValue);
+    if (draft === null) return;
+    const parsed = parseFloat(draft);
     if (!isNaN(parsed)) {
-      const formatted = isGeo
-        ? parsed.toFixed(6)
-        : isDecimal
-          ? parsed.toFixed(2)
-          : parsed.toString();
-      setInternalValue(formatted);
-      helpers.setValue(Number(formatted));
+      helpers.setValue(Number(format(parsed)));
     }
+    setDraft(null);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent): void => {
@@ -69,7 +74,7 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const valueStr = e.target.value;
-    setInternalValue(valueStr);
+    setDraft(valueStr);
 
     if (
       valueStr === '' ||
@@ -125,7 +130,7 @@ const InputFieldNumber: React.FC<InputFieldProps> = ({
               placeholder={placeholder || label}
               textAlign={isDecimal && !isGeo ? 'right' : 'left'}
               size={size}
-              value={internalValue}
+              value={shown}
               onChange={handleChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}

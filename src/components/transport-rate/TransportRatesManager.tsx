@@ -33,7 +33,6 @@ import {
   useDeleteTransportRate,
   useSaveTransportRate,
 } from '../../hooks/transport-rate/mutateTransportRate';
-import { usePagination } from '../../hooks/usePagination';
 import { TransportRateResponse } from '../../types/transportRate';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
@@ -47,8 +46,7 @@ export default function TransportRatesManager(): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data = [] } = useTransportRates();
-  const { paginationParams } = usePagination();
-  const { data: countries } = useCountries(paginationParams);
+  const { data: countries } = useCountries();
   const ecuadorId = countries?.find((c) => c.code === ECUADOR)?.id;
   const { mutate: save, isPending: isLoading } = useSaveTransportRate();
   const { mutate: remove, isPending: isDeleting } = useDeleteTransportRate();

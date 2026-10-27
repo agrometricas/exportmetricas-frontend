@@ -21,7 +21,6 @@ import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCorrectCuttingSheet } from '../../../hooks/export/cuttingSheet/correctCuttingSheet';
-import { usePagination } from '../../../hooks/usePagination';
 import { CuttingSheetResponse } from '../../../types/cuttingSheet.response';
 import { CuttingType } from '../../../types/cuttingType';
 import {
@@ -62,8 +61,7 @@ const CorrectCuttingSheetForm = ({
   sheet: CuttingSheetResponse;
 }): React.JSX.Element => {
   const { mutate: correct, isPending: isLoading } = useCorrectCuttingSheet();
-  const { paginationParams } = usePagination();
-  const { data: cuttingTypes = [] } = useCuttingTypes(paginationParams);
+  const { data: cuttingTypes = [] } = useCuttingTypes();
   const currentCuttingType = (cuttingTypes as CuttingType[]).find(
     (cuttingType) => cuttingType.id === sheet.cuttingTypeId
   );
@@ -179,7 +177,7 @@ const CorrectCuttingSheetForm = ({
                 />
                 <Field.Root>
                   <Field.Label fontSize='sm' mb='8px'>
-                    Bajo Cubierta
+                    Bajo cubierta
                   </Field.Label>
                   <Input
                     readOnly

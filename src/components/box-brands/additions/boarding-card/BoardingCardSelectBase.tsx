@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBoardingCards } from '../../../../hooks/box-brand/additions/boarding-card/getBoardingCards';
-import { usePagination } from '../../../../hooks/usePagination';
 import { BoardingCardType } from '../../../../types/box-brand/additions/boardingCard';
 
 interface BoardingCardSelectBaseProps {
@@ -74,8 +73,7 @@ const BoardingCardSelectBase: React.FC<BoardingCardSelectBaseProps> = ({
   setBoardingCard,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useBoardingCards(paginationParams);
+  const { data = [], isLoading, error } = useBoardingCards();
   const router = useRouter();
 
   useEffect(() => {

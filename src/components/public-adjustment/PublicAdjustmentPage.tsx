@@ -37,7 +37,7 @@ interface AdjustmentData {
 
 interface AdjustmentFormValues {
   responsibleName: string;
-  materials: { exporterMaterialStockId: number; quantity: number }[];
+  materials: { exporterMaterialStockId: number; quantity: number | '' }[];
 }
 
 export default function PublicAdjustmentPage(): React.JSX.Element {
@@ -73,7 +73,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
     responsibleName: '',
     materials: data.materials.map((m) => ({
       exporterMaterialStockId: m.exporterMaterialStockId,
-      quantity: 0,
+      quantity: '',
     })),
   };
 
@@ -93,7 +93,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
   const onSubmit = async (values: AdjustmentFormValues): Promise<void> => {
     const formattedMaterials: Record<number, number> = {};
     values.materials.forEach((m) => {
-      formattedMaterials[m.exporterMaterialStockId] = m.quantity;
+      formattedMaterials[m.exporterMaterialStockId] = Number(m.quantity);
     });
 
     const payload = {
@@ -153,7 +153,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
             <Logo />
           </Icon>
           <Text fontSize='2xl' fontWeight='bold'>
-            Ajuste de Materiales
+            Ajuste de materiales
           </Text>
           <Text fontSize='2xl' fontWeight='bold'>
             -
@@ -194,7 +194,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
 
               <Flex mt={6}>
                 <Button colorPalette='green' type='submit'>
-                  Enviar Ajuste
+                  Enviar ajuste
                 </Button>
               </Flex>
             </Form>

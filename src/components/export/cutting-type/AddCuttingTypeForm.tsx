@@ -243,22 +243,22 @@ const AddCuttingTypeForm = ({
                 <InputFieldPlain
                   name='leavesAtHarvest'
                   label='Hojas en cosecha'
-                  placeholder='Numero mínimo de hojas funcionales'
+                  placeholder='Número mínimo de hojas funcionales'
                 />
                 <InputFieldPlain
                   name='maxAgeAtCut'
                   label='Edad máxima al corte'
-                  placeholder='Numero de semanas al corte'
+                  placeholder='Número de semanas al corte'
                 />
                 <InputFieldPlain
                   name='minCaliber'
                   label='Calibre mínimo'
-                  placeholder='Numero de calibre mínimo'
+                  placeholder='Número de calibre mínimo'
                 />
                 <InputFieldPlain
                   name='maxCaliber'
                   label='Calibre máximo'
-                  placeholder='Numero de calibre maximo'
+                  placeholder='Número de calibre máximo'
                 />
                 <InputFieldPlain
                   name='fingerLength'

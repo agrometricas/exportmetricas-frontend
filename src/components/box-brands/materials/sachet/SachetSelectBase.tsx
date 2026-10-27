@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useSachets } from '../../../../hooks/box-brand/materials/sachet/getSachets';
-import { usePagination } from '../../../../hooks/usePagination';
 import { SachetType } from '../../../../types/box-brand/materials/sachet';
 
 interface SachetSelectBaseProps {
@@ -75,8 +74,7 @@ const SachetSelectBase: React.FC<SachetSelectBaseProps> = ({
   setSachet,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useSachets(paginationParams);
+  const { data, isLoading, error } = useSachets();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const SachetSelectBase: React.FC<SachetSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={sachetComponents}
     />
   );

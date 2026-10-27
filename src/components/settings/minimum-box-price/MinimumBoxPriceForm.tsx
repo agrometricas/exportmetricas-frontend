@@ -107,7 +107,7 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
             />
           </SimpleGrid>
           <Button type='submit' colorPalette='green' loading={isSaving}>
-            Guardar Precio Mínimo
+            Guardar precio mínimo
           </Button>
         </Flex>
       </Form>

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useSheets } from '../../../../hooks/box-brand/additions/sheet/getSheets';
-import { usePagination } from '../../../../hooks/usePagination';
 import { SheetType } from '../../../../types/box-brand/additions/sheet';
 
 interface SheetSelectBaseProps {
@@ -72,8 +71,7 @@ const SheetSelectBase: React.FC<SheetSelectBaseProps> = ({
   setSheet,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useSheets(paginationParams);
+  const { data = [], isLoading, error } = useSheets();
   const router = useRouter();
 
   useEffect(() => {

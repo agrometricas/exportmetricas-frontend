@@ -44,7 +44,7 @@ export default function RouteInForceSelect(): React.JSX.Element {
           Esta naviera no tiene un contrato vigente ese día.{' '}
           <Link fontWeight='semibold' textDecoration='underline' asChild>
             <Link_Next href='/dashboard/client/add-shipping-contract'>
-              Regístralo en Contratos Navieros
+              Regístralo en contratos navieros
             </Link_Next>
           </Link>
           .

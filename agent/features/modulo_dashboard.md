@@ -65,7 +65,7 @@ filtro, la vista anterior queda atenuada hasta que llega la nueva.
 | `ExportCardWithPopover` | Cada exportación dentro del calendario, con su detalle |
 | `WeeklyExportsSummary` | Cada exportación con su destino y sus contenedores, y los totales de cajas y contenedores |
 | `WeeklyFarmSummaryCard` | Resumen por finca y descarga del Excel de materiales |
-| `ExportSentChart` | Barras con las cajas cobradas al cliente frente a las pagadas al productor, por marca, productor y cliente (recharts, colores de `CHART_SERIES`) |
+| `ExportSentChart` | Barras con las cajas cobradas al cliente frente a las pagadas al productor, por marca, productor y cliente (recharts, colores de `CHART_SERIES`). Si a cada grupo le tocan menos de 160 px de ancho, las columnas pasan a una fila por grupo, con su nombre arriba de las barras. Un nombre que no cabe se corta con «…»; el tooltip lo muestra completo |
 | `SpotPriceComparison` | Últimos precios spot y el promedio pagado a productores con contrato `SPOT`, con la tendencia frente al precio de referencia de la semana |
 
 ---

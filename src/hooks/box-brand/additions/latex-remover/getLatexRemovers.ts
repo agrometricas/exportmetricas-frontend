@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listLatexRemovers(params: Params): Promise<AxiosResponse> {
-  return axios.get('/box-brand/latex-remover', { params });
+function listLatexRemovers(): Promise<AxiosResponse> {
+  return axios.get('/box-brand/latex-remover');
 }
 
-export function useLatexRemovers({
-  search = '',
-  page = 1,
-  limit = 10,
-}: Params) {
+export function useLatexRemovers() {
   const result = useQuery({
-    queryKey: ['latexRemovers', search, page, limit],
-    queryFn: () => listLatexRemovers({ search, page, limit }),
-    placeholderData: keepPreviousData,
+    queryKey: ['latexRemovers'],
+    queryFn: () => listLatexRemovers(),
   });
 
   return serializeQueryResult(result);

@@ -143,7 +143,7 @@ const AddDepositForm: React.FC = () => {
                     onClick={() => push({ name: '', email: '', phone: '' })}
                     mb='10px'
                   >
-                    Agregar Contacto
+                    Agregar contacto
                   </Button>
                 </>
               )}

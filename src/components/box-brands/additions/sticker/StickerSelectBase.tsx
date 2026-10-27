@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useStickers } from '../../../../hooks/box-brand/additions/sticker/getStickers';
-import { usePagination } from '../../../../hooks/usePagination';
 import { StickerType } from '../../../../types/box-brand/additions/sticker';
 
 interface StickerSelectBaseProps {
@@ -72,8 +71,7 @@ const StickerSelectBase: React.FC<StickerSelectBaseProps> = ({
   setSticker,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error } = useStickers(paginationParams);
+  const { data = [], isLoading, error } = useStickers();
   const router = useRouter();
 
   useEffect(() => {

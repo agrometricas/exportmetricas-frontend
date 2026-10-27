@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBottoms } from '../../../../hooks/box-brand/materials/bottom/getBottoms';
-import { usePagination } from '../../../../hooks/usePagination';
 import { BottomType } from '../../../../types/box-brand/materials/bottom';
 
 interface BottomSelectBaseProps {
@@ -75,8 +74,7 @@ const BottomSelectBase: React.FC<BottomSelectBaseProps> = ({
   setBottom,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useBottoms(paginationParams);
+  const { data, isLoading, error } = useBottoms();
   const router = useRouter();
 
   useEffect(() => {

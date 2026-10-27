@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePackingTapes } from '@/hooks/box-brand/materials/packingtape/getPackingTapes';
-import { usePagination } from '@/hooks/usePagination';
 import { PackingTapeType } from '@/types/box-brand/materials/packingtape';
 
 interface PackingTapeSelectBaseProps {
@@ -75,8 +74,7 @@ const PackingTapeSelectBase: React.FC<PackingTapeSelectBaseProps> = ({
   setPackingTape,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = usePackingTapes(paginationParams);
+  const { data, isLoading, error } = usePackingTapes();
   const router = useRouter();
 
   useEffect(() => {

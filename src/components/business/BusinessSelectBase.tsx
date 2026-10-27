@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useBusinessesByMerchantId } from '../../hooks/business/getBusinesses';
-import { usePagination } from '../../hooks/usePagination';
 import { BusinessType } from '../../types/merchant/business';
 
 interface BusinessSelectBaseProps {
@@ -74,9 +73,8 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
   onChange,
   setBusiness,
 }) => {
-  const { paginationParams } = usePagination();
   const { data, isLoading, isPlaceholderData, error } =
-    useBusinessesByMerchantId({ ...paginationParams }, { id: merchant ?? 0 });
+    useBusinessesByMerchantId({ id: merchant ?? 0 });
   const router = useRouter();
 
   // keepPreviousData would otherwise offer the farm of the producer chosen

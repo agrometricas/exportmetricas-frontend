@@ -24,7 +24,7 @@ const DetailExportSent = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información Comercial del Exportador y Comerciante
+              Información comercial del exportador y comerciante
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -59,7 +59,7 @@ const DetailExportSent = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles del Producto
+              Detalles del producto
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -91,7 +91,7 @@ const DetailExportSent = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Materiales y Embalaje Enviados
+              Materiales y embalaje enviados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -199,7 +199,7 @@ const DetailExportSent = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Insumos Post Cosecha
+              Insumos post cosecha
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -238,7 +238,7 @@ const DetailExportSent = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Logística de Envío
+              Logística de envío
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

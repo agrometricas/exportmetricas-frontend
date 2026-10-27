@@ -18,7 +18,7 @@ const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier }) => {
         <h2>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontWeight='bold'>
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -38,7 +38,7 @@ const DetailVerifiers: React.FC<DetailVerifiersProps> = ({ verifier }) => {
         <h2>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontWeight='bold'>
-              Contactos Asociados
+              Contactos asociados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

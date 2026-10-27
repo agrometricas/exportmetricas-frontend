@@ -1,20 +1,16 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type Params = PaginationParams;
-
-function listBankAccount(params: Params): Promise<AxiosResponse> {
-  return axios.get('/bank-account', { params });
+function listBankAccount(): Promise<AxiosResponse> {
+  return axios.get('/bank-account');
 }
 
-export function useBankAccounts({ search = '', page = 1, limit = 10 }: Params): ReturnType<typeof serializeQueryResult> {
+export function useBankAccounts(): ReturnType<typeof serializeQueryResult> {
   const result = useQuery({
-    queryKey: ['bankAccounts', search, page, limit],
-    queryFn: () => listBankAccount({ search, page, limit }),
-    placeholderData: keepPreviousData
+    queryKey: ['bankAccounts'],
+    queryFn: () => listBankAccount(),
   });
 
   return serializeQueryResult(result);

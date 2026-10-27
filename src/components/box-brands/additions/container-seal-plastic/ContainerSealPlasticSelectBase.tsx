@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useContainerSealPlastics } from '../../../../hooks/box-brand/additions/container-seal-plastic/getContainerSealPlastics';
-import { usePagination } from '../../../../hooks/usePagination';
 import { ContainerSealPlasticType } from '../../../../types/box-brand/additions/containerSealPlastic';
 
 interface ContainerSealPlasticSelectBaseProps {
@@ -78,12 +77,7 @@ const ContainerSealPlasticSelectBase: React.FC<
   setContainerSealPlastic,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const {
-    data = [],
-    isLoading,
-    error,
-  } = useContainerSealPlastics(paginationParams);
+  const { data = [], isLoading, error } = useContainerSealPlastics();
   const router = useRouter();
 
   useEffect(() => {

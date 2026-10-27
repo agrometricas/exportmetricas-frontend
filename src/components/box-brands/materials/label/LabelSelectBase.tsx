@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useLabels } from '../../../../hooks/box-brand/materials/label/getLabels';
-import { usePagination } from '../../../../hooks/usePagination';
 import { LabelType } from '../../../../types/box-brand/materials/label';
 
 interface LabelSelectBaseProps {
@@ -75,8 +74,7 @@ const LabelSelectBase: React.FC<LabelSelectBaseProps> = ({
   setLabel,
   onChange,
 }) => {
-  const { paginationParams } = usePagination();
-  const { data, isLoading, error } = useLabels(paginationParams);
+  const { data, isLoading, error } = useLabels();
   const router = useRouter();
 
   useEffect(() => {
@@ -129,10 +127,6 @@ const LabelSelectBase: React.FC<LabelSelectBaseProps> = ({
           : null
       }
       placeholder={placeholder}
-      //   onInputChange={(newValue) => {
-      //     filterProps.setSearch(newValue);
-      //     refetch();
-      //   }}
       components={labelComponents}
     />
   );

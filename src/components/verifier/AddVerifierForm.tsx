@@ -64,13 +64,13 @@ const AddVerifierForm: React.FC = () => {
                                         </Box>
                                     ))}
                                     <Button onClick={() => push({ name: '', email: '', phone: '' })} mb="10px">
-                                        Agregar Contacto
+                                        Agregar contacto
                                     </Button>
                                 </>
                             )}
                         </FieldArray>
                         <FormActions><Button type="submit" colorPalette='green' loading={isLoading}>
-                            Agregar Verificador
+                            Agregar verificador
                         </Button></FormActions>
                     </Flex>
                 </Form>

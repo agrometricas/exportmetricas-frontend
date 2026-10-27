@@ -10,13 +10,11 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailHarbors from './DetailHarbors';
 import { useHarbors } from '../../../hooks/export/harbor/getHarbors';
-import { usePagination } from '../../../hooks/usePagination';
 import { ClientType } from '../../../types/client';
 import { HarborResponse } from '../../../types/harbor.response';
 
 const TableHarbors = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useHarbors(paginationParams);
+  const { data = [], error } = useHarbors();
   const router = useRouter();
 
   useEffect(() => {

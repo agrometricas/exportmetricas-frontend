@@ -11,7 +11,6 @@ import LoadingState from '@/components/ui/states/LoadingState';
 import { pendingExportColumns, pendingExportLabel } from './pendingColumns';
 import { useCreateExportSentBatch } from '../../hooks/export/export-sent/createExportSentBatch';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
-import { usePagination } from '../../hooks/usePagination';
 import { ExportType } from '../../types/export';
 import { shipmentBatchSummary } from '../../utils/shipmentBatch';
 import BatchActionBar from '../ui/BatchActionBar';
@@ -41,8 +40,7 @@ type ApiErrorData = {
 };
 
 const ExportList = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], isLoading, error, refetch } = useExportsPending(paginationParams);
+  const { data = [], isLoading, error, refetch } = useExportsPending();
   const router = useRouter();
   const pathname = usePathname();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -88,7 +86,7 @@ const ExportList = (): React.JSX.Element => {
         w="100%"
       >
         <Heading size="md" color={headingColor}>
-          Exportaciones Pendientes
+          Exportaciones pendientes
         </Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}

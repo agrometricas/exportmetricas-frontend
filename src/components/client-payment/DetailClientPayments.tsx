@@ -20,7 +20,7 @@ const DetailClientPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles del Cliente
+              Detalles del cliente
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -43,7 +43,7 @@ const DetailClientPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles Financieros
+              Detalles financieros
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -80,7 +80,7 @@ const DetailClientPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Cuentas Bancarias
+              Cuentas bancarias
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -139,7 +139,7 @@ const DetailClientPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Transferencia Realizada
+              Transferencia realizada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -153,7 +153,7 @@ const DetailClientPayments = ({
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                Ver Comprobante
+                Ver comprobante
               </a>
             ) : (
               <span>No disponible</span>
