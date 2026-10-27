@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, VStack } from '@chakra-ui/react';
 import React from 'react';
-import TableSupply from './TableSupply';
+import TableSupply, { SupplyRow } from './TableSupply';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
-import {
-  ExportSentType,
-  InsecticideSentPartType,
-  PesticideSentPartType,
-} from '../../../types/exportSent';
+import { ExportSentType } from '../../../types/exportSent';
 
 interface props {
   boxBrand: Partial<BoxBrandType>;
@@ -26,75 +21,58 @@ const DetailSupply = ({
   }: {
     boxBrandObject: Partial<BoxBrandType>;
     supplyObject: Partial<ExportSentType>;
-  }): any[] => {
-    const outputArray: any[] = [];
+  }): SupplyRow[] => {
+    const outputArray: SupplyRow[] = [];
 
     (Object.keys(supplyObject) as (keyof ExportSentType)[]).forEach((key) => {
       const material = key.replace(/Quantity$/, '') as keyof BoxBrandType;
+      const value = boxBrandObject[material];
+      const sent = supplyObject[key];
 
       if (key.toString().endsWith('Quantity') && key in boxBrandObject) {
-        if (
-          typeof boxBrandObject[material] === 'object' &&
-          boxBrandObject[material] !== null
-        ) {
+        const need = boxBrandObject[key as keyof BoxBrandType];
+        if (typeof value === 'object' && value !== null) {
           outputArray.push({
-            ['name']: (boxBrandObject[material] as any).name,
-            ['need']: boxBrandObject[key as keyof BoxBrandType],
-            ['sent']: supplyObject[key],
+            name: (value as { name?: string }).name,
+            need,
+            sent,
           });
-        } else if (
-          boxBrandObject[material] !== null &&
-          boxBrandObject[material] !== 'N/A'
-        ) {
-          outputArray.push({
-            ['name']: boxBrandObject[material],
-            ['need']: boxBrandObject[key as keyof BoxBrandType],
-            ['sent']: supplyObject[key],
-          });
+        } else if (value !== null && value !== 'N/A') {
+          outputArray.push({ name: value, need, sent });
         }
-      } else if (
-        typeof supplyObject[key] === 'object' &&
-        Array.isArray(supplyObject[key]) &&
-        (supplyObject[key] as any[]).length > 0
-      ) {
-        const arrayValue:
-          | PesticideSentPartType[]
-          | InsecticideSentPartType[]
-          | any = supplyObject[key];
+      } else if (Array.isArray(sent) && sent.length > 0) {
+        const items = sent as Record<string, unknown>[];
+        const arraySent = sent as SupplyRow['arraySent'];
 
         if (
-          Array.isArray(supplyObject[key]) &&
-          arrayValue.every(
-            (item: PesticideSentPartType) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.pesticide !== undefined
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de pesticidas',
-            ['quantity']: 1,
-            ['arrayNeed']:
-              boxBrandObject['pesticideCocktail' as keyof BoxBrandType],
-            ['arraySent']: supplyObject[key],
+            name: 'Cóctel de pesticidas',
+            arrayNeed:
+              boxBrandObject.pesticideCocktail as SupplyRow['arrayNeed'],
+            arraySent,
           });
         }
 
         if (
-          Array.isArray(supplyObject[key]) &&
-          arrayValue.every(
-            (item: InsecticideSentPartType) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.insecticide !== undefined
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de insecticidas',
-            ['quantity']: 1,
-            ['arrayNeed']:
-              boxBrandObject['insecticideCocktail' as keyof BoxBrandType],
-            ['arraySent']: supplyObject[key],
+            name: 'Cóctel de insecticidas',
+            arrayNeed:
+              boxBrandObject.insecticideCocktail as SupplyRow['arrayNeed'],
+            arraySent,
           });
         }
       }

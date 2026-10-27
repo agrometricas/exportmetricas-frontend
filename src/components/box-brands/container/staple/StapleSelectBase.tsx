@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   CSSObjectWithLabel,
@@ -18,7 +17,7 @@ import { StapleType } from '../../../../types/box-brand/container/staple';
 
 interface StapleSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setStaple?: (staple: Partial<StapleType>) => void;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -55,7 +54,7 @@ const BrandSelectBase: React.FC<{
   setBrand?: (brand: BrandType) => void;
   onChange?: (newValue: BrandType) => void;
   name: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
 }> = ({ setBrand, onChange, field, placeholder, name }) => {
   const { data, isLoading } = useBrands();

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,13 +6,14 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { ExportSentType } from '@/types/exportSent.response';
 import DetailExportsSent from './DetailExportsSent';
 import { useExportsSent } from '../../../hooks/liquidation/getExportsSent';
 
 const TableExportsSent = (): React.JSX.Element => {
   const { rows: data, tableOptions } = useExportsSent();
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(
+  const columns = useMemo<MRT_ColumnDef<ExportSentType>[]>(
     () => [
       {
         header: 'Identificador',

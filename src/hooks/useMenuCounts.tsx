@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { useState, useEffect } from 'react';
@@ -19,7 +19,7 @@ interface MenuCounts {
 export function useMenuCounts(): {
   counts: MenuCounts;
   loading: boolean;
-  error: any;
+  error: unknown;
 } {
   const {
     data: supplyData,

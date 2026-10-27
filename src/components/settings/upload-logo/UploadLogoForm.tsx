@@ -55,8 +55,7 @@ const UploadLogoForm = (): React.JSX.Element => {
           exporterId: String(user?.exporterDetails.id) || '',
         },
         {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onError: (error: any) => {
+          onError: (error) => {
             {
               toaster.create({
                 title: 'No se pudo guardar',

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -72,7 +71,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
         ...values,
       },
       {
-        onError: (error: any) => {
+        onError: (error) => {
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),

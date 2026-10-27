@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Button, Center } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
@@ -10,6 +9,7 @@ import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import { BsFileEarmarkPdf } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
 import DetailCuttingSheets from './DetailCuttingSheets';
 import { useCuttingSheets } from '../../../../hooks/export/cuttingSheet/getCuttingSheets';
 import { sheetVersionLabel } from '../../../../utils/cuttingSheetOptions';
@@ -17,7 +17,7 @@ import { sheetVersionLabel } from '../../../../utils/cuttingSheetOptions';
 const TableCuttingSheets = (): React.JSX.Element => {
   const { rows: data, tableOptions } = useCuttingSheets();
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(
+  const columns = useMemo<MRT_ColumnDef<CuttingSheetResponse>[]>(
     () => [
       {
         header: 'Hoja de corte',

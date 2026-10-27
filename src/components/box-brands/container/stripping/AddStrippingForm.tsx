@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -84,7 +83,7 @@ const AddStrippingForm = ({
         weightPerPack: Number(weightPerPack),
       },
       {
-        onError: (error: any) => {
+        onError: (error) => {
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),

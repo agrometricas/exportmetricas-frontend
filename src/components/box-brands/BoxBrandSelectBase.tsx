@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { BoxBrandType } from '../../types/box-brand/boxBrand';
 
 interface BoxBrandSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setBoxBrand?: (brand: Partial<BoxBrandType>) => void;
   onChange?: (newValue: Partial<BoxBrandType>) => void;

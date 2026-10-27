@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
@@ -9,13 +8,14 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { ProducerPaymentListItem } from '@/types/producerPayment';
 import DetailProducerPayments from './DetailProducerPayments';
 import { useProducerPayments } from '../../../hooks/liquidation/getProducerPayments';
 
 const TableProducerPayments = (): React.JSX.Element => {
   const { rows: data, tableOptions } = useProducerPayments();
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(
+  const columns = useMemo<MRT_ColumnDef<ProducerPaymentListItem>[]>(
     () => [
       {
         header: 'Información general',

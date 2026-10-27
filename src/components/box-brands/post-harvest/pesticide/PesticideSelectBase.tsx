@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticid
 
 interface PesticideSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setPesticide?: (pesticide: Partial<PesticideType>) => void;
   onChange?: (newValue: Partial<PesticideType>) => void;

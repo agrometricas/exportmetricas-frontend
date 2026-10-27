@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -56,7 +55,7 @@ const UploadLogoForm = (): React.JSX.Element => {
           boxBrandId: String(values.boxBrandId),
         },
         {
-          onError: (error: any) => {
+          onError: (error) => {
             {
               toaster.create({
                 title: 'No se pudo guardar',

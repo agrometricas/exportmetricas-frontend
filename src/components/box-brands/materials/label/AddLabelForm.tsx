@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -99,7 +99,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
     };
 
     createLabel(formData, {
-      onError: (error: any) => {
+      onError: (error) => {
 
         toaster.create({
           title: 'No se pudo guardar',

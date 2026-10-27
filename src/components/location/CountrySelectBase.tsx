@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -51,7 +50,7 @@ const CountrySelectBase: React.FC<{
   setCountry?: (country: Country) => void;
   onChange?: (newValue: Country) => void;
   name: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
 }> = ({ setCountry, onChange, field, placeholder, name }) => {
   const { data, isLoading } = useCountries();

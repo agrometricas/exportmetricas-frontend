@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -70,7 +69,7 @@ const AddStapleForm = ({ onClose }: AddStapleFormProps): React.JSX.Element => {
         quantityPerPack: Number(quantityPerPack),
       },
       {
-        onError: (error: any) => {
+        onError: (error) => {
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),

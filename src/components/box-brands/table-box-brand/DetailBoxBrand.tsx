@@ -1,14 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, VStack } from '@chakra-ui/react';
 import React from 'react';
-import TableBoxBrandDetail from './TableBoxBrandDetail';
+import TableBoxBrandDetail, { BoxBrandDetailRow } from './TableBoxBrandDetail';
 import { useMaterialUnits } from '../../../hooks/settings/materialUnits';
-import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
-import { SheetCocktail } from '../../../types/box-brand/additions/sheet';
-import { StickerCocktail } from '../../../types/box-brand/additions/sticker';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
-import { PesticideCocktailPart } from '../../../types/box-brand/post-harvest/pesticideCocktailPart';
-import { RequiredCertificateType } from '../../../types/box-brand/specifications/requiredCertificate';
 import { MaterialUnitsResponse } from '../../../types/materialUnits';
 import { MATERIAL_TYPE_LABELS } from '../../../utils/materialTypeLabels';
 import { QUANTITY_FIELDS, quantityUnit } from '../../../utils/materialUnits';
@@ -24,124 +18,91 @@ const DetailBoxBrand = ({
       (material) => material.materialType === type
     )?.unit;
 
-  const convertObjectToArray = (inputObject: Partial<BoxBrandType>): any[] => {
-    const outputArray: any[] = [];
+  const convertObjectToArray = (
+    inputObject: Partial<BoxBrandType>
+  ): BoxBrandDetailRow[] => {
+    const outputArray: BoxBrandDetailRow[] = [];
 
     (Object.keys(inputObject) as (keyof BoxBrandType)[]).forEach((key) => {
       const quantityKey = `${key}Quantity` as keyof BoxBrandType;
+      const value = inputObject[key];
 
       if (
         key !== 'brand' &&
         !key.toString().endsWith('Quantity') &&
         quantityKey in inputObject
       ) {
-        if (typeof inputObject[key] === 'object' && inputObject[key] !== null) {
+        if (typeof value === 'object' && value !== null) {
           const field = QUANTITY_FIELDS[quantityKey];
+          const material = value as BoxBrandDetailRow['object'] & object;
           outputArray.push({
-            ['name']: field
-              ? `${MATERIAL_TYPE_LABELS[field.type] ?? field.type}: ${(inputObject[key] as any).name}`
-              : (inputObject[key] as any).name,
-            ['quantity']: field
+            name: field
+              ? `${MATERIAL_TYPE_LABELS[field.type] ?? field.type}: ${material.name}`
+              : (material.name ?? ''),
+            quantity: field
               ? `${inputObject[quantityKey]} ${quantityUnit(unitOf(field.type), field.base)}`
-              : inputObject[quantityKey],
-            ['object']: inputObject[key],
+              : String(inputObject[quantityKey] ?? ''),
+            object: material,
           });
-        } else if (inputObject[key] !== null && inputObject[key] !== 'N/A') {
+        } else if (value !== null && value !== 'N/A') {
           outputArray.push({
-            ['name']: inputObject[key],
-            ['quantity']: inputObject[quantityKey],
+            name: String(value ?? ''),
+            quantity: String(inputObject[quantityKey] ?? ''),
           });
         }
-      } else if (
-        key !== 'brand' &&
-        typeof inputObject[key] === 'object' &&
-        Array.isArray(inputObject[key])
-      ) {
-        const arrayValue:
-          | RequiredCertificateType[]
-          | PesticideCocktailPart[]
-          | InsecticideCocktailPart[]
-          | StickerCocktail[]
-          | SheetCocktail[]
-          | any[]
-          | any = inputObject[key];
+      } else if (key !== 'brand' && Array.isArray(value)) {
+        const items = value as Record<string, unknown>[];
+        const array = value as BoxBrandDetailRow['array'];
+        const listOf = (name: string): void => {
+          outputArray.push({ name, quantity: String(items.length), array });
+        };
 
         if (
-          Array.isArray(inputObject[key]) &&
-          arrayValue.every(
-            (item: RequiredCertificateType) =>
-              item.id !== undefined && item.name !== undefined
+          items.every(
+            (item) => item.id !== undefined && item.name !== undefined
           )
         ) {
-          outputArray.push({
-            ['name']: 'Certificados',
-            ['quantity']: inputObject[key].length,
-            ['array']: inputObject[key],
-          });
+          listOf('Certificados');
         }
-
         if (
-          Array.isArray(inputObject[key]) &&
-          arrayValue.every(
-            (item: PesticideCocktailPart) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.pesticide !== undefined
           )
         ) {
-          outputArray.push({
-            ['name']: 'Cóctel de pesticidas',
-            ['quantity']: inputObject[key].length,
-            ['array']: inputObject[key],
-          });
+          listOf('Cóctel de pesticidas');
         }
-
         if (
-          Array.isArray(inputObject[key]) &&
-          arrayValue.every(
-            (item: InsecticideCocktailPart) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.insecticide !== undefined
           )
         ) {
-          outputArray.push({
-            ['name']: 'Cóctel de insecticidas',
-            ['quantity']: inputObject[key].length,
-            ['array']: inputObject[key],
-          });
+          listOf('Cóctel de insecticidas');
         }
-
         if (
-          Array.isArray(inputObject[key]) &&
-          arrayValue.every(
-            (item: StickerCocktail) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.sticker !== undefined
           )
         ) {
-          outputArray.push({
-            ['name']: 'Pegatinas',
-            ['quantity']: inputObject[key].length,
-            ['array']: inputObject[key],
-          });
+          listOf('Pegatinas');
         }
-
         if (
-          Array.isArray(inputObject[key]) &&
-          arrayValue.every(
-            (item: SheetCocktail) =>
+          items.every(
+            (item) =>
               item.id !== undefined &&
               item.quantity !== undefined &&
               item.sheet !== undefined
           )
         ) {
-          outputArray.push({
-            ['name']: 'Hojas',
-            ['quantity']: inputObject[key].length,
-            ['array']: inputObject[key],
-          });
+          listOf('Hojas');
         }
       }
     });

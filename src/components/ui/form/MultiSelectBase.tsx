@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 'use client';
 import {
     Select as ChakraSelect,
@@ -17,7 +17,7 @@ export interface Option {
 
 interface MultiSelectBaseProps {
     name?: string;
-    field: FieldInputProps<any>;
+    field: FieldInputProps<string[]>;
     placeholder: string;
     options: Option[];
     onChange: (newValues: Option[]) => void;

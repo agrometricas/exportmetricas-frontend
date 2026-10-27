@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
     ChakraStylesConfig,
@@ -22,7 +22,7 @@ export interface Certification {
 
 interface CertificationMultiSelectBaseProps {
     name?: string;
-    field?: FieldInputProps<any>;
+    field?: FieldInputProps<number[]>;
     placeholder: string;
     setCertifications?: (certificates: Partial<Certification>[]) => void;
     onChange?: (newValues: Partial<Certification>[]) => void;
@@ -117,7 +117,7 @@ const CertificationMultiSelectBase: React.FC<
                 field?.value
                     ? data?.filter(
                         (opt: Partial<Certification>) =>
-                            field.value.indexOf(opt.id) >= 0
+                            field.value.some((id) => id === opt.id)
                     )
                     : []
             }

@@ -3,14 +3,15 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
-import { ExportSentType } from '@/types/exportSent';
 
 interface CreateExportSentResponse {
   exportSentId: string;
 }
 
+// The form's values, built from the backend's proposal: the quantity of each
+// material and the cocktail lines.
 export const createExportSent = (
-  data: Partial<ExportSentType>
+  data: Record<string, unknown>
 ): Promise<CreateExportSentResponse> => {
   return axios.post('/export/export-sent', data);
 };

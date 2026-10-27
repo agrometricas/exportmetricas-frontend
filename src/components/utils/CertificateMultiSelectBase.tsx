@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Icon, Text } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { Certificate } from '../../types/utils/certificate';
 
 interface CertificateMultiSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   setCertificates?: (certificates: Partial<Certificate>[]) => void;
   onChange?: (newValues: Partial<Certificate>[]) => void;
@@ -128,8 +127,8 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       }
       value={
         field?.value
-          ? data?.filter(
-              (opt: Partial<Certificate>) => field.value.indexOf(opt.id) >= 0
+          ? data?.filter((opt: Partial<Certificate>) =>
+              field.value.some((id) => id === opt.id)
             )
           : []
       }

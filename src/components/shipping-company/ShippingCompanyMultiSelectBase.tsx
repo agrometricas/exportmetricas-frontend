@@ -17,8 +17,8 @@ import { ShippingCompanyType } from '../../types/shippingCompany';
 
 interface ShippingCompanyMultiSelectBaseProps {
   name?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  field?: FieldInputProps<any>;
+
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   setShippingCompanies?: (
     shippingCompanies: Partial<ShippingCompanyType>[]
@@ -113,9 +113,8 @@ const ShippingCompanyMultiSelectBase: React.FC<
       }
       value={
         field?.value
-          ? data.filter(
-              (opt: Partial<ShippingCompanyType>) =>
-                field.value.indexOf(opt.id) >= 0
+          ? data.filter((opt: Partial<ShippingCompanyType>) =>
+              field.value.some((id) => id === opt.id)
             )
           : []
       }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { useExportsPending } from '../../hooks/export/getExportsPending';
 
 interface ExportSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setExport?: (exportSelected: Partial<ExportType>) => void;
   onChange?: (newValue: Partial<ExportType>) => void;

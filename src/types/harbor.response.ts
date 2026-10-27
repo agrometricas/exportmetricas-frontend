@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ContactResponse {
     id: number;
     name: string;
@@ -29,5 +28,12 @@ export interface HarborResponse {
     createdAt: string;
     updatedAt: string;
     exporterId: number;
-    clients: any[];
+    clients: {
+        id: number;
+        businessName: string;
+        businessId: string;
+        type: string;
+        email: string | null;
+        phone: string;
+    }[];
 }

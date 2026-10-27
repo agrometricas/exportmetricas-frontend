@@ -37,9 +37,11 @@ function SelectField({
 }: {
   name: string;
   label: string;
-  children: (field: ReturnType<typeof useField>) => React.ReactNode;
+  children: (
+    field: ReturnType<typeof useField<number | ''>>
+  ) => React.ReactNode;
 }): React.JSX.Element {
-  const binding = useField(name);
+  const binding = useField<number | ''>(name);
   const meta = binding[1];
   return (
     <Field.Root invalid={!!meta.error && meta.touched}>

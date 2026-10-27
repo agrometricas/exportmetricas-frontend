@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +18,7 @@ import { HarborType } from '../../types/harbor';
 
 interface HarborMultiSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   type: string | 'Nacional' | 'Internacional';
   setHarbors?: (harbors: Partial<HarborType>[]) => void;
@@ -117,7 +117,7 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
       value={
         field?.value
           ? data?.filter(
-            (opt: Partial<HarborType>) => field.value.indexOf(opt.id) >= 0
+            (opt: Partial<HarborType>) => field.value.some((id) => id === opt.id)
           )
           : []
       }

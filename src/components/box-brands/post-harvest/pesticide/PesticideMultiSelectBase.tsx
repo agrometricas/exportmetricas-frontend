@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticid
 
 interface PesticideMultiSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   setPesticides?: (pesticides: Partial<PesticideType>[]) => void;
   onChange?: (newValues: Partial<PesticideType>[]) => void;
@@ -117,8 +116,8 @@ const PesticideMultiSelectBase: React.FC<PesticideMultiSelectBaseProps> = ({
       }
       value={
         field?.value
-          ? data.filter(
-              (opt: Partial<PesticideType>) => field.value.indexOf(opt.id) >= 0
+          ? data.filter((opt: Partial<PesticideType>) =>
+              field.value.some((id) => id === opt.id)
             )
           : []
       }

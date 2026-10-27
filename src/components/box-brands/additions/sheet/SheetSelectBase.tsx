@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { SheetType } from '../../../../types/box-brand/additions/sheet';
 
 interface SheetSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setSheet?: (sheet: Partial<SheetType>) => void;
   onChange?: (newValue: Partial<SheetType>) => void;

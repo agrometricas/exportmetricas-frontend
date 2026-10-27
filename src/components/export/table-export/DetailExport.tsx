@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Accordion, Alert, Badge, Box, Heading, Text } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import React from 'react';
@@ -8,7 +7,7 @@ import {
   DetailItem,
   DetailSubtitle,
 } from '@/components/ui/DetailFields';
-import { ExportResponse } from '../../../types/export.response';
+import { Contact, ExportResponse } from '../../../types/export.response';
 import { containerLabel } from '../../../utils/containerSeals';
 import { customsChannelLabel } from '../../../utils/customs';
 import {
@@ -23,7 +22,7 @@ interface DetailExportsProps {
   data: ExportResponse;
 }
 const DetailExport: React.FC<DetailExportsProps> = ({ data }) => {
-  const renderContacts = (contacts: any[]): React.JSX.Element[] =>
+  const renderContacts = (contacts: Contact[]): React.JSX.Element[] =>
     contacts.map((c, i) => (
       <DetailItem key={i}>
         <DetailFields>

@@ -14,20 +14,22 @@ import {
   PesticideSentPartType,
 } from '../../../types/exportSent';
 
-interface DetailType {
-  name: string;
-  need: string;
-  sent: string;
+// Values read straight off the box brand and the shipment; the table prints
+// them as they come.
+export interface SupplyRow {
+  name: unknown;
+  need?: unknown;
+  sent?: unknown;
   arrayNeed?: PesticideCocktailPart[] | InsecticideCocktailPart[];
   arraySent?: PesticideSentPartType[] | InsecticideSentPartType[];
 }
 
 interface props {
-  details: DetailType[];
+  details: SupplyRow[];
 }
 
 const TableSupply = ({ details }: props): React.JSX.Element => {
-  const columns = useMemo<MRT_ColumnDef<Partial<DetailType>>[]>(
+  const columns = useMemo<MRT_ColumnDef<Partial<SupplyRow>>[]>(
     () => [
       {
         accessorKey: 'name',
