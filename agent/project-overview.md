@@ -179,8 +179,7 @@ raíz del repo.
   `refetchOnMount: true`, una clave invalidada mientras su pantalla no estaba
   abierta se vuelve a pedir al abrirla.
 - Helpers de tipos en `lib/react-query.ts`: `QueryConfig<fn>`,
-  `MutationConfig<fn>`, `ExtractFnReturnType<fn>`. El `queryClient` que exporta
-  ese archivo no está montado.
+  `MutationConfig<fn>`, `ExtractFnReturnType<fn>`.
 - Las claves de lista más usadas: `exports`, `exportsPending`, `exportsSent`,
   `exportsSentPending`, `cuttingSheets`, `cuttingSheetsPending`,
   `exportSentCostsPending`, `clientPaymentsPending`, `merchants`, `clients`,
