@@ -25,12 +25,12 @@ function SearchBoxBrandPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineInventory2}
-      title='Gestión de Alícuotas'
+      title='Gestión de alícuotas'
       description='Visualiza y administra las marcas de caja registradas'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Marca de Caja'
+            aria-label='Agregar marca de caja'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

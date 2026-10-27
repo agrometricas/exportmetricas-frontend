@@ -182,7 +182,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
                         <InputFieldDayDate name='daeDate' label='Fecha' />
                         <InputFieldSelector
                           name='daeChannel'
-                          label='Canal de Aforo'
+                          label='Canal de aforo'
                           placeholder='Selecciona el canal'
                           options={CUSTOMS_CHANNEL_OPTIONS}
                         />

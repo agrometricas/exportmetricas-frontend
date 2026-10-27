@@ -425,7 +425,7 @@ const PendingPaymentForm = ({
       }
 
       toaster.create({
-        title: 'Liquidación y Archivo Subidos con Éxito',
+        title: 'Liquidación y archivo subidos con éxito',
         type: 'success',
         duration: 5000,
         closable: true,

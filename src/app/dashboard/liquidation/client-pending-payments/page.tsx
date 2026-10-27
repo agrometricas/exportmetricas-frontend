@@ -9,7 +9,7 @@ function ClientPaymentsPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdRequestQuote}
-      title='Cobros a Clientes'
+      title='Cobros a clientes'
       description='Revisa y gestiona los cobros pendientes de clientes'
       width='wide'
     >

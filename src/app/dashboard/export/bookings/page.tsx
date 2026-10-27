@@ -29,7 +29,7 @@ function BookingsPage(): React.JSX.Element {
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Booking'
+            aria-label='Agregar booking'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

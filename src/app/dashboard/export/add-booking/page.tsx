@@ -9,7 +9,7 @@ function AddBookingPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineBookOnline}
-      title='Agregar Booking'
+      title='Agregar booking'
       description='Reserva con la naviera: el precio sale del contrato vigente el día del zarpe'
     >
       <BookingForm />

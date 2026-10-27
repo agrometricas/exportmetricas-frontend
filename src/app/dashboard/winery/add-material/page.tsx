@@ -16,7 +16,7 @@ function AddMaterialPage(): React.JSX.Element {
       {() => (
         <CardPage
           icon={MdInventory2}
-          title='Agregar Stock de Materiales'
+          title='Agregar stock de materiales'
           description='Completa la carga manual o importa desde archivo'
           actions={<ImportExporterStockDrawer />}
           width='wide'

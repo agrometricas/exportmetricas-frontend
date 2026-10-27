@@ -59,7 +59,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
   return (
     <CardPage
       icon={<MdPerson />}
-      title='Perfil de la Cuenta'
+      title='Perfil de la cuenta'
       description='Detalles del usuario y de la exportadora'
     >
       {/* Usuario */}
@@ -146,7 +146,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
           {logoUrl ? (
             <Image
               src={logoUrl}
-              alt='Logo de la Empresa'
+              alt='Logo de la empresa'
               boxSize='88px'
               objectFit='contain'
               borderWidth='1px'

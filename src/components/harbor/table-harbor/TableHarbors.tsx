@@ -35,7 +35,7 @@ const TableHarbors = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'name',
-            header: 'Nombre del Puerto',
+            header: 'Nombre del puerto',
           },
           {
             accessorKey: 'code',
@@ -69,7 +69,7 @@ const TableHarbors = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Clientes Relacionados',
+        header: 'Clientes relacionados',
         columns: [
           {
             accessorKey: 'clients',

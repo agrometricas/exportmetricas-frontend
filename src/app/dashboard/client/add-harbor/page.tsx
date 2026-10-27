@@ -9,7 +9,7 @@ function AddHarborPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdAnchor}
-      title='Agregar Nuevo Puerto'
+      title='Agregar nuevo puerto'
       description='Completa el formulario para registrar un puerto'
     >
       <AddHarborForm />

@@ -19,7 +19,7 @@ const AddVerifierForm: React.FC = () => {
                         </FormSectionTitle>
 
                         <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-                            <InputFieldText name="name" label="Nombre / Razón Social" placeholder="Ingresa el nombre" />
+                            <InputFieldText name="name" label="Nombre / Razón social" placeholder="Ingresa el nombre" />
                             <InputFieldText name="ruc" label="RUC" placeholder="Ingresa el RUC" />
                             <InputFieldText name="address" label="Dirección" placeholder="Ingresa la dirección" />
                         </SimpleGrid>
@@ -35,7 +35,7 @@ const AddVerifierForm: React.FC = () => {
                                             <SimpleGrid columns={{ base: 1, sm: 4 }} gap={5}>
                                                 <InputFieldText
                                                     name={`contacts[${index}].name`}
-                                                    label="Nombre del Contacto"
+                                                    label="Nombre del contacto"
                                                     placeholder="Ingresa el nombre"
                                                 />
                                                 <InputFieldText

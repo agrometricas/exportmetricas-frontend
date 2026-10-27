@@ -16,12 +16,12 @@ interface ExportFormPageProps {
 const COPY = {
   edit: {
     icon: MdEdit,
-    title: 'Editar Exportación',
+    title: 'Editar exportación',
     subtitle: 'Cambia la finca, la alícuota o cualquier otro dato',
   },
   duplicate: {
     icon: MdContentCopy,
-    title: 'Duplicar Exportación',
+    title: 'Duplicar exportación',
     subtitle: 'Se creará una exportación nueva con estos datos',
   },
 };

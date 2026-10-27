@@ -68,7 +68,7 @@ const AddCoverForm = ({ onClose }: AddCoverFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Cubierta creada con Éxito',
+            title: 'Cubierta creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -90,7 +90,7 @@ const AddCoverForm = ({ onClose }: AddCoverFormProps): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Cubierta</FormSectionTitle>
+            <FormSectionTitle>Agregar cubierta</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

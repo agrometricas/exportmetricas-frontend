@@ -27,22 +27,22 @@ const AddDepositForm: React.FC = () => {
       {({ values, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Depósito de Contenedores</FormSectionTitle>
+            <FormSectionTitle>Depósito de contenedores</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
-                label='Nombre del Depósito'
-                placeholder='Nombre del Deposito'
+                label='Nombre del depósito'
+                placeholder='Nombre del deposito'
               />
               <InputFieldText
                 name='code'
                 label='Código'
-                placeholder='Codigo del Deposito'
+                placeholder='Codigo del deposito'
               />
               <InputFieldText
                 name='address'
                 label='Dirección'
-                placeholder='Direccion del Deposito'
+                placeholder='Direccion del deposito'
               />
               <InputFieldCountrySelect
                 name='countryId'

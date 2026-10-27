@@ -34,11 +34,11 @@ const AddHarborForm: React.FC = () => {
       {({ values, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Puerto Salida/Destino</FormSectionTitle>
+            <FormSectionTitle>Puerto salida/destino</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldSelector name='type' label='Tipo' options={typesOpt} />
-              <InputFieldText name='name' label='Nombre del Puerto' />
+              <InputFieldText name='name' label='Nombre del puerto' />
               <InputFieldText name='code' label='Código' />
               <InputFieldCountrySelect
                 name='countryId'
@@ -99,7 +99,7 @@ const AddHarborForm: React.FC = () => {
             </SimpleGrid>
             <InputFieldMultiSelect
               name='daysOfOperation'
-              label='Días de Operación'
+              label='Días de operación'
               options={[
                 { value: 'Lunes', label: 'Lunes' },
                 { value: 'Martes', label: 'Martes' },
@@ -125,7 +125,7 @@ const AddHarborForm: React.FC = () => {
                         />
                         <InputFieldText
                           name={`contacts[${index}].web`}
-                          label='Sitio Web'
+                          label='Sitio web'
                         />
                         <InputFieldText
                           name={`contacts[${index}].email`}

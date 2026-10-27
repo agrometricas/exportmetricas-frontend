@@ -24,12 +24,12 @@ function ProducersPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineAgriculture}
-      title='Gestión de Productores'
+      title='Gestión de productores'
       description='Visualiza y administra los productores registrados'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Productor'
+            aria-label='Agregar productor'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

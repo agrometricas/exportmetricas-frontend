@@ -72,7 +72,7 @@ const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Fondo creado con Éxito',
+            title: 'Fondo creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -98,7 +98,7 @@ const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Fondo</FormSectionTitle>
+              <FormSectionTitle>Agregar fondo</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
 

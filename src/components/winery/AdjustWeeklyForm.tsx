@@ -235,16 +235,16 @@ const AdjustWeeklyForm = ({
 
                           <Grid templateColumns='1fr 1fr' gap={4} mb={2}>
                             <Text>
-                              <strong>Stock Actual:</strong> {item.current}
+                              <strong>Stock actual:</strong> {item.current}
                             </Text>
                             <Flex direction='column' gap={1}>
                               <Text>
-                                <strong>Unidades a Ajustar:</strong>
+                                <strong>Unidades a ajustar:</strong>
                               </Text>
                               <InputFieldNumber
                                 name={`stocks[${index}].real`}
                                 value={item.real}
-                                placeholder='Unidades a Ajustar'
+                                placeholder='Unidades a ajustar'
                                 isDecimal={false}
                               />
                               <Text fontSize='sm' color='fg.muted'>
@@ -301,7 +301,7 @@ const AdjustWeeklyForm = ({
                                 materialDiscount === 0 ? 'black' : 'red.600'
                               }
                             >
-                              <strong>Descuento Estimado:</strong> $
+                              <strong>Descuento estimado:</strong> $
                               {materialDiscount.toFixed(2)}
                             </Text>
                           </SimpleGrid>

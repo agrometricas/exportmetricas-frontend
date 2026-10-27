@@ -9,7 +9,7 @@ function AddTransportPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdLocalShipping}
-      title='Agregar Transporte Nuevo'
+      title='Agregar transporte nuevo'
       description='Completa el formulario para registrar un transporte'
     >
       <AddTransportForm />

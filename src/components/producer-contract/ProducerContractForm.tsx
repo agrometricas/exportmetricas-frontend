@@ -79,33 +79,33 @@ export default function ProducerContractForm({
               </>
             )}
 
-            <FormSectionTitle>Cupo Aprobado</FormSectionTitle>
+            <FormSectionTitle>Cupo aprobado</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='approvedHectares'
-                label='Hectáreas Aprobadas'
+                label='Hectáreas aprobadas'
                 unit='ha'
                 value={initialValues.approvedHectares}
               />
               <InputFieldNumber
                 name='approvedWeeklyBoxesPerHectare'
-                label='Cajas Aprobadas por Hectárea a la Semana'
+                label='Cajas aprobadas por hectárea a la semana'
                 unit='cajas/ha'
                 value={initialValues.approvedWeeklyBoxesPerHectare}
               />
               <InputFieldSelector
                 name='contractType'
-                label='Tipo de Contrato (opcional)'
+                label='Tipo de contrato (opcional)'
                 options={CONTRACT_TYPE_OPTIONS}
               />
             </SimpleGrid>
 
             <FormSectionTitle>Vigencia</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
+              <InputFieldDayDate name='startDate' label='Fecha de inicio' />
               <InputFieldDayDate
                 name='endDate'
-                label='Fecha de Fin (opcional)'
+                label='Fecha de fin (opcional)'
                 helperText='Sin fecha de fin, el contrato queda abierto.'
               />
             </SimpleGrid>
@@ -122,7 +122,7 @@ export default function ProducerContractForm({
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
+                {contract ? 'Guardar cambios' : 'Crear contrato'}
               </Button>
             </FormActions>
           </Flex>

@@ -19,7 +19,7 @@ function EditBookingPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineBookOnline}
-      title='Editar Booking'
+      title='Editar booking'
       description='Cambia la nave, el zarpe o los contenedores'
       width='wide'
     >

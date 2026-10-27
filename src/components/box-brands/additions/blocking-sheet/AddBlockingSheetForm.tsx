@@ -93,7 +93,7 @@ const AddBlockingSheetForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Lamina de Bloqueo Creada con Éxito',
+            title: 'Lamina de bloqueo creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -119,7 +119,7 @@ const AddBlockingSheetForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Lamina de Bloqueo</FormSectionTitle>
+              <FormSectionTitle>Agregar lamina de bloqueo</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'dimensions'} label={'Dimensiones'} />

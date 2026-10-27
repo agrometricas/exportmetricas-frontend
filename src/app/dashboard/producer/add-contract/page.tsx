@@ -9,7 +9,7 @@ function AddProducerContractPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAssignment}
-      title='Agregar Contrato de Productor'
+      title='Agregar contrato de productor'
       description='Registra el cupo semanal aprobado de una finca'
     >
       <ProducerContractForm />

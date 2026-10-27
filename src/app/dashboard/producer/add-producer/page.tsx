@@ -9,7 +9,7 @@ function AddProductorPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAgriculture}
-      title='Agregar Nuevo Productor'
+      title='Agregar nuevo productor'
       description='Completa el formulario para registrar un productor'
     >
       <AddProducerForm />

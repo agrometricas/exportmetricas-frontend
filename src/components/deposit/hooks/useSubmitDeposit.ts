@@ -42,7 +42,7 @@ export function useSubmitDeposit(): {
                 },
                 onSuccess: () => {
                     toaster.create({
-                        title: 'Depósito Creado con éxito',
+                        title: 'Depósito creado con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

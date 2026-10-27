@@ -24,12 +24,12 @@ function SearchStockPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdInventory2}
-      title='Stock de Materiales'
+      title='Stock de materiales'
       description='Visualiza y administra el stock de materiales en bodega'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Stock'
+            aria-label='Agregar stock'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

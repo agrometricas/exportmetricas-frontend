@@ -31,7 +31,7 @@ export default function TableExporterMaterialStock(): JSX.Element {
         columns: [
           {
             accessorKey: 'materialDetail.name',
-            header: 'Nombre Comercial',
+            header: 'Nombre comercial',
           },
           {
             accessorKey: 'materialType',
@@ -50,12 +50,12 @@ export default function TableExporterMaterialStock(): JSX.Element {
         columns: [
           {
             accessorKey: 'assignedStock',
-            header: 'Stock Asignado',
+            header: 'Stock asignado',
             Cell: ({ cell }) => `${cell.getValue<number>()} u.`,
           },
           {
             accessorKey: 'currentStock',
-            header: 'Stock Actual',
+            header: 'Stock actual',
             Cell: ({ cell }) => `${cell.getValue<number>()} u.`,
           },
         ],
@@ -65,17 +65,13 @@ export default function TableExporterMaterialStock(): JSX.Element {
         columns: [
           {
             accessorKey: 'assignedCost',
-            header: 'Costo Asignado',
+            header: 'Costo asignado',
             Cell: ({ cell }) => `$${cell.getValue<number>().toFixed(2)}`,
           },
           {
             accessorKey: 'currentCost',
-            header: 'Costo Actual',
+            header: 'Costo actual',
             Cell: ({ cell }) => `$${cell.getValue<number>().toFixed(2)}`,
-          },
-          {
-            accessorKey: 'materialDetail.name',
-            header: 'Nombre Comercial',
           },
         ],
       },

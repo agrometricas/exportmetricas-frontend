@@ -39,7 +39,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
         <InputFieldClientSelect
           name={name}
           label={'Cliente'}
-          placeholder={'Selecciona el Cliente'}
+          placeholder={'Selecciona el cliente'}
           setClient={setClient}
           harbor={harbor}
           isHarbor={isHarbor}
@@ -50,7 +50,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
           <Input
             readOnly={true}
             value={client?.businessId || ''}
-            placeholder='Ruc del Cliente'
+            placeholder='RUC del cliente'
           />
         </Box>
         <Box>
@@ -66,7 +66,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
           <Input
             readOnly={true}
             value={client?.email || ''}
-            placeholder='Correo del Cliente'
+            placeholder='Correo del cliente'
           />
         </Box>
         <Box>
@@ -74,7 +74,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
           <Input
             readOnly={true}
             value={client?.phone || ''}
-            placeholder='Teléfono del Cliente'
+            placeholder='Teléfono del cliente'
           />
         </Box>
       </SimpleGrid>

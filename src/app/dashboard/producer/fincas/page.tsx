@@ -24,7 +24,7 @@ function FincasPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineAgriculture}
-      title='Gestión de Fincas'
+      title='Gestión de fincas'
       description='Visualiza y administra las fincas registradas'
       actions={
         <>
@@ -32,7 +32,7 @@ function FincasPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                aria-label='Agregar Finca'
+                aria-label='Agregar finca'
                 colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'

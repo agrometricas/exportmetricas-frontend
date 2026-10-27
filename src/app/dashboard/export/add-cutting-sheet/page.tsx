@@ -9,7 +9,7 @@ const CuttingSheetsPage = (): React.JSX.Element => {
   return (
     <CardPage
       icon={MdContentCut}
-      title='Hojas de Corte'
+      title='Hojas de corte'
       description='Revisa y gestiona las hojas de corte pendientes'
       width='wide'
     >

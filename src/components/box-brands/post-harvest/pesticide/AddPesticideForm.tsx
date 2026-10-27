@@ -134,7 +134,7 @@ const AddPesticideForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Pesticida Creado con Éxito',
+            title: 'Pesticida creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,

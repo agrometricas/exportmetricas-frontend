@@ -33,7 +33,7 @@ const TableClients = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'businessName',
-          header: 'Nombre Cliente',
+          header: 'Nombre cliente',
         },
         {
           accessorKey: 'businessId',
@@ -41,11 +41,11 @@ const TableClients = (): React.JSX.Element => {
         },
         {
           accessorKey: 'type',
-          header: 'Tipo de Negocio',
+          header: 'Tipo de negocio',
         },
         {
           accessorKey: 'commercialType',
-          header: 'Tipo Comercial',
+          header: 'Tipo comercial',
         },
       ],
     },
@@ -54,7 +54,7 @@ const TableClients = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'email',
-          header: 'Correo Electrónico',
+          header: 'Correo electrónico',
         },
         {
           accessorKey: 'phone',
@@ -83,7 +83,7 @@ const TableClients = (): React.JSX.Element => {
         },
         {
           accessorKey: 'postalCode',
-          header: 'Código Postal',
+          header: 'Código postal',
         },
         {
           accessorKey: 'country.name',
@@ -104,7 +104,7 @@ const TableClients = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'shippingMethod',
-          header: 'Método de Envío',
+          header: 'Método de envío',
         },
         {
           accessorKey: 'harbors',

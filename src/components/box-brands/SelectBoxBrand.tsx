@@ -54,7 +54,7 @@ const SelectBoxBrand: React.FC<SelectBoxBrandProps> = ({
         {!!name2 && (
           <InputFieldNumber
             name={name2}
-            label={'Número de Cajas'}
+            label={'Número de cajas'}
             value={boxQuantity || ''}
           />
         )}

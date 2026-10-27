@@ -67,7 +67,7 @@ export function AssignStockToBusinessModal({
             <Dialog.Header>
               {selectedBusiness
                 ? `Asignar Stock a ${selectedBusiness.name}`
-                : 'Selecciona una Finca'}
+                : 'Selecciona una finca'}
             </Dialog.Header>
             <Dialog.CloseTrigger />
             <Dialog.Body>

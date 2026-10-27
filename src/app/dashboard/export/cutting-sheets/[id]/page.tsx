@@ -22,7 +22,7 @@ function CorrectCuttingSheetPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdContentCut}
-      title='Corregir Hoja de Corte'
+      title='Corregir hoja de corte'
       description='Cambia el tipo de corte o el empaque y reenvía la hoja'
     >
       {isLoading ? (

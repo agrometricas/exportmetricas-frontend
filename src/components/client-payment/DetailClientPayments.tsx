@@ -28,7 +28,7 @@ const DetailClientPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Nombre del Cliente'>
+              <DetailField label='Nombre del cliente'>
                 {client.businessName}
               </DetailField>
               <DetailField label='RUC'>{client.businessId}</DetailField>
@@ -51,21 +51,21 @@ const DetailClientPayments = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Cantidad de Cajas'>
+              <DetailField label='Cantidad de cajas'>
                 {clientPayment.boxQuantity}
               </DetailField>
               <DetailField label='Marca'>{boxBrand.name}</DetailField>
               <DetailField label='Código'>{boxBrand.brandCode}</DetailField>
-              <DetailField label='Peso Neto por Caja'>
+              <DetailField label='Peso neto por caja'>
                 {boxBrand.netWeightBox} LBS
               </DetailField>
-              <DetailField label='Peso Bruto por Caja'>
+              <DetailField label='Peso bruto por caja'>
                 {boxBrand.grossWeightBox} LBS
               </DetailField>
-              <DetailField label='Precio Unitario'>
+              <DetailField label='Precio unitario'>
                 ${clientPayment.price}
               </DetailField>
-              <DetailField label='Total a Pagar'>
+              <DetailField label='Total a pagar'>
                 ${clientPayment.total}
               </DetailField>
               <DetailField label='Descripción'>
@@ -89,7 +89,7 @@ const DetailClientPayments = ({
           <Accordion.ItemBody>
             {clientPayment.sourceBankAccount && (
               <>
-                <DetailSubtitle>Cuenta Origen</DetailSubtitle>
+                <DetailSubtitle>Cuenta origen</DetailSubtitle>
                 <DetailFields>
                   <DetailField label='Propietario'>
                     {clientPayment.sourceBankAccount.owner}
@@ -111,7 +111,7 @@ const DetailClientPayments = ({
             )}
             {clientPayment.destinationBankAccount && (
               <>
-                <DetailSubtitle>Cuenta Destino</DetailSubtitle>
+                <DetailSubtitle>Cuenta destino</DetailSubtitle>
                 <DetailFields>
                   <DetailField label='Propietario'>
                     {clientPayment.destinationBankAccount.owner}

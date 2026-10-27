@@ -9,7 +9,7 @@ function AddBusinessPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAgriculture}
-      title='Agregar Nueva Finca'
+      title='Agregar nueva finca'
       description='Completa el formulario para registrar una finca'
     >
       <AddBusinessForm />

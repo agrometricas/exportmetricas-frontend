@@ -91,7 +91,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Sello Creado con Éxito',
+            title: 'Sello creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -117,7 +117,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Sello</FormSectionTitle>
+              <FormSectionTitle>Agregar sello</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'type'} label={'Tipo'} />

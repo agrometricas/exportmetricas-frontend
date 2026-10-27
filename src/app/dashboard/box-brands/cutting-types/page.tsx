@@ -26,13 +26,13 @@ function CuttingTypesPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdContentCut}
-      title='Tipos de Corte'
+      title='Tipos de corte'
       description='Visualiza y administra los tipos de corte registrados'
       tabs={<SectionTabs tabs={QUALITY_CATALOG_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Tipo de Corte'
+            aria-label='Agregar tipo de corte'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

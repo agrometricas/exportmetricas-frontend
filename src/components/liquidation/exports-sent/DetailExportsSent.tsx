@@ -34,22 +34,22 @@ const DetailExportSent = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Nombre del Comerciante'>
+              <DetailField label='Nombre del comerciante'>
                 {ex.merchant.businessName}
               </DetailField>
               <DetailField label='RUC'>{ex.merchant.businessId}</DetailField>
               <DetailField label='Email'>{ex.merchant.email}</DetailField>
               <DetailField label='Dirección'>{ex.merchant.address}</DetailField>
-              <DetailField label='Tipo de Contrato'>
+              <DetailField label='Tipo de contrato'>
                 {ex.merchant.contractType}
               </DetailField>
               <DetailField label='Finca'>
                 {ex.business.name}, {ex.business.address}
               </DetailField>
-              <DetailField label='Tipo de Fruta'>
+              <DetailField label='Tipo de fruta'>
                 {ex.business.fruitType}
               </DetailField>
-              <DetailField label='Área Cultivada'>
+              <DetailField label='Área cultivada'>
                 {ex.business.area} ha
               </DetailField>
             </DetailFields>
@@ -69,19 +69,19 @@ const DetailExportSent = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Marca de Cajas'>
+              <DetailField label='Marca de cajas'>
                 {ex.boxBrand.name}
               </DetailField>
-              <DetailField label='Código de Marca'>
+              <DetailField label='Código de marca'>
                 {ex.boxBrand.brandCode}
               </DetailField>
-              <DetailField label='Cantidad Total'>
+              <DetailField label='Cantidad total'>
                 {ex.boxQuantity} cajas
               </DetailField>
-              <DetailField label='Peso Neto por Caja'>
+              <DetailField label='Peso neto por caja'>
                 {ex.boxBrand.netWeightBox} lbs
               </DetailField>
-              <DetailField label='Peso Bruto por Caja'>
+              <DetailField label='Peso bruto por caja'>
                 {ex.boxBrand.grossWeightBox} lbs
               </DetailField>
             </DetailFields>
@@ -138,7 +138,7 @@ const DetailExportSent = ({
                 <DetailField label='Protectores'>
                   {exportSent.protectorQuantity} unidades
                 </DetailField>
-                <DetailField label='Bolsas de Racimo'>
+                <DetailField label='Bolsas de racimo'>
                   {exportSent.clusterBagQuantity} unidades
                 </DetailField>
                 <DetailField label='Grampas'>
@@ -156,19 +156,19 @@ const DetailExportSent = ({
                 <DetailField label='Etiquetas Metto'>
                   {exportSent.mettoLabelQuantity} unidades
                 </DetailField>
-                <DetailField label='Removedor de Látex'>
+                <DetailField label='Removedor de látex'>
                   {exportSent.latexRemoverQuantity} unidades
                 </DetailField>
-                <DetailField label='Hojas de Bloqueo'>
+                <DetailField label='Hojas de bloqueo'>
                   {exportSent.blockingSheetQuantity} unidades
                 </DetailField>
-                <DetailField label='Plástico de Cierre Contenedor'>
+                <DetailField label='Plástico de cierre contenedor'>
                   {exportSent.containerSealPlasticQuantity} unidades
                 </DetailField>
-                <DetailField label='Kit de Seguridad'>
+                <DetailField label='Kit de seguridad'>
                   {exportSent.securityKitQuantity} unidades
                 </DetailField>
-                <DetailField label='Tarjeta de Embarque'>
+                <DetailField label='Tarjeta de embarque'>
                   {exportSent.boardingCardQuantity} unidades
                 </DetailField>
                 <DetailField label='Stickers'>
@@ -249,12 +249,12 @@ const DetailExportSent = ({
           <Accordion.ItemBody>
             <Box>
               <DetailFields>
-                <DetailField label='Puerto de Salida'>
+                <DetailField label='Puerto de salida'>
                   {ex.harborDeparture
                     ? `${ex.harborDeparture.name}, ${ex.harborDeparture.address}, ${ex.harborDeparture.type}`
                     : 'No disponible'}
                 </DetailField>
-                <DetailField label='Puerto de Destino'>
+                <DetailField label='Puerto de destino'>
                   {ex.harborDestination
                     ? `${ex.harborDestination.name}, ${ex.harborDestination.address}, ${ex.harborDestination.type}`
                     : 'No disponible'}

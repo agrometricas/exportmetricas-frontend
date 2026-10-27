@@ -9,7 +9,7 @@ function AddShippingCompanyPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdDirectionsBoat}
-      title='Agregar Nueva Naviera'
+      title='Agregar nueva naviera'
       description='Completa el formulario para registrar una naviera'
     >
       <AddShippingCompanyForm />

@@ -68,7 +68,7 @@ const AddSpongeForm = ({ onClose }: AddSpongeFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Esponja creada con Éxito',
+            title: 'Esponja creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -90,7 +90,7 @@ const AddSpongeForm = ({ onClose }: AddSpongeFormProps): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Esponja</FormSectionTitle>
+            <FormSectionTitle>Agregar esponja</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

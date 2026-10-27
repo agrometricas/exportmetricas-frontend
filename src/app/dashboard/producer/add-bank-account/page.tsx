@@ -9,7 +9,7 @@ function AddBankAccountPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAccountBalance}
-      title='Agregar Cuenta Bancaria'
+      title='Agregar cuenta bancaria'
       description='Completa el formulario para registrar una cuenta bancaria'
     >
       <AddBankAccountForm />

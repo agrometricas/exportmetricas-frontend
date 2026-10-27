@@ -34,11 +34,11 @@ const TableCuttingTypes = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        header: 'Corte y Calidad',
+        header: 'Corte y calidad',
         columns: [
           {
             accessorKey: 'shipmentType',
-            header: 'Tipo de Corte',
+            header: 'Tipo de corte',
             Cell: ({ row }): React.JSX.Element => (
               <HStack gap={2}>
                 <Text>{row.original.shipmentType}</Text>
@@ -63,65 +63,65 @@ const TableCuttingTypes = (): React.JSX.Element => {
           },
           {
             accessorKey: 'leavesAtHarvest',
-            header: 'Hojas en Cosecha',
+            header: 'Hojas en cosecha',
           },
           {
             accessorKey: 'maxAgeAtCut',
-            header: 'Edad Máxima al Corte',
+            header: 'Edad máxima al corte',
           },
           {
             accessorKey: 'fingerLength',
-            header: 'Longitud del Dedo',
+            header: 'Longitud del dedo',
           },
           {
             accessorKey: 'minCaliber',
-            header: 'Calibre Mínimo',
+            header: 'Calibre mínimo',
           },
           {
             accessorKey: 'maxCaliber',
-            header: 'Calibre Máximo',
+            header: 'Calibre máximo',
           },
         ],
       },
       {
-        header: 'Detalles de Empaque',
+        header: 'Detalles de empaque',
         columns: [
           {
             accessorKey: 'saneos',
-            header: 'Saneos por Caja',
+            header: 'Saneos por caja',
           },
           {
             accessorKey: 'cunas',
-            header: 'Cuñas por Caja',
+            header: 'Cuñas por caja',
           },
           {
             accessorKey: 'clusterDetail',
-            header: 'Detalle de Clúster',
+            header: 'Detalle de clúster',
           },
           {
             accessorKey: 'labelDetail',
-            header: 'Detalle de Etiqueta',
+            header: 'Detalle de etiqueta',
           },
         ],
       },
       {
-        header: 'Primera Clasificación',
+        header: 'Primera clasificación',
         columns: [
           {
             accessorKey: 'firstLine',
-            header: 'Primera Línea',
+            header: 'Primera línea',
           },
           {
             accessorKey: 'secondLine',
-            header: 'Segunda Línea',
+            header: 'Segunda línea',
           },
           {
             accessorKey: 'thirdLine',
-            header: 'Tercera Línea',
+            header: 'Tercera línea',
           },
           {
             accessorKey: 'fourthLine',
-            header: 'Cuarta Línea',
+            header: 'Cuarta línea',
           },
         ],
       },
@@ -130,11 +130,11 @@ const TableCuttingTypes = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'packagingPattern',
-            header: 'Patrón de Empaque',
+            header: 'Patrón de empaque',
           },
           {
             accessorKey: 'generalObservations',
-            header: 'Observaciones Generales',
+            header: 'Observaciones generales',
             size: 250,
             Cell: ({ cell }): React.ReactNode => (
               <span style={{ whiteSpace: 'normal' }}>

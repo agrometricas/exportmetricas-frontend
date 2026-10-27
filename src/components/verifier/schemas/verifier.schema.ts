@@ -52,7 +52,7 @@ export const validationSchema = Yup.object({
                 phone: Yup.string()
                     .matches(
                         /^\+\d{7,15}$/,
-                        'Debes incluir el codigo del País. Ejemplo: +593987654321 (Ecuador)'
+                        'Debes incluir el codigo del país. Ejemplo: +593987654321 (Ecuador)'
                     )
                     .trim()
                     .required('Requerido'),

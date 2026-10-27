@@ -74,7 +74,7 @@ const UploadLogoForm = (): React.JSX.Element => {
           },
           onSuccess: async () => {
             toaster.create({
-              title: 'Imagen Subida con Éxito',
+              title: 'Imagen subida con éxito',
               description: 'Puede tardar unos segundos',
               type: 'success',
               duration: 5000,
@@ -99,11 +99,11 @@ const UploadLogoForm = (): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Cambia tu Logo de Exportadora</FormSectionTitle>
+            <FormSectionTitle>Cambia tu logo de exportadora</FormSectionTitle>
             {user?.exporterDetails.logoUrl ? (
               <Image
                 src={user.exporterDetails.logoUrl}
-                alt='Logo de la Empresa'
+                alt='Logo de la empresa'
                 boxSize='100px'
                 objectFit='cover'
                 my={2}
@@ -115,7 +115,7 @@ const UploadLogoForm = (): React.JSX.Element => {
               </Text>
             )}
 
-            <FormSectionTitle>Subir Logo</FormSectionTitle>
+            <FormSectionTitle>Subir logo</FormSectionTitle>
 
             <UploadLogoFile name={'logoImg'} />
           </Flex>

@@ -58,7 +58,7 @@ export function CreateBusinessStockAssignmentForm({
           {
             onSuccess: () => {
               toaster.create({
-                title: 'Stock Asignado Exitosamente.',
+                title: 'Stock asignado exitosamente.',
                 type: 'success',
                 duration: 3000,
                 closable: true,
@@ -67,7 +67,7 @@ export function CreateBusinessStockAssignmentForm({
             },
             onError: (error: unknown) => {
               toaster.create({
-                title: 'Error al Asignar Stock.',
+                title: 'Error al asignar stock.',
                 description: serverErrorMessage(error),
                 type: 'error',
                 duration: 3000,
@@ -83,13 +83,13 @@ export function CreateBusinessStockAssignmentForm({
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
             <InputFieldNumber
               name='availableStock'
-              label='Stock Disponible'
+              label='Stock disponible'
               value={availableStock}
               isReadOnly
             />
             <InputFieldNumber
               name='quantity'
-              label='Cantidad a Asignar'
+              label='Cantidad a asignar'
               placeholder='0'
             />
           </SimpleGrid>

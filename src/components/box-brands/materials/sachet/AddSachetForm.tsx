@@ -102,7 +102,7 @@ const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Sachet Creado con Éxito',
+            title: 'Sachet creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -128,7 +128,7 @@ const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Sachet</FormSectionTitle>
+              <FormSectionTitle>Agregar sachet</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

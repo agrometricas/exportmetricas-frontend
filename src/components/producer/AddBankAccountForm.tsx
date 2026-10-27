@@ -197,7 +197,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Cuenta Bancaria Agregada con Éxito',
+            title: 'Cuenta bancaria agregada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -253,13 +253,13 @@ const AddBankAccountForm = (): React.JSX.Element => {
             </FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldText name={'bank'} label={'Banco'} placeholder='Nombre del Banco' />
-              <InputFieldText name={'owner'} label={'Propietario'} placeholder='Propietario de la Cuenta' />
+              <InputFieldText name={'bank'} label={'Banco'} placeholder='Nombre del banco' />
+              <InputFieldText name={'owner'} label={'Propietario'} placeholder='Propietario de la cuenta' />
               <InputFieldText name={'ownerID'} label={'Identificación'} />
-              <InputFieldText name={'accountNumber'} label={'N° de Cuenta'} />
+              <InputFieldText name={'accountNumber'} label={'N° de cuenta'} />
               <InputFieldSelector
                 name={'type'}
-                label={'Tipo de Cuenta'}
+                label={'Tipo de cuenta'}
                 options={typesOpt}
               />
               <InputFieldText name={'email'} label={'E-mail'} />

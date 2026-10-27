@@ -18,7 +18,7 @@ function ExportFromLinePage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdLocalShipping}
-      title='Crear Exportación'
+      title='Crear exportación'
       description={
         order
           ? `De la orden de compra de ${order.merchant.businessName} · ${getWeekInfo({ date: new Date(order.weekStart) }).week}`

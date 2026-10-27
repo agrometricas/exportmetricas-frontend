@@ -33,7 +33,7 @@ const TableDeposits = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'name',
-          header: 'Nombre del Depósito',
+          header: 'Nombre del depósito',
         },
         {
           accessorKey: 'code',
@@ -75,11 +75,11 @@ const TableDeposits = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'openTime',
-          header: 'Hora de Apertura',
+          header: 'Hora de apertura',
         },
         {
           accessorKey: 'closeTime',
-          header: 'Hora de Cierre',
+          header: 'Hora de cierre',
         },
       ],
     },

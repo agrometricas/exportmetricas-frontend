@@ -36,76 +36,76 @@ const TableExportsSent = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'export.id',
-            header: 'ID de Exportación',
+            header: 'ID de exportación',
           },
         ],
       },
       {
-        header: 'Información Básica',
+        header: 'Información básica',
         columns: [
           {
             accessorKey: 'export.id',
-            header: 'ID de Exportación',
+            header: 'ID de exportación',
           },
           {
             accessorKey: 'export.boxQuantity',
-            header: 'Cantidad de Cajas',
+            header: 'Cantidad de cajas',
           },
           {
             accessorKey: 'export.boxBrand.name',
-            header: 'Marca de Cajas',
+            header: 'Marca de cajas',
           },
           {
             accessorKey: 'export.boxBrand.brandCode',
-            header: 'Código de Marca',
+            header: 'Código de marca',
           },
         ],
       },
       {
-        header: 'Información de Producto',
+        header: 'Información de producto',
         columns: [
           {
             accessorKey: 'export.boxBrand.netWeightBox',
-            header: 'Peso Neto por Caja',
+            header: 'Peso neto por caja',
           },
           {
             accessorKey: 'export.boxBrand.grossWeightBox',
-            header: 'Peso Bruto por Caja',
+            header: 'Peso bruto por caja',
           },
         ],
       },
       {
-        header: 'Información de Logística',
+        header: 'Información de logística',
         columns: [
           {
             accessorKey: 'export.harborDeparture.name',
-            header: 'Puerto de Salida',
+            header: 'Puerto de salida',
           },
           {
             accessorKey: 'export.harborDestination.name',
-            header: 'Puerto de Destino',
+            header: 'Puerto de destino',
           },
           {
             accessorKey: 'export.pendingExportSent',
-            header: 'Pendiente de Envío',
+            header: 'Pendiente de envío',
             Cell: ({ cell }) => (cell.getValue() ? 'Sí' : 'No'),
           },
         ],
       },
       {
-        header: 'Información Comercial',
+        header: 'Información comercial',
         columns: [
           {
             accessorKey: 'export.merchant.businessName',
-            header: 'Nombre del Comerciante',
+            header: 'Nombre del comerciante',
           },
           {
             accessorKey: 'export.business.name',
-            header: 'Nombre de la Empresa',
+            header: 'Nombre de la empresa',
           },
           {
             accessorKey: 'export.client.businessName',
-            header: 'Nombre del Cliente',
+            header: 'Nombre del cliente',
           },
         ],
       },

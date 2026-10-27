@@ -17,7 +17,7 @@ function EditBusinessPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdAgriculture}
-      title='Editar Finca'
+      title='Editar finca'
       description='Datos, ubicación, códigos, contactos y certificados de la finca'
     >
       {isLoading || !business ? (

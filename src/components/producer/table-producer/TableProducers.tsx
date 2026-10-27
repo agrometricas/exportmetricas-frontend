@@ -36,13 +36,13 @@ const TableProducers = (): React.JSX.Element => {
       columns: [
         { accessorKey: 'businessName', header: 'Nombre' },
         { accessorKey: 'city.name', header: 'Ciudad' },
-        { accessorKey: 'email', header: 'Correo Electrónico' },
+        { accessorKey: 'email', header: 'Correo electrónico' },
         { accessorKey: 'businessId', header: 'RUC' },
       ],
     },
     {
       accessorKey: 'details',
-      header: 'Detalles de Finca',
+      header: 'Detalles de finca',
       columns: [
         { accessorKey: 'address', header: 'Dirección' },
         {
@@ -59,7 +59,7 @@ const TableProducers = (): React.JSX.Element => {
         },
         {
           accessorFn: (row) => row.businesses.map(b => b.fruitType).join(', '),
-          header: 'Tipo de Cultivo',
+          header: 'Tipo de cultivo',
         },
         {
           accessorFn: (row) => row.businesses.map(b => `${b.area} ha`).join(', '),
@@ -91,7 +91,7 @@ const TableProducers = (): React.JSX.Element => {
     {
       header: 'Contrato',
       columns: [
-        { accessorKey: 'contractType', header: 'Tipo de Contrato' },
+        { accessorKey: 'contractType', header: 'Tipo de contrato' },
       ],
     },
   ], []);

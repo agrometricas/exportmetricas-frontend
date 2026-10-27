@@ -18,7 +18,7 @@ function ExportPlanPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineViewWeek}
-      title='Plan Semanal'
+      title='Plan semanal'
       description={
         order
           ? `${order.merchant.businessName} · ${getWeekInfo({ date: new Date(order.weekStart) }).week}`

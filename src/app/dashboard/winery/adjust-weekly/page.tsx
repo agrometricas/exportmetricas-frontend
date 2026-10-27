@@ -9,7 +9,7 @@ function AdjustWeeklyPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdTune}
-      title='Ajuste Semanal'
+      title='Ajuste semanal'
       description='Realiza ajustes semanales de stock por finca'
       width='wide'
     >

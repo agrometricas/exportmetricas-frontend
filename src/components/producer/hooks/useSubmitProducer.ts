@@ -64,7 +64,7 @@ export function useSubmitProducer(): {
                 },
                 onSuccess: async () => {
                     toaster.create({
-                        title: 'Productor Creado con Éxito',
+                        title: 'Productor creado con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

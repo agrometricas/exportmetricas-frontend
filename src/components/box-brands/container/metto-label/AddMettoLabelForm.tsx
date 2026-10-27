@@ -108,7 +108,7 @@ const AddMettoLabelForm = ({
       },
       onSuccess: () => {
         toaster.create({
-          title: 'Etiqueta Metto Creada con Éxito',
+          title: 'Etiqueta Metto creada con éxito',
           type: 'success',
           duration: 5000,
           closable: true,

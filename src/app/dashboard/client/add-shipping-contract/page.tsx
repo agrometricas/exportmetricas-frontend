@@ -9,7 +9,7 @@ function AddShippingContractPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdDirectionsBoat}
-      title='Agregar Contrato Naviero'
+      title='Agregar contrato naviero'
       description='Registra las rutas de una naviera con su costo por contenedor y vigencia'
     >
       <ShippingContractForm />

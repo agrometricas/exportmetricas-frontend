@@ -85,7 +85,7 @@ const UpdateExporterForm = ({
     try {
       await updateExporter({ ...exporterData, exporterId });
       toaster.create({
-        title: 'Exportadora Actualizada con éxito',
+        title: 'Exportadora actualizada con éxito',
         type: 'success',
         duration: 5000,
         closable: true,
@@ -144,7 +144,7 @@ const UpdateExporterForm = ({
                   </Badge>
                 </Text>
                 <Text>
-                  <strong>Estado de Cuenta:</strong>{' '}
+                  <strong>Estado de cuenta:</strong>{' '}
                   <Badge
                     ml={2}
                     colorPalette={

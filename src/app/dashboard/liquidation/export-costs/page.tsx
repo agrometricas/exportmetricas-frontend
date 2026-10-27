@@ -25,12 +25,12 @@ function ConfirmedExportSentsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdAttachMoney}
-      title='Gestión de Costos de Exportación'
+      title='Gestión de costos de exportación'
       description='Visualiza y administra los costos validados'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Costos Validados'
+            aria-label='Agregar costos validados'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

@@ -31,11 +31,11 @@ const DetailShippingCompanies = ({
               <DetailField label='Frecuencia'>
                 {company.frequencies}
               </DetailField>
-              <DetailField label='Tipo de Carga'>
+              <DetailField label='Tipo de carga'>
                 {company.cargoType}
               </DetailField>
               <DetailField label='País'>{company.country.name}</DetailField>
-              <DetailField label='Plataforma de Tracking'>
+              <DetailField label='Plataforma de tracking'>
                 {company.trackingPlatform || 'No disponible'}
               </DetailField>
             </DetailFields>
@@ -57,13 +57,13 @@ const DetailShippingCompanies = ({
             {company.harbors.map((harbor, index) => (
               <Box key={index} mt={3} borderBottomWidth='1px' pb={2}>
                 <DetailFields>
-                  <DetailField label='Puerto de Salida'>
+                  <DetailField label='Puerto de salida'>
                     {harbor.harborDeparture.name}
                   </DetailField>
-                  <DetailField label='Puerto de Llegada'>
+                  <DetailField label='Puerto de llegada'>
                     {harbor.harborDestination.name}
                   </DetailField>
-                  <DetailField label='Duración Estimada'>
+                  <DetailField label='Duración estimada'>
                     {harbor.estDuration}
                   </DetailField>
                 </DetailFields>

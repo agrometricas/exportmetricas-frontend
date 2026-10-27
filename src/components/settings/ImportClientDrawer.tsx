@@ -128,7 +128,7 @@ const ImportClientDrawer: React.FC = () => {
           <Drawer.Positioner>
             <Drawer.Content>
               <Drawer.CloseTrigger />
-              <Drawer.Header>Importar Clientes</Drawer.Header>
+              <Drawer.Header>Importar clientes</Drawer.Header>
 
               <Drawer.Body>
                 {fileName ? (

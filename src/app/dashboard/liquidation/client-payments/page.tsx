@@ -24,12 +24,12 @@ function SearchClientPaymentsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdRequestQuote}
-      title='Cobros a Clientes'
+      title='Cobros a clientes'
       description='Visualiza y controla los cobros registrados de tus clientes'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Cobro a Clientes'
+            aria-label='Agregar cobro a clientes'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

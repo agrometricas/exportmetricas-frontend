@@ -36,18 +36,18 @@ const AddTransportForm: React.FC = () => {
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
-                label='Nombre de la Compañía de Transporte'
-                placeholder='Nombre del Transporte'
+                label='Nombre de la compañía de transporte'
+                placeholder='Nombre del transporte'
               />
               <InputFieldText
                 name='ruc'
                 label='RUC'
-                placeholder='RUC del Transporte'
+                placeholder='RUC del transporte'
               />
               <InputFieldText
                 name='address'
                 label='Dirección'
-                placeholder='Dirección de Referencia'
+                placeholder='Dirección de referencia'
               />
               <InputFieldCertificationMultiSelect
                 name='certifications'

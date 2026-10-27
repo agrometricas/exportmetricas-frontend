@@ -9,7 +9,7 @@ function AddPurchaseOrderPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineAssignment}
-      title='Agregar Orden de Compra'
+      title='Agregar orden de compra'
       description='Por finca: alícuota, cajas y si va contra el cupo del contrato o es spot'
       width='wide'
     >

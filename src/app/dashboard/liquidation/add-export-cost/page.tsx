@@ -9,7 +9,7 @@ function ExportCostPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdRequestQuote}
-      title='Costos de Exportación'
+      title='Costos de exportación'
       description='Revisa y valida los costos de exportaciones pendientes'
       width='wide'
     >

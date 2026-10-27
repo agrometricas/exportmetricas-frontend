@@ -50,7 +50,7 @@ const TableBookings = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Zarpe y Llegada',
+        header: 'Zarpe y llegada',
         columns: [
           {
             accessorKey: 'etd',
@@ -73,7 +73,7 @@ const TableBookings = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Contenedores y Flete',
+        header: 'Contenedores y flete',
         columns: [
           {
             id: 'containers',
@@ -99,7 +99,7 @@ const TableBookings = (): React.JSX.Element => {
           {
             accessorKey: 'estimatedFreight',
             size: 115,
-            header: 'Flete Est.',
+            header: 'Flete est.',
             Cell: ({ row }): React.JSX.Element => (
               <VStack align='start' gap={0}>
                 <Text fontSize='sm' fontWeight='semibold'>

@@ -24,12 +24,12 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdAssignment}
-      title='Hojas de Corte'
+      title='Hojas de corte'
       description='Visualiza y administra las hojas de corte registradas'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Hoja de Corte'
+            aria-label='Agregar hoja de corte'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

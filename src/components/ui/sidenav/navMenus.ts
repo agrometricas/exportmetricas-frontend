@@ -3,14 +3,14 @@ import { SidenavMenuItem } from './sidenav-items';
 
 export const PRODUCER_MENU: SidenavMenuItem[] = [
   { label: 'Productores', to: '/dashboard/producer/producers' },
-  { label: 'Agregar Productor', to: '/dashboard/producer/add-producer' },
+  { label: 'Agregar productor', to: '/dashboard/producer/add-producer' },
   { label: 'Fincas', to: '/dashboard/producer/fincas' },
-  { label: 'Agregar Finca', to: '/dashboard/producer/add-fincas' },
+  { label: 'Agregar finca', to: '/dashboard/producer/add-fincas' },
   { label: 'Contratos', to: '/dashboard/producer/contracts' },
-  { label: 'Agregar Contrato', to: '/dashboard/producer/add-contract' },
-  { label: 'Cupos de la Semana', to: '/dashboard/producer/contract-usage' },
+  { label: 'Agregar contrato', to: '/dashboard/producer/add-contract' },
+  { label: 'Cupos de la semana', to: '/dashboard/producer/contract-usage' },
   {
-    label: 'Agregar Cuenta Bancaria',
+    label: 'Agregar cuenta bancaria',
     to: '/dashboard/producer/add-bank-account',
   },
 ];
@@ -28,7 +28,7 @@ export const LOGISTICS_TABS: SectionTab[] = [
     add: '/dashboard/client/add-shipping-company',
   },
   {
-    label: 'Contratos Navieros',
+    label: 'Contratos navieros',
     to: '/dashboard/client/shipping-contracts',
     add: '/dashboard/client/add-shipping-contract',
   },
@@ -42,7 +42,7 @@ export const LOGISTICS_TABS: SectionTab[] = [
     to: '/dashboard/client/transports',
     add: '/dashboard/client/add-transport',
   },
-  { label: 'Tarifas de Transporte', to: '/dashboard/client/transport-rates' },
+  { label: 'Tarifas de transporte', to: '/dashboard/client/transport-rates' },
 ];
 
 export const QUALITY_CATALOG_TABS: SectionTab[] = [
@@ -52,7 +52,7 @@ export const QUALITY_CATALOG_TABS: SectionTab[] = [
     add: '/dashboard/box-brands/add-verifier',
   },
   {
-    label: 'Tipos de Corte',
+    label: 'Tipos de corte',
     to: '/dashboard/box-brands/cutting-types',
     add: '/dashboard/box-brands/add-cutting-type',
   },
@@ -60,53 +60,53 @@ export const QUALITY_CATALOG_TABS: SectionTab[] = [
 
 export const CLIENT_MENU: SidenavMenuItem[] = [
   { label: 'Clientes', to: '/dashboard/client/clients' },
-  { label: 'Agregar Clientes', to: '/dashboard/client/add-client' },
+  { label: 'Agregar clientes', to: '/dashboard/client/add-client' },
   {
     label: 'Logística',
     to: LOGISTICS_TABS[0].to,
     match: sectionTabPaths(LOGISTICS_TABS),
   },
   {
-    label: 'Totales por Contraparte',
+    label: 'Totales por contraparte',
     to: '/dashboard/client/counterpart-totals',
   },
 ];
 
 export const BOX_BRANDS_MENU: SidenavMenuItem[] = [
   { label: 'Alícuotas', to: '/dashboard/box-brands/search' },
-  { label: 'Agregar Alícuotas', to: '/dashboard/box-brands/add-box-brand' },
+  { label: 'Agregar alícuotas', to: '/dashboard/box-brands/add-box-brand' },
   { label: 'Logos', to: '/dashboard/logos' },
 ];
 
 export const WINERY_MENU: SidenavMenuItem[] = [
   { label: 'Stock', to: '/dashboard/winery/stock' },
-  { label: 'Agregar Stock', to: '/dashboard/winery/add-material' },
+  { label: 'Agregar stock', to: '/dashboard/winery/add-material' },
 
-  { label: 'Trazabilidad de Stock', to: '/dashboard/winery/stock-movements' },
-  { label: 'Ajuste Semanal', to: '/dashboard/winery/adjust-weekly' },
+  { label: 'Trazabilidad de stock', to: '/dashboard/winery/stock-movements' },
+  { label: 'Ajuste semanal', to: '/dashboard/winery/adjust-weekly' },
 ];
 
 export function getExportMenu(counts: {
   addSupplyShipment: number;
 }): SidenavMenuItem[] {
   return [
-    { label: 'Órdenes de Compra', to: '/dashboard/export/purchase-orders' },
+    { label: 'Órdenes de compra', to: '/dashboard/export/purchase-orders' },
     {
-      label: 'Agregar Órdenes de Compra',
+      label: 'Agregar órdenes de compra',
       to: '/dashboard/export/add-purchase-order',
     },
 
     { label: 'Exportaciones', to: '/dashboard/export/search' },
-    { label: 'Agregar Exportaciones', to: '/dashboard/export/add-export' },
+    { label: 'Agregar exportaciones', to: '/dashboard/export/add-export' },
 
     { label: 'Bookings', to: '/dashboard/export/bookings' },
-    { label: 'Agregar Bookings', to: '/dashboard/export/add-booking' },
+    { label: 'Agregar bookings', to: '/dashboard/export/add-booking' },
 
     { label: 'Documentos', to: '/dashboard/export/documents' },
 
-    { label: 'Envíos de Insumos', to: '/dashboard/liquidation/exports-sent' },
+    { label: 'Envíos de insumos', to: '/dashboard/liquidation/exports-sent' },
     {
-      label: 'Agregar Envíos de Insumos',
+      label: 'Agregar envíos de insumos',
       to: '/dashboard/liquidation/add-supply-shipment',
       count: counts.addSupplyShipment,
     },
@@ -117,14 +117,14 @@ export function getQualityMenu(counts: {
   addCuttingSheet: number;
 }): SidenavMenuItem[] {
   return [
-    { label: 'Hojas de Corte', to: '/dashboard/export/cutting-sheets' },
+    { label: 'Hojas de corte', to: '/dashboard/export/cutting-sheets' },
     {
-      label: 'Agregar Hojas de Corte',
+      label: 'Agregar hojas de corte',
       to: '/dashboard/export/add-cutting-sheet',
       count: counts.addCuttingSheet,
     },
     {
-      label: 'Verificadoras y Tipos de Corte',
+      label: 'Verificadoras y tipos de corte',
       to: QUALITY_CATALOG_TABS[0].to,
       match: sectionTabPaths(QUALITY_CATALOG_TABS),
     },
@@ -137,38 +137,38 @@ export function getLiquidationMenu(counts: {
   exportSentCostsPending: number;
 }): SidenavMenuItem[] {
   return [
-    { label: 'Hoja de Precios', to: '/dashboard/liquidation/price-sheet' },
+    { label: 'Hoja de precios', to: '/dashboard/liquidation/price-sheet' },
 
-    { label: 'Costos Validados', to: '/dashboard/liquidation/export-costs' },
+    { label: 'Costos validados', to: '/dashboard/liquidation/export-costs' },
     {
-      label: 'Agregar Costos Validados',
+      label: 'Agregar costos validados',
       to: '/dashboard/liquidation/add-export-cost',
       count: counts.exportSentCostsPending,
     },
 
     {
-      label: 'Pago Productores',
+      label: 'Pago productores',
       to: '/dashboard/liquidation/producer-payments',
     },
     {
-      label: 'Agregar Pago Productores',
+      label: 'Agregar pago productores',
       to: '/dashboard/liquidation/producer-pending-payments',
       count: counts.producerPendingPayments,
     },
 
     {
-      label: 'Cobro Clientes',
+      label: 'Cobro clientes',
       to: '/dashboard/liquidation/client-payments',
     },
     {
-      label: 'Agregar Cobro Clientes',
+      label: 'Agregar cobro clientes',
       to: '/dashboard/liquidation/client-pending-payments',
       count: counts.clientPendingPayments,
     },
 
-    { label: 'Cuentas Bancarias', to: '/dashboard/client/bank-accounts' },
+    { label: 'Cuentas bancarias', to: '/dashboard/client/bank-accounts' },
     {
-      label: 'Agregar Cuentas Bancarias',
+      label: 'Agregar cuentas bancarias',
       to: '/dashboard/client/add-bank-account',
     },
   ];
@@ -184,13 +184,13 @@ export function getSettingsMenu(
       : []),
     { label: 'Logos', to: '/dashboard/logos' },
     {
-      label: 'Unidades de Materiales',
+      label: 'Unidades de materiales',
       to: '/dashboard/settings/material-units',
     },
-    { label: 'Precio Mínimo', to: '/dashboard/settings/minimum-box-price' },
-    { label: 'Tipos de Caja', to: '/dashboard/settings/box-types' },
+    { label: 'Precio mínimo', to: '/dashboard/settings/minimum-box-price' },
+    { label: 'Tipos de caja', to: '/dashboard/settings/box-types' },
     {
-      label: 'Modificar Ubicación',
+      label: 'Modificar ubicación',
       to: `/dashboard/user/update-user/${exporterId}`,
     },
   ];

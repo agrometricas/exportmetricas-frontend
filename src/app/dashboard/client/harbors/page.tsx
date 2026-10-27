@@ -27,13 +27,13 @@ function HarborsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdAnchor}
-      title='Gestión de Puertos'
+      title='Gestión de puertos'
       description='Visualiza y administra los puertos registrados'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Puerto'
+            aria-label='Agregar puerto'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

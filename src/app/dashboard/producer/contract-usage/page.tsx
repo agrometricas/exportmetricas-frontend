@@ -9,7 +9,7 @@ function ContractUsagePage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdWarningAmber}
-      title='Cupos de la Semana'
+      title='Cupos de la semana'
       description='Cajas exportadas por cada finca contra las aprobadas en su contrato'
       width='wide'
     >

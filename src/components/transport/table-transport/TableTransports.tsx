@@ -41,7 +41,7 @@ const TableTransports = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'satelliteTracking',
-          header: 'Rastreo Satelital',
+          header: 'Rastreo satelital',
           Cell: ({ cell }) => (cell.getValue<boolean>() ? 'Sí' : 'No'),
         },
       ],

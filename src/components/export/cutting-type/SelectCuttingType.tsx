@@ -36,24 +36,24 @@ const SelectCuttingType: React.FC<SelectCuttingTypeProps> = ({
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldCuttingTypeSelect
           name={name}
-          label={'Tipo de Corte'}
-          placeholder={'Selecciona el Tipo de Corte'}
+          label={'Tipo de corte'}
+          placeholder={'Selecciona el tipo de corte'}
           setCuttingType={setCuttingType}
         />
         <Box>
           <FormLabel fontSize='sm'>Calidad</FormLabel>
-          <Input readOnly={true} value={cuttingType?.quality || ''} placeholder='Calidad del Corte' />
+          <Input readOnly={true} value={cuttingType?.quality || ''} placeholder='Calidad del corte' />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Detalle del Cluster</FormLabel>
-          <Input readOnly={true} value={cuttingType?.clusterDetail || ''} placeholder='Detalle del Cluster' />
+          <FormLabel fontSize='sm'>Detalle del cluster</FormLabel>
+          <Input readOnly={true} value={cuttingType?.clusterDetail || ''} placeholder='Detalle del cluster' />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Patrón de Empaque</FormLabel>
+          <FormLabel fontSize='sm'>Patrón de empaque</FormLabel>
           <Input
             readOnly={true}
             value={cuttingType?.packagingPattern || ''}
-            placeholder='Patrón de Empaque'
+            placeholder='Patrón de empaque'
           />
         </Box>
       </SimpleGrid>
