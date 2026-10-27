@@ -257,7 +257,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
             loading={isSaving}
             disabled={!isSettled}
           >
-            Guardar Precios
+            Guardar precios
           </Button>
         </>
       )}

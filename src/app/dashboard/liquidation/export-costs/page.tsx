@@ -50,7 +50,7 @@ function ConfirmedExportSentsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/liquidation/add-export-cost'>
               <FiPlus />
-              Agregar Costos Validados
+              Agregar costos validados
             </Link_Next>
           </Button>
         )

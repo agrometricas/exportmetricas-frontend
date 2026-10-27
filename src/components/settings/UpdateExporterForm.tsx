@@ -116,7 +116,7 @@ const UpdateExporterForm = ({
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <Box display='flex' flexDirection='column' gap={7}>
                 <FormSectionTitle>
-                  Información General
+                  Información general
                 </FormSectionTitle>
 
                 <Text>

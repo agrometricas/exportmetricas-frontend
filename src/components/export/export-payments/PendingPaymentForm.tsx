@@ -228,7 +228,7 @@ const PendingPaymentFields = ({
       />
 
       <FormSectionTitle>
-        Puerto de Salida
+        Puerto de salida
       </FormSectionTitle>
 
       <SelectHarbor
@@ -239,7 +239,7 @@ const PendingPaymentFields = ({
       />
 
       <FormSectionTitle>
-        Puerto de Destino
+        Puerto de destino
       </FormSectionTitle>
 
       <SelectHarbor
@@ -327,13 +327,13 @@ const PendingPaymentFields = ({
       />
 
       <FormSectionTitle>
-        Cuenta Bancaria Origen
+        Cuenta bancaria origen
       </FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} />
 
       <FormSectionTitle>
-        Cuenta Bancaria Destino
+        Cuenta bancaria destino
       </FormSectionTitle>
 
       <SelectBankAccount name={'destinationBankAccountId'} />
@@ -343,7 +343,7 @@ const PendingPaymentFields = ({
         <ReadOnlyAmount label={'Monto'} value={quote?.amount} />
       </SimpleGrid>
       <FormSectionTitle>
-        Subir Transferencia
+        Subir transferencia
       </FormSectionTitle>
       <UploadLogoFile name={'transferFile'} />
       <FormActions start={<CheckboxForm

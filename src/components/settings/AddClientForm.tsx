@@ -151,7 +151,7 @@ export default function AddClientForm(): React.JSX.Element {
                           disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
-                          Eliminar Contacto
+                          Eliminar contacto
                         </Button>
                       </SimpleGrid>
                       <Separator
@@ -169,7 +169,7 @@ export default function AddClientForm(): React.JSX.Element {
                         push({ name: '', role: '', email: '', phone: '' })
                       }
                     >
-                      Agregar Contacto
+                      Agregar contacto
                     </Button>
                   </SimpleGrid>
                 </>

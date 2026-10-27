@@ -53,7 +53,7 @@ function TransportsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-transport'>
               <FiPlus />
-              Agregar Transporte
+              Agregar transporte
             </Link_Next>
           </Button>
         )

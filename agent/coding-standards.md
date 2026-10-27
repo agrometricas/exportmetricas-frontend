@@ -27,8 +27,9 @@ the backend proposes.
 
 - A formula lives in one function, in `utils/`. If the same calculation appears
   in two components, extract it before adding the third.
-- The dashboard aggregates (boxes per day, totals per farm, producer vs. client
-  totals) are computed inline in components today. Extract before reusing.
+- The dashboard's figures (boxes per day, totals per farm, producer vs. client
+  totals) come ready from `GET /reports/week` through `useWeekSummary`. Its
+  components lay them out; they do not add them up.
 
 ## Data fetching: TanStack Query v5
 
@@ -51,8 +52,8 @@ the backend proposes.
   with `staleTime: Infinity`, `gcTime: Infinity` and no automatic refetch. Nothing refreshes by
   itself: every mutation must invalidate the keys it affects (a key invalidated
   while its page is closed loads again when the page opens), including the
-  `…Pending` lists that feed the sidebar badges. The `queryClient` exported from
-  `lib/react-query.ts` is not mounted — get the client with `useQueryClient()`.
+  `…Pending` lists that feed the sidebar badges. Get the client with
+  `useQueryClient()`.
 - The backend answers **200 with `[]` for an empty list**. Do not catch a 404
   in a list hook to return `[]`: it hides a mistyped route, which is how two
   hooks pointed at endpoints that never existed.

@@ -2,7 +2,6 @@
 'use client';
 import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -22,7 +21,10 @@ import {
   CONTAINER_POSITIONS,
   palletsHeightOptions,
 } from '../../../utils/cuttingSheetOptions';
-import { formatDayMonthYear } from '../../../utils/dayMonthYear';
+import {
+  formatDayMonthYear,
+  formatDayMonthYearTime,
+} from '../../../utils/dayMonthYear';
 import { returnTo } from '../../../utils/exportSteps';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import CheckboxForm from '../../ui/form/CheckboxForm';
@@ -31,7 +33,6 @@ import InputFieldText from '../../ui/form/InputFieldText';
 import UnsavedChangesGuard from '../../ui/form/UnsavedChangesGuard';
 import SelectCuttingType from '../cutting-type/SelectCuttingType';
 
-const timeZone = 'America/Guayaquil';
 
 const emptyExportData: ExportResponse = {
   id: 0,
@@ -380,7 +381,7 @@ const CuttingSheetForm = ({
     <Box>
       <Box>
         <FormSectionTitle>
-          Información de la Exportación
+          Información de la exportación
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
@@ -407,7 +408,7 @@ const CuttingSheetForm = ({
         />
 
         <FormSectionTitle>
-          Información de Envío
+          Información de envío
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
@@ -419,23 +420,14 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.estimatedTravelTime}
           />
           <DisplayField
-            label='Numero de booking'
+            label='Número de booking'
             value={finalValues.exportData?.bookingNumber}
           />
           <DisplayField
             label='Fecha máxima de ingreso'
-            value={
+            value={formatDayMonthYearTime(
               finalValues.exportData?.shippingDateTime
-                ? format(
-                  toZonedTime(
-                    finalValues.exportData?.shippingDateTime,
-                    timeZone
-                  ),
-                  'yyyy-MM-dd HH:mm:ss',
-                  { timeZone }
-                )
-                : ''
-            }
+            )}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
@@ -478,7 +470,7 @@ const CuttingSheetForm = ({
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
-            label='Deposito'
+            label='Depósito'
             value={finalValues.exportData?.deposit?.name}
           />
           <DisplayField
@@ -529,7 +521,7 @@ const CuttingSheetForm = ({
           />
         </SimpleGrid>
         <FormSectionTitle>
-          Información del Cliente
+          Información del cliente
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
@@ -554,7 +546,7 @@ const CuttingSheetForm = ({
           />
         </SimpleGrid>
         <FormSectionTitle>
-          Información del Productor
+          Información del productor
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
@@ -575,7 +567,7 @@ const CuttingSheetForm = ({
           />
         </SimpleGrid>
         <FormSectionTitle>
-          Información de la Finca
+          Información de la finca
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
@@ -596,7 +588,7 @@ const CuttingSheetForm = ({
           />
         </SimpleGrid>
         <FormSectionTitle>
-          Marca de Caja y Embalaje
+          Marca de caja y embalaje
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
@@ -646,7 +638,7 @@ const CuttingSheetForm = ({
           exportSentSelected?.clusterBagQuantity) && (
             <>
               <Heading size='sm' mt='4' mb='2'>
-                Materiales de Caja
+                Materiales de caja
               </Heading>
               <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {renderNameField(
@@ -782,7 +774,7 @@ const CuttingSheetForm = ({
         ].some((v) => typeof v === 'number' && v > 0) && (
             <>
               <Heading size='sm' mt='4' mb='2'>
-                Materiales por Contenedor
+                Materiales por contenedor
               </Heading>
               <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {renderNameField(
@@ -954,10 +946,10 @@ const CuttingSheetForm = ({
           )}
 
         <Heading size='sm' mt='4' mb='2'>
-          Insumos Post Cosecha{' '}
+          Insumos post cosecha{' '}
         </Heading>
         <Heading size='sm' mt='4' mb='2'>
-          Pesticide Cocktail
+          Cóctel de pesticidas
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           {exportSentSelected?.pesticideSent?.map((item, index) => (
@@ -972,7 +964,7 @@ const CuttingSheetForm = ({
           exportSentSelected.insecticideSent.length > 0 && (
             <>
               <Heading size='sm' mt='4' mb='2'>
-                Insecticide Cocktail
+                Cóctel de insecticidas
               </Heading>
               <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {exportSentSelected.insecticideSent?.map((item, index) => (
@@ -998,7 +990,7 @@ const CuttingSheetForm = ({
             <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <Flex direction='column' gap='4'>
               <FormSectionTitle divider>
-                Datos para la Hoja de Corte
+                Datos para la hoja de corte
               </FormSectionTitle>
               <SelectCuttingType name='cuttingTypeId' />
               <SimpleGrid columns={{ base: 1, md: 2 }} gap='4'>

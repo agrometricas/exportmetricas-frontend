@@ -1,22 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  QueryClient,
-  UseQueryOptions,
-  UseMutationOptions,
-  DefaultOptions,
-} from '@tanstack/react-query';
+import { UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { PromiseValue } from 'type-fest';
-
-const queryConfig: DefaultOptions = {
-  queries: {
-    throwOnError: true,
-    refetchOnWindowFocus: false,
-    retry: false,
-  },
-};
-
-export const queryClient = new QueryClient({ defaultOptions: queryConfig });
 
 export type ExtractFnReturnType<FnType extends (...args: any) => any> =
   PromiseValue<ReturnType<FnType>>;

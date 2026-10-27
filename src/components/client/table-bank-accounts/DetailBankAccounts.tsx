@@ -13,7 +13,7 @@ const DetailBankAccounts = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información de Cuenta
+              Información de cuenta
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -40,7 +40,7 @@ const DetailBankAccounts = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información de Entidad Asociada
+              Información de entidad asociada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

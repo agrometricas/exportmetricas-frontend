@@ -113,7 +113,7 @@ const UploadLogoForm = (): React.JSX.Element => {
               />
             ) : (
               <Text mt={4} fontStyle='italic'>
-                Logo No Disponible
+                Logo no disponible
               </Text>
             )}
 
@@ -130,7 +130,7 @@ const UploadLogoForm = (): React.JSX.Element => {
               colorPalette='green'
               loading={isLoading}
             >
-              Subir Imagen
+              Subir imagen
             </Button>
           </SimpleGrid>
         </Form>

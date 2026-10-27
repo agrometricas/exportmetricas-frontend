@@ -18,7 +18,7 @@ const DetailClients = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Datos Generales
+              Datos generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

@@ -177,7 +177,7 @@ const CorrectCuttingSheetForm = ({
                 />
                 <Field.Root>
                   <Field.Label fontSize='sm' mb='8px'>
-                    Bajo Cubierta
+                    Bajo cubierta
                   </Field.Label>
                   <Input
                     readOnly

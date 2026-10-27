@@ -116,7 +116,7 @@ const UploadLogoForm = (): React.JSX.Element => {
               colorPalette='green'
               loading={isLoading}
             >
-              Subir Imagen
+              Subir imagen
             </Button>
           </SimpleGrid>
         </Form>

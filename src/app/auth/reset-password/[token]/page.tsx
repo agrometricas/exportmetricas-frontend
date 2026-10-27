@@ -28,7 +28,7 @@ export default function ResetPasswordTokenPage(): React.JSX.Element {
       <Flex direction='column' maxW='480px' w='100%' p={4}>
         <Logo width={150} height={150} align='center' />
         <Heading fontSize='2xl' mt={4} mb={2}>
-          Nueva Contraseña
+          Nueva contraseña
         </Heading>
         <Text fontSize='sm' color='fg.muted' mb={8}>
           Ingresa una nueva contraseña segura y confírmala.

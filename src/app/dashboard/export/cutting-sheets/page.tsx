@@ -49,7 +49,7 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/export/add-cutting-sheet'>
               <FiPlus />
-              Agregar Hoja de Corte
+              Agregar hoja de corte
             </Link_Next>
           </Button>
         )

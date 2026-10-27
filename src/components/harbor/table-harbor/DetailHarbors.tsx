@@ -23,7 +23,7 @@ const DetailHarbors: React.FC<DetailHarborsProps> = ({ business }) => {
               fontSize='md'
               fontWeight='bold'
             >
-              Detalles del Puerto
+              Detalles del puerto
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

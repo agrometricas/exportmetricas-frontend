@@ -120,7 +120,7 @@ export function CreateInitialStockForm({
                 colorPalette='green'
                 loading={isLoading}
               >
-                Crear Stock Inicial
+                Crear stock inicial
               </Button>
             </SimpleGrid>
           </Flex>

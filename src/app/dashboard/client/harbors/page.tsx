@@ -53,7 +53,7 @@ function HarborsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-harbor'>
               <FiPlus />
-              Agregar Puerto
+              Agregar puerto
             </Link_Next>
           </Button>
         )

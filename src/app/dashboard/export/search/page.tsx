@@ -49,7 +49,7 @@ function SearchExportPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/export/add-export'>
               <FiPlus />
-              Agregar Exportación
+              Agregar exportación
             </Link_Next>
           </Button>
         )

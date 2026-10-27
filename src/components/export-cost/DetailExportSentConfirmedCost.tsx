@@ -18,7 +18,7 @@ export default function DetailExportSentConfirmedCost({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información General de la Exportación
+              Información general de la exportación
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -80,7 +80,7 @@ export default function DetailExportSentConfirmedCost({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalle de Materiales Utilizados
+              Detalle de materiales utilizados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

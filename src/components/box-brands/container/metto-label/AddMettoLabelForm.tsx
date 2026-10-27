@@ -135,7 +135,7 @@ const AddMettoLabelForm = ({
           <Form>
             <Flex flexDirection='column' gap={3}>
               <FormSectionTitle>
-                Agregar Etiqueta Metto
+                Agregar etiqueta Metto
               </FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />

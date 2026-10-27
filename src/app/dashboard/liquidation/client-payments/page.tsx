@@ -49,7 +49,7 @@ function SearchClientPaymentsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/liquidation/client-pending-payments'>
               <FiPlus />
-              Agregar Cobro a Clientes
+              Agregar cobro a clientes
             </Link_Next>
           </Button>
         )

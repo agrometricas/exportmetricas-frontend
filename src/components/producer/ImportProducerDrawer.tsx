@@ -111,7 +111,7 @@ const ImportProducerDrawer: React.FC = () => {
   return (
     <Box>
       <Button py='8px' px='16px' colorPalette='green' onClick={onOpen}>
-        Importar Productores
+        Importar productores
       </Button>
 
       <Drawer.Root

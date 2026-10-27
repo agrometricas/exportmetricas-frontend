@@ -18,7 +18,7 @@ const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles del Depósito
+              Detalles del depósito
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

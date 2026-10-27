@@ -52,7 +52,7 @@ function CuttingTypesPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/box-brands/add-cutting-type'>
               <FiPlus />
-              Agregar Tipo de Corte
+              Agregar tipo de corte
             </Link_Next>
           </Button>
         )

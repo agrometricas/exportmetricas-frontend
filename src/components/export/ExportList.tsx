@@ -87,7 +87,7 @@ const ExportList = (): React.JSX.Element => {
         w="100%"
       >
         <Heading size="md" color={headingColor}>
-          Exportaciones Pendientes
+          Exportaciones pendientes
         </Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}

@@ -157,7 +157,7 @@ export default function AddProducerForm(): React.JSX.Element {
                     )}
                     <Box></Box>
                     <Button onClick={() => push({ code: '' })} mb='10px'>
-                      Agregar Código
+                      Agregar código
                     </Button>
                   </SimpleGrid>
                 </>
@@ -195,7 +195,7 @@ export default function AddProducerForm(): React.JSX.Element {
                           disabled={values.businesses[0].contacts.length === 1}
                           onClick={() => remove(index)}
                         >
-                          Eliminar Contacto
+                          Eliminar contacto
                         </Button>
                       </SimpleGrid>
                       <Separator
@@ -213,7 +213,7 @@ export default function AddProducerForm(): React.JSX.Element {
                         push({ name: '', role: '', email: '', phone: '' })
                       }
                     >
-                      Agregar Contacto
+                      Agregar contacto
                     </Button>
                   </SimpleGrid>
                 </>

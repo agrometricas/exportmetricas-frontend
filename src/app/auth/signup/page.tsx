@@ -29,7 +29,7 @@ const SignUpPage = (): React.JSX.Element => {
           fontSize='3xl'
           mt='24px'
         >
-          Hey, Hola 👋
+          Hey, hola 👋
         </Heading>
         <Text color='blackAlpha.700' fontSize='md' mt='8px'>
           Crea una cuenta para empezar a usar ...

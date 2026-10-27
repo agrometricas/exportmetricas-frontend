@@ -142,7 +142,7 @@ const AddHarborForm: React.FC = () => {
                           disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
-                          Eliminar Contacto
+                          Eliminar contacto
                         </Button>
                       </SimpleGrid>
                       <Separator
@@ -160,7 +160,7 @@ const AddHarborForm: React.FC = () => {
                         push({ name: '', web: '', email: '', phone: '' })
                       }
                     >
-                      Agregar Contacto
+                      Agregar contacto
                     </Button>
                   </SimpleGrid>
                 </>

@@ -22,7 +22,7 @@ const DetailProducerPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles del Productor
+              Detalles del productor
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -46,7 +46,7 @@ const DetailProducerPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información Logística
+              Información logística
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -68,7 +68,7 @@ const DetailProducerPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles Financieros
+              Detalles financieros
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -119,7 +119,7 @@ const DetailProducerPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Cuentas Bancarias
+              Cuentas bancarias
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -178,7 +178,7 @@ const DetailProducerPayments = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Transferencia Realizada
+              Transferencia realizada
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -196,7 +196,7 @@ const DetailProducerPayments = ({
               target='_blank'
               rel='noopener noreferrer'
             >
-              Ver Comprobante
+              Ver comprobante
             </a>
           </Accordion.ItemBody>
         </Accordion.ItemContent>

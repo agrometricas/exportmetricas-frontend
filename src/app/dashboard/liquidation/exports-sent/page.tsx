@@ -49,7 +49,7 @@ function SearchExportsSentPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/liquidation/add-supply-shipment'>
               <FiPlus />
-              Agregar Envíos de Insumos
+              Agregar envíos de insumos
             </Link_Next>
           </Button>
         )

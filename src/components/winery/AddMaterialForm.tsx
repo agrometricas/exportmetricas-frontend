@@ -129,7 +129,7 @@ export function AddMaterialForm({
 
       <SimpleGrid columns={{ base: 1, sm: 4 }} gap={4} mb={4}>
         <Button colorPalette='green' onClick={onOpen}>
-          Agregar Stock a Exportadora
+          Agregar stock a exportadora
         </Button>
         <UpdateStockModal
           isOpen={open}
@@ -139,7 +139,7 @@ export function AddMaterialForm({
           initialCost={stock.currentCost}
         />
         <Button colorPalette='green' onClick={onAssignOpen}>
-          Asignar Stock a Fincas
+          Asignar stock a fincas
         </Button>
         <AssignStockToBusinessModal
           isOpen={isAssignOpen}
@@ -155,7 +155,7 @@ export function AddMaterialForm({
       <Separator my={6} />
 
       <Heading mb={4} size='md'>
-        Movimientos de Stock
+        Movimientos de stock
       </Heading>
 
       <Box overflowX='auto'>
@@ -171,7 +171,7 @@ export function AddMaterialForm({
                     Cantidad
                   </Table.ColumnHeader>
                   <Table.ColumnHeader textAlign='end'>
-                    Costo Unitario
+                    Costo unitario
                   </Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>

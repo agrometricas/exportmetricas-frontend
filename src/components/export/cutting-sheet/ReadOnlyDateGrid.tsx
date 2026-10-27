@@ -28,7 +28,7 @@ const ReadOnlyDateGrid: React.FC<ReadOnlyDateGridProps> = ({
                 ))}
                 <GridItem colSpan={1} display="flex" alignItems="center" justifyContent="flex-start">
                     <FormLabel fontSize="sm" m="0">
-                        Total de Cajas:
+                        Total de cajas:
                     </FormLabel>
                 </GridItem>
                 <GridItem>

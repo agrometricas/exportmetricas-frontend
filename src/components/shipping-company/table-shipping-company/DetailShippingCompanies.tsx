@@ -18,7 +18,7 @@ const DetailShippingCompanies = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -47,7 +47,7 @@ const DetailShippingCompanies = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Puertos Asociados
+              Puertos asociados
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

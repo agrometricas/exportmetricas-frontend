@@ -116,7 +116,7 @@ export default function ProducerContractForm({
                   onClick={confirm.onOpen}
                   loading={isDeleting}
                 >
-                  Eliminar Contrato
+                  Eliminar contrato
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>
