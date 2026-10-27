@@ -1,27 +1,26 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { PagedList, usePagedList } from '@/hooks/usePagedList';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
-import { serializeQueryResult } from '@/utils/serializeQueryResult';
+import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
 
-type Params = PaginationParams;
-
-function listCuttingSheets(params: Params): Promise<AxiosResponse> {
-  return axios.get('/export/cutting-sheets', { params });
+export function useCuttingSheets(): PagedList<CuttingSheetResponse> {
+  return usePagedList<CuttingSheetResponse>(
+    'cuttingSheets',
+    '/export/cutting-sheets'
+  );
 }
 
-export function useCuttingSheets({
-  search = '',
-  page = 1,
-  limit = 10,
-}: Params) {
-  const result = useQuery({
-    queryKey: ['cuttingSheets', search, page, limit],
-    queryFn: () => listCuttingSheets({ search, page, limit }),
-    placeholderData: keepPreviousData,
+export function useCuttingSheet(id: number): {
+  sheet: CuttingSheetResponse | undefined;
+  isLoading: boolean;
+  error: unknown;
+} {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['cuttingSheets', 'detail', id],
+    queryFn: async (): Promise<CuttingSheetResponse> =>
+      (await axios.get(`/export/cutting-sheets/${id}`)).data,
+    enabled: Number.isInteger(id) && id > 0,
+    retry: false,
   });
-
-  return serializeQueryResult(result);
+  return { sheet: data, isLoading, error };
 }

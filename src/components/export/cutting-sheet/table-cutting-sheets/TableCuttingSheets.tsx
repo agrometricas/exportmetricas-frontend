@@ -13,12 +13,10 @@ import { BsFileEarmarkPdf } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailCuttingSheets from './DetailCuttingSheets';
 import { useCuttingSheets } from '../../../../hooks/export/cuttingSheet/getCuttingSheets';
-import { usePagination } from '../../../../hooks/usePagination';
 import { sheetVersionLabel } from '../../../../utils/cuttingSheetOptions';
 
 const TableCuttingSheets = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useCuttingSheets(paginationParams);
+  const { rows: data, error, tableOptions } = useCuttingSheets();
   const router = useRouter();
 
   useEffect(() => {
@@ -159,6 +157,7 @@ const TableCuttingSheets = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...tableOptions,
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
@@ -167,7 +166,6 @@ const TableCuttingSheets = (): React.JSX.Element => {
     enableColumnDragging: false,
     enableHiding: false,
     initialState: {
-      pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand', 'id'],
         right: ['pdfUrl', 'correct'],

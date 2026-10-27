@@ -56,8 +56,15 @@ the backend proposes.
 - The backend answers **200 with `[]` for an empty list**. Do not catch a 404
   in a list hook to return `[]`: it hides a mistyped route, which is how two
   hooks pointed at endpoints that never existed.
-- The backend does not paginate. `search`, `page` and `limit` travel as query
-  params and are ignored; tables paginate and filter in the browser.
+- The lists that grow with every shipment are paged and searched by the
+  backend: exports, supply shipments, cutting sheets, producer payments and
+  client payments. Their hooks use `usePagedList(key, url)`, which sends
+  `page`, `pageSize` and `search`, reads `{ items, total }` and hands the table
+  the options it needs (`...tableOptions` in `useMaterialReactTable`). Those
+  tables do not sort: sorting one page in the browser would hide the rest. Do
+  not look a row up in a paged list; ask for it by id.
+- Every other list comes whole from the backend, which ignores `search`,
+  `page` and `limit`; those tables paginate and filter in the browser.
 - `usePagination()` returns a new `paginationParams` object on every render.
   Never list it as an effect dependency: an effect that invalidates a query on
   it refetches in a loop.
