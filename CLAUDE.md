@@ -53,17 +53,24 @@ npm run smoke          # Playwright: abre cada pantalla contra una web y un back
 ```
 
 Las pruebas unitarias cubren utilidades puras. La prueba de humo
-(`smoke/`) inicia sesión y abre cada página de `app/dashboard/` sin
-segmento dinámico; falla si alguna lanza un error, escribe uno en consola,
-recibe un 4xx o 5xx o muestra la pantalla de error. Necesita la web y el
-backend levantados y un usuario de prueba, nunca uno de producción:
+(`smoke/`) inicia sesión y abre cada página de `app/dashboard/`. Las que
+llevan un id en la URL las alcanza siguiendo los enlaces de las que las
+listan, y al final dice cuáles no encontró. Falla si alguna lanza un error,
+escribe uno en consola, recibe un 4xx o 5xx o muestra la pantalla de error.
+Necesita la web y el backend levantados y un usuario de prueba, nunca uno de
+producción:
 
 ```bash
 npx playwright install chromium   # una vez por máquina
 SMOKE_BASE_URL=http://localhost:3000 SMOKE_EMAIL=<usuario de prueba> SMOKE_PASSWORD=<contraseña> npm run smoke
 ```
 
-No corre en CI: necesita un backend con datos.
+En CI la corre `.github/workflows/smoke.yml` en cada pull request a
+`main-2`: levanta el `main` del backend con la exportadora demo en un Postgres
+desechable, le da al usuario demo una contraseña al azar y abre todo. El
+backend es privado: se descarga con una llave de despliegue de solo lectura
+guardada en el secreto `BACKEND_DEPLOY_KEY`. Sin ese secreto (también en un
+pull request desde un fork) el trabajo no corre y lo avisa.
 
 ## Verificación
 

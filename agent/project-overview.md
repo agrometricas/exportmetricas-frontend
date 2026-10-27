@@ -291,7 +291,8 @@ un clic, abre su ficha.
 
 Vitest sobre utilidades puras (`src/**/*.spec.ts`) y una prueba de humo con
 Playwright (`smoke/`, `npm run smoke`) que abre cada pantalla contra una web y
-un backend locales. No hay pruebas de componentes. Ver
+un backend; en CI, contra el `main` del backend con la demo sembrada. No hay
+pruebas de componentes. Ver
 [`coding-standards.md`](coding-standards.md) § _Testing_.
 
 ---

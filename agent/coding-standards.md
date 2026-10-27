@@ -274,11 +274,14 @@ the backend proposes.
 - Expected values are calculated by hand, never pasted from a run. A test name
   is a sentence in Spanish that states the rule.
 - Components have no unit tests. Screens have a smoke test: `npm run smoke`
-  (Playwright, `smoke/`) signs in and opens every page of `app/dashboard/`
-  without a dynamic segment, against a running web and backend. A page fails
-  if it throws, logs an error to the console, gets a 4xx or 5xx from a data
-  request or shows the error boundary. A new page is covered without touching
-  it; a page that needs an id in the URL is not.
+  (Playwright, `smoke/`) signs in and opens every page of `app/dashboard/`,
+  against a running web and backend; CI runs it against the backend's `main`
+  seeded with the demo exporter (`smoke.yml`). A page fails if it throws, logs
+  an error to the console, gets a 4xx or 5xx from a data request or shows the
+  error boundary. A new page is covered without touching it. A page with an id
+  in its URL is reached through the links of the pages that list it (or from
+  its parent, for the subpages a button opens); the run names the ones no
+  link reached.
 - The smoke test proves a screen opens, not that its flow works. For a change
   in a screen, run it and say how the flow was exercised.
 

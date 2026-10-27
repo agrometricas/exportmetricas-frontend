@@ -1,0 +1,170 @@
+name: Prueba de humo
+
+# Opens every screen of the web against the backend's main branch, seeded with
+# the demo exporter in a throwaway Postgres. The backend repo is private: it
+# is checked out with a read-only deploy key (secret BACKEND_DEPLOY_KEY). A
+# pull request from a fork has no secrets, so the job is skipped there.
+on:
+  pull_request:
+    branches:
+      - main-2
+  workflow_dispatch:
+
+concurrency:
+  group: smoke-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  key:
+    name: Revisar la llave del backend
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - id: check
+        env:
+          BACKEND_DEPLOY_KEY: ${{ secrets.BACKEND_DEPLOY_KEY }}
+        run: |
+          if [ -n "$BACKEND_DEPLOY_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Falta el secreto BACKEND_DEPLOY_KEY: la prueba de humo no corre."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  smoke:
+    name: Cada pantalla abre contra el backend
+    needs: key
+    if: needs.key.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: exportmetricas_smoke
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/exportmetricas_smoke?schema=public
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: placeholder-for-ci-only
+      SMOKE_BASE_URL: http://localhost:3000
+      SMOKE_EMAIL: demo@agrometricas.com
+    steps:
+      # Both live under the workspace, side by side: next build type-checks
+      # every .ts below its own folder.
+      - uses: actions/checkout@v4
+        with:
+          path: web
+      - uses: actions/checkout@v4
+        with:
+          repository: agrometricas/exportmetricas-backend
+          ref: main
+          ssh-key: ${{ secrets.BACKEND_DEPLOY_KEY }}
+          path: api
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: |
+            web/package-lock.json
+            api/package-lock.json
+
+      - name: Backend con la demo
+        working-directory: api
+        run: |
+          npm ci --legacy-peer-deps
+          npx prisma generate
+          npx prisma migrate deploy
+          npm run build:seeds
+          npm run prisma:seed:prod
+          npx ts-node --files scripts/seed-demo.ts
+          npm run build
+
+      # The seed gives the demo user the password it has in production; this
+      # repository is public, so the run uses one of its own.
+      - name: Contraseña de esta corrida
+        working-directory: api
+        run: |
+          password=$(openssl rand -hex 16)
+          echo "::add-mask::$password"
+          echo "SMOKE_PASSWORD=$password" >> "$GITHUB_ENV"
+          SMOKE_PASSWORD=$password node -e "
+            const { hashSync } = require('bcrypt');
+            const { Client } = require('pg');
+            const client = new Client({ connectionString: process.env.DATABASE_URL });
+            (async () => {
+              await client.connect();
+              const { rowCount } = await client.query(
+                'update \"ExporterUser\" set password = \$1 where email = \$2',
+                [hashSync(process.env.SMOKE_PASSWORD, 10), process.env.SMOKE_EMAIL],
+              );
+              await client.end();
+              if (rowCount !== 1) throw new Error('No está el usuario demo.');
+            })();
+          "
+
+      - name: Levantar el backend
+        working-directory: api
+        env:
+          NODE_ENV: smoke
+          JWT_SECRET: smoke-only
+          JWT_REFRESH_SECRET: smoke-only-refresh
+          JWT_EXPIRATION_TIME: 1d
+          JWT_REFRESH_EXPIRATION_TIME: 7d
+          RESEND_API_KEY: re_smoke_only
+          R2_ACCOUNT_ID: smoke
+          R2_ACCESS_KEY_ID: smoke
+          R2_SECRET_ACCESS_KEY: smoke
+          R2_BUCKET: smoke
+          R2_ENDPOINT: http://localhost:9000
+          BACKEND_URL: http://localhost:8000
+          FRONTEND_URL: http://localhost:3000
+        run: |
+          nohup node dist/src/main.js > ../api.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8000/health && exit 0
+            sleep 2
+          done
+          cat ../api.log
+          exit 1
+
+      - name: Levantar la web
+        working-directory: web
+        run: |
+          npm ci
+          npm run build
+          nohup npm run start -- -p 3000 > ../web.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:3000/auth/signin && exit 0
+            sleep 2
+          done
+          cat ../web.log
+          exit 1
+
+      - name: Navegador
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+
+      - name: Prueba de humo
+        working-directory: web
+        run: npm run smoke
+
+      - name: Guardar los rastros
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prueba-de-humo
+          path: |
+            api.log
+            web.log
+            web/test-results/
+          retention-days: 7
