@@ -20,8 +20,8 @@ interface ExportSentChartProps {
 }
 
 interface CategoryTickProps {
-  x: number;
-  y: number;
+  x: number | string;
+  y: number | string;
   payload: { value: string };
 }
 
@@ -173,8 +173,8 @@ export function ExportSentChart({
     payload,
   }: CategoryTickProps): React.JSX.Element => (
     <CategoryLabel
-      x={x}
-      y={y}
+      x={Number(x)}
+      y={Number(y)}
       label={payload.value}
       width={columnWidth - COLUMN_LABEL_GAP}
       textAnchor='middle'
@@ -186,11 +186,11 @@ export function ExportSentChart({
     y,
     payload,
   }: CategoryTickProps): React.JSX.Element => {
-    const barsTop = y - ROW_BAR_SIZE - BAR_GAP / 2;
+    const barsTop = Number(y) - ROW_BAR_SIZE - BAR_GAP / 2;
     const labelHeight = labelLines(payload.value).length * LINE_HEIGHT;
     return (
       <CategoryLabel
-        x={x}
+        x={Number(x)}
         y={barsTop - ROW_LABEL_GAP - labelHeight}
         label={payload.value}
         width={plotWidth}
@@ -212,14 +212,14 @@ export function ExportSentChart({
           contain: 'inline-size',
           // Recharts paints with SVG attributes; CSS wins over them, so the
           // axes and the grid follow the color mode.
-          '& .recharts-cartesian-axis-tick-value, & .recharts-cartesian-axis-tick text':
+          '& .recharts-cartesian-axis-tick-value, & .recharts-cartesian-axis-tick-label text':
             { fill: 'fg.muted' },
-          '& .recharts-cartesian-axis-tick .chart-category-primary': {
+          '& .recharts-cartesian-axis-tick-label .chart-category-primary': {
             fill: 'fg',
           },
           // Row labels sit on top of the grid: a halo in the card's color keeps
           // the lines from crossing the text.
-          '& .recharts-yAxis .recharts-cartesian-axis-tick text': {
+          '& .recharts-yAxis-tick-labels text': {
             paintOrder: 'stroke',
             stroke: 'bg.panel',
             strokeWidth: '4px',

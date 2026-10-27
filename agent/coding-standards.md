@@ -200,8 +200,9 @@ the backend proposes.
   its `start`. Do not draw a section with a `Heading` and a `Separator`.
 - A chart takes its series colors from `CHART_SERIES`
   (`theme/chartColors.ts`), in order, and styles recharts' axes, grid and
-  legend with tokens through CSS on its classes (`fg.muted`, `border`). A new
-  series color is checked with the palette validator in both modes and added
+  legend with tokens through CSS on its classes (`fg.muted`, `border`). A
+  custom tick's `<text>` has no class of its own: reach it through
+  `.recharts-cartesian-axis-tick-label`. A new series color is checked with the palette validator in both modes and added
   to `design-system.md` first.
 - Material React Table follows the color mode through `brandMuiTheme`
   (`theme/muiTheme/`): table colors change there, not per table.

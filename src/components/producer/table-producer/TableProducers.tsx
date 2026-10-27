@@ -33,7 +33,11 @@ const TableProducers = (): React.JSX.Element => {
       header: 'Productor',
       columns: [
         { accessorKey: 'businessName', header: 'Nombre' },
-        { accessorKey: 'city.name', header: 'Ciudad' },
+        {
+          id: 'city.name',
+          accessorFn: (row) => row.city?.name ?? '',
+          header: 'Ciudad',
+        },
         { accessorKey: 'email', header: 'Correo electrónico' },
         { accessorKey: 'businessId', header: 'RUC' },
       ],
