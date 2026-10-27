@@ -111,14 +111,14 @@ export default function SignUpForm(): React.JSX.Element {
       {({}) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <InputFieldText name={'exportName'} label={'Razón Social'} />
+            <InputFieldText name={'exportName'} label={'Razón social'} />
             <InputFieldText name={'exportId'} label={'RUC'} />
-            <InputFieldText name={'name'} label={'Nombre de Usuario'} />
+            <InputFieldText name={'name'} label={'Nombre de usuario'} />
             <InputFieldText name={'email'} label={'Correo'} />
             <InputFieldPassword name={'password'} label={'Contraseña'} />
             <CheckboxForm
               name={'terms'}
-              label={'Acepta nuestros Términos y Condiciones'}
+              label={'Acepta nuestros términos y condiciones'}
             />
 
             <Button

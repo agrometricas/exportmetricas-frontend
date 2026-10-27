@@ -97,6 +97,7 @@ const CitySelectBase: React.FC<CitySelectBaseProps> = ({
   return (
     <ChakraSelect
       {...field}
+      instanceId={name}
       name={name}
       menuPortalTarget={menuPortalTarget}
       styles={{

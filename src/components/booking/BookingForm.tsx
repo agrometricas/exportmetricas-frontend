@@ -52,7 +52,7 @@ export default function BookingForm({
           <Flex flexDirection='column' gap={3}>
             <FormSectionTitle>Reserva</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldPlain name='bookingNumber' label='Número de Booking' />
+              <InputFieldPlain name='bookingNumber' label='Número de booking' />
               <InputFieldShippingCompanySelect
                 name='shippingCompanyId'
                 label='Naviera'
@@ -69,16 +69,16 @@ export default function BookingForm({
               />
             </SimpleGrid>
 
-            <FormSectionTitle>Zarpe y Ruta</FormSectionTitle>
+            <FormSectionTitle>Zarpe y ruta</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate
                 name='etdDay'
-                label='Día de Zarpe (ETD)'
+                label='Día de zarpe (ETD)'
                 helperText='El precio sale del contrato vigente este día.'
               />
               <InputFieldPlain
                 name='etdTime'
-                label='Hora de Zarpe'
+                label='Hora de zarpe'
                 placeholder='HH:mm, por ejemplo 18:00'
                 inputMode='numeric'
               />
@@ -89,7 +89,7 @@ export default function BookingForm({
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldPlain
                 name='containerCount'
-                label='Contenedores Reservados'
+                label='Contenedores reservados'
                 inputMode='numeric'
               />
             </SimpleGrid>
@@ -149,7 +149,7 @@ export default function BookingForm({
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                {booking ? 'Guardar Cambios' : 'Crear Booking'}
+                {booking ? 'Guardar cambios' : 'Crear booking'}
               </Button>
             </FormActions>
           </Flex>

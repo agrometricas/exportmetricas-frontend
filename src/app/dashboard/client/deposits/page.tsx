@@ -29,13 +29,13 @@ function DepositsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdWarehouse}
-      title='Gestión de Depósitos'
+      title='Gestión de depósitos'
       description='Visualiza y administra los depósitos registrados'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Depósito'
+            aria-label='Agregar depósito'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

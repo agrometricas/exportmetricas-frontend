@@ -380,19 +380,19 @@ const CuttingSheetForm = ({
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
-            label='Cantidad de Cajas'
+            label='Cantidad de cajas'
             value={finalValues.exportData?.boxQuantity.toString()}
           />
           <DisplayField
-            label='Envío de Insumos Pendiente'
+            label='Envío de insumos pendiente'
             value={finalValues.exportData?.pendingExportSent ? 'Sí' : 'No'}
           />
           <DisplayField
-            label='Fecha de Corte'
+            label='Fecha de corte'
             value={formatDayMonthYear(finalValues.exportData.cuttingDate)}
           />
           <DisplayField
-            label='Descripción de la Semana'
+            label='Descripción de la semana'
             value={finalValues.exportData.weekDescription}
           />
         </SimpleGrid>
@@ -407,19 +407,19 @@ const CuttingSheetForm = ({
         </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
-            label='Nombre de la Nave'
+            label='Nombre de la nave'
             value={finalValues.exportData?.shipName}
           />
           <DisplayField
-            label='Tiempo Estimado de Viaje'
+            label='Tiempo estimado de viaje'
             value={finalValues.exportData?.estimatedTravelTime}
           />
           <DisplayField
-            label='Numero de Booking'
+            label='Numero de booking'
             value={finalValues.exportData?.bookingNumber}
           />
           <DisplayField
-            label='Fecha Máxima de Ingreso'
+            label='Fecha máxima de ingreso'
             value={
               finalValues.exportData?.shippingDateTime
                 ? format(
@@ -436,7 +436,7 @@ const CuttingSheetForm = ({
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
-            label='Puerto de Salida'
+            label='Puerto de salida'
             value={finalValues.exportData?.harborDeparture?.name}
           />
           <DisplayField
@@ -450,7 +450,7 @@ const CuttingSheetForm = ({
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
-            label='Puerto de Llegada'
+            label='Puerto de llegada'
             value={finalValues.exportData?.harborDestination?.name}
           />
           <DisplayField
@@ -500,7 +500,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.transport.address}
           />
           <DisplayField
-            label='Tracking Satelital'
+            label='Tracking satelital'
             value={
               finalValues.exportData?.transport.satelliteTracking ? 'Sí' : 'No'
             }
@@ -520,7 +520,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.verifier.address}
           />
           <DisplayField
-            label='Número de Verificadores'
+            label='Número de verificadores'
             value={finalValues.exportData?.numberOfVerifiers.toString()}
           />
         </SimpleGrid>
@@ -537,7 +537,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.client.businessId}
           />
           <DisplayField
-            label='Tipo Comercial'
+            label='Tipo comercial'
             value={finalValues.exportData?.client.commercialType}
           />
           <DisplayField
@@ -600,26 +600,26 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.boxBrand?.name || ''}
           />
           <DisplayField
-            label='Marca de Caja'
+            label='Marca de caja'
             value={finalValues.exportData?.boxBrand?.brand?.name || ''}
           />
           <DisplayField
-            label='Código de Marca'
+            label='Código de marca'
             value={finalValues.exportData?.boxBrand?.brandCode || ''}
           />
           <DisplayField
-            label='Tipo de Contrato'
+            label='Tipo de contrato'
             value={finalValues.exportData?.contractType || ''}
           />
           <DisplayField
-            label='Peso Neto'
+            label='Peso neto'
             value={
               finalValues.exportData?.boxBrand?.netWeightBox?.toString() ||
               'N/A'
             }
           />
           <DisplayField
-            label='Peso Bruto'
+            label='Peso bruto'
             value={
               finalValues.exportData?.boxBrand?.grossWeightBox?.toString() ||
               'N/A'
@@ -754,7 +754,7 @@ const CuttingSheetForm = ({
                 )}
 
                 {renderNameField(
-                  'Cluster Bag',
+                  'Cluster bag',
                   finalValues.exportData.boxBrand.clusterBag?.name
                 )}
                 {renderQuantityField(
@@ -791,7 +791,7 @@ const CuttingSheetForm = ({
                 )}
 
                 {renderNameField(
-                  'Mini Pallets',
+                  'Mini pallets',
                   finalValues.exportData?.boxBrand?.miniPalletsType?.name
                 )}
                 {renderQuantityField(
@@ -906,7 +906,7 @@ const CuttingSheetForm = ({
                 )}
 
                 {renderNameField(
-                  'Plástico de Cierre Contenedor',
+                  'Plástico de cierre contenedor',
                   finalValues.exportData?.boxBrand?.containerSealPlastic?.name
                 )}
                 {renderQuantityField(
@@ -914,7 +914,7 @@ const CuttingSheetForm = ({
                   exportSentSelected?.containerSealPlasticQuantity
                 )}
                 {renderNameField(
-                  'Kit de Seguridad',
+                  'Kit de seguridad',
                   finalValues.exportData?.boxBrand?.securityKit?.name
                 )}
                 {renderQuantityField(
@@ -922,7 +922,7 @@ const CuttingSheetForm = ({
                   exportSentSelected?.securityKitQuantity
                 )}
                 {renderNameField(
-                  'Tarjeta de Embarque',
+                  'Tarjeta de embarque',
                   finalValues.exportData?.boxBrand?.boardingCard?.name
                 )}
                 {renderQuantityField(
@@ -1000,19 +1000,19 @@ const CuttingSheetForm = ({
               <SimpleGrid columns={{ base: 1, md: 2 }} gap='4'>
                 <InputFieldSelector
                   name={'palletsHeight'}
-                  label={'Altura de Palets '}
+                  label={'Altura de palets '}
                   alignItems='flex-end'
                   options={palletsOptions}
                 />
                 <InputFieldSelector
                   name={'containerPositioning'}
-                  label={'Posicion del Contenedor '}
+                  label={'Posicion del contenedor '}
                   alignItems='flex-end'
                   options={CONTAINER_POSITIONS}
                 />
                 <InputFieldText
                   name={'belowDeck'}
-                  label={'Bajo Cubierta '}
+                  label={'Bajo cubierta '}
                   isReadOnly
                   defaultValue={belowDeckFor(values.containerPositioning)}
                   placeholder='Bajo cubierta'

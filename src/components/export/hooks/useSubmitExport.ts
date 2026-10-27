@@ -55,7 +55,7 @@ export function useSubmitExport({
         toaster.create({
           title: exportId
             ? 'Exportación actualizada'
-            : 'Exportación Creada con éxito',
+            : 'Exportación creada con éxito',
           description: exportId
             ? 'Los cambios se guardaron correctamente.'
             : 'La exportación se ha registrado correctamente.',

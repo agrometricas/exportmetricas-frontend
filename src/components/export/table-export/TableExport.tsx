@@ -54,12 +54,12 @@ const TableExport = (): React.JSX.Element => {
           { accessorKey: 'boxQuantity', header: 'Cajas' },
           { accessorKey: 'boxBrand.name', header: 'Caja' },
           { accessorKey: 'boxBrand.brand.name', header: 'Marca' },
-          { accessorKey: 'boxBrand.brandCode', header: 'Código Marca' },
+          { accessorKey: 'boxBrand.brandCode', header: 'Código marca' },
           { accessorKey: 'shipName', header: 'Barco' },
           { accessorKey: 'bookingNumber', header: 'Booking' },
           {
             accessorKey: 'shippingDateTime',
-            header: 'Fecha Máxima de Ingreso',
+            header: 'Fecha máxima de ingreso',
             Cell: ({ cell }) => (
               <span>{formatDayMonthYearTime(cell.getValue<string>())}</span>
             ),
@@ -72,13 +72,13 @@ const TableExport = (): React.JSX.Element => {
           { accessorKey: 'merchant.businessName', header: 'Productor' },
           { accessorKey: 'merchant.businessId', header: 'RUC' },
           { accessorKey: 'business.name', header: 'Finca' },
-          { accessorKey: 'business.city.name', header: 'Ciudad Finca' },
+          { accessorKey: 'business.city.name', header: 'Ciudad finca' },
         ],
       },
       {
         header: 'Cliente',
         columns: [
-          { accessorKey: 'client.businessName', header: 'Razón Social' },
+          { accessorKey: 'client.businessName', header: 'Razón social' },
           { accessorKey: 'client.businessId', header: 'RUC' },
           {
             accessorKey: 'client.email',

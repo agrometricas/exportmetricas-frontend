@@ -9,7 +9,7 @@ function AddClientPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdPeopleOutline}
-      title='Agregar Nuevo Cliente'
+      title='Agregar nuevo cliente'
       description='Completa el formulario para registrar un cliente'
     >
       <AddClientForm />

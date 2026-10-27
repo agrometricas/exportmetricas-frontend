@@ -124,6 +124,16 @@ the backend proposes.
   `InputFieldDayDateTime` (`components/ui/form/`), typed as `DD/MM/AAAA`.
 - Tables use Material React Table, always with `localization:
   MRT_Localization_ES`.
+- Text on screen is in sentence case: titles, menu entries, breadcrumbs, column
+  headers, labels, buttons and toasts capitalize only the first word and proper
+  names (*Agregar cuenta bancaria*, *Código Agrocalidad*). Acronyms stay as
+  they are (RUC, AUCP, DAE, SPOT). A value that is stored or sent to the
+  backend keeps its exact text, even when it is also shown.
+- A `chakra-react-select` on a page rendered on the server (the onboarding)
+  takes `instanceId={name}`: react-select numbers its instances with a
+  counter, and the ids would not match when the page hydrates.
+- The page header keeps its actions on the title's row, also on a phone, where
+  the list pages turn them into icon buttons (`PageHeader`).
 - A screen that waits, finds nothing or fails uses `LoadingState`,
   `EmptyState` and `ErrorState` (`components/ui/states/`). `ErrorState` shows
   `serverErrorMessage` and a *Reintentar* button wired to the query's

@@ -37,7 +37,7 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         px={'20px'}
       >
         <Box>
-          <FormLabel>Productor/Razón Social:</FormLabel>
+          <FormLabel>Productor/Razón social:</FormLabel>
           <Input
             readOnly={true}
             value={payment.merchant?.businessName || ''}

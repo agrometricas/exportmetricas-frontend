@@ -60,7 +60,7 @@ export function useSubmitClient(): {
                 },
                 onSuccess: () => {
                     toaster.create({
-                        title: 'Cliente Creado con Éxito',
+                        title: 'Cliente creado con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

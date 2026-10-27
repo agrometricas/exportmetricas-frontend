@@ -101,6 +101,7 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
   return (
     <ChakraSelect
       {...field}
+      instanceId={name}
       name={name}
       isMulti
       menuPortalTarget={menuPortalTarget}

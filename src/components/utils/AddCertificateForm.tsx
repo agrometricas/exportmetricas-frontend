@@ -92,7 +92,7 @@ const AddCertificateForm = ({
       queryClient.invalidateQueries(['certificates']);
 
       toaster.create({
-        title: 'Certificado Creado con Éxito',
+        title: 'Certificado creado con éxito',
         type: 'success',
         duration: 5000,
         closable: true,
@@ -131,21 +131,21 @@ const AddCertificateForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Certificado</FormSectionTitle>
+            <FormSectionTitle>Agregar certificado</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText
               name='certificateCode'
-              label='Código del Certificado (7 a 20 caracteres)'
+              label='Código del certificado (7 a 20 caracteres)'
             />
             <InputFieldTextArea
               name='description'
               label='Enfoque del certificado (opcional)'
               placeholder='Por ejemplo: buenas prácticas agrícolas, inocuidad y trazabilidad'
             />
-            <InputFieldDayDate name='issueDate' label='Fecha de Emisión' />
+            <InputFieldDayDate name='issueDate' label='Fecha de emisión' />
             <InputFieldDayDate
               name='expirationDate'
-              label='Fecha de Expiración'
+              label='Fecha de expiración'
             />
             <FormLabel fontSize='sm' mb={0}>
               Logo

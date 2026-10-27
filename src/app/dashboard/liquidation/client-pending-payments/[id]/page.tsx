@@ -48,7 +48,7 @@ function ClientPaymentPage(): React.JSX.Element {
   return (
     <CardPage
       icon={FiCreditCard}
-      title='Cobro a Clientes'
+      title='Cobro a clientes'
       description='Registra y confirma el cobro del envío seleccionado'
     >
       <ClientPendingPaymentForm

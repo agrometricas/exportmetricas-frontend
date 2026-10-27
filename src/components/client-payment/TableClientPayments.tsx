@@ -33,36 +33,36 @@ const TableClientPayments = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<ClientPayment>[]>(
     () => [
       {
-        header: 'Información General',
+        header: 'Información general',
         columns: [
           {
             accessorKey: 'client.businessName',
-            header: 'Nombre del Cliente',
+            header: 'Nombre del cliente',
           },
           {
             accessorKey: 'client.businessId',
-            header: 'RUC del Cliente',
+            header: 'RUC del cliente',
           },
           {
             accessorKey: 'client.type',
-            header: 'Tipo de Cliente',
+            header: 'Tipo de cliente',
           },
         ],
       },
       {
-        header: 'Detalles Financieros',
+        header: 'Detalles financieros',
         columns: [
           {
             accessorKey: 'boxQuantity',
-            header: 'Cantidad de Cajas',
+            header: 'Cantidad de cajas',
           },
           {
             accessorKey: 'price',
-            header: 'Precio Unitario',
+            header: 'Precio unitario',
           },
           {
             accessorKey: 'total',
-            header: 'Total a Pagar',
+            header: 'Total a pagar',
           },
           {
             accessorKey: 'description',
@@ -71,15 +71,15 @@ const TableClientPayments = (): React.JSX.Element => {
         ],
       },
       {
-        header: 'Cuentas Bancarias',
+        header: 'Cuentas bancarias',
         columns: [
           {
             accessorKey: 'sourceBankAccount.accountNumber',
-            header: 'Cuenta Origen',
+            header: 'Cuenta origen',
           },
           {
             accessorKey: 'destinationBankAccount.accountNumber',
-            header: 'Cuenta Destino',
+            header: 'Cuenta destino',
           },
         ],
       },

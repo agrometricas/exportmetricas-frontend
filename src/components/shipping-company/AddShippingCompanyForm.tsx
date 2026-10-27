@@ -28,32 +28,32 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Naviero</FormSectionTitle>
+            <FormSectionTitle>Agregar naviero</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
-                label='Nombre de la Naviera'
-                placeholder='Nombre de la Naviera'
+                label='Nombre de la naviera'
+                placeholder='Nombre de la naviera'
               />
               <InputFieldText
                 name='code'
                 label='Código'
-                placeholder='Codigo de la Naviera'
+                placeholder='Codigo de la naviera'
               />
               <InputFieldText
                 name='frequencies'
                 label='Frecuencia'
-                placeholder='Cantidad y tiempo (Ej: 1 vez a la semana)'
+                placeholder='Cantidad y tiempo (ej: 1 vez a la semana)'
               />
               <InputFieldSelector
                 name={'cargoType'}
-                label={'Tipo de Carga'}
+                label={'Tipo de carga'}
                 options={CargoTypeOpt}
                 placeholder='Selecciona el tipo de carga'
               />
               <InputFieldText
                 name='trackingPlatform'
-                label='Plataforma de Seguimiento'
+                label='Plataforma de seguimiento'
                 placeholder='Enlace a la plataforma de rastreo'
               />
               <InputFieldCountrySelect
@@ -79,18 +79,18 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                       <InputFieldHarborSelect
                         type='Nacional'
                         name={`harbors[${index}].harborDepartureId`}
-                        label='Puerto Salida'
-                        placeholder='Selecciona Salida'
+                        label='Puerto salida'
+                        placeholder='Selecciona salida'
                       />
                       <InputFieldHarborSelect
                         type='Internacional'
                         name={`harbors[${index}].harborDestinationId`}
-                        label='Puerto Destino'
-                        placeholder='Selecciona Destino'
+                        label='Puerto destino'
+                        placeholder='Selecciona destino'
                       />
                       <InputFieldText
                         name={`harbors[${index}].estDuration`}
-                        label='Tiempo Estimado'
+                        label='Tiempo estimado'
                       />
                       <Flex alignSelf='end'>
                         <Button

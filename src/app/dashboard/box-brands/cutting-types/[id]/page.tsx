@@ -18,7 +18,7 @@ function EditCuttingTypePage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdContentCut}
-      title='Editar Tipo de Corte'
+      title='Editar tipo de corte'
       description='Las hojas ya generadas no cambian; la próxima corrección de una hoja usa estos datos'
     >
       {isLoading ? (

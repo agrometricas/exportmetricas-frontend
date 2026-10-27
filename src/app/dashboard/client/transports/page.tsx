@@ -27,13 +27,13 @@ function TransportsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdLocalShipping}
-      title='Gestión de Transportes'
+      title='Gestión de transportes'
       description='Visualiza y administra los transportes registrados'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Transporte'
+            aria-label='Agregar transporte'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

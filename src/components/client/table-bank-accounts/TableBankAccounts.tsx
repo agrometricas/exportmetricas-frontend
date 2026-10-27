@@ -32,17 +32,17 @@ const TableBankAccounts = (): React.JSX.Element => {
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => [
     {
-      header: 'Entidad Asociada',
+      header: 'Entidad asociada',
       columns: [
         {
           accessorFn: (row) =>
             row.client ? 'Cliente' : row.merchant ? 'Productor' : 'N/A',
-          header: 'Tipo de Entidad',
+          header: 'Tipo de entidad',
         },
         {
           accessorFn: (row) =>
             row.merchant?.businessName || row.client?.businessName || 'N/A',
-          header: 'Nombre Comercial',
+          header: 'Nombre comercial',
         },
         {
           accessorFn: (row) =>
@@ -62,7 +62,7 @@ const TableBankAccounts = (): React.JSX.Element => {
       ],
     },
     {
-      header: 'Información Bancaria',
+      header: 'Información bancaria',
       columns: [
         {
           accessorKey: 'bank',
@@ -74,7 +74,7 @@ const TableBankAccounts = (): React.JSX.Element => {
         },
         {
           accessorKey: 'accountNumber',
-          header: 'Número de Cuenta',
+          header: 'Número de cuenta',
         },
       ],
     },
@@ -84,7 +84,7 @@ const TableBankAccounts = (): React.JSX.Element => {
         {
           accessorFn: (row) =>
             row.client?.email || row.merchant?.email || 'N/A',
-          header: 'Correo Electrónico',
+          header: 'Correo electrónico',
         },
         {
           accessorFn: (row) =>
@@ -98,7 +98,7 @@ const TableBankAccounts = (): React.JSX.Element => {
       columns: [
         {
           accessorKey: 'type',
-          header: 'Tipo de Cuenta',
+          header: 'Tipo de cuenta',
         },
       ],
     },

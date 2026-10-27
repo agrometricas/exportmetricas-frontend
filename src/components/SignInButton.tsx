@@ -13,7 +13,7 @@ export const SignInButton = (): React.JSX.Element => {
         <Container backgroundColor={'gray.200'}>
           <Text color='navy.400'>{session?.user?.name}</Text>
           <Link color={'green.fg'} asChild>
-            <NextLink href={'/api/auth/signout'}>Sign Out</NextLink>
+            <NextLink href={'/api/auth/signout'}>Sign out</NextLink>
           </Link>
         </Container>
       </>

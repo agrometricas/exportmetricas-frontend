@@ -92,7 +92,7 @@ const AddProtectorForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Protector Creado con Éxito',
+            title: 'Protector creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -118,7 +118,7 @@ const AddProtectorForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Protector</FormSectionTitle>
+              <FormSectionTitle>Agregar protector</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

@@ -36,7 +36,7 @@ const StockMovementsSelector = (): React.JSX.Element => {
       ) : (
         <NativeSelect.Root>
           <NativeSelect.Field
-            placeholder='Selecciona una Finca'
+            placeholder='Selecciona una finca'
             onChange={(e) => setSelectedBusinessId(Number(e.target.value))}
           >
             {farms?.map((farm) => (

@@ -108,7 +108,7 @@ const AddLatexRemoverForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Removedor de Latex Creado con Éxito',
+            title: 'Removedor de latex creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,

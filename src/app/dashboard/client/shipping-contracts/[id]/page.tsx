@@ -16,7 +16,7 @@ function EditShippingContractPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdDirectionsBoat}
-      title='Editar Contrato Naviero'
+      title='Editar contrato naviero'
       description='Cambia las rutas, los costos o la vigencia del contrato'
     >
       {isLoading || !contract ? (

@@ -35,7 +35,7 @@ const DetailBusiness = ({
                 <DetailField label='Ciudad'>{business.city.name}</DetailField>
                 <DetailField label='Dirección'>{business.address}</DetailField>
                 <DetailField label='Dirección'>{business.address}</DetailField>
-                <DetailField label='Tipo de Fruta'>
+                <DetailField label='Tipo de fruta'>
                   {business.fruitType}
                 </DetailField>
               </DetailFields>

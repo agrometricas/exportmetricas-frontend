@@ -77,11 +77,11 @@ export default function ShippingContractForm({
 
             <FormSectionTitle>Vigencia</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
-              <InputFieldDayDate name='endDate' label='Fecha de Fin' />
+              <InputFieldDayDate name='startDate' label='Fecha de inicio' />
+              <InputFieldDayDate name='endDate' label='Fecha de fin' />
             </SimpleGrid>
 
-            <FormSectionTitle>Rutas y Costos</FormSectionTitle>
+            <FormSectionTitle>Rutas y costos</FormSectionTitle>
             <FieldArray name='routes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={4}>
@@ -111,24 +111,24 @@ export default function ShippingContractForm({
                         <InputFieldHarborSelect
                           type='Nacional'
                           name={`routes[${index}].harborDepartureId`}
-                          label='Puerto de Salida'
+                          label='Puerto de salida'
                           placeholder='Selecciona la salida'
                         />
                         <InputFieldHarborSelect
                           type='Internacional'
                           name={`routes[${index}].harborDestinationId`}
-                          label='Puerto de Destino'
+                          label='Puerto de destino'
                           placeholder='Selecciona el destino'
                         />
                         <InputFieldPlain
                           name={`routes[${index}].costPerContainer`}
-                          label='Costo por Contenedor'
+                          label='Costo por contenedor'
                           unit='USD/cont.'
                           inputMode='decimal'
                         />
                         <InputFieldPlain
                           name={`routes[${index}].transitDays`}
-                          label='Días de Tránsito (opcional)'
+                          label='Días de tránsito (opcional)'
                           unit='días'
                           inputMode='numeric'
                         />
@@ -165,7 +165,7 @@ export default function ShippingContractForm({
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
+                {contract ? 'Guardar cambios' : 'Crear contrato'}
               </Button>
             </FormActions>
           </Flex>

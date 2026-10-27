@@ -73,7 +73,7 @@ const AddContainerSealPlasticForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Plástico de Cierre Contenedor Creado con Éxito',
+            title: 'Plástico de cierre contenedor creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,

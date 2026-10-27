@@ -28,8 +28,8 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldBusinessSelect
           name={name}
-          label={'Finca/Razón Social'}
-          placeholder={'Selecciona la Finca'}
+          label={'Finca/Razón social'}
+          placeholder={'Selecciona la finca'}
           setBusiness={setBusiness}
           merchant={merchant}
         />
@@ -39,7 +39,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
           <Input
             readOnly={true}
             value={business?.area || ''}
-            placeholder='Área de la Finca'
+            placeholder='Área de la finca'
           />
         </Box>
         <Box>
@@ -47,7 +47,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
           <Input
             readOnly={true}
             value={business?.address || ''}
-            placeholder='Dirección de la Finca'
+            placeholder='Dirección de la finca'
           />
         </Box>
         <Box>
@@ -55,7 +55,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
           <Input
             readOnly={true}
             value={business?.city?.name || ''}
-            placeholder='Ciudad de la Finca'
+            placeholder='Ciudad de la finca'
           />
         </Box>
       </SimpleGrid>

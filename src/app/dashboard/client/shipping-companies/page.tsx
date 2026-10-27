@@ -27,13 +27,13 @@ function ShippingCompaniesPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdDirectionsBoat}
-      title='Gestión de Navieras'
+      title='Gestión de navieras'
       description='Visualiza y administra las navieras registradas'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Naviera'
+            aria-label='Agregar naviera'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

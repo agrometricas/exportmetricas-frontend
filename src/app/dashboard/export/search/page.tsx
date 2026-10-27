@@ -24,12 +24,12 @@ function SearchExportPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdLocalShipping}
-      title='Gestión de Exportaciones'
+      title='Gestión de exportaciones'
       description='Visualiza y administra las exportaciones registradas'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Exportación'
+            aria-label='Agregar exportación'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

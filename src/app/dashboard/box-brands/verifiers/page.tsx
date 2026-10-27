@@ -33,7 +33,7 @@ function VerifiersPage(): React.JSX.Element {
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Verificadora'
+            aria-label='Agregar verificadora'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

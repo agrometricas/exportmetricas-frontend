@@ -9,7 +9,7 @@ function AddBrandPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdOutlineInventory2}
-      title='Marcas de Caja'
+      title='Marcas de caja'
       description='Registra una marca para usarla en las alícuotas'
     >
       <AddBrandForm />

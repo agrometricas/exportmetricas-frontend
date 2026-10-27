@@ -70,7 +70,7 @@ const AddCertificateForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Certificado Creado con Éxito',
+            title: 'Certificado creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -96,7 +96,7 @@ const AddCertificateForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Certificado</FormSectionTitle>
+              <FormSectionTitle>Agregar certificado</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
 
               <Button

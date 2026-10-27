@@ -72,7 +72,7 @@ const AddBoardingCardForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Tarjeta de Embarque Creada con Éxito',
+            title: 'Tarjeta de embarque creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -98,7 +98,7 @@ const AddBoardingCardForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Tarjeta de Embarque</FormSectionTitle>
+              <FormSectionTitle>Agregar tarjeta de embarque</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button

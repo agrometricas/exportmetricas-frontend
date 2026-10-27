@@ -34,13 +34,13 @@ const DetailCuttingSheet = ({
                   {cuttingSheet.correctionReason}
                 </DetailField>
               )}
-              <DetailField label='Altura Pallet'>
+              <DetailField label='Altura pallet'>
                 {cuttingSheet.palletsHeight}
               </DetailField>
-              <DetailField label='Ubicación Contenedor'>
+              <DetailField label='Ubicación contenedor'>
                 {cuttingSheet.containerPositioning}
               </DetailField>
-              <DetailField label='Debajo Cubierta'>
+              <DetailField label='Debajo cubierta'>
                 {cuttingSheet.belowDeck}
               </DetailField>
               <DetailField label='PDF'>
@@ -122,13 +122,13 @@ const DetailCuttingSheet = ({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Puerto Salida'>
+              <DetailField label='Puerto salida'>
                 {ex.harborDeparture.name}
               </DetailField>
               <DetailField label='Ubicación'>
                 {ex.harborDeparture.location}
               </DetailField>
-              <DetailField label='Puerto Destino'>
+              <DetailField label='Puerto destino'>
                 {ex.harborDestination.name}
               </DetailField>
               <DetailField label='Ubicación'>
@@ -153,13 +153,13 @@ const DetailCuttingSheet = ({
             <DetailFields>
               <DetailField label='Nombre'>{ex.boxBrand.name}</DetailField>
               <DetailField label='Código'>{ex.boxBrand.brandCode}</DetailField>
-              <DetailField label='Peso Neto'>
+              <DetailField label='Peso neto'>
                 {ex.boxBrand.netWeightBox} lbs
               </DetailField>
-              <DetailField label='Peso Bruto'>
+              <DetailField label='Peso bruto'>
                 {ex.boxBrand.grossWeightBox} lbs
               </DetailField>
-              <DetailField label='Cantidad de Cajas'>
+              <DetailField label='Cantidad de cajas'>
                 {ex.boxQuantity}
               </DetailField>
             </DetailFields>

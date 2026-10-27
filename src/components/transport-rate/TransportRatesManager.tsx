@@ -101,7 +101,7 @@ export default function TransportRatesManager(): React.JSX.Element {
       { accessorKey: 'province.name', header: 'Provincia', size: 160 },
       {
         accessorKey: 'costPerContainer',
-        header: 'Costo por Contenedor',
+        header: 'Costo por contenedor',
         size: 170,
         Cell: ({ cell }): React.JSX.Element => (
           <span>${Number(cell.getValue<string>()).toFixed(2)}</span>
@@ -195,7 +195,7 @@ export default function TransportRatesManager(): React.JSX.Element {
                 />
                 <InputFieldProvinceSelect
                   name='provinceId'
-                  label='Provincia de la Finca'
+                  label='Provincia de la finca'
                   placeholder='Selecciona la provincia'
                   countryId={ecuadorId}
                 />
@@ -203,7 +203,7 @@ export default function TransportRatesManager(): React.JSX.Element {
             )}
             <InputFieldPlain
               name='costPerContainer'
-              label='Costo por Contenedor'
+              label='Costo por contenedor'
               placeholder='85.50'
               unit='USD/cont.'
               inputMode='decimal'
@@ -215,7 +215,7 @@ export default function TransportRatesManager(): React.JSX.Element {
           </Text>
           <HStack mt={4}>
             <Button type='submit' colorPalette='green' loading={isLoading}>
-              {editing ? 'Guardar Cambios' : 'Agregar Tarifa'}
+              {editing ? 'Guardar cambios' : 'Agregar tarifa'}
             </Button>
             {editing && (
               <Button variant='ghost' onClick={() => setEditing(null)}>

@@ -72,7 +72,7 @@ const AddSecurityKitForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Kit de Seguridad Creado con Éxito',
+            title: 'Kit de seguridad creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -98,7 +98,7 @@ const AddSecurityKitForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Kit de Seguridad</FormSectionTitle>
+              <FormSectionTitle>Agregar kit de seguridad</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button

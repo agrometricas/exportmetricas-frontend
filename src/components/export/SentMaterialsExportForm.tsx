@@ -203,7 +203,7 @@ const SentMaterialsExportForm = ({
       },
       onSuccess: () => {
         toaster.create({
-          title: 'Registro de Insumos Enviado con Éxito',
+          title: 'Registro de insumos enviado con éxito',
           type: 'success',
           duration: 5000,
           closable: true,
@@ -295,19 +295,19 @@ const SentMaterialsExportForm = ({
           </FormSectionTitle>
           <Box p='4' borderWidth='1px' borderRadius='md' borderColor='border'>
             <Text fontSize='sm'>
-              <strong>Marca de Caja:</strong> {brand?.name || 'N/A'}
+              <strong>Marca de caja:</strong> {brand?.name || 'N/A'}
             </Text>
             <Text fontSize='sm'>
-              <strong>Código de Marca:</strong> {brand?.brandCode || 'N/A'}
+              <strong>Código de marca:</strong> {brand?.brandCode || 'N/A'}
             </Text>
             <Text fontSize='sm'>
-              <strong>Peso Neto (Caja):</strong> {brand?.netWeightBox} LBS
+              <strong>Peso neto (caja):</strong> {brand?.netWeightBox} LBS
             </Text>
             <Text fontSize='sm'>
-              <strong>Peso Bruto (Caja):</strong> {brand?.grossWeightBox} LBS
+              <strong>Peso bruto (caja):</strong> {brand?.grossWeightBox} LBS
             </Text>
             <Text fontSize='sm'>
-              <strong>Marca Principal:</strong> {brand?.brand?.name || 'N/A'}
+              <strong>Marca principal:</strong> {brand?.brand?.name || 'N/A'}
             </Text>
           </Box>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt='16px'>
@@ -415,7 +415,7 @@ const SentMaterialsExportForm = ({
           )}
           {renderMaterialField(
             'clusterBagQuantity',
-            'Cluster Bag',
+            'Cluster bag',
             brand?.clusterBag,
             supplies?.clusterBagQuantity
           )}
@@ -445,7 +445,7 @@ const SentMaterialsExportForm = ({
           )}
           {renderMaterialField(
             'miniPalletsTypeQuantity',
-            'Mini Pallet',
+            'Mini pallet',
             brand?.miniPalletsType,
             supplies?.miniPalletsTypeQuantity,
             'C/C'
@@ -519,35 +519,35 @@ const SentMaterialsExportForm = ({
           )}
           {renderMaterialField(
             'latexRemoverQuantity',
-            'Removedor de Látex',
+            'Removedor de látex',
             brand?.latexRemover,
             supplies?.latexRemoverQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'blockingSheetQuantity',
-            'Lámina de Bloque',
+            'Lámina de bloque',
             brand?.blockingSheet,
             supplies?.blockingSheetQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'containerSealPlasticQuantity',
-            'Plástico de Cierre Contenedor',
+            'Plástico de cierre contenedor',
             brand?.containerSealPlastic,
             supplies?.containerSealPlasticQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'securityKitQuantity',
-            'Kit de Seguridad',
+            'Kit de seguridad',
             brand?.securityKit,
             supplies?.securityKitQuantity,
             'U/C'
           )}
           {renderMaterialField(
             'boardingCardQuantity',
-            'Tarjeta de Embarque',
+            'Tarjeta de embarque',
             brand?.boardingCard,
             supplies?.boardingCardQuantity,
             'U/C'

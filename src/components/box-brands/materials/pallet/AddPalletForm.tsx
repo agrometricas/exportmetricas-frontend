@@ -68,7 +68,7 @@ const AddPalletForm = ({ onClose }: AddPalletFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Pallet creado con Éxito',
+            title: 'Pallet creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -90,7 +90,7 @@ const AddPalletForm = ({ onClose }: AddPalletFormProps): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar Pallet</FormSectionTitle>
+            <FormSectionTitle>Agregar pallet</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

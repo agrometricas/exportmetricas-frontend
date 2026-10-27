@@ -9,7 +9,7 @@ function AddCuttingTypePage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdContentCut}
-      title='Agregar Tipo de Corte'
+      title='Agregar tipo de corte'
       description='Completa el formulario para registrar un tipo de corte'
     >
       <AddCuttingTypeForm />

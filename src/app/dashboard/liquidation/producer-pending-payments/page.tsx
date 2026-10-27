@@ -9,7 +9,7 @@ function ExportPaymentsPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdPaid}
-      title='Pagos a Productores'
+      title='Pagos a productores'
       description='Revisa y gestiona los pagos pendientes a productores'
       width='wide'
     >

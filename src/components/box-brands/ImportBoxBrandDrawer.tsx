@@ -171,7 +171,7 @@ const ImportFilesDrawer: React.FC = () => {
       },
       onError: (error) => {
         toaster.create({
-          title: 'Error al importar Materiales',
+          title: 'Error al importar materiales',
           description: serverErrorMessage(error),
           type: 'error',
           duration: 5000,
@@ -281,7 +281,7 @@ const ImportFilesDrawer: React.FC = () => {
             <Drawer.Content>
               <Drawer.CloseTrigger />
               <Drawer.Body>
-                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar Marcas de Caja</Text>
+                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar marcas de caja</Text>
                 <Text mb={4} fontSize="sm" color="fg.muted">
                   ¿Necesitas ayuda?{' '}
                   <Link
@@ -367,7 +367,7 @@ const ImportFilesDrawer: React.FC = () => {
                     </Box>
                   </Field.Root>
                 )}
-                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar Materiales</Text>
+                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar materiales</Text>
                 <Text mb={4} fontSize="sm" color="fg.muted">
                   ¿Necesitas ayuda?{' '}
                   <Link

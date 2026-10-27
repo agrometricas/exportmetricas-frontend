@@ -54,22 +54,22 @@ const DetailCuttingTypes = ({
             <Box>
               <DetailFields>
                 <DetailField label='Calidad'>{cuttingType.quality}</DetailField>
-                <DetailField label='Tipo de Envío'>
+                <DetailField label='Tipo de envío'>
                   {cuttingType.shipmentType}
                 </DetailField>
-                <DetailField label='Hojas en Cosecha'>
+                <DetailField label='Hojas en cosecha'>
                   {cuttingType.leavesAtHarvest}
                 </DetailField>
-                <DetailField label='Edad Máxima al Corte'>
+                <DetailField label='Edad máxima al corte'>
                   {cuttingType.maxAgeAtCut}
                 </DetailField>
-                <DetailField label='Calibre Mínimo'>
+                <DetailField label='Calibre mínimo'>
                   {cuttingType.minCaliber}
                 </DetailField>
-                <DetailField label='Calibre Máximo'>
+                <DetailField label='Calibre máximo'>
                   {cuttingType.maxCaliber}
                 </DetailField>
-                <DetailField label='Longitud del Dedo'>
+                <DetailField label='Longitud del dedo'>
                   {cuttingType.fingerLength}
                 </DetailField>
               </DetailFields>
@@ -96,28 +96,28 @@ const DetailCuttingTypes = ({
           <Accordion.ItemBody>
             <Box>
               <DetailFields>
-                <DetailField label='Detalle del Racimo'>
+                <DetailField label='Detalle del racimo'>
                   {cuttingType.clusterDetail}
                 </DetailField>
-                <DetailField label='Detalle de la Etiqueta'>
+                <DetailField label='Detalle de la etiqueta'>
                   {cuttingType.labelDetail}
                 </DetailField>
-                <DetailField label='Primera Línea'>
+                <DetailField label='Primera línea'>
                   {cuttingType.firstLine || 'N/A'}
                 </DetailField>
-                <DetailField label='Segunda Línea'>
+                <DetailField label='Segunda línea'>
                   {cuttingType.secondLine || 'N/A'}
                 </DetailField>
-                <DetailField label='Tercera Línea'>
+                <DetailField label='Tercera línea'>
                   {cuttingType.thirdLine || 'N/A'}
                 </DetailField>
-                <DetailField label='Cuarta Línea'>
+                <DetailField label='Cuarta línea'>
                   {cuttingType.fourthLine || 'N/A'}
                 </DetailField>
-                <DetailField label='Patrón de Empaquetado'>
+                <DetailField label='Patrón de empaquetado'>
                   {cuttingType.packagingPattern}
                 </DetailField>
-                <DetailField label='Detalle de Pallet'>
+                <DetailField label='Detalle de pallet'>
                   {cuttingType.palletDetail}
                 </DetailField>
                 <DetailField label='Esquineros'>
@@ -126,19 +126,19 @@ const DetailCuttingTypes = ({
                 <DetailField label='Refuerzos'>
                   {cuttingType.reinforcementsDetail}
                 </DetailField>
-                <DetailField label='Cintas Plásticas'>
+                <DetailField label='Cintas plásticas'>
                   {cuttingType.plasticStrapsDetail}
                 </DetailField>
                 <DetailField label='Grapas'>
                   {cuttingType.staplesDetail}
                 </DetailField>
-                <DetailField label='Hojas de Bloqueo'>
+                <DetailField label='Hojas de bloqueo'>
                   {cuttingType.blockingSheetsDetail}
                 </DetailField>
-                <DetailField label='Detalle de Transporte'>
+                <DetailField label='Detalle de transporte'>
                   {cuttingType.transportDetail}
                 </DetailField>
-                <DetailField label='Observaciones Generales'>
+                <DetailField label='Observaciones generales'>
                   {cuttingType.generalObservations || 'Sin observaciones'}
                 </DetailField>
               </DetailFields>

@@ -9,7 +9,7 @@ function CounterpartTotalsPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdInsights}
-      title='Totales por Contraparte'
+      title='Totales por contraparte'
       description='Cajas, contenedores y montos de un período por cliente, productor, finca, puerto, naviera, depósito y verificadora'
       width='wide'
     >

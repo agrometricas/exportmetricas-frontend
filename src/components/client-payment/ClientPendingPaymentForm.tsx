@@ -169,7 +169,7 @@ const ClientPendingPaymentFields = ({
         Cuenta Bancaria Origen
       </FormSectionTitle>
 
-      <SelectBankAccount name={'sourceBankAccountId'} label='Razón Social' />
+      <SelectBankAccount name={'sourceBankAccountId'} label='Razón social' />
 
       <FormSectionTitle>
         Cuenta Bancaria Destino
@@ -177,7 +177,7 @@ const ClientPendingPaymentFields = ({
 
       <SelectBankAccount
         name={'destinationBankAccountId'}
-        label='Razón Social'
+        label='Razón social'
       />
 
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
@@ -255,7 +255,7 @@ const ClientPendingPaymentForm = ({
       }
 
       toaster.create({
-        title: 'Cobro y Archivo Subidos con Éxito',
+        title: 'Cobro y archivo subidos con éxito',
         type: 'success',
         duration: 5000,
         closable: true,

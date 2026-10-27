@@ -9,7 +9,7 @@ function StockMovementsPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdTimeline}
-      title='Trazabilidad de Stock'
+      title='Trazabilidad de stock'
       description='Consulta los movimientos de materiales por finca'
       width='wide'
     >

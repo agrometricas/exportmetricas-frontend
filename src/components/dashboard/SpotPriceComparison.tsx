@@ -76,44 +76,53 @@ export function SpotPriceComparison({ spot }: Props): JSX.Element {
             Frente a ${spot.reference.price} del {spotDay(spot.reference.date)}
           </Text>
         )}
-        <Table.Root size='sm' variant='line'>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>Productor</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign='end'>Promedio</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign='center'>
-                Tendencia
-              </Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {spot.producers.map(({ merchant, averagePrice, trend }) => {
-              const shown = trend ? TRENDS[trend] : null;
-              return (
-                <Table.Row key={merchant.id}>
-                  <Table.Cell>{merchant.name}</Table.Cell>
-                  <Table.Cell textAlign='end'>${averagePrice}</Table.Cell>
-                  <Table.Cell textAlign='center'>
-                    {shown ? (
-                      <Icon
-                        color={shown.color}
-                        fontSize='xl'
-                        aria-label={shown.label}
-                        asChild
-                      >
-                        <shown.icon />
-                      </Icon>
-                    ) : (
-                      <Text as='span' color='fg.muted'>
-                        —
-                      </Text>
-                    )}
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-        </Table.Root>
+        {spot.producers.length === 0 ? (
+          <Text fontSize='sm' color='fg.muted'>
+            Aún no hay pagos a productores con contrato SPOT en la semana
+            seleccionada.
+          </Text>
+        ) : (
+          <Table.Root size='sm' variant='line'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Productor</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='end'>
+                  Promedio
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='center'>
+                  Tendencia
+                </Table.ColumnHeader>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {spot.producers.map(({ merchant, averagePrice, trend }) => {
+                const shown = trend ? TRENDS[trend] : null;
+                return (
+                  <Table.Row key={merchant.id}>
+                    <Table.Cell>{merchant.name}</Table.Cell>
+                    <Table.Cell textAlign='end'>${averagePrice}</Table.Cell>
+                    <Table.Cell textAlign='center'>
+                      {shown ? (
+                        <Icon
+                          color={shown.color}
+                          fontSize='xl'
+                          aria-label={shown.label}
+                          asChild
+                        >
+                          <shown.icon />
+                        </Icon>
+                      ) : (
+                        <Text as='span' color='fg.muted'>
+                          —
+                        </Text>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table.Body>
+          </Table.Root>
+        )}
       </Box>
     </VStack>
   );

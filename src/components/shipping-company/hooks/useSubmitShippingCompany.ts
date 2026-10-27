@@ -92,7 +92,7 @@ export function useSubmitShippingCompany(): {
       },
       onSuccess: () => {
         toaster.create({
-          title: 'Naviero Creado con éxito',
+          title: 'Naviero creado con éxito',
           type: 'success',
           duration: 5000,
           closable: true,

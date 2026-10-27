@@ -99,12 +99,12 @@ export default function BoxBrandCargoModal({
                     <Flex direction='column' gap={4}>
                       <InputFieldSelector
                         name='cargoType'
-                        label='Tipo de Carga'
+                        label='Tipo de carga'
                         options={CARGO_TYPE_OPTIONS}
                       />
                       <InputFieldSelector
                         name='boxTypeId'
-                        label='Tipo de Caja'
+                        label='Tipo de caja'
                         placeholder='Sin tipo de caja'
                         options={options}
                       />

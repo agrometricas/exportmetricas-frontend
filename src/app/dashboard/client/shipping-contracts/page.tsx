@@ -26,13 +26,13 @@ function ShippingContractsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdDirectionsBoat}
-      title='Contratos Navieros'
+      title='Contratos navieros'
       description='Costo por contenedor de cada ruta, con su vigencia'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Contrato'
+            aria-label='Agregar contrato'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

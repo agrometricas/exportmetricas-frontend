@@ -52,7 +52,7 @@ const CuttingSheetPage = (): React.JSX.Element => {
   return (
     <CardPage
       icon={MdContentCut}
-      title='Hoja de Corte'
+      title='Hoja de corte'
       description='Completa y envía la hoja de corte del envío seleccionado'
     >
       <CuttingSheetForm

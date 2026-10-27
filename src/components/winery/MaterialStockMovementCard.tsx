@@ -85,7 +85,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
         <Flex flex='1' align='center'>
           <NativeSelect.Root>
             <NativeSelect.Field
-              placeholder='Filtrar por Tipo'
+              placeholder='Filtrar por tipo'
               value={filterType === 'ALL' ? '' : filterType}
               onChange={(e) => setFilterType(e.target.value)}
               width='100%'

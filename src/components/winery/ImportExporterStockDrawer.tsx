@@ -85,7 +85,7 @@ const ImportExporterStockDrawer: React.FC = () => {
         },
         onError: (error) => {
           toaster.create({
-            title: 'Error al importar Stock de Exportadora',
+            title: 'Error al importar stock de exportadora',
             description: serverErrorMessage(error),
             type: 'error',
             duration: 5000,
@@ -139,7 +139,7 @@ const ImportExporterStockDrawer: React.FC = () => {
         },
         onError: (error) => {
           toaster.create({
-            title: 'Error al importar Stock de Fincas',
+            title: 'Error al importar stock de fincas',
             description: serverErrorMessage(error),
             type: 'error',
             duration: 5000,

@@ -90,7 +90,7 @@ const DetailBoxBrand = ({
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de Pesticidas',
+            ['name']: 'Cóctel de pesticidas',
             ['quantity']: inputObject[key].length,
             ['array']: inputObject[key],
           });
@@ -106,7 +106,7 @@ const DetailBoxBrand = ({
           )
         ) {
           outputArray.push({
-            ['name']: 'Cóctel de Insecticidas',
+            ['name']: 'Cóctel de insecticidas',
             ['quantity']: inputObject[key].length,
             ['array']: inputObject[key],
           });

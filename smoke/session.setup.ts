@@ -12,7 +12,8 @@ setup('inicia sesión con el usuario de prueba', async ({ page }) => {
   await page.getByLabel('Correo').fill(email);
   await page.getByRole('textbox', { name: 'Contraseña' }).fill(password);
   await page.getByRole('button', { name: 'Iniciar sesión' }).click();
-  await expect(page).not.toHaveURL(/\/auth\/signin/);
+  // `npm run dev` compiles the next page on the way, which takes a while.
+  await expect(page).not.toHaveURL(/\/auth\/signin/, { timeout: 30_000 });
 
   await page.goto('/dashboard');
   await expect(page).toHaveURL(/\/dashboard/);

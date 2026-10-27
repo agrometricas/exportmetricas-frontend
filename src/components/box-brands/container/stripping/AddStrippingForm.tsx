@@ -103,7 +103,7 @@ const AddStrippingForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Zuncho Creado con Éxito',
+            title: 'Zuncho creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -129,7 +129,7 @@ const AddStrippingForm = ({
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Zuncho</FormSectionTitle>
+              <FormSectionTitle>Agregar zuncho</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

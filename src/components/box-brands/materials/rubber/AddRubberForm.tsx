@@ -101,7 +101,7 @@ const AddRubberForm = ({ onClose }: AddRubberFormProps): React.JSX.Element => {
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Liga Creada con Éxito',
+            title: 'Liga creada con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -127,7 +127,7 @@ const AddRubberForm = ({ onClose }: AddRubberFormProps): React.JSX.Element => {
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Liga</FormSectionTitle>
+              <FormSectionTitle>Agregar liga</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldNumber

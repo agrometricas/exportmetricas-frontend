@@ -34,7 +34,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldProducerSelect
           name={name}
-          label="Productor/Razón Social"
+          label="Productor/Razón social"
           placeholder="Selecciona el productor"
           setProducer={setProducer}
         />
@@ -43,7 +43,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Input
             readOnly
             value={producer?.businessId || ''}
-            placeholder="RUC del Productor"
+            placeholder="RUC del productor"
           />
         </Box>
         <Box>
@@ -51,7 +51,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           <Input
             readOnly
             value={producer?.address || ''}
-            placeholder="Dirección del Productor"
+            placeholder="Dirección del productor"
           />
         </Box>
         {producer?.city?.name &&
@@ -60,16 +60,16 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
             <Input
               readOnly
               value={producer?.city?.name || ''}
-              placeholder="Ciudad del Productor"
+              placeholder="Ciudad del productor"
             />
           </Box>}
         {!producer?.city?.name && (
           <Box>
-            <FormLabel fontSize='sm'>Tipo de Contrato</FormLabel>
+            <FormLabel fontSize='sm'>Tipo de contrato</FormLabel>
             <Input
               readOnly
               value={producer?.contractType || 'No disponible'}
-              placeholder="Contrato del Productor"
+              placeholder="Contrato del productor"
             />
           </Box>
         )}

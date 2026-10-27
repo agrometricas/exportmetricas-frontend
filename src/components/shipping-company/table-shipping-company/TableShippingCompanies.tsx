@@ -28,15 +28,15 @@ const TableShippingCompanies = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<ShippingCompanyResponse>[]>(
     () => [
       {
-        header: 'Compañía Naviera',
+        header: 'Compañía naviera',
         columns: [
           { accessorKey: 'name', header: 'Nombre' },
           { accessorKey: 'code', header: 'Código' },
           { accessorKey: 'frequencies', header: 'Frecuencia' },
-          { accessorKey: 'cargoType', header: 'Tipo de Carga' },
+          { accessorKey: 'cargoType', header: 'Tipo de carga' },
           {
             accessorKey: 'trackingPlatform',
-            header: 'Plataforma Tracking',
+            header: 'Plataforma tracking',
             Cell: ({ cell }): React.ReactNode => {
               const value = cell.getValue<string>();
               return value ? (
@@ -83,7 +83,7 @@ const TableShippingCompanies = (): React.JSX.Element => {
                 ? `${row.harbors.length} ruta${row.harbors.length > 1 ? 's' : ''}`
                 : 'Ninguna';
             },
-            header: 'Rutas Asignadas',
+            header: 'Rutas asignadas',
           },
           {
             accessorFn: (row): string => {
@@ -94,7 +94,7 @@ const TableShippingCompanies = (): React.JSX.Element => {
                 )
                 .join(', ');
             },
-            header: 'Origen → Destino',
+            header: 'Origen → destino',
           },
         ],
       },

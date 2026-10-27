@@ -110,6 +110,7 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
   return (
     <ChakraSelect
       {...field}
+      instanceId={name}
       name={name}
       menuPortalTarget={menuPortalTarget}
       styles={{

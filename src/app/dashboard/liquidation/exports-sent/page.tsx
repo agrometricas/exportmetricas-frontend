@@ -24,12 +24,12 @@ function SearchExportsSentPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdLocalShipping}
-      title='Gestión de Envíos de Insumos'
+      title='Gestión de envíos de insumos'
       description='Visualiza y administra los envíos de insumos realizados'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Envío de Insumos'
+            aria-label='Agregar envío de insumos'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

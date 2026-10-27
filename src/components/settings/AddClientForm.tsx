@@ -48,42 +48,42 @@ export default function AddClientForm(): React.JSX.Element {
             <FormSectionTitle>Cliente</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldText name='businessName' label='Nombre/Razón Social' />
+              <InputFieldText name='businessName' label='Nombre/Razón social' />
               <InputFieldText name='businessId' label='RUC' />
               <InputFieldText name='address' label='Dirección' />
               <InputFieldSelector name='type' label='Tipo' options={typesOpt} />
-              <InputFieldText name='commercialType' label='Tipo Comercial' />
-              <InputFieldText name='postalCode' label='Código Postal' />
+              <InputFieldText name='commercialType' label='Tipo comercial' />
+              <InputFieldText name='postalCode' label='Código postal' />
               <InputFieldText name='email' label='Correo' />
               <InputFieldText name='phone' label='Teléfono' />
-              <InputFieldText name='website' label='Sitio Web' />
+              <InputFieldText name='website' label='Sitio web' />
               <InputFieldPlain
                 name='purchaseVolumeBoxes'
-                label='Volumen de Compra (cajas)'
+                label='Volumen de compra (cajas)'
                 inputMode='numeric'
                 placeholder='Por ejemplo: 100000'
               />
               <InputFieldSelector
                 name='purchaseVolumePeriod'
-                label='Período del Volumen'
+                label='Período del volumen'
                 placeholder='Selecciona el período'
                 options={VOLUME_PERIOD_OPTIONS}
               />
               <InputFieldPlain
                 name='paymentTermValue'
-                label='Plazo de Pago (0 es contado)'
+                label='Plazo de pago (0 es contado)'
                 inputMode='numeric'
                 placeholder='Por ejemplo: 30'
               />
               <InputFieldSelector
                 name='paymentTermUnit'
-                label='Unidad del Plazo'
+                label='Unidad del plazo'
                 placeholder='Selecciona la unidad'
                 options={PAYMENT_UNIT_OPTIONS}
               />
               <InputFieldSelector
                 name={'shippingMethod'}
-                label={'Método de Envío'}
+                label={'Método de envío'}
                 options={ShippingMethodOptions}
               />
               <InputFieldCountrySelect

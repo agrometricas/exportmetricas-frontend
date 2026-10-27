@@ -155,7 +155,7 @@ const AddCuttingTypeForm = ({
       onError,
       onSuccess: () => {
         formikHelpers.resetForm();
-        onSaved('Tipo de Corte Creado con Éxito');
+        onSaved('Tipo de corte creado con éxito');
       },
     });
   };
@@ -172,7 +172,7 @@ const AddCuttingTypeForm = ({
         {({ isSubmitting }) => (
           <Form>
             <Flex flexDirection='column' gap={2}>
-              <FormSectionTitle>Marca de Caja</FormSectionTitle>
+              <FormSectionTitle>Marca de caja</FormSectionTitle>
 
               <SelectBoxBrand
                 name={'boxBrandId'}
@@ -189,7 +189,7 @@ const AddCuttingTypeForm = ({
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldPlain
                   name='shipmentType'
-                  label='Nombre del Tipo de Corte'
+                  label='Nombre del tipo de corte'
                 />
                 <InputFieldSelector
                   name='quality'
@@ -201,7 +201,7 @@ const AddCuttingTypeForm = ({
                   }))}
                 />
               </SimpleGrid>
-              <FormSectionTitle>Detalles del Corte</FormSectionTitle>
+              <FormSectionTitle>Detalles del corte</FormSectionTitle>
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -210,7 +210,7 @@ const AddCuttingTypeForm = ({
                   borderColor='border'
                 >
                   <Text fontSize='sm'>
-                    <strong>Cluster Bag:</strong>{' '}
+                    <strong>Cluster bag:</strong>{' '}
                     {boxBrandDetails?.clusterBag?.name || 'N/A'}.
                   </Text>
                   <Text fontSize='sm'>
@@ -224,11 +224,11 @@ const AddCuttingTypeForm = ({
                     {boxBrandDetails?.clusterBag?.dimensions || 'N/A'}.
                   </Text>
                   <Text fontSize='sm'>
-                    <strong>Peso Neto de Caja:</strong>{' '}
+                    <strong>Peso neto de caja:</strong>{' '}
                     {boxBrandDetails.netWeightBox} LBS
                   </Text>
                   <Text fontSize='sm'>
-                    <strong>Peso Bruto de Caja:</strong>{' '}
+                    <strong>Peso bruto de caja:</strong>{' '}
                     {boxBrandDetails.grossWeightBox} LBS
                   </Text>
                 </Box>
@@ -238,28 +238,28 @@ const AddCuttingTypeForm = ({
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldPlain
                   name='leavesAtHarvest'
-                  label='Hojas en Cosecha'
-                  placeholder='Numero Mínimo de Hojas Funcionales'
+                  label='Hojas en cosecha'
+                  placeholder='Numero mínimo de hojas funcionales'
                 />
                 <InputFieldPlain
                   name='maxAgeAtCut'
-                  label='Edad Máxima al Corte'
-                  placeholder='Numero de Semanas al Corte'
+                  label='Edad máxima al corte'
+                  placeholder='Numero de semanas al corte'
                 />
                 <InputFieldPlain
                   name='minCaliber'
-                  label='Calibre Mínimo'
-                  placeholder='Numero de Calibre Mínimo'
+                  label='Calibre mínimo'
+                  placeholder='Numero de calibre mínimo'
                 />
                 <InputFieldPlain
                   name='maxCaliber'
-                  label='Calibre Máximo'
-                  placeholder='Numero de Calibre Maximo'
+                  label='Calibre máximo'
+                  placeholder='Numero de calibre maximo'
                 />
                 <InputFieldPlain
                   name='fingerLength'
-                  label='Largo del Dedo'
-                  placeholder='Longitud Mínima del Dedo en Pulgadas'
+                  label='Largo del dedo'
+                  placeholder='Longitud mínima del dedo en pulgadas'
                 />
                 <InputFieldPlain
                   name='saneos'
@@ -270,26 +270,26 @@ const AddCuttingTypeForm = ({
                 <InputFieldPlain
                   name='cunas'
                   label='Cuñas'
-                  placeholder='Cuñas por Caja'
+                  placeholder='Cuñas por caja'
                 />
                 <InputFieldPlain
                   name='clusterDetail'
-                  label='Detalle de Cluster'
-                  placeholder='Cantidad Mínima y Maxima de # de Dedos por Cluster'
+                  label='Detalle de cluster'
+                  placeholder='Cantidad mínima y maxima de # de dedos por cluster'
                 />
                 <InputFieldPlain
                   name='labelDetail'
-                  label='Detalle de Etiqueta'
-                  placeholder='Detalle de Distribucion de Etiquetas'
+                  label='Detalle de etiqueta'
+                  placeholder='Detalle de distribucion de etiquetas'
                 />
               </SimpleGrid>
-              <FormSectionTitle>Detalles de Empaque</FormSectionTitle>
+              <FormSectionTitle>Detalles de empaque</FormSectionTitle>
 
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldSelector
                   name={'firstLine'}
-                  label={'Primera Línea '}
-                  placeholder='Selecciona el Diseño de la Primera Línea'
+                  label={'Primera línea '}
+                  placeholder='Selecciona el diseño de la primera línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -299,8 +299,8 @@ const AddCuttingTypeForm = ({
                 />
                 <InputFieldSelector
                   name={'secondLine'}
-                  label={'Segunda Línea '}
-                  placeholder='Selecciona el Diseño de la Segunda Línea'
+                  label={'Segunda línea '}
+                  placeholder='Selecciona el diseño de la segunda línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -310,8 +310,8 @@ const AddCuttingTypeForm = ({
                 />
                 <InputFieldSelector
                   name={'thirdLine'}
-                  label={'Tercera Línea '}
-                  placeholder='Selecciona el Diseño de la Tercera Línea'
+                  label={'Tercera línea '}
+                  placeholder='Selecciona el diseño de la tercera línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -321,8 +321,8 @@ const AddCuttingTypeForm = ({
                 />
                 <InputFieldSelector
                   name={'fourthLine'}
-                  label={'Cuarta Línea '}
-                  placeholder='Selecciona el Diseño de la Cuarta Línea'
+                  label={'Cuarta línea '}
+                  placeholder='Selecciona el diseño de la cuarta línea'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -332,8 +332,8 @@ const AddCuttingTypeForm = ({
                 />
                 <InputFieldSelector
                   name={'packagingPattern'}
-                  label={'Patrón de Empaque'}
-                  placeholder='Selecciona el Patrón de Empaque'
+                  label={'Patrón de empaque'}
+                  placeholder='Selecciona el patrón de empaque'
                   flexDirection='column'
                   alignItems='flex-end'
                   options={optionsWithSaved(
@@ -342,7 +342,7 @@ const AddCuttingTypeForm = ({
                   )}
                 />
               </SimpleGrid>
-              <FormSectionTitle>Detalles de Transporte</FormSectionTitle>
+              <FormSectionTitle>Detalles de transporte</FormSectionTitle>
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -384,7 +384,7 @@ const AddCuttingTypeForm = ({
                         paquete).
                       </Text>
                       <Text fontSize='sm'>
-                        <strong>Hojas de Bloqueo:</strong>{' '}
+                        <strong>Hojas de bloqueo:</strong>{' '}
                         {boxBrandDetails?.blockingSheet?.name || 'N/A'} (
                         {boxBrandDetails?.blockingSheetQuantity || 'N/A'}{' '}
                         unidades, dimensiones:{' '}
@@ -393,7 +393,7 @@ const AddCuttingTypeForm = ({
                     </Box>
                     <Box>
                       <Text fontSize='sm'>
-                        <strong>Mini Pallets:</strong>{' '}
+                        <strong>Mini pallets:</strong>{' '}
                         {boxBrandDetails?.miniPalletsType?.name || 'N/A'} (
                         {boxBrandDetails?.miniPalletsTypeQuantity || 'N/A'}{' '}
                         unidades).
@@ -438,43 +438,43 @@ const AddCuttingTypeForm = ({
 
               <InputFieldPlain
                 name='palletDetail'
-                label='Detalle de los Pallets'
-                placeholder='Indica el Uso o Disposición de los Pallets'
+                label='Detalle de los pallets'
+                placeholder='Indica el uso o disposición de los pallets'
               />
               <InputFieldPlain
                 name='cornerProtectorsDetail'
-                label='Detalle de los Esquineros'
-                placeholder='Indica el Uso o Disposición de los Esquineros'
+                label='Detalle de los esquineros'
+                placeholder='Indica el uso o disposición de los esquineros'
               />
               <InputFieldPlain
                 name='reinforcementsDetail'
-                label='Detalle de los Refuerzos'
-                placeholder='Indica el Uso o Disposición de los Refuerzos'
+                label='Detalle de los refuerzos'
+                placeholder='Indica el uso o disposición de los refuerzos'
               />
               <InputFieldPlain
                 name='plasticStrapsDetail'
-                label='Detalle de los Zunchos Plasticos'
-                placeholder='Indica el Uso o Disposición de los Zunchos Plasticos'
+                label='Detalle de los zunchos plasticos'
+                placeholder='Indica el uso o disposición de los zunchos plasticos'
               />
               <InputFieldPlain
                 name='staplesDetail'
-                label='Detalle de las Grapas'
-                placeholder='Indica el Uso o Disposición de las Grapas'
+                label='Detalle de las grapas'
+                placeholder='Indica el uso o disposición de las grapas'
               />
               <InputFieldPlain
                 name='blockingSheetsDetail'
-                label='Detalle de las Laminas de Bloqueo'
-                placeholder='Indica el Uso o Disposición de las Laminas de Bloqueo'
+                label='Detalle de las laminas de bloqueo'
+                placeholder='Indica el uso o disposición de las laminas de bloqueo'
               />
               <InputFieldPlain
                 name='transportDetail'
-                label='Detalle del Termografo'
-                placeholder='Indica el Uso o Ubicación del Termografo'
+                label='Detalle del termografo'
+                placeholder='Indica el uso o ubicación del termografo'
               />
               <InputFieldTextArea
                 name='generalObservations'
-                label='Observaciones Generales'
-                placeholder='Ingresa Cualquier Observación Adicional de Corte'
+                label='Observaciones generales'
+                placeholder='Ingresa cualquier observación adicional de corte'
               />
               <FormActions>
                 <Button

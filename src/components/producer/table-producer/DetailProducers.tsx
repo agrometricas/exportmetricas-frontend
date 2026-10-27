@@ -27,10 +27,10 @@ const DetailProducers = ({
           <Accordion.ItemBody>
             <DetailFields>
               <DetailField label='Nombre'>{business.businessName}</DetailField>
-              <DetailField label='ID del Negocio'>
+              <DetailField label='ID del negocio'>
                 {business.businessId}
               </DetailField>
-              <DetailField label='Correo Electrónico'>
+              <DetailField label='Correo electrónico'>
                 {business.email}
               </DetailField>
               <DetailField label='Provincia'>
@@ -38,7 +38,7 @@ const DetailProducers = ({
               </DetailField>
               <DetailField label='Ciudad'>{business.city.name}</DetailField>
               <DetailField label='Dirección'>{business.address}</DetailField>
-              <DetailField label='Tipo de Contrato'>
+              <DetailField label='Tipo de contrato'>
                 {business.contractType}
               </DetailField>
             </DetailFields>
@@ -60,7 +60,7 @@ const DetailProducers = ({
               <DetailItem key={index}>
                 <DetailFields>
                   <DetailField label='Nombre'>{biz.name}</DetailField>
-                  <DetailField label='Tipo de Fruta'>
+                  <DetailField label='Tipo de fruta'>
                     {biz.fruitType}
                   </DetailField>
                   <DetailField label='Área'>{biz.area} hectáreas</DetailField>
@@ -103,13 +103,13 @@ const DetailProducers = ({
                   <DetailFields>
                     <DetailField label='Banco'>{acc.bank}</DetailField>
                     <DetailField label='Propietario'>{acc.owner}</DetailField>
-                    <DetailField label='ID Propietario'>
+                    <DetailField label='ID propietario'>
                       {acc.ownerID}
                     </DetailField>
-                    <DetailField label='Número de Cuenta'>
+                    <DetailField label='Número de cuenta'>
                       {acc.accountNumber}
                     </DetailField>
-                    <DetailField label='Tipo de Cuenta'>{acc.type}</DetailField>
+                    <DetailField label='Tipo de cuenta'>{acc.type}</DetailField>
                     <DetailField label='Email'>{acc.email}</DetailField>
                   </DetailFields>
                 </DetailItem>

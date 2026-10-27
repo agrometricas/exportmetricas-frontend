@@ -60,7 +60,7 @@ export default function ForgotPasswordPage(): JSX.Element {
           <Form>
             <InputFieldText
               name='email'
-              label='Correo Electrónico'
+              label='Correo electrónico'
               placeholder='Correo electrónico'
             />
             <Button

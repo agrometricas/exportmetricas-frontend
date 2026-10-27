@@ -30,10 +30,10 @@ const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit }) => {
               <DetailField label='Código'>{deposit.code}</DetailField>
               <DetailField label='Dirección'>{deposit.address}</DetailField>
               <DetailField label='Ciudad'>{deposit.city.name}</DetailField>
-              <DetailField label='Hora de Apertura'>
+              <DetailField label='Hora de apertura'>
                 {deposit.openTime}
               </DetailField>
-              <DetailField label='Hora de Cierre'>
+              <DetailField label='Hora de cierre'>
                 {deposit.closeTime}
               </DetailField>
               {deposit.latitude && deposit.longitude && (

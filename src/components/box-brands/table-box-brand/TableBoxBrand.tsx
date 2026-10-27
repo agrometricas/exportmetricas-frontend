@@ -39,16 +39,16 @@ const TableBoxBrand = (): React.JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Partial<BoxBrandType>>[]>(
     () => [
       {
-        header: 'Marca de Caja',
+        header: 'Marca de caja',
         columns: [
           {
             accessorKey: 'name',
-            header: 'Nombre de la Caja',
+            header: 'Nombre de la caja',
             muiTableHeadCellProps: { style: { color: 'green' } },
           },
           {
             accessorKey: 'brand.name',
-            header: 'Marca Asociada',
+            header: 'Marca asociada',
             muiTableHeadCellProps: { style: { color: 'green' } },
           },
         ],
@@ -58,11 +58,11 @@ const TableBoxBrand = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'boxQuantity',
-            header: 'Cantidad de Cajas',
+            header: 'Cantidad de cajas',
           },
           {
             id: 'cargo',
-            header: 'Carga y Tipo de Caja',
+            header: 'Carga y tipo de caja',
             Cell: ({ row }): React.JSX.Element => (
               <HStack gap={3}>
                 <Text fontSize='sm'>
@@ -89,7 +89,7 @@ const TableBoxBrand = (): React.JSX.Element => {
           },
           {
             accessorKey: 'netWeightBox',
-            header: 'Peso Neto por Caja',
+            header: 'Peso neto por caja',
             Cell: ({ row }): string =>
               formatBoxWeight(
                 row.original.netWeightBox,
@@ -98,7 +98,7 @@ const TableBoxBrand = (): React.JSX.Element => {
           },
           {
             accessorKey: 'grossWeightBox',
-            header: 'Peso Bruto por Caja',
+            header: 'Peso bruto por caja',
             Cell: ({ row }): string =>
               formatBoxWeight(
                 row.original.grossWeightBox,
@@ -111,7 +111,7 @@ const TableBoxBrand = (): React.JSX.Element => {
           },
           {
             accessorKey: 'seal.type',
-            header: 'Tipo de Sello',
+            header: 'Tipo de sello',
           },
         ],
       },
@@ -120,7 +120,7 @@ const TableBoxBrand = (): React.JSX.Element => {
         columns: [
           {
             accessorKey: 'brandCode',
-            header: 'Código de Marca',
+            header: 'Código de marca',
             muiTableHeadCellProps: { style: { color: 'green' } },
           },
         ],

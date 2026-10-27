@@ -24,7 +24,7 @@ function ProducerContractsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineAssignment}
-      title='Contratos de Productor'
+      title='Contratos de productor'
       description='Cupo semanal aprobado de cada finca y su vigencia'
       actions={
         <>
@@ -32,7 +32,7 @@ function ProducerContractsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                aria-label='Agregar Contrato'
+                aria-label='Agregar contrato'
                 colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'

@@ -31,23 +31,23 @@ export default function DetailExporterMaterialStock({
         <Accordion.ItemContent pb={4}>
           <Accordion.ItemBody>
             <DetailFields>
-              <DetailField label='Nombre Comercial'>
+              <DetailField label='Nombre comercial'>
                 {materialDetail.name}
               </DetailField>
               <DetailField label='Código'>{materialDetail.code}</DetailField>
-              <DetailField label='Tipo de Material'>
+              <DetailField label='Tipo de material'>
                 {MATERIAL_TYPE_LABELS[materialType] ?? materialType}
               </DetailField>
-              <DetailField label='Stock Asignado'>
+              <DetailField label='Stock asignado'>
                 {assignedStock} unidades
               </DetailField>
-              <DetailField label='Stock Actual'>
+              <DetailField label='Stock actual'>
                 {currentStock} unidades
               </DetailField>
-              <DetailField label='Costo Asignado'>
+              <DetailField label='Costo asignado'>
                 ${assignedCost.toFixed(2)}
               </DetailField>
-              <DetailField label='Costo Actual'>
+              <DetailField label='Costo actual'>
                 ${currentCost.toFixed(2)}
               </DetailField>
             </DetailFields>

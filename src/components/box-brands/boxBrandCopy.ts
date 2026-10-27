@@ -6,14 +6,14 @@ export const OPTIONAL_MATERIALS: {
   section: MaterialSection;
 }[] = [
   { field: 'parasealTypeId', label: 'ParaSeal', section: 'box' },
-  { field: 'padTypeId', label: 'Mini Pad', section: 'box' },
+  { field: 'padTypeId', label: 'Mini pad', section: 'box' },
   { field: 'spongeTypeId', label: 'Esponja', section: 'box' },
   { field: 'labelId', label: 'Etiqueta', section: 'box' },
   { field: 'bandId', label: 'Banda', section: 'box' },
   { field: 'sachetId', label: 'Sachet', section: 'box' },
   { field: 'rubberId', label: 'Liga', section: 'box' },
   { field: 'protectorId', label: 'Protector', section: 'box' },
-  { field: 'clusterBagId', label: 'Cluster Bag', section: 'box' },
+  { field: 'clusterBagId', label: 'Cluster bag', section: 'box' },
   { field: 'cornerTypeId', label: 'Esquineros', section: 'container' },
   { field: 'reinforcementTypeId', label: 'Refuerzo', section: 'container' },
   { field: 'stapleId', label: 'Grapa', section: 'container' },

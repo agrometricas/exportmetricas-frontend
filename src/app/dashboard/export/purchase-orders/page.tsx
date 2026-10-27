@@ -24,12 +24,12 @@ function PurchaseOrdersPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdOutlineAssignment}
-      title='Órdenes de Compra'
+      title='Órdenes de compra'
       description='Lo que se le pide a cada productor por semana, y las exportaciones que nacen de cada línea'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Orden de Compra'
+            aria-label='Agregar orden de compra'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

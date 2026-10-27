@@ -27,7 +27,7 @@ export function getTopBarItems(): MenuItemProps[] {
     },
     {
       icon: FaPowerOff,
-      label: 'Cerrar Sesión',
+      label: 'Cerrar sesión',
       to: '/api/auth/signout',
     },
   ];

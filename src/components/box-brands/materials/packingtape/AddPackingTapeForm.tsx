@@ -70,7 +70,7 @@ const AddPackingTapeForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'PackingTape creado con Éxito',
+            title: 'PackingTape creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -92,7 +92,7 @@ const AddPackingTapeForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Agregar PackingTape</FormSectionTitle>
+            <FormSectionTitle>Agregar cinta de embalaje</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

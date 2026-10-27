@@ -144,7 +144,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             {!source && !fromLine && (
               <LastFarmExportAlert businessId={values.businessId} />
             )}
-            <FormSectionTitle>Marca de Caja</FormSectionTitle>
+            <FormSectionTitle>Marca de caja</FormSectionTitle>
             <SelectBoxBrand
               name='boxBrandId'
               boxBrandSelect={
@@ -155,22 +155,22 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='boxQuantity'
-                label='Cantidad de Cajas'
+                label='Cantidad de cajas'
                 unit='cajas'
                 value={source || fromLine ? initialValues.boxQuantity : ''}
               />
               <InputFieldSelector
                 name={'contractType'}
-                label={'Tipo de Contrato'}
+                label={'Tipo de contrato'}
                 options={ContractOpt}
               />
               <Box />
             </SimpleGrid>
-            <FormSectionTitle>Fecha de Corte</FormSectionTitle>
+            <FormSectionTitle>Fecha de corte</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
               <InputFieldDayDate
                 name={'cuttingDate'}
-                label={'Fecha de Corte'}
+                label={'Fecha de corte'}
               />
               {cuttingDay(values.cuttingDate) && (
                 <Box w={{ base: '98%' }}>
@@ -187,7 +187,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               )}
               <InputFieldDayDateTime
                 name='shippingDateTime'
-                label='Fecha Máxima de Ingreso'
+                label='Fecha máxima de ingreso'
               />
             </SimpleGrid>
             {cuttingDay(values.cuttingDate) && values.weekCutting && (
@@ -229,7 +229,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 <InputFieldShippingCompanySelect
                   name='shippingCompanyId'
                   label='Naviera'
-                  placeholder='Selecciona una Naviera'
+                  placeholder='Selecciona una naviera'
                   onSelect={() => {
                     setFieldValue('departureHarborId', '');
                     setFieldValue('destinationHarborId', '');
@@ -239,9 +239,9 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   <InputFieldHarborShippingCompany
                     key={`departure-${values.shippingCompanyId || 'none'}`}
                     name='departureHarborId'
-                    label='Puerto de Salida'
+                    label='Puerto de salida'
                     type='departure'
-                    placeholder='Selecciona un puerto de Salida'
+                    placeholder='Selecciona un puerto de salida'
                     shippingCompany={shippingCompanyById(
                       values.shippingCompanyId
                     )}
@@ -249,9 +249,9 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   <InputFieldHarborShippingCompany
                     key={`destination-${values.shippingCompanyId || 'none'}`}
                     name='destinationHarborId'
-                    label='Puerto de Destino'
+                    label='Puerto de destino'
                     type='destination'
-                    placeholder='Selecciona un puerto de Destino'
+                    placeholder='Selecciona un puerto de destino'
                     shippingCompany={shippingCompanyById(
                       values.shippingCompanyId
                     )}
@@ -261,7 +261,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
                   <InputFieldShipName
                     name='shipName'
-                    label='Nombre de la Nave'
+                    label='Nombre de la nave'
                     shippingCompanyId={values.shippingCompanyId}
                   />
                   <InputFieldText
@@ -273,7 +273,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   />
                   <InputFieldText
                     name='bookingNumber'
-                    label='Número de Booking'
+                    label='Número de booking'
                     defaultValue={
                       source ? initialValues.bookingNumber : undefined
                     }
@@ -286,21 +286,21 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               <InputFieldDepositSelect
                 name='depositId'
                 label='Depósito'
-                placeholder='Selecciona un Deposito'
+                placeholder='Selecciona un deposito'
               />
               <InputFieldTransportSelect
                 name='transportId'
                 label='Transporte'
-                placeholder='Selecciona un Transporte'
+                placeholder='Selecciona un transporte'
               />
               <InputFieldVerifierSelect
                 name='verifierId'
                 label='Verificadora'
-                placeholder='Selecciona una Verificadora'
+                placeholder='Selecciona una verificadora'
               />
               <InputFieldNumber
                 name='numberOfVerifiers'
-                label='Número de Verificadores'
+                label='Número de verificadores'
                 value={source ? initialValues.numberOfVerifiers : ''}
               />
             </SimpleGrid>

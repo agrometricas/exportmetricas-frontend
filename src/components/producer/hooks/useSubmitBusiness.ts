@@ -51,7 +51,7 @@ export function useSubmitBusiness(): {
                 },
                 onSuccess: async () => {
                     toaster.create({
-                        title: 'Finca Creada con Éxito',
+                        title: 'Finca creada con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

@@ -108,7 +108,7 @@ const AddInsecticideForm = ({
         },
         onSuccess: () => {
           toaster.create({
-            title: 'Insecticida Creado con Éxito',
+            title: 'Insecticida creado con éxito',
             type: 'success',
             duration: 5000,
             closable: true,
@@ -134,7 +134,7 @@ const AddInsecticideForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>Agregar Insecticide</FormSectionTitle>
+              <FormSectionTitle>Agregar insecticide</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText

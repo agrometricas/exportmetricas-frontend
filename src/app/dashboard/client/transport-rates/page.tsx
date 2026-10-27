@@ -12,7 +12,7 @@ function TransportRatesPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdLocalShipping}
-      title='Tarifas de Transporte'
+      title='Tarifas de transporte'
       description='Costo por contenedor de cada transportista según la provincia de la finca'
       tabs={<SectionTabs tabs={LOGISTICS_TABS} />}
     >

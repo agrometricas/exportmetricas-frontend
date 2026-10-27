@@ -9,7 +9,7 @@ function MaterialsExportPage(): React.JSX.Element {
   return (
     <CardPage
       icon={MdLocalShipping}
-      title='Envíos de Insumos'
+      title='Envíos de insumos'
       description='Revisa y gestiona las exportaciones pendientes de envío'
       width='wide'
     >

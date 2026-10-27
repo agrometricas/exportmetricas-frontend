@@ -31,7 +31,7 @@ export default function AddBusinessForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Selecciona el Productor</FormSectionTitle>
+            <FormSectionTitle>Selecciona el productor</FormSectionTitle>
             <SelectProducer name={'merchant'} />
 
             <FormSectionTitle>Finca</FormSectionTitle>
@@ -54,7 +54,7 @@ export default function AddBusinessForm(): React.JSX.Element {
               />
               <InputFieldSelector
                 name={'fruitType'}
-                label={'Tipo de Fruta'}
+                label={'Tipo de fruta'}
                 options={FruitTypeOpt}
               />
               <InputFieldCountrySelect
@@ -94,7 +94,7 @@ export default function AddBusinessForm(): React.JSX.Element {
               />
             </SimpleGrid>
 
-            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
+            <FormSectionTitle>Códigos de finca</FormSectionTitle>
 
             <FieldArray name='businessCodes'>
               {({ push, remove }) => (

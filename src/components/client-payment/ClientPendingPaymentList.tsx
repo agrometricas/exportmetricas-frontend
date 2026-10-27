@@ -85,7 +85,7 @@ const PendingPaymentList = (): React.JSX.Element => {
               href={`${pathname}/${item.id}`}
               label='Realizar cobro'
               title={`Abrir Cobro Pendiente: ${item.export?.client?.businessName || '—'}`}
-              description='¿Estás seguro de que deseas empezar este Cobro Pendiente?'
+              description='¿Estás seguro de que deseas empezar este cobro pendiente?'
             />
           )}
         />

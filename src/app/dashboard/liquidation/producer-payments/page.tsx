@@ -24,12 +24,12 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
   return (
     <PageLayout
       icon={MdPaid}
-      title='Pagos a Productores'
+      title='Pagos a productores'
       description='Visualiza y controla los pagos realizados a productores'
       actions={
         isMobile ? (
           <IconButton
-            aria-label='Agregar Pago a Productores'
+            aria-label='Agregar pago a productores'
             colorPalette='green'
             size={buttonSize}
             borderRadius='lg'

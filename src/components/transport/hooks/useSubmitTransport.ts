@@ -41,7 +41,7 @@ export function useSubmitTransport(): {
                 },
                 onSuccess: () => {
                     toaster.create({
-                        title: 'Transporte Creado con éxito',
+                        title: 'Transporte creado con éxito',
                         type: 'success',
                         duration: 5000,
                         closable: true,

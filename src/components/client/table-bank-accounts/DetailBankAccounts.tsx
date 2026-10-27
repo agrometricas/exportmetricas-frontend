@@ -23,13 +23,13 @@ const DetailBankAccounts = ({
             <DetailFields>
               <DetailField label='Banco'>{account.bank}</DetailField>
               <DetailField label='Propietario'>{account.owner}</DetailField>
-              <DetailField label='ID Propietario'>
+              <DetailField label='ID propietario'>
                 {account.ownerID}
               </DetailField>
-              <DetailField label='Número de Cuenta'>
+              <DetailField label='Número de cuenta'>
                 {account.accountNumber}
               </DetailField>
-              <DetailField label='Tipo de Cuenta'>{account.type}</DetailField>
+              <DetailField label='Tipo de cuenta'>{account.type}</DetailField>
               <DetailField label='Email'>{account.email}</DetailField>
             </DetailFields>
           </Accordion.ItemBody>
