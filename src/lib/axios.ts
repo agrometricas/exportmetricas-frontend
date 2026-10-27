@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Session } from 'next-auth';
 import { getSession, signOut } from 'next-auth/react';
 import { describeApiError } from './api-error-report';
 import { env } from './env';
@@ -12,9 +13,32 @@ const axiosInstance = axios.create({
   },
 });
 
+// getSession() is a round trip to /api/auth/session; a screen that opens with
+// ten requests would make ten. One answer serves a minute of requests: the
+// token renews at half its life, so the one reused stays valid. No session is
+// never kept, so the first request after signing in asks again.
+const SESSION_REUSE_MS = 60_000;
+let reusable: { session: Session; at: number } | null = null;
+let asking: Promise<Session | null> | null = null;
+
+function currentSession(): Promise<Session | null> {
+  if (reusable && Date.now() - reusable.at < SESSION_REUSE_MS) {
+    return Promise.resolve(reusable.session);
+  }
+  asking ??= getSession()
+    .then((session) => {
+      reusable = session ? { session, at: Date.now() } : null;
+      return session;
+    })
+    .finally(() => {
+      asking = null;
+    });
+  return asking;
+}
+
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const session = await getSession();
+    const session = await currentSession();
 
     if (session) {
       config.headers.Authorization = `Bearer ${session.refreshToken}`;
