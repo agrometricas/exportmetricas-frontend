@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 'use client';
 import {
   Box,
@@ -12,6 +12,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { isAxiosError } from 'axios';
 import {
   FieldArray,
   Form,
@@ -33,6 +34,7 @@ import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
 import { getBoxBrand } from '@/hooks/box-brand/getBoxBrand';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
 import { BoxBrandType } from '@/types/box-brand/boxBrand';
+import { ServerErrorResponse } from '@/types/errorResponse';
 import BlockingSheetSelectBanContainer from './additions/blocking-sheet/BlockingSheetSelectBanContainer';
 import BoardingCardSelectBanContainer from './additions/boarding-card/BoardingCardBanContainer';
 import ContainerSealPlasticSelectBanContainer from './additions/container-seal-plastic/ContainerSealPlasticBanContainer';
@@ -1229,9 +1231,11 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
         ...(cargoType === 'BULK' ? NO_PALLETS : {}),
       },
       {
-        onError: (error: any) => {
-          const { message, model, prop } =
-            error.response?.data ?? {};
+        onError: (error) => {
+          const { message, model, prop }: Partial<ServerErrorResponse> =
+            isAxiosError<ServerErrorResponse>(error)
+              ? (error.response?.data ?? {})
+              : {};
 
           toaster.create({
             title: 'No se pudo guardar',

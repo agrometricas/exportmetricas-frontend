@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { RequiredCertificateType } from '../../../../types/box-brand/specificati
 
 interface RequiredCertificateMultiSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   setCertificates?: (certificates: Partial<RequiredCertificateType>[]) => void;
   onChange?: (newValues: Partial<RequiredCertificateType>[]) => void;
@@ -111,9 +110,8 @@ const RequiredCertificateMultiSelectBase: React.FC<
       }
       value={
         field?.value
-          ? data.filter(
-              (opt: Partial<RequiredCertificateType>) =>
-                field.value.indexOf(opt.id) >= 0
+          ? data.filter((opt: Partial<RequiredCertificateType>) =>
+              field.value.some((id) => id === opt.id)
             )
           : []
       }

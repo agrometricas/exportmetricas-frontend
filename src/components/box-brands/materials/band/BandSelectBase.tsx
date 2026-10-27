@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { BandType } from '../../../../types/box-brand/materials/band';
 
 interface BandSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setBand?: (band: Partial<BandType>) => void;

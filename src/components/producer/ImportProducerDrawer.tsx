@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
@@ -42,7 +41,7 @@ const ImportProducerDrawer: React.FC = () => {
         resetFile();
         onClose();
       },
-      onError: (error: any) => {
+      onError: (error) => {
         toaster.create({
           title: 'Error al importar',
           description: serverErrorMessage(error),

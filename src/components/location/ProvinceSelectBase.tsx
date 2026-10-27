@@ -42,7 +42,7 @@ interface ProvinceSelectBaseProps {
   name: string;
   placeholder: string;
   countryId?: number;
-  field?: FieldInputProps<number>;
+  field?: FieldInputProps<number | ''>;
   onChange?: (newValue: Province | null) => void;
   resetOnParentChange?: boolean;
 }

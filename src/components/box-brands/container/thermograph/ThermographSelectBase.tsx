@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   DropdownIndicatorProps,
@@ -18,7 +17,7 @@ import { ThermographType } from '../../../../types/box-brand/container/thermogra
 
 interface ThermographSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setThermo?: (thermo: Partial<ThermographType>) => void;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react';
@@ -17,7 +16,7 @@ import InputFieldSentStickers from './ui/InputFieldSentStickers';
 import { useCreateExportSent } from '../../hooks/export/export-sent/createExportSent';
 import { useSuppliesProposal } from '../../hooks/export/export-sent/getSuppliesProposal';
 import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
-import { ExportResponse } from '../../types/export.response';
+import { BoxBrandResponse, ExportResponse } from '../../types/export.response';
 import { SuppliesProposal } from '../../types/suppliesProposal';
 import { returnTo } from '../../utils/exportSteps';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -53,11 +52,14 @@ const sheetSchema = Yup.object().shape({
     .required('Requerido'),
 });
 
-const buildValidationSchema = (boxBrand: any, boxQuantity: number): any => {
-  const shape: Record<string, any> = {};
+const buildValidationSchema = (
+  boxBrand: BoxBrandResponse | undefined,
+  boxQuantity: number
+): Yup.AnyObjectSchema => {
+  const shape: Record<string, Yup.AnySchema> = {};
 
-  const pushIfValid = (key: string, value: any): void => {
-    if (value !== null && value > 0) {
+  const pushIfValid = (key: string, value: number | null | undefined): void => {
+    if (value != null && value > 0) {
       shape[key] = Yup.number()
         .integer('Debe ser un número entero')
         .min(1, 'Debe ser mayor que 0')
@@ -122,7 +124,9 @@ const SentMaterialsExportForm = ({
   exportSelected: Partial<ExportResponse>;
   pathname: string;
 }): React.JSX.Element => {
-  const [initialValuesExport, setInitialValuesExport] = useState<any>({});
+  const [initialValuesExport, setInitialValuesExport] = useState<
+    Record<string, unknown>
+  >({});
   const { createExportSent, isPending: isLoading } = useCreateExportSent();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -137,7 +141,7 @@ const SentMaterialsExportForm = ({
         exportId: exportSelected.id,
         ...supplies,
         pesticideSent: (exportSelected.boxBrand?.pesticideCocktail ?? []).map(
-          (part: any) => ({
+          (part) => ({
             pesticideId: part.pesticide?.id,
             quantity: proposedQuantity(
               supplies.pesticideSent,
@@ -148,7 +152,7 @@ const SentMaterialsExportForm = ({
         ),
         insecticideSent: (
           exportSelected.boxBrand?.insecticideCocktail ?? []
-        ).map((part: any) => ({
+        ).map((part) => ({
           insecticideId: part.insecticide?.id,
           quantity: proposedQuantity(
             supplies.insecticideSent,
@@ -157,7 +161,7 @@ const SentMaterialsExportForm = ({
           ),
         })),
         stickerSent: (exportSelected.boxBrand?.stickerCocktail ?? []).map(
-          (part: any) => ({
+          (part) => ({
             stickerId: part.sticker?.id,
             quantity: proposedQuantity(
               supplies.stickerSent,
@@ -167,7 +171,7 @@ const SentMaterialsExportForm = ({
           })
         ),
         sheetSent: (exportSelected.boxBrand?.sheetCocktail ?? []).map(
-          (part: any) => ({
+          (part) => ({
             sheetId: part.sheet?.id,
             quantity: proposedQuantity(
               supplies.sheetSent,
@@ -182,13 +186,13 @@ const SentMaterialsExportForm = ({
   }, [exportSelected, supplies]);
 
   const sentMaterialsExport = async (
-    values: any,
+    values: Record<string, unknown>,
     actions: { resetForm: () => void }
   ): Promise<void> => {
     const { dataReviewed, ...sentMaterialsExportData } = values;
     void dataReviewed;
     createExportSent(sentMaterialsExportData, {
-      onError: (error: any) => {
+      onError: (error) => {
         toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
@@ -237,10 +241,10 @@ const SentMaterialsExportForm = ({
   };
 
   const renderMaterialField = (
-    name: keyof typeof initialValuesExport,
+    name: string,
     label: string,
-    material: any,
-    quantity: any,
+    material: { name?: string } | null | undefined,
+    quantity: number | string | null | undefined,
     unit = 'C/U'
   ): React.JSX.Element | null => {
     if (!material || !quantity || Number(quantity) <= 0) return null;
@@ -259,15 +263,15 @@ const SentMaterialsExportForm = ({
 
   const brand = exportSelected?.boxBrand;
   const quantity = exportSelected?.boxQuantity || 0;
-  const proposedCocktail = (
-    cocktail: any[] | undefined,
-    lines: { quantity: number }[] | undefined,
-    key: string,
-    idOf: (part: any) => number | undefined
-  ): any[] =>
+  const proposedCocktail = <T extends object, K extends string>(
+    cocktail: T[] | undefined,
+    lines: ({ quantity: number } & Record<K, number>)[] | undefined,
+    key: K,
+    idOf: (part: T) => number | '' | undefined
+  ): (T & { quantity: number | '' })[] =>
     (cocktail ?? []).map((part) => ({
       ...part,
-      quantity: proposedQuantity(lines as any, key, idOf(part)),
+      quantity: proposedQuantity(lines, key, idOf(part)),
     }));
   const pesticideCocktail = proposedCocktail(
     brand?.pesticideCocktail,

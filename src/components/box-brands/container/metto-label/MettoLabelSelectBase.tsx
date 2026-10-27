@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +18,7 @@ import { MettoLabelType } from '../../../../types/box-brand/container/mettoLabel
 
 interface MettoLabelSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setMettoLabel?: (mettoLabel: Partial<MettoLabelType>) => void;

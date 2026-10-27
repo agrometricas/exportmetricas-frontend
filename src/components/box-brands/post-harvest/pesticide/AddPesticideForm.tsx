@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -115,7 +115,7 @@ const AddPesticideForm = ({
         dose: Number(values.dose),
       },
       {
-        onError: (error: any) => {
+        onError: (error) => {
 
           toaster.create({
             title: 'No se pudo guardar',

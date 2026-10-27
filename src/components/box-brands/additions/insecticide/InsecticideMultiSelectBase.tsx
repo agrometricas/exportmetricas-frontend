@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { InsecticideType } from '../../../../types/box-brand/additions/insectici
 
 interface InsecticideMultiSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number[]>;
   placeholder: string;
   setInsecticides?: (insecticides: Partial<InsecticideType>[]) => void;
   onChange?: (newValues: Partial<InsecticideType>[]) => void;
@@ -111,9 +110,8 @@ const InsecticideMultiSelectBase: React.FC<InsecticideMultiSelectBaseProps> = ({
       }
       value={
         field?.value
-          ? data.filter(
-              (opt: Partial<InsecticideType>) =>
-                field.value.indexOf(opt.id) >= 0
+          ? data.filter((opt: Partial<InsecticideType>) =>
+              field.value.some((id) => id === opt.id)
             )
           : []
       }

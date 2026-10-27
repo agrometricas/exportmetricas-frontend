@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { ClientType } from '../../types/client';
 
 interface ClientByHarborSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   harbor?: number;
   setClient?: (client: Partial<ClientType>) => void;

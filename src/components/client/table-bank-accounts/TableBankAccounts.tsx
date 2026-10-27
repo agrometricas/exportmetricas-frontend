@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,6 +7,7 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { BankAccountResponse } from '@/types/bankAccount.response';
 import DetailBankAccounts from './DetailBankAccounts';
 import { useBankAccounts } from '../../../hooks/bank-account/getBankAccounts';
 
@@ -14,7 +15,7 @@ const TableBankAccounts = (): React.JSX.Element => {
   const { data = [] } = useBankAccounts();
 
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(() => [
+  const columns = useMemo<MRT_ColumnDef<BankAccountResponse>[]>(() => [
     {
       header: 'Entidad asociada',
       columns: [
@@ -34,13 +35,11 @@ const TableBankAccounts = (): React.JSX.Element => {
           header: 'RUC',
         },
         {
-          accessorFn: (row) =>
-            row.merchant?.city?.name || row.client?.city?.name || 'N/A',
+          accessorFn: (row) => row.merchant?.city?.name || 'N/A',
           header: 'Ciudad',
         },
         {
-          accessorFn: (row) =>
-            row.merchant?.address || row.client?.address || 'N/A',
+          accessorFn: (row) => row.merchant?.address || 'N/A',
           header: 'Dirección',
         },
       ],
@@ -71,8 +70,7 @@ const TableBankAccounts = (): React.JSX.Element => {
           header: 'Correo electrónico',
         },
         {
-          accessorFn: (row) =>
-            row.client?.phone || row.merchant?.phone || 'N/A',
+          accessorFn: (row) => row.client?.phone || 'N/A',
           header: 'Teléfono',
         },
       ],

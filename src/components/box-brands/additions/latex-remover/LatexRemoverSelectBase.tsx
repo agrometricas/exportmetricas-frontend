@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { LatexRemoverType } from '../../../../types/box-brand/additions/latexRem
 
 interface LatexRemoverSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setLatexRemover?: (latexRemover: Partial<LatexRemoverType>) => void;

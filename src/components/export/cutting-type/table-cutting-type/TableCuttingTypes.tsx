@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, HStack, Text } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
@@ -12,10 +11,14 @@ import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailCuttingTypes from './DetailCuttingTypes';
 import { useCuttingTypes } from '../../../../hooks/export/cutting-type/getCuttingTypes';
 
+type CuttingTypeRow = React.ComponentProps<
+  typeof DetailCuttingTypes
+>['cuttingType'] & { id: number };
+
 const TableCuttingTypes = (): React.JSX.Element => {
   const { data = [] } = useCuttingTypes();
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(
+  const columns = useMemo<MRT_ColumnDef<CuttingTypeRow>[]>(
     () => [
       {
         header: 'Corte y calidad',

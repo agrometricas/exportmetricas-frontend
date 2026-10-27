@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { CuttingType } from '../../../types/cuttingType';
 
 interface CuttingTypeSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setCuttingType?: (cuttingType: Partial<CuttingType>) => void;
   onChange?: (newValue: Partial<CuttingType>) => void;

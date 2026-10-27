@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Heading,
@@ -30,27 +29,30 @@ interface DetailType {
   weightPerPack?: number;
 }
 
-const isDetailType = (detail: any): detail is DetailType => {
-  return (
-    detail &&
-    (detail.activeIngredient !== undefined ||
-      detail.art !== undefined ||
-      detail.code !== undefined ||
-      detail.color !== undefined ||
-      detail.description !== undefined ||
-      detail.dimensions !== undefined ||
-      detail.dose !== undefined ||
-      detail.id !== undefined ||
-      detail.name !== undefined ||
-      detail.quantityPerPack !== undefined ||
-      detail.quantityPerRoll !== undefined ||
-      detail.type !== undefined ||
-      detail.weightPerPack !== undefined)
-  );
+const DETAIL_KEYS: (keyof DetailType)[] = [
+  'activeIngredient',
+  'art',
+  'code',
+  'color',
+  'description',
+  'dimensions',
+  'dose',
+  'id',
+  'name',
+  'quantityPerPack',
+  'quantityPerRoll',
+  'type',
+  'weightPerPack',
+];
+
+const isDetailType = (detail: unknown): detail is DetailType => {
+  if (typeof detail !== 'object' || detail === null) return false;
+  const fields = detail as Record<string, unknown>;
+  return DETAIL_KEYS.some((key) => fields[key] !== undefined);
 };
 
 const isRequiredCertificateTypeArray = (
-  detail: any
+  detail: unknown
 ): detail is RequiredCertificateType[] => {
   return (
     Array.isArray(detail) &&
@@ -66,7 +68,7 @@ const isRequiredCertificateTypeArray = (
 };
 
 const isPesticideCocktailPartArray = (
-  detail: any
+  detail: unknown
 ): detail is PesticideCocktailPart[] => {
   return (
     Array.isArray(detail) &&
@@ -81,7 +83,7 @@ const isPesticideCocktailPartArray = (
 };
 
 const isInsecticideCocktailPartArray = (
-  detail: any
+  detail: unknown
 ): detail is InsecticideCocktailPart[] => {
   return (
     Array.isArray(detail) &&
@@ -95,7 +97,9 @@ const isInsecticideCocktailPartArray = (
   );
 };
 
-const isStickerCocktailArray = (detail: any): detail is StickerCocktail[] => {
+const isStickerCocktailArray = (
+  detail: unknown
+): detail is StickerCocktail[] => {
   return (
     Array.isArray(detail) &&
     detail.every(
@@ -108,7 +112,7 @@ const isStickerCocktailArray = (detail: any): detail is StickerCocktail[] => {
   );
 };
 
-const isSheetCocktailArray = (detail: any): detail is SheetCocktail[] => {
+const isSheetCocktailArray = (detail: unknown): detail is SheetCocktail[] => {
   return (
     Array.isArray(detail) &&
     detail.every(

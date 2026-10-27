@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -17,7 +16,7 @@ import { BankAccountType } from '../../../../types/bankAccount';
 
 interface BankAccountSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setBankAccount?: (bankAccount: Partial<BankAccountType>) => void;
   onChange?: (newValue: Partial<BankAccountType>) => void;

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +18,7 @@ import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface MiniPalletSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setMiniPallet?: (minipallet: Partial<MiniPalletType>) => void;

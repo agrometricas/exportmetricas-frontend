@@ -44,7 +44,7 @@ interface CitySelectBaseProps {
   provinceId?: number;
   resetOnParentChange?: boolean;
   onChange?: (newValue: City | null) => void;
-  field?: FieldInputProps<number>;
+  field?: FieldInputProps<number | ''>;
 }
 
 const CitySelectBase: React.FC<CitySelectBaseProps> = ({

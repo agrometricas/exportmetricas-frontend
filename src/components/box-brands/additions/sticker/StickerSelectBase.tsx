@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +17,7 @@ import { StickerType } from '../../../../types/box-brand/additions/sticker';
 
 interface StickerSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   setSticker?: (sticker: Partial<StickerType>) => void;
   onChange?: (newValue: Partial<StickerType>) => void;

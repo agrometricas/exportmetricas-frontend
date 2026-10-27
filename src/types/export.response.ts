@@ -1,5 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentSummary } from './bookingDocument';
+import { InsecticideCocktailPart } from './box-brand/additions/insecticideCocktailPart';
+import { SheetCocktail } from './box-brand/additions/sheet';
+import { StickerCocktail } from './box-brand/additions/sticker';
+import { PesticideCocktailPart } from './box-brand/post-harvest/pesticideCocktailPart';
 import { CustomsChannel, CustomsStep } from './customs';
 
 export interface Contact {
@@ -43,7 +46,7 @@ export interface BoxBrandResponse {
   protectorQuantity: number;
   clusterBag: { id: number; name: string };
   clusterBagQuantity: number;
-  pesticideCocktail: any[];
+  pesticideCocktail: PesticideCocktailPart[];
   palletsType: { id: number; name: string; code: string; exporterId: number };
   palletsTypeQuantity: number;
   miniPalletsType: {
@@ -81,9 +84,9 @@ export interface BoxBrandResponse {
   packingTapeTypeQuantity: number;
   latexRemover: { id: number; name: string };
   latexRemoverQuantity: number;
-  insecticideCocktail: any[];
-  stickerCocktail: any[];
-  sheetCocktail: any[];
+  insecticideCocktail: InsecticideCocktailPart[];
+  stickerCocktail: StickerCocktail[];
+  sheetCocktail: SheetCocktail[];
   blockingSheet: { id: number; name: string };
   blockingSheetQuantity: number;
   containerSealPlastic: { id: number; name: string };

@@ -41,8 +41,8 @@ const ImportClientDrawer: React.FC = () => {
         resetFile();
         onClose();
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onError: (error: any) => {
+
+      onError: (error) => {
         toaster.create({
           title: 'Error al importar',
           description: serverErrorMessage(error),

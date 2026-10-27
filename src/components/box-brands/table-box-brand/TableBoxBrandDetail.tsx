@@ -29,7 +29,7 @@ interface ObjectType {
   weightPerPack?: number;
 }
 
-interface DetailType {
+export interface BoxBrandDetailRow {
   name: string;
   quantity: string;
   object?: ObjectType;
@@ -44,9 +44,9 @@ interface DetailType {
 const TableBoxBrandDetail = ({
   details,
 }: {
-  details: DetailType[];
+  details: BoxBrandDetailRow[];
 }): React.JSX.Element => {
-  const columns = useMemo<MRT_ColumnDef<Partial<DetailType>>[]>(
+  const columns = useMemo<MRT_ColumnDef<Partial<BoxBrandDetailRow>>[]>(
     () => [
       {
         accessorKey: 'name',

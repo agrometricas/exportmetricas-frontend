@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -18,7 +18,7 @@ import { ClusterBagType } from '../../../../types/box-brand/materials/clusterBag
 
 interface ClusterBagSelectBaseProps {
   name?: string;
-  field?: FieldInputProps<any>;
+  field?: FieldInputProps<number | ''>;
   placeholder: string;
   isReadOnly?: boolean;
   setClusterBag?: (clusterBag: Partial<ClusterBagType>) => void;

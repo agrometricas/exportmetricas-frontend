@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Icon } from '@chakra-ui/react';
 import {
     ChakraStylesConfig,
@@ -22,7 +22,7 @@ export interface IncotermType {
 
 interface IncotermMultiSelectBaseProps {
     name?: string;
-    field?: FieldInputProps<any>;
+    field?: FieldInputProps<number[]>;
     placeholder: string;
     setIncoterms?: (incoterms: Partial<IncotermType>[]) => void;
     onChange?: (newValues: Partial<IncotermType>[]) => void;
@@ -118,7 +118,7 @@ const IncotermMultiSelectBase: React.FC<IncotermMultiSelectBaseProps> = ({
             value={
                 field?.value
                     ? data?.filter(
-                        (opt: Partial<IncotermType>) => field.value.indexOf(opt.id) >= 0
+                        (opt: Partial<IncotermType>) => field.value.some((id) => id === opt.id)
                     )
                     : []
             }
