@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { withJsonErrorBody } from '../../utils/blobError';
@@ -27,5 +27,5 @@ export function useDownloadShippingDocument(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   Input
 > {
-  return useMutation(downloadShippingDocument);
+  return useMutation({ mutationFn: downloadShippingDocument });
 }

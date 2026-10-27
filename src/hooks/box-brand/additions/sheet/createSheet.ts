@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { SheetType } from '../../../../types/box-brand/additions/sheet';
 import { ServerErrorResponse } from '../../../../types/errorResponse';
@@ -29,5 +29,8 @@ export const useCreateSheet = (
   AxiosError<ServerErrorResponse>,
   Partial<SheetType>
 > => {
-  return useMutation(createSheet, config);
+  return useMutation({
+    mutationFn: createSheet,
+    ...config,
+  });
 };

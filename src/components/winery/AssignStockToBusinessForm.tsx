@@ -48,7 +48,7 @@ export function AssignStockToBusinessForm({
   onClose,
   onBack,
 }: Props): JSX.Element {
-  const { mutate, isLoading } = useIncreaseBusinessStock(stockId);
+  const { mutate, isPending: isLoading } = useIncreaseBusinessStock(stockId);
 
   return (
     <Formik

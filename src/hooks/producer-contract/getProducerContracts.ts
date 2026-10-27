@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { ProducerContractResponse } from '../../types/producerContract';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -9,5 +9,8 @@ function listProducerContracts(): Promise<AxiosResponse<ProducerContractResponse
 }
 
 export function useProducerContracts(): ReturnType<typeof serializeQueryResult> {
-  return serializeQueryResult(useQuery(['producerContracts'], listProducerContracts));
+  return serializeQueryResult(useQuery({
+    queryKey: ['producerContracts'],
+    queryFn: listProducerContracts
+  }));
 }

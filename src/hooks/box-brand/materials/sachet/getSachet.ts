@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { SachetType } from '@/types/box-brand/materials/sachet';
@@ -23,8 +27,10 @@ type UseSachetOptions = {
 export const useSachet = ({
   sachetId,
 }: UseSachetOptions): UseQueryResult<SachetType> => {
-  const result = useQuery(['sachet', sachetId], () => getSachet({ sachetId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['sachet', sachetId],
+    queryFn: () => getSachet({ sachetId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<SachetType>;

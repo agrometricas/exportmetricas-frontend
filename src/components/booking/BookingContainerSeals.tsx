@@ -1,9 +1,9 @@
 import { Badge, Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useUpdateContainerSeals } from '../../hooks/booking/mutateBooking';
@@ -28,7 +28,7 @@ function ContainerSealsRow({
   const router = useRouter();
   const queryClient = useQueryClient();
   const borderColor = 'border';
-  const { mutate: save, isLoading } = useUpdateContainerSeals();
+  const { mutate: save, isPending: isLoading } = useUpdateContainerSeals();
 
   const onSubmit = (values: SealsValues): void =>
     save(
@@ -54,7 +54,9 @@ function ContainerSealsRow({
             duration: 4000,
             closable: true,
           });
-          AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+          AFFECTED_QUERIES.forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] })
+          );
         },
       }
     );

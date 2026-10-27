@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
 });
 
 const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
-  const { createLid, isLoading } = useCreateLid();
+  const { createLid, isPending: isLoading } = useCreateLid();
   const queryClient = useQueryClient();
 
   const addLid = async (
@@ -75,7 +75,9 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('lids');
+          queryClient.invalidateQueries({
+            queryKey: ['lids'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

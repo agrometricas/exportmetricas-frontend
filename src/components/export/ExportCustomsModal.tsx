@@ -6,11 +6,11 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useUpdateExportCustoms } from '../../hooks/export/updateExportCustoms';
@@ -97,7 +97,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
 }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useUpdateExportCustoms();
+  const { mutate: save, isPending: isLoading } = useUpdateExportCustoms();
 
   const onSubmit = (values: CustomsValues): void => {
     if (!exportItem) return;
@@ -124,7 +124,9 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
             duration: 4000,
             closable: true,
           });
-          AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+          AFFECTED_QUERIES.forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] })
+          );
           onClose();
         },
       }

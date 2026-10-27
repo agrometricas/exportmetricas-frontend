@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { RequiredCertificateType } from '@/types/box-brand/specifications/requiredCertificate';
@@ -23,13 +27,11 @@ type UseRequiredCertificateOptions = {
 export const useRequiredCertificate = ({
   certificateId,
 }: UseRequiredCertificateOptions): UseQueryResult<RequiredCertificateType> => {
-  const result = useQuery(
-    ['requiredCertificate', certificateId],
-    () => getRequiredCertificate({ certificateId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['requiredCertificate', certificateId],
+    queryFn: () => getRequiredCertificate({ certificateId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(
     result

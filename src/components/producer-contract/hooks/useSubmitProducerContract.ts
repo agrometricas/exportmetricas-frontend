@@ -1,6 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import {
   useDeleteProducerContract,
@@ -28,8 +28,8 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
 } {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading } = useSaveProducerContract();
-  const { mutate: remove, isLoading: isDeleting } = useDeleteProducerContract();
+  const { mutate: save, isPending: isLoading } = useSaveProducerContract();
+  const { mutate: remove, isPending: isDeleting } = useDeleteProducerContract();
 
   const showError = (error: unknown): void => {
     if (
@@ -52,8 +52,12 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
-    queryClient.invalidateQueries('producerContracts');
-    queryClient.invalidateQueries('producerContract');
+    queryClient.invalidateQueries({
+      queryKey: ['producerContracts']
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['producerContract']
+    });
     router.push(LIST_PATH);
   };
 

@@ -30,7 +30,7 @@ the backend proposes.
 - The dashboard aggregates (boxes per day, totals per farm, producer vs. client
   totals) are computed inline in components today. Extract before reusing.
 
-## Data fetching: react-query v3
+## Data fetching: TanStack Query v5
 
 - One hook per endpoint, in `hooks/<dominio>/` (`getX`, `createX`, `updateX`,
   `uploadX`). The file exports the plain request function and the `useX` hook.
@@ -38,8 +38,17 @@ the backend proposes.
   `fetch` with a hand-built `Authorization` header from a client component.
 - List hooks return through `serializeQueryResult`, so `data` is already the
   response body, not the Axios response.
+- v5 takes one options object (`useQuery({ queryKey, queryFn, ... })`,
+  `useMutation({ mutationFn, ... })`) and keys are arrays:
+  `invalidateQueries({ queryKey: ['exports'] })` also matches
+  `['exports', 'page', 0, 10, '']`. Keep a list paging with
+  `placeholderData: keepPreviousData`.
+- `isLoading` on a query is the first load in flight; a disabled query is not
+  loading. A mutation in flight is `isPending`: mutations have no `isLoading`.
+- `useQuery` has no `onSuccess` or `onError`. React to a query's data in the
+  component; keep callbacks on mutations.
 - **The live `QueryClient` is the one created in `components/Providers.tsx`**,
-  with `staleTime: Infinity` and no automatic refetch. Nothing refreshes by
+  with `staleTime: Infinity`, `gcTime: Infinity` and no automatic refetch. Nothing refreshes by
   itself: every mutation must invalidate the keys it affects (a key invalidated
   while its page is closed loads again when the page opens), including the
   `…Pending` lists that feed the sidebar badges. The `queryClient` exported from

@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { ExportPlanBody, ExportPlanResponse } from '../../types/exportPlan';
@@ -15,5 +15,5 @@ export function useCreateExportPlan(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   ExportPlanBody
 > {
-  return useMutation(createExportPlan);
+  return useMutation({ mutationFn: createExportPlan });
 }

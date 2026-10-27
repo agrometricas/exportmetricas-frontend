@@ -10,12 +10,12 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
@@ -75,10 +75,10 @@ export default function UsersManager(): React.JSX.Element {
 
   const { data, isLoading, error, refetch } = useExporterUsers(exporterId);
   const users = (data ?? []) as ExporterUser[];
-  const { mutate: invite, isLoading: isInviting } = useInviteUser();
+  const { mutate: invite, isPending: isInviting } = useInviteUser();
   const { mutate: changeRole } = useChangeRole();
-  const { mutate: resend, isLoading: isResending } = useResendInvitation();
-  const { mutate: remove, isLoading: isRemoving } = useRemoveUser();
+  const { mutate: resend, isPending: isResending } = useResendInvitation();
+  const { mutate: remove, isPending: isRemoving } = useRemoveUser();
   const [toRemove, setToRemove] = useState<ExporterUser | null>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -117,7 +117,9 @@ export default function UsersManager(): React.JSX.Element {
   };
 
   const refresh = (): void => {
-    queryClient.invalidateQueries('exporterUsers');
+    queryClient.invalidateQueries({
+      queryKey: ['exporterUsers'],
+    });
   };
 
   if (!exporterId || isLoading) return <LoadingState />;

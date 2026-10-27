@@ -29,7 +29,7 @@ const ImportProducerDrawer: React.FC = () => {
   const [field, meta, helpers] = useField('import-merchant');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importMerchants, isLoading } = useImportMerchants({
+  const { importMerchants, isPending: isLoading } = useImportMerchants({
     config: {
       onSuccess: (data) => {
         toaster.create({

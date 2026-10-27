@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -49,7 +49,8 @@ const validationSchema = Yup.object({
 const AddSecurityKitForm = ({
   onClose,
 }: AddSecurityKitFormProps): React.JSX.Element => {
-  const { mutate: createSecurityKit, isLoading } = useCreateSecurityKit();
+  const { mutate: createSecurityKit, isPending: isLoading } =
+    useCreateSecurityKit();
   const queryClient = useQueryClient();
 
   const addSecurityKit = async (
@@ -78,7 +79,9 @@ const AddSecurityKitForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('securityKits');
+          queryClient.invalidateQueries({
+            queryKey: ['securityKits'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

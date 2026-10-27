@@ -14,9 +14,9 @@ import {
   Flex,
   Separator,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { parseISO, getISOWeek } from 'date-fns';
 import { FieldArray, Form, Formik } from 'formik';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
@@ -150,7 +150,9 @@ const AdjustWeeklyForm = ({
         duration: 3000,
         closable: true,
       });
-      queryClient.invalidateQueries('stockMovements');
+      queryClient.invalidateQueries({
+        queryKey: ['stockMovements']
+      });
     } catch (error) {
       toaster.create({
         title: 'Error al ajustar el stock.',
@@ -382,7 +384,7 @@ const AdjustWeeklyForm = ({
                             type='submit'
                             colorPalette='green'
                             loading={
-                              mutation.isLoading || isLoading || isSubmitting
+                              mutation.isPending || isLoading || isSubmitting
                             }
                           >
                             Enviar Ajuste

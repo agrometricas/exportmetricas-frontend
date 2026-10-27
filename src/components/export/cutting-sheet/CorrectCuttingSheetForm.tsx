@@ -11,11 +11,11 @@ import {
   Text,
   Field,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -61,7 +61,7 @@ const CorrectCuttingSheetForm = ({
 }: {
   sheet: CuttingSheetResponse;
 }): React.JSX.Element => {
-  const { mutate: correct, isLoading } = useCorrectCuttingSheet();
+  const { mutate: correct, isPending: isLoading } = useCorrectCuttingSheet();
   const { paginationParams } = usePagination();
   const { data: cuttingTypes = [] } = useCuttingTypes(paginationParams);
   const currentCuttingType = (cuttingTypes as CuttingType[]).find(
@@ -102,7 +102,9 @@ const CorrectCuttingSheetForm = ({
             duration: 6000,
             closable: true,
           });
-          queryClient.invalidateQueries('cuttingSheets');
+          queryClient.invalidateQueries({
+            queryKey: ['cuttingSheets'],
+          });
           router.push('/dashboard/export/cutting-sheets');
         },
         onError: (error) => {

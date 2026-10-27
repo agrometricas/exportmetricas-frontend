@@ -19,11 +19,11 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { MdContentCut, MdExpandLess, MdExpandMore } from 'react-icons/md';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCreateCuttingSheetBatch } from '../../../hooks/export/cuttingSheet/createCuttingSheetBatch';
@@ -81,7 +81,7 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
   const { open, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useCreateCuttingSheetBatch();
+  const { mutateAsync, isPending: isLoading } = useCreateCuttingSheetBatch();
   const [edits, setEdits] = useState<Record<number, Partial<Editable>>>({});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [expanded, setExpanded] = useState(false);
@@ -130,7 +130,9 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
     );
     try {
       const result = await mutateAsync(sheetBatchBody(selectedRows));
-      AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      AFFECTED_QUERIES.forEach((key) =>
+        queryClient.invalidateQueries({ queryKey: [key] })
+      );
       const summary = sheetBatchSummary(result);
       toaster.create({
         title: summary.title,

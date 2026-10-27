@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { RubberType } from '@/types/box-brand/materials/rubber';
@@ -23,8 +27,10 @@ type UseRubberOptions = {
 export const useRubber = ({
   rubberId,
 }: UseRubberOptions): UseQueryResult<RubberType> => {
-  const result = useQuery(['rubber', rubberId], () => getRubber({ rubberId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['rubber', rubberId],
+    queryFn: () => getRubber({ rubberId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<RubberType>;

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { useDebouncedValue } from '../useDebouncedValue';
 
@@ -19,16 +19,18 @@ export function usePaymentQuote<Params extends object, Quote>(
   const current = params ? JSON.stringify(params) : null;
   const settled = useDebouncedValue(current, TYPING_PAUSE_MS);
 
-  const { data, isFetching, isSuccess } = useQuery<Quote>(
-    [path, settled],
-    async () => {
+  const { data, isFetching, isSuccess } = useQuery({
+    queryKey: [path, settled],
+    queryFn: async () => {
       const response = await axios.get(path, {
         params: JSON.parse(settled as string),
       });
       return response.data;
     },
-    { enabled: settled !== null, keepPreviousData: true, retry: false }
-  );
+    enabled: settled !== null,
+    retry: false,
+    placeholderData: keepPreviousData,
+  });
 
   return {
     quote: data,

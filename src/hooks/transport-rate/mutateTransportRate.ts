@@ -1,5 +1,5 @@
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import {
@@ -21,7 +21,7 @@ export function useSaveTransportRate(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   SaveInput
 > {
-  return useMutation(saveTransportRate);
+  return useMutation({ mutationFn: saveTransportRate });
 }
 
 function deleteTransportRate(
@@ -35,5 +35,5 @@ export function useDeleteTransportRate(): UseMutationResult<
   AxiosError<ServerErrorResponse>,
   number
 > {
-  return useMutation(deleteTransportRate);
+  return useMutation({ mutationFn: deleteTransportRate });
 }

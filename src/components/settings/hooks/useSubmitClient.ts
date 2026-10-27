@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateClient } from '@/hooks/export/client/createClient';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -17,7 +17,7 @@ export function useSubmitClient(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createClient, isLoading } = useCreateClient();
+    const { mutate: createClient, isPending: isLoading } = useCreateClient();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -65,8 +65,12 @@ export function useSubmitClient(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('clients');
-                    queryClient.invalidateQueries('clientsByHarbor');
+                    queryClient.invalidateQueries({
+                        queryKey: ['clients']
+                    });
+                    queryClient.invalidateQueries({
+                        queryKey: ['clientsByHarbor']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/client/clients');
                 },

@@ -1,7 +1,7 @@
 import { Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
@@ -28,7 +28,7 @@ const validationSchema = Yup.object({
 export default function MinimumBoxPriceForm(): React.JSX.Element {
   const queryClient = useQueryClient();
   const { data, isLoading } = useMinimumBoxPrice();
-  const { mutate: save, isLoading: isSaving } = useUpdateMinimumBoxPrice();
+  const { mutate: save, isPending: isSaving } = useUpdateMinimumBoxPrice();
   const minimum = data as MinimumBoxPriceResponse | undefined;
 
   if (isLoading || !minimum) return <LoadingState />;
@@ -56,10 +56,18 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('minimumBoxPrice');
-          queryClient.invalidateQueries('priceSheet');
-          queryClient.invalidateQueries('priceSheetQuote');
-          queryClient.invalidateQueries('export/producer-payment/quote');
+          queryClient.invalidateQueries({
+            queryKey: ['minimumBoxPrice'],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['priceSheet'],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['priceSheetQuote'],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['export/producer-payment/quote'],
+          });
         },
       }
     );

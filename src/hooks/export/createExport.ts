@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { ExportType } from '@/types/export';
 import { ServerErrorResponse } from '../../types/errorResponse';
@@ -29,5 +29,8 @@ export const useCreateExport = (
   AxiosError<ServerErrorResponse>,
   Partial<ExportType>
 > => {
-  return useMutation(createExport, config);
+  return useMutation({
+    mutationFn: createExport,
+    ...config,
+  });
 };

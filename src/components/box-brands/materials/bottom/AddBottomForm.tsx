@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
 });
 
 const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
-  const { createBottom, isLoading } = useCreateBottom();
+  const { createBottom, isPending: isLoading } = useCreateBottom();
   const queryClient = useQueryClient();
 
   const addBottom = async (
@@ -78,7 +78,9 @@ const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
             closable: true,
           });
 
-          queryClient.invalidateQueries('bottoms');
+          queryClient.invalidateQueries({
+            queryKey: ['bottoms'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

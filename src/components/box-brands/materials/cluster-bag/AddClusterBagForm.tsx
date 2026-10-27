@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -86,7 +86,7 @@ const validationSchema = Yup.object({
 const AddClusterBagForm = ({
   onClose,
 }: AddClusterBagFormProps): React.JSX.Element => {
-  const { createClusterBag, isLoading } = useCreateClusterBag();
+  const { createClusterBag, isPending: isLoading } = useCreateClusterBag();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -126,7 +126,9 @@ const AddClusterBagForm = ({
           closable: true,
         });
 
-        queryClient.invalidateQueries('clusterBags');
+        queryClient.invalidateQueries({
+          queryKey: ['clusterBags']
+        });
         actions.resetForm();
         !!onClose && onClose();
       },

@@ -1,9 +1,9 @@
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import {
   FormSectionTitle,
@@ -100,9 +100,9 @@ const AddCuttingTypeForm = ({
   const router = useRouter();
   const queryClient = useQueryClient();
   const isEdit = Boolean(cuttingType?.id);
-  const { createCuttingType, isLoading: createLoading } =
+  const { createCuttingType, isPending: createLoading } =
     useCreateCuttingType();
-  const { mutate: updateCuttingType, isLoading: updateLoading } =
+  const { mutate: updateCuttingType, isPending: updateLoading } =
     useUpdateCuttingType();
   const { data: optionsData } = useCuttingTypeOptions();
   const options = optionsData as CuttingTypeOptions | undefined;
@@ -131,8 +131,12 @@ const AddCuttingTypeForm = ({
 
   const onSaved = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
-    queryClient.invalidateQueries('cuttingTypes');
-    queryClient.invalidateQueries('cuttingType');
+    queryClient.invalidateQueries({
+      queryKey: ['cuttingTypes'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['cuttingType'],
+    });
     router.push('/dashboard/box-brands/cutting-types');
   };
 

@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { BandType } from '@/types/box-brand/materials/band';
@@ -23,8 +27,10 @@ type UseBandOptions = {
 export const useBand = ({
   bandId,
 }: UseBandOptions): UseQueryResult<BandType> => {
-  const result = useQuery(['band', bandId], () => getBand({ bandId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['band', bandId],
+    queryFn: () => getBand({ bandId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<BandType>;

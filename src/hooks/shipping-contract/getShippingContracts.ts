@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { ShippingContractResponse } from '../../types/shippingContract';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -14,6 +14,9 @@ export function useShippingContracts(): ReturnType<
   typeof serializeQueryResult
 > {
   return serializeQueryResult(
-    useQuery(['shippingContracts'], listShippingContracts)
+    useQuery({
+      queryKey: ['shippingContracts'],
+      queryFn: listShippingContracts,
+    })
   );
 }

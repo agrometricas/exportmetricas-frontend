@@ -10,12 +10,12 @@ import {
   Table,
   Text,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikErrors, useFormikContext } from 'formik';
 import Link_Next from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
-import { useQueryClient } from 'react-query';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
 import {
@@ -268,7 +268,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
 export default function PriceSheetForm(): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: save, isLoading: isSaving } = useSavePriceSheet();
+  const { mutate: save, isPending: isSaving } = useSavePriceSheet();
   const initialValues = useMemo(
     () => ({
       weekDay: startOfLocalDay(new Date().toISOString()),
@@ -305,10 +305,18 @@ export default function PriceSheetForm(): React.JSX.Element {
           duration: 5000,
           closable: true,
         });
-        queryClient.invalidateQueries('priceSheet');
-        queryClient.invalidateQueries('priceSheetQuote');
-        queryClient.invalidateQueries('purchaseOrder');
-        queryClient.invalidateQueries('export/producer-payment/quote');
+        queryClient.invalidateQueries({
+          queryKey: ['priceSheet'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['priceSheetQuote'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['purchaseOrder'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['export/producer-payment/quote'],
+        });
       },
     });
   };

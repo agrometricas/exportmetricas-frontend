@@ -1,4 +1,4 @@
-import { UseMutationResult, useMutation } from 'react-query';
+import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import { CostConfirmationBatchResult } from '@/types/costConfirmationBatch';
 import axios from '../../../lib/axios';
 import { PROGRESS_QUERIES } from '../exportProgress';
@@ -33,4 +33,7 @@ export const useConfirmExportSentCosts = (): UseMutationResult<
   CostConfirmationBatchResult,
   unknown,
   number[]
-> => useMutation(confirmExportSentCosts);
+> =>
+  useMutation({
+    mutationFn: confirmExportSentCosts,
+  });

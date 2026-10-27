@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { BankAccountType } from '@/types/bankAccount';
@@ -23,13 +27,11 @@ type UseBankAccountOptions = {
 export const useBankAccount = ({
   bankAccountId,
 }: UseBankAccountOptions): UseQueryResult<BankAccountType> => {
-  const result = useQuery(
-    ['bankAccount', bankAccountId],
-    () => getBankAccount({ bankAccountId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['bankAccount', bankAccountId],
+    queryFn: () => getBankAccount({ bankAccountId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<BankAccountType>;
 };

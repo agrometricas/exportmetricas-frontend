@@ -1,6 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateVerifier } from '../../../hooks/verifier/createVerifier';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -14,7 +14,7 @@ export function useSubmitVerifier(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createVerifier, isLoading } = useCreateVerifier();
+    const { mutate: createVerifier, isPending: isLoading } = useCreateVerifier();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -44,7 +44,9 @@ export function useSubmitVerifier(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('verifiers');
+                    queryClient.invalidateQueries({
+                        queryKey: ['verifiers']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/box-brands/verifiers');
                 },

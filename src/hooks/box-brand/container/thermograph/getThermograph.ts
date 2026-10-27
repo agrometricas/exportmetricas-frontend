@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ThermographType } from '@/types/box-brand/container/thermograph';
@@ -23,13 +27,11 @@ type UseThermographOptions = {
 export const useThermograph = ({
   thermographId,
 }: UseThermographOptions): UseQueryResult<ThermographType> => {
-  const result = useQuery(
-    ['thermograph', thermographId],
-    () => getThermograph({ thermographId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['thermograph', thermographId],
+    queryFn: () => getThermograph({ thermographId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<ThermographType>;
 };

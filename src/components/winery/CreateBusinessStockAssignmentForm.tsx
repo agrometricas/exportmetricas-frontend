@@ -40,7 +40,7 @@ export function CreateBusinessStockAssignmentForm({
   onBack,
   onClose,
 }: Props): JSX.Element {
-  const { mutate, isLoading } = useCreateBusinessStockAssignment();
+  const { mutate, isPending: isLoading } = useCreateBusinessStockAssignment();
 
   return (
     <Formik

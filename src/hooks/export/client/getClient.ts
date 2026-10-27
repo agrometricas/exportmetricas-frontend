@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  UseQueryResult,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { UseQueryResult, useQuery } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ClientType } from '@/types/client';
@@ -23,8 +27,10 @@ type UseClientOptions = {
 export const useClient = ({
   clientId,
 }: UseClientOptions): UseQueryResult<ClientType> => {
-  const result = useQuery(['client', clientId], () => getClient({ clientId }), {
-    keepPreviousData: true,
+  const result = useQuery({
+    queryKey: ['client', clientId],
+    queryFn: () => getClient({ clientId }),
+    placeholderData: keepPreviousData,
   });
 
   return serializeQueryResult(result) as UseQueryResult<ClientType>;

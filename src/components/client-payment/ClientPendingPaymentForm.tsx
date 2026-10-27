@@ -1,8 +1,8 @@
 import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -214,9 +214,9 @@ const ClientPendingPaymentForm = ({
 }): React.JSX.Element => {
   const [initialValuesPayment, setInitialValuesPayment] =
     useState<ValuesProps>(initialValues);
-  const { mutateAsync: createClientPayment, isLoading: createLoading } =
+  const { mutateAsync: createClientPayment, isPending: createLoading } =
     useCreateClientPayment();
-  const { uploadTransferImage, isLoading } = useUploadTransferImage();
+  const { uploadTransferImage, isPending: isLoading } = useUploadTransferImage();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -261,11 +261,17 @@ const ClientPendingPaymentForm = ({
         closable: true,
       });
 
-      queryClient.invalidateQueries('clientPayments');
-      queryClient.invalidateQueries('exportsSentPending');
-      queryClient.invalidateQueries('clientPaymentsPending');
+      queryClient.invalidateQueries({
+        queryKey: ['clientPayments']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['exportsSentPending']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['clientPaymentsPending']
+      });
       actions.resetForm();
-      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
       router.push(returnTo('/dashboard/liquidation/client-payments', window.location.search));
     } catch (error: unknown) {
       toaster.create({

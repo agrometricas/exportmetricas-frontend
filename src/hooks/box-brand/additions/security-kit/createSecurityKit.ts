@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from 'react-query';
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 import { SecurityKitType } from '../../../../types/box-brand/additions/securityKit';
 import { ServerErrorResponse } from '../../../../types/errorResponse';
@@ -29,5 +29,8 @@ export const useCreateSecurityKit = (
   AxiosError<ServerErrorResponse>,
   Partial<SecurityKitType>
 > => {
-  return useMutation(createSecurityKit, config);
+  return useMutation({
+    mutationFn: createSecurityKit,
+    ...config,
+  });
 };

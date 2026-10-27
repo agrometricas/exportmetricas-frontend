@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -25,11 +29,12 @@ export const useExporterMaterialStock = ({
 }: UseExporterMaterialStockOptions): UseQueryResult<
   ExporterMaterialStock[]
 > => {
-  const result = useQuery(
-    ['exporterMaterialStock', exporterId],
-    () => getExporterMaterialStock({ exporterId }),
-    { keepPreviousData: true, enabled: exporterId > 0 }
-  );
+  const result = useQuery({
+    queryKey: ['exporterMaterialStock', exporterId],
+    queryFn: () => getExporterMaterialStock({ exporterId }),
+    enabled: exporterId > 0,
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<
     ExporterMaterialStock[]

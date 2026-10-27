@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -49,7 +49,8 @@ const validationSchema = Yup.object({
 const AddReinforcementForm = ({
   onClose,
 }: AddReinforcementFormProps): React.JSX.Element => {
-  const { createReinforcement, isLoading } = useCreateReinforcement();
+  const { createReinforcement, isPending: isLoading } =
+    useCreateReinforcement();
   const queryClient = useQueryClient();
 
   const addReinforcement = async (
@@ -75,7 +76,9 @@ const AddReinforcementForm = ({
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('reinforcements');
+          queryClient.invalidateQueries({
+            queryKey: ['reinforcements'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

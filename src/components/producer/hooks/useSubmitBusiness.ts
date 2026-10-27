@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBusiness } from '../../../hooks/business/createBusiness';
 import { ServerErrorResponse } from '../../../types/errorResponse';
@@ -16,7 +16,7 @@ export function useSubmitBusiness(): {
 } {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { mutate: createBusiness, isLoading } = useCreateBusiness();
+    const { mutate: createBusiness, isPending: isLoading } = useCreateBusiness();
 
     const onSubmit = async (
         values: ValuesProps,
@@ -56,7 +56,9 @@ export function useSubmitBusiness(): {
                         duration: 5000,
                         closable: true,
                     });
-                    queryClient.invalidateQueries('businesses');
+                    queryClient.invalidateQueries({
+                        queryKey: ['businesses']
+                    });
                     formikHelpers.resetForm();
                     router.push('/dashboard/producer/fincas');
                 },

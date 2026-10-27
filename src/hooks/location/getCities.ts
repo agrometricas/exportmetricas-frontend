@@ -1,5 +1,5 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -16,13 +16,11 @@ export function useCities(countryId?: number): {
     error: unknown;
     refetch: () => void;
 } {
-    const result: UseQueryResult<AxiosResponse<CityResponse>> = useQuery(
-        ['cities', countryId],
-        () => axios.get(`/location/cities/${countryId}`),
-        {
-            enabled: !!countryId,
-        }
-    );
+    const result: UseQueryResult<AxiosResponse<CityResponse>> = useQuery({
+        queryKey: ['cities', countryId],
+        queryFn: () => axios.get(`/location/cities/${countryId}`),
+        enabled: !!countryId
+    });
 
     const serialized = serializeQueryResult(result);
 

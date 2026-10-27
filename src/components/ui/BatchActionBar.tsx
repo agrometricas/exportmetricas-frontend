@@ -11,10 +11,10 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { toaster } from '@/components/ui/toaster';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
@@ -74,7 +74,9 @@ function BatchActionBar<T>({
     );
     try {
       const outcome = await run([...labels.keys()]);
-      affectedQueries.forEach((key) => queryClient.invalidateQueries(key));
+      affectedQueries.forEach((key) =>
+        queryClient.invalidateQueries({ queryKey: [key] })
+      );
       toaster.create({
         title: outcome.summary.title,
         type: outcome.summary.status,

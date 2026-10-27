@@ -2,10 +2,10 @@
 'use client';
 
 import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle, FormSubsectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -123,7 +123,7 @@ const SentMaterialsExportForm = ({
   pathname: string;
 }): React.JSX.Element => {
   const [initialValuesExport, setInitialValuesExport] = useState<any>({});
-  const { createExportSent, isLoading } = useCreateExportSent();
+  const { createExportSent, isPending: isLoading } = useCreateExportSent();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -208,16 +208,32 @@ const SentMaterialsExportForm = ({
           duration: 5000,
           closable: true,
         });
-        queryClient.invalidateQueries('exports');
-        queryClient.invalidateQueries('exportsSent');
-        queryClient.invalidateQueries('exportsSentPending');
-        queryClient.invalidateQueries('exportsPending');
-        queryClient.invalidateQueries('clientPaymentsPending');
-        queryClient.invalidateQueries('cuttingSheets');
-        queryClient.invalidateQueries('cuttingSheetsPending');
-        queryClient.invalidateQueries('exportSentCostsPending');
+        queryClient.invalidateQueries({
+          queryKey: ['exports']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportsSent']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportsSentPending']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportsPending']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['clientPaymentsPending']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheets']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['cuttingSheetsPending']
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['exportSentCostsPending']
+        });
         actions.resetForm();
-        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
+        PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
         router.push(returnTo('/dashboard/liquidation/exports-sent', window.location.search));
       },
     });

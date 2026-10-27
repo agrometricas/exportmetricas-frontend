@@ -1,4 +1,4 @@
-import { UseMutationResult, useMutation } from 'react-query';
+import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { ExportSentBatchResult } from '@/types/exportSentBatch';
 
@@ -21,4 +21,7 @@ export const useCreateExportSentBatch = (): UseMutationResult<
   ExportSentBatchResult,
   unknown,
   number[]
-> => useMutation(createExportSentBatch);
+> =>
+  useMutation({
+    mutationFn: createExportSentBatch,
+  });

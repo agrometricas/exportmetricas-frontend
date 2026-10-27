@@ -75,16 +75,14 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
   setBusiness,
 }) => {
   const { paginationParams } = usePagination();
-  const { data, isLoading, isPreviousData, error } = useBusinessesByMerchantId(
-    { ...paginationParams },
-    { id: merchant ?? 0 }
-  );
+  const { data, isLoading, isPlaceholderData, error } =
+    useBusinessesByMerchantId({ ...paginationParams }, { id: merchant ?? 0 });
   const router = useRouter();
 
   // keepPreviousData would otherwise offer the farm of the producer chosen
   // before as the only option.
   const onlyOption: Partial<BusinessType> | null =
-    !isPreviousData && data?.length === 1 ? data[0] : null;
+    !isPlaceholderData && data?.length === 1 ? data[0] : null;
 
   useEffect(() => {
     if (!!error) {

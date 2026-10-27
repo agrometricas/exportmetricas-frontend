@@ -1,7 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
 });
 
 const AddSpongeForm = ({ onClose }: AddSpongeFormProps): React.JSX.Element => {
-  const { createSponge, isLoading } = useCreateSponge();
+  const { createSponge, isPending: isLoading } = useCreateSponge();
   const queryClient = useQueryClient();
 
   const addSponge = async (
@@ -73,7 +73,9 @@ const AddSpongeForm = ({ onClose }: AddSpongeFormProps): React.JSX.Element => {
             duration: 5000,
             closable: true,
           });
-          queryClient.invalidateQueries('sponges');
+          queryClient.invalidateQueries({
+            queryKey: ['sponges'],
+          });
           actions.resetForm();
           if (onClose) onClose();
         },

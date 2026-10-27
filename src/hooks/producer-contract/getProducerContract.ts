@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
 import axios from '../../lib/axios';
 import { ProducerContractResponse } from '../../types/producerContract';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -10,8 +10,10 @@ function getProducerContract(id: string): Promise<AxiosResponse<ProducerContract
 
 export function useProducerContract(id: string): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
-    useQuery(['producerContract', id], () => getProducerContract(id), {
-      enabled: Boolean(id),
+    useQuery({
+      queryKey: ['producerContract', id],
+      queryFn: () => getProducerContract(id),
+      enabled: Boolean(id)
     })
   );
 }

@@ -1,5 +1,5 @@
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { BusinessType } from '../../types/merchant/business';
@@ -25,5 +25,8 @@ export const useCreateBusiness = (
   AxiosError<ServerErrorResponse>,
   Partial<BusinessType>
 > => {
-  return useMutation(createBusiness, config);
+  return useMutation({
+    mutationFn: createBusiness,
+    ...config
+  });
 };

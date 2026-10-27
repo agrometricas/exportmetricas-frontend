@@ -8,11 +8,11 @@ import {
   Dialog,
   Portal,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
@@ -40,8 +40,8 @@ export default function BoxTypesManager(): React.JSX.Element {
   const mutedColor = 'fg.muted';
   const { data, isLoading: isLoadingList } = useBoxTypes();
   const boxTypes = (data ?? []) as BoxTypeResponse[];
-  const { mutate: save, isLoading } = useSaveBoxType();
-  const { mutate: remove, isLoading: isDeleting } = useDeleteBoxType();
+  const { mutate: save, isPending: isLoading } = useSaveBoxType();
+  const { mutate: remove, isPending: isDeleting } = useDeleteBoxType();
   const [editing, setEditing] = useState<BoxTypeResponse | null>(null);
   const [toDelete, setToDelete] = useState<BoxTypeResponse | null>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -62,8 +62,12 @@ export default function BoxTypesManager(): React.JSX.Element {
 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 4000, closable: true });
-    queryClient.invalidateQueries('boxTypes');
-    queryClient.invalidateQueries('boxBrands');
+    queryClient.invalidateQueries({
+      queryKey: ['boxTypes'],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['boxBrands'],
+    });
     setEditing(null);
   };
 

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -75,7 +75,7 @@ const validationSchema = Yup.object({
 const AddLatexRemoverForm = ({
   onClose,
 }: AddLatexRemoverFormProps): React.JSX.Element => {
-  const { createLatexRemover, isLoading } = useCreateLatexRemover();
+  const { createLatexRemover, isPending: isLoading } = useCreateLatexRemover();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -114,7 +114,9 @@ const AddLatexRemoverForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('latexRemovers');
+          queryClient.invalidateQueries({
+            queryKey: ['latexRemovers'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

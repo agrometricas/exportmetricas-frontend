@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -63,7 +63,7 @@ const validationSchema = Yup.object({
 const AddThermographForm = ({
   onClose,
 }: AddThermographFormProps): React.JSX.Element => {
-  const { createThermograph, isLoading } = useCreateThermograph();
+  const { createThermograph, isPending: isLoading } = useCreateThermograph();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -99,7 +99,9 @@ const AddThermographForm = ({
             closable: true,
           });
 
-          queryClient.invalidateQueries('thermographs');
+          queryClient.invalidateQueries({
+            queryKey: ['thermographs'],
+          });
           actions.resetForm();
           !!onClose && onClose();
         },

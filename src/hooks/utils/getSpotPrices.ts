@@ -1,5 +1,5 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -16,10 +16,10 @@ export function useSpotPrices(): {
   error: unknown;
   refetch: () => void;
 } {
-  const result: UseQueryResult<AxiosResponse<SpotPriceResponse>> = useQuery(
-    ['spotPrices'],
-    () => axios.get(`/spot-prices`)
-  );
+  const result: UseQueryResult<AxiosResponse<SpotPriceResponse>> = useQuery({
+    queryKey: ['spotPrices'],
+    queryFn: () => axios.get(`/spot-prices`),
+  });
 
   const serialized = serializeQueryResult(result);
 

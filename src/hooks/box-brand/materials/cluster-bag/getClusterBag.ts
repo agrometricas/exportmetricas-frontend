@@ -1,5 +1,9 @@
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
 import axios from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 import { ClusterBagType } from '@/types/box-brand/materials/clusterBag';
@@ -23,13 +27,11 @@ type UseClusterBagOptions = {
 export const useClusterBag = ({
   clusterBagId,
 }: UseClusterBagOptions): UseQueryResult<ClusterBagType> => {
-  const result = useQuery(
-    ['clusterBag', clusterBagId],
-    () => getClusterBag({ clusterBagId }),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const result = useQuery({
+    queryKey: ['clusterBag', clusterBagId],
+    queryFn: () => getClusterBag({ clusterBagId }),
+    placeholderData: keepPreviousData,
+  });
 
   return serializeQueryResult(result) as UseQueryResult<ClusterBagType>;
 };
