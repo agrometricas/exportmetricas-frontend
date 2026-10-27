@@ -30,7 +30,7 @@ export default function RouteInForceSelect(): React.JSX.Element {
   if (!values.shippingCompanyId || !day) {
     return (
       <Text fontSize='sm' color='fg.muted'>
-        Elija la naviera y el día de zarpe para ver las rutas con contrato
+        Elige la naviera y el día de zarpe para ver las rutas con contrato
         vigente.
       </Text>
     );
@@ -60,7 +60,7 @@ export default function RouteInForceSelect(): React.JSX.Element {
       </Field.Label>
       <NativeSelect.Root>
         <NativeSelect.Field
-          placeholder={isLoading ? 'Cargando rutas…' : 'Seleccione la ruta'}
+          placeholder={isLoading ? 'Cargando rutas…' : 'Selecciona la ruta'}
           value={routeKey(values.harborDepartureId, values.harborDestinationId)}
           onChange={(event) => {
             const route = routes.find(

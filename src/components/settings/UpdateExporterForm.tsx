@@ -171,7 +171,7 @@ const UpdateExporterForm = ({
                 <InputFieldCountrySelect
                   name={'countryId'}
                   label={'País'}
-                  placeholder={'Seleccione el país'}
+                  placeholder={'Selecciona el país'}
                   onChange={(newCountry) => {
                     setFieldValue('countryId', newCountry?.id || '');
                     setFieldValue('provinceId', '');
@@ -181,7 +181,7 @@ const UpdateExporterForm = ({
                 <InputFieldProvinceSelect
                   name={'provinceId'}
                   label={'Provincia'}
-                  placeholder={'Seleccione la provincia'}
+                  placeholder={'Selecciona la provincia'}
                   countryId={values.countryId || undefined}
                   resetOnParentChange={false}
                   onChange={(newProvince) => {
@@ -192,7 +192,7 @@ const UpdateExporterForm = ({
                 <InputFieldCitySelect
                   name={'cityId'}
                   label={'Ciudad'}
-                  placeholder={'Seleccione la ciudad'}
+                  placeholder={'Selecciona la ciudad'}
                   provinceId={values.provinceId || undefined}
                   resetOnParentChange={false}
                 />
@@ -205,7 +205,7 @@ const UpdateExporterForm = ({
               colorPalette='green'
               loading={isLoading}
             >
-              Enviar
+              Guardar cambios
             </Button></FormActions>
           </Flex>
         </Form>

@@ -40,7 +40,7 @@ const SelectSticker: React.FC<SelectStickerProps> = ({
       <InputFieldStickerSelect
         name={name1}
         label={'Sticker'}
-        placeholder={'Seleccione el Sticker'}
+        placeholder={'Selecciona el Sticker'}
         setSticker={setSticker}
       />
 

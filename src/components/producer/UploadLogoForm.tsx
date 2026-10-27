@@ -98,7 +98,7 @@ const UploadLogoForm = (): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Seleccione el Productor</FormSectionTitle>
+            <FormSectionTitle>Selecciona el Productor</FormSectionTitle>
             <SelectProducer name={'merchantId'} />
 
             <FormSectionTitle>Subir Logo</FormSectionTitle>

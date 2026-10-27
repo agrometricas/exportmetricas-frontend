@@ -37,7 +37,7 @@ const SelectHarbor: React.FC<SelectHarborProps> = ({
         <InputFieldHarborSelect
           name={name}
           label={'Puerto'}
-          placeholder={'Seleccione el Puerto'}
+          placeholder={'Selecciona el Puerto'}
           setHarbor={setHarbor}
           type={type}
         />

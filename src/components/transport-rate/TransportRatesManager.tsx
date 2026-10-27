@@ -191,12 +191,12 @@ export default function TransportRatesManager(): React.JSX.Element {
                 <InputFieldTransportSelect
                   name='transportId'
                   label='Transportista'
-                  placeholder='Seleccione el transportista'
+                  placeholder='Selecciona el transportista'
                 />
                 <InputFieldProvinceSelect
                   name='provinceId'
                   label='Provincia de la Finca'
-                  placeholder='Seleccione la provincia'
+                  placeholder='Selecciona la provincia'
                   countryId={ecuadorId}
                 />
               </>

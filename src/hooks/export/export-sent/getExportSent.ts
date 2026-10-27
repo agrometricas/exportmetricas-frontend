@@ -27,6 +27,7 @@ export const useExportSent = ({
     ['exportSent', exportSentId],
     () => getExportSent({ exportSentId }),
     {
+      enabled: !!exportSentId,
       keepPreviousData: true,
     }
   );

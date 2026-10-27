@@ -20,7 +20,7 @@ const InputFieldSelector: React.FC<InputFieldSelectorProps> = ({
   name,
   label,
   options,
-  placeholder = 'Seleccione una opción',
+  placeholder = 'Selecciona una opción',
   isDisabled,
   flexDirection = 'column',
 }) => {

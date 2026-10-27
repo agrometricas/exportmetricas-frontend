@@ -29,7 +29,7 @@ const SelectBusiness: React.FC<SelectBusinessProps> = ({
         <InputFieldBusinessSelect
           name={name}
           label={'Finca/Razón Social'}
-          placeholder={'Seleccione la Finca'}
+          placeholder={'Selecciona la Finca'}
           setBusiness={setBusiness}
           merchant={merchant}
         />

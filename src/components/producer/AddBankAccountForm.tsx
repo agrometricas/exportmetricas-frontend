@@ -270,7 +270,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
                 colorPalette='green'
                 loading={isLoading}
               >
-                Enviar
+                Crear cuenta bancaria
               </Button></FormActions>
           </Flex>
         </Form>

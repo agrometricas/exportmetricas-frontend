@@ -115,15 +115,15 @@ export const validationSchema = Yup.object({
     cityId: Yup.number().required('Requerido'),
     harbors: Yup.array()
         .of(Yup.number().required())
-        .min(1, 'Debe seleccionar al menos un puerto')
+        .min(1, 'Selecciona al menos un puerto')
         .required('Requerido'),
     incoterms: Yup.array()
         .of(Yup.number().required())
-        .min(1, 'Debe seleccionar al menos un incoterm')
+        .min(1, 'Selecciona al menos un incoterm')
         .required('Requerido'),
     certificates: Yup.array()
         .of(Yup.number().required())
-        .min(1, 'Debe seleccionar al menos un certificado')
+        .min(1, 'Selecciona al menos un certificado')
         .required('Requerido'),
     contacts: Yup.array()
         .of(

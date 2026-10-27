@@ -37,7 +37,7 @@ export function valuesFromContract(contract: ProducerContractResponse): ValuesPr
 const validDate = (value?: string): boolean => !value || value !== INVALID_DAY_DATE;
 
 export const validationSchema = Yup.object({
-  businessId: Yup.number().required('Seleccione la finca'),
+  businessId: Yup.number().required('Selecciona la finca'),
   approvedHectares: Yup.number()
     .typeError('Debe ser un número')
     .moreThan(0, 'Debe ser mayor que 0')

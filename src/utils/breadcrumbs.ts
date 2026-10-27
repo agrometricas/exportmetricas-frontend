@@ -184,7 +184,9 @@ const ADD_ROUTES: AddMap = {
 };
 
 const SEGMENT_ES: Record<string, string> = {
-  dashboard: 'Dashboard',
+  dashboard: 'Inicio',
+  'update-user': 'Modificar Ubicación',
+  onboarding: 'Registro Inicial',
   producer: 'Productores',
   producers: 'Productores',
   fincas: 'Fincas',
@@ -199,6 +201,7 @@ const SEGMENT_ES: Record<string, string> = {
   deposits: 'Depósitos',
   transports: 'Transportes',
   'box-brands': 'Marcas de Caja',
+  brand: 'Marca',
   search: 'Buscar',
   verifiers: 'Verificadoras',
   'cutting-types': 'Tipos de Corte',
@@ -245,7 +248,7 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
   const crumbs: BreadcrumbItem[] = [
     {
-      name: 'Dashboard',
+      name: 'Inicio',
       href: '/dashboard',
       isCurrent: cleanPath === '/dashboard',
     },
@@ -334,6 +337,27 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   if (/^\/dashboard\/export\/cutting-sheets\/\d+$/.test(cleanPath)) {
     push('Hojas de Corte', '/dashboard/export/cutting-sheets', false);
     push('Corregir Hoja de Corte', cleanPath, true);
+    return crumbs;
+  }
+
+  if (/^\/dashboard\/client\/shipping-contracts\/\d+$/.test(cleanPath)) {
+    push('Contratos Navieros', '/dashboard/client/shipping-contracts', false);
+    push('Editar Contrato Naviero', cleanPath, true);
+    return crumbs;
+  }
+
+  if (/^\/dashboard\/producer\/contracts\/\d+$/.test(cleanPath)) {
+    push('Contratos', '/dashboard/producer/contracts', false);
+    push('Editar Contrato de Productor', cleanPath, true);
+    return crumbs;
+  }
+
+  const updateUser = cleanPath.match(
+    /^\/dashboard\/user\/update-user\/([^/]+)$/
+  );
+  if (updateUser) {
+    push('Perfil', `/dashboard/user/${updateUser[1]}`, false);
+    push('Modificar Ubicación', cleanPath, true);
     return crumbs;
   }
 

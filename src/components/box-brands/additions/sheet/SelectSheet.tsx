@@ -40,7 +40,7 @@ const SelectSheet: React.FC<SelectSheetProps> = ({
       <InputFieldSheetSelect
         name={name1}
         label={'Tipo de Hoja'}
-        placeholder={'Seleccione el Tipo de Hoja'}
+        placeholder={'Selecciona el Tipo de Hoja'}
         setSheet={setSheet}
       />
 

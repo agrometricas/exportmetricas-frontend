@@ -56,11 +56,11 @@ export const validationSchema = Yup.object({
     .required('Requerido')
     .max(40, 'Máximo 40 caracteres'),
   shippingCompanyId: Yup.number()
-    .typeError('Seleccione la naviera')
-    .required('Seleccione la naviera'),
+    .typeError('Selecciona la naviera')
+    .required('Selecciona la naviera'),
   harborDepartureId: Yup.number()
-    .typeError('Seleccione la ruta')
-    .required('Seleccione la ruta'),
+    .typeError('Selecciona la ruta')
+    .required('Selecciona la ruta'),
   shipName: Yup.string()
     .trim()
     .required('Requerido')

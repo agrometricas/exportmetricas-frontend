@@ -136,7 +136,7 @@ export default function EditBusinessForm({
               <InputFieldCertificateMultiSelect
                 name='certificates'
                 label='Certificados'
-                placeholder='Seleccione certificados'
+                placeholder='Selecciona certificados'
               />
             </SimpleGrid>
 
@@ -145,7 +145,7 @@ export default function EditBusinessForm({
               <InputFieldCountrySelect
                 name='countryId'
                 label='País'
-                placeholder='Seleccione el país'
+                placeholder='Selecciona el país'
                 onChange={(country) => {
                   setFieldValue('countryId', country?.id || '');
                   setFieldValue('provinceId', '');
@@ -155,7 +155,7 @@ export default function EditBusinessForm({
               <InputFieldProvinceSelect
                 name='provinceId'
                 label='Provincia'
-                placeholder='Seleccione la provincia'
+                placeholder='Selecciona la provincia'
                 countryId={values.countryId || undefined}
                 resetOnParentChange={false}
                 onChange={(province) => {
@@ -166,7 +166,7 @@ export default function EditBusinessForm({
               <InputFieldCitySelect
                 name='cityId'
                 label='Ciudad'
-                placeholder='Seleccione la ciudad'
+                placeholder='Selecciona la ciudad'
                 provinceId={values.provinceId || undefined}
                 resetOnParentChange={false}
               />

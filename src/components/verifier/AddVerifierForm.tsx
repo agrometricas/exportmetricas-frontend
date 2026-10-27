@@ -19,9 +19,9 @@ const AddVerifierForm: React.FC = () => {
                         </FormSectionTitle>
 
                         <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-                            <InputFieldText name="name" label="Nombre / Razón Social" placeholder="Ingrese el nombre" />
-                            <InputFieldText name="ruc" label="RUC" placeholder="Ingrese el RUC" />
-                            <InputFieldText name="address" label="Dirección" placeholder="Ingrese la dirección" />
+                            <InputFieldText name="name" label="Nombre / Razón Social" placeholder="Ingresa el nombre" />
+                            <InputFieldText name="ruc" label="RUC" placeholder="Ingresa el RUC" />
+                            <InputFieldText name="address" label="Dirección" placeholder="Ingresa la dirección" />
                         </SimpleGrid>
 
                         <FormSectionTitle>
@@ -36,17 +36,17 @@ const AddVerifierForm: React.FC = () => {
                                                 <InputFieldText
                                                     name={`contacts[${index}].name`}
                                                     label="Nombre del Contacto"
-                                                    placeholder="Ingrese el nombre"
+                                                    placeholder="Ingresa el nombre"
                                                 />
                                                 <InputFieldText
                                                     name={`contacts[${index}].email`}
                                                     label="Correo"
-                                                    placeholder="Ingrese el correo"
+                                                    placeholder="Ingresa el correo"
                                                 />
                                                 <InputFieldText
                                                     name={`contacts[${index}].phone`}
                                                     label="Teléfono"
-                                                    placeholder="Ingrese el teléfono"
+                                                    placeholder="Ingresa el teléfono"
                                                 />
                                                 <Flex alignSelf="end">
                                                     <Button

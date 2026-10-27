@@ -1023,7 +1023,7 @@ const CuttingSheetForm = ({
                 name='dataReviewed'
                 label='He revisado los datos agregados'
               />}><Button type='submit' colorPalette='green' loading={isLoading}>
-                Enviar
+                Generar hoja
               </Button></FormActions>
             </Flex>
           </Form>

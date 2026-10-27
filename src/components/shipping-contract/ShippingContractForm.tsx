@@ -65,7 +65,7 @@ export default function ShippingContractForm({
                 <InputFieldShippingCompanySelect
                   name='shippingCompanyId'
                   label='Naviera'
-                  placeholder='Seleccione la naviera'
+                  placeholder='Selecciona la naviera'
                 />
               )}
               <InputFieldPlain
@@ -112,13 +112,13 @@ export default function ShippingContractForm({
                           type='Nacional'
                           name={`routes[${index}].harborDepartureId`}
                           label='Puerto de Salida'
-                          placeholder='Seleccione la salida'
+                          placeholder='Selecciona la salida'
                         />
                         <InputFieldHarborSelect
                           type='Internacional'
                           name={`routes[${index}].harborDestinationId`}
                           label='Puerto de Destino'
-                          placeholder='Seleccione el destino'
+                          placeholder='Selecciona el destino'
                         />
                         <InputFieldPlain
                           name={`routes[${index}].costPerContainer`}

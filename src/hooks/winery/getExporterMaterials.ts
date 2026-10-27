@@ -27,6 +27,7 @@ export const useExporterMaterials = ({
     ['exporterMaterials', exporterId],
     () => getExporterMaterials({ exporterId }),
     {
+      enabled: !!exporterId,
       keepPreviousData: true,
     }
   );

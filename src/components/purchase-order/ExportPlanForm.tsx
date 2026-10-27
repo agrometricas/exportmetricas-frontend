@@ -364,7 +364,7 @@ export default function ExportPlanForm({
                   <InputFieldShippingCompanySelect
                     name='shippingCompanyId'
                     label='Naviera'
-                    placeholder='Seleccione una Naviera'
+                    placeholder='Selecciona una Naviera'
                     onSelect={() => {
                       setFieldValue('departureHarborId', '');
                       setFieldValue('destinationHarborId', '');

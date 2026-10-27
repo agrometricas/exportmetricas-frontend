@@ -48,18 +48,18 @@ export default function OnboardingForm(): React.JSX.Element {
               <InputFieldCountrySelect
                 name={'countryId'}
                 label={'País'}
-                placeholder={'Seleccione el país'}
+                placeholder={'Selecciona el país'}
               />
               <InputFieldProvinceSelect
                 name={'provinceId'}
                 label={'Provincia'}
-                placeholder={'Seleccione la provincia'}
+                placeholder={'Selecciona la provincia'}
                 countryId={values.countryId || undefined}
               />
               <InputFieldCitySelect
                 name={'cityId'}
                 label={'Ciudad'}
-                placeholder={'Seleccione la ciudad'}
+                placeholder={'Selecciona la ciudad'}
                 provinceId={values.provinceId || undefined}
               />
               <InputFieldText name={'address'} label={'Dirección'} />
@@ -91,18 +91,18 @@ export default function OnboardingForm(): React.JSX.Element {
               <InputFieldCountrySelect
                 name={'businesses[0].countryId'}
                 label={'País'}
-                placeholder={'Seleccione el país'}
+                placeholder={'Selecciona el país'}
               />
               <InputFieldProvinceSelect
                 name={'businesses[0].provinceId'}
                 label={'Provincia'}
-                placeholder={'Seleccione la provincia'}
+                placeholder={'Selecciona la provincia'}
                 countryId={values.businesses[0].countryId || undefined}
               />
               <InputFieldCitySelect
                 name={'businesses[0].cityId'}
                 label={'Ciudad'}
-                placeholder={'Seleccione la ciudad'}
+                placeholder={'Selecciona la ciudad'}
                 provinceId={values.businesses[0].provinceId || undefined}
               />
               <InputFieldText
@@ -112,7 +112,7 @@ export default function OnboardingForm(): React.JSX.Element {
               <InputFieldCertificateMultiSelect
                 name={'businesses[0].certificates'}
                 label={'Certificados'}
-                placeholder='Seleccione certificados'
+                placeholder='Selecciona certificados'
               />
               <InputFieldNumber
                 name={'businesses[0].latitude'}
@@ -226,7 +226,7 @@ export default function OnboardingForm(): React.JSX.Element {
                 colorPalette='green'
                 loading={isLoading}
               >
-                Enviar
+                Crear productor
               </Button>
             </SimpleGrid>
           </Flex>
