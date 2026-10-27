@@ -14,7 +14,7 @@ import {
   SimpleGrid,
   Heading,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
+import Link_Next from 'next/link';
 import React, { useState, useMemo } from 'react';
 import { useExporterMaterials } from '@/hooks/winery/getExporterMaterials';
 import { ExporterMaterial } from '@/types/winery/exporterMateriales';
@@ -27,7 +27,6 @@ import {
 export function MaterialList(): React.JSX.Element {
   const { user, isLoading: isLoadingExporter } = useExporter();
   const exporterId = user?.exporterDetails?.id?.toString();
-  const router = useRouter();
 
   const { data, isLoading, error } = useExporterMaterials({
     exporterId: exporterId ?? '',
@@ -166,16 +165,12 @@ export function MaterialList(): React.JSX.Element {
                 <Table.Cell>{material.code}</Table.Cell>
                 <Table.Cell>
                   <Flex justifyContent='center'>
-                    <Button
-                      size='sm'
-                      colorPalette='green'
-                      onClick={() =>
-                        router.push(
-                          `/dashboard/winery/add-material/${material.materialType}-${material.id}`
-                        )
-                      }
-                    >
-                      Agregar stock
+                    <Button size='sm' colorPalette='green' asChild>
+                      <Link_Next
+                        href={`/dashboard/winery/add-material/${material.materialType}-${material.id}`}
+                      >
+                        Agregar stock
+                      </Link_Next>
                     </Button>
                   </Flex>
                 </Table.Cell>

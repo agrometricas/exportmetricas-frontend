@@ -133,6 +133,10 @@ the backend proposes.
   what a role cannot do, with the same split: the menu through `allowedRoles`,
   a step's action through `seesQueue` (`utils/workQueueAccess.ts`). An action
   shown outside the menu (the export page, *Lo que falta*) goes through it.
+- A button that only opens another screen is a link (`Button asChild` around
+  `next/link`), not an `onClick` with `router.push`: it opens in a new tab,
+  and the smoke test follows it to reach a page with an id. `router.push` is
+  for moving on after an action (a save, a confirmation).
 
 ## UI
 
