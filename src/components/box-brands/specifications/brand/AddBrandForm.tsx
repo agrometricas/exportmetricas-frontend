@@ -72,7 +72,7 @@ export default function AddBrandForm({
             queryKey: ['brands'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

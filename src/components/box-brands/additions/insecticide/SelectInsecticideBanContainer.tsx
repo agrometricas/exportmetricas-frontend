@@ -57,7 +57,7 @@ const SelectInsecticideBanContainer = ({
         {({ push, remove }) => (
           <>
             {insecticides.map((_insecticide, index) => {
-              isBan && remove(index);
+              if (isBan) remove(index);
 
               return (
                 <div key={index}>

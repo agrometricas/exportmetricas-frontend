@@ -111,7 +111,7 @@ const AddRubberForm = ({ onClose }: AddRubberFormProps): React.JSX.Element => {
             queryKey: ['rubbers'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

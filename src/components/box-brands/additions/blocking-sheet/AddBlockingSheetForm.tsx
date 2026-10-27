@@ -104,7 +104,7 @@ const AddBlockingSheetForm = ({
             queryKey: ['blockingSheets'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

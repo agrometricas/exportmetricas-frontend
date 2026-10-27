@@ -56,7 +56,7 @@ const SelectSheetBanContainer = ({
         {({ push, remove }) => (
           <>
             {sheets.map((_sheet, index) => {
-              isBan && remove(index);
+              if (isBan) remove(index);
 
               return (
                 <div key={index}>

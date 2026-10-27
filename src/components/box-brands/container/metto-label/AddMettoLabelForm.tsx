@@ -117,7 +117,7 @@ const AddMettoLabelForm = ({
           queryKey: ['mettoLabels']
         });
         actions.resetForm();
-        !!onClose && onClose();
+        onClose?.();
       },
     });
 

@@ -244,7 +244,11 @@ the backend proposes.
   global `JSX` namespace.
 - Response and entity types live in `types/`, one folder or file per domain.
 - `no-explicit-any` and missing return types are lint warnings. Do not add a
-  file-level `eslint-disable` to silence them in new files.
+  file-level `eslint-disable` to silence them in new files. A declared
+  function states its return type; a callback written inside an expression (a
+  table column, a prop) does not need to.
+- Lint is ESLint 9 with `eslint.config.mjs`, which loads the rules through
+  `FlatCompat`. `npm run lint` is `eslint .`, not `next lint`.
 
 ## Secrets and logging
 

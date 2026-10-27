@@ -27,7 +27,6 @@ const InputFieldBandSelect: React.FC<InputFieldBandSelectProps> = ({
 
   useBanChange(isBan?.state, () => {
     if (!!isBan) {
-      field.onChange;
       if (isBan?.state) {
         field.value = undefined;
         helpers.setValue(undefined);

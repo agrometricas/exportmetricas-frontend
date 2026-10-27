@@ -101,7 +101,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
             queryKey: ['seals'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

@@ -102,7 +102,7 @@ const AddProtectorForm = ({
             queryKey: ['protectors'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

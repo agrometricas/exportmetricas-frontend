@@ -45,7 +45,7 @@ módulos del overview.
 npm run dev            # servidor de desarrollo (:3000)
 npm run build          # build de producción
 npm run start          # sirve el build
-npm run lint           # ESLint (next lint)
+npm run lint           # ESLint 9 (eslint.config.mjs)
 npm run test           # Vitest (src/**/*.spec.ts)
 npm run format         # Prettier, solo verifica
 npm run format:fix     # Prettier, corrige

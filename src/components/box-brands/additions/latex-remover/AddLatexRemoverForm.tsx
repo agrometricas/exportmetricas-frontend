@@ -118,7 +118,7 @@ const AddLatexRemoverForm = ({
             queryKey: ['latexRemovers'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

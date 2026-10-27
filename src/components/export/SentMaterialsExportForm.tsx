@@ -186,7 +186,7 @@ const SentMaterialsExportForm = ({
     actions: { resetForm: () => void }
   ): Promise<void> => {
     const { dataReviewed, ...sentMaterialsExportData } = values;
-    dataReviewed;
+    void dataReviewed;
     createExportSent(sentMaterialsExportData, {
       onError: (error: any) => {
         toaster.create({

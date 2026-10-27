@@ -52,7 +52,6 @@ const InputFieldText: React.FC<InputFieldProps> = ({
 
   useEffect(() => {
     if (!!isBan) {
-      field.onChange;
       inputRef.current?.blur();
       if (isBan?.state) {
         field.value = 'N/A';

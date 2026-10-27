@@ -27,7 +27,6 @@ const InputFieldBottomSelect: React.FC<InputFieldBottomSelectProps> = ({
 
   useBanChange(isBan?.state, () => {
     if (!!isBan) {
-      field.onChange;
       if (isBan?.state) {
         field.value = undefined;
         helpers.setValue(undefined);

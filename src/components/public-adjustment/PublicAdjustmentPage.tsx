@@ -56,7 +56,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
         if (!res.ok) throw new Error('Token inválido o expirado');
         const json = await res.json();
         setData(json);
-      } catch (error) {
+      } catch {
         setData(null);
       } finally {
         setLoading(false);

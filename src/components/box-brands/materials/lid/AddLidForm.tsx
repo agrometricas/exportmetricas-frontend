@@ -79,7 +79,7 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
             queryKey: ['lids'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

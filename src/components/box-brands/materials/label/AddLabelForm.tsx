@@ -128,7 +128,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
           queryKey: ['labels']
         });
         actions.resetForm();
-        !!onClose && onClose();
+        onClose?.();
       },
     });
     return;

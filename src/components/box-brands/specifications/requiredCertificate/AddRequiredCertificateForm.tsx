@@ -80,7 +80,7 @@ const AddCertificateForm = ({
             queryKey: ['requiredCertificates'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

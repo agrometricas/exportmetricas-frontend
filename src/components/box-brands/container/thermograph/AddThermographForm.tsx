@@ -103,7 +103,7 @@ const AddThermographForm = ({
             queryKey: ['thermographs'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

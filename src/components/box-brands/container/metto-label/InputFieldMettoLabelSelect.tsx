@@ -27,7 +27,6 @@ const InputFieldMettoLabelSelect: React.FC<InputFieldMettoLabelSelectProps> = ({
 
   useBanChange(isBan?.state, () => {
     if (!!isBan) {
-      field.onChange;
       if (isBan?.state) {
         field.value = undefined;
         helpers.setValue(undefined);

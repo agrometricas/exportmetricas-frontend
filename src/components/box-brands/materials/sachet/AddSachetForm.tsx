@@ -112,7 +112,7 @@ const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
             queryKey: ['sachets'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

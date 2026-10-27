@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Accordion, Box, Heading } from '@chakra-ui/react';

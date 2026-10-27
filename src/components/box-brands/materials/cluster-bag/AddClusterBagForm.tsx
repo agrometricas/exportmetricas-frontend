@@ -130,7 +130,7 @@ const AddClusterBagForm = ({
           queryKey: ['clusterBags']
         });
         actions.resetForm();
-        !!onClose && onClose();
+        onClose?.();
       },
     });
 

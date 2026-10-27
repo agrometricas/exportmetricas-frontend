@@ -80,7 +80,7 @@ const AddSheetForm = ({ onClose }: AddSheetFormProps): React.JSX.Element => {
             queryKey: ['sheets'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

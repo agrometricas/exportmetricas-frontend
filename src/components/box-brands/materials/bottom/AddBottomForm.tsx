@@ -82,7 +82,7 @@ const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
             queryKey: ['bottoms'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

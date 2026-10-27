@@ -27,7 +27,6 @@ const InputFieldRubberSelect: React.FC<InputFieldRubberSelectProps> = ({
 
   useBanChange(isBan?.state, () => {
     if (!!isBan) {
-      field.onChange;
       if (isBan?.state) {
         field.value = undefined;
         helpers.setValue(undefined);

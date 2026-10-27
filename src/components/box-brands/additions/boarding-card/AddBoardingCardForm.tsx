@@ -83,7 +83,7 @@ const AddBoardingCardForm = ({
             queryKey: ['boardingCards'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

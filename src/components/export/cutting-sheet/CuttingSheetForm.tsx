@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';

@@ -144,7 +144,7 @@ const AddPesticideForm = ({
             queryKey: ['pesticides']
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );

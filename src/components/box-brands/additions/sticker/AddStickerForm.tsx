@@ -82,7 +82,7 @@ const AddStickerForm = ({
             queryKey: ['stickers'],
           });
           actions.resetForm();
-          !!onClose && onClose();
+          onClose?.();
         },
       }
     );
