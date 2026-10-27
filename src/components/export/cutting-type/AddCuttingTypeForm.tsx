@@ -1,12 +1,11 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
-  useToast,
   Text,
+  Separator,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -14,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useBoxBrand } from '../../../hooks/box-brand/getBoxBrand';
 import { useCreateCuttingType } from '../../../hooks/export/cutting-type/createCuttingType';
 import { useCuttingTypeOptions } from '../../../hooks/export/cutting-type/getCuttingTypeOptions';
@@ -102,7 +102,6 @@ const AddCuttingTypeForm = ({
   cuttingType?: CuttingType;
 }): React.JSX.Element => {
   const router = useRouter();
-  const toast = useToast();
   const queryClient = useQueryClient();
   const isEdit = Boolean(cuttingType?.id);
   const { createCuttingType, isLoading: createLoading } =
@@ -123,19 +122,19 @@ const AddCuttingTypeForm = ({
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title: isEdit
         ? 'No se guardó el tipo de corte'
         : 'No se creó el tipo de corte',
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 5000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const onSaved = (title: string): void => {
-    toast({ title, status: 'success', duration: 5000, isClosable: true });
+    toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries('cuttingTypes');
     queryClient.invalidateQueries('cuttingType');
     router.push('/dashboard/box-brands/cutting-types');
@@ -180,7 +179,7 @@ const AddCuttingTypeForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Marca de Caja
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
 
               <SelectBoxBrand
                 name={'boxBrandId'}
@@ -194,7 +193,7 @@ const AddCuttingTypeForm = ({
                 }}
               />
 
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldPlain
                   name='shipmentType'
                   label='Nombre del Tipo de Corte'
@@ -212,7 +211,7 @@ const AddCuttingTypeForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Detalles del Corte
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -246,7 +245,7 @@ const AddCuttingTypeForm = ({
               ) : (
                 <Text>No se ha seleccionado una marca de caja.</Text>
               )}
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldPlain
                   name='leavesAtHarvest'
                   label='Hojas en Cosecha'
@@ -297,9 +296,9 @@ const AddCuttingTypeForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Detalles de Empaque
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
 
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldSelector
                   name={'firstLine'}
                   label={'Primera Línea '}
@@ -359,7 +358,7 @@ const AddCuttingTypeForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Detalles de Transporte
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -368,7 +367,7 @@ const AddCuttingTypeForm = ({
                   borderColor='gray.200'
                   overflow='hidden'
                 >
-                  <SimpleGrid columns={2} spacing={4}>
+                  <SimpleGrid columns={2} gap={4}>
                     <Box>
                       <Text fontSize='sm'>
                         <strong>Pallets:</strong>{' '}
@@ -499,9 +498,9 @@ const AddCuttingTypeForm = ({
                   py='8px'
                   px='16px'
                   type='submit'
-                  colorScheme='teal'
-                  isLoading={createLoading || updateLoading}
-                  isDisabled={isSubmitting}
+                  colorPalette='green'
+                  loading={createLoading || updateLoading}
+                  disabled={isSubmitting}
                 >
                   {isEdit ? 'Guardar Cambios' : 'Enviar'}
                 </Button>

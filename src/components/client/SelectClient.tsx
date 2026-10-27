@@ -1,4 +1,4 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldClientSelect from './InputFieldClientSelect';
 import { ClientType } from '../../types/client';
@@ -34,7 +34,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldClientSelect
           name={name}
           label={'Cliente'}
@@ -45,33 +45,33 @@ const SelectClient: React.FC<SelectClientProps> = ({
         />
 
         <Box>
-          <FormLabel fontSize='sm'>RUC</FormLabel>
+          <Field.Label fontSize='sm'>RUC</Field.Label>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={client?.businessId || ''}
             placeholder='Ruc del Cliente'
           />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Tipo</FormLabel>
+          <Field.Label fontSize='sm'>Tipo</Field.Label>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={client?.type || ''}
             placeholder='Tipo'
           />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Correo</FormLabel>
+          <Field.Label fontSize='sm'>Correo</Field.Label>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={client?.email || ''}
             placeholder='Correo del Cliente'
           />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Teléfono</FormLabel>
+          <Field.Label fontSize='sm'>Teléfono</Field.Label>
           <Input
-            isReadOnly={true}
+            readOnly={true}
             value={client?.phone || ''}
             placeholder='Teléfono del Cliente'
           />

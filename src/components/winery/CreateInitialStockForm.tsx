@@ -1,15 +1,9 @@
 'use client';
 
-import {
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  SimpleGrid,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateExporterMaterialStock } from '../../hooks/winery/useCreateExporterMaterialStock';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import CheckboxForm from '../ui/form/CheckboxForm';
@@ -52,7 +46,6 @@ export function CreateInitialStockForm({
   materialId,
   materialName,
 }: Props): JSX.Element {
-  const toast = useToast();
   const { mutate, isLoading } = useCreateExporterMaterialStock();
 
   return (
@@ -72,21 +65,21 @@ export function CreateInitialStockForm({
           },
           {
             onSuccess: () => {
-              toast({
+              toaster.create({
                 title: 'Stock Creado con Éxito.',
-                status: 'success',
+                type: 'success',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
               location.reload();
             },
             onError: (error: unknown) => {
-              toast({
+              toaster.create({
                 title: 'Error al Crear el Stock.',
                 description: serverErrorMessage(error),
-                status: 'error',
+                type: 'error',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
             },
           }
@@ -99,8 +92,8 @@ export function CreateInitialStockForm({
             <Heading fontSize={'2xl'} p={'12px'}>
               Material: {materialName}
             </Heading>
-            <Divider mb={'16px'} />
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+            <Separator mb={'16px'} />
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
               <InputFieldNumber
                 name='assignedStock'
                 label='Stock Asignado'
@@ -124,8 +117,8 @@ export function CreateInitialStockForm({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Crear Stock Inicial
               </Button>

@@ -59,7 +59,7 @@ const harborComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={MdOutlineArrowDropDownCircle} size='13px' />
+      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -110,9 +110,12 @@ const HarborMultiSelectBase: React.FC<HarborMultiSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          ({ ...provided, zIndex: 100 }) as CSSObjectWithLabel,
+          (({
+            ...provided,
+            zIndex: 100,
+          }) as CSSObjectWithLabel),
       }}
-      useBasicStyles
+
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error

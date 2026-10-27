@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useSubmitBusiness } from './hooks/useSubmitBusiness';
@@ -37,15 +37,15 @@ export default function AddBusinessForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'12px'}>
               Seleccione el Productor
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
             <SelectProducer name={'merchant'} />
 
             <Heading fontSize={'2xl'} p={'16px'}>
               Finca
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldNumber
                 name={'area'}
@@ -106,12 +106,12 @@ export default function AddBusinessForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'16px'}>
               Códigos de Finca
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
             <FieldArray name='businessCodes'>
               {({ push, remove }) => (
                 <>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     {values.businessCodes.map((_businessCode, index) => (
                       <InputFieldText
                         key={index}
@@ -136,14 +136,14 @@ export default function AddBusinessForm(): React.JSX.Element {
             <Heading fontSize={'2xl'} p={'16px'}>
               Contactos
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
                   {values.contacts.map((_contact, index) => (
                     <div key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                         <InputFieldText
                           name={`contacts[${index}].name`}
                           label={'Nombre'}
@@ -163,14 +163,14 @@ export default function AddBusinessForm(): React.JSX.Element {
                         <Box></Box>
                         <Button
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={values.contacts.length === 1}
+                          colorPalette='red'
+                          disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar Contacto
                         </Button>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt={'16px'}
                         mb={'8px'}
                         borderWidth={'2px'}
@@ -178,7 +178,7 @@ export default function AddBusinessForm(): React.JSX.Element {
                       />
                     </div>
                   ))}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     <Box></Box>
                     <Button
                       onClick={() =>
@@ -198,8 +198,8 @@ export default function AddBusinessForm(): React.JSX.Element {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Enviar
               </Button>

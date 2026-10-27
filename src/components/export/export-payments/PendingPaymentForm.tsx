@@ -1,18 +1,18 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
   Text,
-  useToast,
+  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
 import { useCreateProducerPayment } from '../../../hooks/export/producerPayment/createProducerPayment';
@@ -227,7 +227,7 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Productor
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectProducer
         name={'merchantId'}
@@ -238,7 +238,7 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Puerto de Salida
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectHarbor
         name={'departureHarborId'}
@@ -250,7 +250,7 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Puerto de Destino
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectHarbor
         name={'destinationHarborId'}
@@ -262,7 +262,7 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Compra
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -292,9 +292,9 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Gastos
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <Box>
           <InputFieldNumber
             name={'transport'}
@@ -341,25 +341,25 @@ const PendingPaymentFields = ({
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Origen
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBankAccount name={'sourceBankAccountId'} />
 
       <Heading fontSize={'2xl'} p={'12px'}>
         Cuenta Bancaria Destino
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
 
       <SelectBankAccount name={'destinationBankAccountId'} />
 
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <Box></Box>
         <ReadOnlyAmount label={'Monto'} value={quote?.amount} />
       </SimpleGrid>
       <Heading fontSize={'2xl'} p={'12px'}>
         Subir Transferencia
       </Heading>
-      <Divider mb={'16px'} />
+      <Separator mb={'16px'} />
       <UploadLogoFile name={'transferFile'} />
       <SimpleGrid columns={{ base: 1, sm: 1 }}>
         <CheckboxForm
@@ -371,9 +371,9 @@ const PendingPaymentFields = ({
           py='8px'
           px='16px'
           type='submit'
-          colorScheme='teal'
-          isLoading={isSubmitting}
-          isDisabled={!isSettled}
+          colorPalette='green'
+          loading={isSubmitting}
+          disabled={!isSettled}
         >
           Enviar
         </Button>
@@ -393,7 +393,6 @@ const PendingPaymentForm = ({
   const { createProducerPayment, isLoading: createLoading } =
     useCreateProducerPayment();
   const { uploadTransferImage, isLoading } = useUploadTransferImage();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -446,11 +445,11 @@ const PendingPaymentForm = ({
         });
       }
 
-      toast({
+      toaster.create({
         title: 'Liquidación y Archivo Subidos con Éxito',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       queryClient.invalidateQueries('producerPayments');
@@ -459,12 +458,12 @@ const PendingPaymentForm = ({
       PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
       router.push(returnTo('/dashboard/liquidation/producer-payments', window.location.search));
     } catch (error: unknown) {
-      toast({
+      toaster.create({
         title: 'Error',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     }
   };

@@ -1,5 +1,4 @@
 'use client';
-
 import {
   Badge,
   Box,
@@ -8,18 +7,13 @@ import {
   IconButton,
   Input,
   InputGroup,
-  InputLeftElement,
   Kbd,
   List,
-  ListItem,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
   Spinner,
   Text,
-  useColorModeValue,
   useDisclosure,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -27,6 +21,7 @@ import { FiSearch } from 'react-icons/fi';
 import { useExportSearch } from '../../../hooks/export/searchExports';
 import { isSearchable, searchHitSummary } from '../../../utils/exportSearch';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
+import { useColorModeValue } from '../color-mode';
 
 const DEBOUNCE_MS = 250;
 
@@ -36,7 +31,7 @@ const isTyping = (target: EventTarget | null): boolean =>
     ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
 
 const QuickSearch = (): React.JSX.Element => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open: isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
@@ -100,17 +95,17 @@ const QuickSearch = (): React.JSX.Element => {
       <IconButton
         aria-label='Buscar una exportación'
         display={{ base: 'flex', lg: 'none' }}
-        icon={<FiSearch />}
         variant='ghost'
         color={textColor}
         borderRadius='lg'
         h='44px'
         w='44px'
         onClick={onOpen}
-      />
+      >
+        <FiSearch />
+      </IconButton>
       <Button
         display={{ base: 'none', lg: 'flex' }}
-        leftIcon={<FiSearch />}
         variant='outline'
         bg={buttonBg}
         color={mutedColor}
@@ -121,85 +116,105 @@ const QuickSearch = (): React.JSX.Element => {
         justifyContent='flex-start'
         onClick={onOpen}
       >
+        <FiSearch />
         <Text flex='1' textAlign='left'>
           Buscar exportación…
         </Text>
         <Kbd fontSize='xs'>Ctrl K</Kbd>
       </Button>
 
-      <Modal isOpen={isOpen} onClose={close} size='xl' scrollBehavior='inside'>
-        <ModalOverlay />
-        <ModalContent mx={4} mt={{ base: 4, md: 24 }}>
-          <ModalBody p={4}>
-            <InputGroup size='lg'>
-              <InputLeftElement pointerEvents='none' color={mutedColor}>
-                {isFetching ? <Spinner size='sm' /> : <FiSearch />}
-              </InputLeftElement>
-              <Input
-                autoFocus
-                value={text}
-                onChange={(event) => setText(event.target.value)}
-                onKeyDown={onKeyDown}
-                placeholder='Número, booking, contenedor, finca, productor o cliente'
-                aria-label='Buscar una exportación'
-              />
-            </InputGroup>
+      <Dialog.Root
+        open={isOpen}
+        size='xl'
+        scrollBehavior='inside'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            close();
+          }
+        }}
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content mx={4} mt={{ base: 4, md: 24 }}>
+              <Dialog.Body p={4}>
+                <InputGroup
+                  startElement={
+                    isFetching ? <Spinner size='sm' /> : <FiSearch />
+                  }
+                  startElementProps={{
+                    pointerEvents: 'none',
+                    color: mutedColor,
+                  }}
+                >
+                  <Input
+                    size='lg'
+                    autoFocus
+                    value={text}
+                    onChange={(event) => setText(event.target.value)}
+                    onKeyDown={onKeyDown}
+                    placeholder='Número, booking, contenedor, finca, productor o cliente'
+                    aria-label='Buscar una exportación'
+                  />
+                </InputGroup>
 
-            {!searchable && (
-              <Text fontSize='sm' color={mutedColor} mt={3}>
-                Escribe al menos dos letras o el número de la exportación.
-              </Text>
-            )}
-            {searchable && !!error && (
-              <Text fontSize='sm' color='red.500' mt={3}>
-                {serverErrorMessage(error, 'No se pudo buscar.')}
-              </Text>
-            )}
-            {searchable && !error && !isFetching && hits.length === 0 && (
-              <Text fontSize='sm' color={mutedColor} mt={3}>
-                Ninguna exportación coincide con «{query}».
-              </Text>
-            )}
+                {!searchable && (
+                  <Text fontSize='sm' color={mutedColor} mt={3}>
+                    Escribe al menos dos letras o el número de la exportación.
+                  </Text>
+                )}
+                {searchable && !!error && (
+                  <Text fontSize='sm' color='red.500' mt={3}>
+                    {serverErrorMessage(error, 'No se pudo buscar.')}
+                  </Text>
+                )}
+                {searchable && !error && !isFetching && hits.length === 0 && (
+                  <Text fontSize='sm' color={mutedColor} mt={3}>
+                    Ninguna exportación coincide con «{query}».
+                  </Text>
+                )}
 
-            <List mt={3} spacing={1} role='listbox'>
-              {hits.map((hit, index) => {
-                const summary = searchHitSummary(hit);
-                return (
-                  <ListItem
-                    key={hit.exportId}
-                    role='option'
-                    aria-selected={index === active}
-                    px={3}
-                    py={2}
-                    borderRadius='md'
-                    cursor='pointer'
-                    bg={index === active ? activeBg : 'transparent'}
-                    onMouseEnter={() => setActive(index)}
-                    onClick={() => open(hit.exportId)}
-                  >
-                    <Flex align='center' gap={2}>
-                      <Text fontWeight='semibold'>{summary.title}</Text>
-                      {hit.cancelled && (
-                        <Badge colorScheme='red' variant='subtle'>
-                          Cancelada
-                        </Badge>
-                      )}
-                    </Flex>
-                    <Text fontSize='sm' color={textColor}>
-                      {summary.detail}
-                    </Text>
-                    {summary.logistics && (
-                      <Box fontSize='xs' color={mutedColor}>
-                        {summary.logistics}
-                      </Box>
-                    )}
-                  </ListItem>
-                );
-              })}
-            </List>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+                <List.Root mt={3} gap={1} role='listbox'>
+                  {hits.map((hit, index) => {
+                    const summary = searchHitSummary(hit);
+                    return (
+                      <List.Item
+                        key={hit.exportId}
+                        role='option'
+                        aria-selected={index === active}
+                        px={3}
+                        py={2}
+                        borderRadius='md'
+                        cursor='pointer'
+                        bg={index === active ? activeBg : 'transparent'}
+                        onMouseEnter={() => setActive(index)}
+                        onClick={() => open(hit.exportId)}
+                      >
+                        <Flex align='center' gap={2}>
+                          <Text fontWeight='semibold'>{summary.title}</Text>
+                          {hit.cancelled && (
+                            <Badge colorPalette='red' variant='subtle'>
+                              Cancelada
+                            </Badge>
+                          )}
+                        </Flex>
+                        <Text fontSize='sm' color={textColor}>
+                          {summary.detail}
+                        </Text>
+                        {summary.logistics && (
+                          <Box fontSize='xs' color={mutedColor}>
+                            {summary.logistics}
+                          </Box>
+                        )}
+                      </List.Item>
+                    );
+                  })}
+                </List.Root>
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 };

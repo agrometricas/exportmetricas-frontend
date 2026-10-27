@@ -1,11 +1,4 @@
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Input,
-} from '@chakra-ui/react';
+import { Flex, Input, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { useEffect, useState } from 'react';
 import {
@@ -52,12 +45,12 @@ const InputFieldDayDate: React.FC<InputFieldDayDateProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       <Flex flexDirection='column'>
         {label && (
-          <FormLabel fontSize='sm' mb='8px'>
+          <Field.Label fontSize='sm' mb='8px'>
             {label}
-          </FormLabel>
+          </Field.Label>
         )}
         <Input
           name={field.name}
@@ -66,18 +59,18 @@ const InputFieldDayDate: React.FC<InputFieldDayDateProps> = ({
           onChange={handleChange}
           placeholder='DD/MM/AAAA'
           inputMode='numeric'
-          isReadOnly={isReadOnly}
+          readOnly={isReadOnly}
         />
         {helperText && !(meta.error && meta.touched) && (
-          <FormHelperText>{helperText}</FormHelperText>
+          <Field.HelperText>{helperText}</Field.HelperText>
         )}
         {meta.error && meta.touched && (
-          <FormErrorMessage mt='8px' mb='16px'>
+          <Field.ErrorText mt='8px' mb='16px'>
             {meta.error}
-          </FormErrorMessage>
+          </Field.ErrorText>
         )}
       </Flex>
-    </FormControl>
+    </Field.Root>
   );
 };
 

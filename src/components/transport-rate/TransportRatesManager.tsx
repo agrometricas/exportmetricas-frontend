@@ -1,19 +1,14 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Flex,
-  FormLabel,
   HStack,
   Input,
   SimpleGrid,
   Text,
-  useToast,
+  Dialog,
+  Portal,
+  Field,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
@@ -26,6 +21,7 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import {
   initialValues,
   transportRateBody,
@@ -48,7 +44,6 @@ import InputFieldPlain from '../ui/form/InputFieldPlain';
 const ECUADOR = 'EC';
 
 export default function TransportRatesManager(): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data = [] } = useTransportRates();
@@ -66,17 +61,17 @@ export default function TransportRatesManager(): React.JSX.Element {
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title: 'No se pudo guardar la tarifa',
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const done = (title: string): void => {
-    toast({ title, status: 'success', duration: 4000, isClosable: true });
+    toaster.create({ title, type: 'success', duration: 4000, closable: true });
     queryClient.invalidateQueries('transportRates');
     setEditing(null);
   };
@@ -117,11 +112,11 @@ export default function TransportRatesManager(): React.JSX.Element {
         header: '',
         size: 170,
         Cell: ({ row }): React.JSX.Element => (
-          <HStack spacing={2}>
+          <HStack gap={2}>
             <Button
               size='sm'
               variant='outline'
-              colorScheme='green'
+              colorPalette='green'
               onClick={() => setEditing(row.original)}
             >
               Editar
@@ -129,7 +124,7 @@ export default function TransportRatesManager(): React.JSX.Element {
             <Button
               size='sm'
               variant='ghost'
-              colorScheme='red'
+              colorPalette='red'
               onClick={() => setToDelete(row.original)}
             >
               Eliminar
@@ -179,16 +174,16 @@ export default function TransportRatesManager(): React.JSX.Element {
           <Text fontWeight='semibold' mb={3}>
             {editing ? 'Editar tarifa' : 'Agregar tarifa'}
           </Text>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
             {editing ? (
               <>
                 <Box>
-                  <FormLabel fontSize='sm'>Transportista</FormLabel>
-                  <Input isReadOnly value={editing.transport.name} />
+                  <Field.Label fontSize='sm'>Transportista</Field.Label>
+                  <Input readOnly value={editing.transport.name} />
                 </Box>
                 <Box>
-                  <FormLabel fontSize='sm'>Provincia</FormLabel>
-                  <Input isReadOnly value={editing.province.name} />
+                  <Field.Label fontSize='sm'>Provincia</Field.Label>
+                  <Input readOnly value={editing.province.name} />
                 </Box>
               </>
             ) : (
@@ -219,7 +214,7 @@ export default function TransportRatesManager(): React.JSX.Element {
             de la finca al puerto.
           </Text>
           <HStack mt={4}>
-            <Button type='submit' colorScheme='teal' isLoading={isLoading}>
+            <Button type='submit' colorPalette='green' loading={isLoading}>
               {editing ? 'Guardar Cambios' : 'Agregar Tarifa'}
             </Button>
             {editing && (
@@ -233,43 +228,53 @@ export default function TransportRatesManager(): React.JSX.Element {
 
       <MaterialReactTable table={table} />
 
-      <AlertDialog
-        isOpen={!!toDelete}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setToDelete(null)}
+      <Dialog.Root
+        open={!!toDelete}
+        initialFocusEl={() => cancelRef.current}
+        role='alertdialog'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            setToDelete(null);
+          }
+        }}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Eliminar tarifa
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Se eliminará la tarifa de {toDelete?.transport.name} para{' '}
-              {toDelete?.province.name}. Los pagos ya registrados no cambian.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setToDelete(null)}>
-                Volver
-              </Button>
-              <Button
-                colorScheme='red'
-                ml={3}
-                isLoading={isDeleting}
-                onClick={() => {
-                  if (!toDelete) return;
-                  remove(toDelete.id, {
-                    onError: showError,
-                    onSuccess: () => done('Tarifa eliminada'),
-                  });
-                  setToDelete(null);
-                }}
-              >
-                Eliminar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        <Portal>
+          <Dialog.Backdrop>
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.Header fontSize='lg' fontWeight='bold'>
+                  Eliminar tarifa
+                </Dialog.Header>
+                <Dialog.Body>
+                  Se eliminará la tarifa de {toDelete?.transport.name} para{' '}
+                  {toDelete?.province.name}. Los pagos ya registrados no
+                  cambian.
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Button ref={cancelRef} onClick={() => setToDelete(null)}>
+                    Volver
+                  </Button>
+                  <Button
+                    colorPalette='red'
+                    ml={3}
+                    loading={isDeleting}
+                    onClick={() => {
+                      if (!toDelete) return;
+                      remove(toDelete.id, {
+                        onError: showError,
+                        onSuccess: () => done('Tarifa eliminada'),
+                      });
+                      setToDelete(null);
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Backdrop>
+        </Portal>
+      </Dialog.Root>
     </Flex>
   );
 }

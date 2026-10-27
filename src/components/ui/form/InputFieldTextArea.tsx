@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
+import { Text, Textarea, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 
@@ -22,21 +16,21 @@ const InputFieldTextArea: React.FC<InputFieldProps> = ({
   const [field, meta] = useField(name);
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       {label && (
-        <FormLabel fontSize='sm' mb='8px'>
+        <Field.Label fontSize='sm' mb='8px'>
           <Text display='flex' alignItems='center'>
             {label}
           </Text>
-        </FormLabel>
+        </Field.Label>
       )}
       <Textarea {...field} placeholder={placeholder || label} />
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

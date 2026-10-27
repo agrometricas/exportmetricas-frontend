@@ -7,17 +7,11 @@ import {
   CloseButton,
   Flex,
   Input,
-  Select,
+  NativeSelect,
   Spinner,
   Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   Text,
   SimpleGrid,
-  TableContainer,
   Heading,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
@@ -78,22 +72,25 @@ export function MaterialList(): JSX.Element {
 
   return (
     <Box>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing='4' mb={4}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap='4' mb={4}>
         <Flex flex='1' align='center'>
-          <Select
-            placeholder='Filtrar por Tipo de Material'
-            value={filterType === 'ALL' ? '' : filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            width='100%'
-          >
-            {MATERIAL_TYPE_ORDER.map((type) =>
-              materialTypes.includes(type) ? (
-                <option key={type} value={type}>
-                  {MATERIAL_TYPE_LABELS[type] ?? type}
-                </option>
-              ) : null
-            )}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Filtrar por Tipo de Material'
+              value={filterType === 'ALL' ? '' : filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              width='100%'
+            >
+              {MATERIAL_TYPE_ORDER.map((type) =>
+                materialTypes.includes(type) ? (
+                  <option key={type} value={type}>
+                    {MATERIAL_TYPE_LABELS[type] ?? type}
+                  </option>
+                ) : null
+              )}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
           {filterType !== 'ALL' ? (
             <CloseButton
               onClick={() => setFilterType('ALL')}
@@ -126,52 +123,52 @@ export function MaterialList(): JSX.Element {
         </Flex>
       </SimpleGrid>
 
-      <TableContainer w='100%' overflowX='auto'>
-        <Table variant='simple' size='sm'>
-          <Thead>
-            <Tr>
-              <Th>
+      <Table.ScrollArea w='100%' overflowX='auto'>
+        <Table.Root variant='line' size='sm'>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>
                 <Heading size='sm' mb={2}>
                   Nombre
                 </Heading>
-              </Th>
-              <Th pr={24}>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader pr={24}>
                 <Heading size='sm' mb={2}>
                   ID
                 </Heading>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
                 <Heading size='sm' mb={2}>
                   Tipo
                 </Heading>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
                 <Heading size='sm' mb={2}>
                   Código
                 </Heading>
-              </Th>
-              <Th textAlign={'center'}>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader textAlign={'center'}>
                 <Heading size='sm' mb={2}>
                   Stock
                 </Heading>
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {filteredMaterials.map((material) => (
-              <Tr key={`${material.materialType}-${material.id}`}>
-                <Td>{material.name}</Td>
-                <Td>{material.id}</Td>
-                <Td>
+              <Table.Row key={`${material.materialType}-${material.id}`}>
+                <Table.Cell>{material.name}</Table.Cell>
+                <Table.Cell>{material.id}</Table.Cell>
+                <Table.Cell>
                   {MATERIAL_TYPE_LABELS[material.materialType] ??
                     material.materialType}
-                </Td>
-                <Td>{material.code}</Td>
-                <Td>
+                </Table.Cell>
+                <Table.Cell>{material.code}</Table.Cell>
+                <Table.Cell>
                   <Flex justifyContent='center'>
                     <Button
                       size='sm'
-                      colorScheme='teal'
+                      colorPalette='green'
                       onClick={() =>
                         router.push(
                           `/dashboard/winery/add-material/${material.materialType}-${material.id}`
@@ -181,12 +178,12 @@ export function MaterialList(): JSX.Element {
                       Agregar stock
                     </Button>
                   </Flex>
-                </Td>
-              </Tr>
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       {filteredMaterials.length === 0 && (
         <Text mt={6} textAlign='center'>

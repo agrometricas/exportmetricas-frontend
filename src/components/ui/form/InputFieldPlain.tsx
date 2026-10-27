@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-} from '@chakra-ui/react';
+import { Input, InputGroup, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 
@@ -32,13 +25,21 @@ const InputFieldPlain: React.FC<InputFieldPlainProps> = ({
   const [field, meta] = useField<string>(name);
   const listId = suggestions ? `${name.replace(/\W/g, '-')}-sugerencias` : '';
   return (
-    <FormControl isInvalid={!!meta.error && meta.touched}>
+    <Field.Root invalid={!!meta.error && meta.touched}>
       {label && (
-        <FormLabel fontSize='sm' mb='8px'>
+        <Field.Label fontSize='sm' mb='8px'>
           {label}
-        </FormLabel>
+        </Field.Label>
       )}
-      <InputGroup>
+      <InputGroup
+        endElement={unit ? unit : undefined}
+        endElementProps={{
+          pointerEvents: 'none',
+          color: 'gray.500',
+          width: 'auto',
+          pr: '12px',
+        }}
+      >
         <Input
           {...field}
           value={field.value ?? ''}
@@ -48,26 +49,16 @@ const InputFieldPlain: React.FC<InputFieldPlainProps> = ({
           list={listId || undefined}
           autoComplete={suggestions ? 'off' : undefined}
         />
-        {suggestions && (
-          <datalist id={listId}>
-            {suggestions.map((suggestion) => (
-              <option key={suggestion} value={suggestion} />
-            ))}
-          </datalist>
-        )}
-        {unit && (
-          <InputRightElement
-            pointerEvents='none'
-            color='gray.500'
-            width='auto'
-            pr='12px'
-          >
-            {unit}
-          </InputRightElement>
-        )}
       </InputGroup>
-      <FormErrorMessage>{meta.error}</FormErrorMessage>
-    </FormControl>
+      {suggestions && (
+        <datalist id={listId}>
+          {suggestions.map((suggestion) => (
+            <option key={suggestion} value={suggestion} />
+          ))}
+        </datalist>
+      )}
+      <Field.ErrorText>{meta.error}</Field.ErrorText>
+    </Field.Root>
   );
 };
 

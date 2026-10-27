@@ -1,8 +1,8 @@
-import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateClient } from '@/hooks/export/client/createClient';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { clientTermsBody } from '../../../utils/clientTerms';
@@ -15,7 +15,6 @@ export function useSubmitClient(): {
     initialValues: typeof initialValues;
     isLoading: boolean;
 } {
-    const toast = useToast();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { mutate: createClient, isLoading } = useCreateClient();
@@ -42,12 +41,12 @@ export function useSubmitClient(): {
             },
             {
                 onError: (error: AxiosError<ServerErrorResponse>) => {
-                    toast({
+                    toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
-                        status: 'error',
+                        type: 'error',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
                         error.response?.data ?? {};
@@ -60,11 +59,11 @@ export function useSubmitClient(): {
                     }
                 },
                 onSuccess: () => {
-                    toast({
+                    toaster.create({
                         title: 'Cliente Creado con Éxito',
-                        status: 'success',
+                        type: 'success',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     queryClient.invalidateQueries('clients');
                     queryClient.invalidateQueries('clientsByHarbor');

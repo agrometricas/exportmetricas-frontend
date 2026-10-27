@@ -1,17 +1,9 @@
 'use client';
-
-import {
-  Button,
-  Center,
-  Heading,
-  Icon,
-  Text,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Button, Center, Heading, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
+import { useColorModeValue } from '../color-mode';
 
 interface ErrorStateProps {
   error: unknown;
@@ -30,8 +22,10 @@ const ErrorState: React.FC<ErrorStateProps> = ({
   const textColor = useColorModeValue('gray.600', 'gray.300');
   return (
     <Center minH={minH} py={6}>
-      <VStack spacing={3} maxW='md' textAlign='center' role='alert'>
-        <Icon as={MdErrorOutline} boxSize={10} color='red.400' />
+      <VStack gap={3} maxW='md' textAlign='center' role='alert'>
+        <Icon boxSize={10} color='red.400' asChild>
+          <MdErrorOutline />
+        </Icon>
         <Heading size='sm' color={titleColor}>
           {title}
         </Heading>
@@ -41,7 +35,7 @@ const ErrorState: React.FC<ErrorStateProps> = ({
         {onRetry && (
           <Button
             size='sm'
-            colorScheme='green'
+            colorPalette='green'
             variant='outline'
             onClick={onRetry}
           >

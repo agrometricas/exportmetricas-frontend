@@ -1,19 +1,9 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Alert, Box, Button, Card, Flex, Heading } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
+import { useColorModeValue } from '../ui/color-mode';
 
 export default function ContractUsageAlerts(): React.JSX.Element | null {
   const today = useMemo(() => startOfLocalDay(new Date().toISOString()), []);
@@ -24,14 +14,14 @@ export default function ContractUsageAlerts(): React.JSX.Element | null {
   if (!usage) return null;
 
   return (
-    <Card
+    <Card.Root
       bg={cardBg}
       border='1px solid'
       borderColor={borderColor}
       borderRadius='xl'
       boxShadow='md'
     >
-      <CardBody>
+      <Card.Body>
         <Flex
           justify='space-between'
           align={{ base: 'stretch', sm: 'center' }}
@@ -40,34 +30,30 @@ export default function ContractUsageAlerts(): React.JSX.Element | null {
           mb={3}
         >
           <Heading size='sm'>Cupos de los contratos esta semana</Heading>
-          <Button
-            as={Link_Next}
-            href='/dashboard/producer/contract-usage'
-            size='sm'
-            variant='outline'
-            colorScheme='green'
-          >
-            Ver cupos
+          <Button size='sm' variant='outline' colorPalette='green' asChild>
+            <Link_Next href='/dashboard/producer/contract-usage'>
+              Ver cupos
+            </Link_Next>
           </Button>
         </Flex>
         {usage.warnings.length === 0 ? (
-          <Alert status='success' borderRadius='lg'>
-            <AlertIcon />
-            <AlertDescription fontSize='sm'>
+          <Alert.Root status='success' borderRadius='lg'>
+            <Alert.Indicator />
+            <Alert.Description fontSize='sm'>
               Ninguna finca pasó su cupo esta semana.
-            </AlertDescription>
-          </Alert>
+            </Alert.Description>
+          </Alert.Root>
         ) : (
           <Box>
             {usage.warnings.map((warning) => (
-              <Alert key={warning} status='error' borderRadius='lg' mb={2}>
-                <AlertIcon />
-                <AlertDescription fontSize='sm'>{warning}</AlertDescription>
-              </Alert>
+              <Alert.Root key={warning} status='error' borderRadius='lg' mb={2}>
+                <Alert.Indicator />
+                <Alert.Description fontSize='sm'>{warning}</Alert.Description>
+              </Alert.Root>
             ))}
           </Box>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 }

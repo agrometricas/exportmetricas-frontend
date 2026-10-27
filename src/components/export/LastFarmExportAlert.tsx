@@ -1,10 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Button,
-  Flex,
-} from '@chakra-ui/react';
+import { Alert, Button, Flex } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
 import { MdContentCopy } from 'react-icons/md';
@@ -23,8 +17,8 @@ const LastFarmExportAlert: React.FC<LastFarmExportAlertProps> = ({
   if (!last) return null;
 
   return (
-    <Alert status='info' borderRadius='md'>
-      <AlertIcon />
+    <Alert.Root status='info' borderRadius='md'>
+      <Alert.Indicator />
       <Flex
         flex='1'
         gap={3}
@@ -32,26 +26,22 @@ const LastFarmExportAlert: React.FC<LastFarmExportAlertProps> = ({
         direction={{ base: 'column', md: 'row' }}
         justify='space-between'
       >
-        <AlertDescription>
+        <Alert.Description>
           La última exportación de esta finca es la N.º {last.exportId}
           {last.cuttingDate
             ? `, cortada el ${formatDayMonthYear(last.cuttingDate)}`
             : ''}
           , para {last.client}. Puedes copiarla y cambiar solo lo que sea
           distinto.
-        </AlertDescription>
-        <Button
-          as={NextLink}
-          href={`/dashboard/export/${last.exportId}/duplicate`}
-          size='sm'
-          colorScheme='blue'
-          leftIcon={<MdContentCopy />}
-          flexShrink={0}
-        >
-          Copiar esa exportación
+        </Alert.Description>
+        <Button size='sm' colorPalette='blue' flexShrink={0} asChild>
+          <NextLink href={`/dashboard/export/${last.exportId}/duplicate`}>
+            <MdContentCopy />
+            Copiar esa exportación
+          </NextLink>
         </Button>
       </Flex>
-    </Alert>
+    </Alert.Root>
   );
 };
 

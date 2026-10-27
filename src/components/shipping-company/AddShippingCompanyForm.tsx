@@ -1,5 +1,5 @@
 'use client';
-import { Button, Divider, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
 import { useSubmitShippingCompany } from './hooks/useSubmitShippingCompany';
@@ -27,8 +27,8 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
             <Heading fontSize='2xl' p='12px'>
               Agregar Naviero
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
                 label='Nombre de la Naviera'
@@ -73,7 +73,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                     <SimpleGrid
                       key={index}
                       columns={{ base: 1, sm: 4 }}
-                      spacing={5}
+                      gap={5}
                     >
                       <InputFieldHarborSelect
                         type='Nacional'
@@ -95,8 +95,8 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                         <Button
                           width='100%'
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={values.harbors.length === 1}
+                          colorPalette='red'
+                          disabled={values.harbors.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar
@@ -130,7 +130,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                     <SimpleGrid
                       key={index}
                       columns={{ base: 1, sm: 4 }}
-                      spacing={5}
+                      gap={5}
                     >
                       <InputFieldText
                         name={`contacts[${index}].name`}
@@ -148,8 +148,8 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
                         <Button
                           width='100%'
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={values.contacts.length === 1}
+                          colorPalette='red'
+                          disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar
@@ -172,8 +172,8 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar
             </Button>

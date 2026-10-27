@@ -20,7 +20,7 @@ export default function ResetSuccessPage(): JSX.Element {
         </Text>
         <Box mt={6}>
           <Link href='/auth/signin'>
-            <Button colorScheme='teal' size='md'>
+            <Button colorPalette='green' size='md'>
               Ir a Iniciar Sesión
             </Button>
           </Link>

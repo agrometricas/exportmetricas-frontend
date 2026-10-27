@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import {
   useDeleteShippingContract,
   useSaveShippingContract,
@@ -28,7 +28,6 @@ export function useSubmitShippingContract(
   isLoading: boolean;
   isDeleting: boolean;
 } {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading } = useSaveShippingContract();
@@ -39,17 +38,17 @@ export function useSubmitShippingContract(
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title: 'No se pudo guardar el contrato naviero',
       description: serverErrorMessage(error),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const done = (title: string): void => {
-    toast({ title, status: 'success', duration: 5000, isClosable: true });
+    toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries('shippingContracts');
     queryClient.invalidateQueries('shippingContract');
     router.push(LIST_PATH);

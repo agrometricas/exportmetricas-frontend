@@ -1,11 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Button,
-  Center,
-  Spinner,
-} from '@chakra-ui/react';
+import { Alert, Button, Center, Spinner } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React from 'react';
 import { useBoxBrands } from '../../hooks/box-brand/getBoxBrands';
@@ -41,23 +34,17 @@ export default function ExportFromLine({
 
   if (!line || line.export) {
     return (
-      <Alert status='warning' borderRadius='md'>
-        <AlertIcon />
-        <AlertDescription flex='1'>
+      <Alert.Root status='warning' borderRadius='md'>
+        <Alert.Indicator />
+        <Alert.Description flex='1'>
           {line?.export
             ? `Esta línea ya tiene la exportación ${line.export.id}.`
             : 'Esta línea no está en la orden de compra.'}
-        </AlertDescription>
-        <Button
-          as={Link_Next}
-          href={orderHref}
-          size='sm'
-          variant='outline'
-          colorScheme='green'
-        >
-          Volver a la orden
+        </Alert.Description>
+        <Button size='sm' variant='outline' colorPalette='green' asChild>
+          <Link_Next href={orderHref}>Volver a la orden</Link_Next>
         </Button>
-      </Alert>
+      </Alert.Root>
     );
   }
 

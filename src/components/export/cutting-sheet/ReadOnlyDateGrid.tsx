@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, FormLabel } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Field } from '@chakra-ui/react';
 import DisplayField from './DisplayField';
 
 interface ReadOnlyDateGridProps {
@@ -16,9 +16,9 @@ const ReadOnlyDateGrid: React.FC<ReadOnlyDateGridProps> = ({
         <Box py={4}>
             <Grid templateRows="repeat(2, auto)" templateColumns="repeat(8, 1fr)" gap={2}>
                 <GridItem colSpan={1} display="flex" alignItems="center" justifyContent="flex-start">
-                    <FormLabel fontSize="sm" m="0">
+                    <Field.Label fontSize="sm" m="0">
                         Días de corte:
-                    </FormLabel>
+                    </Field.Label>
                 </GridItem>
                 {weekDaysOfWeek.map((day, index) => (
                     <GridItem key={index}>
@@ -26,9 +26,9 @@ const ReadOnlyDateGrid: React.FC<ReadOnlyDateGridProps> = ({
                     </GridItem>
                 ))}
                 <GridItem colSpan={1} display="flex" alignItems="center" justifyContent="flex-start">
-                    <FormLabel fontSize="sm" m="0">
+                    <Field.Label fontSize="sm" m="0">
                         Total de Cajas:
-                    </FormLabel>
+                    </Field.Label>
                 </GridItem>
                 <GridItem>
                     <DisplayField label="" value={weekTotal.toString()} />

@@ -115,15 +115,17 @@ const TableSupply = ({
     renderDetailPanel: ({ row }) =>
       row.original.arrayNeed && row.original.arraySent ? (
         <Box
-          sx={{
+          css={{
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'space-around',
             left: '0px',
+
             maxWidth:
               Number(windowSize.width) >= 768
                 ? `${Number(width.md - 92)}px`
                 : `${Number(width.sm - 92)}px`,
+
             position: 'sticky',
             width: '100%',
           }}

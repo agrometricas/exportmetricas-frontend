@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,12 +11,12 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdInventory2 } from 'react-icons/md';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import TableExporterMaterialStock from '../../../../components/winery/TableExporterMaterialStock';
 
@@ -52,7 +50,7 @@ function SearchStockPage(): React.JSX.Element {
   const headingColor = useColorModeValue('gray.900', 'gray.100');
   const headBg = useColorModeValue('gray.50', 'gray.750');
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -68,9 +66,9 @@ function SearchStockPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdInventory2} boxSize={5} />
+              <Icon boxSize={5} asChild><MdInventory2 /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -85,39 +83,34 @@ function SearchStockPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/winery/add-material"
+
                 aria-label="Agregar Stock"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/winery/add-material"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/winery/add-material"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 fontWeight="semibold"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              >
-                Agregar Stock
-              </Button>
+                asChild><Link_Next href="/dashboard/winery/add-material"><FiPlus />Agregar Stock
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
       </Box>
 
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -125,7 +118,7 @@ function SearchStockPage(): React.JSX.Element {
           overflow="hidden"
           border="1px solid"
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={headBg}
@@ -133,12 +126,12 @@ function SearchStockPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Stock
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -156,8 +149,8 @@ function SearchStockPage(): React.JSX.Element {
                 width={tableWidth}
               />
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

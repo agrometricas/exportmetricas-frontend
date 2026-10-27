@@ -1,20 +1,9 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { MdDirectionsBoat } from 'react-icons/md';
 import AddShippingCompanyForm from '../../../../components/shipping-company/AddShippingCompanyForm';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function AddShippingCompanyPage(): React.JSX.Element {
@@ -27,7 +16,7 @@ function AddShippingCompanyPage(): React.JSX.Element {
   return (
     <Box minH="100vh" w="100%" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -37,10 +26,10 @@ function AddShippingCompanyPage(): React.JSX.Element {
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdDirectionsBoat} boxSize={5} />
+                <Icon boxSize={5} asChild><MdDirectionsBoat /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -51,14 +40,14 @@ function AddShippingCompanyPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <AddShippingCompanyForm />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

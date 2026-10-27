@@ -2,20 +2,18 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
-  Divider,
   Heading,
   HStack,
   Icon,
   Text,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdContentCut } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import AddCuttingTypeForm from '../../../../../components/export/cutting-type/AddCuttingTypeForm';
+import { useColorModeValue } from '../../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useCuttingType } from '../../../../../hooks/export/cutting-type/getCuttingType';
 import { CuttingType } from '../../../../../types/cuttingType';
@@ -34,7 +32,7 @@ function EditCuttingTypePage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -44,10 +42,12 @@ function EditCuttingTypePage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={headBg} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={headBg} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdContentCut} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdContentCut />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -59,11 +59,11 @@ function EditCuttingTypePage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading ? (
               <LoadingState />
             ) : cuttingType ? (
@@ -71,8 +71,8 @@ function EditCuttingTypePage(): React.JSX.Element {
             ) : (
               <Text>No se encontró el tipo de corte Nº {id}.</Text>
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,31 +1,17 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Badge,
   Box,
   Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Heading,
   Input,
   Link,
   SimpleGrid,
   Table,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-  useToast,
+  Dialog,
+  Portal,
+  Field,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers, useField } from 'formik';
@@ -33,6 +19,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import BookingDocumentChecklist from './BookingDocumentChecklist';
 import {
   useBookingDocuments,
@@ -57,6 +44,7 @@ import {
   documentTrace,
 } from '../../utils/documentStatus';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
 } from '../ui/form/InputFieldDayDate';
@@ -116,10 +104,10 @@ function documentSchema(types: DocumentTypeOption[]): Yup.AnyObjectSchema {
 function FileField({ resetKey }: { resetKey: number }): React.JSX.Element {
   const [, meta, helpers] = useField<File | null>('file');
   return (
-    <FormControl isInvalid={!!meta.error && meta.touched}>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root invalid={!!meta.error && meta.touched}>
+      <Field.Label fontSize='sm' mb='8px'>
         Archivo (PDF, JPG o PNG, hasta 10 MB)
-      </FormLabel>
+      </Field.Label>
       <Input
         key={resetKey}
         type='file'
@@ -131,9 +119,9 @@ function FileField({ resetKey }: { resetKey: number }): React.JSX.Element {
         }}
       />
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px'>{meta.error}</FormErrorMessage>
+        <Field.ErrorText mt='8px'>{meta.error}</Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 }
 
@@ -146,7 +134,6 @@ function DeleteDocumentButton({
 }): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const toast = useToast();
   const queryClient = useQueryClient();
   const { mutate: remove, isLoading } = useDeleteBookingDocument();
 
@@ -155,12 +142,12 @@ function DeleteDocumentButton({
       { bookingId, documentId: document.id },
       {
         onError: (error) => {
-          toast({
+          toaster.create({
             title: 'No se eliminó el documento',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
@@ -175,40 +162,49 @@ function DeleteDocumentButton({
       <Button
         size='xs'
         variant='ghost'
-        colorScheme='red'
+        colorPalette='red'
         onClick={() => setIsOpen(true)}
       >
         Eliminar
       </Button>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setIsOpen(false)}
+      <Dialog.Root
+        open={isOpen}
+        initialFocusEl={() => cancelRef.current}
+        role='alertdialog'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            setIsOpen(false);
+          }
+        }}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Eliminar {document.typeLabel} {document.number}
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Se borra el documento y su archivo. No se puede deshacer.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
-                Cancelar
-              </Button>
-              <Button
-                colorScheme='red'
-                ml={3}
-                isLoading={isLoading}
-                onClick={confirm}
-              >
-                Eliminar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        <Portal>
+          <Dialog.Backdrop>
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.Header fontSize='lg' fontWeight='bold'>
+                  Eliminar {document.typeLabel} {document.number}
+                </Dialog.Header>
+                <Dialog.Body>
+                  Se borra el documento y su archivo. No se puede deshacer.
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
+                    Cancelar
+                  </Button>
+                  <Button
+                    colorPalette='red'
+                    ml={3}
+                    loading={isLoading}
+                    onClick={confirm}
+                  >
+                    Eliminar
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Backdrop>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 }
@@ -220,7 +216,6 @@ export default function BookingDocuments({
   bookingId: number;
   containers: BookingContainer[];
 }): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -243,21 +238,21 @@ export default function BookingDocuments({
             router.push('/api/auth/signout');
             return;
           }
-          toast({
+          toaster.create({
             title: 'No se subió el documento',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: ({ data }) => {
-          toast({
+          toaster.create({
             title: `${data.typeLabel} ${data.number} subido`,
             description: documentStatusText(data.status, data.daysLeft),
-            status: 'success',
+            type: 'success',
             duration: 4000,
-            isClosable: true,
+            closable: true,
           });
           AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
           helpers.resetForm();
@@ -281,33 +276,34 @@ export default function BookingDocuments({
       <BookingDocumentChecklist bookingId={bookingId} />
 
       {documents.length > 0 ? (
-        <TableContainer
+        <Table.ScrollArea
           border='1px solid'
           borderColor={borderColor}
           borderRadius='md'
           whiteSpace='normal'
         >
-          <Table size='sm'>
-            <Thead>
-              <Tr>
-                <Th>Documento</Th>
-                <Th>Contenedor</Th>
-                <Th>Emisión</Th>
-                <Th>Vencimiento</Th>
-                <Th>Estado</Th>
-                <Th />
-              </Tr>
-            </Thead>
-            <Tbody>
+          <Table.Root size='sm'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Documento</Table.ColumnHeader>
+                <Table.ColumnHeader>Contenedor</Table.ColumnHeader>
+                <Table.ColumnHeader>Emisión</Table.ColumnHeader>
+                <Table.ColumnHeader>Vencimiento</Table.ColumnHeader>
+                <Table.ColumnHeader>Estado</Table.ColumnHeader>
+                <Table.ColumnHeader />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {documents.map((document) => (
-                <Tr key={document.id}>
-                  <Td>
+                <Table.Row key={document.id}>
+                  <Table.Cell>
                     <Text fontWeight='semibold'>{document.typeLabel}</Text>
                     <Link
                       href={document.fileUrl}
-                      isExternal
                       color='green.600'
                       fontSize='sm'
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
                       {document.number} · {document.fileName}
                     </Link>
@@ -318,26 +314,32 @@ export default function BookingDocuments({
                     >
                       {documentTrace(document)}
                     </Text>
-                  </Td>
-                  <Td>{document.containerNumber ?? '—'}</Td>
-                  <Td>{formatDayMonthYear(document.issuedAt) || '—'}</Td>
-                  <Td>{formatDayMonthYear(document.expiresAt) || '—'}</Td>
-                  <Td>
-                    <Badge colorScheme={DOCUMENT_STATUS_COLOR[document.status]}>
+                  </Table.Cell>
+                  <Table.Cell>{document.containerNumber ?? '—'}</Table.Cell>
+                  <Table.Cell>
+                    {formatDayMonthYear(document.issuedAt) || '—'}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {formatDayMonthYear(document.expiresAt) || '—'}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Badge
+                      colorPalette={DOCUMENT_STATUS_COLOR[document.status]}
+                    >
                       {documentStatusText(document.status, document.daysLeft)}
                     </Badge>
-                  </Td>
-                  <Td textAlign='right'>
+                  </Table.Cell>
+                  <Table.Cell textAlign='right'>
                     <DeleteDocumentButton
                       bookingId={bookingId}
                       document={document}
                     />
-                  </Td>
-                </Tr>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+            </Table.Body>
+          </Table.Root>
+        </Table.ScrollArea>
       ) : (
         <Text fontSize='sm' color='gray.600'>
           Todavía no hay documentos en este booking.
@@ -362,7 +364,7 @@ export default function BookingDocuments({
                 <Text fontWeight='semibold' mb={3}>
                   Subir un documento
                 </Text>
-                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+                <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
                   <InputFieldSelector
                     name='type'
                     label='Tipo'
@@ -403,8 +405,8 @@ export default function BookingDocuments({
                 <Flex justify='flex-end' mt={4}>
                   <Button
                     type='submit'
-                    colorScheme='green'
-                    isLoading={isLoading}
+                    colorPalette='green'
+                    loading={isLoading}
                   >
                     Subir documento
                   </Button>

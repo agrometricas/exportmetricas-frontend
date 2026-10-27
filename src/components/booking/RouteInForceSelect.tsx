@@ -1,14 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Link,
-  Select,
-  Text,
-} from '@chakra-ui/react';
+import { Alert, Link, NativeSelect, Text, Field } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import Link_Next from 'next/link';
 import React from 'react';
@@ -48,58 +38,58 @@ export default function RouteInForceSelect(): React.JSX.Element {
 
   if (!isLoading && routes.length === 0) {
     return (
-      <Alert status='warning' borderRadius='md'>
-        <AlertIcon />
-        <AlertDescription fontSize='sm'>
+      <Alert.Root status='warning' borderRadius='md'>
+        <Alert.Indicator />
+        <Alert.Description fontSize='sm'>
           Esta naviera no tiene un contrato vigente ese día.{' '}
-          <Link
-            as={Link_Next}
-            href='/dashboard/client/add-shipping-contract'
-            fontWeight='semibold'
-            textDecoration='underline'
-          >
-            Regístralo en Contratos Navieros
+          <Link fontWeight='semibold' textDecoration='underline' asChild>
+            <Link_Next href='/dashboard/client/add-shipping-contract'>
+              Regístralo en Contratos Navieros
+            </Link_Next>
           </Link>
           .
-        </AlertDescription>
-      </Alert>
+        </Alert.Description>
+      </Alert.Root>
     );
   }
 
   return (
-    <FormControl isInvalid={invalid}>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root invalid={invalid}>
+      <Field.Label fontSize='sm' mb='8px'>
         Ruta
-      </FormLabel>
-      <Select
-        placeholder={isLoading ? 'Cargando rutas…' : 'Seleccione la ruta'}
-        value={routeKey(values.harborDepartureId, values.harborDestinationId)}
-        onChange={(event) => {
-          const route = routes.find(
-            (r) =>
-              routeKey(r.harborDeparture.id, r.harborDestination.id) ===
-              event.target.value
-          );
-          setFieldValue('harborDepartureId', route?.harborDeparture.id ?? '');
-          setFieldValue(
-            'harborDestinationId',
-            route?.harborDestination.id ?? ''
-          );
-        }}
-      >
-        {routes.map((route) => (
-          <option
-            key={route.id}
-            value={routeKey(
-              route.harborDeparture.id,
-              route.harborDestination.id
-            )}
-          >
-            {route.harborDeparture.name} → {route.harborDestination.name}
-          </option>
-        ))}
-      </Select>
-      <FormErrorMessage>{errors.harborDepartureId}</FormErrorMessage>
+      </Field.Label>
+      <NativeSelect.Root>
+        <NativeSelect.Field
+          placeholder={isLoading ? 'Cargando rutas…' : 'Seleccione la ruta'}
+          value={routeKey(values.harborDepartureId, values.harborDestinationId)}
+          onChange={(event) => {
+            const route = routes.find(
+              (r) =>
+                routeKey(r.harborDeparture.id, r.harborDestination.id) ===
+                event.target.value
+            );
+            setFieldValue('harborDepartureId', route?.harborDeparture.id ?? '');
+            setFieldValue(
+              'harborDestinationId',
+              route?.harborDestination.id ?? ''
+            );
+          }}
+        >
+          {routes.map((route) => (
+            <option
+              key={route.id}
+              value={routeKey(
+                route.harborDeparture.id,
+                route.harborDestination.id
+              )}
+            >
+              {route.harborDeparture.name} → {route.harborDestination.name}
+            </option>
+          ))}
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+      </NativeSelect.Root>
+      <Field.ErrorText>{errors.harborDepartureId}</Field.ErrorText>
       {selected && (
         <Text fontSize='sm' color='gray.600' mt={2}>
           ${Number(selected.costPerContainer).toFixed(2)} por contenedor
@@ -110,6 +100,6 @@ export default function RouteInForceSelect(): React.JSX.Element {
           hasta el {formatDayMonthYear(selected.contract.endDate)}
         </Text>
       )}
-    </FormControl>
+    </Field.Root>
   );
 }

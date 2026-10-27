@@ -129,7 +129,9 @@ const TableProducerPayments = ({
               return url ? (
                 <a href={url} target='_blank' rel='noopener noreferrer'>
                   Ver Transferencia{' '}
-                  <Icon as={BsImage} color='teal.500' ml={2} />
+                  <Icon color='green.fg' ml={2} asChild>
+                    <BsImage />
+                  </Icon>
                 </a>
               ) : (
                 <span>No disponible</span>
@@ -179,15 +181,17 @@ const TableProducerPayments = ({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
           left: '0px',
+
           maxWidth:
             windowSize.width && windowSize.width >= 768
               ? `${width.md}px`
               : `${width.sm}px`,
+
           position: 'sticky',
           width: '100%',
         }}

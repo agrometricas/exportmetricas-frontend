@@ -1,8 +1,9 @@
-import { MenuItem, useToast } from '@chakra-ui/react';
+import { Menu } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MdPictureAsPdf } from 'react-icons/md';
+import { toaster } from '@/components/ui/toaster';
 import {
   ShippingDocumentKind,
   useDownloadShippingDocument,
@@ -34,17 +35,16 @@ export default function ExportDocumentsMenuItems({
   exportId: number;
   isCancelled: boolean;
 }): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const { mutate: download } = useDownloadShippingDocument();
 
   return (
     <>
       {DOCUMENTS.map(({ kind, label, file }) => (
-        <MenuItem
+        <Menu.Item
           key={kind}
-          icon={<MdPictureAsPdf />}
-          isDisabled={isCancelled}
+          value={kind}
+          disabled={isCancelled}
           onClick={() =>
             download(
               { exportId, kind },
@@ -56,20 +56,21 @@ export default function ExportDocumentsMenuItems({
                     router.push('/api/auth/signout');
                     return;
                   }
-                  toast({
+                  toaster.create({
                     title: 'No se pudo generar el documento',
                     description: serverErrorMessage(error),
-                    status: 'error',
+                    type: 'error',
                     duration: 6000,
-                    isClosable: true,
+                    closable: true,
                   });
                 },
               }
             )
           }
         >
+          <MdPictureAsPdf />
           {label}
-        </MenuItem>
+        </Menu.Item>
       ))}
     </>
   );

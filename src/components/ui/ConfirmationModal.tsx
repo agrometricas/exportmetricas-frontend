@@ -1,22 +1,8 @@
 'use client';
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  HStack,
-  Box,
-  Text,
-  useColorModeValue,
-  Badge,
-} from '@chakra-ui/react';
+import { Button, HStack, Box, Text, Badge, Dialog, Portal } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 import { FiInfo, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
+import { useColorModeValue } from "./color-mode";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -71,64 +57,73 @@ const ConfirmationModal = ({
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      isCentered
-      initialFocusRef={cancelRef}
+    <Dialog.Root
+      open={isOpen}
+      placement='center'
+      initialFocusEl={() => cancelRef.current}
       motionPreset="scale"
+      onOpenChange={e => {
+        if (!e.open) {
+          onClose();
+        }
+      }}
     >
-      <ModalOverlay />
-      <ModalContent
-        border="1px solid"
-        borderColor={borderColor}
-        borderRadius="xl"
-        boxShadow="2xl"
-        overflow="hidden"
-        borderTopWidth="4px"
-        borderTopColor={topBorder}
-      >
-        <ModalHeader bg={headerBg} pb={3}>
-          <HStack spacing={3} align="center">
-            <Box p={2} bg={topBg} color={topColor} borderRadius="lg" display="flex">
-              <TopIcon size={18} />
-            </Box>
-            <HStack justify="space-between" w="full">
-              <Text as="span" fontWeight="bold" color={titleColor}>
-                {title}
+      <Portal>
+
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content
+            border="1px solid"
+            borderColor={borderColor}
+            borderRadius="xl"
+            boxShadow="2xl"
+            overflow="hidden"
+            borderTopWidth="4px"
+            borderTopColor={topBorder}>
+            <Dialog.Header bg={headerBg} pb={3}>
+              <HStack gap={3} align="center">
+                <Box p={2} bg={topBg} color={topColor} borderRadius="lg" display="flex">
+                  <TopIcon size={18} />
+                </Box>
+                <HStack justify="space-between" w="full">
+                  <Text as="span" fontWeight="bold" color={titleColor}>
+                    {title}
+                  </Text>
+                  <Badge colorPalette={scheme} variant="subtle" borderRadius="full" px={2} py={1}>
+                    Confirmación
+                  </Badge>
+                </HStack>
+              </HStack>
+            </Dialog.Header>
+
+            <Dialog.CloseTrigger />
+
+            <Dialog.Body>
+              <Text fontSize="sm" color={descColor}>
+                {description}
               </Text>
-              <Badge colorScheme={scheme} variant="subtle" borderRadius="full" px={2} py={1}>
-                Confirmación
-              </Badge>
-            </HStack>
-          </HStack>
-        </ModalHeader>
+            </Dialog.Body>
 
-        <ModalCloseButton />
+            <Dialog.Footer gap={2}>
+              <Button ref={cancelRef} variant="outline" onClick={onClose} borderRadius="lg">
+                {cancelText}
+              </Button>
+              <Button
+                colorPalette={scheme}
+                onClick={onConfirm}
+                loading={isConfirmLoading}
+                borderRadius="lg"
+                _hover={{ transform: 'translateY(-1px)', boxShadow: 'md' }}
+                transition="all 0.15s ease"
+              >
+                {confirmText}
+              </Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Positioner>
 
-        <ModalBody>
-          <Text fontSize="sm" color={descColor}>
-            {description}
-          </Text>
-        </ModalBody>
-
-        <ModalFooter gap={2}>
-          <Button ref={cancelRef} variant="outline" onClick={onClose} borderRadius="lg">
-            {cancelText}
-          </Button>
-          <Button
-            colorScheme={scheme}
-            onClick={onConfirm}
-            isLoading={isConfirmLoading}
-            borderRadius="lg"
-            _hover={{ transform: 'translateY(-1px)', boxShadow: 'md' }}
-            transition="all 0.15s ease"
-          >
-            {confirmText}
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+      </Portal>
+    </Dialog.Root>
   );
 };
 

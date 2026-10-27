@@ -1,4 +1,4 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBankAccountSelect from './InputFieldBankAccountSelect';
 import { BankAccountType } from '../../../../types/bankAccount';
@@ -32,7 +32,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
   }, [bankAccount, setBankAccountSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldBankAccountSelect
         name={name}
         label={label ? label : 'Productor/Razón Social'}
@@ -41,25 +41,25 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
       />
 
       <Box>
-        <FormLabel>Tipo</FormLabel>
+        <Field.Label>Tipo</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.type || ''}
           placeholder='Tipo de Cuenta'
         />
       </Box>
       <Box>
-        <FormLabel>Propietario</FormLabel>
+        <Field.Label>Propietario</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.owner || ''}
           placeholder='Nombre del Propietario'
         />
       </Box>
       <Box>
-        <FormLabel>Identificación</FormLabel>
+        <Field.Label>Identificación</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={bankAccount?.ownerID || ''}
           placeholder='Identificación del Propietario'
         />

@@ -1,8 +1,9 @@
-import { Button, Flex, SimpleGrid, Text, useToast } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
 import {
   useMaterialUnits,
   useUpdateMaterialUnits,
@@ -18,7 +19,6 @@ import InputFieldSelector from '../../ui/form/InputFieldSelector';
 type Values = Record<string, string>;
 
 export default function MaterialUnitsForm(): React.JSX.Element {
-  const toast = useToast();
   const queryClient = useQueryClient();
   const { data, isLoading } = useMaterialUnits();
   const { mutate: save, isLoading: isSaving } = useUpdateMaterialUnits();
@@ -43,20 +43,20 @@ export default function MaterialUnitsForm(): React.JSX.Element {
       },
       {
         onError: (error) => {
-          toast({
+          toaster.create({
             title: 'No se pudieron guardar las unidades',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Unidades guardadas',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('materialUnits');
         },
@@ -73,7 +73,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
             contenedor. Se configura una vez; mientras tanto rige la unidad por
             defecto.
           </Text>
-          <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} spacing={5}>
+          <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} gap={5}>
             {types.map((type) => (
               <InputFieldSelector
                 key={type}
@@ -85,7 +85,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
               />
             ))}
           </SimpleGrid>
-          <Button type='submit' colorScheme='teal' isLoading={isSaving}>
+          <Button type='submit' colorPalette='green' loading={isSaving}>
             Guardar Unidades
           </Button>
         </Flex>

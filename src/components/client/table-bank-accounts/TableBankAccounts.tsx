@@ -147,17 +147,19 @@ const TableBankAccounts = ({
     }),
     renderDetailPanel: ({ row }) => (
       <Box
-        sx={{
+        css={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'space-around',
           left: '0px',
+
           maxWidth:
             windowSize.width && windowSize.width >= 768
               ? `${width.md}px`
               : `${width.sm}px`,
+
           position: 'sticky',
-          width: '100%',
+          width: '100%'
         }}
       >
         <DetailBankAccounts account={row.original} width={width} />

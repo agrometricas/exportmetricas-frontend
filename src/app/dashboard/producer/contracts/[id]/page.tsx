@@ -1,21 +1,11 @@
 'use client';
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdOutlineAssignment } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import ProducerContractForm from '../../../../../components/producer-contract/ProducerContractForm';
+import { useColorModeValue } from "../../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useProducerContract } from '../../../../../hooks/producer-contract/getProducerContract';
 import { ProducerContractResponse } from '../../../../../types/producerContract';
@@ -32,7 +22,7 @@ function EditProducerContractPage(): React.JSX.Element {
   return (
     <Box minH="100vh" w="100%" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -42,10 +32,10 @@ function EditProducerContractPage(): React.JSX.Element {
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdOutlineAssignment} boxSize={5} />
+                <Icon boxSize={5} asChild><MdOutlineAssignment /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -56,18 +46,18 @@ function EditProducerContractPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading || !contract ? (
               <LoadingState />
             ) : (
               <ProducerContractForm contract={contract as ProducerContractResponse} />
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

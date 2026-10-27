@@ -1,10 +1,9 @@
 import {
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
-  useToast,
+  Separator,
 } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -12,6 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import SelectProducer from './SelectProducer';
 import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount';
 import { ClientType } from '../../types/client';
@@ -117,7 +117,6 @@ const AddBankAccountForm = (): React.JSX.Element => {
     useState<ValuesProps>(initialValues);
 
   const { mutate: createBankAccount, isLoading } = useCreateBankAccount();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -182,12 +181,12 @@ const AddBankAccountForm = (): React.JSX.Element => {
           const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
             error.response?.data ?? {};
 
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           if (statusCode === 401) {
@@ -202,11 +201,11 @@ const AddBankAccountForm = (): React.JSX.Element => {
           }
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Cuenta Bancaria Agregada con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('merchants');
@@ -238,7 +237,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
                 <Heading fontSize={'2xl'} p={'12px'}>
                   Productor
                 </Heading>
-                <Divider mb={'16px'} />
+                <Separator mb={'16px'} />
                 <SelectProducer
                   name={'merchantId'}
                   setProducerSelect={setProducer}
@@ -251,7 +250,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
                 <Heading fontSize={'2xl'} p={'12px'}>
                   Cliente
                 </Heading>
-                <Divider mb={'16px'} />
+                <Separator mb={'16px'} />
                 <SelectClient name={'clientId'} setClientSelect={setClient} />
               </>
             )}
@@ -259,9 +258,9 @@ const AddBankAccountForm = (): React.JSX.Element => {
             <Heading fontSize={'2xl'} p={'12px'}>
               Datos de cuenta bancaria
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText name={'bank'} label={'Banco'} placeholder='Nombre del Banco' />
               <InputFieldText name={'owner'} label={'Propietario'} placeholder='Propietario de la Cuenta' />
               <InputFieldText name={'ownerID'} label={'Identificación'} />
@@ -280,8 +279,8 @@ const AddBankAccountForm = (): React.JSX.Element => {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Enviar
               </Button>

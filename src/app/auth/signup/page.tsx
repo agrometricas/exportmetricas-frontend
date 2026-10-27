@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardBody,
-  Center,
-  Flex,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Card, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import SignUpForm from '../../../components/signup/SignUpForm';
 import { Logo } from '../../../components/ui/Logo';
@@ -42,18 +34,17 @@ const SignUpPage = (): JSX.Element => {
           Crea una cuenta para empezar a usar ...
         </Text>
 
-        <Card variant='unstyled' mt='20px'>
-          <CardBody w='100%'>
+        <Card.Root mt='20px' unstyled>
+          <Card.Body w='100%'>
             <SignUpForm />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
         <Center>
           <Text mt='20px'>
             ¿Ya estás registrado?{' '}
-            <Link as={Link_Next} color='teal.500' href='/auth/signin'>
-              Iniciar sesión
-            </Link>
+            <Link color='green.fg' asChild><Link_Next href='/auth/signin'>Iniciar sesión
+                          </Link_Next></Link>
           </Text>
         </Center>
       </Flex>

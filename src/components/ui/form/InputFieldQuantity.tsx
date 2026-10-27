@@ -1,15 +1,6 @@
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  InputGroup,
-  InputRightElement,
-  NumberInput,
-  NumberInputField,
-} from '@chakra-ui/react';
+import { Flex, InputGroup, NumberInput, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBanChange } from './useBanChange';
 
 interface InputFieldProps {
@@ -21,7 +12,7 @@ interface InputFieldProps {
   min?: number;
   max?: number;
   step?: number;
-  size?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   description?: string;
   flexDirection?: 'column' | 'row';
   isBan?: {
@@ -75,14 +66,22 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
     }
   });
 
-  const handleChange = (valueString: string): void => {
-    helpers.setValue(Number(valueString));
-  };
+  // The form holds a number and an empty box counts as 0, as it always has;
+  // the text is kept apart so clearing the box does not show a 0 in it.
+  const [text, setText] = useState(
+    field.value === undefined || field.value === null ? '' : String(field.value)
+  );
+  useEffect(() => {
+    if (Number(text) !== Number(field.value)) {
+      setText(field.value === '' || field.value == null ? '' : String(field.value));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field.value]);
 
   return (
-    <FormControl
+    <Field.Root
       id={name}
-      isInvalid={!!meta.error && meta.touched}
+      invalid={!!meta.error && meta.touched}
       width={'100%'}
     >
       <Flex
@@ -98,59 +97,50 @@ const InputFieldQuantity: React.FC<InputFieldProps> = ({
             alignItems='center'
             marginRight={flexDirection === 'row' ? '2%' : '0'}
           >
-            <FormLabel
+            <Field.Label
               fontSize='sm'
               mb={flexDirection === 'column' ? '8px' : '0'}
               textAlign={flexDirection === 'row' ? 'left' : 'center'}
               overflow='hidden'
             >
               {label}
-            </FormLabel>
+            </Field.Label>
           </Flex>
         )}
-        <InputGroup width={'100%'}>
-          {unit && (
-            <InputRightElement
-              pointerEvents='none'
-              color='gray.500'
-              fontSize='1em'
-              width='auto'
-              pr={'12px'}
-            >
-              {unit}
-            </InputRightElement>
-          )}
-          <Flex
-            flex={label ? '2' : '1'}
+        <Flex flex={label ? '2' : '1'} width='100%'>
+          <NumberInput.Root
+            name={field.name}
+            value={text}
+            onValueChange={({ value }) => {
+              setText(value);
+              helpers.setValue(Number(value));
+            }}
+            readOnly={isReadOnly || isBan?.state}
+            size={size}
             width='100%'
-            marginLeft={label ? '0' : '0'}
+            min={min}
+            max={max}
+            step={step}
           >
-            <NumberInput
-              {...field}
-              onChange={handleChange}
-              isReadOnly={isReadOnly || isBan?.state}
-              size={size}
-              width={'100%'}
-              min={min}
-              max={max}
-              step={step}
+            <InputGroup
+              endElement={unit}
+              endElementProps={{ color: 'fg.muted', width: 'auto', pr: '12px' }}
             >
-              <NumberInputField
-                {...field}
+              <NumberInput.Input
                 placeholder={placeholder || label}
-                width={'100%'}
+                onBlur={field.onBlur}
                 pr={unit ? '96px' : undefined}
               />
-            </NumberInput>
-          </Flex>
-        </InputGroup>
+            </InputGroup>
+          </NumberInput.Root>
+        </Flex>
       </Flex>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

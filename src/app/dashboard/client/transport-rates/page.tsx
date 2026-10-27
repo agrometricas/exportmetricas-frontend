@@ -2,18 +2,16 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
   Heading,
   HStack,
   Icon,
   Text,
-  Divider,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MdLocalShipping } from 'react-icons/md';
 import TransportRatesManager from '../../../../components/transport-rate/TransportRatesManager';
+import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import SectionTabs from '../../../../components/ui/SectionTabs';
 import { LOGISTICS_TABS } from '../../../../components/ui/sidenav/navMenus';
@@ -29,7 +27,7 @@ function TransportRatesPage(): React.JSX.Element {
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
         <SectionTabs tabs={LOGISTICS_TABS} />
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -39,10 +37,12 @@ function TransportRatesPage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdLocalShipping} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdLocalShipping />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -54,14 +54,14 @@ function TransportRatesPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <TransportRatesManager />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

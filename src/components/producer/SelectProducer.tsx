@@ -1,4 +1,4 @@
-import { Box, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Input, SimpleGrid, Field } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldProducerSelect from './InputFieldProducerSelect';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
@@ -30,7 +30,7 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <InputFieldProducerSelect
           name={name}
           label="Productor/Razón Social"
@@ -38,35 +38,35 @@ const SelectProducer: React.FC<SelectProducerProps> = ({
           setProducer={setProducer}
         />
         <Box>
-          <FormLabel fontSize='sm'>RUC</FormLabel>
+          <Field.Label fontSize='sm'>RUC</Field.Label>
           <Input
-            isReadOnly
+            readOnly
             value={producer?.businessId || ''}
             placeholder="RUC del Productor"
           />
         </Box>
         <Box>
-          <FormLabel fontSize='sm'>Dirección</FormLabel>
+          <Field.Label fontSize='sm'>Dirección</Field.Label>
           <Input
-            isReadOnly
+            readOnly
             value={producer?.address || ''}
             placeholder="Dirección del Productor"
           />
         </Box>
         {producer?.city?.name &&
           <Box>
-            <FormLabel fontSize='sm'>Ciudad</FormLabel>
+            <Field.Label fontSize='sm'>Ciudad</Field.Label>
             <Input
-              isReadOnly
+              readOnly
               value={producer?.city?.name || ''}
               placeholder="Ciudad del Productor"
             />
           </Box>}
         {!producer?.city?.name && (
           <Box>
-            <FormLabel fontSize='sm'>Tipo de Contrato</FormLabel>
+            <Field.Label fontSize='sm'>Tipo de Contrato</Field.Label>
             <Input
-              isReadOnly
+              readOnly
               value={producer?.contractType || 'No disponible'}
               placeholder="Contrato del Productor"
             />

@@ -1,9 +1,10 @@
 'use client';
-import { Button, Flex, useToast } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { env } from '../../lib/env';
 import CheckboxForm from '../ui/form/CheckboxForm';
 import InputFieldPassword from '../ui/form/InputFieldPassword';
@@ -47,7 +48,6 @@ const validationSchema = Yup.object({
 
 export default function SignUpForm(): React.JSX.Element {
   const router = useRouter();
-  const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const signUp = async (values: ValuesProps): Promise<void> => {
@@ -70,32 +70,32 @@ export default function SignUpForm(): React.JSX.Element {
 
       if (!res.ok) {
         const errorData = await res.json();
-        toast({
+        toaster.create({
           title: `Error ${res.status}`,
           description: errorData.message,
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         return;
       }
 
-      toast({
+      toaster.create({
         title: 'Registro exitoso',
         description: 'Su cuenta ha sido creada.',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       router.push('/auth/signin');
     } catch (error) {
-      toast({
+      toaster.create({
         title: 'Error de conexión',
         description: 'No se pudo conectar al servidor.',
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     } finally {
       setIsLoading(false);
@@ -126,8 +126,8 @@ export default function SignUpForm(): React.JSX.Element {
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Registrarse
             </Button>

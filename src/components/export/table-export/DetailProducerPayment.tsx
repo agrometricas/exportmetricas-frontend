@@ -23,7 +23,7 @@ const DetailProducerPayment = ({
       p={'16px'}
       width={{ sm: `${width.sm - 60}px`, md: `${width.md - 60}px` }}
     >
-      <VStack spacing={4} alignItems={'start'} width={'100%'}>
+      <VStack gap={4} alignItems={'start'} width={'100%'}>
         <DetailInvoice payment={payment} />
       </VStack>
     </Box>

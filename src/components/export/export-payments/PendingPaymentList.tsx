@@ -1,12 +1,5 @@
 'use client';
-
-import {
-  Badge,
-  Box,
-  Heading,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Badge, Box, Heading, VStack } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -16,6 +9,7 @@ import LoadingState from '@/components/ui/states/LoadingState';
 import { useExportsSentPending } from '../../../hooks/export/export-sent/getExportsSentPending';
 import { usePagination } from '../../../hooks/usePagination';
 import { ExportSentType } from '../../../types/exportSent';
+import { useColorModeValue } from "../../ui/color-mode";
 import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
 import PendingTable from '../../ui/PendingTable';
 import { pendingExportColumns } from '../pendingColumns';
@@ -60,7 +54,7 @@ const PendingPaymentList = (): React.JSX.Element => {
   const items = data as Partial<ExportSentType>[];
 
   return (
-    <VStack spacing={4} align="stretch">
+    <VStack gap={4} align="stretch">
       <Box
         display="flex"
         alignItems="center"
@@ -71,7 +65,7 @@ const PendingPaymentList = (): React.JSX.Element => {
         <Heading size="md" color={headingColor}>
           Pagos Pendientes
         </Heading>
-        <Badge colorScheme="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>

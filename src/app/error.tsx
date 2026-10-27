@@ -17,14 +17,14 @@ export default function Error({
 
   return (
     <Box minH='60vh' display='flex' alignItems='center' justifyContent='center'>
-      <VStack spacing={4} textAlign='center' px={6}>
+      <VStack gap={4} textAlign='center' px={6}>
         <Heading size='lg'>Algo salió mal</Heading>
         <Text color='gray.600' maxW='md'>
           Ocurrió un error inesperado al mostrar esta página. Puedes
           reintentarlo; si el problema sigue, recarga la página o vuelve a
           iniciar sesión.
         </Text>
-        <Button colorScheme='teal' onClick={() => reset()}>
+        <Button colorPalette='green' onClick={() => reset()}>
           Reintentar
         </Button>
       </VStack>

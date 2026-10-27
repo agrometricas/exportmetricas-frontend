@@ -1,22 +1,12 @@
 'use client';
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { FiDollarSign } from 'react-icons/fi';
 import LoadingState from '@/components/ui/states/LoadingState';
 import ExportSentCostForm from '../../../../../components/export-cost/ExportSentCostForm';
+import { useColorModeValue } from "../../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useExportSent } from '../../../../../hooks/export/export-sent/getExportSent';
 import { ExportSentType } from '../../../../../types/exportSent';
@@ -64,7 +54,7 @@ function ExportSentCostPage(): React.JSX.Element {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           border="1px solid"
           borderColor={borderColor}
@@ -74,10 +64,10 @@ function ExportSentCostPage(): React.JSX.Element {
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={grayColor} pb={4}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={grayColor} pb={4}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={FiDollarSign} boxSize={5} />
+                <Icon boxSize={5} asChild><FiDollarSign /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -88,14 +78,14 @@ function ExportSentCostPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <ExportSentCostForm pathname={pathname} />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

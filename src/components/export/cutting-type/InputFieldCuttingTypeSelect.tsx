@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Flex, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import CuttingTypeSelectBase from './CuttingTypeSelectBase';
@@ -18,7 +18,7 @@ const InputFieldCuttingTypeSelect: React.FC<
   const [field, meta, helpers] = useField(name);
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}
@@ -31,14 +31,14 @@ const InputFieldCuttingTypeSelect: React.FC<
           marginRight={flexDirection === 'row' ? '2%' : '0'}
           mb={flexDirection === 'column' ? '8px' : '0'}
         >
-          <FormLabel
+          <Field.Label
             fontSize='sm'
             m={0}
             textAlign={flexDirection === 'row' ? 'left' : 'center'}
             overflow='hidden'
           >
             {label}
-          </FormLabel>
+          </Field.Label>
         </Flex>
         <Flex
           flex={label ? '2' : '1'}
@@ -55,11 +55,11 @@ const InputFieldCuttingTypeSelect: React.FC<
         </Flex>
       </Flex>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

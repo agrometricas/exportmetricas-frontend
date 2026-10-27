@@ -3,11 +3,10 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
-  useToast,
+  Separator,
 } from '@chakra-ui/react';
 import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -15,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import DisplayField from './DisplayField';
 import ReadOnlyDateGrid from './ReadOnlyDateGrid';
 import { useCreateCuttingSheet } from '../../../hooks/export/cuttingSheet/createCuttingSheet';
@@ -325,7 +325,6 @@ const CuttingSheetForm = ({
 
   const { createCuttingSheet, isLoading } = useCreateCuttingSheet();
   const router = useRouter();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -348,22 +347,24 @@ const CuttingSheetForm = ({
 
     createCuttingSheet(payload, {
       onError: (error) => {
-        toast({
+        toaster.create({
           title: 'No se creó la hoja de corte',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
       },
       onSuccess: (response) => {
-        toast({
+        toaster.create({
           title: 'Registro y PDF creados exitosamente',
-          description: 'Cierre esta ventana para abrir el PDF.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          onCloseComplete: () => window.open(response.pdfUrl, '_blank'),
+          type: 'success',
+          duration: 10000,
+          closable: true,
+          action: {
+            label: 'Abrir PDF',
+            onClick: () => window.open(response.pdfUrl, '_blank'),
+          },
         });
         queryClient.invalidateQueries('cuttingSheets');
         queryClient.invalidateQueries('cuttingSheetsPending');
@@ -383,8 +384,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mb='4'>
           Información de la Exportación
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Cantidad de Cajas'
             value={finalValues.exportData?.boxQuantity.toString()}
@@ -411,8 +412,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mt='4' mb='4'>
           Información de Envío
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Nombre de la Nave'
             value={finalValues.exportData?.shipName}
@@ -441,7 +442,7 @@ const CuttingSheetForm = ({
             }
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Puerto de Salida'
             value={finalValues.exportData?.harborDeparture?.name}
@@ -455,7 +456,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.harborDeparture?.city?.name}
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Puerto de Llegada'
             value={finalValues.exportData?.harborDestination?.name}
@@ -469,7 +470,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.harborDestination?.city?.name}
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Naviera'
             value={finalValues.exportData?.shippingCompany?.name}
@@ -479,7 +480,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.shippingCompany.code}
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Deposito'
             value={finalValues.exportData?.deposit?.name}
@@ -493,7 +494,7 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.deposit?.city?.name}
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Transporte'
             value={finalValues.exportData?.transport?.name}
@@ -513,7 +514,7 @@ const CuttingSheetForm = ({
             }
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' pb={4}>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Verificadora'
             value={finalValues.exportData?.verifier?.name}
@@ -534,8 +535,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mt='4' mb='4'>
           Información del Cliente
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
             value={finalValues.exportData?.client.businessName}
@@ -560,8 +561,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mt='4' mb='4'>
           Información del Productor
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
             value={finalValues.exportData?.merchant.businessName}
@@ -582,8 +583,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mt='4' mb='4'>
           Información de la Finca
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
             value={finalValues.exportData?.business?.name}
@@ -604,8 +605,8 @@ const CuttingSheetForm = ({
         <Heading size='md' mt='4' mb='4'>
           Marca de Caja y Embalaje
         </Heading>
-        <Divider mb={'16px'} />
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <Separator mb={'16px'} />
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Marca'
             value={finalValues.exportData?.boxBrand?.name || ''}
@@ -655,7 +656,7 @@ const CuttingSheetForm = ({
               <Heading size='sm' mt='4' mb='2'>
                 Materiales de Caja
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+              <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {renderNameField(
                   'Fondo',
                   finalValues.exportData.boxBrand.bottomType?.name
@@ -791,7 +792,7 @@ const CuttingSheetForm = ({
               <Heading size='sm' mt='4' mb='2'>
                 Materiales por Contenedor
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+              <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {renderNameField(
                   'Pallets',
                   finalValues.exportData?.boxBrand?.palletsType?.name
@@ -888,7 +889,7 @@ const CuttingSheetForm = ({
               <Heading size='sm' mt='4' mb='2'>
                 Adicionales
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+              <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {renderNameField(
                   'Cinta',
                   finalValues.exportData?.boxBrand?.packingTapeType?.name
@@ -941,7 +942,7 @@ const CuttingSheetForm = ({
                   exportSentSelected?.boardingCardQuantity
                 )}
               </SimpleGrid>
-              <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2' mt='2'>
+              <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' mt='2'>
                 {exportSentSelected?.stickerSent?.map((item, index) => (
                   <DisplayField
                     key={index}
@@ -966,7 +967,7 @@ const CuttingSheetForm = ({
         <Heading size='sm' mt='4' mb='2'>
           Pesticide Cocktail
         </Heading>
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           {exportSentSelected?.pesticideSent?.map((item, index) => (
             <DisplayField
               key={index}
@@ -981,7 +982,7 @@ const CuttingSheetForm = ({
               <Heading size='sm' mt='4' mb='2'>
                 Insecticide Cocktail
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 4 }} spacing='2'>
+              <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
                 {exportSentSelected.insecticideSent?.map((item, index) => (
                   <DisplayField
                     key={index}
@@ -1005,9 +1006,9 @@ const CuttingSheetForm = ({
             <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <Flex direction='column' gap='4'>
               <Heading size='md'>Datos para la Hoja de Corte</Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <SelectCuttingType name='cuttingTypeId' />
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing='4'>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap='4'>
                 <InputFieldSelector
                   name={'palletsHeight'}
                   label={'Altura de Palets '}
@@ -1033,7 +1034,7 @@ const CuttingSheetForm = ({
                 name='dataReviewed'
                 label='He revisado los datos agregados'
               />
-              <Button type='submit' colorScheme='teal' isLoading={isLoading}>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
                 Enviar
               </Button>
             </Flex>

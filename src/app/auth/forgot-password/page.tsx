@@ -1,27 +1,18 @@
 'use client';
 
-import {
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import Link_Next from 'next/link';
 import * as Yup from 'yup';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { Logo } from '@/components/ui/Logo';
+import { toaster } from '@/components/ui/toaster';
 
 const ForgotPasswordSchema = Yup.object({
   email: Yup.string().email('Correo inválido').required('Requerido'),
 });
 
 export default function ForgotPasswordPage(): JSX.Element {
-  const toast = useToast();
-
   return (
     <Center minH='100vh'>
       <Flex direction='column' w='100%' maxW='480px' p={4}>
@@ -46,22 +37,22 @@ export default function ForgotPasswordPage(): JSX.Element {
                 }
               );
               if (!res.ok) throw new Error('Error al enviar');
-              toast({
+              toaster.create({
                 title: 'Correo enviado',
                 description:
                   'Revisa tu bandeja para restablecer tu contraseña.',
-                status: 'success',
+                type: 'success',
                 duration: 4000,
-                isClosable: true,
+                closable: true,
               });
               resetForm();
             } catch {
-              toast({
+              toaster.create({
                 title: 'Error',
                 description: 'No se pudo enviar el correo.',
-                status: 'error',
+                type: 'error',
                 duration: 4000,
-                isClosable: true,
+                closable: true,
               });
             }
           }}
@@ -72,7 +63,13 @@ export default function ForgotPasswordPage(): JSX.Element {
               label='Correo Electrónico'
               placeholder='Correo electrónico'
             />
-            <Button type='submit' colorScheme='teal' w='full' mt={4} size='md'>
+            <Button
+              type='submit'
+              colorPalette='green'
+              w='full'
+              mt={4}
+              size='md'
+            >
               Enviar enlace
             </Button>
           </Form>
@@ -81,8 +78,8 @@ export default function ForgotPasswordPage(): JSX.Element {
         <Center>
           <Text mt='20px'>
             ¿No tienes una cuenta?{' '}
-            <Link as={Link_Next} color='teal.500' href='/auth/signup'>
-              Registrarse
+            <Link color='green.fg' asChild>
+              <Link_Next href='/auth/signup'>Registrarse</Link_Next>
             </Link>
           </Text>
         </Center>
@@ -90,8 +87,8 @@ export default function ForgotPasswordPage(): JSX.Element {
         <Center>
           <Text mt='20px'>
             ¿Ya estás registrado?{' '}
-            <Link as={Link_Next} color='teal.500' href='/auth/signin'>
-              Iniciar sesión
+            <Link color='green.fg' asChild>
+              <Link_Next href='/auth/signin'>Iniciar sesión</Link_Next>
             </Link>
           </Text>
         </Center>

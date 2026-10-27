@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Table } from '@chakra-ui/react';
 import React from 'react';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
 import { PesticideCocktailPart } from '../../../types/box-brand/post-harvest/pesticideCocktailPart';
@@ -53,26 +45,26 @@ const DetailCocktail = ({
 
   return (
     <>
-      <TableContainer>
-        <Table variant='simple'>
-          <Thead>
-            <Tr>
-              <Th>Nombre</Th>
-              <Th>Necesario</Th>
-              <Th>Enviado</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+      <Table.ScrollArea>
+        <Table.Root variant='line'>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Nombre</Table.ColumnHeader>
+              <Table.ColumnHeader>Necesario</Table.ColumnHeader>
+              <Table.ColumnHeader>Enviado</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {cocktail.map((item, index) => (
-              <Tr key={index}>
-                <Td>{item.name}</Td>
-                <Td>{item.need}</Td>
-                <Td>{item.sent}</Td>
-              </Tr>
+              <Table.Row key={index}>
+                <Table.Cell>{item.name}</Table.Cell>
+                <Table.Cell>{item.need}</Table.Cell>
+                <Table.Cell>{item.sent}</Table.Cell>
+              </Table.Row>
             ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
     </>
   );
 };

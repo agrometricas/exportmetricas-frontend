@@ -2,20 +2,18 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
   Heading,
   HStack,
   Icon,
   Text,
-  Divider,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdDirectionsBoat } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import ShippingContractForm from '../../../../../components/shipping-contract/ShippingContractForm';
+import { useColorModeValue } from '../../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useShippingContract } from '../../../../../hooks/shipping-contract/getShippingContract';
 import { ShippingContractResponse } from '../../../../../types/shippingContract';
@@ -32,7 +30,7 @@ function EditShippingContractPage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -42,10 +40,12 @@ function EditShippingContractPage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdDirectionsBoat} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdDirectionsBoat />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -56,11 +56,11 @@ function EditShippingContractPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading || !contract ? (
               <LoadingState />
             ) : (
@@ -68,8 +68,8 @@ function EditShippingContractPage(): React.JSX.Element {
                 contract={contract as ShippingContractResponse}
               />
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

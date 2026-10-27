@@ -1,19 +1,15 @@
 'use client';
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Badge,
   Box,
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
   Input,
   SimpleGrid,
   Text,
-  useToast,
+  Field,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import Link_Next from 'next/link';
@@ -21,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCorrectCuttingSheet } from '../../../hooks/export/cuttingSheet/correctCuttingSheet';
 import { usePagination } from '../../../hooks/usePagination';
@@ -71,7 +68,6 @@ const CorrectCuttingSheetForm = ({
   );
   const queryClient = useQueryClient();
   const router = useRouter();
-  const toast = useToast();
   const shipment = sheet.exportSent.export;
   const hasPallets =
     !!shipment.boxBrand?.palletsTypeId &&
@@ -98,23 +94,23 @@ const CorrectCuttingSheetForm = ({
       },
       {
         onSuccess: ({ data }) => {
-          toast({
+          toaster.create({
             title: `Hoja Nº ${data.id} corregida (versión ${data.version})`,
             description: `Se reenvió a ${data.emailRecipients.length} destinatario(s).`,
-            status: 'success',
+            type: 'success',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
           queryClient.invalidateQueries('cuttingSheets');
           router.push('/dashboard/export/cutting-sheets');
         },
         onError: (error) => {
-          toast({
+          toaster.create({
             title: 'No se corrigió la hoja',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
       }
@@ -124,9 +120,9 @@ const CorrectCuttingSheetForm = ({
   return (
     <Flex direction='column' gap={6}>
       <Box>
-        <HStack spacing={3} mb={1}>
+        <HStack gap={3} mb={1}>
           <Text fontWeight='semibold'>Hoja de Corte Nº {sheet.id}</Text>
-          <Badge colorScheme={sheet.version > 1 ? 'orange' : 'gray'}>
+          <Badge colorPalette={sheet.version > 1 ? 'orange' : 'gray'}>
             Vigente: {sheetVersionLabel(sheet.version)}
           </Badge>
         </HStack>
@@ -141,16 +137,16 @@ const CorrectCuttingSheetForm = ({
         )}
       </Box>
 
-      <Alert status='info' borderRadius='md'>
-        <AlertIcon />
-        <AlertDescription fontSize='sm'>
+      <Alert.Root status='info' borderRadius='md'>
+        <Alert.Indicator />
+        <Alert.Description fontSize='sm'>
           La hoja se vuelve a dibujar con el mismo número como versión{' '}
           {sheet.version + 1}, marcada CORREGIDA, con los datos de hoy de la
           exportación y del booking. Se reenvía a la exportadora, al cliente, al
           productor y a los contactos de la finca, y el enlace de los correos
           anteriores abrirá esta versión.
-        </AlertDescription>
-      </Alert>
+        </Alert.Description>
+      </Alert.Root>
 
       <Formik
         initialValues={initialValues}
@@ -164,7 +160,7 @@ const CorrectCuttingSheetForm = ({
                 name='cuttingTypeId'
                 cuttingTypeSelect={currentCuttingType}
               />
-              <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
                 <InputFieldSelector
                   name='palletsHeight'
                   label='Altura de Pallets'
@@ -178,30 +174,28 @@ const CorrectCuttingSheetForm = ({
                   label='Posición del Contenedor'
                   options={CONTAINER_POSITIONS}
                 />
-                <FormControl>
-                  <FormLabel fontSize='sm' mb='8px'>
+                <Field.Root>
+                  <Field.Label fontSize='sm' mb='8px'>
                     Bajo Cubierta
-                  </FormLabel>
+                  </Field.Label>
                   <Input
-                    isReadOnly
+                    readOnly
                     value={belowDeckFor(values.containerPositioning)}
                   />
-                </FormControl>
+                </Field.Root>
               </SimpleGrid>
               <InputFieldTextArea
                 name='reason'
                 label='Motivo de la corrección'
                 placeholder='Qué cambió y por qué. Lo leen el productor y la finca.'
               />
-              <HStack justify='flex-end' spacing={3}>
-                <Button
-                  as={Link_Next}
-                  href='/dashboard/export/cutting-sheets'
-                  variant='ghost'
-                >
-                  Cancelar
+              <HStack justify='flex-end' gap={3}>
+                <Button variant='ghost' asChild>
+                  <Link_Next href='/dashboard/export/cutting-sheets'>
+                    Cancelar
+                  </Link_Next>
                 </Button>
-                <Button type='submit' colorScheme='green' isLoading={isLoading}>
+                <Button type='submit' colorPalette='green' loading={isLoading}>
                   Corregir y reenviar
                 </Button>
               </HStack>

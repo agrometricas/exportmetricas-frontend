@@ -1,23 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormLabel,
-  Heading,
-  Input,
-  SimpleGrid,
-  useToast,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Input, SimpleGrid, Text, Separator, Field } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import InputFieldSentInsecticides from './ui/InputFieldSentInsecticides';
 import InputFieldSentPesticides from './ui/InputFieldSentPesticides';
 import InputFieldSentQuantity from './ui/InputFieldSentQuantity';
@@ -132,7 +122,6 @@ const SentMaterialsExportForm = ({
 }): React.JSX.Element => {
   const [initialValuesExport, setInitialValuesExport] = useState<any>({});
   const { createExportSent, isLoading } = useCreateExportSent();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -198,12 +187,12 @@ const SentMaterialsExportForm = ({
     dataReviewed;
     createExportSent(sentMaterialsExportData, {
       onError: (error: any) => {
-        toast({
+        toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
 
         if (error?.response?.status === 401) {
@@ -211,11 +200,11 @@ const SentMaterialsExportForm = ({
         }
       },
       onSuccess: () => {
-        toast({
+        toaster.create({
           title: 'Registro de Insumos Enviado con Éxito',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         queryClient.invalidateQueries('exports');
         queryClient.invalidateQueries('exportsSent');
@@ -302,7 +291,7 @@ const SentMaterialsExportForm = ({
           <Heading fontSize='2xl' p='12px'>
             Exportación
           </Heading>
-          <Divider mb='16px' />
+          <Separator mb='16px' />
           <Box p='4' border='1px' borderRadius='md' borderColor='gray.200'>
             <Text fontSize='sm'>
               <strong>Marca de Caja:</strong> {brand?.name || 'N/A'}
@@ -320,30 +309,26 @@ const SentMaterialsExportForm = ({
               <strong>Marca Principal:</strong> {brand?.brand?.name || 'N/A'}
             </Text>
           </Box>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mt='16px'>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt='16px'>
             <Box>
-              <FormLabel>Cantidad de cajas</FormLabel>
+              <Field.Label>Cantidad de cajas</Field.Label>
               <Input
                 value={quantity}
-                isReadOnly
-                focusBorderColor='gray.200'
+                readOnly
                 _hover={{ borderColor: 'gray.200' }}
                 cursor='not-allowed'
                 textAlign='right'
-                opacity={0.8}
-              />
+                opacity={0.8} />
             </Box>
             <Box>
-              <FormLabel>Contenedores</FormLabel>
+              <Field.Label>Contenedores</Field.Label>
               <Input
                 value={proposal?.containers ?? ''}
-                isReadOnly
-                focusBorderColor='gray.200'
+                readOnly
                 _hover={{ borderColor: 'gray.200' }}
                 cursor='not-allowed'
                 textAlign='right'
-                opacity={0.8}
-              />
+                opacity={0.8} />
             </Box>
           </SimpleGrid>
           <Text fontSize='sm' color='gray.600'>
@@ -355,7 +340,7 @@ const SentMaterialsExportForm = ({
           <Heading fontSize='2xl' p='12px'>
             Materiales para las cajas
           </Heading>
-          <Divider mb='16px' />
+          <Separator mb='16px' />
           {renderMaterialField(
             'bottomTypeQuantity',
             'Fondo',
@@ -449,7 +434,7 @@ const SentMaterialsExportForm = ({
               <Heading fontSize='2xl' p='12px'>
                 Materiales para contenedor
               </Heading>
-              <Divider mb='16px' />
+              <Separator mb='16px' />
             </>
           )}
           {renderMaterialField(
@@ -524,7 +509,7 @@ const SentMaterialsExportForm = ({
               <Heading fontSize='2xl' p='12px'>
                 Materiales adicionales
               </Heading>
-              <Divider mb='16px' />
+              <Separator mb='16px' />
             </>
           )}
           {renderMaterialField(
@@ -589,7 +574,7 @@ const SentMaterialsExportForm = ({
           <Heading fontSize='xl' p='10px'>
             Pesticidas
           </Heading>
-          <Divider mb='16px' />
+          <Separator mb='16px' />
           <InputFieldSentPesticides
             name='pesticideSent'
             pesticideCocktailSelected={pesticideCocktail}
@@ -600,7 +585,7 @@ const SentMaterialsExportForm = ({
                 <Heading fontSize='xl' p='10px'>
                   Insecticidas
                 </Heading>
-                <Divider mb='16px' />
+                <Separator mb='16px' />
                 <InputFieldSentInsecticides
                   name='insecticideSent'
                   insecticideCocktailSelected={insecticideCocktail}
@@ -614,8 +599,8 @@ const SentMaterialsExportForm = ({
           <Button
             mt='12px'
             type='submit'
-            colorScheme='teal'
-            isLoading={isLoading}
+            colorPalette='green'
+            loading={isLoading}
           >
             Enviar
           </Button>

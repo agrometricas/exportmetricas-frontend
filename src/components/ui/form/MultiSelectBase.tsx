@@ -64,7 +64,7 @@ const MultiSelectBase: React.FC<MultiSelectBaseProps> = ({
                 menuPortal: (provided) =>
                     ({ ...provided, zIndex: 100 } as CSSObjectWithLabel),
             }}
-            useBasicStyles
+
             chakraStyles={chakraStyles}
             options={options}
             getOptionLabel={(opt: Option) => opt.label}

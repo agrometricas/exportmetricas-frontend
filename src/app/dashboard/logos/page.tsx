@@ -1,27 +1,12 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  HStack,
-  Heading,
-  Icon,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, HStack, Heading, Icon, Tabs, Text } from '@chakra-ui/react';
 import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { MdImage } from 'react-icons/md';
 import BoxBrandLogoForm from '../../../components/box-brands/UploadLogoForm';
 import ProducerLogoForm from '../../../components/producer/UploadLogoForm';
 import ExporterLogoForm from '../../../components/settings/upload-logo/UploadLogoForm';
+import { useColorModeValue } from '../../../components/ui/color-mode';
 import IsOnboarding from '../../../components/ui/IsOnboarding';
 import { LOGO_TABS, logoTabIndex } from '../../../utils/logoTabs';
 
@@ -34,27 +19,27 @@ const LOGO_FORMS = {
 function LogoTabs(): React.JSX.Element {
   const searchParams = useSearchParams();
   return (
-    <Tabs
-      colorScheme='green'
-      isLazy
-      defaultIndex={logoTabIndex(searchParams.get('tab'))}
+    <Tabs.Root
+      colorPalette='green'
+      lazyMount
+      defaultValue={LOGO_TABS[logoTabIndex(searchParams.get('tab'))].key}
     >
-      <TabList>
+      <Tabs.List>
         {LOGO_TABS.map(({ key, label }) => (
-          <Tab key={key}>{label}</Tab>
+          <Tabs.Trigger key={key} value={key}>
+            {label}
+          </Tabs.Trigger>
         ))}
-      </TabList>
-      <TabPanels>
-        {LOGO_TABS.map(({ key }) => {
-          const LogoForm = LOGO_FORMS[key];
-          return (
-            <TabPanel key={key} px={0}>
-              <LogoForm />
-            </TabPanel>
-          );
-        })}
-      </TabPanels>
-    </Tabs>
+      </Tabs.List>
+      {LOGO_TABS.map(({ key }) => {
+        const LogoForm = LOGO_FORMS[key];
+        return (
+          <Tabs.Content key={key} value={key} px={0}>
+            <LogoForm />
+          </Tabs.Content>
+        );
+      })}
+    </Tabs.Root>
   );
 }
 
@@ -69,7 +54,7 @@ function LogosPage(): React.JSX.Element {
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='7xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -77,10 +62,12 @@ function LogosPage(): React.JSX.Element {
           overflow='hidden'
           border='1px solid'
         >
-          <CardHeader bg={headBg}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={headBg}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdImage} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdImage />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -92,15 +79,15 @@ function LogosPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <CardBody>
+          <Card.Body>
             {/* useSearchParams needs a Suspense boundary to build. */}
             <Suspense fallback={null}>
               <LogoTabs />
             </Suspense>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,23 +1,18 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
-  Divider,
   Flex,
-  FormLabel,
   Heading,
   HStack,
   IconButton,
   Input,
   SimpleGrid,
   Text,
-  useColorModeValue,
   useDisclosure,
+  Dialog,
+  Portal,
+  Separator,
+  Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
@@ -27,6 +22,7 @@ import { emptyRoute } from './schemas/shippingContract.schema';
 import { ShippingContractResponse } from '../../types/shippingContract';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
@@ -60,12 +56,12 @@ export default function ShippingContractForm({
             <Heading fontSize='2xl' p='12px'>
               Naviera
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {contract ? (
                 <Box>
-                  <FormLabel fontSize='sm'>Naviera</FormLabel>
-                  <Input isReadOnly value={contract.shippingCompany.name} />
+                  <Field.Label fontSize='sm'>Naviera</Field.Label>
+                  <Input readOnly value={contract.shippingCompany.name} />
                 </Box>
               ) : (
                 <InputFieldShippingCompanySelect
@@ -84,8 +80,8 @@ export default function ShippingContractForm({
             <Heading fontSize='2xl' p='16px'>
               Vigencia
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
               <InputFieldDayDate name='endDate' label='Fecha de Fin' />
             </SimpleGrid>
@@ -93,7 +89,7 @@ export default function ShippingContractForm({
             <Heading fontSize='2xl' p='16px'>
               Rutas y Costos
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='routes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={4}>
@@ -110,15 +106,16 @@ export default function ShippingContractForm({
                         {values.routes.length > 1 && (
                           <IconButton
                             aria-label={`Quitar la ruta ${index + 1}`}
-                            icon={<FiTrash2 />}
                             size='sm'
                             variant='ghost'
-                            colorScheme='red'
+                            colorPalette='red'
                             onClick={() => remove(index)}
-                          />
+                          >
+                            <FiTrash2 />
+                          </IconButton>
                         )}
                       </HStack>
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, md: 2 }} gap={5}>
                         <InputFieldHarborSelect
                           type='Nacional'
                           name={`routes[${index}].harborDepartureId`}
@@ -153,11 +150,11 @@ export default function ShippingContractForm({
                   )}
                   <Button
                     alignSelf='flex-start'
-                    leftIcon={<FiPlus />}
                     variant='outline'
-                    colorScheme='green'
+                    colorPalette='green'
                     onClick={() => push(emptyRoute)}
                   >
+                    <FiPlus />
                     Agregar Ruta
                   </Button>
                 </Flex>
@@ -168,17 +165,17 @@ export default function ShippingContractForm({
               <Button
                 flex={1}
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 {contract ? 'Guardar Cambios' : 'Crear Contrato'}
               </Button>
               {contract && (
                 <Button
                   variant='outline'
-                  colorScheme='red'
+                  colorPalette='red'
                   onClick={confirm.onOpen}
-                  isLoading={isDeleting}
+                  loading={isDeleting}
                 >
                   Eliminar Contrato
                 </Button>
@@ -186,40 +183,50 @@ export default function ShippingContractForm({
             </Flex>
           </Flex>
 
-          <AlertDialog
-            isOpen={confirm.isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={confirm.onClose}
+          <Dialog.Root
+            open={confirm.open}
+            initialFocusEl={() => cancelRef.current}
+            role='alertdialog'
+            onOpenChange={(e) => {
+              if (!e.open) {
+                confirm.onClose();
+              }
+            }}
           >
-            <AlertDialogOverlay>
-              <AlertDialogContent>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                  Eliminar contrato naviero
-                </AlertDialogHeader>
-                <AlertDialogBody>
-                  Se eliminará el contrato de {contract?.shippingCompany.name}{' '}
-                  con todas sus rutas. Si solo dejó de regir, mejor cámbiale la
-                  fecha de fin y conserva el historial de precios.
-                </AlertDialogBody>
-                <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={confirm.onClose}>
-                    Volver
-                  </Button>
-                  <Button
-                    colorScheme='red'
-                    ml={3}
-                    isLoading={isDeleting}
-                    onClick={() => {
-                      confirm.onClose();
-                      onDelete();
-                    }}
-                  >
-                    Eliminar
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
+            <Portal>
+              <Dialog.Backdrop>
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.Header fontSize='lg' fontWeight='bold'>
+                      Eliminar contrato naviero
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      Se eliminará el contrato de{' '}
+                      {contract?.shippingCompany.name} con todas sus rutas. Si
+                      solo dejó de regir, mejor cámbiale la fecha de fin y
+                      conserva el historial de precios.
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                      <Button ref={cancelRef} onClick={confirm.onClose}>
+                        Volver
+                      </Button>
+                      <Button
+                        colorPalette='red'
+                        ml={3}
+                        loading={isDeleting}
+                        onClick={() => {
+                          confirm.onClose();
+                          onDelete();
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Backdrop>
+            </Portal>
+          </Dialog.Root>
         </Form>
       )}
     </Formik>

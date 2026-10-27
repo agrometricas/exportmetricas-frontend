@@ -36,7 +36,7 @@ const SelectSticker: React.FC<SelectStickerProps> = ({
   }, [sticker, setStickerSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldStickerSelect
         name={name1}
         label={'Sticker'}
@@ -51,8 +51,8 @@ const SelectSticker: React.FC<SelectStickerProps> = ({
       <Box display='flex' alignItems='flex-end'>
         <Button
           variant='solid'
-          colorScheme='red'
-          isDisabled={isDisabledRemove}
+          colorPalette='red'
+          disabled={isDisabledRemove}
           onClick={onClickRemove}
           width={'100%'}
         >

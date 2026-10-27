@@ -1,11 +1,11 @@
 'use client';
-
-import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CalendarSummaryContainer from './CalendarSummaryContainer';
 import WorkQueuePanel from './WorkQueuePanel';
 import ContractUsageAlerts from '../contract-usage/ContractUsageAlerts';
+import { useColorModeValue } from '../ui/color-mode';
 
 const Dashboard = (): JSX.Element => {
   const { data: session, status } = useSession();

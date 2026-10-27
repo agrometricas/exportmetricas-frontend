@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,13 +11,13 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdOutlineBookOnline } from 'react-icons/md';
 import TableBookings from '../../../../components/booking/TableBookings';
+import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function BookingsPage(): React.JSX.Element {
@@ -29,7 +27,10 @@ function BookingsPage(): React.JSX.Element {
   const textColor = useColorModeValue('gray.700', 'gray.200');
   const headingColor = useColorModeValue('gray.900', 'gray.100');
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
+    base: 'sm',
+    md: 'md',
+  });
 
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
@@ -40,9 +41,11 @@ function BookingsPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-              <Icon as={MdOutlineBookOnline} boxSize={5} />
+              <Icon boxSize={5} asChild>
+                <MdOutlineBookOnline />
+              </Icon>
             </Box>
             <Box>
               <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -57,31 +60,34 @@ function BookingsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href='/dashboard/export/add-booking'
                 aria-label='Agregar Booking'
-                icon={<FiPlus />}
-                colorScheme='green'
+                colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'
                 boxShadow='md'
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition='all 0.2s'
-              />
+                asChild
+              >
+                <Link_Next href='/dashboard/export/add-booking'>
+                  <FiPlus />
+                </Link_Next>
+              </IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href='/dashboard/export/add-booking'
-                leftIcon={<FiPlus />}
-                colorScheme='green'
+                colorPalette='green'
                 size={buttonSize}
                 borderRadius='lg'
                 boxShadow='md'
                 fontWeight='semibold'
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition='all 0.2s'
+                asChild
               >
-                Agregar Booking
+                <Link_Next href='/dashboard/export/add-booking'>
+                  <FiPlus />
+                  Agregar Booking
+                </Link_Next>
               </Button>
             )}
           </Box>
@@ -89,7 +95,7 @@ function BookingsPage(): React.JSX.Element {
       </Box>
 
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -97,7 +103,7 @@ function BookingsPage(): React.JSX.Element {
           overflow='hidden'
           border='1px solid'
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={useColorModeValue('gray.50', 'gray.750')}
@@ -105,7 +111,7 @@ function BookingsPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify='space-between' align='center'>
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text
                     fontSize='lg'
                     fontWeight='semibold'
@@ -114,7 +120,7 @@ function BookingsPage(): React.JSX.Element {
                     Reservas
                   </Text>
                   <Badge
-                    colorScheme='green'
+                    colorPalette='green'
                     variant='subtle'
                     borderRadius='full'
                     px={3}
@@ -129,8 +135,8 @@ function BookingsPage(): React.JSX.Element {
             <Box>
               <TableBookings />
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

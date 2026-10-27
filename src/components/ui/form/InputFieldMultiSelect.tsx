@@ -1,5 +1,5 @@
 'use client';
-import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import MultiSelectBase, { Option } from './MultiSelectBase';
@@ -20,10 +20,10 @@ const InputFieldMultiSelect: React.FC<InputFieldMultiSelectProps> = ({
     const [field, meta, helpers] = useField(name);
 
     return (
-        <FormControl id={name} isInvalid={!!meta.error && meta.touched} mt="10px">
-            <FormLabel fontSize="sm" mb="8px">
+        <Field.Root id={name} invalid={!!meta.error && meta.touched} mt="10px">
+            <Field.Label fontSize="sm" mb="8px">
                 {label}
-            </FormLabel>
+            </Field.Label>
             <MultiSelectBase
                 name={name}
                 field={field}
@@ -34,11 +34,11 @@ const InputFieldMultiSelect: React.FC<InputFieldMultiSelectProps> = ({
                 }
             />
             {meta.error && meta.touched && (
-                <FormErrorMessage mt="8px" mb="16px">
+                <Field.ErrorText mt="8px" mb="16px">
                     {meta.error}
-                </FormErrorMessage>
+                </Field.ErrorText>
             )}
-        </FormControl>
+        </Field.Root>
     );
 };
 

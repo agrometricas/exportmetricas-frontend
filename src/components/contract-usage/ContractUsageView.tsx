@@ -1,12 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Flex,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Alert, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { Formik, useFormikContext } from 'formik';
 import React, { useMemo } from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -15,6 +7,7 @@ import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { startOfLocalDay } from '../../utils/dayMonthYear';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 import { isCompleteDay } from '../purchase-order/schemas/purchaseOrder.schema';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 
 function WeekUsage(): React.JSX.Element {
@@ -25,7 +18,7 @@ function WeekUsage(): React.JSX.Element {
 
   return (
     <Flex direction='column' gap={5}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap={5}>
         <InputFieldDayDate
           name='weekDay'
           label='Semana'
@@ -43,10 +36,10 @@ function WeekUsage(): React.JSX.Element {
       </Text>
       {isLoading && <LoadingState />}
       {usage?.warnings.map((warning) => (
-        <Alert key={warning} status='error' borderRadius='lg'>
-          <AlertIcon />
-          <AlertDescription fontSize='sm'>{warning}</AlertDescription>
-        </Alert>
+        <Alert.Root key={warning} status='error' borderRadius='lg'>
+          <Alert.Indicator />
+          <Alert.Description fontSize='sm'>{warning}</Alert.Description>
+        </Alert.Root>
       ))}
       {usage && usage.farms.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>

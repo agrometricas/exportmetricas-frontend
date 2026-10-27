@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Heading,
-  Text,
-} from '@chakra-ui/react';
+import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 import { TransportResponse } from '../../../types/transport/transport.response';
 
@@ -18,74 +9,74 @@ interface DetailTransportsProps {
 
 const DetailTransports: React.FC<DetailTransportsProps> = ({ transport, width }) => {
   return (
-    <Accordion defaultIndex={[0]} allowMultiple>
-      <AccordionItem>
+    <Accordion.Root defaultValue={['0']} multiple>
+      <Accordion.Item value='item-0'>
         <Heading>
-          <AccordionButton
+          <Accordion.ItemTrigger
             pl="60px"
             width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
           >
             <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
               Detalles Generales
             </Box>
-            <AccordionIcon />
-          </AccordionButton>
+            <Accordion.ItemIndicator />
+          </Accordion.ItemTrigger>
         </Heading>
-        <AccordionPanel pb={4} pl="60px">
-          <Text><strong>Nombre:</strong> {transport.name}</Text>
-          <Text><strong>RUC:</strong> {transport.ruc}</Text>
-          <Text><strong>Dirección:</strong> {transport.address}</Text>
-          <Text><strong>Rastreo Satelital:</strong> {transport.satelliteTracking ? 'Sí' : 'No'}</Text>
-        </AccordionPanel>
-      </AccordionItem>
+        <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+            <Text><strong>Nombre:</strong> {transport.name}</Text>
+            <Text><strong>RUC:</strong> {transport.ruc}</Text>
+            <Text><strong>Dirección:</strong> {transport.address}</Text>
+            <Text><strong>Rastreo Satelital:</strong> {transport.satelliteTracking ? 'Sí' : 'No'}</Text>
+          </Accordion.ItemBody></Accordion.ItemContent>
+      </Accordion.Item>
 
       {transport.transportCertifications.length > 0 && (
-        <AccordionItem>
+        <Accordion.Item value='item-1'>
           <Heading>
-            <AccordionButton
+            <Accordion.ItemTrigger
               pl="60px"
               width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
             >
               <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
                 Certificaciones
               </Box>
-              <AccordionIcon />
-            </AccordionButton>
+              <Accordion.ItemIndicator />
+            </Accordion.ItemTrigger>
           </Heading>
-          <AccordionPanel pb={4} pl="60px">
-            {transport.transportCertifications.map((cert, i) => (
-              <Text key={i}>• {cert.certification.name}</Text>
-            ))}
-          </AccordionPanel>
-        </AccordionItem>
+          <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+              {transport.transportCertifications.map((cert, i) => (
+                <Text key={i}>• {cert.certification.name}</Text>
+              ))}
+            </Accordion.ItemBody></Accordion.ItemContent>
+        </Accordion.Item>
       )}
 
       {transport.contacts.length > 0 && (
-        <AccordionItem>
+        <Accordion.Item value='item-2'>
           <Heading>
-            <AccordionButton
+            <Accordion.ItemTrigger
               pl="60px"
               width={{ sm: `${width.sm}px`, md: `${width.md}px` }}
             >
               <Box flex="1" textAlign="left" fontSize="md" fontWeight="bold">
                 Contactos
               </Box>
-              <AccordionIcon />
-            </AccordionButton>
+              <Accordion.ItemIndicator />
+            </Accordion.ItemTrigger>
           </Heading>
-          <AccordionPanel pb={4} pl="60px">
-            {transport.contacts.map((contact, i) => (
-              <Box key={i} mb={3}>
-                <Text><strong>Nombre:</strong> {contact.name}</Text>
-                {contact.role && <Text><strong>Rol:</strong> {contact.role}</Text>}
-                <Text><strong>Email:</strong> {contact.email}</Text>
-                <Text><strong>Teléfono:</strong> {contact.phone}</Text>
-              </Box>
-            ))}
-          </AccordionPanel>
-        </AccordionItem>
+          <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+              {transport.contacts.map((contact, i) => (
+                <Box key={i} mb={3}>
+                  <Text><strong>Nombre:</strong> {contact.name}</Text>
+                  {contact.role && <Text><strong>Rol:</strong> {contact.role}</Text>}
+                  <Text><strong>Email:</strong> {contact.email}</Text>
+                  <Text><strong>Teléfono:</strong> {contact.phone}</Text>
+                </Box>
+              ))}
+            </Accordion.ItemBody></Accordion.ItemContent>
+        </Accordion.Item>
       )}
-    </Accordion>
+    </Accordion.Root>
   );
 };
 

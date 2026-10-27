@@ -1,8 +1,8 @@
-import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateHarbor } from '@/hooks/export/harbor/createHarbor';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -14,7 +14,6 @@ export function useSubmitHarbor(): {
     initialValues: typeof initialValues;
     isLoading: boolean;
 } {
-    const toast = useToast();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { mutate: createHarbor, isLoading } = useCreateHarbor();
@@ -32,12 +31,12 @@ export function useSubmitHarbor(): {
                     const { statusCode, message, model, prop }: Partial<ServerErrorResponse> =
                         error.response?.data ?? {};
 
-                    toast({
+                    toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
-                        status: 'error',
+                        type: 'error',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
 
                     if (statusCode === 401) {
@@ -52,11 +51,11 @@ export function useSubmitHarbor(): {
                     }
                 },
                 onSuccess: () => {
-                    toast({
+                    toaster.create({
                         title: 'Puerto Creado con Éxito',
-                        status: 'success',
+                        type: 'success',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     queryClient.invalidateQueries('harbors');
                     queryClient.invalidateQueries('harborsByType');

@@ -8,13 +8,13 @@ import {
   Heading,
   SimpleGrid,
   Text,
-  useToast,
-} from '@chakra-ui/react';
+  } from '@chakra-ui/react';
 import { Formik, Form, FieldArray } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import {
   COST_CONFIRMATION_QUERIES,
   confirmExportSentCostReview,
@@ -47,7 +47,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = useParams<{ id: string }>();
@@ -85,23 +84,23 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
 
       await confirmExportSentCostReview(Number(exportSentId));
 
-      toast({
+      toaster.create({
         title: 'Costos actualizados correctamente.',
-        status: 'success',
+        type: 'success',
         duration: 3000,
-        isClosable: true,
+        closable: true,
       });
       COST_CONFIRMATION_QUERIES.forEach((key) =>
         queryClient.invalidateQueries(key)
       );
       router.push(returnTo('/dashboard/liquidation/export-costs', window.location.search));
     } catch (error) {
-      toast({
+      toaster.create({
         title: 'Error al actualizar los costos.',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 4000,
-        isClosable: true,
+        closable: true,
       });
     }
   };
@@ -155,9 +154,9 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
                       py='8px'
                       px='16px'
                       type='submit'
-                      colorScheme='teal'
-                      isLoading={isSubmitting || isLoading}
-                      isDisabled={values.materials.length === 0}
+                      colorPalette='green'
+                      loading={isSubmitting || isLoading}
+                      disabled={values.materials.length === 0}
                     >
                       Confirmar Validación de Costos
                     </Button>

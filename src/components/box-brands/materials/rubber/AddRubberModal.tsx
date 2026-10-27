@@ -1,18 +1,10 @@
-import {
-  IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { IconButton, useDisclosure, Dialog, Portal } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import AddRubberForm from './AddRubberForm';
 
 const AddRubberModal = (): React.JSX.Element => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -20,23 +12,36 @@ const AddRubberModal = (): React.JSX.Element => {
         position={'relative'}
         top={'-5px'}
         ml={'5px'}
-        isRound={true}
+        rounded='full'
         aria-label={'agregar marca'}
-        size={'base'}
-        colorScheme='teal'
-        variant={'elevated'}
-        icon={<AiFillPlusCircle size={'20px'} />}
+        size='xs'
+        colorPalette='green'
+        variant='ghost'
         onClick={onOpen}
-      />
-      <Modal isOpen={isOpen} onClose={onClose} size='md'>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalBody>
-            <AddRubberForm onClose={onClose} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      >
+        <AiFillPlusCircle size={'20px'} />
+      </IconButton>
+      <Dialog.Root
+        open={open}
+        size='md'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            onClose();
+          }
+        }}
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.CloseTrigger />
+              <Dialog.Body>
+                <AddRubberForm onClose={onClose} />
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 };

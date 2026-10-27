@@ -1,12 +1,5 @@
 'use client';
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Center,
-  Heading,
-} from '@chakra-ui/react';
+import { Box, Card, Center, Heading } from '@chakra-ui/react';
 import { redirect } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useLayoutEffect } from 'react';
@@ -26,7 +19,7 @@ export default function OnBoardingPage(): React.JSX.Element {
     <>
       <Box my={'20px'} mx={'auto'} w={'95%'}>
         <Center>
-          <Card
+          <Card.Root
             w={{
               base: '95%',
               sm: '95%',
@@ -36,13 +29,13 @@ export default function OnBoardingPage(): React.JSX.Element {
             }}
             mb={'20px'}
           >
-            <CardHeader w={'100%'}>
+            <Card.Header w={'100%'}>
               <Heading>Registro Inicial</Heading>
-            </CardHeader>
-            <CardBody w='100%'>
+            </Card.Header>
+            <Card.Body w='100%'>
               <OnboardingForm />
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </Center>
       </Box>
     </>

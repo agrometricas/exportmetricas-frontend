@@ -1,13 +1,4 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Grid,
-  GridItem,
-  Input,
-  NumberInput,
-  NumberInputField,
-} from '@chakra-ui/react';
+import { Grid, GridItem, Input, NumberInput, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import { InsecticideCocktailPart } from '../../../types/box-brand/additions/insecticideCocktailPart';
@@ -42,12 +33,12 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
   };
 
   return (
-    <FormControl id={name} isInvalid={!!meta.error && meta.touched}>
+    <Field.Root id={name} invalid={!!meta.error && meta.touched}>
       <Grid templateColumns='repeat(10, 1fr)' gap={5} alignItems='center'>
         <GridItem colSpan={2}>
-          <FormLabel fontSize='sm' m={0} width={'100%'}>
+          <Field.Label fontSize='sm' m={0} width={'100%'}>
             {`${insecticideSelected.insecticide?.name}: `}
-          </FormLabel>
+          </Field.Label>
         </GridItem>
         <GridItem colSpan={3}>
           <Input
@@ -55,8 +46,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             p={'0px'}
             pl={'8px'}
             value={`${insecticideSelected.insecticide?.activeIngredient}`}
-            isReadOnly={true}
-            focusBorderColor='gray.200'
+            readOnly={true}
             _hover={{ borderColor: 'gray.200' }}
             cursor={'not-allowed'}
             opacity={0.8}
@@ -69,8 +59,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             pl={'8px'}
             textAlign={'left'}
             value={`${insecticideSelected.insecticide?.dose}`}
-            isReadOnly={true}
-            focusBorderColor='gray.200'
+            readOnly={true}
             _hover={{ borderColor: 'gray.200' }}
             cursor={'not-allowed'}
             opacity={0.8}
@@ -83,8 +72,7 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
             textAlign={'left'}
             p={'0px'}
             pl={'8px'}
-            isReadOnly={true}
-            focusBorderColor='gray.200'
+            readOnly={true}
             _hover={{ borderColor: 'gray.200' }}
             cursor={'not-allowed'}
             opacity={0.8}
@@ -92,8 +80,8 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
         </GridItem>
         {showNumberInput && (
           <GridItem colSpan={2}>
-            <NumberInput {...field}>
-              <NumberInputField
+            <NumberInput.Root {...field}>
+              <NumberInput.Input
                 {...field}
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}
@@ -103,16 +91,16 @@ const InputFieldSentInsecticide: React.FC<InputFieldSentInsecticideProps> = ({
                 textAlign='left'
                 px={'16px'}
               />
-            </NumberInput>
+            </NumberInput.Root>
           </GridItem>
         )}
       </Grid>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

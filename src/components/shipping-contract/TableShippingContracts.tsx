@@ -50,7 +50,7 @@ const TableShippingContracts = (): React.JSX.Element => {
             header: 'Rutas y costo por contenedor',
             enableSorting: false,
             Cell: ({ cell }): React.JSX.Element => (
-              <VStack align='start' spacing={0}>
+              <VStack align='start' gap={0}>
                 {cell.getValue<ShippingContractRoute[]>().map((route) => (
                   <Text key={route.id} fontSize='sm'>
                     {route.harborDeparture.name} →{' '}
@@ -91,9 +91,9 @@ const TableShippingContracts = (): React.JSX.Element => {
             header: 'Estado',
             Cell: ({ cell }): React.JSX.Element =>
               cell.getValue<boolean>() ? (
-                <Badge colorScheme='green'>Vigente</Badge>
+                <Badge colorPalette='green'>Vigente</Badge>
               ) : (
-                <Badge colorScheme='gray'>No vigente</Badge>
+                <Badge colorPalette='gray'>No vigente</Badge>
               ),
           },
         ],
@@ -107,14 +107,12 @@ const TableShippingContracts = (): React.JSX.Element => {
             size: 90,
             header: '',
             Cell: ({ row }): React.JSX.Element => (
-              <Button
-                as={Link_Next}
-                href={`/dashboard/client/shipping-contracts/${row.original.id}`}
-                size='sm'
-                variant='outline'
-                colorScheme='green'
-              >
-                Editar
+              <Button size='sm' variant='outline' colorPalette='green' asChild>
+                <Link_Next
+                  href={`/dashboard/client/shipping-contracts/${row.original.id}`}
+                >
+                  Editar
+                </Link_Next>
               </Button>
             ),
           },

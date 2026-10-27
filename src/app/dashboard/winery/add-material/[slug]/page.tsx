@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Center,
-  Text,
-  Box,
-  Heading,
-  Card,
-  CardBody,
-  CardHeader,
-} from '@chakra-ui/react';
+import { Center, Text, Box, Heading, Card } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -66,7 +58,7 @@ export default function AddMaterialPage(): JSX.Element {
     return (
       <Box my={'20px'} mx='auto' w={'95%'}>
         <Center>
-          <Card
+          <Card.Root
             w={{
               base: '95%',
               sm: '95%',
@@ -76,18 +68,18 @@ export default function AddMaterialPage(): JSX.Element {
             }}
             mb={'20px'}
           >
-            <CardHeader w={'100%'}>
+            <Card.Header w={'100%'}>
               <Heading>Asignar Stock Inicial</Heading>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <CreateInitialStockForm
                 exporterId={exporterId}
                 materialType={selectedMaterial.materialType}
                 materialId={Number(selectedMaterial.id)}
                 materialName={selectedMaterial.name}
               />
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </Center>
       </Box>
     );
@@ -96,7 +88,7 @@ export default function AddMaterialPage(): JSX.Element {
   return (
     <Box my={'20px'} mx='auto' w={'95%'}>
       <Center>
-        <Card
+        <Card.Root
           w={{
             base: '95%',
             sm: '95%',
@@ -106,18 +98,18 @@ export default function AddMaterialPage(): JSX.Element {
           }}
           mb={'20px'}
         >
-          <CardHeader w={'100%'}>
+          <Card.Header w={'100%'}>
             <Heading>Movimientos del Material</Heading>
-          </CardHeader>
-          <CardBody w={'100%'}>
+          </Card.Header>
+          <Card.Body w={'100%'}>
             <AddMaterialForm
               exporterId={exporterId}
               materialType={selectedMaterial.materialType}
               materialId={Number(selectedMaterial.id)}
               materialName={selectedMaterial.name}
             />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Center>
     </Box>
   );

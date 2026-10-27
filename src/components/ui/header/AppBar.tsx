@@ -1,23 +1,13 @@
 'use client';
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  Text,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  useColorModeValue,
-  HStack,
-} from '@chakra-ui/react';
+import { Box, Flex, Icon, IconButton, Text, Breadcrumb, HStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { FiMenu, FiHome, FiChevronRight } from 'react-icons/fi';
+import { FiMenu, FiHome } from 'react-icons/fi';
 import MenuIcon from './MenuIcon';
 import MenuNotification from './MenuNotifications';
 import QuickSearch from './QuickSearch';
 import { generateBreadcrumbs } from '../../../utils/breadcrumbs';
+import { useColorModeValue } from "../color-mode";
 import { useSidenav } from '../sidenav/sidenav-context';
 
 export const AppBar = (): React.JSX.Element => {
@@ -53,52 +43,42 @@ export const AppBar = (): React.JSX.Element => {
       backdropFilter='blur(8px)'
     >
       <Flex align='center' display={{ base: 'none', md: 'flex' }}>
-        <Breadcrumb
-          spacing='12px'
-          separator={
-            <Icon
-              as={FiChevronRight}
-              color={useColorModeValue('gray.400', 'gray.500')}
-              boxSize={4}
-            />
-          }
-          fontSize='sm'
-        >
-          {breadcrumbs.map((bc, idx: number) => (
-            <BreadcrumbItem key={idx} isCurrentPage={bc.isCurrent}>
-              <BreadcrumbLink
-                href={bc.href}
-                color={bc.isCurrent ? 'green.600' : textColor}
-                fontWeight={bc.isCurrent ? 'semibold' : 'medium'}
-                px={2}
-                py={1}
-                borderRadius='md'
-                transition='all 0.2s'
-                _hover={{
-                  textDecoration: 'none',
-                  color: 'green.600',
-                  bg: hoverBg,
-                  transform: 'translateY(-1px)',
-                }}
-                display='flex'
-                alignItems='center'
-              >
-                {idx === 0 ? (
-                  <HStack spacing={2}>
-                    <Icon as={FiHome} boxSize={4} />
-                    <Text>Dashboard</Text>
-                  </HStack>
-                ) : (
-                  bc.name
-                )}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          ))}
-        </Breadcrumb>
+        <Breadcrumb.Root fontSize='sm'>
+          <Breadcrumb.List gap='12px'>{breadcrumbs.map((bc, idx: number) => (
+              <Breadcrumb.Item key={idx}>
+                <Breadcrumb.Link
+                  href={bc.href}
+                  color={bc.isCurrent ? 'green.600' : textColor}
+                  fontWeight={bc.isCurrent ? 'semibold' : 'medium'}
+                  px={2}
+                  py={1}
+                  borderRadius='md'
+                  transition='all 0.2s'
+                  _hover={{
+                    textDecoration: 'none',
+                    color: 'green.600',
+                    bg: hoverBg,
+                    transform: 'translateY(-1px)',
+                  }}
+                  display='flex'
+                  alignItems='center'
+                >
+                  {idx === 0 ? (
+                    <HStack gap={2}>
+                      <Icon boxSize={4} asChild><FiHome /></Icon>
+                      <Text>Dashboard</Text>
+                    </HStack>
+                  ) : (
+                    bc.name
+                  )}
+                </Breadcrumb.Link>
+              </Breadcrumb.Item>
+            ))}</Breadcrumb.List>
+        </Breadcrumb.Root>
       </Flex>
 
       <HStack
-        spacing={4}
+        gap={4}
         align='center'
         justifyContent={{ base: 'flex-end' }}
         flex={{ base: 1, md: 'auto' }}
@@ -107,7 +87,6 @@ export const AppBar = (): React.JSX.Element => {
           aria-label='Abrir menú'
           display={{ base: 'flex', md: 'none' }}
           onClick={onOpen}
-          icon={<FiMenu />}
           variant='ghost'
           size='md'
           color={textColor}
@@ -123,8 +102,7 @@ export const AppBar = (): React.JSX.Element => {
           _active={{
             bg: useColorModeValue('green.100', 'green.800'),
             transform: 'scale(0.95)',
-          }}
-        />
+          }}><FiMenu /></IconButton>
         <QuickSearch />
         <MenuNotification />
         <MenuIcon />

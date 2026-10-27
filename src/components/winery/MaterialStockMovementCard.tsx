@@ -2,16 +2,16 @@ import {
   Box,
   Text,
   Heading,
-  Divider,
   Badge,
   VStack,
   SimpleGrid,
-  Select,
+  NativeSelect,
   Input,
   Flex,
   CloseButton,
   Grid,
   GridItem,
+  Separator,
 } from '@chakra-ui/react';
 import { format, getISOWeek, getMonth, parseISO } from 'date-fns';
 import { useMemo, useState } from 'react';
@@ -81,22 +81,25 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
 
   return (
     <Box>
-      <SimpleGrid columns={{ base: 1, md: 4 }} spacing='4' mb={4}>
+      <SimpleGrid columns={{ base: 1, md: 4 }} gap='4' mb={4}>
         <Flex flex='1' align='center'>
-          <Select
-            placeholder='Filtrar por Tipo'
-            value={filterType === 'ALL' ? '' : filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            width='100%'
-          >
-            {MATERIAL_TYPE_ORDER.map((type) =>
-              materialTypes.includes(type) ? (
-                <option key={type} value={type}>
-                  {MATERIAL_TYPE_LABELS[type] ?? type}
-                </option>
-              ) : null
-            )}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Filtrar por Tipo'
+              value={filterType === 'ALL' ? '' : filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              width='100%'
+            >
+              {MATERIAL_TYPE_ORDER.map((type) =>
+                materialTypes.includes(type) ? (
+                  <option key={type} value={type}>
+                    {MATERIAL_TYPE_LABELS[type] ?? type}
+                  </option>
+                ) : null
+              )}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
           {filterType !== 'ALL' ? (
             <CloseButton
               onClick={() => setFilterType('ALL')}
@@ -117,21 +120,24 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
           ) : null}
         </Flex>
 
-        <Select
-          placeholder='Filtrar por mes'
-          value={selectedMonth}
-          onChange={(e) => {
-            setSelectedMonth(Number(e.target.value));
-            setSelectedWeek(null);
-          }}
-          width='100%'
-        >
-          {months.map((month) => (
-            <option key={month.value} value={month.value}>
-              {month.label}
-            </option>
-          ))}
-        </Select>
+        <NativeSelect.Root>
+          <NativeSelect.Field
+            placeholder='Filtrar por mes'
+            value={selectedMonth}
+            onChange={(e) => {
+              setSelectedMonth(Number(e.target.value));
+              setSelectedWeek(null);
+            }}
+            width='100%'
+          >
+            {months.map((month) => (
+              <option key={month.value} value={month.value}>
+                {month.label}
+              </option>
+            ))}
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
         <WeekSelect
           month={selectedMonth}
           value={selectedWeek}
@@ -140,7 +146,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
         />
       </SimpleGrid>
 
-      <VStack spacing={4} align='stretch'>
+      <VStack gap={4} align='stretch'>
         {filteredMaterials.map((material) => {
           const filteredTransfers = material.stockMovementsFromExporter.filter(
             (m) => filterByDate(m.createdAt)
@@ -172,7 +178,7 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                 </Text>
               </Grid>
 
-              <Divider my={2} />
+              <Separator my={2} />
 
               <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={4}>
                 <GridItem>
@@ -184,10 +190,10 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                       No hay transferencias esta semana.
                     </Text>
                   ) : (
-                    <VStack align='start' spacing={1}>
+                    <VStack align='start' gap={1}>
                       {filteredTransfers.map((movement) => (
                         <Box key={movement.id}>
-                          <Badge colorScheme='green'>
+                          <Badge colorPalette='green'>
                             {STOCK_MOVEMENT_LABELS[movement.type] ??
                               movement.type}
                           </Badge>{' '}
@@ -211,10 +217,10 @@ const MaterialStockMovementGrid = ({ materials }: Props): JSX.Element => {
                   {filteredConsumptions.length === 0 ? (
                     <Text color='gray.500'>No hay consumos esta semana.</Text>
                   ) : (
-                    <VStack align='start' spacing={1}>
+                    <VStack align='start' gap={1}>
                       {filteredConsumptions.map((movement) => (
                         <Box key={movement.id}>
-                          <Badge colorScheme='red'>
+                          <Badge colorPalette='red'>
                             {!movement.exportSentId
                               ? 'DESCONTADO'
                               : (STOCK_MOVEMENT_LABELS[movement.type] ??

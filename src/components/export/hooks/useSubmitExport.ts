@@ -1,10 +1,10 @@
 'use client';
 
-import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateExport } from '@/hooks/export/createExport';
 import { useUpdateExport } from '@/hooks/export/updateExport';
 import { ServerErrorResponse } from '@/types/errorResponse';
@@ -23,7 +23,6 @@ export function useSubmitExport({
   validationSchema: typeof validationSchema;
   isLoading: boolean;
 } {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: createExport, isLoading: isCreating } = useCreateExport();
@@ -36,14 +35,14 @@ export function useSubmitExport({
     const handlers = {
       onError: (error: AxiosError<ServerErrorResponse>): void => {
         const data = error.response?.data;
-        toast({
+        toaster.create({
           title: exportId
             ? 'No se pudo guardar la exportación'
             : 'No se pudo crear la exportación',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         if (data?.statusCode === 401) {
           router.push('/api/auth/signout');
@@ -53,16 +52,16 @@ export function useSubmitExport({
         }
       },
       onSuccess: (): void => {
-        toast({
+        toaster.create({
           title: exportId
             ? 'Exportación actualizada'
             : 'Exportación Creada con éxito',
           description: exportId
             ? 'Los cambios se guardaron correctamente.'
             : 'La exportación se ha registrado correctamente.',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         queryClient.invalidateQueries('exports');
         queryClient.invalidateQueries('exportsPending');

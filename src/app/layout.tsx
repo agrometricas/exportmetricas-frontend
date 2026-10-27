@@ -4,7 +4,7 @@ import GlobalErrorReporter from '../components/GlobalErrorReporter';
 import Providers from '../components/Providers';
 import type { Metadata } from 'next';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'Exportmétricas',
@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.JSX.Element {
   return (
-    <html lang='es'>
-      <body className={inter.className}>
+    <html lang='es' className={inter.variable} suppressHydrationWarning>
+      <body>
         <GlobalErrorReporter />
         <Providers>{children}</Providers>
       </body>

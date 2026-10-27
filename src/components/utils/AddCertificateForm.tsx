@@ -1,17 +1,11 @@
-import {
-  Button,
-  Divider,
-  Flex,
-  FormLabel,
-  Heading,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator, Field } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateCertificate } from '@/hooks/utils/createCertificate';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { useExporter } from '../../hooks/useUserProfile';
@@ -77,7 +71,6 @@ const validationSchema = Yup.object({
 const AddCertificateForm = ({
   onClose,
 }: AddCertificateFormProps): React.JSX.Element => {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { user } = useExporter();
@@ -96,11 +89,11 @@ const AddCertificateForm = ({
       await createCertificate(values);
       queryClient.invalidateQueries(['certificates']);
 
-      toast({
+      toaster.create({
         title: 'Certificado Creado con Éxito',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       if (onboardingStatus === 'done') {
@@ -113,12 +106,12 @@ const AddCertificateForm = ({
       const axiosError = error as AxiosError<ServerErrorResponse>;
       const data = axiosError?.response?.data;
 
-      toast({
+      toaster.create({
         title: 'No se pudo guardar',
         description: serverErrorMessage(error),
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       if (data?.statusCode === 401) {
@@ -139,7 +132,7 @@ const AddCertificateForm = ({
             <Heading fontSize='2xl' p='12px'>
               Agregar Certificado
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText
               name='certificateCode'
@@ -155,17 +148,17 @@ const AddCertificateForm = ({
               name='expirationDate'
               label='Fecha de Expiración'
             />
-            <FormLabel fontSize='sm' mb={0}>
+            <Field.Label fontSize='sm' mb={0}>
               Logo
-            </FormLabel>
+            </Field.Label>
             <UploadLogoFile name='logo' />
             <Button
               mt='32px'
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               Agregar
             </Button>

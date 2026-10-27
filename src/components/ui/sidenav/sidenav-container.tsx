@@ -1,7 +1,7 @@
 'use client';
-
-import { Box, Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { ReactNode, ReactElement } from 'react';
+import { useColorModeValue } from "../color-mode";
 
 export interface SidenavContainerProps {
   children: ReactNode;

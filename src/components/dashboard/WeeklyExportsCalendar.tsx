@@ -5,7 +5,7 @@ import {
   Button,
   Flex,
   IconButton,
-  Select,
+  NativeSelect,
   SimpleGrid,
   Text,
   CloseButton,
@@ -106,33 +106,32 @@ export default function WeeklyExportsCalendar({
           >
             Hoy
           </Button>
-          <IconButton
-            aria-label='Semana anterior'
-            icon={<IoIosArrowBack />}
-            onClick={handlePrevWeek}
-          />
-          <IconButton
-            aria-label='Semana siguiente'
-            icon={<IoIosArrowForward />}
-            onClick={handleNextWeek}
-          />
+          <IconButton aria-label='Semana anterior' onClick={handlePrevWeek}>
+            <IoIosArrowBack />
+          </IconButton>
+          <IconButton aria-label='Semana siguiente' onClick={handleNextWeek}>
+            <IoIosArrowForward />
+          </IconButton>
         </Flex>
       </Flex>
 
       <Flex gap={2} mb={4} wrap='wrap' width='100%'>
         <Flex flex='1' align='center'>
-          <Select
-            placeholder='Filtrar por Productor'
-            width='100%'
-            onChange={(e) => setSelectedProducer(e.target.value)}
-            value={selectedProducer}
-          >
-            {producerOptions.map((producer) => (
-              <option key={producer} value={producer}>
-                {producer}
-              </option>
-            ))}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Filtrar por Productor'
+              width='100%'
+              onChange={(e) => setSelectedProducer(e.target.value)}
+              value={selectedProducer}
+            >
+              {producerOptions.map((producer) => (
+                <option key={producer} value={producer}>
+                  {producer}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
           {selectedProducer ? (
             <CloseButton
               onClick={() => setSelectedProducer('')}
@@ -144,18 +143,21 @@ export default function WeeklyExportsCalendar({
           )}
         </Flex>
         <Flex flex='1' align='center'>
-          <Select
-            placeholder='Filtrar por Marca de Caja'
-            width='100%'
-            onChange={(e) => setSelectedBoxBrand(e.target.value)}
-            value={selectedBoxBrand}
-          >
-            {brandOptions.map((brand) => (
-              <option key={brand} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Filtrar por Marca de Caja'
+              width='100%'
+              onChange={(e) => setSelectedBoxBrand(e.target.value)}
+              value={selectedBoxBrand}
+            >
+              {brandOptions.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
           {selectedBoxBrand ? (
             <CloseButton
               onClick={() => setSelectedBoxBrand('')}
@@ -167,18 +169,21 @@ export default function WeeklyExportsCalendar({
           )}
         </Flex>
         <Flex flex='1' align='center'>
-          <Select
-            placeholder='Filtrar por Cliente'
-            width='100%'
-            onChange={(e) => setSelectedClient(e.target.value)}
-            value={selectedClient}
-          >
-            {clientOptions.map((client) => (
-              <option key={client} value={client}>
-                {client}
-              </option>
-            ))}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Filtrar por Cliente'
+              width='100%'
+              onChange={(e) => setSelectedClient(e.target.value)}
+              value={selectedClient}
+            >
+              {clientOptions.map((client) => (
+                <option key={client} value={client}>
+                  {client}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
           {selectedClient ? (
             <CloseButton
               onClick={() => setSelectedClient('')}
@@ -191,7 +196,7 @@ export default function WeeklyExportsCalendar({
         </Flex>
       </Flex>
 
-      <SimpleGrid columns={7} spacing={4} h='100%' gridAutoRows='1fr'>
+      <SimpleGrid columns={7} gap={4} h='100%' gridAutoRows='1fr'>
         {weekDaysOfWeek.map((dayLabel, dayIndex) => {
           const exportsForDay = boxesMatrix[dayIndex] || [];
           const dayTotal = exportsForDay.reduce(
@@ -213,7 +218,7 @@ export default function WeeklyExportsCalendar({
               flexDirection='column'
               minW={0}
             >
-              <Text fontSize='md' fontWeight='semibold' mb={2} noOfLines={1}>
+              <Text fontSize='md' fontWeight='semibold' mb={2} lineClamp={1}>
                 {dayLabel}
               </Text>
 

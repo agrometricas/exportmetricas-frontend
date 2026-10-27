@@ -63,7 +63,9 @@ const components = {
     props: DropdownIndicatorProps<WeekOption, false, GroupBase<WeekOption>>
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon as={FaAngleDown} boxSize='14px' />
+      <Icon boxSize='14px' asChild>
+        <FaAngleDown />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -97,7 +99,6 @@ export default function WeekSelect({
 
   return (
     <ChakraSelect
-      useBasicStyles
       isSearchable={false}
       options={weeksOptions}
       value={selectedOption}
@@ -110,7 +111,11 @@ export default function WeekSelect({
         typeof window !== 'undefined' ? document.body : undefined
       }
       styles={{
-        menuPortal: (base) => ({ ...base, zIndex: 100 }) as CSSObjectWithLabel,
+        menuPortal: (base) =>
+          ({
+            ...base,
+            zIndex: 100,
+          }) as CSSObjectWithLabel,
       }}
     />
   );

@@ -2,14 +2,11 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
   Heading,
   HStack,
   Icon,
   Text,
-  Divider,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -20,6 +17,7 @@ import LoadingState from '@/components/ui/states/LoadingState';
 import { usePurchaseOrder } from '@/hooks/purchase-order/getPurchaseOrder';
 import { PurchaseOrderResponse } from '@/types/purchaseOrder';
 import { getWeekInfo } from '@/utils/getWeekInfo';
+import { useColorModeValue } from '../../../../../../../components/ui/color-mode';
 
 function ExportFromLinePage(): React.JSX.Element {
   const { id, lineId } = useParams<{ id: string; lineId: string }>();
@@ -34,7 +32,7 @@ function ExportFromLinePage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -44,10 +42,12 @@ function ExportFromLinePage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdLocalShipping} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdLocalShipping />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -60,18 +60,18 @@ function ExportFromLinePage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading || !order ? (
               <LoadingState />
             ) : (
               <ExportFromLine order={order} lineId={Number(lineId)} />
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

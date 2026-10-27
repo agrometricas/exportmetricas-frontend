@@ -1,4 +1,4 @@
-import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Field } from '@chakra-ui/react';
 import { addDays, format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useField } from 'formik';
@@ -44,17 +44,17 @@ const DateGrid = ({
         gap={0}
       >
         <GridItem colSpan={4} rowSpan={2}>
-          <FormLabel fontSize='sm' m='0px'>
+          <Field.Label fontSize='sm' m='0px'>
             Dias de corte:
-          </FormLabel>
-          <FormLabel fontSize='sm' m='0px'>
+          </Field.Label>
+          <Field.Label fontSize='sm' m='0px'>
             Volumen de cajas:
-          </FormLabel>
+          </Field.Label>
         </GridItem>
         {daysOfWeek.map((date, index) => {
           return (
             <GridItem colSpan={3} rowSpan={2} key={index}>
-              <FormLabel
+              <Field.Label
                 fontSize='sm'
                 m='0px'
                 borderWidth={'0.5px'}
@@ -62,16 +62,16 @@ const DateGrid = ({
                 bg={'yellow.200'}
               >
                 {format(date, 'EEEE/dd', { locale: es })}
-              </FormLabel>
+              </Field.Label>
               <InputFieldQuantity name={`${nameBoxes}[${index}]`} size={'xs'} />
             </GridItem>
           );
         })}
         <GridItem colSpan={2} rowSpan={2}>
-          <FormLabel fontSize='sm' m='0px' textAlign={'right'}>
+          <Field.Label fontSize='sm' m='0px' textAlign={'right'}>
             Total
-          </FormLabel>
-          <FormLabel
+          </Field.Label>
+          <Field.Label
             fontSize='sm'
             m='0px'
             h={'23px'}
@@ -79,7 +79,7 @@ const DateGrid = ({
             alignItems={'center'}
           >
             {boxQuantity}
-          </FormLabel>
+          </Field.Label>
         </GridItem>
       </Grid>
     </>

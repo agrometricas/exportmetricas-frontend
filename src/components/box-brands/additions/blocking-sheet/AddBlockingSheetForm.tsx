@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateBlockingSheet } from '../../../../hooks/box-brand/additions/blocking-sheet/createBlockingSheet';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -62,7 +63,6 @@ const AddBlockingSheetForm = ({
   onClose,
 }: AddBlockingSheetFormProps): React.JSX.Element => {
   const { createBlockingSheet, isLoading } = useCreateBlockingSheet();
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -78,12 +78,12 @@ const AddBlockingSheetForm = ({
         onError: (error: any) => {
           const statusCode = error.response?.status;
 
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           if (statusCode === 401) {
@@ -91,11 +91,11 @@ const AddBlockingSheetForm = ({
           }
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Lamina de Bloqueo Creada con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('blockingSheets');
@@ -121,7 +121,7 @@ const AddBlockingSheetForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Lamina de Bloqueo
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'dimensions'} label={'Dimensiones'} />
@@ -131,8 +131,8 @@ const AddBlockingSheetForm = ({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

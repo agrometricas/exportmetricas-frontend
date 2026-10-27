@@ -2,20 +2,18 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
   Heading,
   HStack,
   Icon,
   Text,
-  Divider,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { MdAgriculture } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import EditBusinessForm from '../../../../../components/business/edit/EditBusinessForm';
+import { useColorModeValue } from '../../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useBusiness } from '../../../../../hooks/business/getBusiness';
 import { BusinessDetail } from '../../../../../types/merchant/businessDetail';
@@ -33,7 +31,7 @@ function EditBusinessPage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -43,10 +41,12 @@ function EditBusinessPage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdAgriculture} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdAgriculture />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -58,18 +58,18 @@ function EditBusinessPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading || !business ? (
               <LoadingState />
             ) : (
               <EditBusinessForm business={business} />
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

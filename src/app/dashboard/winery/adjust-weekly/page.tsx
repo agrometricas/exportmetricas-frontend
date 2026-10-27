@@ -1,19 +1,8 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  HStack,
-  Heading,
-  Icon,
-  Text,
-  Badge,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, HStack, Heading, Icon, Text, Badge } from '@chakra-ui/react';
 import React from 'react';
 import { MdTune } from 'react-icons/md';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import AdjustWeeklySelector from '../../../../components/winery/AdjustWeeklySelector';
 
@@ -28,7 +17,7 @@ function AdjustWeeklyPage(): React.JSX.Element {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -36,17 +25,17 @@ function AdjustWeeklyPage(): React.JSX.Element {
           overflow="hidden"
           border="1px solid"
         >
-          <CardHeader bg={headBg}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={headBg}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdTune} boxSize={5} />
+                <Icon boxSize={5} asChild><MdTune /></Icon>
               </Box>
               <Box>
-                <HStack spacing={3} align="center">
+                <HStack gap={3} align="center">
                   <Heading size="lg" color={headingColor} fontWeight="bold">
                     Ajuste Semanal
                   </Heading>
-                  <Badge colorScheme="green" variant="subtle" borderRadius="full" px={3} py={1}>
+                  <Badge colorPalette="green" variant="subtle" borderRadius="full" px={3} py={1}>
                     Herramienta
                   </Badge>
                 </HStack>
@@ -55,12 +44,12 @@ function AdjustWeeklyPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <CardBody>
+          <Card.Body>
             <AdjustWeeklySelector />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

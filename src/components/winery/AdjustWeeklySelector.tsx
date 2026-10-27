@@ -1,6 +1,12 @@
 'use client';
 
-import { Select, Spinner, VStack, Center, SimpleGrid } from '@chakra-ui/react';
+import {
+  NativeSelect,
+  Spinner,
+  VStack,
+  Center,
+  SimpleGrid,
+} from '@chakra-ui/react';
 import {
   eachWeekOfInterval,
   startOfMonth,
@@ -47,48 +53,59 @@ const AdjustWeeklySelector = (): JSX.Element => {
   }
 
   return (
-    <VStack align='stretch' spacing={4}>
+    <VStack align='stretch' gap={4}>
       {loadingFarms ? (
         <Center py={10}>
           <Spinner />
         </Center>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing='4' mb={4}>
-          <Select
-            placeholder='Selecciona una Finca'
-            onChange={(e) => setBusinessId(Number(e.target.value))}
-          >
-            {farms?.map((farm) => (
-              <option key={farm.id} value={farm.id}>
-                {farm.name}
-              </option>
-            ))}
-          </Select>
-
-          <Select placeholder='Selecciona un Mes' onChange={handleMonthChange}>
-            {Array.from({ length: 12 }, (_, i) => {
-              const monthName = new Date(0, i)
-                .toLocaleString('es', { month: 'long' })
-                .replace(/^\w/, (c) => c.toUpperCase());
-              return (
-                <option key={i} value={i}>
-                  {monthName}
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap='4' mb={4}>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Selecciona una Finca'
+              onChange={(e) => setBusinessId(Number(e.target.value))}
+            >
+              {farms?.map((farm) => (
+                <option key={farm.id} value={farm.id}>
+                  {farm.name}
                 </option>
-              );
-            })}
-          </Select>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
 
-          <Select
-            placeholder='Selecciona una Semana'
-            onChange={(e) => setWeek(Number(e.target.value))}
-            isDisabled={month === null}
-          >
-            {weeksInMonth.map((weekNumber) => (
-              <option key={weekNumber} value={weekNumber}>
-                Semana {weekNumber}
-              </option>
-            ))}
-          </Select>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              placeholder='Selecciona un Mes'
+              onChange={handleMonthChange}
+            >
+              {Array.from({ length: 12 }, (_, i) => {
+                const monthName = new Date(0, i)
+                  .toLocaleString('es', { month: 'long' })
+                  .replace(/^\w/, (c) => c.toUpperCase());
+                return (
+                  <option key={i} value={i}>
+                    {monthName}
+                  </option>
+                );
+              })}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
+
+          <NativeSelect.Root disabled={month === null}>
+            <NativeSelect.Field
+              placeholder='Selecciona una Semana'
+              onChange={(e) => setWeek(Number(e.target.value))}
+            >
+              {weeksInMonth.map((weekNumber) => (
+                <option key={weekNumber} value={weekNumber}>
+                  Semana {weekNumber}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
         </SimpleGrid>
       )}
       {businessId && month !== null && week !== null && (

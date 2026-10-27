@@ -5,13 +5,13 @@ import {
   HStack,
   Progress,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
 import { useBookingDocumentStatus } from '../../hooks/booking/documentStatus';
 import { BookingDocumentStatus } from '../../types/shipmentStatus';
 import { CHECKLIST_STATUS, SEMAPHORE_COLOR } from '../../utils/shipmentStatus';
+import { useColorModeValue } from '../ui/color-mode';
 
 export default function BookingDocumentChecklist({
   bookingId,
@@ -27,9 +27,9 @@ export default function BookingDocumentChecklist({
   return (
     <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
-        <HStack spacing={3}>
+        <HStack gap={3}>
           <Badge
-            colorScheme={SEMAPHORE_COLOR[status.semaphore]}
+            colorPalette={SEMAPHORE_COLOR[status.semaphore]}
             fontSize='sm'
             px={2}
           >
@@ -40,19 +40,23 @@ export default function BookingDocumentChecklist({
           </Text>
         </HStack>
         <Box flex='1' minW='160px' maxW='320px'>
-          <Progress
+          <Progress.Root
             value={status.progress}
-            colorScheme={SEMAPHORE_COLOR[status.semaphore]}
+            colorPalette={SEMAPHORE_COLOR[status.semaphore]}
             size='sm'
             borderRadius='md'
-          />
+          >
+            <Progress.Track>
+              <Progress.Range />
+            </Progress.Track>
+          </Progress.Root>
         </Box>
       </Flex>
       <Text fontSize='xs' color='gray.500' mt={2}>
         Se bloquea con algo rechazado, o con algo pendiente a 24 horas del
         zarpe. No impide guardar nada.
       </Text>
-      <VStack align='stretch' spacing={2} mt={3}>
+      <VStack align='stretch' gap={2} mt={3}>
         {status.items.map((item) => (
           <Flex
             key={`${item.document}-${item.scope}`}
@@ -60,7 +64,7 @@ export default function BookingDocumentChecklist({
             align='flex-start'
           >
             <Badge
-              colorScheme={CHECKLIST_STATUS[item.status].colorScheme}
+              colorPalette={CHECKLIST_STATUS[item.status].colorScheme}
               minW='80px'
               textAlign='center'
             >

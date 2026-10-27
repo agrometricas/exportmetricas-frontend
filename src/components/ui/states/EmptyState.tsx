@@ -1,16 +1,9 @@
 'use client';
-
-import {
-  Center,
-  Heading,
-  Icon,
-  Text,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Center, Heading, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { IconType } from 'react-icons';
 import { MdInbox } from 'react-icons/md';
+import { useColorModeValue } from '../color-mode';
 
 interface EmptyStateProps {
   title: string;
@@ -32,7 +25,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   const textColor = useColorModeValue('gray.600', 'gray.300');
   return (
     <Center minH={minH} py={6}>
-      <VStack spacing={2} maxW='md' textAlign='center'>
+      <VStack gap={2} maxW='md' textAlign='center'>
         <Icon as={icon} boxSize={10} color={iconColor} />
         <Heading size='sm' color={titleColor}>
           {title}

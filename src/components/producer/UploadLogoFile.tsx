@@ -1,13 +1,11 @@
 import {
   Box,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Input,
   Image,
   Spinner,
   Text,
   Flex,
+  Field,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
@@ -95,23 +93,19 @@ const UploadLogoFile: React.FC<UploadLogoFileProps> = ({ name }) => {
   };
 
   return (
-    <FormControl
-      id={name}
-      isInvalid={!!meta.error && meta.touched}
-      width={'100%'}
-    >
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} width={'100%'}>
       <Box
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         border='2px dashed'
-        borderColor={dragging ? 'teal.500' : 'gray.300'}
+        borderColor={dragging ? 'green.500' : 'gray.300'}
         borderRadius='md'
         p={0}
         m={0}
         textAlign='center'
-        bg={dragging ? 'teal.50' : 'white'}
+        bg={dragging ? 'green.50' : 'white'}
       >
         <Input
           ref={fileInputRef}
@@ -121,7 +115,7 @@ const UploadLogoFile: React.FC<UploadLogoFileProps> = ({ name }) => {
           display={'none'}
           onChange={handleChange}
         />
-        <FormLabel m={0} id={field.name}>
+        <Field.Label m={0} id={field.name}>
           {loading ? (
             <Spinner />
           ) : imageUrl ? (
@@ -152,19 +146,19 @@ const UploadLogoFile: React.FC<UploadLogoFileProps> = ({ name }) => {
               mx={'auto'}
             />
           )}
-          <Text p={4} color={dragging ? 'teal.500' : 'gray.300'}>
+          <Text p={4} color={dragging ? 'green.500' : 'gray.300'}>
             {dragging
               ? 'Suelta aquí...'
               : 'Arrastra y suelta un archivo aquí, o haz clic para seleccionar uno'}
           </Text>
-        </FormLabel>
+        </Field.Label>
       </Box>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

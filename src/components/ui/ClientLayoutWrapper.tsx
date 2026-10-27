@@ -1,6 +1,7 @@
 'use client';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useColorModeValue } from './color-mode';
 import { AppBar } from './header/AppBar';
 import SidenavProvider from './sidenav/sidenav-context';
 import SidenavBar from './SidenavBar';

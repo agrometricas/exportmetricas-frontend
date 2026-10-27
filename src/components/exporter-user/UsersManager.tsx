@@ -1,25 +1,14 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Badge,
   Box,
   Button,
   Flex,
-  Select,
+  NativeSelect,
   SimpleGrid,
   Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-  useToast,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
@@ -31,6 +20,7 @@ import * as Yup from 'yup';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
 import { useExporterUsers } from '../../hooks/exporter-user/getExporterUsers';
 import {
   useChangeRole,
@@ -41,6 +31,7 @@ import {
 import { ExporterUser, UserRole } from '../../types/exporterUser';
 import { ROLE_OPTIONS, roleLabel } from '../../utils/roles';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldSelector from '../ui/form/InputFieldSelector';
 import { getNavItems, NavCounts } from '../ui/sidenav/SideNavItems';
@@ -72,7 +63,6 @@ const validationSchema = Yup.object({
 });
 
 export default function UsersManager(): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
@@ -98,31 +88,31 @@ export default function UsersManager(): React.JSX.Element {
       router.push('/api/auth/signout');
       return;
     }
-    toast({
+    toaster.create({
       title,
       description: serverErrorMessage(failure),
-      status: 'error',
+      type: 'error',
       duration: 6000,
-      isClosable: true,
+      closable: true,
     });
   };
 
   const invitationToast = (email: string, sent: boolean): void => {
-    toast(
+    toaster.create(
       sent
         ? {
             title: 'Invitación enviada',
             description: `${email} recibirá un enlace para crear su contraseña.`,
-            status: 'success',
+            type: 'success',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           }
         : {
             title: 'El correo de invitación no salió',
             description: 'Reenvía la invitación desde la lista.',
-            status: 'warning',
+            type: 'warning',
             duration: 8000,
-            isClosable: true,
+            closable: true,
           }
     );
   };
@@ -167,7 +157,7 @@ export default function UsersManager(): React.JSX.Element {
               <Text fontWeight='semibold' mb={3}>
                 Invitar a un usuario
               </Text>
-              <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
                 <InputFieldPlain name='name' label='Nombre' />
                 <InputFieldPlain name='email' label='Correo' />
                 <InputFieldSelector
@@ -184,9 +174,9 @@ export default function UsersManager(): React.JSX.Element {
               </Text>
               <Button
                 type='submit'
-                colorScheme='teal'
+                colorPalette='green'
                 mt={4}
-                isLoading={isInviting}
+                loading={isInviting}
               >
                 Enviar invitación
               </Button>
@@ -210,24 +200,24 @@ export default function UsersManager(): React.JSX.Element {
           borderColor={borderColor}
           borderRadius='lg'
         >
-          <Table size='sm'>
-            <Thead>
-              <Tr>
-                <Th>Usuario</Th>
-                <Th>Rol y áreas</Th>
-                {isMaster && <Th />}
-              </Tr>
-            </Thead>
-            <Tbody>
+          <Table.Root size='sm'>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader>Usuario</Table.ColumnHeader>
+                <Table.ColumnHeader>Rol y áreas</Table.ColumnHeader>
+                {isMaster && <Table.ColumnHeader />}
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {users.map((user) => {
                 const isMe = user.id === myId;
                 return (
-                  <Tr key={user.id}>
-                    <Td>
+                  <Table.Row key={user.id}>
+                    <Table.Cell>
                       <Text fontWeight='semibold'>
                         {user.name}
                         {isMe && (
-                          <Badge ml={2} colorScheme='green'>
+                          <Badge ml={2} colorPalette='green'>
                             Tú
                           </Badge>
                         )}
@@ -235,61 +225,63 @@ export default function UsersManager(): React.JSX.Element {
                       <Text fontSize='sm' color={mutedColor}>
                         {user.email}
                       </Text>
-                    </Td>
-                    <Td minW='190px'>
+                    </Table.Cell>
+                    <Table.Cell minW='190px'>
                       {isMaster && !isMe ? (
-                        <Select
-                          size='sm'
-                          aria-label={`Rol de ${user.name}`}
-                          value={user.role}
-                          onChange={(event) =>
-                            changeRole(
-                              {
-                                exporterId,
-                                userId: user.id,
-                                role: event.target.value as UserRole,
-                              },
-                              {
-                                onError: (failure) =>
-                                  showError(
-                                    'No se pudo cambiar el rol',
-                                    failure
-                                  ),
-                                onSuccess: ({ data: saved }) => {
-                                  toast({
-                                    title: `${saved.name} ahora es ${roleLabel(saved.role)}`,
-                                    status: 'success',
-                                    duration: 4000,
-                                    isClosable: true,
-                                  });
-                                  refresh();
+                        <NativeSelect.Root size='sm'>
+                          <NativeSelect.Field
+                            aria-label={`Rol de ${user.name}`}
+                            value={user.role}
+                            onChange={(event) =>
+                              changeRole(
+                                {
+                                  exporterId,
+                                  userId: user.id,
+                                  role: event.target.value as UserRole,
                                 },
-                              }
-                            )
-                          }
-                        >
-                          {ROLE_OPTIONS.map(({ id, name }) => (
-                            <option key={id} value={id}>
-                              {name}
-                            </option>
-                          ))}
-                        </Select>
+                                {
+                                  onError: (failure) =>
+                                    showError(
+                                      'No se pudo cambiar el rol',
+                                      failure
+                                    ),
+                                  onSuccess: ({ data: saved }) => {
+                                    toaster.create({
+                                      title: `${saved.name} ahora es ${roleLabel(saved.role)}`,
+                                      type: 'success',
+                                      duration: 4000,
+                                      closable: true,
+                                    });
+                                    refresh();
+                                  },
+                                }
+                              )
+                            }
+                          >
+                            {ROLE_OPTIONS.map(({ id, name }) => (
+                              <option key={id} value={id}>
+                                {name}
+                              </option>
+                            ))}
+                          </NativeSelect.Field>
+                          <NativeSelect.Indicator />
+                        </NativeSelect.Root>
                       ) : (
                         <Text>{roleLabel(user.role)}</Text>
                       )}
                       <Text fontSize='xs' color={mutedColor} mt={1}>
                         {areasOf(user.role)}
                       </Text>
-                    </Td>
+                    </Table.Cell>
                     {isMaster && (
-                      <Td>
+                      <Table.Cell>
                         {!isMe && (
                           <Flex gap={2} wrap='wrap' justify='flex-end'>
                             <Button
                               size='sm'
                               variant='outline'
-                              colorScheme='green'
-                              isDisabled={isResending}
+                              colorPalette='green'
+                              disabled={isResending}
                               onClick={() =>
                                 resend(
                                   { exporterId, userId: user.id },
@@ -313,71 +305,84 @@ export default function UsersManager(): React.JSX.Element {
                             <Button
                               size='sm'
                               variant='ghost'
-                              colorScheme='red'
+                              colorPalette='red'
                               onClick={() => setToRemove(user)}
                             >
                               Eliminar
                             </Button>
                           </Flex>
                         )}
-                      </Td>
+                      </Table.Cell>
                     )}
-                  </Tr>
+                  </Table.Row>
                 );
               })}
-            </Tbody>
-          </Table>
+            </Table.Body>
+          </Table.Root>
         </Box>
       )}
 
-      <AlertDialog
-        isOpen={!!toRemove}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setToRemove(null)}
+      <Dialog.Root
+        open={!!toRemove}
+        initialFocusEl={() => cancelRef.current}
+        role='alertdialog'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            setToRemove(null);
+          }
+        }}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Eliminar usuario
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              {toRemove?.name} ya no podrá entrar. Lo que registró se conserva.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setToRemove(null)}>
-                Volver
-              </Button>
-              <Button
-                colorScheme='red'
-                ml={3}
-                isLoading={isRemoving}
-                onClick={() => {
-                  if (!toRemove) return;
-                  remove(
-                    { exporterId, userId: toRemove.id },
-                    {
-                      onError: (failure) =>
-                        showError('No se pudo eliminar el usuario', failure),
-                      onSuccess: () => {
-                        toast({
-                          title: 'Usuario eliminado',
-                          status: 'success',
-                          duration: 4000,
-                          isClosable: true,
-                        });
-                        refresh();
-                      },
-                    }
-                  );
-                  setToRemove(null);
-                }}
-              >
-                Eliminar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        <Portal>
+          <Dialog.Backdrop>
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.Header fontSize='lg' fontWeight='bold'>
+                  Eliminar usuario
+                </Dialog.Header>
+                <Dialog.Body>
+                  {toRemove?.name} ya no podrá entrar. Lo que registró se
+                  conserva.
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Button ref={cancelRef} onClick={() => setToRemove(null)}>
+                    Volver
+                  </Button>
+                  <Button
+                    colorPalette='red'
+                    ml={3}
+                    loading={isRemoving}
+                    onClick={() => {
+                      if (!toRemove) return;
+                      remove(
+                        { exporterId, userId: toRemove.id },
+                        {
+                          onError: (failure) =>
+                            showError(
+                              'No se pudo eliminar el usuario',
+                              failure
+                            ),
+                          onSuccess: () => {
+                            toaster.create({
+                              title: 'Usuario eliminado',
+                              type: 'success',
+                              duration: 4000,
+                              closable: true,
+                            });
+                            refresh();
+                          },
+                        }
+                      );
+                      setToRemove(null);
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Backdrop>
+        </Portal>
+      </Dialog.Root>
     </Flex>
   );
 }

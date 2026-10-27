@@ -1,20 +1,9 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { MdRequestQuote } from 'react-icons/md';
 import PendingPaymentList from '../../../../components/client-payment/ClientPendingPaymentList';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function ClientPaymentsPage(): React.JSX.Element {
@@ -27,7 +16,7 @@ function ClientPaymentsPage(): React.JSX.Element {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           border="1px solid"
           borderColor={borderColor}
@@ -37,10 +26,10 @@ function ClientPaymentsPage(): React.JSX.Element {
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdRequestQuote} boxSize={5} />
+                <Icon boxSize={5} asChild><MdRequestQuote /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -51,14 +40,14 @@ function ClientPaymentsPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <PendingPaymentList />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

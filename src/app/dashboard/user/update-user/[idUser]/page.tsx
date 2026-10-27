@@ -1,20 +1,10 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  HStack,
-  Heading,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, HStack, Heading, Icon, Text } from '@chakra-ui/react';
 import React from 'react';
 import { MdLocationOn } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import UpdateExporterForm from '../../../../../components/settings/UpdateExporterForm';
+import { useColorModeValue } from "../../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useExporter, UserProfile } from '../../../../../hooks/useUserProfile';
 
@@ -38,7 +28,7 @@ const UpdateExporterPage = (): JSX.Element => {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="7xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -46,10 +36,10 @@ const UpdateExporterPage = (): JSX.Element => {
           overflow="hidden"
           border="1px solid"
         >
-          <CardHeader bg={headBg}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={headBg}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdLocationOn} boxSize={5} />
+                <Icon boxSize={5} asChild><MdLocationOn /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -60,16 +50,16 @@ const UpdateExporterPage = (): JSX.Element => {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <CardBody>
+          <Card.Body>
             {exporter?.exporterDetails ? (
               <UpdateExporterForm exporterDetails={exporter.exporterDetails} />
             ) : (
               <Text color={textColor}>No se encontraron detalles de la exportadora.</Text>
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

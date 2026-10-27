@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,13 +11,13 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdContentCut } from 'react-icons/md';
 import TableCuttingTypes from '../../../../components/export/cutting-type/table-cutting-type/TableCuttingTypes';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import SectionTabs from '../../../../components/ui/SectionTabs';
 import { QUALITY_CATALOG_TABS } from '../../../../components/ui/sidenav/navMenus';
@@ -53,7 +51,7 @@ function CuttingTypesPage(): React.JSX.Element {
   const textColor = useColorModeValue('gray.700', 'gray.200');
   const headingColor = useColorModeValue('gray.900', 'gray.100');
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -71,9 +69,9 @@ function CuttingTypesPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdContentCut} boxSize={5} />
+              <Icon boxSize={5} asChild><MdContentCut /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -88,32 +86,27 @@ function CuttingTypesPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/box-brands/add-cutting-type"
+
                 aria-label="Agregar Tipo de Corte"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/box-brands/add-cutting-type"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/box-brands/add-cutting-type"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 fontWeight="semibold"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              >
-                Agregar Tipo de Corte
-              </Button>
+                asChild><Link_Next href="/dashboard/box-brands/add-cutting-type"><FiPlus />Agregar Tipo de Corte
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
@@ -121,7 +114,7 @@ function CuttingTypesPage(): React.JSX.Element {
 
       {/* Tabla */}
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -129,7 +122,7 @@ function CuttingTypesPage(): React.JSX.Element {
           overflow="hidden"
           border="1px solid"
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={useColorModeValue('gray.50', 'gray.750')}
@@ -137,12 +130,12 @@ function CuttingTypesPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Tipos de Corte
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -157,8 +150,8 @@ function CuttingTypesPage(): React.JSX.Element {
             <Box>
               <TableCuttingTypes windowSize={windowSize} width={tableWidth} />
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

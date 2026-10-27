@@ -1,19 +1,15 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
-  Divider,
   Flex,
-  FormLabel,
   Heading,
   Input,
   SimpleGrid,
   useDisclosure,
+  Dialog,
+  Portal,
+  Separator,
+  Field,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef } from 'react';
@@ -59,19 +55,19 @@ export default function ProducerContractForm({
             <Heading fontSize={'2xl'} p={'12px'}>
               Finca
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
             {contract ? (
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <Box>
-                  <FormLabel fontSize='sm'>Productor</FormLabel>
+                  <Field.Label fontSize='sm'>Productor</Field.Label>
                   <Input
-                    isReadOnly
+                    readOnly
                     value={contract.business.merchant?.businessName ?? ''}
                   />
                 </Box>
                 <Box>
-                  <FormLabel fontSize='sm'>Finca</FormLabel>
-                  <Input isReadOnly value={contract.business.name} />
+                  <Field.Label fontSize='sm'>Finca</Field.Label>
+                  <Input readOnly value={contract.business.name} />
                 </Box>
               </SimpleGrid>
             ) : (
@@ -87,8 +83,8 @@ export default function ProducerContractForm({
             <Heading fontSize={'2xl'} p={'16px'}>
               Cupo Aprobado
             </Heading>
-            <Divider mb={'16px'} />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb={'16px'} />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='approvedHectares'
                 label='Hectáreas Aprobadas'
@@ -111,8 +107,8 @@ export default function ProducerContractForm({
             <Heading fontSize={'2xl'} p={'16px'}>
               Vigencia
             </Heading>
-            <Divider mb={'16px'} />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb={'16px'} />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
               <InputFieldDayDate
                 name='endDate'
@@ -125,17 +121,17 @@ export default function ProducerContractForm({
               <Button
                 flex={1}
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 {contract ? 'Guardar Cambios' : 'Crear Contrato'}
               </Button>
               {contract && (
                 <Button
                   variant='outline'
-                  colorScheme='red'
+                  colorPalette='red'
                   onClick={confirm.onOpen}
-                  isLoading={isDeleting}
+                  loading={isDeleting}
                 >
                   Eliminar Contrato
                 </Button>
@@ -143,39 +139,49 @@ export default function ProducerContractForm({
             </Flex>
           </Flex>
 
-          <AlertDialog
-            isOpen={confirm.isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={confirm.onClose}
+          <Dialog.Root
+            open={confirm.open}
+            initialFocusEl={() => cancelRef.current}
+            role='alertdialog'
+            onOpenChange={(e) => {
+              if (!e.open) {
+                confirm.onClose();
+              }
+            }}
           >
-            <AlertDialogOverlay>
-              <AlertDialogContent>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                  Eliminar contrato
-                </AlertDialogHeader>
-                <AlertDialogBody>
-                  Se eliminará el contrato de {contract?.business.name}. Para
-                  terminarlo sin perder el historial, ponle una fecha de fin.
-                </AlertDialogBody>
-                <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={confirm.onClose}>
-                    Volver
-                  </Button>
-                  <Button
-                    colorScheme='red'
-                    ml={3}
-                    isLoading={isDeleting}
-                    onClick={() => {
-                      confirm.onClose();
-                      onDelete();
-                    }}
-                  >
-                    Eliminar
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
+            <Portal>
+              <Dialog.Backdrop>
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.Header fontSize='lg' fontWeight='bold'>
+                      Eliminar contrato
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      Se eliminará el contrato de {contract?.business.name}.
+                      Para terminarlo sin perder el historial, ponle una fecha
+                      de fin.
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                      <Button ref={cancelRef} onClick={confirm.onClose}>
+                        Volver
+                      </Button>
+                      <Button
+                        colorPalette='red'
+                        ml={3}
+                        loading={isDeleting}
+                        onClick={() => {
+                          confirm.onClose();
+                          onDelete();
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Backdrop>
+            </Portal>
+          </Dialog.Root>
         </Form>
       )}
     </Formik>

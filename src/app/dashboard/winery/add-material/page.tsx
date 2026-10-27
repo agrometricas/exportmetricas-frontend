@@ -1,21 +1,9 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  HStack,
-  Heading,
-  Icon,
-  Text,
-  useColorModeValue,
-  Flex,
-} from '@chakra-ui/react';
+import { Box, Card, HStack, Heading, Icon, Text, Flex, Separator } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import React from 'react';
 import { MdInventory2 } from 'react-icons/md';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 import ImportExporterStockDrawer from '../../../../components/winery/ImportExporterStockDrawer';
 import { MaterialList } from '../../../../components/winery/MaterialList';
@@ -36,7 +24,7 @@ function AddMaterialPage(): React.JSX.Element {
       {() => (
         <Box minH="100vh" w="100%" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
           <Box maxW="8xl" mx="auto">
-            <Card
+            <Card.Root
               bg={cardBg}
               borderColor={borderColor}
               borderRadius="xl"
@@ -46,16 +34,16 @@ function AddMaterialPage(): React.JSX.Element {
               borderTopWidth="4px"
               borderTopColor="green.500"
             >
-              <CardHeader bg={headBg} pb={4}>
+              <Card.Header bg={headBg} pb={4}>
                 <Flex
                   align="center"
                   justify="space-between"
                   wrap="wrap"
                   gap={3}
                 >
-                  <HStack spacing={3} align="center">
+                  <HStack gap={3} align="center">
                     <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                      <Icon as={MdInventory2} boxSize={5} />
+                      <Icon boxSize={5} asChild><MdInventory2 /></Icon>
                     </Box>
                     <Box>
                       <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -69,14 +57,14 @@ function AddMaterialPage(): React.JSX.Element {
 
                   <ImportExporterStockDrawer />
                 </Flex>
-              </CardHeader>
+              </Card.Header>
 
-              <Divider />
+              <Separator />
 
-              <CardBody>
+              <Card.Body>
                 <MaterialList />
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Box>
         </Box>
       )}

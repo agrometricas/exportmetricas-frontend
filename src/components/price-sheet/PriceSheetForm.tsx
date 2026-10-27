@@ -1,7 +1,5 @@
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Badge,
   Box,
   Button,
@@ -9,18 +7,8 @@ import {
   Link,
   SimpleGrid,
   Stat,
-  StatLabel,
-  StatNumber,
   Table,
-  Tbody,
-  Td,
   Text,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-  useToast,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikErrors, useFormikContext } from 'formik';
@@ -29,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { toaster } from '@/components/ui/toaster';
 import {
   priceKey,
   priceSheetBody,
@@ -46,6 +35,7 @@ import { getWeekInfo } from '../../utils/getWeekInfo';
 import { isMoney } from '../../utils/money';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import { isCompleteDay } from '../purchase-order/schemas/purchaseOrder.schema';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
@@ -76,50 +66,50 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
       borderColor={borderColor}
       borderRadius='lg'
     >
-      <Table size='sm'>
-        <Thead>
-          <Tr>
-            <Th>Productor</Th>
-            <Th>Finca</Th>
-            <Th>Alícuota</Th>
-            <Th>Tipo</Th>
-            <Th isNumeric>Cajas</Th>
-            <Th>Precio por caja</Th>
-            <Th isNumeric>Total</Th>
-            <Th>Exportación</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
+      <Table.Root size='sm'>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>Productor</Table.ColumnHeader>
+            <Table.ColumnHeader>Finca</Table.ColumnHeader>
+            <Table.ColumnHeader>Alícuota</Table.ColumnHeader>
+            <Table.ColumnHeader>Tipo</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>Cajas</Table.ColumnHeader>
+            <Table.ColumnHeader>Precio por caja</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>Total</Table.ColumnHeader>
+            <Table.ColumnHeader>Exportación</Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {sheet.lines.map((line) => (
-            <Tr key={line.lineId}>
-              <Td>{line.merchant.businessName}</Td>
-              <Td>{line.business.name}</Td>
-              <Td>{line.boxBrand.name}</Td>
-              <Td>
+            <Table.Row key={line.lineId}>
+              <Table.Cell>{line.merchant.businessName}</Table.Cell>
+              <Table.Cell>{line.business.name}</Table.Cell>
+              <Table.Cell>{line.boxBrand.name}</Table.Cell>
+              <Table.Cell>
                 <Badge
-                  colorScheme={line.type === 'CONTRACT' ? 'green' : 'purple'}
+                  colorPalette={line.type === 'CONTRACT' ? 'green' : 'purple'}
                   variant='subtle'
                 >
                   {line.type === 'CONTRACT' ? 'Contrato' : 'Spot'}
                 </Badge>
-              </Td>
-              <Td isNumeric>{line.boxQuantity}</Td>
-              <Td minW='150px'>
+              </Table.Cell>
+              <Table.Cell textAlign='end'>{line.boxQuantity}</Table.Cell>
+              <Table.Cell minW='150px'>
                 <InputFieldPlain
                   name={`prices.${priceKey(line.lineId)}`}
                   inputMode='decimal'
                   placeholder={line.proposedPrice}
                 />
                 {line.belowMinimum && (
-                  <Badge colorScheme='red' variant='subtle' mt={1}>
+                  <Badge colorPalette='red' variant='subtle' mt={1}>
                     Bajo el mínimo
                   </Badge>
                 )}
-              </Td>
-              <Td isNumeric fontWeight='semibold'>
+              </Table.Cell>
+              <Table.Cell fontWeight='semibold' textAlign='end'>
                 {usd(line.total)}
-              </Td>
-              <Td>
+              </Table.Cell>
+              <Table.Cell>
                 {line.export ? (
                   <Text fontSize='sm'>
                     {line.export.id}
@@ -135,20 +125,26 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
                     —
                   </Text>
                 )}
-              </Td>
-            </Tr>
+              </Table.Cell>
+            </Table.Row>
           ))}
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th colSpan={4}>Total de la semana</Th>
-            <Th isNumeric>{sheet.totals.boxes}</Th>
-            <Th />
-            <Th isNumeric>{usd(sheet.totals.amount)}</Th>
-            <Th />
-          </Tr>
-        </Tfoot>
-      </Table>
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.ColumnHeader colSpan={4}>
+              Total de la semana
+            </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>
+              {sheet.totals.boxes}
+            </Table.ColumnHeader>
+            <Table.ColumnHeader />
+            <Table.ColumnHeader textAlign='end'>
+              {usd(sheet.totals.amount)}
+            </Table.ColumnHeader>
+            <Table.ColumnHeader />
+          </Table.Row>
+        </Table.Footer>
+      </Table.Root>
     </Box>
   );
 }
@@ -172,7 +168,7 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
 
   return (
     <Flex direction='column' gap={5}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap={5}>
         <InputFieldDayDate
           name='weekDay'
           label='Semana'
@@ -196,12 +192,10 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
             <Text fontSize='xs' color={mutedColor}>
               Una línea sin precio usa el mínimo del contrato de su productor.{' '}
               {shown.minimum.isDefault && 'Es el de 2026: '}
-              <Link
-                as={Link_Next}
-                href='/dashboard/settings/minimum-box-price'
-                color='green.600'
-              >
-                cámbialo en Configuraciones
+              <Link color='green.600' asChild>
+                <Link_Next href='/dashboard/settings/minimum-box-price'>
+                  cámbialo en Configuraciones
+                </Link_Next>
               </Link>
               .
             </Text>
@@ -213,58 +207,56 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
       {shown && shown.lines.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>
           No hay órdenes de compra esa semana.{' '}
-          <Link
-            as={Link_Next}
-            href='/dashboard/export/add-purchase-order'
-            color='green.600'
-          >
-            Crear una orden
+          <Link color='green.600' asChild>
+            <Link_Next href='/dashboard/export/add-purchase-order'>
+              Crear una orden
+            </Link_Next>
           </Link>
         </Text>
       )}
       {shown && shown.lines.length > 0 && (
         <>
-          <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={4}>
-            <Stat
+          <SimpleGrid columns={{ base: 1, sm: 3 }} gap={4}>
+            <Stat.Root
               borderWidth='1px'
               borderColor={borderColor}
               borderRadius='lg'
               p={3}
             >
-              <StatLabel>Cajas de contrato</StatLabel>
-              <StatNumber>{shown.totals.contractBoxes}</StatNumber>
-            </Stat>
-            <Stat
+              <Stat.Label>Cajas de contrato</Stat.Label>
+              <Stat.ValueText>{shown.totals.contractBoxes}</Stat.ValueText>
+            </Stat.Root>
+            <Stat.Root
               borderWidth='1px'
               borderColor={borderColor}
               borderRadius='lg'
               p={3}
             >
-              <StatLabel>Cajas spot</StatLabel>
-              <StatNumber>{shown.totals.spotBoxes}</StatNumber>
-            </Stat>
-            <Stat
+              <Stat.Label>Cajas spot</Stat.Label>
+              <Stat.ValueText>{shown.totals.spotBoxes}</Stat.ValueText>
+            </Stat.Root>
+            <Stat.Root
               borderWidth='1px'
               borderColor={borderColor}
               borderRadius='lg'
               p={3}
             >
-              <StatLabel>Total de la semana</StatLabel>
-              <StatNumber>{usd(shown.totals.amount)}</StatNumber>
-            </Stat>
+              <Stat.Label>Total de la semana</Stat.Label>
+              <Stat.ValueText>{usd(shown.totals.amount)}</Stat.ValueText>
+            </Stat.Root>
           </SimpleGrid>
           <SheetTable sheet={shown} />
           {shown.warnings.map((warning) => (
-            <Alert key={warning} status='warning' borderRadius='lg'>
-              <AlertIcon />
-              <AlertDescription fontSize='sm'>{warning}</AlertDescription>
-            </Alert>
+            <Alert.Root key={warning} status='warning' borderRadius='lg'>
+              <Alert.Indicator />
+              <Alert.Description fontSize='sm'>{warning}</Alert.Description>
+            </Alert.Root>
           ))}
           <Button
             type='submit'
-            colorScheme='teal'
-            isLoading={isSaving}
-            isDisabled={!isSettled}
+            colorPalette='green'
+            loading={isSaving}
+            disabled={!isSettled}
           >
             Guardar Precios
           </Button>
@@ -275,7 +267,6 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
 }
 
 export default function PriceSheetForm(): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading: isSaving } = useSavePriceSheet();
@@ -300,20 +291,20 @@ export default function PriceSheetForm(): React.JSX.Element {
           router.push('/api/auth/signout');
           return;
         }
-        toast({
+        toaster.create({
           title: 'No se pudieron guardar los precios',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 6000,
-          isClosable: true,
+          closable: true,
         });
       },
       onSuccess: () => {
-        toast({
+        toaster.create({
           title: 'Precios guardados',
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         queryClient.invalidateQueries('priceSheet');
         queryClient.invalidateQueries('priceSheetQuote');

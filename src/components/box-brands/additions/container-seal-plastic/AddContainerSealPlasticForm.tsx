@@ -1,8 +1,9 @@
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateContainerSealPlastic } from '../../../../hooks/box-brand/additions/container-seal-plastic/createContainerSealPlastic';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -49,7 +50,6 @@ const AddContainerSealPlasticForm = ({
 }: AddContainerSealPlasticFormProps): React.JSX.Element => {
   const { mutate: createContainerSealPlastic, isLoading } =
     useCreateContainerSealPlastic();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addContainerSealPlastic = async (
@@ -62,20 +62,20 @@ const AddContainerSealPlasticForm = ({
       },
       {
         onError: (error: TypeError) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Plástico de Cierre Contenedor Creado con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('containerSealPlastics');
@@ -101,7 +101,7 @@ const AddContainerSealPlasticForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Plástico de Cierre Contenedor
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button
@@ -109,8 +109,8 @@ const AddContainerSealPlasticForm = ({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

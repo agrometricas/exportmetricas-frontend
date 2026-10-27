@@ -1,16 +1,14 @@
 import {
   Box,
   Card,
-  CardHeader,
-  CardBody,
   HStack,
   VStack,
   SimpleGrid,
   Heading,
   Text,
-  Divider,
   Badge,
   Image,
+  Separator,
 } from '@chakra-ui/react';
 import { getServerSession } from 'next-auth';
 import { MdPerson, MdBusiness } from 'react-icons/md';
@@ -61,7 +59,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
   return (
     <Box minH="100vh" bg="gray.50" p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="7xl" mx="auto">
-        <Card
+        <Card.Root
           bg="white"
           border="1px solid"
           borderColor="gray.200"
@@ -69,8 +67,8 @@ const ProfilePage = async (): Promise<JSX.Element> => {
           boxShadow="lg"
           overflow="hidden"
         >
-          <CardHeader bg="gray.50">
-            <HStack spacing={3} align="center">
+          <Card.Header bg="gray.50">
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
                 <MdPerson size={20} />
               </Box>
@@ -83,12 +81,12 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <CardBody>
+          <Card.Body>
             {/* Usuario */}
             <Box mb={6}>
-              <HStack spacing={3} mb={3}>
+              <HStack gap={3} mb={3}>
                 <Box p={2} bg="green.50" borderRadius="md" color="green.700">
                   <MdPerson size={16} />
                 </Box>
@@ -97,7 +95,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 </Heading>
                 <Badge
                   ml={2}
-                  colorScheme={onboardingUserDone ? 'green' : 'red'}
+                  colorPalette={onboardingUserDone ? 'green' : 'red'}
                   borderRadius="full"
                   px={2}
                 >
@@ -107,17 +105,17 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 </Badge>
               </HStack>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                 <Field label="Nombre" value={user?.userDetails?.name ?? '—'} />
                 <Field label="Correo" value={user?.userDetails?.email ?? '—'} />
               </SimpleGrid>
             </Box>
 
-            <Divider my={4} />
+            <Separator my={4} />
 
             {/* Exportadora */}
             <Box>
-              <HStack spacing={3} mb={3}>
+              <HStack gap={3} mb={3}>
                 <Box p={2} bg="green.50" borderRadius="md" color="green.700">
                   <MdBusiness size={16} />
                 </Box>
@@ -126,7 +124,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 </Heading>
                 <Badge
                   ml={2}
-                  colorScheme={accountActive ? 'green' : 'red'}
+                  colorPalette={accountActive ? 'green' : 'red'}
                   borderRadius="full"
                   px={2}
                 >
@@ -134,7 +132,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 </Badge>
               </HStack>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={4}>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mb={4}>
                 <Field
                   label="Nombre"
                   value={user?.exporterDetails?.businessName ?? '—'}
@@ -166,7 +164,7 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                 <Field label="Última edición" value={updatedAt} />
               </SimpleGrid>
 
-              <VStack spacing={2} align="start">
+              <VStack gap={2} align="start">
                 <Text fontSize="sm" color="gray.500">
                   Logo
                 </Text>
@@ -183,14 +181,14 @@ const ProfilePage = async (): Promise<JSX.Element> => {
                     p={2}
                   />
                 ) : (
-                  <Badge colorScheme="yellow" variant="subtle" borderRadius="md">
+                  <Badge colorPalette="yellow" variant="subtle" borderRadius="md">
                     Logo no disponible
                   </Badge>
                 )}
               </VStack>
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

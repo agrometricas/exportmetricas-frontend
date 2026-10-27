@@ -3,17 +3,13 @@ import {
   Box,
   Button,
   Checkbox,
-  Divider,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
-  Select,
+  NativeSelect,
   SimpleGrid,
   Text,
-  useColorModeValue,
-  useToast,
+  Separator,
+  Field,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik, useFormikContext } from 'formik';
@@ -21,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import {
   exportPlanBody,
   pendingLines,
@@ -42,6 +39,7 @@ import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarbo
 import InputFieldShipName from '../shipping-company/InputFieldShipName';
 import InputFieldShippingCompanySelect from '../shipping-company/InputFieldShippingCompanySelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
+import { useColorModeValue } from '../ui/color-mode';
 import InputFieldDayDate, {
   INVALID_DAY_DATE,
 } from '../ui/form/InputFieldDayDate';
@@ -129,28 +127,31 @@ function PlanBookingSelect({
   };
 
   return (
-    <FormControl>
-      <FormLabel fontSize='sm' mb='8px'>
+    <Field.Root>
+      <Field.Label fontSize='sm' mb='8px'>
         Booking (opcional)
-      </FormLabel>
-      <Select
-        placeholder='Sin booking: llenar la naviera y la nave a mano'
-        value={values.bookingId}
-        onChange={(event) =>
-          choose(event.target.value ? Number(event.target.value) : '')
-        }
-      >
-        {bookings.map((booking) => (
-          <option key={booking.id} value={booking.id}>
-            {bookingLabel(booking)}
-          </option>
-        ))}
-      </Select>
-      <FormHelperText>
+      </Field.Label>
+      <NativeSelect.Root>
+        <NativeSelect.Field
+          placeholder='Sin booking: llenar la naviera y la nave a mano'
+          value={values.bookingId}
+          onChange={(event) =>
+            choose(event.target.value ? Number(event.target.value) : '')
+          }
+        >
+          {bookings.map((booking) => (
+            <option key={booking.id} value={booking.id}>
+              {bookingLabel(booking)}
+            </option>
+          ))}
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+      </NativeSelect.Root>
+      <Field.HelperText>
         Con booking, la naviera, la ruta, la nave y el número salen de él, y
         cada línea elige sus contenedores.
-      </FormHelperText>
-    </FormControl>
+      </Field.HelperText>
+    </Field.Root>
   );
 }
 
@@ -180,21 +181,25 @@ function LineContainers({
   return (
     <Flex gap={4} wrap='wrap'>
       {free.map((container) => (
-        <Checkbox
+        <Checkbox.Root
           key={container.id}
-          isChecked={own.includes(container.id)}
-          isDisabled={elsewhere.has(container.id)}
-          onChange={(event) =>
+          disabled={elsewhere.has(container.id)}
+          onCheckedChange={(event) =>
             setFieldValue(
               `lines[${index}].bookingContainerIds`,
-              event.target.checked
+              event.checked === true
                 ? [...own, container.id]
                 : own.filter((c) => c !== container.id)
             )
           }
+          checked={own.includes(container.id)}
         >
-          {container.number}
-        </Checkbox>
+          <Checkbox.HiddenInput />
+          <Checkbox.Control>
+            <Checkbox.Indicator />
+          </Checkbox.Control>
+          <Checkbox.Label>{container.number}</Checkbox.Label>
+        </Checkbox.Root>
       ))}
     </Flex>
   );
@@ -205,7 +210,6 @@ export default function ExportPlanForm({
 }: {
   order: PurchaseOrderResponse;
 }): React.JSX.Element {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const lineBorder = useColorModeValue('gray.200', 'gray.600');
@@ -243,20 +247,20 @@ export default function ExportPlanForm({
           router.push('/api/auth/signout');
           return;
         }
-        toast({
+        toaster.create({
           title: 'No se creó ninguna exportación',
           description: serverErrorMessage(error),
-          status: 'error',
+          type: 'error',
           duration: 8000,
-          isClosable: true,
+          closable: true,
         });
       },
       onSuccess: ({ data }) => {
-        toast({
+        toaster.create({
           title: `Se crearon ${data.exports.length} exportaciones`,
-          status: 'success',
+          type: 'success',
           duration: 5000,
-          isClosable: true,
+          closable: true,
         });
         AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
         router.push(`/dashboard/export/purchase-orders/${order.id}`);
@@ -279,7 +283,7 @@ export default function ExportPlanForm({
               <Heading fontSize='2xl' p='12px'>
                 Líneas
               </Heading>
-              <Divider mb='16px' />
+              <Separator mb='16px' />
               <Text fontSize='sm' color='gray.600'>
                 Cada línea marcada será una exportación con todas sus cajas en
                 el día de corte. El día tiene que ser de la semana de la orden.
@@ -293,20 +297,26 @@ export default function ExportPlanForm({
                   p={4}
                 >
                   <Flex gap={3} align='center' wrap='wrap' mb={3}>
-                    <Checkbox
-                      colorScheme='teal'
-                      isChecked={values.lines[index].include}
-                      onChange={(event) =>
+                    <Checkbox.Root
+                      colorPalette='green'
+                      onCheckedChange={(event) =>
                         setFieldValue(
                           `lines[${index}].include`,
-                          event.target.checked
+                          event.checked === true
                         )
                       }
+                      checked={values.lines[index].include}
                     >
-                      {line.business.name} · {line.boxBrand.name}
-                    </Checkbox>
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                      <Checkbox.Label>
+                        {line.business.name}· {line.boxBrand.name}
+                      </Checkbox.Label>
+                    </Checkbox.Root>
                     <Badge
-                      colorScheme={
+                      colorPalette={
                         line.type === 'CONTRACT' ? 'green' : 'orange'
                       }
                     >
@@ -318,7 +328,7 @@ export default function ExportPlanForm({
                   </Flex>
                   {values.lines[index].include && (
                     <Flex direction='column' gap={3}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                         <InputFieldDayDate
                           name={`lines[${index}].cuttingDate`}
                           label='Día de Corte'
@@ -351,7 +361,7 @@ export default function ExportPlanForm({
               <Heading fontSize='2xl' p='12px'>
                 Datos Comunes
               </Heading>
-              <Divider mb='16px' />
+              <Separator mb='16px' />
               <SelectClient name='clientId' />
               <PlanBookingSelect bookings={bookings} />
               {!values.bookingId && (
@@ -365,7 +375,7 @@ export default function ExportPlanForm({
                       setFieldValue('destinationHarborId', '');
                     }}
                   />
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     <InputFieldHarborShippingCompany
                       key={`departure-${values.shippingCompanyId || 'none'}`}
                       name='departureHarborId'
@@ -387,7 +397,7 @@ export default function ExportPlanForm({
                       )}
                     />
                   </SimpleGrid>
-                  <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
                     <InputFieldShipName
                       name='shipName'
                       label='Nombre de la Nave'
@@ -404,7 +414,7 @@ export default function ExportPlanForm({
                   </SimpleGrid>
                 </>
               )}
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <InputFieldDayDateTime
                   name='shippingDateTime'
                   label='Fecha Máxima de Ingreso'
@@ -438,9 +448,9 @@ export default function ExportPlanForm({
               <Button
                 mt='12px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
-                isDisabled={included === 0}
+                colorPalette='green'
+                loading={isLoading}
+                disabled={included === 0}
               >
                 {included === 1
                   ? 'Crear 1 exportación'

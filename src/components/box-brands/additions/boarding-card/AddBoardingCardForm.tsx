@@ -1,8 +1,9 @@
-import { Button, Divider, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateBoardingCard } from '../../../../hooks/box-brand/additions/boarding-card/createBoardingCard';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -48,7 +49,6 @@ const AddBoardingCardForm = ({
   onClose,
 }: AddBoardingCardFormProps): React.JSX.Element => {
   const { mutate: createBoardingCard, isLoading } = useCreateBoardingCard();
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addBoardingCard = async (
@@ -61,20 +61,20 @@ const AddBoardingCardForm = ({
       },
       {
         onError: (error: TypeError) => {
-          toast({
+          toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'Tarjeta de Embarque Creada con Éxito',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
 
           queryClient.invalidateQueries('boardingCards');
@@ -100,7 +100,7 @@ const AddBoardingCardForm = ({
               <Heading fontSize={'2xl'} p={'12px'}>
                 Agregar Tarjeta de Embarque
               </Heading>
-              <Divider mb={'16px'} />
+              <Separator mb={'16px'} />
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button
@@ -108,8 +108,8 @@ const AddBoardingCardForm = ({
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Agregar
               </Button>

@@ -10,7 +10,11 @@ import { PendingSheet } from '../types/cuttingSheetBatch';
 import { CuttingType } from '../types/cuttingType';
 
 const type = (id: number, boxBrandId: number): CuttingType =>
-  ({ id, boxBrandId, shipmentType: `Corte ${id}` }) as CuttingType;
+  ({
+    id,
+    boxBrandId,
+    shipmentType: `Corte ${id}`,
+  }) as CuttingType;
 
 const ALL = [type(1, 10), type(2, 11), type(3, 11)];
 

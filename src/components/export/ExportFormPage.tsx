@@ -1,22 +1,16 @@
 'use client';
-
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Box,
   Button,
   Card,
-  CardBody,
-  CardHeader,
   Center,
-  Divider,
   Heading,
   HStack,
   Icon,
   Spinner,
   Text,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React from 'react';
@@ -24,6 +18,7 @@ import { MdContentCopy, MdEdit } from 'react-icons/md';
 import AddExportForm from './AddExportForm';
 import { useExport } from '../../hooks/export/getExport';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
+import { useColorModeValue } from '../ui/color-mode';
 
 interface ExportFormPageProps {
   exportId: string;
@@ -72,7 +67,7 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -82,8 +77,8 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={headerBg} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={headerBg} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
                 <Icon as={icon} boxSize={5} />
               </Box>
@@ -96,76 +91,76 @@ const ExportFormPage: React.FC<ExportFormPageProps> = ({ exportId, mode }) => {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading && (
               <Center py={10}>
                 <Spinner color='green.500' />
               </Center>
             )}
             {!!error && (
-              <Alert status='error' borderRadius='md'>
-                <AlertIcon />
-                <AlertDescription>
+              <Alert.Root status='error' borderRadius='md'>
+                <Alert.Indicator />
+                <Alert.Description>
                   {serverErrorMessage(
                     error,
                     'No se pudo cargar la exportación'
                   )}
-                </AlertDescription>
-              </Alert>
+                </Alert.Description>
+              </Alert.Root>
             )}
             {data && blocked && (
-              <Alert status='warning' borderRadius='md'>
-                <AlertIcon />
-                <AlertDescription flex='1'>{blocked}</AlertDescription>
-                <Button
-                  as={Link_Next}
-                  href={`/dashboard/export/${exportId}/duplicate`}
-                  size='sm'
-                  colorScheme='green'
-                  leftIcon={<MdContentCopy />}
-                >
-                  Duplicar
+              <Alert.Root status='warning' borderRadius='md'>
+                <Alert.Indicator />
+                <Alert.Description flex='1'>{blocked}</Alert.Description>
+                <Button size='sm' colorPalette='green' asChild>
+                  <Link_Next href={`/dashboard/export/${exportId}/duplicate`}>
+                    <MdContentCopy />
+                    Duplicar
+                  </Link_Next>
                 </Button>
-              </Alert>
+              </Alert.Root>
             )}
             {data && !blocked && (
               <>
                 {mode === 'edit' && data.purchaseOrderLine && (
-                  <Alert status='info' borderRadius='md' mb={4}>
-                    <AlertIcon />
-                    <AlertDescription flex='1'>
+                  <Alert.Root status='info' borderRadius='md' mb={4}>
+                    <Alert.Indicator />
+                    <Alert.Description flex='1'>
                       Nació de una orden de compra: la finca y la alícuota son
                       las de su línea y no cambian.
-                    </AlertDescription>
+                    </Alert.Description>
                     <Button
-                      as={Link_Next}
-                      href={`/dashboard/export/purchase-orders/${data.purchaseOrderLine.purchaseOrderId}`}
                       size='sm'
                       variant='outline'
-                      colorScheme='green'
+                      colorPalette='green'
+                      asChild
                     >
-                      Ver la orden
+                      <Link_Next
+                        href={`/dashboard/export/purchase-orders/${data.purchaseOrderLine.purchaseOrderId}`}
+                      >
+                        Ver la orden
+                      </Link_Next>
                     </Button>
-                  </Alert>
+                  </Alert.Root>
                 )}
                 {mode === 'duplicate' && (
-                  <Alert status='info' borderRadius='md' mb={4}>
-                    <AlertIcon />
-                    <AlertDescription>
+                  <Alert.Root status='info' borderRadius='md' mb={4}>
+                    <Alert.Indicator />
+                    <Alert.Description>
                       Copia de la exportación #{data.id}. Cambia lo necesario y
                       guarda: la original no se modifica.
-                    </AlertDescription>
-                  </Alert>
+                    </Alert.Description>
+                  </Alert.Root>
                 )}
                 <AddExportForm source={data} editing={mode === 'edit'} />
               </>
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

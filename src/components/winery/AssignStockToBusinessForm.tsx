@@ -3,14 +3,14 @@
 import {
   Box,
   Button,
-  Divider,
-  ModalFooter,
   SimpleGrid,
   Text,
-  useToast,
+  Separator,
+  Dialog,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useIncreaseBusinessStock } from '@/hooks/winery/useIncreaseBusinessStock';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
@@ -48,7 +48,6 @@ export function AssignStockToBusinessForm({
   onClose,
   onBack,
 }: Props): JSX.Element {
-  const toast = useToast();
   const { mutate, isLoading } = useIncreaseBusinessStock(stockId);
 
   return (
@@ -61,21 +60,21 @@ export function AssignStockToBusinessForm({
           { currentStock: newStock },
           {
             onSuccess: () => {
-              toast({
+              toaster.create({
                 title: 'Stock Asignado Exitosamente.',
-                status: 'success',
+                type: 'success',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
               onClose();
             },
             onError: (error: unknown) => {
-              toast({
+              toaster.create({
                 title: 'Error al Asignar Stock.',
                 description: serverErrorMessage(error),
-                status: 'error',
+                type: 'error',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
             },
           }
@@ -84,7 +83,7 @@ export function AssignStockToBusinessForm({
     >
       {({ values }) => (
         <Form>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
             <InputFieldNumber
               name='currentStock'
               label='Stock Disponible'
@@ -116,9 +115,9 @@ export function AssignStockToBusinessForm({
             <Text ml={4}>${currentCost.toFixed(2)}</Text>
           </Box>
 
-          <Divider my={4} />
+          <Separator my={4} />
 
-          <ModalFooter px={0}>
+          <Dialog.Footer px={0}>
             <Button onClick={onBack} mr={3}>
               Volver
             </Button>
@@ -127,13 +126,13 @@ export function AssignStockToBusinessForm({
             </Button>
             <Button
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
-              isDisabled={values.addedStock <= 0}
+              colorPalette='green'
+              loading={isLoading}
+              disabled={values.addedStock <= 0}
             >
               Asignar
             </Button>
-          </ModalFooter>
+          </Dialog.Footer>
         </Form>
       )}
     </Formik>

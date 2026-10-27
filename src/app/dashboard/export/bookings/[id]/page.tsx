@@ -2,15 +2,12 @@
 import {
   Box,
   Card,
-  CardBody,
-  CardHeader,
   Heading,
   HStack,
   Icon,
   Text,
-  Divider,
   Flex,
-  useColorModeValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -19,6 +16,7 @@ import LoadingState from '@/components/ui/states/LoadingState';
 import BookingContainerSeals from '../../../../../components/booking/BookingContainerSeals';
 import BookingDocuments from '../../../../../components/booking/BookingDocuments';
 import BookingForm from '../../../../../components/booking/BookingForm';
+import { useColorModeValue } from '../../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../../components/ui/IsOnboarding';
 import { useBooking } from '../../../../../hooks/booking/getBooking';
 import { BookingResponse } from '../../../../../types/booking';
@@ -35,7 +33,7 @@ function EditBookingPage(): React.JSX.Element {
   return (
     <Box minH='100vh' w='100%' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -45,10 +43,12 @@ function EditBookingPage(): React.JSX.Element {
           borderTopWidth='4px'
           borderTopColor='green.500'
         >
-          <CardHeader bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={useColorModeValue('gray.50', 'gray.750')} pb={4}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdOutlineBookOnline} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdOutlineBookOnline />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -59,30 +59,30 @@ function EditBookingPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             {isLoading || !booking ? (
               <LoadingState />
             ) : (
               <Flex direction='column' gap={8}>
                 <BookingForm booking={booking as BookingResponse} />
-                <Divider />
+                <Separator />
                 <BookingContainerSeals
                   bookingId={(booking as BookingResponse).id}
                   containers={(booking as BookingResponse).containers}
                 />
-                <Divider />
+                <Separator />
                 <BookingDocuments
                   bookingId={(booking as BookingResponse).id}
                   containers={(booking as BookingResponse).containers}
                 />
               </Flex>
             )}
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

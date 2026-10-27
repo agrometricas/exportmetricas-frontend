@@ -116,7 +116,7 @@ const DetailSupply = ({
 
   return (
     <Box p={'16px'} width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
-      <VStack spacing={4} pl={'20px'} alignItems={'start'} width={'100%'}>
+      <VStack gap={4} pl={'20px'} alignItems={'start'} width={'100%'}>
         <TableSupply details={list} width={width} windowSize={windowSize} />
       </VStack>
     </Box>

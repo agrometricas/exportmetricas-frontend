@@ -1,10 +1,4 @@
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Select,
-} from '@chakra-ui/react';
+import { Flex, NativeSelect, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 
 interface OptionsProps {
@@ -33,11 +27,7 @@ const InputFieldSelector: React.FC<InputFieldSelectorProps> = ({
   const [field, meta] = useField(name);
 
   return (
-    <FormControl
-      id={name}
-      isInvalid={!!meta.error && meta.touched}
-      width={'100%'}
-    >
+    <Field.Root id={name} invalid={!!meta.error && meta.touched} width={'100%'}>
       <Flex
         flexDirection={flexDirection}
         alignItems={flexDirection === 'row' ? 'center' : 'flex-start'}
@@ -51,14 +41,14 @@ const InputFieldSelector: React.FC<InputFieldSelectorProps> = ({
             marginRight={flexDirection === 'row' ? '2%' : '0'}
             mb={flexDirection === 'column' ? '8px' : '0'}
           >
-            <FormLabel
+            <Field.Label
               fontSize='sm'
               m={0}
               textAlign={flexDirection === 'row' ? 'left' : 'center'}
               overflow='hidden'
             >
               {label}
-            </FormLabel>
+            </Field.Label>
           </Flex>
         )}
         <Flex
@@ -66,24 +56,27 @@ const InputFieldSelector: React.FC<InputFieldSelectorProps> = ({
           width='100%'
           marginLeft={label ? '0' : '0'}
         >
-          <Select {...field} isDisabled={isDisabled}>
-            <option value={!isDisabled ? '' : 'N/A'}>
-              {!isDisabled ? placeholder : `N/A`}
-            </option>
-            {options.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
+          <NativeSelect.Root disabled={isDisabled}>
+            <NativeSelect.Field {...field}>
+              <option value={!isDisabled ? '' : 'N/A'}>
+                {!isDisabled ? placeholder : `N/A`}
               </option>
-            ))}
-          </Select>
+              {options.map((option, index) => (
+                <option key={index} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
         </Flex>
       </Flex>
       {meta.error && meta.touched && (
-        <FormErrorMessage mt='8px' mb='16px'>
+        <Field.ErrorText mt='8px' mb='16px'>
           {meta.error}
-        </FormErrorMessage>
+        </Field.ErrorText>
       )}
-    </FormControl>
+    </Field.Root>
   );
 };
 

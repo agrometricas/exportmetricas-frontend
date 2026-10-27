@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,13 +11,13 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdPaid } from 'react-icons/md';
 import TableProducerPayments from '../../../../components/liquidation/producer-payments/TableProducerPayments';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 interface WindowSizeProps {
@@ -52,7 +50,7 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
   const headingColor = useColorModeValue('gray.900', 'gray.100');
 
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -68,9 +66,9 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdPaid} boxSize={5} />
+              <Icon boxSize={5} asChild><MdPaid /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -85,39 +83,34 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/liquidation/producer-pending-payments"
+
                 aria-label="Agregar Pago a Productores"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/liquidation/producer-pending-payments"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/liquidation/producer-pending-payments"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 fontWeight="semibold"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              >
-                Agregar Pago a Productores
-              </Button>
+                asChild><Link_Next href="/dashboard/liquidation/producer-pending-payments"><FiPlus />Agregar Pago a Productores
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
       </Box>
 
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -125,7 +118,7 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
           overflow="hidden"
           border="1px solid"
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={useColorModeValue('gray.50', 'gray.750')}
@@ -133,12 +126,12 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Pagos a Productores
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -153,8 +146,8 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
             <Box>
               <TableProducerPayments windowSize={windowSize} width={tableWidth} />
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Heading,
-  Text,
-} from '@chakra-ui/react';
+import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
@@ -19,10 +10,10 @@ const DetailBusiness = ({
   width: { sm: number; md: number };
 }): React.JSX.Element => {
   return (
-    <Accordion defaultIndex={[0]} allowMultiple>
-      <AccordionItem>
+    <Accordion.Root defaultValue={['0']} multiple>
+      <Accordion.Item value='item-0'>
         <Heading>
-          <AccordionButton
+          <Accordion.ItemTrigger
             pl='60px'
             width={{
               sm: Number(width.sm),
@@ -38,27 +29,27 @@ const DetailBusiness = ({
             >
               Detalles Generales
             </Box>
-            <AccordionIcon />
-          </AccordionButton>
+            <Accordion.ItemIndicator />
+          </Accordion.ItemTrigger>
         </Heading>
-        <AccordionPanel pb={4} pl='60px'>
-          <Box>
-            <Text><strong>Provincia:</strong> {business.province.name}</Text>
-            <Text><strong>Ciudad:</strong> {business.city.name}</Text>
-            <Text><strong>Dirección:</strong> {business.address}</Text>
-            <Text>
-              <strong>Dirección:</strong> {business.address}
-            </Text>
-            <Text>
-              <strong>Tipo de Fruta:</strong> {business.fruitType}
-            </Text>
-          </Box>
-        </AccordionPanel>
-      </AccordionItem>
+        <Accordion.ItemContent pb={4} pl='60px'><Accordion.ItemBody>
+            <Box>
+              <Text><strong>Provincia:</strong> {business.province.name}</Text>
+              <Text><strong>Ciudad:</strong> {business.city.name}</Text>
+              <Text><strong>Dirección:</strong> {business.address}</Text>
+              <Text>
+                <strong>Dirección:</strong> {business.address}
+              </Text>
+              <Text>
+                <strong>Tipo de Fruta:</strong> {business.fruitType}
+              </Text>
+            </Box>
+          </Accordion.ItemBody></Accordion.ItemContent>
+      </Accordion.Item>
       {business.latitude && business.longitude && (
-        <AccordionItem>
+        <Accordion.Item value='item-1'>
           <Heading>
-            <AccordionButton
+            <Accordion.ItemTrigger
               pl="60px"
               width={{
                 sm: Number(width.sm),
@@ -74,22 +65,22 @@ const DetailBusiness = ({
               >
                 Geolocalización
               </Box>
-              <AccordionIcon />
-            </AccordionButton>
+              <Accordion.ItemIndicator />
+            </Accordion.ItemTrigger>
           </Heading>
-          <AccordionPanel pb={4} pl="60px">
-            <Box>
-              <Text>
-                <strong>Latitud/Longitud:</strong> {business.latitude}/{business.longitude}
-              </Text>
-            </Box>
-          </AccordionPanel>
-        </AccordionItem>
+          <Accordion.ItemContent pb={4} pl="60px"><Accordion.ItemBody>
+              <Box>
+                <Text>
+                  <strong>Latitud/Longitud:</strong> {business.latitude}/{business.longitude}
+                </Text>
+              </Box>
+            </Accordion.ItemBody></Accordion.ItemContent>
+        </Accordion.Item>
       )}
 
-      <AccordionItem>
+      <Accordion.Item value='item-2'>
         <Heading>
-          <AccordionButton
+          <Accordion.ItemTrigger
             pl='60px'
             width={{
               sm: Number(width.sm),
@@ -105,17 +96,17 @@ const DetailBusiness = ({
             >
               Códigos
             </Box>
-            <AccordionIcon />
-          </AccordionButton>
+            <Accordion.ItemIndicator />
+          </Accordion.ItemTrigger>
         </Heading>
-        <AccordionPanel pb={4} pl='60px'>
-          <Box>
-            <Text><strong>Código MAGAP:</strong> {business.codeMAGAP}</Text>
-            <Text><strong>Código AGROCALIDAD:</strong> {business.codeAGROCALIDAD}</Text>
-          </Box>
-        </AccordionPanel>
-      </AccordionItem>
-    </Accordion>
+        <Accordion.ItemContent pb={4} pl='60px'><Accordion.ItemBody>
+            <Box>
+              <Text><strong>Código MAGAP:</strong> {business.codeMAGAP}</Text>
+              <Text><strong>Código AGROCALIDAD:</strong> {business.codeAGROCALIDAD}</Text>
+            </Box>
+          </Accordion.ItemBody></Accordion.ItemContent>
+      </Accordion.Item>
+    </Accordion.Root>
   );
 };
 

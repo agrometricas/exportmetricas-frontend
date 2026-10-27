@@ -1,10 +1,8 @@
 'use client';
-
 import {
   Box,
   Button,
   Card,
-  CardBody,
   HStack,
   Icon,
   IconButton,
@@ -13,7 +11,6 @@ import {
   Badge,
   Flex,
   useBreakpointValue,
-  useColorModeValue,
   Center,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -21,6 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdPeopleOutline } from 'react-icons/md';
 import TableClients from '../../../../components/client/table-client/TableClients';
+import { useColorModeValue } from "../../../../components/ui/color-mode";
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 interface WindowSizeProps {
@@ -57,7 +55,7 @@ function ClientsPage(): React.JSX.Element {
 
   // Responsive
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -73,9 +71,9 @@ function ClientsPage(): React.JSX.Element {
           align={{ base: 'stretch', md: 'center' }}
           gap={4}
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-              <Icon as={MdPeopleOutline} boxSize={5} />
+              <Icon boxSize={5} asChild><MdPeopleOutline /></Icon>
             </Box>
             <Box>
               <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -90,39 +88,34 @@ function ClientsPage(): React.JSX.Element {
           <Box>
             {isMobile ? (
               <IconButton
-                as={Link_Next}
-                href="/dashboard/client/add-client"
+
                 aria-label="Agregar Cliente"
-                icon={<FiPlus />}
-                colorScheme="green"
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              />
+                asChild><Link_Next href="/dashboard/client/add-client"><FiPlus /></Link_Next></IconButton>
             ) : (
               <Button
-                as={Link_Next}
-                href="/dashboard/client/add-client"
-                leftIcon={<FiPlus />}
-                colorScheme="green"
+
+                colorPalette="green"
                 size={buttonSize}
                 borderRadius="lg"
                 boxShadow="md"
                 fontWeight="semibold"
                 _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
                 transition="all 0.2s"
-              >
-                Agregar Cliente
-              </Button>
+                asChild><Link_Next href="/dashboard/client/add-client"><FiPlus />Agregar Cliente
+                                                </Link_Next></Button>
             )}
           </Box>
         </Flex>
       </Box>
 
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius="xl"
@@ -130,7 +123,7 @@ function ClientsPage(): React.JSX.Element {
           overflow="hidden"
           border="1px solid"
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={useColorModeValue('gray.50', 'gray.750')}
@@ -138,12 +131,12 @@ function ClientsPage(): React.JSX.Element {
               borderColor={borderColor}
             >
               <HStack justify="space-between" align="center">
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
                     Clientes
                   </Text>
                   <Badge
-                    colorScheme="green"
+                    colorPalette="green"
                     variant="subtle"
                     borderRadius="full"
                     px={3}
@@ -160,8 +153,8 @@ function ClientsPage(): React.JSX.Element {
                 <TableClients windowSize={windowSize} width={tableWidth} />
               </Center>
             </Box>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

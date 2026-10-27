@@ -2,27 +2,18 @@
 
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Text,
   Textarea,
-  useToast,
   VStack,
+  Field,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCancelExport } from '../../hooks/export/cancelExport';
 import { ExportResponse } from '../../types/export.response';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -61,7 +52,6 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
   onClose,
 }) => {
   const [reason, setReason] = useState('');
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: cancelExport, isLoading } = useCancelExport();
@@ -77,26 +67,26 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
       { exportId: exportToCancel.id, reason: reason.trim() || undefined },
       {
         onSuccess: ({ data }) => {
-          toast({
+          toaster.create({
             title: 'Exportación cancelada',
             description:
               data.returnedLines > 0
                 ? `Se devolvieron ${data.returnedLines} materiales al stock de la finca.`
                 : 'No tenía envío de insumos: el stock no cambió.',
-            status: 'success',
+            type: 'success',
             duration: 5000,
-            isClosable: true,
+            closable: true,
           });
           AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
           close();
         },
         onError: (error) => {
-          toast({
+          toaster.create({
             title: 'No se pudo cancelar la exportación',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
           if (error.response?.status === 401) {
             router.push('/api/auth/signout');
@@ -109,59 +99,78 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
   const hasSupplies = exportToCancel?.pendingExportSent === false;
 
   return (
-    <Modal isOpen={!!exportToCancel} onClose={close} size='lg' isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Cancelar exportación #{exportToCancel?.id}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <VStack align='stretch' spacing={4}>
-            <Text fontSize='sm'>
-              {[
-                `${exportToCancel?.boxQuantity} cajas`,
-                exportToCancel?.business?.name,
-                exportToCancel?.weekDescription,
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </Text>
-            <Alert status={hasSupplies ? 'warning' : 'info'} borderRadius='md'>
-              <AlertIcon />
-              <AlertDescription fontSize='sm'>
-                {hasSupplies
-                  ? `El material del envío de insumos vuelve al stock de la finca ${exportToCancel?.business?.name ?? ''}. Desde Bodega decides si se reutiliza o se devuelve.`
-                  : 'Todavía no tiene envío de insumos: no se mueve stock.'}
-              </AlertDescription>
-            </Alert>
-            <Text fontSize='sm' color='gray.600'>
-              Queda en el historial como cancelada y no admite más pasos. No se
-              puede cancelar si ya tiene pago al productor o cobro al cliente.
-            </Text>
-            <FormControl>
-              <FormLabel fontSize='sm'>Motivo (opcional)</FormLabel>
-              <Textarea
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                maxLength={REASON_MAX_LENGTH}
-                placeholder='Por ejemplo: el productor cambió de finca'
-                rows={3}
-              />
-              <FormHelperText textAlign='right'>
-                {reason.length}/{REASON_MAX_LENGTH}
-              </FormHelperText>
-            </FormControl>
-          </VStack>
-        </ModalBody>
-        <ModalFooter gap={3}>
-          <Button variant='ghost' onClick={close} isDisabled={isLoading}>
-            Volver
-          </Button>
-          <Button colorScheme='red' onClick={confirm} isLoading={isLoading}>
-            Cancelar exportación
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    <Dialog.Root
+      open={!!exportToCancel}
+      size='lg'
+      placement='center'
+      onOpenChange={(e) => {
+        if (!e.open) {
+          close();
+        }
+      }}
+    >
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.Header>
+              Cancelar exportación #{exportToCancel?.id}
+            </Dialog.Header>
+            <Dialog.CloseTrigger />
+            <Dialog.Body>
+              <VStack align='stretch' gap={4}>
+                <Text fontSize='sm'>
+                  {[
+                    `${exportToCancel?.boxQuantity} cajas`,
+                    exportToCancel?.business?.name,
+                    exportToCancel?.weekDescription,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </Text>
+                <Alert.Root
+                  status={hasSupplies ? 'warning' : 'info'}
+                  borderRadius='md'
+                >
+                  <Alert.Indicator />
+                  <Alert.Description fontSize='sm'>
+                    {hasSupplies
+                      ? `El material del envío de insumos vuelve al stock de la finca ${exportToCancel?.business?.name ?? ''}. Desde Bodega decides si se reutiliza o se devuelve.`
+                      : 'Todavía no tiene envío de insumos: no se mueve stock.'}
+                  </Alert.Description>
+                </Alert.Root>
+                <Text fontSize='sm' color='gray.600'>
+                  Queda en el historial como cancelada y no admite más pasos. No
+                  se puede cancelar si ya tiene pago al productor o cobro al
+                  cliente.
+                </Text>
+                <Field.Root>
+                  <Field.Label fontSize='sm'>Motivo (opcional)</Field.Label>
+                  <Textarea
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    maxLength={REASON_MAX_LENGTH}
+                    placeholder='Por ejemplo: el productor cambió de finca'
+                    rows={3}
+                  />
+                  <Field.HelperText textAlign='right'>
+                    {reason.length}/{REASON_MAX_LENGTH}
+                  </Field.HelperText>
+                </Field.Root>
+              </VStack>
+            </Dialog.Body>
+            <Dialog.Footer gap={3}>
+              <Button variant='ghost' onClick={close} disabled={isLoading}>
+                Volver
+              </Button>
+              <Button colorPalette='red' onClick={confirm} loading={isLoading}>
+                Cancelar exportación
+              </Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   );
 };
 

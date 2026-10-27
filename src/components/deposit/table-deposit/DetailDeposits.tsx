@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Heading,
-  Text,
-} from '@chakra-ui/react';
+import { Accordion, Box, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 import { DepositResponse } from '../../../types/deposit/deposit.response';
 
@@ -18,52 +9,52 @@ interface DetailDepositsProps {
 
 const DetailDeposits: React.FC<DetailDepositsProps> = ({ deposit, width }) => {
   return (
-    <Accordion defaultIndex={[0]} allowMultiple>
-      <AccordionItem>
+    <Accordion.Root defaultValue={['0']} multiple>
+      <Accordion.Item value='item-0'>
         <Heading>
-          <AccordionButton width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+          <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
               Detalles del Depósito
             </Box>
-            <AccordionIcon />
-          </AccordionButton>
+            <Accordion.ItemIndicator />
+          </Accordion.ItemTrigger>
         </Heading>
-        <AccordionPanel pb={4}>
-          <Text><strong>Nombre:</strong> {deposit.name}</Text>
-          <Text><strong>Código:</strong> {deposit.code}</Text>
-          <Text><strong>Dirección:</strong> {deposit.address}</Text>
-          <Text><strong>Ciudad:</strong> {deposit.city.name}</Text>
-          <Text><strong>Hora de Apertura:</strong> {deposit.openTime}</Text>
-          <Text><strong>Hora de Cierre:</strong> {deposit.closeTime}</Text>
-          {deposit.latitude && deposit.longitude && (
-            <Text><strong>Latitud / Longitud:</strong> {deposit.latitude}, {deposit.longitude}</Text>
-          )}
-        </AccordionPanel>
-      </AccordionItem>
+        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+            <Text><strong>Nombre:</strong> {deposit.name}</Text>
+            <Text><strong>Código:</strong> {deposit.code}</Text>
+            <Text><strong>Dirección:</strong> {deposit.address}</Text>
+            <Text><strong>Ciudad:</strong> {deposit.city.name}</Text>
+            <Text><strong>Hora de Apertura:</strong> {deposit.openTime}</Text>
+            <Text><strong>Hora de Cierre:</strong> {deposit.closeTime}</Text>
+            {deposit.latitude && deposit.longitude && (
+              <Text><strong>Latitud / Longitud:</strong> {deposit.latitude}, {deposit.longitude}</Text>
+            )}
+          </Accordion.ItemBody></Accordion.ItemContent>
+      </Accordion.Item>
 
       {deposit.contacts.length > 0 && (
-        <AccordionItem>
+        <Accordion.Item value='item-1'>
           <Heading>
-            <AccordionButton width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
+            <Accordion.ItemTrigger width={{ sm: `${width.sm}px`, md: `${width.md}px` }}>
               <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
                 Contactos
               </Box>
-              <AccordionIcon />
-            </AccordionButton>
+              <Accordion.ItemIndicator />
+            </Accordion.ItemTrigger>
           </Heading>
-          <AccordionPanel pb={4}>
-            {deposit.contacts.map((contact, index) => (
-              <Box key={index} mb={4}>
-                <Text><strong>Nombre:</strong> {contact.name}</Text>
-                {contact.role && <Text><strong>Rol:</strong> {contact.role}</Text>}
-                <Text><strong>Email:</strong> {contact.email}</Text>
-                <Text><strong>Teléfono:</strong> {contact.phone}</Text>
-              </Box>
-            ))}
-          </AccordionPanel>
-        </AccordionItem>
+          <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+              {deposit.contacts.map((contact, index) => (
+                <Box key={index} mb={4}>
+                  <Text><strong>Nombre:</strong> {contact.name}</Text>
+                  {contact.role && <Text><strong>Rol:</strong> {contact.role}</Text>}
+                  <Text><strong>Email:</strong> {contact.email}</Text>
+                  <Text><strong>Teléfono:</strong> {contact.phone}</Text>
+                </Box>
+              ))}
+            </Accordion.ItemBody></Accordion.ItemContent>
+        </Accordion.Item>
       )}
-    </Accordion>
+    </Accordion.Root>
   );
 };
 

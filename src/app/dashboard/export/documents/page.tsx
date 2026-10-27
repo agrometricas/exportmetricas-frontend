@@ -1,19 +1,17 @@
 'use client';
-
 import {
   Badge,
   Box,
   Card,
-  CardBody,
   Heading,
   HStack,
   Icon,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MdOutlineFactCheck } from 'react-icons/md';
 import TableDocumentBoard from '../../../../components/booking/TableDocumentBoard';
+import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function DocumentBoardPage(): React.JSX.Element {
@@ -27,9 +25,11 @@ function DocumentBoardPage(): React.JSX.Element {
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box mb={6} maxW='8xl' mx='auto'>
-        <HStack spacing={3}>
+        <HStack gap={3}>
           <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-            <Icon as={MdOutlineFactCheck} boxSize={5} />
+            <Icon boxSize={5} asChild>
+              <MdOutlineFactCheck />
+            </Icon>
           </Box>
           <Box>
             <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -44,7 +44,7 @@ function DocumentBoardPage(): React.JSX.Element {
       </Box>
 
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -52,25 +52,29 @@ function DocumentBoardPage(): React.JSX.Element {
           overflow='hidden'
           border='1px solid'
         >
-          <CardBody p={0}>
+          <Card.Body p={0}>
             <Box
               p={6}
               bg={headBg}
               borderBottom='1px solid'
               borderColor={borderColor}
             >
-              <HStack spacing={3}>
+              <HStack gap={3}>
                 <Text fontSize='lg' fontWeight='semibold' color={headingColor}>
                   Tablero
                 </Text>
-                <Badge colorScheme='green' variant='subtle' borderRadius='full'>
+                <Badge
+                  colorPalette='green'
+                  variant='subtle'
+                  borderRadius='full'
+                >
                   Verde listo · Amarillo en proceso · Rojo bloqueado
                 </Badge>
               </HStack>
             </Box>
             <TableDocumentBoard />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

@@ -1,22 +1,12 @@
 'use client';
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { MdContentCut } from 'react-icons/md';
 import LoadingState from '@/components/ui/states/LoadingState';
 import CuttingSheetForm from '../../../../../components/export/cutting-sheet/CuttingSheetForm';
+import { useColorModeValue } from "../../../../../components/ui/color-mode";
 import { useExportSent } from '../../../../../hooks/export/export-sent/getExportSent';
 import { useExport } from '../../../../../hooks/export/getExport';
 import { ExportResponse } from '../../../../../types/export.response';
@@ -75,7 +65,7 @@ const CuttingSheetPage = (): React.JSX.Element => {
   return (
     <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW="8xl" mx="auto">
-        <Card
+        <Card.Root
           bg={cardBg}
           border="1px solid"
           borderColor={borderColor}
@@ -85,10 +75,10 @@ const CuttingSheetPage = (): React.JSX.Element => {
           borderTopWidth="4px"
           borderTopColor="green.500"
         >
-          <CardHeader bg={grayColor} pb={4}>
-            <HStack spacing={3} align="center">
+          <Card.Header bg={grayColor} pb={4}>
+            <HStack gap={3} align="center">
               <Box p={2} bg="green.100" borderRadius="lg" color="green.600">
-                <Icon as={MdContentCut} boxSize={5} />
+                <Icon boxSize={5} asChild><MdContentCut /></Icon>
               </Box>
               <Box>
                 <Heading size="lg" color={headingColor} fontWeight="bold">
@@ -99,17 +89,17 @@ const CuttingSheetPage = (): React.JSX.Element => {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <Divider />
+          <Separator />
 
-          <CardBody>
+          <Card.Body>
             <CuttingSheetForm
               cuttingSheetSelected={pendingCuttingSheet}
               exportSentSelected={exportSent}
             />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

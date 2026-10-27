@@ -1,4 +1,4 @@
-import { Box, Button, FormLabel, Input, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Input, SimpleGrid, Field } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldPesticideSelect from './InputFieldPesticideSelect';
 import { useFumigationProposal } from '../../../../hooks/box-brand/post-harvest/pesticide/getFumigationProposal';
@@ -48,7 +48,7 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
   }, [pesticide, setPesticideSelect]);
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
       <InputFieldPesticideSelect
         name={name1}
         label={'Agroquímico'}
@@ -57,25 +57,25 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       />
 
       <Box>
-        <FormLabel>Ingrediente Activo</FormLabel>
+        <Field.Label>Ingrediente Activo</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.activeIngredient || ''}
           placeholder={'Ingrediente Activo'}
         />
       </Box>
       <Box>
-        <FormLabel>Presentación</FormLabel>
+        <Field.Label>Presentación</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.presentation || ''}
           placeholder='Presentación'
         />
       </Box>
       <Box>
-        <FormLabel>Dosis</FormLabel>
+        <Field.Label>Dosis</Field.Label>
         <Input
-          isReadOnly={true}
+          readOnly={true}
           value={pesticide?.dose || ''}
           placeholder={'Dosis'}
         />
@@ -96,8 +96,8 @@ const SelectPesticide: React.FC<SelectPesticideProps> = ({
       <Box display='flex' alignItems='flex-end'>
         <Button
           variant='solid'
-          colorScheme='red'
-          isDisabled={isDisabledRemove}
+          colorPalette='red'
+          disabled={isDisabledRemove}
           onClick={onClickRemove}
           width={'100%'}
         >

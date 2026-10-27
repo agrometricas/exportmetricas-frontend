@@ -6,7 +6,6 @@ import {
   HStack,
   Progress,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
@@ -20,6 +19,7 @@ import {
   stepAction,
 } from '../../../utils/exportSteps';
 import { seesQueue } from '../../../utils/workQueueAccess';
+import { useColorModeValue } from '../../ui/color-mode';
 import ExportCustomsModal from '../ExportCustomsModal';
 
 const STATE_COLOR: Record<ExportProgress['state'], string> = {
@@ -47,22 +47,26 @@ export default function ExportSteps({
   return (
     <Box border='1px solid' borderColor={borderColor} borderRadius='md' p={4}>
       <Flex justify='space-between' align='center' gap={4} wrap='wrap'>
-        <Badge colorScheme={STATE_COLOR[progress.state]} fontSize='sm' px={2}>
+        <Badge colorPalette={STATE_COLOR[progress.state]} fontSize='sm' px={2}>
           {progress.stateLabel}
         </Badge>
-        <HStack flex='1' minW='180px' maxW='360px' spacing={2}>
-          <Progress
+        <HStack flex='1' minW='180px' maxW='360px' gap={2}>
+          <Progress.Root
             flex='1'
             value={progress.progress}
-            colorScheme={STATE_COLOR[progress.state]}
+            colorPalette={STATE_COLOR[progress.state]}
             size='sm'
             borderRadius='md'
-          />
+          >
+            <Progress.Track>
+              <Progress.Range />
+            </Progress.Track>
+          </Progress.Root>
           <Text fontSize='sm'>{progress.progress} %</Text>
         </HStack>
       </Flex>
 
-      <VStack align='stretch' spacing={2} mt={4}>
+      <VStack align='stretch' gap={2} mt={4}>
         {progress.steps.map((step, index) => {
           const action =
             progress.state === 'CANCELLED' || !seesQueue(role, step.key)
@@ -83,7 +87,7 @@ export default function ExportSteps({
                 {index + 1}
               </Text>
               <Badge
-                colorScheme={STEP_STATUS[step.status].colorScheme}
+                colorPalette={STEP_STATUS[step.status].colorScheme}
                 minW='84px'
                 textAlign='center'
               >
@@ -109,7 +113,7 @@ export default function ExportSteps({
                 ('modal' in action ? (
                   <Button
                     size='sm'
-                    colorScheme='green'
+                    colorPalette='green'
                     variant={isNext ? 'solid' : 'outline'}
                     onClick={() => setCustomsOpen(true)}
                   >
@@ -117,13 +121,12 @@ export default function ExportSteps({
                   </Button>
                 ) : (
                   <Button
-                    as={Link_Next}
-                    href={action.href}
                     size='sm'
-                    colorScheme='green'
+                    colorPalette='green'
                     variant={isNext ? 'solid' : 'outline'}
+                    asChild
                   >
-                    {action.label}
+                    <Link_Next href={action.href}>{action.label}</Link_Next>
                   </Button>
                 ))}
             </Flex>

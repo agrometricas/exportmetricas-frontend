@@ -2,10 +2,10 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
@@ -40,9 +40,9 @@ const AddHarborForm: React.FC = () => {
             <Heading fontSize='2xl' p='12px'>
               Puerto Salida/Destino
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldSelector name='type' label='Tipo' options={typesOpt} />
               <InputFieldText name='name' label='Nombre del Puerto' />
               <InputFieldText name='code' label='Código' />
@@ -91,9 +91,7 @@ const AddHarborForm: React.FC = () => {
                 <CheckboxForm
                   name='is24Hours'
                   label='24 horas'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const checked = e.target.checked;
-                    setFieldValue('is24Hours', checked);
+                  onChange={(checked) => {
                     if (checked) {
                       setFieldValue('openTime', '12:00');
                       setFieldValue('closeTime', '12:00');
@@ -123,13 +121,13 @@ const AddHarborForm: React.FC = () => {
             <Heading fontSize='2xl' p='16px'>
               Contactos
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
                   {values.contacts.map((_, index) => (
                     <div key={index}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                         <InputFieldText
                           name={`contacts[${index}].name`}
                           label='Nombre'
@@ -149,14 +147,14 @@ const AddHarborForm: React.FC = () => {
                         <Box />
                         <Button
                           variant='solid'
-                          colorScheme='red'
-                          isDisabled={values.contacts.length === 1}
+                          colorPalette='red'
+                          disabled={values.contacts.length === 1}
                           onClick={() => remove(index)}
                         >
                           Eliminar Contacto
                         </Button>
                       </SimpleGrid>
-                      <Divider
+                      <Separator
                         mt='16px'
                         mb='8px'
                         borderWidth='2px'
@@ -164,7 +162,7 @@ const AddHarborForm: React.FC = () => {
                       />
                     </div>
                   ))}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                     <Box />
                     <Button
                       onClick={() =>
@@ -184,8 +182,8 @@ const AddHarborForm: React.FC = () => {
                 py='8px'
                 px='16px'
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 Enviar
               </Button>

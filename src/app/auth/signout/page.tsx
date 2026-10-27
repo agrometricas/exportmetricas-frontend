@@ -48,7 +48,7 @@ const SignOutPage = (): JSX.Element => {
           mt='32px'
           py='8px'
           px='16px'
-          colorScheme='teal'
+          colorPalette='green'
           onClick={handleSignOut}
         >
           Cerrar Sesión

@@ -1,16 +1,10 @@
 import {
   Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   SimpleGrid,
   Text,
-  useToast,
   VStack,
+  Dialog,
+  Portal,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
@@ -18,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useUpdateExportCustoms } from '../../hooks/export/updateExportCustoms';
 import { ExportResponse } from '../../types/export.response';
 import {
@@ -100,7 +95,6 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
   exportItem,
   onClose,
 }) => {
-  const toast = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: save, isLoading } = useUpdateExportCustoms();
@@ -115,20 +109,20 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
             router.push('/api/auth/signout');
             return;
           }
-          toast({
+          toaster.create({
             title: 'No se pudo guardar la AUCP y la DAE',
             description: serverErrorMessage(error),
-            status: 'error',
+            type: 'error',
             duration: 6000,
-            isClosable: true,
+            closable: true,
           });
         },
         onSuccess: () => {
-          toast({
+          toaster.create({
             title: 'AUCP y DAE guardadas',
-            status: 'success',
+            type: 'success',
             duration: 4000,
-            isClosable: true,
+            closable: true,
           });
           AFFECTED_QUERIES.forEach((key) => queryClient.invalidateQueries(key));
           onClose();
@@ -138,71 +132,88 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
   };
 
   return (
-    <Modal isOpen={!!exportItem} onClose={onClose} isCentered size='xl'>
-      <ModalOverlay />
-      <ModalContent>
-        {exportItem && (
-          <Formik<CustomsValues>
-            initialValues={{
-              aucpNumber: exportItem.aucpNumber ?? '',
-              aucpDate: exportItem.aucpDate ?? '',
-              daeNumber: exportItem.daeNumber ?? '',
-              daeDate: exportItem.daeDate ?? '',
-              daeChannel: exportItem.daeChannel ?? '',
-              daeValue: exportItem.daeValue ?? '',
-            }}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            <Form>
-              <ModalHeader>
-                AUCP y DAE — {exportItem.business?.name},{' '}
-                {exportItem.boxQuantity} cajas
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <VStack align='stretch' spacing={5}>
-                  <Text fontSize='sm' color='gray.600'>
-                    Al exportar se emite la AUCP y el evaluador la convierte en
-                    DAE. Deja un campo vacío para borrarlo.
-                  </Text>
-                  <Text fontWeight='semibold'>AUCP</Text>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                    <InputFieldPlain name='aucpNumber' label='Número' />
-                    <InputFieldDayDate name='aucpDate' label='Fecha' />
-                  </SimpleGrid>
-                  <Text fontWeight='semibold'>DAE</Text>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                    <InputFieldPlain name='daeNumber' label='Número' />
-                    <InputFieldDayDate name='daeDate' label='Fecha' />
-                    <InputFieldSelector
-                      name='daeChannel'
-                      label='Canal de Aforo'
-                      placeholder='Seleccione el canal'
-                      options={CUSTOMS_CHANNEL_OPTIONS}
-                    />
-                    <InputFieldPlain
-                      name='daeValue'
-                      label='Valor (USD)'
-                      inputMode='decimal'
-                      placeholder='Se compara con la factura'
-                    />
-                  </SimpleGrid>
-                </VStack>
-              </ModalBody>
-              <ModalFooter>
-                <Button variant='ghost' mr={3} onClick={onClose}>
-                  Cancelar
-                </Button>
-                <Button type='submit' colorScheme='teal' isLoading={isLoading}>
-                  Guardar
-                </Button>
-              </ModalFooter>
-            </Form>
-          </Formik>
-        )}
-      </ModalContent>
-    </Modal>
+    <Dialog.Root
+      open={!!exportItem}
+      placement='center'
+      size='xl'
+      onOpenChange={(e) => {
+        if (!e.open) {
+          onClose();
+        }
+      }}
+    >
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            {exportItem && (
+              <Formik<CustomsValues>
+                initialValues={{
+                  aucpNumber: exportItem.aucpNumber ?? '',
+                  aucpDate: exportItem.aucpDate ?? '',
+                  daeNumber: exportItem.daeNumber ?? '',
+                  daeDate: exportItem.daeDate ?? '',
+                  daeChannel: exportItem.daeChannel ?? '',
+                  daeValue: exportItem.daeValue ?? '',
+                }}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+              >
+                <Form>
+                  <Dialog.Header>
+                    AUCP y DAE — {exportItem.business?.name},{' '}
+                    {exportItem.boxQuantity} cajas
+                  </Dialog.Header>
+                  <Dialog.CloseTrigger />
+                  <Dialog.Body>
+                    <VStack align='stretch' gap={5}>
+                      <Text fontSize='sm' color='gray.600'>
+                        Al exportar se emite la AUCP y el evaluador la convierte
+                        en DAE. Deja un campo vacío para borrarlo.
+                      </Text>
+                      <Text fontWeight='semibold'>AUCP</Text>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
+                        <InputFieldPlain name='aucpNumber' label='Número' />
+                        <InputFieldDayDate name='aucpDate' label='Fecha' />
+                      </SimpleGrid>
+                      <Text fontWeight='semibold'>DAE</Text>
+                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
+                        <InputFieldPlain name='daeNumber' label='Número' />
+                        <InputFieldDayDate name='daeDate' label='Fecha' />
+                        <InputFieldSelector
+                          name='daeChannel'
+                          label='Canal de Aforo'
+                          placeholder='Seleccione el canal'
+                          options={CUSTOMS_CHANNEL_OPTIONS}
+                        />
+                        <InputFieldPlain
+                          name='daeValue'
+                          label='Valor (USD)'
+                          inputMode='decimal'
+                          placeholder='Se compara con la factura'
+                        />
+                      </SimpleGrid>
+                    </VStack>
+                  </Dialog.Body>
+                  <Dialog.Footer>
+                    <Button variant='ghost' mr={3} onClick={onClose}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type='submit'
+                      colorPalette='green'
+                      loading={isLoading}
+                    >
+                      Guardar
+                    </Button>
+                  </Dialog.Footer>
+                </Form>
+              </Formik>
+            )}
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   );
 };
 

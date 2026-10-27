@@ -1,15 +1,9 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  ModalFooter,
-  SimpleGrid,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, SimpleGrid, Text, Dialog } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateBusinessStockAssignment } from '../../hooks/winery/useCreateBusinessStockAssignment';
 import { Business } from '../../types/cuttingSheet.response';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -46,7 +40,6 @@ export function CreateBusinessStockAssignmentForm({
   onBack,
   onClose,
 }: Props): JSX.Element {
-  const toast = useToast();
   const { mutate, isLoading } = useCreateBusinessStockAssignment();
 
   return (
@@ -64,21 +57,21 @@ export function CreateBusinessStockAssignmentForm({
           },
           {
             onSuccess: () => {
-              toast({
+              toaster.create({
                 title: 'Stock Asignado Exitosamente.',
-                status: 'success',
+                type: 'success',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
               onClose();
             },
             onError: (error: unknown) => {
-              toast({
+              toaster.create({
                 title: 'Error al Asignar Stock.',
                 description: serverErrorMessage(error),
-                status: 'error',
+                type: 'error',
                 duration: 3000,
-                isClosable: true,
+                closable: true,
               });
             },
           }
@@ -87,7 +80,7 @@ export function CreateBusinessStockAssignmentForm({
     >
       {({ values }) => (
         <Form>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
             <InputFieldNumber
               name='availableStock'
               label='Stock Disponible'
@@ -110,19 +103,19 @@ export function CreateBusinessStockAssignmentForm({
             <Text>{business.codeMAGAP}</Text>
           </Box>
 
-          <ModalFooter px={0}>
+          <Dialog.Footer px={0}>
             <Button onClick={onBack} mr={3}>
               Regresar
             </Button>
             <Button
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
-              isDisabled={values.quantity <= 0}
+              colorPalette='green'
+              loading={isLoading}
+              disabled={values.quantity <= 0}
             >
               Asignar
             </Button>
-          </ModalFooter>
+          </Dialog.Footer>
         </Form>
       )}
     </Formik>

@@ -1,7 +1,7 @@
-import { useToast } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from 'react-query';
+import { toaster } from '@/components/ui/toaster';
 import { useCreateVerifier } from '../../../hooks/verifier/createVerifier';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import { ValuesProps, validationSchema, initialValues } from '../schemas/verifier.schema';
@@ -12,7 +12,6 @@ export function useSubmitVerifier(): {
     initialValues: typeof initialValues;
     isLoading: boolean;
 } {
-    const toast = useToast();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { mutate: createVerifier, isLoading } = useCreateVerifier();
@@ -27,23 +26,23 @@ export function useSubmitVerifier(): {
             {
                 onError: (error) => {
                     const statusCode = error.response?.status;
-                    toast({
+                    toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
-                        status: 'error',
+                        type: 'error',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     if (statusCode === 401) {
                         router.push('/api/auth/signout');
                     }
                 },
                 onSuccess: () => {
-                    toast({
+                    toaster.create({
                         title: 'Verificadora Creada con éxito',
-                        status: 'success',
+                        type: 'success',
                         duration: 5000,
-                        isClosable: true,
+                        closable: true,
                     });
                     queryClient.invalidateQueries('verifiers');
                     formikHelpers.resetForm();

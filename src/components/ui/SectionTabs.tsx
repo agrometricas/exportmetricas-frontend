@@ -1,6 +1,6 @@
 'use client';
 
-import { Tab, TabList, Tabs } from '@chakra-ui/react';
+import { Tabs } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useRef } from 'react';
@@ -24,14 +24,14 @@ const SectionTabs: React.FC<SectionTabsProps> = ({ tabs }) => {
   }, [index]);
 
   return (
-    <Tabs
-      index={index}
-      variant='soft-rounded'
-      colorScheme='green'
+    <Tabs.Root
+      value={tabs[index]?.to ?? null}
+      variant='subtle'
+      colorPalette='green'
       size='sm'
       mb={4}
     >
-      <TabList
+      <Tabs.List
         ref={listRef}
         overflowX='auto'
         flexWrap='nowrap'
@@ -39,12 +39,12 @@ const SectionTabs: React.FC<SectionTabsProps> = ({ tabs }) => {
         pb={1}
       >
         {tabs.map((tab) => (
-          <Tab key={tab.to} as={NextLink} href={tab.to} flexShrink={0}>
-            {tab.label}
-          </Tab>
+          <Tabs.Trigger key={tab.to} value={tab.to} flexShrink={0} asChild>
+            <NextLink href={tab.to}>{tab.label}</NextLink>
+          </Tabs.Trigger>
         ))}
-      </TabList>
-    </Tabs>
+      </Tabs.List>
+    </Tabs.Root>
   );
 };
 

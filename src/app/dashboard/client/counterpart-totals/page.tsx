@@ -1,19 +1,9 @@
 'use client';
-
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  HStack,
-  Heading,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Card, HStack, Heading, Icon, Text } from '@chakra-ui/react';
 import React from 'react';
 import { MdInsights } from 'react-icons/md';
 import CounterpartTotalsView from '../../../../components/counterpart-totals/CounterpartTotalsView';
+import { useColorModeValue } from '../../../../components/ui/color-mode';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function CounterpartTotalsPage(): React.JSX.Element {
@@ -27,7 +17,7 @@ function CounterpartTotalsPage(): React.JSX.Element {
   return (
     <Box minH='100vh' bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
       <Box maxW='8xl' mx='auto'>
-        <Card
+        <Card.Root
           bg={cardBg}
           borderColor={borderColor}
           borderRadius='xl'
@@ -35,10 +25,12 @@ function CounterpartTotalsPage(): React.JSX.Element {
           overflow='hidden'
           border='1px solid'
         >
-          <CardHeader bg={headBg}>
-            <HStack spacing={3} align='center'>
+          <Card.Header bg={headBg}>
+            <HStack gap={3} align='center'>
               <Box p={2} bg='green.100' borderRadius='lg' color='green.600'>
-                <Icon as={MdInsights} boxSize={5} />
+                <Icon boxSize={5} asChild>
+                  <MdInsights />
+                </Icon>
               </Box>
               <Box>
                 <Heading size='lg' color={headingColor} fontWeight='bold'>
@@ -50,12 +42,12 @@ function CounterpartTotalsPage(): React.JSX.Element {
                 </Text>
               </Box>
             </HStack>
-          </CardHeader>
+          </Card.Header>
 
-          <CardBody>
+          <Card.Body>
             <CounterpartTotalsView />
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
     </Box>
   );

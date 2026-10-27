@@ -1,12 +1,5 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
-  Divider,
   Flex,
   Heading,
   HStack,
@@ -14,6 +7,9 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
+  Dialog,
+  Portal,
+  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
@@ -55,8 +51,8 @@ export default function BookingForm({
             <Heading fontSize='2xl' p='12px'>
               Reserva
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldPlain name='bookingNumber' label='Número de Booking' />
               <InputFieldShippingCompanySelect
                 name='shippingCompanyId'
@@ -77,8 +73,8 @@ export default function BookingForm({
             <Heading fontSize='2xl' p='16px'>
               Zarpe y Ruta
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate
                 name='etdDay'
                 label='Día de Zarpe (ETD)'
@@ -96,8 +92,8 @@ export default function BookingForm({
             <Heading fontSize='2xl' p='16px'>
               Contenedores
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldPlain
                 name='containerCount'
                 label='Contenedores Reservados'
@@ -118,11 +114,12 @@ export default function BookingForm({
                       />
                       <IconButton
                         aria-label={`Quitar el contenedor ${index + 1}`}
-                        icon={<FiTrash2 />}
                         variant='ghost'
-                        colorScheme='red'
+                        colorPalette='red'
                         onClick={() => remove(index)}
-                      />
+                      >
+                        <FiTrash2 />
+                      </IconButton>
                     </HStack>
                   ))}
                   {typeof errors.containers === 'string' && (
@@ -132,15 +129,15 @@ export default function BookingForm({
                   )}
                   <Button
                     alignSelf='flex-start'
-                    leftIcon={<FiPlus />}
                     variant='outline'
-                    colorScheme='green'
-                    isDisabled={
+                    colorPalette='green'
+                    disabled={
                       values.containers.length >=
                       (Number(values.containerCount) || 0)
                     }
                     onClick={() => push('')}
                   >
+                    <FiPlus />
                     Agregar Número de Contenedor
                   </Button>
                 </Flex>
@@ -151,17 +148,17 @@ export default function BookingForm({
               <Button
                 flex={1}
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 {booking ? 'Guardar Cambios' : 'Crear Booking'}
               </Button>
               {booking && (
                 <Button
                   variant='outline'
-                  colorScheme='red'
+                  colorPalette='red'
                   onClick={confirm.onOpen}
-                  isLoading={isDeleting}
+                  loading={isDeleting}
                 >
                   Eliminar Booking
                 </Button>
@@ -169,39 +166,48 @@ export default function BookingForm({
             </Flex>
           </Flex>
 
-          <AlertDialog
-            isOpen={confirm.isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={confirm.onClose}
+          <Dialog.Root
+            open={confirm.open}
+            initialFocusEl={() => cancelRef.current}
+            role='alertdialog'
+            onOpenChange={(e) => {
+              if (!e.open) {
+                confirm.onClose();
+              }
+            }}
           >
-            <AlertDialogOverlay>
-              <AlertDialogContent>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                  Eliminar booking
-                </AlertDialogHeader>
-                <AlertDialogBody>
-                  Se eliminará el booking {booking?.bookingNumber} con sus
-                  números de contenedor.
-                </AlertDialogBody>
-                <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={confirm.onClose}>
-                    Volver
-                  </Button>
-                  <Button
-                    colorScheme='red'
-                    ml={3}
-                    isLoading={isDeleting}
-                    onClick={() => {
-                      confirm.onClose();
-                      onDelete();
-                    }}
-                  >
-                    Eliminar
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
+            <Portal>
+              <Dialog.Backdrop>
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.Header fontSize='lg' fontWeight='bold'>
+                      Eliminar booking
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      Se eliminará el booking {booking?.bookingNumber} con sus
+                      números de contenedor.
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                      <Button ref={cancelRef} onClick={confirm.onClose}>
+                        Volver
+                      </Button>
+                      <Button
+                        colorPalette='red'
+                        ml={3}
+                        loading={isDeleting}
+                        onClick={() => {
+                          confirm.onClose();
+                          onDelete();
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Backdrop>
+            </Portal>
+          </Dialog.Root>
         </Form>
       )}
     </Formik>

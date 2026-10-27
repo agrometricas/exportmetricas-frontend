@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Button,
-} from '@chakra-ui/react';
+import { Button, Dialog, Portal } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { LinkClick, leavingTarget } from '../../../utils/leavingTarget';
@@ -96,35 +88,44 @@ const UnsavedChangesGuard: React.FC<UnsavedChangesGuardProps> = ({
   return (
     <>
       <span ref={anchorRef} hidden />
-      <AlertDialog
-        isOpen={target !== null}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setTarget(null)}
-        isCentered
+      <Dialog.Root
+        open={target !== null}
+        initialFocusEl={() => cancelRef.current}
+        placement='center'
+        role='alertdialog'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            setTarget(null);
+          }
+        }}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent mx={4}>
-            <AlertDialogHeader>Tienes cambios sin guardar</AlertDialogHeader>
-            <AlertDialogBody>
-              Si sales ahora, se pierde lo que llenaste en este formulario.
-            </AlertDialogBody>
-            <AlertDialogFooter gap={3}>
-              <Button ref={cancelRef} onClick={() => setTarget(null)}>
-                Seguir editando
-              </Button>
-              <Button
-                colorScheme='red'
-                onClick={() => {
-                  if (target) router.push(target);
-                  setTarget(null);
-                }}
-              >
-                Salir sin guardar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        <Portal>
+          <Dialog.Backdrop>
+            <Dialog.Positioner>
+              <Dialog.Content mx={4}>
+                <Dialog.Header>Tienes cambios sin guardar</Dialog.Header>
+                <Dialog.Body>
+                  Si sales ahora, se pierde lo que llenaste en este formulario.
+                </Dialog.Body>
+                <Dialog.Footer gap={3}>
+                  <Button ref={cancelRef} onClick={() => setTarget(null)}>
+                    Seguir editando
+                  </Button>
+                  <Button
+                    colorPalette='red'
+                    onClick={() => {
+                      if (target) router.push(target);
+                      setTarget(null);
+                    }}
+                  >
+                    Salir sin guardar
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Backdrop>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 };

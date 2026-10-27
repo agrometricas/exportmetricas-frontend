@@ -1,15 +1,13 @@
 'use client';
 import {
   Alert,
-  AlertDescription,
-  AlertIcon,
   Button,
-  Divider,
   Flex,
   Heading,
   SimpleGrid,
   Box,
   Text,
+  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
@@ -112,22 +110,22 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
           <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
           <Flex flexDirection='column' gap={3}>
             {fromLine && (
-              <Alert status='info' borderRadius='md'>
-                <AlertIcon />
-                <AlertDescription>
+              <Alert.Root status='info' borderRadius='md'>
+                <Alert.Indicator />
+                <Alert.Description>
                   Nace de la orden de compra de la {fromLine.week}:{' '}
                   {fromLine.line.business.name}, {fromLine.line.boxBrand.name},{' '}
                   {fromLine.line.boxQuantity} cajas de{' '}
                   {fromLine.line.type === 'CONTRACT' ? 'contrato' : 'spot'}. La
                   finca y la alícuota son las de la línea; las cajas se pueden
                   ajustar.
-                </AlertDescription>
-              </Alert>
+                </Alert.Description>
+              </Alert.Root>
             )}
             <Heading fontSize='2xl' p='12px'>
               Productor
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <SelectProducer
               name='merchantId'
               producerSelect={
@@ -138,7 +136,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <Heading fontSize='2xl' p='12px'>
               Finca
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <SelectBusiness
               name='businessId'
               merchant={values.merchantId || undefined}
@@ -153,7 +151,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <Heading fontSize='2xl' p='12px'>
               Marca de Caja
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <SelectBoxBrand
               name='boxBrandId'
               boxBrandSelect={
@@ -161,7 +159,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 fromLine?.boxBrand
               }
             />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='boxQuantity'
                 label='Cantidad de Cajas'
@@ -178,8 +176,8 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <Heading fontSize={'2xl'} p={'12px'}>
               Fecha de Corte
             </Heading>
-            <Divider mb={'16px'} />
-            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
+            <Separator mb={'16px'} />
+            <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
               <InputFieldDayDate
                 name={'cuttingDate'}
                 label={'Fecha de Corte'}
@@ -230,7 +228,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <Heading fontSize='2xl' p='12px'>
               Cliente
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <SelectClient
               name={'clientId'}
               clientSelect={source?.client as Partial<ClientType> | undefined}
@@ -238,7 +236,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <Heading fontSize={'2xl'} p={'12px'}>
               Naviera
             </Heading>
-            <Divider mb={'16px'} />
+            <Separator mb={'16px'} />
             <ExportBookingSelect
               editingExportId={editing ? source?.id : undefined}
             />
@@ -253,7 +251,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                     setFieldValue('destinationHarborId', '');
                   }}
                 />
-                <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+                <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                   <InputFieldHarborShippingCompany
                     key={`departure-${values.shippingCompanyId || 'none'}`}
                     name='departureHarborId'
@@ -276,7 +274,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                   />
                 </SimpleGrid>
 
-                <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={5}>
+                <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
                   <InputFieldShipName
                     name='shipName'
                     label='Nombre de la Nave'
@@ -300,7 +298,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               </>
             )}
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDepositSelect
                 name='depositId'
                 label='Depósito'
@@ -323,14 +321,14 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               />
             </SimpleGrid>
 
-            <Divider my='16px' />
+            <Separator my='16px' />
             <Button
               mt='12px'
               py='8px'
               px='16px'
               type='submit'
-              colorScheme='teal'
-              isLoading={isLoading}
+              colorPalette='green'
+              loading={isLoading}
             >
               {editing ? 'Guardar cambios' : 'Enviar'}
             </Button>

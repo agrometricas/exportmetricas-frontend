@@ -1,21 +1,16 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
-  Divider,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   Input,
   SimpleGrid,
   Text,
   useDisclosure,
+  Dialog,
+  Portal,
+  Separator,
+  Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import Link_Next from 'next/link';
@@ -79,15 +74,15 @@ export default function PurchaseOrderForm({
             <Heading fontSize='2xl' p='12px'>
               Productor y Semana
             </Heading>
-            <Divider mb='16px' />
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={5}>
+            <Separator mb='16px' />
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {order ? (
-                <FormControl>
-                  <FormLabel fontSize='sm' mb='8px'>
+                <Field.Root>
+                  <Field.Label fontSize='sm' mb='8px'>
                     Productor
-                  </FormLabel>
-                  <Input isReadOnly value={order.merchant.businessName} />
-                </FormControl>
+                  </Field.Label>
+                  <Input readOnly value={order.merchant.businessName} />
+                </Field.Root>
               ) : (
                 <InputFieldProducerSelect
                   name='merchantId'
@@ -106,20 +101,23 @@ export default function PurchaseOrderForm({
             <Heading fontSize='2xl' p='16px'>
               Líneas
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <Text fontSize='sm' color='gray.600'>
               Cada línea es una finca, una alícuota y sus cajas. Márcala como
               contrato si va contra el cupo del productor, o como spot.
             </Text>
             {order && exportedLines < order.lines.length && (
               <Button
-                as={Link_Next}
-                href={`/dashboard/export/purchase-orders/${order.id}/plan`}
                 alignSelf='flex-start'
                 size='sm'
-                colorScheme='green'
+                colorPalette='green'
+                asChild
               >
-                Plan semanal: crear varias exportaciones
+                <Link_Next
+                  href={`/dashboard/export/purchase-orders/${order.id}/plan`}
+                >
+                  Plan semanal: crear varias exportaciones
+                </Link_Next>
               </Button>
             )}
             <FieldArray name='lines'>
@@ -143,11 +141,11 @@ export default function PurchaseOrderForm({
                   )}
                   <Button
                     alignSelf='flex-start'
-                    leftIcon={<FiPlus />}
                     variant='outline'
-                    colorScheme='green'
+                    colorPalette='green'
                     onClick={() => push(emptyLine)}
                   >
+                    <FiPlus />
                     Agregar Línea
                   </Button>
                 </Flex>
@@ -157,25 +155,25 @@ export default function PurchaseOrderForm({
             <Heading fontSize='2xl' p='16px'>
               Cupo de la Semana
             </Heading>
-            <Divider mb='16px' />
+            <Separator mb='16px' />
             <DraftQuota values={values} />
 
             <Flex gap={3} mt='12px' direction={{ base: 'column', sm: 'row' }}>
               <Button
                 flex={1}
                 type='submit'
-                colorScheme='teal'
-                isLoading={isLoading}
+                colorPalette='green'
+                loading={isLoading}
               >
                 {order ? 'Guardar Cambios' : 'Crear Orden de Compra'}
               </Button>
               {order && (
                 <Button
                   variant='outline'
-                  colorScheme='red'
+                  colorPalette='red'
                   onClick={confirm.onOpen}
-                  isLoading={isDeleting}
-                  isDisabled={exportedLines > 0}
+                  loading={isDeleting}
+                  disabled={exportedLines > 0}
                   title={
                     exportedLines > 0
                       ? 'Cancela sus exportaciones para eliminarla'
@@ -188,41 +186,50 @@ export default function PurchaseOrderForm({
             </Flex>
           </Flex>
 
-          <AlertDialog
-            isOpen={confirm.isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={confirm.onClose}
+          <Dialog.Root
+            open={confirm.open}
+            initialFocusEl={() => cancelRef.current}
+            role='alertdialog'
+            onOpenChange={(e) => {
+              if (!e.open) {
+                confirm.onClose();
+              }
+            }}
           >
-            <AlertDialogOverlay>
-              <AlertDialogContent>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                  Eliminar orden de compra
-                </AlertDialogHeader>
-                <AlertDialogBody>
-                  <Box>
-                    Se eliminará la orden de {order?.merchant.businessName} con
-                    sus líneas.
-                  </Box>
-                </AlertDialogBody>
-                <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={confirm.onClose}>
-                    Volver
-                  </Button>
-                  <Button
-                    colorScheme='red'
-                    ml={3}
-                    isLoading={isDeleting}
-                    onClick={() => {
-                      confirm.onClose();
-                      onDelete();
-                    }}
-                  >
-                    Eliminar
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
+            <Portal>
+              <Dialog.Backdrop>
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.Header fontSize='lg' fontWeight='bold'>
+                      Eliminar orden de compra
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      <Box>
+                        Se eliminará la orden de {order?.merchant.businessName}{' '}
+                        con sus líneas.
+                      </Box>
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                      <Button ref={cancelRef} onClick={confirm.onClose}>
+                        Volver
+                      </Button>
+                      <Button
+                        colorPalette='red'
+                        ml={3}
+                        loading={isDeleting}
+                        onClick={() => {
+                          confirm.onClose();
+                          onDelete();
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Backdrop>
+            </Portal>
+          </Dialog.Root>
         </Form>
       )}
     </Formik>

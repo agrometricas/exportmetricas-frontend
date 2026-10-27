@@ -6,15 +6,10 @@ import {
   Text,
   Center,
   Button,
-  Divider,
   Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
   SimpleGrid,
   useDisclosure,
+  Separator,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import { useMemo, useState } from 'react';
@@ -38,12 +33,12 @@ export function AddMaterialForm({
   materialId,
   materialName,
 }: AddMaterialFormProps): JSX.Element {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
   const {
-    isOpen: isAssignOpen,
+    open: isAssignOpen,
     onOpen: onAssignOpen,
     onClose: onAssignClose,
   } = useDisclosure();
@@ -86,7 +81,7 @@ export function AddMaterialForm({
       case 'ADJUSTMENT':
         return <MdArrowDownward color='green' size={18} />;
       case 'RETURN':
-        return <MdArrowDownward color='teal' size={18} />;
+        return <MdArrowDownward color='green.fg' size={18} />;
       default:
         return null;
     }
@@ -98,7 +93,7 @@ export function AddMaterialForm({
         Stock de {materialName}
       </Heading>
 
-      <SimpleGrid columns={{ base: 1, sm: 4 }} spacing={4} mb={4}>
+      <SimpleGrid columns={{ base: 1, sm: 4 }} gap={4} mb={4}>
         <Box>
           <Text fontWeight='bold'>Código:</Text>
           <Text mb={2}>{stock.materialDetail.code}</Text>
@@ -132,18 +127,18 @@ export function AddMaterialForm({
         </Box>
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, sm: 4 }} spacing={4} mb={4}>
-        <Button colorScheme='teal' onClick={onOpen}>
+      <SimpleGrid columns={{ base: 1, sm: 4 }} gap={4} mb={4}>
+        <Button colorPalette='green' onClick={onOpen}>
           Agregar Stock a Exportadora
         </Button>
         <UpdateStockModal
-          isOpen={isOpen}
+          isOpen={open}
           onClose={onClose}
           stockId={stock.id}
           initialStock={stock.currentStock}
           initialCost={stock.currentCost}
         />
-        <Button colorScheme='teal' onClick={onAssignOpen}>
+        <Button colorPalette='green' onClick={onAssignOpen}>
           Asignar Stock a Fincas
         </Button>
         <AssignStockToBusinessModal
@@ -157,7 +152,7 @@ export function AddMaterialForm({
         />
       </SimpleGrid>
 
-      <Divider my={6} />
+      <Separator my={6} />
 
       <Heading mb={4} size='md'>
         Movimientos de Stock
@@ -166,37 +161,43 @@ export function AddMaterialForm({
       <Box overflowX='auto'>
         {stock.stockMovements && stock.stockMovements.length > 0 ? (
           <Box>
-            <Table variant='simple' size='sm'>
-              <Thead>
-                <Tr>
-                  <Th>Fecha</Th>
-                  <Th>Tipo</Th>
-                  <Th></Th>
-                  <Th isNumeric>Cantidad</Th>
-                  <Th isNumeric>Costo Unitario</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
+            <Table.Root variant='line' size='sm'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeader>Fecha</Table.ColumnHeader>
+                  <Table.ColumnHeader>Tipo</Table.ColumnHeader>
+                  <Table.ColumnHeader></Table.ColumnHeader>
+                  <Table.ColumnHeader textAlign='end'>
+                    Cantidad
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader textAlign='end'>
+                    Costo Unitario
+                  </Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {paginatedMovements?.map((movement) => (
-                  <Tr key={movement.id}>
-                    <Td>
+                  <Table.Row key={movement.id}>
+                    <Table.Cell>
                       {format(new Date(movement.createdAt), 'dd/MM/yyyy')}
-                    </Td>
-                    <Td>
+                    </Table.Cell>
+                    <Table.Cell>
                       {MOVEMENT_TYPE_LABELS[movement.type] ?? movement.type}
-                    </Td>
-                    <Td>{getMovementIcon(movement.type)}</Td>
-                    <Td isNumeric>{movement.quantity}</Td>
-                    <Td isNumeric>${movement.unitCost.toFixed(2)}</Td>
-                  </Tr>
+                    </Table.Cell>
+                    <Table.Cell>{getMovementIcon(movement.type)}</Table.Cell>
+                    <Table.Cell textAlign='end'>{movement.quantity}</Table.Cell>
+                    <Table.Cell textAlign='end'>
+                      ${movement.unitCost.toFixed(2)}
+                    </Table.Cell>
+                  </Table.Row>
                 ))}
-              </Tbody>
-            </Table>
+              </Table.Body>
+            </Table.Root>
             <Box mt={4} display='flex' justifyContent='end' gap={4}>
               <Button
                 size='sm'
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                isDisabled={currentPage === 1}
+                disabled={currentPage === 1}
               >
                 Anterior
               </Button>
@@ -213,7 +214,7 @@ export function AddMaterialForm({
                       : prev
                   )
                 }
-                isDisabled={
+                disabled={
                   currentPage ===
                   Math.ceil(stock.stockMovements.length / itemsPerPage)
                 }
