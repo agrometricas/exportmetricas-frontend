@@ -1,97 +1,64 @@
 'use client';
 
 import { Box, Text, Popover, Portal } from '@chakra-ui/react';
-import React, { useMemo } from 'react';
-import {
-  DetailField,
-  DetailFields,
-  DetailItem,
-} from '@/components/ui/DetailFields';
-import { ExportResponse } from '@/types/export.response';
+import React from 'react';
+import { DetailField, DetailFields } from '@/components/ui/DetailFields';
+import { WeekSummary, WeekSummaryExport } from '@/types/weekSummary';
 import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 
 interface WeeklyExportsSummaryProps {
-  filteredData: ExportResponse[];
+  exports: WeekSummaryExport[];
+  totals: WeekSummary['totals'];
   getExportColor: (exportId?: number) => string;
 }
 
+function route(exp: WeekSummaryExport): string {
+  return [
+    exp.destination.region,
+    exp.client.rainforestAlliance && 'RFA',
+    [exp.destination.countryCode, exp.destination.harborCode]
+      .filter(Boolean)
+      .join(''),
+    exp.depositCode,
+    exp.shippingCompanyCode,
+    exp.boxBrand.grossWeightBox && `${exp.boxBrand.grossWeightBox} lb`,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+}
+
+function containers(exp: WeekSummaryExport): string {
+  const unit = exp.containers === 1 ? 'contenedor' : 'contenedores';
+  const size = exp.boxBrand.boxesPerContainer
+    ? ` de ${exp.boxBrand.boxesPerContainer} cajas`
+    : '';
+  return `${exp.containers} ${unit}${size}`;
+}
+
 export default function WeeklyExportsSummary({
-  filteredData,
+  exports,
+  totals,
   getExportColor,
 }: WeeklyExportsSummaryProps): React.JSX.Element {
-  const exportGroups = useMemo(() => {
-    const groups: Record<
-      number,
-      { exportId: number; totalBoxes: number; exports: ExportResponse[] }
-    > = {};
-    filteredData.forEach((exp) => {
-      if (!exp.id) return;
-      if (!groups[exp.id]) {
-        groups[exp.id] = { exportId: exp.id, totalBoxes: 0, exports: [] };
-      }
-      groups[exp.id].totalBoxes += exp.boxQuantity;
-      groups[exp.id].exports.push(exp);
-    });
-    return Object.values(groups).filter((group) => group.totalBoxes > 0);
-  }, [filteredData]);
+  const withBoxes = exports.filter((exp) => exp.boxQuantity > 0);
 
-  const totalBoxes = useMemo(
-    () => filteredData.reduce((acc, exp) => acc + exp.boxQuantity, 0),
-    [filteredData]
-  );
-  const totalContainers = exportGroups.reduce((accGroup, group) => {
-    const groupContainers = group.exports.reduce((accExp, exp) => {
-      const boxesPerContainer = exp.boxBrand.boxQuantity || 1;
-      return accExp + Math.ceil(exp.boxQuantity / boxesPerContainer);
-    }, 0);
-    return accGroup + groupContainers;
-  }, 0);
   return (
     <Box display='flex' flexDirection='column' minH='100%'>
       <Text as='h3' textStyle='h3' color='fg.heading' mb={4}>
         Resumen
       </Text>
       <Box flex='1'>
-        {exportGroups.length === 0 && (
+        {withBoxes.length === 0 && (
           <Text fontSize='sm' color='fg.muted'>
             Aún no hay exportaciones para la semana seleccionada.
           </Text>
         )}
-        {exportGroups.map((group) => {
-          const color = getExportColor(group.exportId);
-          const first = group.exports[0];
-          const groupContainers = group.exports.reduce((acc, exp) => {
-            const boxesPerContainer = exp.boxBrand.boxQuantity || 1;
-            return acc + Math.ceil(exp.boxQuantity / boxesPerContainer);
-          }, 0);
-          const certificates = first.client?.certificates;
-          const rainforest =
-            Array.isArray(certificates) &&
-            certificates.some(
-              (item) => item.certificate?.name === 'RAINFOREST ALLIANCE'
-            );
-          const route = [
-            first.harborDestination?.country?.region,
-            rainforest && 'RFA',
-            [
-              first.harborDestination?.country?.code,
-              first.harborDestination?.code,
-            ]
-              .filter(Boolean)
-              .join(''),
-            first.deposit?.code,
-            first.shippingCompany?.code,
-            first.boxBrand?.grossWeightBox &&
-              `${first.boxBrand.grossWeightBox} lb`,
-          ]
-            .filter(Boolean)
-            .join(' · ');
-          const containers = `${groupContainers} ${
-            groupContainers === 1 ? 'contenedor' : 'contenedores'
-          }${first.boxBrand?.boxQuantity ? ` de ${first.boxBrand.boxQuantity} cajas` : ''}`;
+        {withBoxes.map((exp) => {
+          const color = getExportColor(exp.id);
+          const title = `${exp.boxQuantity} cajas · ${exp.boxBrand.brand}`;
           return (
             <Popover.Root
-              key={group.exportId}
+              key={exp.id}
               positioning={{ placement: 'bottom-start' }}
             >
               <Popover.Trigger asChild>
@@ -111,13 +78,13 @@ export default function WeeklyExportsSummary({
                   _hover={{ bg: 'bg.muted' }}
                 >
                   <Text fontSize='sm' fontWeight='semibold'>
-                    {group.totalBoxes} cajas · {first.boxBrand?.brand.name}
+                    {title}
                   </Text>
                   <Text fontSize='xs' color='fg.muted'>
-                    {route}
+                    {route(exp)}
                   </Text>
                   <Text fontSize='xs' color='fg.muted'>
-                    {containers}
+                    {containers(exp)}
                   </Text>
                 </Box>
               </Popover.Trigger>
@@ -132,37 +99,33 @@ export default function WeeklyExportsSummary({
                     <Popover.CloseTrigger />
                     <Popover.Header>
                       <Popover.Title fontWeight='semibold'>
-                        {group.totalBoxes} cajas · {first.boxBrand?.brand.name}
+                        {title}
                       </Popover.Title>
                       <Text fontSize='xs' color='fg.muted'>
-                        {route}
+                        {route(exp)}
                       </Text>
                     </Popover.Header>
                     <Popover.Body>
-                      {group.exports.map((exp) => (
-                        <DetailItem key={exp.id}>
-                          <DetailFields>
-                            <DetailField label='Cajas procesadas'>
-                              {exp.boxQuantity}
-                            </DetailField>
-                            <DetailField label='Cut-off'>
-                              {formatDayMonthYearTime(exp.shippingDateTime)}
-                            </DetailField>
-                            <DetailField label='Productor'>
-                              {exp.merchant?.businessName}
-                            </DetailField>
-                            <DetailField label='Finca'>
-                              {exp.business?.name}
-                            </DetailField>
-                            <DetailField label='Marca'>
-                              {exp.boxBrand?.name} · {exp.boxBrand?.brand.name}
-                            </DetailField>
-                            <DetailField label='Cliente'>
-                              {exp.client?.businessName}
-                            </DetailField>
-                          </DetailFields>
-                        </DetailItem>
-                      ))}
+                      <DetailFields>
+                        <DetailField label='Cajas procesadas'>
+                          {exp.boxQuantity}
+                        </DetailField>
+                        <DetailField label='Cut-off'>
+                          {formatDayMonthYearTime(exp.shippingDateTime)}
+                        </DetailField>
+                        <DetailField label='Productor'>
+                          {exp.merchant.name}
+                        </DetailField>
+                        <DetailField label='Finca'>
+                          {exp.business.name}
+                        </DetailField>
+                        <DetailField label='Marca'>
+                          {exp.boxBrand.name} · {exp.boxBrand.brand}
+                        </DetailField>
+                        <DetailField label='Cliente'>
+                          {exp.client.name}
+                        </DetailField>
+                      </DetailFields>
                     </Popover.Body>
                   </Popover.Content>
                 </Popover.Positioner>
@@ -173,8 +136,8 @@ export default function WeeklyExportsSummary({
       </Box>
       <Box mt={4} pt={4} borderTopWidth='1px'>
         <DetailFields>
-          <DetailField label='Contenedores'>{totalContainers}</DetailField>
-          <DetailField label='Cajas'>{totalBoxes}</DetailField>
+          <DetailField label='Contenedores'>{totals.containers}</DetailField>
+          <DetailField label='Cajas'>{totals.boxes}</DetailField>
         </DetailFields>
       </Box>
     </Box>

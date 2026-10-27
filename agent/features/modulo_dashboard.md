@@ -1,7 +1,7 @@
 # Módulo Inicio (`/dashboard`)
 
 > Pantalla de entrada después del login. *Lo que falta* sale de
-> `GET /export/work-queue`; el resto se arma con listas que ya existen.
+> `GET /export/work-queue` y la vista semanal, de `GET /reports/week`.
 
 ### Propósito
 
@@ -35,16 +35,25 @@ Todos ven el saludo con su nombre y el menú lateral de su rol.
 
 | Dato | Hook | Endpoint |
 |------|------|----------|
-| Exportaciones | `useExports` | `GET /export` |
-| Envíos de insumos con sus pagos | `useExportsSent` | `GET /export-sent` |
+| Resumen de la semana | `useWeekSummary` | `GET /reports/week?week=&merchantId=&boxBrandId=&clientId=` |
 | Precios spot | `useSpotPrices` | `GET /spot-prices` (últimos 10) |
 | Excel de materiales | `useDownloadMaterialsSummaryReport` | `GET /reports/materials-summary?date=` |
 | Fincas que pasaron su cupo esta semana | `useContractUsage` | `GET /contract-usage?week=` |
 
-`CalendarSummaryContainer` mantiene la semana seleccionada y filtra las listas
-completas en memoria. Arma dos columnas: a la izquierda el calendario, las
-fincas y el gráfico; a la derecha el egreso y el ingreso de la semana, el
-resumen y los precios spot.
+`CalendarSummaryContainer` mantiene la semana seleccionada y los filtros
+(productor, marca y cliente, por id) y pide el resumen de esa semana. El
+backend devuelve todo armado: las cajas de cada día, las exportaciones, los
+totales, las fincas, las cajas cobradas y pagadas, y el precio spot por
+productor. Los filtros se aplican a todo el resumen; sus opciones son las de
+la semana, y una opción elegida en otra semana sigue en la lista para poder
+quitarla.
+
+Arma dos columnas: a la izquierda el calendario, las fincas y el gráfico; a la
+derecha el egreso y el ingreso de la semana, el resumen y los precios spot.
+
+La consulta se repite cada vez que se abre Inicio (`staleTime: 0`): casi
+cualquier escritura cambia alguna cifra de la semana. Al cambiar de semana o de
+filtro, la vista anterior queda atenuada hasta que llega la nueva.
 
 ---
 
@@ -52,30 +61,20 @@ resumen y los precios spot.
 
 | Componente | Qué muestra |
 |------------|-------------|
-| `WeeklyExportsCalendar` | Grilla de lunes a domingo con las cajas de cada exportación por día (de `weekDaysOfWeek` / `weekBoxesOfDay`) |
+| `WeeklyExportsCalendar` | Grilla de lunes a domingo con las cajas de cada exportación por día (`days` del resumen) y los filtros |
 | `ExportCardWithPopover` | Cada exportación dentro del calendario, con su detalle |
-| `WeeklyExportsSummary` | Totales de la semana: cajas y contenedores |
+| `WeeklyExportsSummary` | Cada exportación con su destino y sus contenedores, y los totales de cajas y contenedores |
 | `WeeklyFarmSummaryCard` | Resumen por finca y descarga del Excel de materiales |
 | `ExportSentChart` | Barras con las cajas cobradas al cliente frente a las pagadas al productor, por marca, productor y cliente (recharts, colores de `CHART_SERIES`) |
-| `SpotPriceComparison` | Últimos precios spot y lo pagado a productores con contrato `SPOT` |
+| `SpotPriceComparison` | Últimos precios spot y el promedio pagado a productores con contrato `SPOT`, con la tendencia frente al precio de referencia de la semana |
 
 ---
 
-### Cálculos que hace el cliente
+### Cálculos
 
-Este módulo es donde más aritmética hay en el navegador:
-
-- Cajas por día y por semana, sumando `weekBoxesOfDay`.
-- Total de contenedores de la semana: por cada exportación, sus cajas divididas
-  para las cajas por contenedor de la alícuota (`boxBrand.boxQuantity`),
-  redondeando hacia arriba.
-- Total cobrado al cliente y total pagado al productor por envío.
-- Monto por productor en contratos `SPOT`: `price × boxQuantity` del pago.
-
-Son agregados de presentación sobre valores que el backend ya guardó, pero están
-escritos dentro de los componentes, cada uno en su `useMemo`. Antes de reusar
-uno, extraerlo a `utils/`; si una cifra debe coincidir con un reporte o con un
-pago, pedirla al backend.
+Los hace el backend (`GET /reports/week`). La web solo da formato y asigna un
+color a cada exportación (`getExportColor`), que se mantiene al cambiar de
+semana.
 
 ---
 
@@ -87,10 +86,9 @@ pago, pedirla al backend.
 | Contenedor por rol | `components/dashboard/Dashboard.tsx` |
 | Vista semanal | `components/dashboard/CalendarSummaryContainer.tsx` |
 | Piezas | `components/dashboard/{WeeklyExportsCalendar, ExportCardWithPopover, WeeklyExportsSummary, WeeklyFarmSummaryCard, ExportSentChart, SpotPriceComparison}.tsx` |
-| Hooks | `hooks/export/getExports.ts`, `hooks/export/getExportSents.ts`, `hooks/utils/getSpotPrices.ts`, `hooks/utils/useDownloadMaterialsSummaryReport.ts` |
+| Hooks | `hooks/reports/weekSummary.ts`, `hooks/utils/getSpotPrices.ts`, `hooks/utils/useDownloadMaterialsSummaryReport.ts` |
+| Tipos | `types/weekSummary.ts` |
 
-- La vista carga **todas** las exportaciones y todos los envíos de la
-  exportadora y filtra por semana en el navegador; no hay consulta por rango.
 - El Excel se pide con la fecha de la semana visible y falla con 404 si esa
   semana no tiene exportaciones.
 - No hay pantalla para cargar precios spot: se registran directamente contra el

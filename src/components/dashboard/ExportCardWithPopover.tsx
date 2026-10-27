@@ -3,11 +3,11 @@
 import { Box, Text, Popover, Portal } from '@chakra-ui/react';
 import React from 'react';
 import { DetailField, DetailFields } from '@/components/ui/DetailFields';
-import { ExportResponse } from '@/types/export.response';
+import { WeekSummaryExport } from '@/types/weekSummary';
 import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 
 interface ExportCardWithPopoverProps {
-  exportData: ExportResponse;
+  exportData: WeekSummaryExport;
   color: string;
   dailyQuantity: number;
 }
@@ -57,17 +57,16 @@ export default function ExportCardWithPopover({
                   {formatDayMonthYearTime(exportData.shippingDateTime)}
                 </DetailField>
                 <DetailField label='Productor'>
-                  {exportData.merchant?.businessName}
+                  {exportData.merchant.name}
                 </DetailField>
                 <DetailField label='Finca'>
-                  {exportData.business?.name}
+                  {exportData.business.name}
                 </DetailField>
                 <DetailField label='Marca'>
-                  {exportData.boxBrand?.name} ·{' '}
-                  {exportData.boxBrand?.brand.name}
+                  {exportData.boxBrand.name} · {exportData.boxBrand.brand}
                 </DetailField>
                 <DetailField label='Cliente'>
-                  {exportData.client?.businessName}
+                  {exportData.client.name}
                 </DetailField>
               </DetailFields>
             </Popover.Body>

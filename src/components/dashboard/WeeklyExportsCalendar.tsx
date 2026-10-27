@@ -12,46 +12,96 @@ import {
 } from '@chakra-ui/react';
 import { format, addDays } from 'date-fns';
 import { es } from 'date-fns/locale';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { ExportResponse } from '@/types/export.response';
+import {
+  Party,
+  WeekDay,
+  WeekSummary,
+  WeekSummaryExport,
+} from '@/types/weekSummary';
 import ExportCardWithPopover from './ExportCardWithPopover';
 
 interface WeeklyExportsCalendarProps {
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
   isCurrentWeek: boolean;
-  allData: ExportResponse[];
-  selectedProducer: string;
-  setSelectedProducer: (val: string) => void;
-  selectedBoxBrand: string;
-  setSelectedBoxBrand: (val: string) => void;
-  selectedClient: string;
-  setSelectedClient: (val: string) => void;
   weekStart: Date;
   weekEnd: Date;
+  filters: WeekSummary['filters'];
+  producer: Party | null;
+  setProducer: (value: Party | null) => void;
+  boxBrand: Party | null;
+  setBoxBrand: (value: Party | null) => void;
+  client: Party | null;
+  setClient: (value: Party | null) => void;
+  days: WeekDay[];
+  exportsById: Map<number, WeekSummaryExport>;
   getExportColor: (exportId?: number) => string;
-  weekDaysOfWeek: string[];
-  boxesMatrix: Record<
-    number,
-    { exportId: number; boxQuantity: number; exportData: ExportResponse }[]
-  >;
+}
+
+// The options are the week's; a choice kept from another week stays listed so
+// it can be seen and cleared.
+function FilterSelect({
+  placeholder,
+  options,
+  selected,
+  onChange,
+}: {
+  placeholder: string;
+  options: Party[];
+  selected: Party | null;
+  onChange: (value: Party | null) => void;
+}): React.JSX.Element {
+  const listed =
+    selected && !options.some((option) => option.id === selected.id)
+      ? [selected, ...options]
+      : options;
+  return (
+    <Flex flex='1' align='center'>
+      <NativeSelect.Root size='sm'>
+        <NativeSelect.Field
+          placeholder={placeholder}
+          width='100%'
+          onChange={(e) =>
+            onChange(
+              listed.find((option) => String(option.id) === e.target.value) ??
+                null
+            )
+          }
+          value={selected ? String(selected.id) : ''}
+        >
+          {listed.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+      </NativeSelect.Root>
+      {selected ? (
+        <CloseButton onClick={() => onChange(null)} ml={2} size='sm' />
+      ) : (
+        <Box ml={2} width='24px' />
+      )}
+    </Flex>
+  );
 }
 
 export default function WeeklyExportsCalendar({
   setCurrentDate,
   isCurrentWeek,
-  allData,
-  selectedProducer,
-  setSelectedProducer,
-  selectedBoxBrand,
-  setSelectedBoxBrand,
-  selectedClient,
-  setSelectedClient,
   weekStart,
   weekEnd,
+  filters,
+  producer,
+  setProducer,
+  boxBrand,
+  setBoxBrand,
+  client,
+  setClient,
+  days,
+  exportsById,
   getExportColor,
-  weekDaysOfWeek,
-  boxesMatrix,
 }: WeeklyExportsCalendarProps): React.JSX.Element {
   const handlePrevWeek = (): void => {
     setCurrentDate((prev) => addDays(prev, -7));
@@ -68,29 +118,6 @@ export default function WeeklyExportsCalendar({
     'd MMM yyyy',
     { locale: es }
   )}`;
-
-  const producerOptions = useMemo(() => {
-    const setProducers = new Set<string>();
-    allData.forEach((exp) => {
-      if (exp.merchant?.businessName)
-        setProducers.add(exp.merchant.businessName);
-    });
-    return Array.from(setProducers);
-  }, [allData]);
-  const brandOptions = useMemo(() => {
-    const setBrands = new Set<string>();
-    allData.forEach((exp) => {
-      if (exp.boxBrand?.name) setBrands.add(exp.boxBrand.name);
-    });
-    return Array.from(setBrands);
-  }, [allData]);
-  const clientOptions = useMemo(() => {
-    const setClients = new Set<string>();
-    allData.forEach((exp) => {
-      if (exp.client?.businessName) setClients.add(exp.client.businessName);
-    });
-    return Array.from(setClients);
-  }, [allData]);
 
   return (
     <Box>
@@ -127,97 +154,31 @@ export default function WeeklyExportsCalendar({
       </Flex>
 
       <Flex gap={2} mb={4} wrap='wrap' width='100%'>
-        <Flex flex='1' align='center'>
-          <NativeSelect.Root size='sm'>
-            <NativeSelect.Field
-              placeholder='Productor'
-              width='100%'
-              onChange={(e) => setSelectedProducer(e.target.value)}
-              value={selectedProducer}
-            >
-              {producerOptions.map((producer) => (
-                <option key={producer} value={producer}>
-                  {producer}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
-          {selectedProducer ? (
-            <CloseButton
-              onClick={() => setSelectedProducer('')}
-              ml={2}
-              size='sm'
-            />
-          ) : (
-            <Box ml={2} width='24px' />
-          )}
-        </Flex>
-        <Flex flex='1' align='center'>
-          <NativeSelect.Root size='sm'>
-            <NativeSelect.Field
-              placeholder='Marca'
-              width='100%'
-              onChange={(e) => setSelectedBoxBrand(e.target.value)}
-              value={selectedBoxBrand}
-            >
-              {brandOptions.map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
-          {selectedBoxBrand ? (
-            <CloseButton
-              onClick={() => setSelectedBoxBrand('')}
-              ml={2}
-              size='sm'
-            />
-          ) : (
-            <Box ml={2} width='24px' />
-          )}
-        </Flex>
-        <Flex flex='1' align='center'>
-          <NativeSelect.Root size='sm'>
-            <NativeSelect.Field
-              placeholder='Cliente'
-              width='100%'
-              onChange={(e) => setSelectedClient(e.target.value)}
-              value={selectedClient}
-            >
-              {clientOptions.map((client) => (
-                <option key={client} value={client}>
-                  {client}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
-          {selectedClient ? (
-            <CloseButton
-              onClick={() => setSelectedClient('')}
-              ml={2}
-              size='sm'
-            />
-          ) : (
-            <Box ml={2} width='24px' />
-          )}
-        </Flex>
+        <FilterSelect
+          placeholder='Productor'
+          options={filters.merchants}
+          selected={producer}
+          onChange={setProducer}
+        />
+        <FilterSelect
+          placeholder='Marca'
+          options={filters.boxBrands}
+          selected={boxBrand}
+          onChange={setBoxBrand}
+        />
+        <FilterSelect
+          placeholder='Cliente'
+          options={filters.clients}
+          selected={client}
+          onChange={setClient}
+        />
       </Flex>
 
       <SimpleGrid columns={7} gap={2} h='100%' gridAutoRows='1fr'>
-        {weekDaysOfWeek.map((dayLabel, dayIndex) => {
-          const exportsForDay = boxesMatrix[dayIndex] || [];
-          const dayTotal = exportsForDay.reduce(
-            (acc, box) => acc + box.boxQuantity,
-            0
-          );
-
+        {days.map((day) => {
           return (
             <Box
-              key={dayIndex}
+              key={day.date}
               p={2}
               borderRadius='l2'
               borderWidth='1px'
@@ -236,18 +197,21 @@ export default function WeeklyExportsCalendar({
                 mb={2}
                 truncate
               >
-                {dayLabel}
+                {format(new Date(day.date), 'EEE d', { locale: es })}
               </Text>
 
               <Box flex='1' minH={0} overflowY='auto'>
-                {exportsForDay.map((box, idx) => (
-                  <ExportCardWithPopover
-                    key={`${box.exportId}-${idx}`}
-                    exportData={box.exportData}
-                    color={getExportColor(box.exportId)}
-                    dailyQuantity={box.boxQuantity}
-                  />
-                ))}
+                {day.exports.map((entry) => {
+                  const exportData = exportsById.get(entry.exportId);
+                  return exportData ? (
+                    <ExportCardWithPopover
+                      key={entry.exportId}
+                      exportData={exportData}
+                      color={getExportColor(entry.exportId)}
+                      dailyQuantity={entry.boxes}
+                    />
+                  ) : null;
+                })}
               </Box>
 
               <Box mt='auto' pt={2} textAlign='center' borderTopWidth='1px'>
@@ -256,7 +220,7 @@ export default function WeeklyExportsCalendar({
                   fontWeight='semibold'
                   fontVariantNumeric='tabular-nums'
                 >
-                  {dayTotal}
+                  {day.boxes}
                 </Text>
                 <Text fontSize='xs' color='fg.muted'>
                   cajas
