@@ -287,7 +287,7 @@ const ImportExporterStockDrawer: React.FC = () => {
   return (
     <Box>
       <Button py='8px' px='16px' colorPalette='green' onClick={onOpen}>
-        Importar Archivos de Stock
+        Importar archivos de stock
       </Button>
 
       <Drawer.Root
@@ -307,7 +307,7 @@ const ImportExporterStockDrawer: React.FC = () => {
               <Drawer.CloseTrigger />
               <Drawer.Body>
                 <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
-                  Importar Stock de Exportadora
+                  Importar stock de exportadora
                 </Text>
                 <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
@@ -316,7 +316,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                     onClick={() => handleDownloadTemplate('exporter')}
                     cursor='pointer'
                   >
-                    Utiliza nuestra guía para Stock de Exportadora.
+                    Utiliza nuestra guía para stock de exportadora.
                   </Link>
                 </Text>
                 {stockFileName ? (
@@ -331,7 +331,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                     <HStack justify='space-between'>
                       <VStack align='start' gap={1}>
                         <Text fontWeight='bold' fontSize='lg'>
-                          Archivo de Stock seleccionado
+                          Archivo de stock seleccionado
                         </Text>
                         <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{stockFileName}</b>
@@ -400,7 +400,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                 )}
 
                 <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
-                  Importar Stock de Fincas
+                  Importar stock de fincas
                 </Text>
                 <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
@@ -409,7 +409,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                     onClick={() => handleDownloadTemplate('business')}
                     cursor='pointer'
                   >
-                    Utiliza nuestra guía para Stock de Fincas.
+                    Utiliza nuestra guía para stock de fincas.
                   </Link>
                 </Text>
                 {businessStockFileName ? (
@@ -424,7 +424,7 @@ const ImportExporterStockDrawer: React.FC = () => {
                     <HStack justify='space-between'>
                       <VStack align='start' gap={1}>
                         <Text fontWeight='bold' fontSize='lg'>
-                          Archivo de Stock de Fincas seleccionado
+                          Archivo de stock de fincas seleccionado
                         </Text>
                         <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{businessStockFileName}</b>

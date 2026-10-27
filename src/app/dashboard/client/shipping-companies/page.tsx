@@ -53,7 +53,7 @@ function ShippingCompaniesPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-shipping-company'>
               <FiPlus />
-              Agregar Naviera
+              Agregar naviera
             </Link_Next>
           </Button>
         )

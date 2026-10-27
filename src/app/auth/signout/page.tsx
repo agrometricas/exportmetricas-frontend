@@ -38,7 +38,7 @@ const SignOutPage = (): React.JSX.Element => {
         }}
       >
         <Heading fontWeight='bold' fontSize='3xl' mt='24px'>
-          Estas Saliendo de la Web 👋
+          Estás saliendo de la web 👋
         </Heading>
         <Text fontSize='md' mt='8px'>
           ¿Seguro que quieres cerrar sesión?
@@ -51,7 +51,7 @@ const SignOutPage = (): React.JSX.Element => {
           colorPalette='green'
           onClick={handleSignOut}
         >
-          Cerrar Sesión
+          Cerrar sesión
         </Button>
       </Flex>
     </Center>

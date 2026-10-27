@@ -18,7 +18,7 @@ const DetailTransports: React.FC<DetailTransportsProps> = ({ transport }) => {
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

@@ -101,7 +101,7 @@ const ExportCostList = (): React.JSX.Element => {
     <VStack gap={4} align="stretch">
       <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
         <Heading size="md" color={headingColor}>
-          Costos de Exportación Pendientes
+          Costos de exportación pendientes
         </Heading>
         <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}

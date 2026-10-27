@@ -17,7 +17,7 @@ const DetailCuttingSheet = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Información General
+              Información general
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -61,7 +61,7 @@ const DetailCuttingSheet = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Productor y Finca
+              Productor y finca
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -143,7 +143,7 @@ const DetailCuttingSheet = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Marca de Caja
+              Marca de caja
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

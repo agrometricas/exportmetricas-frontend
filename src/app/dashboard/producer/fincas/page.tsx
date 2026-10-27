@@ -52,7 +52,7 @@ function FincasPage(): React.JSX.Element {
               >
                 <Link_Next href='/dashboard/producer/add-fincas'>
                   <FiPlus />
-                  Agregar Finca
+                  Agregar finca
                 </Link_Next>
               </Button>
             )}

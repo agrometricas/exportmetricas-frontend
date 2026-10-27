@@ -148,7 +148,7 @@ const AddClusterBagForm = ({
           <Form>
             <Flex flexDirection='column' gap={3}>
               <FormSectionTitle>
-                Agregar Cluster Bag
+                Agregar cluster bag
               </FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />

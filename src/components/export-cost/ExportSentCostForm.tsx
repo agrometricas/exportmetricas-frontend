@@ -153,7 +153,7 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): React.
                       loading={isSubmitting || isLoading}
                       disabled={values.materials.length === 0}
                     >
-                      Confirmar Validación de Costos
+                      Confirmar validación de costos
                     </Button></FormActions>
                 </Flex>
               )}

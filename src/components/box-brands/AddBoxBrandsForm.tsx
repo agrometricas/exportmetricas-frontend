@@ -1519,7 +1519,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                       <Button
                         onClick={() => push({ pesticideId: '', quantity: '' })}
                       >
-                        Agregar Pesticida
+                        Agregar pesticida
                       </Button>
                     </SimpleGrid>
                   </>

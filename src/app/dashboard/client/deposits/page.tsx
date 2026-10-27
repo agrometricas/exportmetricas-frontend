@@ -55,7 +55,7 @@ function DepositsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-deposit'>
               <FiPlus />
-              Agregar Depósito
+              Agregar depósito
             </Link_Next>
           </Button>
         )

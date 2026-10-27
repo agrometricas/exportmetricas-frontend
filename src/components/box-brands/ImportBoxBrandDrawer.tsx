@@ -266,7 +266,7 @@ const ImportFilesDrawer: React.FC = () => {
   return (
     <Box>
       <Button py="8px" px="16px" colorPalette='green' onClick={onOpen}>
-        Importar Archivos
+        Importar archivos
       </Button>
 
       <Drawer.Root open={open} placement='end' size='md' onOpenChange={e => {
@@ -289,7 +289,7 @@ const ImportFilesDrawer: React.FC = () => {
                     onClick={() => handleDownloadTemplate('boxBrand')}
                     cursor="pointer"
                   >
-                    Utiliza nuestra guía para Marcas de Caja.
+                    Utiliza nuestra guía para marcas de caja.
                   </Link>
                 </Text>
                 {boxBrandFileName ? (
@@ -304,7 +304,7 @@ const ImportFilesDrawer: React.FC = () => {
                     <HStack justify="space-between">
                       <VStack align="start" gap={1}>
                         <Text fontWeight="bold" fontSize="lg">
-                          Archivo de Marcas seleccionado
+                          Archivo de marcas seleccionado
                         </Text>
                         <Text fontSize="sm" color="fg.muted">
                           Nombre: <b>{boxBrandFileName}</b>
@@ -375,7 +375,7 @@ const ImportFilesDrawer: React.FC = () => {
                     onClick={() => handleDownloadTemplate('material')}
                     cursor="pointer"
                   >
-                    Utiliza nuestra guía para Materiales.
+                    Utiliza nuestra guía para materiales.
                   </Link>
                 </Text>
                 {materialFileName ? (
@@ -390,7 +390,7 @@ const ImportFilesDrawer: React.FC = () => {
                     <HStack justify="space-between">
                       <VStack align="start" gap={1}>
                         <Text fontWeight="bold" fontSize="lg">
-                          Archivo de Materiales seleccionado
+                          Archivo de materiales seleccionado
                         </Text>
                         <Text fontSize="sm" color="fg.muted">
                           Nombre: <b>{materialFileName}</b>

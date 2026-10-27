@@ -84,7 +84,7 @@ const SelectStickerBanContainer = ({
                 disabled={isBan}
                 onClick={() => push({ stickerId: '', quantity: '' })}
               >
-                Agregar Sticker
+                Agregar sticker
               </Button>
             </SimpleGrid>
           </>

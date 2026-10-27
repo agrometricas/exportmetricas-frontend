@@ -49,7 +49,7 @@ function ProducersPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/producer/add-producer'>
               <FiPlus />
-              Agregar Productor
+              Agregar productor
             </Link_Next>
           </Button>
         )

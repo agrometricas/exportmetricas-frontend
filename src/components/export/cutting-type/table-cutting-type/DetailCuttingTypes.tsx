@@ -44,7 +44,7 @@ const DetailCuttingTypes = ({
               fontSize='md'
               fontWeight='bold'
             >
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -87,7 +87,7 @@ const DetailCuttingTypes = ({
               fontSize='md'
               fontWeight='bold'
             >
-              Transporte y Observaciones
+              Transporte y observaciones
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>

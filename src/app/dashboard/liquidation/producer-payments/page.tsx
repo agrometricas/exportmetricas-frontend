@@ -49,7 +49,7 @@ function SearchProducerPaymentsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/liquidation/producer-pending-payments'>
               <FiPlus />
-              Agregar Pago a Productores
+              Agregar pago a productores
             </Link_Next>
           </Button>
         )

@@ -50,7 +50,7 @@ function BankAccountsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/client/add-bank-account'>
               <FiPlus />
-              Agregar Cuenta Bancaria
+              Agregar cuenta bancaria
             </Link_Next>
           </Button>
         )

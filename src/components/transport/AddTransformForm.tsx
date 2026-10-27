@@ -104,14 +104,14 @@ const AddTransportForm: React.FC = () => {
                     onClick={() => push({ name: '', email: '', phone: '' })}
                     mb='10px'
                   >
-                    Agregar Contacto
+                    Agregar contacto
                   </Button>
                 </>
               )}
             </FieldArray>
             <FormActions>
               <Button type='submit' colorPalette='green' loading={isLoading}>
-                Agregar Transporte
+                Agregar transporte
               </Button>
             </FormActions>
           </Flex>

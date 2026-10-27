@@ -22,7 +22,7 @@ export default function ResetSuccessPage(): React.JSX.Element {
         <Box mt={6}>
           <Link href='/auth/signin'>
             <Button colorPalette='green' size='md'>
-              Ir a Iniciar Sesión
+              Ir a iniciar sesión
             </Button>
           </Link>
         </Box>

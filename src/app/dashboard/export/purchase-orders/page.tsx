@@ -49,7 +49,7 @@ function PurchaseOrdersPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/export/add-purchase-order'>
               <FiPlus />
-              Agregar Orden de Compra
+              Agregar orden de compra
             </Link_Next>
           </Button>
         )

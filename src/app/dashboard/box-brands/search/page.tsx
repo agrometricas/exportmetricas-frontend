@@ -50,7 +50,7 @@ function SearchBoxBrandPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/box-brands/add-box-brand'>
               <FiPlus />
-              Agregar Marca de Caja
+              Agregar marca de caja
             </Link_Next>
           </Button>
         )

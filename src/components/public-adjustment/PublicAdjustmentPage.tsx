@@ -153,7 +153,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
             <Logo />
           </Icon>
           <Text fontSize='2xl' fontWeight='bold'>
-            Ajuste de Materiales
+            Ajuste de materiales
           </Text>
           <Text fontSize='2xl' fontWeight='bold'>
             -
@@ -194,7 +194,7 @@ export default function PublicAdjustmentPage(): React.JSX.Element {
 
               <Flex mt={6}>
                 <Button colorPalette='green' type='submit'>
-                  Enviar Ajuste
+                  Enviar ajuste
                 </Button>
               </Flex>
             </Form>

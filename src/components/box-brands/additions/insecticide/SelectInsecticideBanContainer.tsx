@@ -85,7 +85,7 @@ const SelectInsecticideBanContainer = ({
                 disabled={isBan}
                 onClick={() => push({ insecticideId: '', quantity: '' })}
               >
-                Agregar Insecticida
+                Agregar insecticida
               </Button>
             </SimpleGrid>
           </>

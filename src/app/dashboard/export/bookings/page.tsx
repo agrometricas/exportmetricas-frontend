@@ -49,7 +49,7 @@ function BookingsPage(): React.JSX.Element {
           >
             <Link_Next href='/dashboard/export/add-booking'>
               <FiPlus />
-              Agregar Booking
+              Agregar booking
             </Link_Next>
           </Button>
         )

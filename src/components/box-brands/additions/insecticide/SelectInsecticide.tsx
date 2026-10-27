@@ -75,7 +75,7 @@ const SelectInsecticide: React.FC<SelectInsecticideProps> = ({
           onClick={onClickRemove}
           width={'100%'}
         >
-          Eliminar Insecticida
+          Eliminar insecticida
         </Button>
       </Box>
     </SimpleGrid>

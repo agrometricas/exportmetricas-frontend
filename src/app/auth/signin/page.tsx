@@ -44,7 +44,7 @@ const SignInPage = (): React.JSX.Element => {
           Exportmétricas
         </Heading>
         <Heading fontWeight='bold' fontSize='2xl' mt='32px'>
-          Hey, Bienvenido 👋
+          Hey, bienvenido 👋
         </Heading>
         <Text fontSize='md' mt='8px'>
           Introduce la información que proporcionaste al registrarte.

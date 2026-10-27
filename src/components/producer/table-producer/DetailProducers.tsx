@@ -18,7 +18,7 @@ const DetailProducers = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Detalles Generales
+              Detalles generales
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -49,7 +49,7 @@ const DetailProducers = ({
         <Heading>
           <Accordion.ItemTrigger>
             <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-              Fincas Asociadas
+              Fincas asociadas
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
@@ -91,7 +91,7 @@ const DetailProducers = ({
           <Heading>
             <Accordion.ItemTrigger>
               <Box flex='1' textAlign='left' fontSize='md' fontWeight='bold'>
-                Cuentas Bancarias
+                Cuentas bancarias
               </Box>
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>

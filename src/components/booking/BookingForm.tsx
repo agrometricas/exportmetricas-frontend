@@ -131,7 +131,7 @@ export default function BookingForm({
                     onClick={() => push('')}
                   >
                     <FiPlus />
-                    Agregar Número de Contenedor
+                    Agregar número de contenedor
                   </Button>
                 </Flex>
               )}
@@ -145,7 +145,7 @@ export default function BookingForm({
                   onClick={confirm.onOpen}
                   loading={isDeleting}
                 >
-                  Eliminar Booking
+                  Eliminar booking
                 </Button>
               )}
               <Button type='submit' colorPalette='green' loading={isLoading}>

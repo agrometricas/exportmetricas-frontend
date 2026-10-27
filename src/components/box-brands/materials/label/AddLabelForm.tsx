@@ -145,7 +145,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
           <Form>
             <Flex flexDirection='column' gap={3}>
               <FormSectionTitle>
-                Agregar Etiqueta
+                Agregar etiqueta
               </FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />

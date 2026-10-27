@@ -78,7 +78,7 @@ const TableProducers = (): React.JSX.Element => {
             return url ? (
               <a href={url} target='_blank' rel='noopener noreferrer'>
                 <button style={{ display: 'flex', alignItems: 'center' }}>
-                  Ver Logo
+                  Ver logo
                   <Icon color='green.fg' ml={2} asChild><BsImage /></Icon>
                 </button>
               </a>
