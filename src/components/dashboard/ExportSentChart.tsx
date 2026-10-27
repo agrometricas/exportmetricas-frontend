@@ -95,7 +95,7 @@ export function ExportSentChart({
         css={{
           // Recharts paints with SVG attributes; CSS wins over them, so the
           // axes and the grid follow the color mode.
-          '& .recharts-cartesian-axis-tick-value, & .recharts-cartesian-axis-tick text':
+          '& .recharts-cartesian-axis-tick-value, & .recharts-cartesian-axis-tick-label text':
             { fill: 'fg.muted' },
           '& .recharts-cartesian-grid line, & .recharts-cartesian-axis-line': {
             stroke: 'border',

@@ -39,7 +39,8 @@ const TableBusiness = (): React.JSX.Element => {
             header: 'Nombre',
           },
           {
-            accessorKey: 'city.name',
+            id: 'city.name',
+            accessorFn: (row) => row.city?.name ?? '',
             header: 'Ciudad',
           },
           {

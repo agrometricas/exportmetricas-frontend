@@ -86,15 +86,18 @@ const TableClients = (): React.JSX.Element => {
           header: 'Código postal',
         },
         {
-          accessorKey: 'country.name',
+          id: 'country.name',
+          accessorFn: (row) => row.country?.name ?? '',
           header: 'País',
         },
         {
-          accessorKey: 'province.name',
+          id: 'province.name',
+          accessorFn: (row) => row.province?.name ?? '',
           header: 'Provincia',
         },
         {
-          accessorKey: 'city.name',
+          id: 'city.name',
+          accessorFn: (row) => row.city?.name ?? '',
           header: 'Ciudad',
         },
       ],
