@@ -1,19 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { toZonedTime, format } from 'date-fns-tz';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import DisplayField from './DisplayField';
 import ReadOnlyDateGrid from './ReadOnlyDateGrid';
@@ -381,10 +375,9 @@ const CuttingSheetForm = ({
   return (
     <Box>
       <Box>
-        <Heading size='md' mb='4'>
+        <FormSectionTitle>
           Información de la Exportación
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Cantidad de Cajas'
@@ -409,10 +402,9 @@ const CuttingSheetForm = ({
           weekTotal={finalValues.exportData.weekTotal}
         />
 
-        <Heading size='md' mt='4' mb='4'>
+        <FormSectionTitle>
           Información de Envío
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2' pb={4}>
           <DisplayField
             label='Nombre de la Nave'
@@ -532,10 +524,9 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.numberOfVerifiers.toString()}
           />
         </SimpleGrid>
-        <Heading size='md' mt='4' mb='4'>
+        <FormSectionTitle>
           Información del Cliente
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
@@ -558,10 +549,9 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.client.phone}
           />
         </SimpleGrid>
-        <Heading size='md' mt='4' mb='4'>
+        <FormSectionTitle>
           Información del Productor
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
@@ -580,10 +570,9 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.merchant.address}
           />
         </SimpleGrid>
-        <Heading size='md' mt='4' mb='4'>
+        <FormSectionTitle>
           Información de la Finca
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Nombre'
@@ -602,10 +591,9 @@ const CuttingSheetForm = ({
             value={finalValues.exportData?.business.address}
           />
         </SimpleGrid>
-        <Heading size='md' mt='4' mb='4'>
+        <FormSectionTitle>
           Marca de Caja y Embalaje
-        </Heading>
-        <Separator mb={'16px'} />
+        </FormSectionTitle>
         <SimpleGrid columns={{ base: 1, md: 4 }} gap='2'>
           <DisplayField
             label='Marca'
@@ -1005,8 +993,9 @@ const CuttingSheetForm = ({
           <Form>
             <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <Flex direction='column' gap='4'>
-              <Heading size='md'>Datos para la Hoja de Corte</Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle divider>
+                Datos para la Hoja de Corte
+              </FormSectionTitle>
               <SelectCuttingType name='cuttingTypeId' />
               <SimpleGrid columns={{ base: 1, md: 2 }} gap='4'>
                 <InputFieldSelector
@@ -1030,13 +1019,12 @@ const CuttingSheetForm = ({
                   alignItems='flex-end'
                 />
               </SimpleGrid>
-              <CheckboxForm
+              <FormActions start={<CheckboxForm
                 name='dataReviewed'
                 label='He revisado los datos agregados'
-              />
-              <Button type='submit' colorPalette='green' loading={isLoading}>
+              />}><Button type='submit' colorPalette='green' loading={isLoading}>
                 Enviar
-              </Button>
+              </Button></FormActions>
             </Flex>
           </Form>
         )}

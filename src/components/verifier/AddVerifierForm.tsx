@@ -1,7 +1,8 @@
 'use client';
-import { Button, Flex, Heading, SimpleGrid, Box, Separator } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Box, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { useSubmitVerifier } from './hooks/useSubmitVerifier';
 import InputFieldText from '../ui/form/InputFieldText';
 
@@ -13,10 +14,9 @@ const AddVerifierForm: React.FC = () => {
             {({ values }) => (
                 <Form>
                     <Flex flexDirection="column" gap={3}>
-                        <Heading fontSize="2xl" p="12px">
+                        <FormSectionTitle>
                             Verificador
-                        </Heading>
-                        <Separator mb="16px" />
+                        </FormSectionTitle>
 
                         <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                             <InputFieldText name="name" label="Nombre / Razón Social" placeholder="Ingrese el nombre" />
@@ -24,10 +24,9 @@ const AddVerifierForm: React.FC = () => {
                             <InputFieldText name="address" label="Dirección" placeholder="Ingrese la dirección" />
                         </SimpleGrid>
 
-                        <Heading fontSize="2xl" p="12px">
+                        <FormSectionTitle>
                             Contactos
-                        </Heading>
-                        <Separator mb="16px" />
+                        </FormSectionTitle>
                         <FieldArray name="contacts">
                             {({ push, remove }) => (
                                 <>
@@ -70,9 +69,9 @@ const AddVerifierForm: React.FC = () => {
                                 </>
                             )}
                         </FieldArray>
-                        <Button mt="12px" py="8px" px="16px" type="submit" colorPalette='green' loading={isLoading}>
+                        <FormActions><Button type="submit" colorPalette='green' loading={isLoading}>
                             Agregar Verificador
-                        </Button>
+                        </Button></FormActions>
                     </Flex>
                 </Form>
             )}

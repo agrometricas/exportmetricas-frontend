@@ -1,17 +1,10 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-} from '@chakra-ui/react';
+import { Badge, Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useUpdateContainerSeals } from '../../hooks/booking/mutateBooking';
 import { BookingContainer } from '../../types/booking';
@@ -125,9 +118,7 @@ export default function BookingContainerSeals({
 }): React.JSX.Element {
   return (
     <Flex direction='column' gap={3}>
-      <Heading fontSize='2xl' p='12px'>
-        Sellos de los contenedores
-      </Heading>
+      <FormSectionTitle>Sellos de los contenedores</FormSectionTitle>
       <Text fontSize='sm' color='fg.muted'>
         El sello de la naviera y los sellos extra (verificadora, exportadora…)
         de cada contenedor. La hoja de corte y el packing list los imprimen.

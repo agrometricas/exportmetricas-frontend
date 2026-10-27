@@ -1,6 +1,5 @@
 import {
   Box,
-  Card,
   HStack,
   VStack,
   SimpleGrid,
@@ -12,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { getServerSession } from 'next-auth';
 import { MdPerson, MdBusiness } from 'react-icons/md';
+import { CardPage } from '@/components/ui/page/PageLayout';
 import { formatDayMonthYearTime } from '@/utils/dayMonthYear';
 import { env } from '../../../../lib/env';
 import { authOptions } from '../../../api/auth/[...nextauth]/authOptions';
@@ -24,10 +24,10 @@ const Field = ({
   value: React.ReactNode;
 }): JSX.Element => (
   <Box>
-    <Text fontSize="sm" color="fg.muted" mb={1}>
+    <Text fontSize='sm' color='fg.muted' mb={1}>
       {label}
     </Text>
-    <Text fontWeight="semibold" color="fg">
+    <Text fontWeight='semibold' color='fg'>
       {value}
     </Text>
   </Box>
@@ -57,140 +57,112 @@ const ProfilePage = async (): Promise<JSX.Element> => {
   const logoUrl = user?.exporterDetails?.logoUrl;
 
   return (
-    <Box minH="100vh" bg="bg.subtle" p={{ base: 4, md: 6, lg: 8 }}>
-      <Box maxW="7xl" mx="auto">
-        <Card.Root
-          bg="white"
-          borderWidth='1px'
-          borderColor="border"
-          borderRadius="xl"
-          boxShadow='sm'
-          overflow="hidden"
-        >
-          <Card.Header bg="bg.subtle">
-            <HStack gap={3} align="center">
-              <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
-                <MdPerson size={20} />
-              </Box>
-              <Box>
-                <Heading size="lg" color="fg.heading" fontWeight="bold">
-                  Perfil de la Cuenta
-                </Heading>
-                <Text fontSize="sm" color="fg.muted" mt={1}>
-                  Detalles del usuario y de la exportadora
-                </Text>
-              </Box>
-            </HStack>
-          </Card.Header>
+    <CardPage
+      icon={<MdPerson />}
+      title='Perfil de la Cuenta'
+      description='Detalles del usuario y de la exportadora'
+    >
+      {/* Usuario */}
+      <Box mb={6}>
+        <HStack gap={3} mb={3}>
+          <Box p={2} bg='green.subtle' borderRadius='md' color='green.fg'>
+            <MdPerson size={16} />
+          </Box>
+          <Heading size='md' color='fg'>
+            Usuario
+          </Heading>
+          <Badge
+            ml={2}
+            colorPalette={onboardingUserDone ? 'green' : 'red'}
+            borderRadius='full'
+            px={2}
+          >
+            {onboardingUserDone
+              ? 'Configuración completa'
+              : 'Configuración pendiente'}
+          </Badge>
+        </HStack>
 
-          <Card.Body>
-            {/* Usuario */}
-            <Box mb={6}>
-              <HStack gap={3} mb={3}>
-                <Box p={2} bg="green.subtle" borderRadius="md" color="green.fg">
-                  <MdPerson size={16} />
-                </Box>
-                <Heading size="md" color="fg">
-                  Usuario
-                </Heading>
-                <Badge
-                  ml={2}
-                  colorPalette={onboardingUserDone ? 'green' : 'red'}
-                  borderRadius="full"
-                  px={2}
-                >
-                  {onboardingUserDone
-                    ? 'Configuración completa'
-                    : 'Configuración pendiente'}
-                </Badge>
-              </HStack>
-
-              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-                <Field label="Nombre" value={user?.userDetails?.name ?? '—'} />
-                <Field label="Correo" value={user?.userDetails?.email ?? '—'} />
-              </SimpleGrid>
-            </Box>
-
-            <Separator my={4} />
-
-            {/* Exportadora */}
-            <Box>
-              <HStack gap={3} mb={3}>
-                <Box p={2} bg="green.subtle" borderRadius="md" color="green.fg">
-                  <MdBusiness size={16} />
-                </Box>
-                <Heading size="md" color="fg">
-                  Exportadora
-                </Heading>
-                <Badge
-                  ml={2}
-                  colorPalette={accountActive ? 'green' : 'red'}
-                  borderRadius="full"
-                  px={2}
-                >
-                  {accountActive ? 'Activo' : 'Inactivo'}
-                </Badge>
-              </HStack>
-
-              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mb={4}>
-                <Field
-                  label="Nombre"
-                  value={user?.exporterDetails?.businessName ?? '—'}
-                />
-                <Field
-                  label="RUC/ID"
-                  value={user?.exporterDetails?.businessId ?? '—'}
-                />
-                <Field
-                  label="Correo"
-                  value={user?.exporterDetails?.email ?? '—'}
-                />
-                <Field
-                  label="Dirección"
-                  value={user?.exporterDetails?.address || 'No proporcionado'}
-                />
-                <Field
-                  label="País"
-                  value={user?.exporterDetails?.country?.name ?? '—'}
-                />
-                <Field
-                  label="Provincia"
-                  value={user?.exporterDetails?.province?.name ?? '—'}
-                />
-                <Field
-                  label="Ciudad"
-                  value={user?.exporterDetails?.city?.name ?? '—'}
-                />
-                <Field label="Última edición" value={updatedAt} />
-              </SimpleGrid>
-
-              <VStack gap={2} align="start">
-                <Text fontSize="sm" color="fg.muted">
-                  Logo
-                </Text>
-                {logoUrl ? (
-                  <Image
-                    src={logoUrl}
-                    alt="Logo de la Empresa"
-                    boxSize="88px"
-                    objectFit="contain"
-                    borderWidth='1px'
-                    borderColor="border"
-                    borderRadius="md"
-                    bg="white"
-                    p={2}
-                  />
-                ) : (
-                  <Badge colorPalette="yellow" variant="subtle" borderRadius="md">
-                    Logo no disponible
-                  </Badge>
-                )}
-              </VStack>
-            </Box>
-          </Card.Body>
-        </Card.Root>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+          <Field label='Nombre' value={user?.userDetails?.name ?? '—'} />
+          <Field label='Correo' value={user?.userDetails?.email ?? '—'} />
+        </SimpleGrid>
       </Box>
-    </Box>
+
+      <Separator my={4} />
+
+      {/* Exportadora */}
+      <Box>
+        <HStack gap={3} mb={3}>
+          <Box p={2} bg='green.subtle' borderRadius='md' color='green.fg'>
+            <MdBusiness size={16} />
+          </Box>
+          <Heading size='md' color='fg'>
+            Exportadora
+          </Heading>
+          <Badge
+            ml={2}
+            colorPalette={accountActive ? 'green' : 'red'}
+            borderRadius='full'
+            px={2}
+          >
+            {accountActive ? 'Activo' : 'Inactivo'}
+          </Badge>
+        </HStack>
+
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mb={4}>
+          <Field
+            label='Nombre'
+            value={user?.exporterDetails?.businessName ?? '—'}
+          />
+          <Field
+            label='RUC/ID'
+            value={user?.exporterDetails?.businessId ?? '—'}
+          />
+          <Field label='Correo' value={user?.exporterDetails?.email ?? '—'} />
+          <Field
+            label='Dirección'
+            value={user?.exporterDetails?.address || 'No proporcionado'}
+          />
+          <Field
+            label='País'
+            value={user?.exporterDetails?.country?.name ?? '—'}
+          />
+          <Field
+            label='Provincia'
+            value={user?.exporterDetails?.province?.name ?? '—'}
+          />
+          <Field
+            label='Ciudad'
+            value={user?.exporterDetails?.city?.name ?? '—'}
+          />
+          <Field label='Última edición' value={updatedAt} />
+        </SimpleGrid>
+
+        <VStack gap={2} align='start'>
+          <Text fontSize='sm' color='fg.muted'>
+            Logo
+          </Text>
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt='Logo de la Empresa'
+              boxSize='88px'
+              objectFit='contain'
+              borderWidth='1px'
+              borderColor='border'
+              borderRadius='md'
+              bg='white'
+              p={2}
+            />
+          ) : (
+            <Badge colorPalette='yellow' variant='subtle' borderRadius='md'>
+              Logo no disponible
+            </Badge>
+          )}
+        </VStack>
+      </Box>
+    </CardPage>
   );
 };
 

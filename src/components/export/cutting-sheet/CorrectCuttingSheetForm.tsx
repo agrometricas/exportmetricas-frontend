@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCorrectCuttingSheet } from '../../../hooks/export/cuttingSheet/correctCuttingSheet';
@@ -189,16 +190,17 @@ const CorrectCuttingSheetForm = ({
                 label='Motivo de la corrección'
                 placeholder='Qué cambió y por qué. Lo leen el productor y la finca.'
               />
-              <HStack justify='flex-end' gap={3}>
+              <FormActions>
                 <Button variant='ghost' asChild>
                   <Link_Next href='/dashboard/export/cutting-sheets'>
                     Cancelar
                   </Link_Next>
                 </Button>
+
                 <Button type='submit' colorPalette='green' loading={isLoading}>
                   Corregir y reenviar
                 </Button>
-              </HStack>
+              </FormActions>
             </Flex>
           </Form>
         )}

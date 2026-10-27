@@ -1,12 +1,9 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitProducer } from './hooks/useSubmitProducer';
 import { FARM_CODE_LABELS } from '../../utils/farmCodes';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
@@ -40,11 +37,7 @@ export default function AddProducerForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={2}>
-            <Flex justify='space-between'>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Productor
-              </Heading>
-            </Flex>
+            <FormSectionTitle>Productor</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businessName'} label={'Razon Social'} />
@@ -75,10 +68,7 @@ export default function AddProducerForm(): React.JSX.Element {
               <InputFieldText name={'address'} label={'Dirección'} />
             </SimpleGrid>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Finca
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Finca</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businesses[0].name'} label={'Nombre'} />
@@ -141,10 +131,7 @@ export default function AddProducerForm(): React.JSX.Element {
               />
             </SimpleGrid>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Códigos de Finca
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
 
             <FieldArray name='businesses[0].businessCodes'>
               {({ push, remove }) => (
@@ -177,10 +164,7 @@ export default function AddProducerForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Contactos
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Contactos</FormSectionTitle>
 
             <FieldArray name='businesses[0].contacts'>
               {({ push, remove }) => (
@@ -236,18 +220,11 @@ export default function AddProducerForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
                 Enviar
               </Button>
-            </SimpleGrid>
+            </FormActions>
           </Flex>
         </Form>
       )}

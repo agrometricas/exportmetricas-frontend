@@ -1,8 +1,9 @@
 'use client';
 
-import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateExporterMaterialStock } from '../../hooks/winery/useCreateExporterMaterialStock';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -89,10 +90,7 @@ export function CreateInitialStockForm({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Material: {materialName}
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Material: {materialName}</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
               <InputFieldNumber
                 name='assignedStock'

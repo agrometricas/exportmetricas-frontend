@@ -1,5 +1,6 @@
-import { Box, Card, Heading, Input, InputGroup, NumberInput, SimpleGrid, Textarea, Separator } from '@chakra-ui/react';
+import { Box, Card, Input, InputGroup, NumberInput, SimpleGrid, Textarea } from '@chakra-ui/react';
 import React from 'react';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { ProducerPaymentType } from '../../../types/producerPayment';
 import { FormLabel } from '../../ui/form/FormLabel';
 
@@ -21,15 +22,13 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
       mb={'10px'}
       pb={'30px'}
     >
-      <Heading fontSize={'2xl'} p={'12px'} m={'16px'}>
+      <FormSectionTitle>
         Liquidación a Productor
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Productor
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -70,10 +69,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Puerto de Salida
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -140,10 +138,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Puerto de Destino
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -210,10 +207,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Compra
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -255,10 +251,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Gastos
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -354,10 +349,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         <Textarea value={payment.description} readOnly={true} />
       </Box>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Origen
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}
@@ -395,10 +389,9 @@ const DetailInvoice = ({ payment }: props): React.JSX.Element => {
         </Box>
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Destino
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid
         columns={{ base: 1, sm: 2 }}

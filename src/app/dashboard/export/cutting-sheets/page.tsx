@@ -4,18 +4,16 @@ import {
   Button,
   Card,
   HStack,
-  Icon,
   IconButton,
-  Heading,
   Text,
   Badge,
-  Flex,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdAssignment } from 'react-icons/md';
+import { PageLayout } from '@/components/ui/page/PageLayout';
 import TableCuttingSheets from '../../../../components/export/cutting-sheet/table-cutting-sheets/TableCuttingSheets';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
@@ -41,15 +39,15 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const bgColor = 'bg.canvas';
   const cardBg = 'bg.panel';
   const borderColor = 'border';
-  const textColor = 'fg';
   const headingColor = 'fg.heading';
   const headBg = 'bg.subtle';
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
+    base: 'sm',
+    md: 'md',
+  });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -57,92 +55,78 @@ function SearchCuttingSheetsPage(): React.JSX.Element {
   };
 
   return (
-    <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
-      <Box mb={6} maxW="8xl" mx="auto">
-        <Flex
-          direction={{ base: 'column', md: 'row' }}
-          justify="space-between"
-          align={{ base: 'stretch', md: 'center' }}
-          gap={4}
-        >
-          <HStack gap={3}>
-            <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
-              <Icon boxSize={5} asChild><MdAssignment /></Icon>
-            </Box>
-            <Box>
-              <Heading size="lg" color={headingColor} fontWeight="bold">
-                Hojas de Corte
-              </Heading>
-              <Text fontSize="sm" color={textColor}>
-                Visualiza y administra las hojas de corte registradas
-              </Text>
-            </Box>
-          </HStack>
+    <PageLayout
+      icon={MdAssignment}
+      title='Hojas de Corte'
+      description='Visualiza y administra las hojas de corte registradas'
+      actions={
+        isMobile ? (
+          <IconButton
+            aria-label='Agregar Hoja de Corte'
+            colorPalette='green'
+            size={buttonSize}
+            borderRadius='lg'
+            asChild
+          >
+            <Link_Next href='/dashboard/export/add-cutting-sheet'>
+              <FiPlus />
+            </Link_Next>
+          </IconButton>
+        ) : (
+          <Button
+            colorPalette='green'
+            size={buttonSize}
+            borderRadius='lg'
+            fontWeight='semibold'
+            asChild
+          >
+            <Link_Next href='/dashboard/export/add-cutting-sheet'>
+              <FiPlus />
+              Agregar Hoja de Corte
+            </Link_Next>
+          </Button>
+        )
+      }
+    >
+      <Card.Root
+        bg={cardBg}
+        borderColor={borderColor}
+        borderRadius='xl'
+        boxShadow='sm'
+        overflow='hidden'
+        borderWidth='1px'
+      >
+        <Card.Body p={0}>
+          <Box
+            p={6}
+            bg={headBg}
+            borderBottom='1px solid'
+            borderColor={borderColor}
+          >
+            <HStack justify='space-between' align='center'>
+              <HStack gap={3}>
+                <Text fontSize='lg' fontWeight='semibold' color={headingColor}>
+                  Hojas de Corte
+                </Text>
+                <Badge
+                  colorPalette='green'
+                  variant='subtle'
+                  borderRadius='full'
+                  px={3}
+                  py={1}
+                >
+                  Lista actual
+                </Badge>
+              </HStack>
+            </HStack>
+          </Box>
 
           <Box>
-            {isMobile ? (
-              <IconButton
-
-                aria-label="Agregar Hoja de Corte"
-                colorPalette="green"
-                size={buttonSize}
-                borderRadius="lg"
-                asChild><Link_Next href="/dashboard/export/add-cutting-sheet"><FiPlus /></Link_Next></IconButton>
-            ) : (
-              <Button
-
-                colorPalette="green"
-                size={buttonSize}
-                borderRadius="lg"
-                fontWeight="semibold"
-                asChild><Link_Next href="/dashboard/export/add-cutting-sheet"><FiPlus />Agregar Hoja de Corte
-                                                </Link_Next></Button>
-            )}
+            <TableCuttingSheets windowSize={windowSize} width={tableWidth} />
           </Box>
-        </Flex>
-      </Box>
-
-      <Box maxW="8xl" mx="auto">
-        <Card.Root
-          bg={cardBg}
-          borderColor={borderColor}
-          borderRadius="xl"
-          boxShadow='sm'
-          overflow="hidden"
-          borderWidth='1px'
-        >
-          <Card.Body p={0}>
-            <Box
-              p={6}
-              bg={headBg}
-              borderBottom="1px solid"
-              borderColor={borderColor}
-            >
-              <HStack justify="space-between" align="center">
-                <HStack gap={3}>
-                  <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
-                    Hojas de Corte
-                  </Text>
-                  <Badge
-                    colorPalette="green"
-                    variant="subtle"
-                    borderRadius="full"
-                    px={3}
-                    py={1}
-                  >
-                    Lista actual
-                  </Badge>
-                </HStack>
-              </HStack>
-            </Box>
-
-            <Box>
-              <TableCuttingSheets windowSize={windowSize} width={tableWidth} />
-            </Box>
-          </Card.Body>
-        </Card.Root>
-      </Box>
-    </Box>
+        </Card.Body>
+      </Card.Root>
+    </PageLayout>
   );
 }
 

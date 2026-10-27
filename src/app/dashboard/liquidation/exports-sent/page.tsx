@@ -4,18 +4,16 @@ import {
   Button,
   Card,
   HStack,
-  Icon,
   IconButton,
-  Heading,
   Text,
   Badge,
-  Flex,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Link_Next from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdLocalShipping } from 'react-icons/md';
+import { PageLayout } from '@/components/ui/page/PageLayout';
 import TableExportsSent from '../../../../components/liquidation/exports-sent/TableExportsSent';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
@@ -41,15 +39,15 @@ function SearchExportsSentPage(): React.JSX.Element {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const bgColor = 'bg.canvas';
   const cardBg = 'bg.panel';
   const borderColor = 'border';
-  const textColor = 'fg';
   const headingColor = 'fg.heading';
 
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({ base: 'sm', md: 'md' });
+  const buttonSize = useBreakpointValue<'xs' | 'sm' | 'md' | 'lg'>({
+    base: 'sm',
+    md: 'md',
+  });
 
   const tableWidth = {
     sm: Number(windowSize.width) - 20,
@@ -57,93 +55,74 @@ function SearchExportsSentPage(): React.JSX.Element {
   };
 
   return (
-    <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
-      <Box mb={6} maxW="8xl" mx="auto">
-        <Flex
-          direction={{ base: 'column', md: 'row' }}
-          justify="space-between"
-          align={{ base: 'stretch', md: 'center' }}
-          gap={4}
-        >
-          <HStack gap={3}>
-            <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
-              <Icon boxSize={5} asChild><MdLocalShipping /></Icon>
-            </Box>
-            <Box>
-              <Heading size="lg" color={headingColor} fontWeight="bold">
-                Gestión de Envíos de Insumos
-              </Heading>
-              <Text fontSize="sm" color={textColor}>
-                Visualiza y administra los envíos de insumos realizados
-              </Text>
-            </Box>
-          </HStack>
-
-          <Box>
-            {isMobile ? (
-              <IconButton
-
-                aria-label="Agregar Envío de Insumos"
-                colorPalette="green"
-                size={buttonSize}
-                borderRadius="lg"
-                asChild><Link_Next href="/dashboard/liquidation/add-supply-shipment"><FiPlus /></Link_Next></IconButton>
-            ) : (
-              <Button
-
-                colorPalette="green"
-                size={buttonSize}
-                borderRadius="lg"
-                fontWeight="semibold"
-                asChild><Link_Next href="/dashboard/liquidation/add-supply-shipment"><FiPlus />Agregar Envíos de Insumos
-                                                </Link_Next></Button>
-            )}
-          </Box>
-        </Flex>
-      </Box>
-
-      <Box maxW="8xl" mx="auto">
-        <Card.Root
-          bg={cardBg}
-          borderColor={borderColor}
-          borderRadius="xl"
-          boxShadow='sm'
-          overflow="hidden"
-          borderWidth='1px'
-        >
-          <Card.Body p={0}>
-            <Box
-              p={6}
-              py={4}
-              borderBottom="1px solid"
-              borderColor={borderColor}
-            >
-              <HStack justify="space-between" align="center">
-                <HStack gap={3}>
-                  <Text fontSize="lg" fontWeight="semibold" color={headingColor}>
-                    Envíos de Insumos
-                  </Text>
-                  <Badge
-                    colorPalette="green"
-                    variant="subtle"
-                    borderRadius="full"
-                    px={3}
-                    py={1}
-                  >
-                    Lista actual
-                  </Badge>
-                </HStack>
+    <PageLayout
+      icon={MdLocalShipping}
+      title='Gestión de Envíos de Insumos'
+      description='Visualiza y administra los envíos de insumos realizados'
+      actions={
+        isMobile ? (
+          <IconButton
+            aria-label='Agregar Envío de Insumos'
+            colorPalette='green'
+            size={buttonSize}
+            borderRadius='lg'
+            asChild
+          >
+            <Link_Next href='/dashboard/liquidation/add-supply-shipment'>
+              <FiPlus />
+            </Link_Next>
+          </IconButton>
+        ) : (
+          <Button
+            colorPalette='green'
+            size={buttonSize}
+            borderRadius='lg'
+            fontWeight='semibold'
+            asChild
+          >
+            <Link_Next href='/dashboard/liquidation/add-supply-shipment'>
+              <FiPlus />
+              Agregar Envíos de Insumos
+            </Link_Next>
+          </Button>
+        )
+      }
+    >
+      <Card.Root
+        bg={cardBg}
+        borderColor={borderColor}
+        borderRadius='xl'
+        boxShadow='sm'
+        overflow='hidden'
+        borderWidth='1px'
+      >
+        <Card.Body p={0}>
+          <Box p={6} py={4} borderBottom='1px solid' borderColor={borderColor}>
+            <HStack justify='space-between' align='center'>
+              <HStack gap={3}>
+                <Text fontSize='lg' fontWeight='semibold' color={headingColor}>
+                  Envíos de Insumos
+                </Text>
+                <Badge
+                  colorPalette='green'
+                  variant='subtle'
+                  borderRadius='full'
+                  px={3}
+                  py={1}
+                >
+                  Lista actual
+                </Badge>
               </HStack>
-            </Box>
+            </HStack>
+          </Box>
 
-            {/* Table */}
-            <Box>
-              <TableExportsSent windowSize={windowSize} width={tableWidth} />
-            </Box>
-          </Card.Body>
-        </Card.Root>
-      </Box>
-    </Box>
+          {/* Table */}
+          <Box>
+            <TableExportsSent windowSize={windowSize} width={tableWidth} />
+          </Box>
+        </Card.Body>
+      </Card.Root>
+    </PageLayout>
   );
 }
 

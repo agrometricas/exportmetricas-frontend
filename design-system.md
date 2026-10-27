@@ -51,6 +51,10 @@ Inter, cargada con `next/font` (`--font-inter`). Estilos de texto del tema:
 `h1` (30/36), `h2` (24/30), `h3` (19/26), `body` (14/21), `caption` (12/16) y
 `overline` (11/14, mayúsculas, +0.06em) para encabezados de columna.
 
+El título de la página es `h1` (`h2` en el celular), el de una sección de
+formulario es `h3` y una subsección va a 16 px seminegrita. Una sección se
+separa de la anterior con una línea y 24 px a cada lado.
+
 Un número que se compara en columna lleva cifras tabulares y va a la derecha:
 la clase `num`.
 

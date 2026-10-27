@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Heading,
   IconButton,
   SimpleGrid,
   Separator,
@@ -9,6 +8,7 @@ import {
 import { FieldArray } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { FaBan } from 'react-icons/fa';
+import { FormSubsectionTitle } from '@/components/ui/form/FormSection';
 import SelectInsecticide from './SelectInsecticide';
 import { InsecticideProps } from '../../AddBoxBrandsForm';
 
@@ -37,7 +37,7 @@ const SelectInsecticideBanContainer = ({
 
   return (
     <>
-      <Heading fontSize={'xl'} p={'12px'}>
+      <FormSubsectionTitle>
         Agroquímico adicional{' '}
         {
           <IconButton
@@ -52,8 +52,7 @@ const SelectInsecticideBanContainer = ({
             <FaBan size={'20px'} />
           </IconButton>
         }
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSubsectionTitle>
       <FieldArray name={name}>
         {({ push, remove }) => (
           <>

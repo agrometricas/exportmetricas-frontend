@@ -1,16 +1,11 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import SelectProducer from './SelectProducer';
 import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount';
@@ -234,10 +229,9 @@ const AddBankAccountForm = (): React.JSX.Element => {
           <Flex flexDirection='column' gap={3}>
             {isProducerPath && (
               <>
-                <Heading fontSize={'2xl'} p={'12px'}>
+                <FormSectionTitle>
                   Productor
-                </Heading>
-                <Separator mb={'16px'} />
+                </FormSectionTitle>
                 <SelectProducer
                   name={'merchantId'}
                   setProducerSelect={setProducer}
@@ -247,18 +241,16 @@ const AddBankAccountForm = (): React.JSX.Element => {
 
             {isClientPath && (
               <>
-                <Heading fontSize={'2xl'} p={'12px'}>
+                <FormSectionTitle>
                   Cliente
-                </Heading>
-                <Separator mb={'16px'} />
+                </FormSectionTitle>
                 <SelectClient name={'clientId'} setClientSelect={setClient} />
               </>
             )}
 
-            <Heading fontSize={'2xl'} p={'12px'}>
+            <FormSectionTitle>
               Datos de cuenta bancaria
-            </Heading>
-            <Separator mb={'16px'} />
+            </FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText name={'bank'} label={'Banco'} placeholder='Nombre del Banco' />
@@ -273,18 +265,13 @@ const AddBankAccountForm = (): React.JSX.Element => {
               <InputFieldText name={'email'} label={'E-mail'} />
             </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
+            <FormActions><Button
                 type='submit'
                 colorPalette='green'
                 loading={isLoading}
               >
                 Enviar
-              </Button>
-            </SimpleGrid>
+              </Button></FormActions>
           </Flex>
         </Form>
       )}

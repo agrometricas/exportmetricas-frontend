@@ -1,7 +1,6 @@
 import {
   Button,
   Flex,
-  Heading,
   HStack,
   IconButton,
   SimpleGrid,
@@ -9,11 +8,14 @@ import {
   useDisclosure,
   Dialog,
   Portal,
-  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitBooking } from './hooks/useSubmitBooking';
 import RouteInForceSelect from './RouteInForceSelect';
 import { BookingResponse } from '../../types/booking';
@@ -48,10 +50,7 @@ export default function BookingForm({
       {({ values, errors, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Reserva
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Reserva</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldPlain name='bookingNumber' label='Número de Booking' />
               <InputFieldShippingCompanySelect
@@ -70,10 +69,7 @@ export default function BookingForm({
               />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Zarpe y Ruta
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Zarpe y Ruta</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate
                 name='etdDay'
@@ -89,10 +85,7 @@ export default function BookingForm({
             </SimpleGrid>
             <RouteInForceSelect />
 
-            <Heading fontSize='2xl' p='16px'>
-              Contenedores
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Contenedores</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldPlain
                 name='containerCount'
@@ -144,15 +137,7 @@ export default function BookingForm({
               )}
             </FieldArray>
 
-            <Flex gap={3} mt='12px' direction={{ base: 'column', sm: 'row' }}>
-              <Button
-                flex={1}
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
-                {booking ? 'Guardar Cambios' : 'Crear Booking'}
-              </Button>
+            <FormActions>
               {booking && (
                 <Button
                   variant='outline'
@@ -163,7 +148,10 @@ export default function BookingForm({
                   Eliminar Booking
                 </Button>
               )}
-            </Flex>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                {booking ? 'Guardar Cambios' : 'Crear Booking'}
+              </Button>
+            </FormActions>
           </Flex>
 
           <Dialog.Root

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateSeal } from '../../../../hooks/box-brand/container/seal/createSeal';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
@@ -116,10 +117,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
         {() => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Agregar Sello
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Agregar Sello</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'type'} label={'Tipo'} />

@@ -1,18 +1,14 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useBoxBrand } from '../../../hooks/box-brand/getBoxBrand';
 import { useCreateCuttingType } from '../../../hooks/export/cutting-type/createCuttingType';
@@ -176,10 +172,7 @@ const AddCuttingTypeForm = ({
         {({ isSubmitting }) => (
           <Form>
             <Flex flexDirection='column' gap={2}>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Marca de Caja
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Marca de Caja</FormSectionTitle>
 
               <SelectBoxBrand
                 name={'boxBrandId'}
@@ -208,10 +201,7 @@ const AddCuttingTypeForm = ({
                   }))}
                 />
               </SimpleGrid>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Detalles del Corte
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Detalles del Corte</FormSectionTitle>
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -293,10 +283,7 @@ const AddCuttingTypeForm = ({
                   placeholder='Detalle de Distribucion de Etiquetas'
                 />
               </SimpleGrid>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Detalles de Empaque
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Detalles de Empaque</FormSectionTitle>
 
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
                 <InputFieldSelector
@@ -355,10 +342,7 @@ const AddCuttingTypeForm = ({
                   )}
                 />
               </SimpleGrid>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Detalles de Transporte
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Detalles de Transporte</FormSectionTitle>
               {boxBrandDetails && selectedBoxBrandId ? (
                 <Box
                   p='4'
@@ -492,11 +476,8 @@ const AddCuttingTypeForm = ({
                 label='Observaciones Generales'
                 placeholder='Ingrese Cualquier Observación Adicional de Corte'
               />
-              <SimpleGrid columns={{ base: 1, sm: 1 }}>
+              <FormActions>
                 <Button
-                  mt='12px'
-                  py='8px'
-                  px='16px'
                   type='submit'
                   colorPalette='green'
                   loading={createLoading || updateLoading}
@@ -504,7 +485,7 @@ const AddCuttingTypeForm = ({
                 >
                   {isEdit ? 'Guardar Cambios' : 'Enviar'}
                 </Button>
-              </SimpleGrid>
+              </FormActions>
             </Flex>
           </Form>
         )}

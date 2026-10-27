@@ -6,7 +6,6 @@ import {
   Flex,
   Grid,
   Heading,
-  SimpleGrid,
   Text,
   } from '@chakra-ui/react';
 import { Formik, Form, FieldArray } from 'formik';
@@ -14,6 +13,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import {
   COST_CONFIRMATION_QUERIES,
@@ -144,23 +144,17 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): JSX.El
                       </Grid>
                     </Box>
                   ))}
-                  <SimpleGrid columns={{ base: 1, sm: 1 }}>
-                    <CheckboxForm
+                  <FormActions start={<CheckboxForm
                       name='dataReviewed'
                       label='He revisado los datos agregados'
-                    />
-                    <Button
-                      mt='12px'
-                      py='8px'
-                      px='16px'
+                    />}><Button
                       type='submit'
                       colorPalette='green'
                       loading={isSubmitting || isLoading}
                       disabled={values.materials.length === 0}
                     >
                       Confirmar Validación de Costos
-                    </Button>
-                  </SimpleGrid>
+                    </Button></FormActions>
                 </Flex>
               )}
             />

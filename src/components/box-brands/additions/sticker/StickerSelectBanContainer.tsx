@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Heading,
   IconButton,
   SimpleGrid,
   Separator,
@@ -9,6 +8,7 @@ import {
 import { FieldArray } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { FaBan } from 'react-icons/fa';
+import { FormSubsectionTitle } from '@/components/ui/form/FormSection';
 import SelectSticker from './SelectSticker';
 import { StickerProps } from '../../AddBoxBrandsForm';
 
@@ -36,7 +36,7 @@ const SelectStickerBanContainer = ({
 
   return (
     <>
-      <Heading fontSize={'xl'} p={'12px'}>
+      <FormSubsectionTitle>
         Sticker de trazabilidad{' '}
         {
           <IconButton
@@ -51,8 +51,7 @@ const SelectStickerBanContainer = ({
             <FaBan size={'20px'} />
           </IconButton>
         }
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSubsectionTitle>
       <FieldArray name={name}>
         {({ push, remove }) => (
           <>

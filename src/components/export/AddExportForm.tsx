@@ -3,14 +3,16 @@ import {
   Alert,
   Button,
   Flex,
-  Heading,
   SimpleGrid,
   Box,
   Text,
-  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import DateGrid from './cutting-sheet/DateGrid';
 import ExportBookingSelect from './ExportBookingSelect';
 import { exportFormValues, exportFromLineValues } from './exportFormValues';
@@ -122,10 +124,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 </Alert.Description>
               </Alert.Root>
             )}
-            <Heading fontSize='2xl' p='12px'>
-              Productor
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Productor</FormSectionTitle>
             <SelectProducer
               name='merchantId'
               producerSelect={
@@ -133,10 +132,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 fromLine?.merchant
               }
             />
-            <Heading fontSize='2xl' p='12px'>
-              Finca
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Finca</FormSectionTitle>
             <SelectBusiness
               name='businessId'
               merchant={values.merchantId || undefined}
@@ -148,10 +144,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             {!source && !fromLine && (
               <LastFarmExportAlert businessId={values.businessId} />
             )}
-            <Heading fontSize='2xl' p='12px'>
-              Marca de Caja
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Marca de Caja</FormSectionTitle>
             <SelectBoxBrand
               name='boxBrandId'
               boxBrandSelect={
@@ -173,10 +166,7 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               />
               <Box />
             </SimpleGrid>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Fecha de Corte
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Fecha de Corte</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 3 }} gap={5}>
               <InputFieldDayDate
                 name={'cuttingDate'}
@@ -225,18 +215,12 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 editing ? source?.id : undefined
               )}
             />
-            <Heading fontSize='2xl' p='12px'>
-              Cliente
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Cliente</FormSectionTitle>
             <SelectClient
               name={'clientId'}
               clientSelect={source?.client as Partial<ClientType> | undefined}
             />
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Naviera
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Naviera</FormSectionTitle>
             <ExportBookingSelect
               editingExportId={editing ? source?.id : undefined}
             />
@@ -320,18 +304,11 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 value={source ? initialValues.numberOfVerifiers : ''}
               />
             </SimpleGrid>
-
-            <Separator my='16px' />
-            <Button
-              mt='12px'
-              py='8px'
-              px='16px'
-              type='submit'
-              colorPalette='green'
-              loading={isLoading}
-            >
-              {editing ? 'Guardar cambios' : 'Enviar'}
-            </Button>
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                {editing ? 'Guardar cambios' : 'Enviar'}
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}

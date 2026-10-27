@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   Menu,
   NativeSelect,
   SimpleGrid,
@@ -25,6 +24,11 @@ import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import {
+  FormSectionTitle,
+  FormSubsectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
 import { getBoxBrand } from '@/hooks/box-brand/getBoxBrand';
@@ -1276,13 +1280,9 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
             <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
             <ClearPalletsOnBulk />
             <Flex flexDirection='column' gap={3}>
-              <Flex justify='space-between'>
-                <Heading fontSize={'2xl'} p={'12px'}>
-                  Especificaciones
-                </Heading>
-                <ImportBoxBrandDrawer />
-              </Flex>
-              <Separator mb={'16px'} />
+              <FormSectionTitle actions={<ImportBoxBrandDrawer />}>
+                Especificaciones
+              </FormSectionTitle>
               <CopyFromBoxBrand onCopied={setShownMaterials} />
 
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
@@ -1334,10 +1334,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 />
               </SimpleGrid>
 
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Materiales por caja
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Materiales por caja</FormSectionTitle>
               <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 <BottomSelectBanContanier
                   name1={'bottomTypeId'}
@@ -1488,15 +1485,9 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 onAdd={addMaterial}
               />
 
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Insumos post cosecha
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Insumos post cosecha</FormSectionTitle>
 
-              <Heading fontSize={'xl'} p={'12px'}>
-                Fumigación post cosecha
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSubsectionTitle>Fumigación post cosecha</FormSubsectionTitle>
               <FieldArray name='pesticides'>
                 {({ push, remove }) => (
                   <>
@@ -1533,10 +1524,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 )}
               </FieldArray>
 
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Materiales por contenedor
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Materiales por contenedor</FormSectionTitle>
               <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 {values.cargoType !== 'BULK' && (
                   <>
@@ -1648,10 +1636,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 onAdd={addMaterial}
               />
 
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Adicionales
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Adicionales</FormSectionTitle>
               <SimpleGrid columns={{ base: 1, xl: 2 }} gap={5}>
                 {shown('packingTapeTypeId') && (
                   <PackingTapeSelectBanContanier
@@ -1736,18 +1721,15 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
                 insecticides={values.insecticides}
               />
 
-              <SimpleGrid columns={{ base: 1, sm: 1 }}>
+              <FormActions>
                 <Button
-                  mt='12px'
-                  py='8px'
-                  px='16px'
                   type='submit'
                   colorPalette='green'
                   loading={isSubmitting || isLoading}
                 >
                   Enviar
                 </Button>
-              </SimpleGrid>
+              </FormActions>
             </Flex>
           </Form>
         )}

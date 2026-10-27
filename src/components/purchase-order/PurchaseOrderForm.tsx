@@ -2,20 +2,22 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   Input,
   SimpleGrid,
   Text,
   useDisclosure,
   Dialog,
   Portal,
-  Separator,
   Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import Link_Next from 'next/link';
 import React, { useRef } from 'react';
 import { FiPlus } from 'react-icons/fi';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitPurchaseOrder } from './hooks/useSubmitPurchaseOrder';
 import { purchaseOrderQuoteBody } from './purchaseOrderBody';
 import PurchaseOrderLineRow from './PurchaseOrderLineRow';
@@ -71,10 +73,7 @@ export default function PurchaseOrderForm({
       {({ values, errors }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Productor y Semana
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Productor y Semana</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {order ? (
                 <Field.Root>
@@ -98,10 +97,7 @@ export default function PurchaseOrderForm({
             </SimpleGrid>
             <InputFieldPlain name='notes' label='Notas' />
 
-            <Heading fontSize='2xl' p='16px'>
-              Líneas
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Líneas</FormSectionTitle>
             <Text fontSize='sm' color='fg.muted'>
               Cada línea es una finca, una alícuota y sus cajas. Márcala como
               contrato si va contra el cupo del productor, o como spot.
@@ -152,21 +148,10 @@ export default function PurchaseOrderForm({
               )}
             </FieldArray>
 
-            <Heading fontSize='2xl' p='16px'>
-              Cupo de la Semana
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Cupo de la Semana</FormSectionTitle>
             <DraftQuota values={values} />
 
-            <Flex gap={3} mt='12px' direction={{ base: 'column', sm: 'row' }}>
-              <Button
-                flex={1}
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
-                {order ? 'Guardar Cambios' : 'Crear Orden de Compra'}
-              </Button>
+            <FormActions>
               {order && (
                 <Button
                   variant='outline'
@@ -183,7 +168,10 @@ export default function PurchaseOrderForm({
                   Eliminar Orden
                 </Button>
               )}
-            </Flex>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                {order ? 'Guardar Cambios' : 'Crear Orden de Compra'}
+              </Button>
+            </FormActions>
           </Flex>
 
           <Dialog.Root

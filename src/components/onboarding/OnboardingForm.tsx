@@ -1,12 +1,6 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Box,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Button, Flex, Box, SimpleGrid, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { useSubmitOnboarding } from './hooks/useSubmitOnboarding';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
@@ -40,11 +34,7 @@ export default function OnboardingForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={2}>
-            <Flex justify='space-between'>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Productor
-              </Heading>
-            </Flex>
+            <FormSectionTitle>Productor</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businessName'} label={'Razon Social'} />
@@ -75,10 +65,7 @@ export default function OnboardingForm(): React.JSX.Element {
               <InputFieldText name={'address'} label={'Dirección'} />
             </SimpleGrid>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Finca
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Finca</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <InputFieldText name={'businesses[0].name'} label={'Nombre'} />
@@ -141,10 +128,7 @@ export default function OnboardingForm(): React.JSX.Element {
               />
             </SimpleGrid>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Códigos de Finca
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
 
             <FieldArray name='businesses[0].businessCodes'>
               {({ push, remove }) => (
@@ -177,10 +161,7 @@ export default function OnboardingForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Contactos
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Contactos</FormSectionTitle>
 
             <FieldArray name='businesses[0].contacts'>
               {({ push, remove }) => (
