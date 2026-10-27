@@ -1,7 +1,6 @@
 'use client';
-import { AxiosError } from 'axios';
-import { redirect, useParams, usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useLayoutEffect } from 'react';
+import { redirect, useParams, usePathname } from 'next/navigation';
+import React, { useLayoutEffect } from 'react';
 import { FiPackage } from 'react-icons/fi';
 import { CardPage } from '@/components/ui/page/PageLayout';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -12,26 +11,11 @@ import { ExportResponse } from '../../../../../types/export.response';
 
 const PendingExportPage = (): React.JSX.Element => {
   const params = useParams<{ id: string }>();
-  const { data, isLoading, error } = useExport({
+  const { data, isLoading } = useExport({
     exportId: params.id,
   });
   const pendingExport = data as Partial<ExportResponse>;
   const pathname = usePathname();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && (error as AxiosError).isAxiosError) {
-      const { response } = error as AxiosError<{
-        statusCode: number;
-      }>;
-
-      const statusCode = response?.data?.statusCode;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   useLayoutEffect(() => {
     if (!isLoading) {

@@ -6,28 +6,14 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailProducerPayments from './DetailProducerPayments';
 import { useProducerPayments } from '../../../hooks/liquidation/getProducerPayments';
 
 const TableProducerPayments = (): React.JSX.Element => {
-  const { rows: data, error, tableOptions } = useProducerPayments();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
+  const { rows: data, tableOptions } = useProducerPayments();
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [

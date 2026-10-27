@@ -7,7 +7,6 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -15,22 +14,14 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDocumentBoard } from '../../hooks/booking/documentStatus';
 import { BookingDocumentStatus } from '../../types/shipmentStatus';
 import { formatDayMonthYearTime } from '../../utils/dayMonthYear';
 import { missingSummary, SEMAPHORE_COLOR } from '../../utils/shipmentStatus';
 
 const TableDocumentBoard = (): React.JSX.Element => {
-  const { data = [], error } = useDocumentBoard();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-    }
-  }, [error, router]);
+  const { data = [] } = useDocumentBoard();
 
   const columns = useMemo<MRT_ColumnDef<BookingDocumentStatus>[]>(
     () => [

@@ -78,7 +78,6 @@ export function useSubmitShippingCompany(): {
 
     createShippingCompany(payload, {
       onError: (error: AxiosError<ServerErrorResponse>) => {
-        const statusCode = error.response?.status;
         toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
@@ -86,9 +85,6 @@ export function useSubmitShippingCompany(): {
           duration: 5000,
           closable: true,
         });
-        if (statusCode === 401) {
-          router.push('/api/auth/signout');
-        }
       },
       onSuccess: () => {
         toaster.create({

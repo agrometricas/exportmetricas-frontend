@@ -9,9 +9,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 
@@ -70,21 +70,6 @@ const ShippingCompanyMultiSelectBase: React.FC<
   ShippingCompanyMultiSelectBaseProps
 > = ({ name, placeholder, field, onChange, setShippingCompanies }) => {
   const { data, isLoading, error } = useShippingCompanies();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValues: MultiValue<Partial<ShippingCompanyType>>
@@ -113,10 +98,7 @@ const ShippingCompanyMultiSelectBase: React.FC<
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (error as any).response.data.message
-          : 'Ya no hay naviero/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay naviero/s disponible/s'
       }
       isLoading={isLoading}
       options={data}

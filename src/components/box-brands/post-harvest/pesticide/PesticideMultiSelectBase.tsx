@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { usePesticides } from '../../../../hooks/box-brand/post-harvest/pesticide/getPesticides';
 import { PesticideType } from '../../../../types/box-brand/post-harvest/pesticide';
 
@@ -72,20 +72,6 @@ const PesticideMultiSelectBase: React.FC<PesticideMultiSelectBaseProps> = ({
   setPesticides,
 }) => {
   const { data, isLoading, error } = usePesticides();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValues: MultiValue<Partial<PesticideType>>
@@ -115,7 +101,7 @@ const PesticideMultiSelectBase: React.FC<PesticideMultiSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay pesticida/s disponible/s'
       }
       isLoading={isLoading}

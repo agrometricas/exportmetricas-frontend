@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useReinforcements } from '@/hooks/box-brand/materials/reinforcement/getReinforcements';
 import { ReinforcementType } from '@/types/box-brand/materials/reinforcement';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface ReinforcementSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const ReinforcementSelectBase: React.FC<ReinforcementSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useReinforcements();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<ReinforcementType>>
@@ -110,7 +99,7 @@ const ReinforcementSelectBase: React.FC<ReinforcementSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay reinforcement/s disponible/s'
       }
       isLoading={isLoading}

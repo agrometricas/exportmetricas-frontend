@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useMiniPallets } from '@/hooks/box-brand/materials/minipallet/getMiniPallets';
 import { MiniPalletType } from '@/types/box-brand/materials/minipallet';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface MiniPalletSelectBaseProps {
   name?: string;
@@ -73,17 +73,7 @@ const MiniPalletSelectBase: React.FC<MiniPalletSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useMiniPallets();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<MiniPalletType>>
@@ -108,7 +98,7 @@ const MiniPalletSelectBase: React.FC<MiniPalletSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay mini pallet/s disponible/s'
       }
       isLoading={isLoading}

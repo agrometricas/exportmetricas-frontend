@@ -1,6 +1,5 @@
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -114,10 +113,6 @@ const AddCuttingTypeForm = ({
   });
 
   const onError = (error: unknown): void => {
-    if (isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-      return;
-    }
     toaster.create({
       title: isEdit
         ? 'No se guardó el tipo de corte'

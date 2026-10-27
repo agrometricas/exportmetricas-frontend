@@ -2,7 +2,6 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
@@ -85,7 +84,6 @@ const validationSchema = Yup.object({
 
 const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
   const { createLabel, isPending: isLoading } = useCreateLabel();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addLabel = async (
@@ -102,7 +100,6 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
 
     createLabel(formData, {
       onError: (error: any) => {
-        const statusCode = error.response?.status;
 
         toaster.create({
           title: 'No se pudo guardar',
@@ -112,9 +109,6 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
           closable: true,
         });
 
-        if (statusCode === 401) {
-          router.push('/api/auth/signout');
-        }
       },
       onSuccess: () => {
         toaster.create({

@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useMettoLabels } from '../../../../hooks/box-brand/container/metto-label/getMettoLabels';
 import { MettoLabelType } from '../../../../types/box-brand/container/mettoLabel';
 
@@ -73,20 +73,7 @@ const MettoLabelSelectBase: React.FC<MettoLabelSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useMettoLabels();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<MettoLabelType>>
@@ -111,7 +98,7 @@ const MettoLabelSelectBase: React.FC<MettoLabelSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay etiqueta/s metto disponible/s'
       }
       isLoading={isLoading}

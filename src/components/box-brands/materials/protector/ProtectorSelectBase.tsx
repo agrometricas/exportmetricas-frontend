@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useProtectors } from '../../../../hooks/box-brand/materials/protector/getProtectors';
 import { ProtectorType } from '../../../../types/box-brand/materials/protector';
 
@@ -75,20 +75,6 @@ const ProtectorSelectBase: React.FC<ProtectorSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useProtectors();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<ProtectorType>>
@@ -112,7 +98,7 @@ const ProtectorSelectBase: React.FC<ProtectorSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay protector/es disponible/s'
       }
       isLoading={isLoading}

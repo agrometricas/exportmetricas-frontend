@@ -1,13 +1,11 @@
 import { Icon } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailProducers from './DetailProducers';
@@ -15,17 +13,8 @@ import { useMerchants } from '../../../hooks/merchants/getMerchants';
 import { MerchantResponse } from '../../../types/merchant/merchant.response';
 
 const TableProducers = (): React.JSX.Element => {
-  const { data = [], error } = useMerchants();
-  const router = useRouter();
+  const { data = [] } = useMerchants();
 
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const dataRes = error.response?.data;
-      if (dataRes?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<MerchantResponse>[]>(() => [
     {

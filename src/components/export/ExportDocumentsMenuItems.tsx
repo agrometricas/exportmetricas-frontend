@@ -1,6 +1,4 @@
 import { Menu } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MdPictureAsPdf } from 'react-icons/md';
 import { toaster } from '@/components/ui/toaster';
@@ -35,7 +33,6 @@ export default function ExportDocumentsMenuItems({
   exportId: number;
   isCancelled: boolean;
 }): React.JSX.Element {
-  const router = useRouter();
   const { mutate: download } = useDownloadShippingDocument();
 
   return (
@@ -52,10 +49,6 @@ export default function ExportDocumentsMenuItems({
                 onSuccess: (blob) =>
                   save(blob, `${file}-exportacion-${exportId}.pdf`),
                 onError: (error) => {
-                  if (isAxiosError(error) && error.response?.status === 401) {
-                    router.push('/api/auth/signout');
-                    return;
-                  }
                   toaster.create({
                     title: 'No se pudo generar el documento',
                     description: serverErrorMessage(error),

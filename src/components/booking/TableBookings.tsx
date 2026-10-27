@@ -1,5 +1,4 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,8 +6,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useBookings } from '../../hooks/booking/getBookings';
 import { BookingResponse } from '../../types/booking';
 import {
@@ -19,14 +17,7 @@ import {
 const money = (value: string): string => `$${Number(value).toFixed(2)}`;
 
 const TableBookings = (): React.JSX.Element => {
-  const { data = [], error } = useBookings();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-    }
-  }, [error, router]);
+  const { data = [] } = useBookings();
 
   const columns = useMemo<MRT_ColumnDef<BookingResponse>[]>(
     () => [

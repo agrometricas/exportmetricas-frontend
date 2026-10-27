@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { describeApiError } from './api-error-report';
 import { env } from './env';
 import { reportClientError } from './error-reporter';
@@ -26,9 +26,28 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+let signingOut = false;
+
+// The backend only answers 401 when the session is no longer valid, so any of
+// them ends it. The request never settles: the page is about to unload, and an
+// error toast or error screen would flash first.
+function endSession(): Promise<never> {
+  if (!signingOut) {
+    signingOut = true;
+    const back = window.location.pathname + window.location.search;
+    void signOut({
+      callbackUrl: `/auth/signin?callbackUrl=${encodeURIComponent(back)}`,
+    });
+  }
+  return new Promise(() => {});
+}
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error?.response?.status === 401 && typeof window !== 'undefined') {
+      return endSession();
+    }
     const report = describeApiError(error);
     if (report) {
       reportClientError(report.source, report.message, report.context);

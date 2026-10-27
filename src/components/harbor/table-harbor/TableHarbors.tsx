@@ -1,12 +1,10 @@
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailHarbors from './DetailHarbors';
 import { useHarbors } from '../../../hooks/export/harbor/getHarbors';
@@ -14,17 +12,8 @@ import { ClientType } from '../../../types/client';
 import { HarborResponse } from '../../../types/harbor.response';
 
 const TableHarbors = (): React.JSX.Element => {
-  const { data = [], error } = useHarbors();
-  const router = useRouter();
+  const { data = [] } = useHarbors();
 
-  useEffect(() => {
-    if (error && isAxiosError(error)) {
-      const dataRes = error.response?.data;
-      if (dataRes?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<HarborResponse>[]>(
     () => [

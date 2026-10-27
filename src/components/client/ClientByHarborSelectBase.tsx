@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useClientsByHarborId } from '../../hooks/export/client/getClientsByHarborId';
 import { ClientType } from '../../types/client';
 
@@ -75,21 +75,6 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
 }) => {
   const { data, isLoading, error } = useClientsByHarborId({ id: harbor ?? 0 });
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
-
   const handleChange = (newValue: SingleValue<Partial<ClientType>>): void => {
     if (setClient) {
       setClient(newValue as Partial<ClientType>);
@@ -114,9 +99,7 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay cliente/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay cliente/s disponible/s'
       }
       isLoading={isLoading}
       options={data}

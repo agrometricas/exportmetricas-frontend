@@ -47,7 +47,8 @@ Recuperación de contraseña:
 - Mientras el usuario está activo, la sesión renueva los tokens del backend
   desde la mitad de su vida (`needsRenewal`, `utils/sessionRenewal.ts`), y con
   ellos el rol. Un 401 (inactivo más que la vida del token, o un usuario
-  borrado) lleva a `/api/auth/signout`.
+  borrado) cierra la sesión desde el interceptor de `lib/axios.ts` y lleva al
+  login, que vuelve a la pantalla donde estaba.
 
 ---
 

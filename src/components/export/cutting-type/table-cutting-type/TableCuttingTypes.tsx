@@ -7,27 +7,13 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailCuttingTypes from './DetailCuttingTypes';
 import { useCuttingTypes } from '../../../../hooks/export/cutting-type/getCuttingTypes';
 
 const TableCuttingTypes = (): React.JSX.Element => {
-  const { data = [], error } = useCuttingTypes();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
+  const { data = [] } = useCuttingTypes();
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [

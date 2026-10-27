@@ -1,8 +1,7 @@
 'use client';
 import { Box, Heading, VStack, Badge } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import React, { useMemo } from 'react';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
@@ -15,12 +14,6 @@ import OpenWithConfirmation from '../../ui/OpenWithConfirmation';
 import PendingTable from '../../ui/PendingTable';
 import { pendingExportColumns } from '../pendingColumns';
 
-type ApiErrorData = {
-  statusCode?: number;
-  message?: string;
-  error?: string;
-};
-
 const PendingCuttingSheetList = (): React.JSX.Element => {
   const {
     data = [],
@@ -29,21 +22,12 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
     refetch,
   } = useCuttingSheetsPending();
 
-  const router = useRouter();
   const pathname = usePathname();
   const columns = useMemo(
     () => pendingExportColumns<Partial<ExportSentType>>((row) => row.export),
     []
   );
 
-  useEffect(() => {
-    if (error && isAxiosError<ApiErrorData>(error)) {
-      const statusCode = error.response?.data?.statusCode;
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const headingColor = 'fg.heading';
 

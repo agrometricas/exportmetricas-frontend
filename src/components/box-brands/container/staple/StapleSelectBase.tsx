@@ -10,9 +10,9 @@ import {
   chakraComponents,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useStaples } from '../../../../hooks/box-brand/container/staple/getStaples';
 import { StapleType } from '../../../../types/box-brand/container/staple';
 
@@ -75,20 +75,6 @@ const StapleSelectBase: React.FC<StapleSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useStaples();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<StapleType>>): void => {
     if (setStaple) setStaple(newValue as Partial<StapleType>);
@@ -109,9 +95,7 @@ const StapleSelectBase: React.FC<StapleSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay grapa/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay grapa/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

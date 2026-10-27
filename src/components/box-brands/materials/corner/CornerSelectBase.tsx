@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { useCorners } from '@/hooks/box-brand/materials/corner/getCorners';
 import { CornerType } from '@/types/box-brand/materials/corner';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface CornerSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useCorners();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<CornerType>>): void => {
     if (setCorner) setCorner(newValue as Partial<CornerType>);
@@ -106,9 +95,7 @@ const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay corner/s disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay corner/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

@@ -85,7 +85,9 @@ the backend proposes.
 - A request that never got an answer has no `error.response`: read it with
   `?.` (`error.response?.status`). Destructuring it crashes the handler and
   the user sees nothing.
-- On a `401`, send the user to `/api/auth/signout`.
+- Don't handle a `401`: the interceptor in `lib/axios.ts` ends the session and
+  the request never settles. A request that skips the shared instance (raw
+  `axios`, `fetch`) skips that too, so authenticated calls go through it.
 
 ## Forms
 

@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useRubbers } from '../../../../hooks/box-brand/materials/rubber/getRubbers';
 import { RubberType } from '../../../../types/box-brand/materials/rubber';
 
@@ -75,20 +75,6 @@ const RubberSelectBase: React.FC<RubberSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useRubbers();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data = [] } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<RubberType>>): void => {
     if (setRubber) setRubber(newValue as Partial<RubberType>);
@@ -109,9 +95,7 @@ const RubberSelectBase: React.FC<RubberSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay liga/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay liga/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

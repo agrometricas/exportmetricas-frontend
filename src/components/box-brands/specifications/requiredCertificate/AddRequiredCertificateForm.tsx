@@ -2,7 +2,6 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
@@ -41,7 +40,6 @@ const AddCertificateForm = ({
 }: AddCertificateFormProps): React.JSX.Element => {
   const { createRequiredCertificate, isPending: isLoading } =
     useCreateRequiredCertificate();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addCertificate = async (
@@ -54,8 +52,6 @@ const AddCertificateForm = ({
       },
       {
         onError: (error: any) => {
-          const statusCode = error.response?.status;
-
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
@@ -63,10 +59,6 @@ const AddCertificateForm = ({
             duration: 5000,
             closable: true,
           });
-
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
         },
         onSuccess: () => {
           toaster.create({

@@ -7,8 +7,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BsFileEarmarkPdf } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailCuttingSheets from './DetailCuttingSheets';
@@ -16,20 +15,7 @@ import { useCuttingSheets } from '../../../../hooks/export/cuttingSheet/getCutti
 import { sheetVersionLabel } from '../../../../utils/cuttingSheetOptions';
 
 const TableCuttingSheets = (): React.JSX.Element => {
-  const { rows: data, error, tableOptions } = useCuttingSheets();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
+  const { rows: data, tableOptions } = useCuttingSheets();
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [

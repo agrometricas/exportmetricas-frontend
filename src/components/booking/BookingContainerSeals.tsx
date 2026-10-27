@@ -1,8 +1,6 @@
 import { Badge, Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
@@ -25,7 +23,6 @@ function ContainerSealsRow({
   bookingId: number;
   container: BookingContainer;
 }): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const borderColor = 'border';
   const { mutate: save, isPending: isLoading } = useUpdateContainerSeals();
@@ -35,10 +32,6 @@ function ContainerSealsRow({
       { bookingId, containerId: container.id, body: sealsBody(values) },
       {
         onError: (error) => {
-          if (isAxiosError(error) && error.response?.status === 401) {
-            router.push('/api/auth/signout');
-            return;
-          }
           toaster.create({
             title: `No se guardaron los sellos de ${container.number}`,
             description: serverErrorMessage(error),

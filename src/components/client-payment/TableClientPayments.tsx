@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
@@ -6,8 +5,7 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailClientPayments from './DetailClientPayments';
@@ -15,20 +13,8 @@ import { useClientPayments } from '../../hooks/client-payment/getClientPayments'
 import { ClientPayment } from '../../types/client-payment/client-payment.response';
 
 const TableClientPayments = (): React.JSX.Element => {
-  const { rows: data, error, tableOptions } = useClientPayments();
-  const router = useRouter();
+  const { rows: data, tableOptions } = useClientPayments();
 
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<ClientPayment>[]>(
     () => [

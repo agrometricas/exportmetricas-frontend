@@ -2,7 +2,6 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
@@ -34,7 +33,6 @@ export default function AddBrandForm({
   onClose,
 }: AddBrandFormProps): React.JSX.Element {
   const { createBrand, isPending: isLoading } = useCreateBrand();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addBrand = async (
@@ -47,7 +45,6 @@ export default function AddBrandForm({
       },
       {
         onError: (error: any) => {
-          const statusCode = error.response?.status;
           toaster.create({
             title: 'No se pudo guardar',
             description: serverErrorMessage(error),
@@ -55,10 +52,6 @@ export default function AddBrandForm({
             duration: 5000,
             closable: true,
           });
-
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
         },
         onSuccess: () => {
           toaster.create({

@@ -9,9 +9,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useMerchants } from '../../hooks/merchants/getMerchants';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
 
@@ -56,7 +56,9 @@ const producerComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -69,21 +71,6 @@ const ProducerSelectBase: React.FC<ProducerSelectBaseProps> = ({
   setProducer,
 }) => {
   const { data = [], isLoading, error } = useMerchants();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (newValue: SingleValue<Partial<MerchantResponse>>) => {
@@ -103,17 +90,15 @@ const ProducerSelectBase: React.FC<ProducerSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          (({
+          ({
             ...provided,
             zIndex: 100,
-          }) as CSSObjectWithLabel),
+          }) as CSSObjectWithLabel,
       }}
-
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay productor/es disponible/s'
       }
       isLoading={isLoading}
@@ -125,7 +110,9 @@ const ProducerSelectBase: React.FC<ProducerSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data.find((opt: Partial<MerchantResponse>) => opt.id === field?.value)
+          ? data.find(
+              (opt: Partial<MerchantResponse>) => opt.id === field?.value
+            )
           : null
       }
       placeholder={placeholder}

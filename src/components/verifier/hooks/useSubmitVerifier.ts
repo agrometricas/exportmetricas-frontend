@@ -25,7 +25,6 @@ export function useSubmitVerifier(): {
             { ...verifierData },
             {
                 onError: (error) => {
-                    const statusCode = error.response?.status;
                     toaster.create({
                         title: 'No se pudo guardar',
                         description: serverErrorMessage(error),
@@ -33,9 +32,6 @@ export function useSubmitVerifier(): {
                         duration: 5000,
                         closable: true,
                     });
-                    if (statusCode === 401) {
-                        router.push('/api/auth/signout');
-                    }
                 },
                 onSuccess: () => {
                     toaster.create({

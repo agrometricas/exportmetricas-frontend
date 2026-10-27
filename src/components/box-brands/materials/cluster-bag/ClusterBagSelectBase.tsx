@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useClusterBags } from '../../../../hooks/box-brand/materials/cluster-bag/getClusterBags';
 import { ClusterBagType } from '../../../../types/box-brand/materials/clusterBag';
 
@@ -73,20 +73,7 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useClusterBags();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<ClusterBagType>>
@@ -111,7 +98,7 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay cluster bag/s disponible/s'
       }
       isLoading={isLoading}

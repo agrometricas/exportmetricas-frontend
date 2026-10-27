@@ -10,11 +10,11 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
 import { usePallets } from '@/hooks/box-brand/materials/pallet/getPallets';
 import { PalletType } from '@/types/box-brand/materials/pallet';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 
 interface PalletSelectBaseProps {
   name?: string;
@@ -75,17 +75,6 @@ const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = usePallets();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      if (response?.data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<PalletType>>): void => {
     if (setPallet) setPallet(newValue as Partial<PalletType>);
@@ -106,9 +95,7 @@ const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        error
-          ? (error as any).response.data.message
-          : 'Ya no hay pallet/s disponible/s'
+        error ? serverErrorMessage(error) : 'Ya no hay pallet/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

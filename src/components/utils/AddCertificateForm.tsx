@@ -1,14 +1,11 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCertificate } from '@/hooks/utils/createCertificate';
-import { ServerErrorResponse } from '@/types/errorResponse';
 import { useExporter } from '../../hooks/useUserProfile';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import UploadLogoFile from '../producer/UploadLogoFile';
@@ -73,16 +70,13 @@ const validationSchema = Yup.object({
 const AddCertificateForm = ({
   onClose,
 }: AddCertificateFormProps): React.JSX.Element => {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { user } = useExporter();
 
   const onboardingStatus = user?.userDetails?.onboardingStatus ?? 'done';
 
   const { mutateAsync: createCertificate, isPending: isLoading } =
-    useCreateCertificate({
-      onboardingStatus,
-    });
+    useCreateCertificate();
 
   const handleSubmit = async (
     values: ValuesProps,
@@ -110,9 +104,6 @@ const AddCertificateForm = ({
       actions.resetForm();
       onClose?.();
     } catch (error) {
-      const axiosError = error as AxiosError<ServerErrorResponse>;
-      const data = axiosError?.response?.data;
-
       toaster.create({
         title: 'No se pudo guardar',
         description: serverErrorMessage(error),
@@ -120,10 +111,6 @@ const AddCertificateForm = ({
         duration: 5000,
         closable: true,
       });
-
-      if (data?.statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
     }
   };
 

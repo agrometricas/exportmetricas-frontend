@@ -5,27 +5,14 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBankAccounts from './DetailBankAccounts';
 import { useBankAccounts } from '../../../hooks/bank-account/getBankAccounts';
 
 const TableBankAccounts = (): React.JSX.Element => {
-  const { data = [], error } = useBankAccounts();
-  const router = useRouter();
+  const { data = [] } = useBankAccounts();
 
-  useEffect(() => {
-    if (error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-  }, [error, router]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => [
     {

@@ -1,8 +1,6 @@
 import { Button, Flex, Text, Dialog, Portal } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toaster } from '@/components/ui/toaster';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
@@ -26,7 +24,6 @@ export default function BoxBrandCargoModal({
   boxBrand: CargoTarget | null;
   onClose: () => void;
 }): React.JSX.Element {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { data } = useBoxTypes();
   const options = ((data ?? []) as BoxTypeResponse[]).map(({ id, name }) => ({
@@ -60,13 +57,6 @@ export default function BoxBrandCargoModal({
                     { boxBrandId: boxBrand.id, body: cargoBody(values) },
                     {
                       onError: (error) => {
-                        if (
-                          isAxiosError(error) &&
-                          error.response?.status === 401
-                        ) {
-                          router.push('/api/auth/signout');
-                          return;
-                        }
                         toaster.create({
                           title: 'No se pudo guardar',
                           description: serverErrorMessage(error),

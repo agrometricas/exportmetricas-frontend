@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useBlockingSheets } from '../../../../hooks/box-brand/additions/blocking-sheet/getBlockingSheets';
 import { BlockingSheetType } from '../../../../types/box-brand/additions/blockingSheet';
 
@@ -75,20 +75,6 @@ const BlockingSheetSelectBase: React.FC<BlockingSheetSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useBlockingSheets();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<BlockingSheetType>>
@@ -113,7 +99,7 @@ const BlockingSheetSelectBase: React.FC<BlockingSheetSelectBaseProps> = ({
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
-          ? (error as any).response.data.message
+          ? serverErrorMessage(error)
           : 'Ya no hay etiqueta/s disponible/s'
       }
       isLoading={isLoading}

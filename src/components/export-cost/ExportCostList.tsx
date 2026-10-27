@@ -1,9 +1,8 @@
 'use client';
 import { Box, Heading, VStack, Badge } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { MRT_ColumnDef } from 'material-react-table';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdFactCheck } from 'react-icons/md';
 import EmptyState from '@/components/ui/states/EmptyState';
@@ -34,16 +33,9 @@ const costLabel = (item: PendingCost): string =>
     .filter(Boolean)
     .join(' · ');
 
-type ApiErrorData = {
-  statusCode?: number;
-  message?: string;
-  error?: string;
-};
-
 const ExportCostList = (): React.JSX.Element => {
   const { data = [], isLoading, error, refetch } = useExportSentCostsPending();
 
-  const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -73,12 +65,6 @@ const ExportCostList = (): React.JSX.Element => {
 
   const headingColor = 'fg.heading';
 
-  useEffect(() => {
-    if (error && isAxiosError<ApiErrorData>(error)) {
-      const statusCode = error.response?.data?.statusCode;
-      if (statusCode === 401) router.push('/api/auth/signout');
-    }
-  }, [error, router]);
 
   if (isLoading) {
     return (

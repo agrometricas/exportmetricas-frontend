@@ -57,7 +57,6 @@ const UploadLogoForm = (): React.JSX.Element => {
         },
         {
           onError: (error: any) => {
-            const statusCode = error.response?.status;
             {
               toaster.create({
                 title: 'No se pudo guardar',
@@ -66,10 +65,6 @@ const UploadLogoForm = (): React.JSX.Element => {
                 duration: 5000,
                 closable: true,
               });
-
-              if (statusCode === 401) {
-                router.push('/api/auth/signout');
-              }
             }
           },
           onSuccess: async () => {

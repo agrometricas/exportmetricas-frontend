@@ -3,7 +3,6 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
@@ -102,7 +101,6 @@ const AddPesticideForm = ({
   onClose,
 }: AddPesticideFormProps): React.JSX.Element => {
   const { createPesticide, isPending: isLoading } = useCreatePesticide();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addPesticide = async (
@@ -118,7 +116,6 @@ const AddPesticideForm = ({
       },
       {
         onError: (error: any) => {
-          const statusCode = error.response?.status;
 
           toaster.create({
             title: 'No se pudo guardar',
@@ -128,9 +125,6 @@ const AddPesticideForm = ({
             closable: true,
           });
 
-          if (statusCode === 401) {
-            router.push('/api/auth/signout');
-          }
         },
         onSuccess: () => {
           toaster.create({

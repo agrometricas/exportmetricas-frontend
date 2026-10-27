@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, HStack, Text } from '@chakra-ui/react';
 import {
   type MRT_ColumnDef,
@@ -6,8 +5,7 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailBoxBrand from './DetailBoxBrand';
 import { useBoxBrands } from '../../../hooks/box-brand/getBoxBrands';
@@ -17,22 +15,8 @@ import { cargoTypeLabel } from '../../../utils/cargoType';
 import BoxBrandCargoModal, { CargoTarget } from '../BoxBrandCargoModal';
 
 const TableBoxBrand = (): React.JSX.Element => {
-  const { data = [], error } = useBoxBrands();
-  const router = useRouter();
+  const { data = [] } = useBoxBrands();
   const [cargoTarget, setCargoTarget] = useState<CargoTarget | null>(null);
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data: dataRes } = response;
-      const { statusCode } = dataRes;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const columns = useMemo<MRT_ColumnDef<Partial<BoxBrandType>>[]>(
     () => [

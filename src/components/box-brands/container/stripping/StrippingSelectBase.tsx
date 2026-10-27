@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useStrippings } from '../../../../hooks/box-brand/container/stripping/getStrippings';
 import { StrippingType } from '../../../../types/box-brand/container/stripping';
 
@@ -75,20 +75,6 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useStrippings();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (
     newValue: SingleValue<Partial<StrippingType>>
@@ -111,9 +97,7 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay zuncho/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay zuncho/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}

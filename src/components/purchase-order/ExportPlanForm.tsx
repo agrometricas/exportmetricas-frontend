@@ -10,7 +10,6 @@ import {
   Field,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
@@ -241,10 +240,6 @@ export default function ExportPlanForm({
   const onSubmit = (values: PlanValues): void => {
     create(exportPlanBody(order.id, values), {
       onError: (error) => {
-        if (isAxiosError(error) && error.response?.status === 401) {
-          router.push('/api/auth/signout');
-          return;
-        }
         toaster.create({
           title: 'No se creó ninguna exportación',
           description: serverErrorMessage(error),

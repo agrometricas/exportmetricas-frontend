@@ -1,5 +1,4 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
-import { isAxiosError } from 'axios';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -7,22 +6,14 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { usePurchaseOrders } from '../../hooks/purchase-order/getPurchaseOrders';
 import { PurchaseOrderSummary } from '../../types/purchaseOrder';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 
 const TablePurchaseOrders = (): React.JSX.Element => {
-  const { data = [], error } = usePurchaseOrders();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error && isAxiosError(error) && error.response?.status === 401) {
-      router.push('/api/auth/signout');
-    }
-  }, [error, router]);
+  const { data = [] } = usePurchaseOrders();
 
   const columns = useMemo<MRT_ColumnDef<PurchaseOrderSummary>[]>(
     () => [

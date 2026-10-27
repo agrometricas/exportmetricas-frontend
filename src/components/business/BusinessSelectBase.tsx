@@ -10,9 +10,9 @@ import {
   CSSObjectWithLabel,
 } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useBusinessesByMerchantId } from '../../hooks/business/getBusinesses';
 import { BusinessType } from '../../types/merchant/business';
 
@@ -75,25 +75,11 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
 }) => {
   const { data, isLoading, isPlaceholderData, error } =
     useBusinessesByMerchantId({ id: merchant ?? 0 });
-  const router = useRouter();
 
   // keepPreviousData would otherwise offer the farm of the producer chosen
   // before as the only option.
   const onlyOption: Partial<BusinessType> | null =
     !isPlaceholderData && data?.length === 1 ? data[0] : null;
-
-  useEffect(() => {
-    if (!!error) {
-      const { response } = error as any;
-      const { data } = response;
-      const { statusCode } = data;
-
-      if (statusCode === 401) {
-        router.push('/api/auth/signout');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
 
   const handleChange = (newValue: SingleValue<Partial<BusinessType>>): void => {
     if (setBusiness) {
@@ -124,9 +110,7 @@ const BusinessSelectBase: React.FC<BusinessSelectBaseProps> = ({
       }}
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
-        !!error
-          ? (error as any).response.data.message
-          : 'Ya no hay finca/s disponible/s'
+        !!error ? serverErrorMessage(error) : 'Ya no hay finca/s disponible/s'
       }
       isLoading={isLoading}
       options={data}
