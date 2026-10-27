@@ -1,29 +1,24 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
+import { PagedList, usePagedList } from '@/hooks/usePagedList';
 import axios from '@/lib/axios';
-import { PaginationParams } from '@/types/paginationParams';
-import { serializeQueryResult } from '@/utils/serializeQueryResult';
+import { CuttingSheetResponse } from '@/types/cuttingSheet.response';
 
-type Params = PaginationParams;
-
-function listCuttingSheets(params: Params): Promise<AxiosResponse> {
-  return axios.get('/export/cutting-sheets', { params });
+export function useCuttingSheets(): PagedList<CuttingSheetResponse> {
+  return usePagedList<CuttingSheetResponse>(
+    'cuttingSheets',
+    '/export/cutting-sheets'
+  );
 }
 
-export function useCuttingSheets({
-  search = '',
-  page = 1,
-  limit = 10,
-}: Params) {
-  const result = useQuery(
-    ['cuttingSheets', search, page, limit],
-    () => listCuttingSheets({ search, page, limit }),
-    {
-      keepPreviousData: true,
-    }
+export function useCuttingSheet(id: number): {
+  sheet: CuttingSheetResponse | undefined;
+  isLoading: boolean;
+  error: unknown;
+} {
+  const { data, isLoading, error } = useQuery<CuttingSheetResponse>(
+    ['cuttingSheets', 'detail', id],
+    async () => (await axios.get(`/export/cutting-sheets/${id}`)).data,
+    { enabled: Number.isInteger(id) && id > 0, retry: false }
   );
-
-  return serializeQueryResult(result);
+  return { sheet: data, isLoading, error };
 }

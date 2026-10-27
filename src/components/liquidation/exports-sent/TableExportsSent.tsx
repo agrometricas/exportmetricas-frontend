@@ -10,11 +10,9 @@ import React, { useEffect, useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailExportsSent from './DetailExportsSent';
 import { useExportsSent } from '../../../hooks/liquidation/getExportsSent';
-import { usePagination } from '../../../hooks/usePagination';
 
 const TableExportsSent = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useExportsSent(paginationParams);
+  const { rows: data, error, tableOptions } = useExportsSent();
   const router = useRouter();
 
   useEffect(() => {
@@ -116,6 +114,7 @@ const TableExportsSent = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...tableOptions,
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
@@ -124,7 +123,6 @@ const TableExportsSent = (): React.JSX.Element => {
     enableColumnDragging: false,
     enableHiding: false,
     initialState: {
-      pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand'],
         right: ['export.id'],

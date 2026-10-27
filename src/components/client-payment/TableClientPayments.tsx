@@ -12,12 +12,10 @@ import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailClientPayments from './DetailClientPayments';
 import { useClientPayments } from '../../hooks/client-payment/getClientPayments';
-import { usePagination } from '../../hooks/usePagination';
 import { ClientPayment } from '../../types/client-payment/client-payment.response';
 
 const TableClientPayments = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useClientPayments(paginationParams);
+  const { rows: data, error, tableOptions } = useClientPayments();
   const router = useRouter();
 
   useEffect(() => {
@@ -112,6 +110,7 @@ const TableClientPayments = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...tableOptions,
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
@@ -120,7 +119,6 @@ const TableClientPayments = (): React.JSX.Element => {
     enableColumnDragging: false,
     enableHiding: false,
     initialState: {
-      pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand'],
         right: ['transferUrl'],

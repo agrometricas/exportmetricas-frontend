@@ -12,11 +12,9 @@ import { BsImage } from 'react-icons/bs';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import DetailProducerPayments from './DetailProducerPayments';
 import { useProducerPayments } from '../../../hooks/liquidation/getProducerPayments';
-import { usePagination } from '../../../hooks/usePagination';
 
 const TableProducerPayments = (): React.JSX.Element => {
-  const { paginationParams } = usePagination();
-  const { data = [], error } = useProducerPayments(paginationParams);
+  const { rows: data, error, tableOptions } = useProducerPayments();
   const router = useRouter();
 
   useEffect(() => {
@@ -142,6 +140,7 @@ const TableProducerPayments = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...tableOptions,
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
@@ -150,7 +149,6 @@ const TableProducerPayments = (): React.JSX.Element => {
     enableColumnDragging: false,
     enableHiding: false,
     initialState: {
-      pagination: { pageSize: 10, pageIndex: 0 },
       columnPinning: {
         left: ['mrt-row-expand'],
         right: ['transferUrl'],

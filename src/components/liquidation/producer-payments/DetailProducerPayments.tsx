@@ -5,62 +5,13 @@ import {
   DetailFields,
   DetailSubtitle,
 } from '@/components/ui/DetailFields';
+import { ProducerPaymentListItem } from '../../../types/producerPayment';
 import { harborPlace } from '../../../utils/harborPlace';
 
 const DetailProducerPayments = ({
   producerPayment,
 }: {
-  producerPayment: {
-    id: number;
-    merchant: {
-      businessName: string;
-      businessId: string;
-      contractType: string;
-      email: string;
-    };
-    harborDeparture: {
-      name: string;
-      country: { name: string };
-      city: { name: string };
-    };
-    harborDestination: {
-      name: string;
-      country: { name: string };
-      city: { name: string };
-    };
-    boxBrand: {
-      name: string;
-      brandCode: string;
-      netWeightBox: number;
-      grossWeightBox: number;
-      requiredCertificates?: { id: number; name: string }[];
-    };
-    boxQuantity: number;
-    price: string;
-    subtotal1: string;
-    transport: string;
-    materials: string;
-    others: string;
-    subtotal2: string;
-    total: string;
-    amount: string;
-    transferUrl: string;
-    description?: string;
-    sourceBankAccount?: {
-      owner: string;
-      ownerID: string;
-      accountNumber: string;
-      type: string;
-      email: string;
-    };
-    destinationBankAccount?: {
-      owner: string;
-      ownerID: string;
-      accountNumber: string;
-      type: string;
-      email: string;
-    };
-  };
+  producerPayment: ProducerPaymentListItem;
 }): React.JSX.Element => {
   const { merchant, harborDeparture, harborDestination, boxBrand } =
     producerPayment;
