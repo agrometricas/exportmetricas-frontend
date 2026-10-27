@@ -1,8 +1,9 @@
-import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBoardingCard } from '../../../../hooks/box-brand/additions/boarding-card/createBoardingCard';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
@@ -97,10 +98,7 @@ const AddBoardingCardForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Agregar Tarjeta de Embarque
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Agregar Tarjeta de Embarque</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <Button

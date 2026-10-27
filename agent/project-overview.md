@@ -255,6 +255,15 @@ lateral colapsable, `AppBar` y el contenido con scroll propio. En pantallas
 angostas la barra es un cajón que se cierra solo al cambiar de página
 (`SidenavBar`).
 
+Cada página arma su marco con `components/ui/page/PageLayout.tsx`: arriba el
+encabezado (ícono, título, descripción, botón y, si hay, las pestañas de la
+sección) y debajo el contenido. Las listas usan `PageLayout` con su tarjeta
+adentro; los formularios y las fichas usan `CardPage`, que pone el contenido en
+una sola tarjeta. Los formularios van a 1024 px de ancho y lo que lleva una
+tabla, a 1440 px. Dentro del formulario, cada sección abre con
+`FormSectionTitle` y el botón de guardar va en `FormActions`, que queda fijo
+abajo mientras el formulario no termina (`components/ui/form/FormSection.tsx`).
+
 En el menú lateral, cada lista va en una fila junto con su alta: el `+` a la
 derecha abre el formulario (`menuRows`, `components/ui/sidenav/`). Con la
 barra colapsada, pasar el mouse por un ícono muestra las entradas del grupo.

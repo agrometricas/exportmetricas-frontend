@@ -1,16 +1,9 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-  Badge,
-  Box,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Text, Badge, Box } from '@chakra-ui/react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useUpdateExporter } from '../../hooks/settings/updateExporter';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
@@ -122,9 +115,9 @@ const UpdateExporterForm = ({
           <Flex flexDirection='column' gap={2}>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
               <Box display='flex' flexDirection='column' gap={7}>
-                <Heading fontSize={'2xl'} p={'12px'}>
+                <FormSectionTitle>
                   Información General
-                </Heading>
+                </FormSectionTitle>
 
                 <Text>
                   <strong>Nombre:</strong> {exporterDetails.businessName}
@@ -172,9 +165,9 @@ const UpdateExporterForm = ({
                 </Text>
               </Box>
               <Box display='flex' flexDirection='column' gap={4}>
-                <Heading fontSize={'2xl'} p={'12px'}>
+                <FormSectionTitle>
                   Ubicación
-                </Heading>
+                </FormSectionTitle>
                 <InputFieldCountrySelect
                   name={'countryId'}
                   label={'País'}
@@ -207,14 +200,13 @@ const UpdateExporterForm = ({
               </Box>
             </SimpleGrid>
 
-            <Button
-              mt='12px'
+            <FormActions><Button
               type='submit'
               colorPalette='green'
               loading={isLoading}
             >
               Enviar
-            </Button>
+            </Button></FormActions>
           </Flex>
         </Form>
       )}

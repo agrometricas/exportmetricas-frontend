@@ -1,17 +1,10 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-  Image,
-  Separator,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Text, Image } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useUploadExporterLogo } from '../../../hooks/settings/uploadExporterLogo';
 import { useExporter } from '../../../hooks/useUserProfile';
@@ -106,10 +99,7 @@ const UploadLogoForm = (): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Cambia tu Logo de Exportadora
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Cambia tu Logo de Exportadora</FormSectionTitle>
             {user?.exporterDetails.logoUrl ? (
               <Image
                 src={user.exporterDetails.logoUrl}
@@ -125,10 +115,7 @@ const UploadLogoForm = (): React.JSX.Element => {
               </Text>
             )}
 
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Subir Logo
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Subir Logo</FormSectionTitle>
 
             <UploadLogoFile name={'logoImg'} />
           </Flex>

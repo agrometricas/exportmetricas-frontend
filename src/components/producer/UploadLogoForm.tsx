@@ -1,9 +1,10 @@
-import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import SelectProducer from './SelectProducer';
 import UploadLogoFile from './UploadLogoFile';
@@ -97,16 +98,10 @@ const UploadLogoForm = (): React.JSX.Element => {
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Seleccione el Productor
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Seleccione el Productor</FormSectionTitle>
             <SelectProducer name={'merchantId'} />
 
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Subir Logo
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Subir Logo</FormSectionTitle>
 
             <UploadLogoFile name={'logoImg'} />
           </Flex>

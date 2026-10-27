@@ -1,54 +1,20 @@
 'use client';
-import { Box, Card, Heading, HStack, Icon, Text, Separator } from '@chakra-ui/react';
 import React from 'react';
 import { MdRequestQuote } from 'react-icons/md';
+import { CardPage } from '@/components/ui/page/PageLayout';
 import ExportCostList from '../../../../components/export-cost/ExportCostList';
 import IsOnboarding from '../../../../components/ui/IsOnboarding';
 
 function ExportCostPage(): React.JSX.Element {
-  const bgColor = 'bg.canvas';
-  const cardBg = 'bg.panel';
-  const borderColor = 'border';
-  const headingColor = 'fg.heading';
-  const textColor = 'fg';
-
   return (
-    <Box minH="100vh" bg={bgColor} p={{ base: 4, md: 6, lg: 8 }}>
-      <Box maxW="8xl" mx="auto">
-        <Card.Root
-          bg={cardBg}
-          borderWidth='1px'
-          borderColor={borderColor}
-          borderRadius="xl"
-          boxShadow='sm'
-          overflow="hidden"
-          borderTopWidth="4px"
-          borderTopColor="green.500"
-        >
-          <Card.Header bg={'bg.subtle'} pb={4}>
-            <HStack gap={3} align="center">
-              <Box p={2} bg="green.subtle" borderRadius="lg" color="green.fg">
-                <Icon boxSize={5} asChild><MdRequestQuote /></Icon>
-              </Box>
-              <Box>
-                <Heading size="lg" color={headingColor} fontWeight="bold">
-                  Costos de Exportación
-                </Heading>
-                <Text fontSize="sm" color={textColor} mt={1}>
-                  Revisa y valida los costos de exportaciones pendientes
-                </Text>
-              </Box>
-            </HStack>
-          </Card.Header>
-
-          <Separator />
-
-          <Card.Body>
-            <ExportCostList />
-          </Card.Body>
-        </Card.Root>
-      </Box>
-    </Box>
+    <CardPage
+      icon={MdRequestQuote}
+      title='Costos de Exportación'
+      description='Revisa y valida los costos de exportaciones pendientes'
+      width='wide'
+    >
+      <ExportCostList />
+    </CardPage>
   );
 }
 

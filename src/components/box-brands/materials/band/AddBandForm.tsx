@@ -1,8 +1,9 @@
-import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBand } from '../../../../hooks/box-brand/materials/band/createBand';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
@@ -118,10 +119,7 @@ const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <Heading fontSize={'2xl'} p={'12px'}>
-                Agregar Banda
-              </Heading>
-              <Separator mb={'16px'} />
+              <FormSectionTitle>Agregar Banda</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Codigo'} />
               <InputFieldNumber

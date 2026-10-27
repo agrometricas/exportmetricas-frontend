@@ -2,12 +2,10 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   IconButton,
   Input,
   SimpleGrid,
   Text,
-  Separator,
   Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
@@ -15,6 +13,10 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import {
   EditBusinessValues,
@@ -100,10 +102,7 @@ export default function EditBusinessForm({
       {({ values, errors, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Finca
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Finca</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <Field.Root>
                 <Field.Label fontSize='sm' mb='8px'>
@@ -141,10 +140,7 @@ export default function EditBusinessForm({
               />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Ubicación
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Ubicación</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldCountrySelect
                 name='countryId'
@@ -189,10 +185,7 @@ export default function EditBusinessForm({
               />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Códigos de Finca
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Códigos de Finca</FormSectionTitle>
             <FieldArray name='businessCodes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={3}>
@@ -235,10 +228,7 @@ export default function EditBusinessForm({
               )}
             </FieldArray>
 
-            <Heading fontSize='2xl' p='16px'>
-              Contactos
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Contactos</FormSectionTitle>
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={4}>
@@ -302,14 +292,11 @@ export default function EditBusinessForm({
               )}
             </FieldArray>
 
-            <Button
-              mt='12px'
-              type='submit'
-              colorPalette='green'
-              loading={isLoading}
-            >
-              Guardar Cambios
-            </Button>
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                Guardar Cambios
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}

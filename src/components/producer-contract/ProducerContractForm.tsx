@@ -2,16 +2,18 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   Input,
   SimpleGrid,
   useDisclosure,
   Dialog,
   Portal,
-  Separator,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef } from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitProducerContract } from './hooks/useSubmitProducerContract';
 import { ProducerContractResponse } from '../../types/producerContract';
 import SelectBusiness from '../business/SelectBusiness';
@@ -52,10 +54,7 @@ export default function ProducerContractForm({
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize={'2xl'} p={'12px'}>
-              Finca
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Finca</FormSectionTitle>
             {contract ? (
               <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
                 <Box>
@@ -80,10 +79,7 @@ export default function ProducerContractForm({
               </>
             )}
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Cupo Aprobado
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Cupo Aprobado</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='approvedHectares'
@@ -104,10 +100,7 @@ export default function ProducerContractForm({
               />
             </SimpleGrid>
 
-            <Heading fontSize={'2xl'} p={'16px'}>
-              Vigencia
-            </Heading>
-            <Separator mb={'16px'} />
+            <FormSectionTitle>Vigencia</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
               <InputFieldDayDate
@@ -117,15 +110,7 @@ export default function ProducerContractForm({
               />
             </SimpleGrid>
 
-            <Flex gap={3} mt='12px' direction={{ base: 'column', sm: 'row' }}>
-              <Button
-                flex={1}
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
-                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
-              </Button>
+            <FormActions>
               {contract && (
                 <Button
                   variant='outline'
@@ -136,7 +121,10 @@ export default function ProducerContractForm({
                   Eliminar Contrato
                 </Button>
               )}
-            </Flex>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
+              </Button>
+            </FormActions>
           </Flex>
 
           <Dialog.Root

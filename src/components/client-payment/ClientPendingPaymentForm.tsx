@@ -1,16 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
@@ -137,10 +131,9 @@ const ClientPendingPaymentFields = ({
 
   return (
     <Flex flexDirection='column' gap={3}>
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cliente
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectClient
         name={'clientId'}
@@ -148,10 +141,9 @@ const ClientPendingPaymentFields = ({
         clientSelect={clientSelect as Partial<ClientType>}
       />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cobro
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -173,17 +165,15 @@ const ClientPendingPaymentFields = ({
 
       <InputFieldTextArea name={'description'} label={'Detalles del cobro'} />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Origen
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} label='Razón Social' />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Destino
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBankAccount
         name={'destinationBankAccountId'}
@@ -195,30 +185,23 @@ const ClientPendingPaymentFields = ({
         <ReadOnlyAmount label={'Monto'} value={quote?.total} />
       </SimpleGrid>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Subir Transferencia
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <UploadLogoFile name={'transferFile'} />
 
-      <SimpleGrid columns={{ base: 1, sm: 1 }}>
-        <CheckboxForm
+      <FormActions start={<CheckboxForm
           name='dataReviewed'
           label='He revisado los datos agregados'
-        />
-        <Button
-          mt='12px'
-          py='8px'
-          px='16px'
+        />}><Button
           type='submit'
           colorPalette='green'
           loading={isSubmitting}
           disabled={!isSettled}
         >
           Enviar
-        </Button>
-      </SimpleGrid>
+        </Button></FormActions>
     </Flex>
   );
 };

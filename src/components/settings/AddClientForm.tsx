@@ -1,14 +1,11 @@
 'use client';
-import {
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Box,
-  Separator,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Box, Separator } from '@chakra-ui/react';
 import { Form, Formik, FieldArray } from 'formik';
 import React from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitClient } from './hooks/useSubmitClient';
 import InputFieldIncotermMultiSelect from './InputFieldIncotermMultiSelect';
 import {
@@ -48,12 +45,7 @@ export default function AddClientForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3} width='100%'>
-            <Flex justify='space-between'>
-              <Heading fontSize='2xl' p='12px'>
-                Cliente
-              </Heading>
-            </Flex>
-            <Separator mb='16px' />
+            <FormSectionTitle>Cliente</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText name='businessName' label='Nombre/Razón Social' />
@@ -129,10 +121,7 @@ export default function AddClientForm(): React.JSX.Element {
               />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Contactos
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Contactos</FormSectionTitle>
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
@@ -187,18 +176,11 @@ export default function AddClientForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
                 Enviar
               </Button>
-            </SimpleGrid>
+            </FormActions>
           </Flex>
         </Form>
       )}

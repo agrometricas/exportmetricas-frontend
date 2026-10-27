@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   HStack,
   IconButton,
   Input,
@@ -11,11 +10,14 @@ import {
   useDisclosure,
   Dialog,
   Portal,
-  Separator,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React, { useRef } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitShippingContract } from './hooks/useSubmitShippingContract';
 import { emptyRoute } from './schemas/shippingContract.schema';
 import { ShippingContractResponse } from '../../types/shippingContract';
@@ -52,10 +54,7 @@ export default function ShippingContractForm({
       {({ values, errors }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Naviera
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Naviera</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {contract ? (
                 <Box>
@@ -76,19 +75,13 @@ export default function ShippingContractForm({
               />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Vigencia
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Vigencia</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldDayDate name='startDate' label='Fecha de Inicio' />
               <InputFieldDayDate name='endDate' label='Fecha de Fin' />
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='16px'>
-              Rutas y Costos
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Rutas y Costos</FormSectionTitle>
             <FieldArray name='routes'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={4}>
@@ -160,15 +153,7 @@ export default function ShippingContractForm({
               )}
             </FieldArray>
 
-            <Flex gap={3} mt='12px' direction={{ base: 'column', sm: 'row' }}>
-              <Button
-                flex={1}
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
-                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
-              </Button>
+            <FormActions>
               {contract && (
                 <Button
                   variant='outline'
@@ -179,7 +164,10 @@ export default function ShippingContractForm({
                   Eliminar Contrato
                 </Button>
               )}
-            </Flex>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                {contract ? 'Guardar Cambios' : 'Crear Contrato'}
+              </Button>
+            </FormActions>
           </Flex>
 
           <Dialog.Root

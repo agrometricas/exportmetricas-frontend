@@ -1,14 +1,11 @@
 'use client';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitHarbor } from './hooks/useSubmitHarbor';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
@@ -37,10 +34,7 @@ const AddHarborForm: React.FC = () => {
       {({ values, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Puerto Salida/Destino
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Puerto Salida/Destino</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldSelector name='type' label='Tipo' options={typesOpt} />
@@ -118,10 +112,7 @@ const AddHarborForm: React.FC = () => {
               placeholder='Seleccione los días de operación'
             />
 
-            <Heading fontSize='2xl' p='16px'>
-              Contactos
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Contactos</FormSectionTitle>
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
@@ -176,18 +167,11 @@ const AddHarborForm: React.FC = () => {
               )}
             </FieldArray>
 
-            <SimpleGrid columns={{ base: 1, sm: 1 }}>
-              <Button
-                mt='12px'
-                py='8px'
-                px='16px'
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
                 Enviar
               </Button>
-            </SimpleGrid>
+            </FormActions>
           </Flex>
         </Form>
       )}

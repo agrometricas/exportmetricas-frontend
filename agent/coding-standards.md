@@ -147,6 +147,16 @@ the backend proposes.
 - Toasts go through `toaster.create({ type, title, description })`
   (`components/ui/toaster.tsx`), not a hook. `useDisclosure` returns `open`;
   the props are `colorPalette`, `loading` and `disabled`.
+- A page is a `PageLayout` (a list: its card goes inside) or a `CardPage` (a
+  form or a detail: the content goes in one card), from
+  `components/ui/page/PageLayout.tsx`. They draw the header and the width:
+  `narrow` for a form, `wide` for anything with a table. A page does not build
+  its own wrapper or set `minH='100vh'`: the scroll area under the app bar is
+  shorter than the viewport, so the page would always scroll.
+- A form section opens with `FormSectionTitle` (`FormSubsectionTitle` below
+  it), and the submit goes in `FormActions` (`components/ui/form/FormSection.tsx`),
+  which stays in view at the bottom of a long form. The review checkbox goes in
+  its `start`. Do not draw a section with a `Heading` and a `Separator`.
 - Material React Table follows the color mode through `brandMuiTheme`
   (`theme/muiTheme/`): table colors change there, not per table.
 - A list of pending items is a `PendingTable` (`components/ui/`): sortable,

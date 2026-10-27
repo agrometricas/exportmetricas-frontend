@@ -1,8 +1,9 @@
-import { Button, Flex, Heading, Separator } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCardboard } from '@/hooks/box-brand/materials/cardboard/createCardboard';
@@ -91,10 +92,7 @@ const AddCardboardForm = ({
       {() => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Agregar Cartón
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Agregar Cartón</FormSectionTitle>
             <InputFieldText name='name' label='Nombre' />
             <InputFieldText name='code' label='Código' />
             <Button

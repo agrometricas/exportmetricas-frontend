@@ -1,14 +1,11 @@
 'use client';
-import {
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Box,
-  Separator,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Box, Separator } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitDeposit } from './hooks/useSubmitDeposit';
 import InputFieldCitySelect from '../location/InputFieldCitySelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
@@ -30,10 +27,7 @@ const AddDepositForm: React.FC = () => {
       {({ values, setFieldValue }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Depósito de Contenedores
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Depósito de Contenedores</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
@@ -106,10 +100,7 @@ const AddDepositForm: React.FC = () => {
               </Box>
             </SimpleGrid>
 
-            <Heading fontSize='2xl' p='12px'>
-              Contactos
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Contactos</FormSectionTitle>
             <FieldArray name='contacts'>
               {({ push, remove }) => (
                 <>
@@ -157,16 +148,11 @@ const AddDepositForm: React.FC = () => {
                 </>
               )}
             </FieldArray>
-            <Button
-              mt='12px'
-              py='8px'
-              px='16px'
-              type='submit'
-              colorPalette='green'
-              loading={isLoading}
-            >
-              Agregar
-            </Button>
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                Agregar
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}

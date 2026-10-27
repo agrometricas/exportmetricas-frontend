@@ -1,7 +1,11 @@
 'use client';
-import { Button, Flex, Heading, SimpleGrid, Separator } from '@chakra-ui/react';
+import { Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitShippingCompany } from './hooks/useSubmitShippingCompany';
 import InputFieldHarborSelect from '../harbor/InputFieldHarborSelect';
 import InputFieldCountrySelect from '../location/InputFieldCountrySelect';
@@ -24,10 +28,7 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Agregar Naviero
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Agregar Naviero</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
                 name='name'
@@ -167,16 +168,11 @@ export default function AddShippingCompanyForm(): React.JSX.Element {
               )}
             </FieldArray>
 
-            <Button
-              mt='12px'
-              py='8px'
-              px='16px'
-              type='submit'
-              colorPalette='green'
-              loading={isLoading}
-            >
-              Agregar
-            </Button>
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                Agregar
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}

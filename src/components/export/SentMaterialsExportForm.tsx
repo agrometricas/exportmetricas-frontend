@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { Box, Button, Flex, Heading, Input, SimpleGrid, Text, Separator } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormSubsectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import InputFieldSentInsecticides from './ui/InputFieldSentInsecticides';
 import InputFieldSentPesticides from './ui/InputFieldSentPesticides';
@@ -289,10 +290,9 @@ const SentMaterialsExportForm = ({
     >
       <Form>
         <Flex flexDirection='column' gap={3}>
-          <Heading fontSize='2xl' p='12px'>
+          <FormSectionTitle>
             Exportación
-          </Heading>
-          <Separator mb='16px' />
+          </FormSectionTitle>
           <Box p='4' borderWidth='1px' borderRadius='md' borderColor='border'>
             <Text fontSize='sm'>
               <strong>Marca de Caja:</strong> {brand?.name || 'N/A'}
@@ -338,10 +338,9 @@ const SentMaterialsExportForm = ({
             contenedores; y la fumigación, en proporción a las cajas. Se pueden
             cambiar antes de enviar.
           </Text>
-          <Heading fontSize='2xl' p='12px'>
+          <FormSectionTitle>
             Materiales para las cajas
-          </Heading>
-          <Separator mb='16px' />
+          </FormSectionTitle>
           {renderMaterialField(
             'bottomTypeQuantity',
             'Fondo',
@@ -432,10 +431,9 @@ const SentMaterialsExportForm = ({
             brand?.mettoLabelQuantity
           ) && (
             <>
-              <Heading fontSize='2xl' p='12px'>
+              <FormSectionTitle>
                 Materiales para contenedor
-              </Heading>
-              <Separator mb='16px' />
+              </FormSectionTitle>
             </>
           )}
           {renderMaterialField(
@@ -507,10 +505,9 @@ const SentMaterialsExportForm = ({
             brand?.blockingSheetQuantity
           ) && (
             <>
-              <Heading fontSize='2xl' p='12px'>
+              <FormSectionTitle>
                 Materiales adicionales
-              </Heading>
-              <Separator mb='16px' />
+              </FormSectionTitle>
             </>
           )}
           {renderMaterialField(
@@ -569,13 +566,12 @@ const SentMaterialsExportForm = ({
               unit='U/C'
             />
           )}
-          <Heading fontSize={'2xl'} p={'12px'}>
+          <FormSectionTitle>
             Materiales para post cosecha
-          </Heading>
-          <Heading fontSize='xl' p='10px'>
+          </FormSectionTitle>
+          <FormSubsectionTitle>
             Pesticidas
-          </Heading>
-          <Separator mb='16px' />
+          </FormSubsectionTitle>
           <InputFieldSentPesticides
             name='pesticideSent'
             pesticideCocktailSelected={pesticideCocktail}
@@ -583,28 +579,25 @@ const SentMaterialsExportForm = ({
           {brand?.insecticideCocktail &&
             brand.insecticideCocktail.length > 0 && (
               <Box>
-                <Heading fontSize='xl' p='10px'>
+                <FormSubsectionTitle>
                   Insecticidas
-                </Heading>
-                <Separator mb='16px' />
+                </FormSubsectionTitle>
                 <InputFieldSentInsecticides
                   name='insecticideSent'
                   insecticideCocktailSelected={insecticideCocktail}
                 />
               </Box>
             )}
-          <CheckboxForm
+          <FormActions start={<CheckboxForm
             name='dataReviewed'
             label='He revisado los datos agregados'
-          />
-          <Button
-            mt='12px'
+          />}><Button
             type='submit'
             colorPalette='green'
             loading={isLoading}
           >
             Enviar
-          </Button>
+          </Button></FormActions>
         </Flex>
       </Form>
     </Formik>

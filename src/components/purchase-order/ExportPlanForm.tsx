@@ -4,11 +4,9 @@ import {
   Button,
   Checkbox,
   Flex,
-  Heading,
   NativeSelect,
   SimpleGrid,
   Text,
-  Separator,
   Field,
 } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
@@ -17,6 +15,10 @@ import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import {
   exportPlanBody,
@@ -279,10 +281,7 @@ export default function ExportPlanForm({
         return (
           <Form>
             <Flex direction='column' gap={3}>
-              <Heading fontSize='2xl' p='12px'>
-                Líneas
-              </Heading>
-              <Separator mb='16px' />
+              <FormSectionTitle>Líneas</FormSectionTitle>
               <Text fontSize='sm' color='fg.muted'>
                 Cada línea marcada será una exportación con todas sus cajas en
                 el día de corte. El día tiene que ser de la semana de la orden.
@@ -357,10 +356,7 @@ export default function ExportPlanForm({
                 </Text>
               )}
 
-              <Heading fontSize='2xl' p='12px'>
-                Datos Comunes
-              </Heading>
-              <Separator mb='16px' />
+              <FormSectionTitle>Datos Comunes</FormSectionTitle>
               <SelectClient name='clientId' />
               <PlanBookingSelect bookings={bookings} />
               {!values.bookingId && (
@@ -444,17 +440,18 @@ export default function ExportPlanForm({
                 Se crean todas o ninguna: si una línea no pasa, no se guarda
                 nada y el mensaje dice cuál.
               </Text>
-              <Button
-                mt='12px'
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-                disabled={included === 0}
-              >
-                {included === 1
-                  ? 'Crear 1 exportación'
-                  : `Crear ${included} exportaciones`}
-              </Button>
+              <FormActions>
+                <Button
+                  type='submit'
+                  colorPalette='green'
+                  loading={isLoading}
+                  disabled={included === 0}
+                >
+                  {included === 1
+                    ? 'Crear 1 exportación'
+                    : `Crear ${included} exportaciones`}
+                </Button>
+              </FormActions>
             </Flex>
           </Form>
         );

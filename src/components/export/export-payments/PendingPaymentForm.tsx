@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-  Separator,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import * as Yup from 'yup';
+import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
@@ -224,10 +217,9 @@ const PendingPaymentFields = ({
 
   return (
     <Flex flexDirection='column' gap={3}>
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Productor
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectProducer
         name={'merchantId'}
@@ -235,10 +227,9 @@ const PendingPaymentFields = ({
         producerSelect={producerSelect as Partial<MerchantResponse>}
       />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Puerto de Salida
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectHarbor
         name={'departureHarborId'}
@@ -247,10 +238,9 @@ const PendingPaymentFields = ({
         type={'Nacional'}
       />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Puerto de Destino
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectHarbor
         name={'destinationHarborId'}
@@ -259,10 +249,9 @@ const PendingPaymentFields = ({
         type={'Internacional'}
       />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Compra
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -289,10 +278,9 @@ const PendingPaymentFields = ({
         <ReadOnlyAmount label={'Subtotal1'} value={quote?.subtotal1} />
       </SelectBoxBrand>
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Gastos
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <Box>
@@ -338,17 +326,15 @@ const PendingPaymentFields = ({
         label={'Descripción de los gastos'}
       />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Origen
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} />
 
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Cuenta Bancaria Destino
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
 
       <SelectBankAccount name={'destinationBankAccountId'} />
 
@@ -356,28 +342,21 @@ const PendingPaymentFields = ({
         <Box></Box>
         <ReadOnlyAmount label={'Monto'} value={quote?.amount} />
       </SimpleGrid>
-      <Heading fontSize={'2xl'} p={'12px'}>
+      <FormSectionTitle>
         Subir Transferencia
-      </Heading>
-      <Separator mb={'16px'} />
+      </FormSectionTitle>
       <UploadLogoFile name={'transferFile'} />
-      <SimpleGrid columns={{ base: 1, sm: 1 }}>
-        <CheckboxForm
+      <FormActions start={<CheckboxForm
           name='dataReviewed'
           label='He revisado los datos agregados'
-        />
-        <Button
-          mt='12px'
-          py='8px'
-          px='16px'
+        />}><Button
           type='submit'
           colorPalette='green'
           loading={isSubmitting}
           disabled={!isSettled}
         >
           Enviar
-        </Button>
-      </SimpleGrid>
+        </Button></FormActions>
     </Flex>
   );
 };

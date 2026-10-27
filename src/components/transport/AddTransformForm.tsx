@@ -9,6 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { useSubmitTransport } from './hooks/useSubmitTransport';
 import InputFieldCertificationMultiSelect from './InputFieldCertificationMultiSelect';
 import CheckboxForm from '../ui/form/CheckboxForm';
@@ -27,10 +31,7 @@ const AddTransportForm: React.FC = () => {
       {({ values }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <Heading fontSize='2xl' p='12px'>
-              Transporte
-            </Heading>
-            <Separator mb='16px' />
+            <FormSectionTitle>Transporte</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldText
@@ -108,18 +109,11 @@ const AddTransportForm: React.FC = () => {
                 </>
               )}
             </FieldArray>
-
-            <Separator my='16px' />
-            <Button
-              mt='12px'
-              py='8px'
-              px='16px'
-              type='submit'
-              colorPalette='green'
-              loading={isLoading}
-            >
-              Agregar Transporte
-            </Button>
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
+                Agregar Transporte
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}
