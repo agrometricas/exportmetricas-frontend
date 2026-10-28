@@ -204,6 +204,9 @@ const AddBankAccountForm = (): React.JSX.Element => {
           queryClient.invalidateQueries({
             queryKey: ['merchants'],
           });
+          queryClient.invalidateQueries({
+            queryKey: ['bankAccounts'],
+          });
           formikHelpers.resetForm();
           setProducer(null);
           setClient(null);

@@ -54,6 +54,11 @@ the backend proposes.
   while its page is closed loads again when the page opens), including the
   `…Pending` lists that feed the sidebar badges. Get the client with
   `useQueryClient()`.
+- The exception is a key that almost any write changes (the week summary, the
+  counterpart totals, the supply-shipment detail): it goes in
+  `KEYS_STALE_AFTER_ANY_WRITE` (`Providers.tsx`), which every successful
+  mutation invalidates. Do not add a regular list there: a form that changes a
+  list invalidates it itself.
 - The backend answers **200 with `[]` for an empty list**. Do not catch a 404
   in a list hook to return `[]`: it hides a mistyped route, which is how two
   hooks pointed at endpoints that never existed.

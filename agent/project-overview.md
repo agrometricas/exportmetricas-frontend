@@ -177,6 +177,11 @@ raíz del repo.
   dato solo se vuelve a pedir si una mutación invalida su clave**. Con
   `refetchOnMount: true`, una clave invalidada mientras su pantalla no estaba
   abierta se vuelve a pedir al abrirla.
+- Tres claves se invalidan solas después de cualquier mutación que sale bien
+  (`KEYS_STALE_AFTER_ANY_WRITE`, en el `MutationCache` de `Providers.tsx`):
+  el resumen de la semana del Inicio (`weekSummary`), los totales por
+  contraparte (`counterpartTotals`) y el detalle de un envío de insumos
+  (`exportSent`). Resumen datos que cambian desde casi cualquier formulario.
 - Helpers de tipos en `lib/react-query.ts`: `QueryConfig<fn>`,
   `MutationConfig<fn>`, `ExtractFnReturnType<fn>`.
 - Las claves de lista más usadas: `exports`, `exportsPending`, `exportsSent`,
