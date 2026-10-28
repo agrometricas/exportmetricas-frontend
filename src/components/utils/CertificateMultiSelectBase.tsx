@@ -1,16 +1,8 @@
-import { Box, Icon, Text } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  MultiValue,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { Box, Text } from '@chakra-ui/react';
+import { MultiValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import { CatalogMultiSelect } from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useCertificates } from '../../hooks/utils/getCertificates';
 import { Certificate } from '../../types/utils/certificate';
@@ -23,46 +15,6 @@ interface CertificateMultiSelectBaseProps {
   onChange?: (newValues: Partial<Certificate>[]) => void;
 }
 
-const chakraStyles: ChakraStylesConfig<
-  Partial<Certificate>,
-  true,
-  GroupBase<Partial<Certificate>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const certificateComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<Certificate>,
-      true,
-      GroupBase<Partial<Certificate>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
-
 const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
   name,
   placeholder,
@@ -71,9 +23,6 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
   setCertificates,
 }) => {
   const { data, isLoading, error } = useCertificates();
-  const menuPortalTarget =
-    typeof document !== 'undefined' ? document.body : undefined;
-
   const handleChange = (newValues: MultiValue<Partial<Certificate>>): void => {
     if (setCertificates) {
       setCertificates(newValues as Partial<Certificate>[]);
@@ -85,20 +34,10 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogMultiSelect<Partial<Certificate>>
+      field={field}
       instanceId={name}
       name={name}
-      isMulti
-      menuPortalTarget={menuPortalTarget}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
           ? serverErrorMessage(error)
@@ -106,7 +45,6 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       }
       isLoading={isLoading}
       options={data}
-      getOptionLabel={(opt: Partial<Certificate>) => `${opt.name}`}
       formatOptionLabel={(opt: Partial<Certificate>, { context }) =>
         context === 'menu' && opt.description ? (
           <Box>
@@ -125,16 +63,8 @@ const CertificateMultiSelectBase: React.FC<CertificateMultiSelectBaseProps> = ({
       onChange={(newValues) =>
         handleChange(newValues as Partial<Certificate>[])
       }
-      value={
-        field?.value
-          ? data?.filter((opt: Partial<Certificate>) =>
-              field.value.some((id) => id === opt.id)
-            )
-          : []
-      }
       closeMenuOnSelect={false}
       placeholder={placeholder}
-      components={certificateComponents}
     />
   );
 };

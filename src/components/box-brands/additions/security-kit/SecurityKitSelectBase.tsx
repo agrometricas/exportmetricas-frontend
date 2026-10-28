@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  SingleValue,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React, { useEffect } from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useSecurityKits } from '../../../../hooks/box-brand/additions/security-kit/getSecurityKits';
 import { SecurityKitType } from '../../../../types/box-brand/additions/securityKit';
@@ -23,46 +14,6 @@ interface SecurityKitSelectBaseProps {
   setSecurityKit?: (securityKit: Partial<SecurityKitType>) => void;
   onChange?: (newValue: Partial<SecurityKitType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<SecurityKitType>,
-  false,
-  GroupBase<Partial<SecurityKitType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const pesticideComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<SecurityKitType>,
-      false,
-      GroupBase<Partial<SecurityKitType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const SecurityKitSelectBase: React.FC<SecurityKitSelectBaseProps> = ({
   name,
@@ -95,18 +46,9 @@ const SecurityKitSelectBase: React.FC<SecurityKitSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<SecurityKitType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
           ? serverErrorMessage(error)
@@ -115,10 +57,6 @@ const SecurityKitSelectBase: React.FC<SecurityKitSelectBaseProps> = ({
       isLoading={isLoading}
       readOnly={isReadOnly}
       options={data}
-      getOptionLabel={(opt: Partial<SecurityKitType>) => `${opt.name}`}
-      getOptionValue={(opt: Partial<SecurityKitType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
@@ -128,7 +66,6 @@ const SecurityKitSelectBase: React.FC<SecurityKitSelectBaseProps> = ({
           : undefined
       }
       placeholder={placeholder}
-      components={pesticideComponents}
     />
   );
 };

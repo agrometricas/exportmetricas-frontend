@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  CSSObjectWithLabel,
-  SingleValue,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React, { useEffect } from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
@@ -22,46 +13,6 @@ interface BoxBrandSelectBaseProps {
   setBoxBrand?: (brand: Partial<BoxBrandType>) => void;
   onChange?: (newValue: Partial<BoxBrandType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<BoxBrandType>,
-  false,
-  GroupBase<Partial<BoxBrandType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const brandComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<BoxBrandType>,
-      false,
-      GroupBase<Partial<BoxBrandType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
   setBoxBrand,
@@ -89,18 +40,9 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
   }, [onlyOption, field?.value]);
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<BoxBrandType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
           ? serverErrorMessage(error)
@@ -111,17 +53,8 @@ const BoxBrandSelectBase: React.FC<BoxBrandSelectBaseProps> = ({
       getOptionLabel={(opt: Partial<BoxBrandType>) =>
         `${opt.brand?.name} - ${opt.name}`
       }
-      getOptionValue={(opt: Partial<BoxBrandType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
-      value={
-        field?.value
-          ? data.find((opt: Partial<BoxBrandType>) => opt.id === field?.value)
-          : null
-      }
       placeholder={placeholder}
-      components={brandComponents}
     />
   );
 };

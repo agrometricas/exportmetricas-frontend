@@ -108,6 +108,11 @@ the backend proposes.
 - Reuse the field components in `components/ui/form/` (`InputFieldText`,
   `InputFieldNumber`, `InputFieldDayDate`, `InputFieldSelector`, …) and the
   `SelectX` / `XSelectBase` pairs of each domain instead of wiring a new input.
+- An `XSelectBase` renders `CatalogSelect`, or `CatalogMultiSelect` for a list
+  of ids (`components/ui/form/CatalogSelect.tsx`), with its hook's data. Those
+  bring the menu portal, the styles and the icon, label an option by its
+  `name` and show the option whose `id` is the field's value; the select
+  passes only what differs.
 - Submit logic that is more than a single call goes in a `useSubmitX` hook under
   `components/<dominio>/hooks/`.
 - A field never resets itself on mount: a form can arrive prefilled (edit,

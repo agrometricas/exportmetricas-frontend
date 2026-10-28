@@ -1,42 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  CSSObjectWithLabel,
-  SingleValue,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useCities } from '@/hooks/location/getCities';
 import { City } from '@/types/location/city';
-
-const chakraStyles: ChakraStylesConfig<City, false, GroupBase<City>> = {
-  container: (provided) => ({ ...provided, w: 'full' }),
-  placeholder: (provided) => ({ ...provided, color: 'fg.muted' }),
-  input: (provided) => ({ ...provided, color: 'fg.heading' }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const cityComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<City, false, GroupBase<City>>
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='16px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 interface CitySelectBaseProps {
   name: string;
@@ -57,9 +25,6 @@ const CitySelectBase: React.FC<CitySelectBaseProps> = ({
 }) => {
   const { data, isLoading } = useCities(provinceId);
   const [internalValue, setInternalValue] = useState<City | null>(null);
-  const menuPortalTarget =
-    typeof document !== 'undefined' ? document.body : undefined;
-
   useEffect(() => {
     if (field?.value) {
       const selected = data?.find((city) => city.id === field.value) || null;
@@ -95,19 +60,10 @@ const CitySelectBase: React.FC<CitySelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<City>
+      field={field}
       instanceId={name}
       name={name}
-      menuPortalTarget={menuPortalTarget}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() => 'Ciudades no encontradas'}
       isLoading={isLoading}
       options={data}
@@ -120,7 +76,6 @@ const CitySelectBase: React.FC<CitySelectBaseProps> = ({
           : internalValue
       }
       placeholder={placeholder}
-      components={cityComponents}
     />
   );
 };

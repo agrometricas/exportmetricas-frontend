@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  SingleValue,
-  chakraComponents,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useCorners } from '@/hooks/box-brand/materials/corner/getCorners';
 import { CornerType } from '@/types/box-brand/materials/corner';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
@@ -23,47 +14,6 @@ interface CornerSelectBaseProps {
   setCorner?: (corner: Partial<CornerType>) => void;
   onChange?: (newValue: Partial<CornerType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<CornerType>,
-  false,
-  GroupBase<Partial<CornerType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-    h: 'auto',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const cornerComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<CornerType>,
-      false,
-      GroupBase<Partial<CornerType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
   name,
@@ -81,36 +31,17 @@ const CornerSelectBase: React.FC<CornerSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<CornerType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error ? serverErrorMessage(error) : 'Ya no hay corner/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}
       options={data}
-      getOptionLabel={(opt: Partial<CornerType>) => `${opt.name}`}
-      getOptionValue={(opt: Partial<CornerType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
-      value={
-        field?.value
-          ? data?.find((opt: Partial<CornerType>) => opt.id === field?.value)
-          : null
-      }
       placeholder={placeholder}
-      components={cornerComponents}
     />
   );
 };

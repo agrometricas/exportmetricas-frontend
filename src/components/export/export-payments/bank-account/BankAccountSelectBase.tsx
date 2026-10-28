@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  SingleValue,
-  chakraComponents,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useBankAccounts } from '../../../../hooks/bank-account/getBankAccounts';
 import { BankAccountType } from '../../../../types/bankAccount';
 
@@ -21,46 +12,6 @@ interface BankAccountSelectBaseProps {
   setBankAccount?: (bankAccount: Partial<BankAccountType>) => void;
   onChange?: (newValue: Partial<BankAccountType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<BankAccountType>,
-  false,
-  GroupBase<Partial<BankAccountType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const bankAccountComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<BankAccountType>,
-      false,
-      GroupBase<Partial<BankAccountType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
   name,
@@ -84,18 +35,9 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<BankAccountType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() => 'bank account not found'}
       isLoading={isLoading}
       options={data}
@@ -116,7 +58,6 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
           : undefined
       }
       placeholder={placeholder}
-      components={bankAccountComponents}
     />
   );
 };

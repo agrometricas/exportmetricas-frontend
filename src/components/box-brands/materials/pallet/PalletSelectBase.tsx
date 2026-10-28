@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  SingleValue,
-  chakraComponents,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { usePallets } from '@/hooks/box-brand/materials/pallet/getPallets';
 import { PalletType } from '@/types/box-brand/materials/pallet';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
@@ -23,47 +14,6 @@ interface PalletSelectBaseProps {
   setPallet?: (pallet: Partial<PalletType>) => void;
   onChange?: (newValue: Partial<PalletType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<PalletType>,
-  false,
-  GroupBase<Partial<PalletType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-    h: 'auto',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const palletComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<PalletType>,
-      false,
-      GroupBase<Partial<PalletType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
   name,
@@ -81,36 +31,17 @@ const PalletSelectBase: React.FC<PalletSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<PalletType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error ? serverErrorMessage(error) : 'Ya no hay pallet/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}
       options={data}
-      getOptionLabel={(opt: Partial<PalletType>) => `${opt.name}`}
-      getOptionValue={(opt: Partial<PalletType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
-      value={
-        field?.value
-          ? data?.find((opt: Partial<PalletType>) => opt.id === field?.value)
-          : null
-      }
       placeholder={placeholder}
-      components={palletComponents}
     />
   );
 };

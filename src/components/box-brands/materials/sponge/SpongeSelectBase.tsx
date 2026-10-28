@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  SingleValue,
-  chakraComponents,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useSponges } from '@/hooks/box-brand/materials/sponge/getSponges';
 import { SpongeType } from '@/types/box-brand/materials/sponge';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
@@ -23,47 +14,6 @@ interface SpongeSelectBaseProps {
   setSponge?: (sponge: Partial<SpongeType>) => void;
   onChange?: (newValue: Partial<SpongeType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<SpongeType>,
-  false,
-  GroupBase<Partial<SpongeType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-    h: 'auto',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const spongeComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<SpongeType>,
-      false,
-      GroupBase<Partial<SpongeType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const SpongeSelectBase: React.FC<SpongeSelectBaseProps> = ({
   name,
@@ -81,36 +31,17 @@ const SpongeSelectBase: React.FC<SpongeSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<SpongeType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         error ? serverErrorMessage(error) : 'Ya no hay esponja/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}
       options={data}
-      getOptionLabel={(opt: Partial<SpongeType>) => `${opt.name}`}
-      getOptionValue={(opt: Partial<SpongeType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
-      value={
-        field?.value
-          ? data?.find((opt: Partial<SpongeType>) => opt.id === field?.value)
-          : null
-      }
       placeholder={placeholder}
-      components={spongeComponents}
     />
   );
 };

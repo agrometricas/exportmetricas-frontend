@@ -1,42 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  CSSObjectWithLabel,
-  SingleValue,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useProvinces } from '@/hooks/location/getProvinces';
 import { Province } from '@/types/location/province';
-
-const chakraStyles: ChakraStylesConfig<Province, false, GroupBase<Province>> = {
-  container: (provided) => ({ ...provided, w: 'full' }),
-  placeholder: (provided) => ({ ...provided, color: 'fg.muted' }),
-  input: (provided) => ({ ...provided, color: 'fg.heading' }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const provinceComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<Province, false, GroupBase<Province>>
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='16px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 interface ProvinceSelectBaseProps {
   name: string;
@@ -57,9 +25,6 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
 }) => {
   const { data, isLoading } = useProvinces(countryId);
   const [internalValue, setInternalValue] = useState<Province | null>(null);
-  const menuPortalTarget =
-    typeof document !== 'undefined' ? document.body : undefined;
-
   useEffect(() => {
     if (field?.value) {
       const selected =
@@ -108,19 +73,10 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Province>
+      field={field}
       instanceId={name}
       name={name}
-      menuPortalTarget={menuPortalTarget}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() => 'Provincias no encontradas'}
       isLoading={isLoading}
       options={data}
@@ -133,7 +89,6 @@ const ProvinceSelectBase: React.FC<ProvinceSelectBaseProps> = ({
           : internalValue
       }
       placeholder={placeholder}
-      components={provinceComponents}
     />
   );
 };
