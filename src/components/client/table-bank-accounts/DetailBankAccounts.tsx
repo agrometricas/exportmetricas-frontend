@@ -66,6 +66,12 @@ const DetailBankAccounts = ({
                   <DetailField label='Teléfono'>
                     {account.client.phone}
                   </DetailField>
+                  <DetailField label='Ciudad'>
+                    {account.client.city?.name}
+                  </DetailField>
+                  <DetailField label='Dirección'>
+                    {account.client.address}
+                  </DetailField>
                 </>
               )}
               {account.merchant && (
@@ -81,7 +87,7 @@ const DetailBankAccounts = ({
                     {account.merchant.email}
                   </DetailField>
                   <DetailField label='Ciudad'>
-                    {account.merchant.city.name}
+                    {account.merchant.city?.name}
                   </DetailField>
                   <DetailField label='Dirección'>
                     {account.merchant.address}

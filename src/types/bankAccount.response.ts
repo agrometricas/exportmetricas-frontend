@@ -9,8 +9,8 @@ export interface Merchant {
   id: number;
   businessName: string;
   businessId: string;
-  city: City;
-  address: string;
+  city: City | null;
+  address: string | null;
   email: string;
 }
 
