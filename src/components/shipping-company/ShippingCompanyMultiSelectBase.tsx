@@ -4,7 +4,7 @@ import React from 'react';
 import { CatalogMultiSelect } from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
-import { ShippingCompanyType } from '../../types/shippingCompany';
+import { ShippingCompanyResponse } from '../../types/shippingCompany.response';
 
 interface ShippingCompanyMultiSelectBaseProps {
   name?: string;
@@ -12,9 +12,9 @@ interface ShippingCompanyMultiSelectBaseProps {
   field?: FieldInputProps<number[]>;
   placeholder: string;
   setShippingCompanies?: (
-    shippingCompanies: Partial<ShippingCompanyType>[]
+    shippingCompanies: Partial<ShippingCompanyResponse>[]
   ) => void;
-  onChange?: (newValues: Partial<ShippingCompanyType>[]) => void;
+  onChange?: (newValues: Partial<ShippingCompanyResponse>[]) => void;
 }
 
 const ShippingCompanyMultiSelectBase: React.FC<
@@ -23,19 +23,19 @@ const ShippingCompanyMultiSelectBase: React.FC<
   const { data, isLoading, error } = useShippingCompanies();
 
   const handleChange = (
-    newValues: MultiValue<Partial<ShippingCompanyType>>
+    newValues: MultiValue<Partial<ShippingCompanyResponse>>
   ): void => {
     if (setShippingCompanies) {
-      setShippingCompanies(newValues as Partial<ShippingCompanyType>[]);
+      setShippingCompanies(newValues as Partial<ShippingCompanyResponse>[]);
     }
 
     if (onChange) {
-      onChange(newValues as Partial<ShippingCompanyType>[]);
+      onChange(newValues as Partial<ShippingCompanyResponse>[]);
     }
   };
 
   return (
-    <CatalogMultiSelect<Partial<ShippingCompanyType>>
+    <CatalogMultiSelect<Partial<ShippingCompanyResponse>>
       field={field}
       name={name}
       noOptionsMessage={() =>
@@ -44,7 +44,7 @@ const ShippingCompanyMultiSelectBase: React.FC<
       isLoading={isLoading}
       options={data}
       onChange={(newValues) =>
-        handleChange(newValues as Partial<ShippingCompanyType>[])
+        handleChange(newValues as Partial<ShippingCompanyResponse>[])
       }
       closeMenuOnSelect={false}
       placeholder={placeholder}

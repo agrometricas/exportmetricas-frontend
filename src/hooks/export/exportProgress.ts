@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { ExportProgress, WorkQueue } from '../../types/exportProgress';
@@ -8,7 +8,7 @@ export const PROGRESS_QUERIES = ['exportProgress', 'workQueue'];
 
 export function useExportProgress(
   exportId: string
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<ExportProgress, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['exportProgress', exportId],
@@ -19,7 +19,7 @@ export function useExportProgress(
   );
 }
 
-export function useWorkQueue(): ReturnType<typeof serializeQueryResult> {
+export function useWorkQueue(): UseQueryResult<WorkQueue, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['workQueue'],

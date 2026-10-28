@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { PadType } from '@/types/box-brand/materials/pad';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listPads(): Promise<AxiosResponse> {
+function listPads(): Promise<AxiosResponse<PadType[]>> {
   return axios.get('/box-brand/pad');
 }
 
-export function usePads() {
+export function usePads(): UseQueryResult<PadType[], unknown> {
   const result = useQuery({
     queryKey: ['pads'],
     queryFn: () => listPads(),

@@ -38,7 +38,10 @@ the backend proposes.
 - All requests go through the shared instance in `lib/axios.ts`. Do not call
   `fetch` with a hand-built `Authorization` header from a client component.
 - List hooks return through `serializeQueryResult`, so `data` is already the
-  response body, not the Axios response.
+  response body, not the Axios response. The request function types what the
+  endpoint answers (`Promise<AxiosResponse<ClientResponse[]>>`) and the hook declares
+  `UseQueryResult<ClientResponse[], unknown>`: a row from the API is typed as the
+  response type (`types/*.response.ts`), not as a form's values.
 - v5 takes one options object (`useQuery({ queryKey, queryFn, ... })`,
   `useMutation({ mutationFn, ... })`) and keys are arrays:
   `invalidateQueries({ queryKey: ['exports'] })` also matches

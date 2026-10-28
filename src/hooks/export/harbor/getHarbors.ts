@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -8,7 +8,7 @@ function listHarbors(): Promise<AxiosResponse<HarborResponse[]>> {
   return axios.get('/harbor');
 }
 
-export function useHarbors(): ReturnType<typeof serializeQueryResult> {
+export function useHarbors(): UseQueryResult<HarborResponse[], unknown> {
   const result = useQuery({
     queryKey: ['harbors'],
     queryFn: () => listHarbors(),

@@ -14,7 +14,7 @@ import LastFarmExportAlert from './LastFarmExportAlert';
 import { initialValues as emptyValues } from './schemas/export.schema';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 import { ExportResponse } from '../../types/export.response';
 import { BusinessType } from '../../types/merchant/business';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
@@ -207,7 +207,9 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
             <FormSectionTitle>Cliente</FormSectionTitle>
             <SelectClient
               name={'clientId'}
-              clientSelect={source?.client as Partial<ClientType> | undefined}
+              clientSelect={
+                source?.client as Partial<ClientResponse> | undefined
+              }
             />
             <FormSectionTitle>Naviera</FormSectionTitle>
             <ExportBookingSelect

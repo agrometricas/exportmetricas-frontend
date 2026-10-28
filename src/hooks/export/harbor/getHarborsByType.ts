@@ -1,17 +1,26 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { HarborType } from '@/types/harbor';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-type HarborType = string | 'Nacional' | 'Internacional';
+type HarborKind = string | 'Nacional' | 'Internacional';
 
-function listHarborsByType(type: HarborType): Promise<AxiosResponse> {
+function listHarborsByType(
+  type: HarborKind
+): Promise<AxiosResponse<HarborType[]>> {
   return axios.get(`/harbor/type/${type}`);
 }
 
-export function useHarborsByType({ type }: { type: HarborType }) {
+export function useHarborsByType({
+  type,
+}: {
+  type: HarborKind;
+}): UseQueryResult<HarborType[], unknown> {
   const result = useQuery({
     queryKey: ['harborsByType', type],
     queryFn: () => listHarborsByType(type),

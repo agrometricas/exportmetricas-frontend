@@ -2,13 +2,13 @@ import { Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import ShippingCompanySelectBase from './ShippingCompanySelectBase';
-import { ShippingCompanyType } from '../../types/shippingCompany';
+import { ShippingCompanyResponse } from '../../types/shippingCompany.response';
 
 interface InputFieldShippingCompanySelectProps {
   name: string;
   label: string;
   placeholder: string;
-  onSelect?: (company: Partial<ShippingCompanyType>) => void;
+  onSelect?: (company: Partial<ShippingCompanyResponse>) => void;
 }
 
 const InputFieldShippingCompanySelect: React.FC<
@@ -27,7 +27,7 @@ const InputFieldShippingCompanySelect: React.FC<
         onChange={(newValue) => {
           helpers.setValue(newValue?.id);
           if (onSelect) {
-            onSelect(newValue as Partial<ShippingCompanyType>);
+            onSelect(newValue as Partial<ShippingCompanyResponse>);
           }
         }}
       />

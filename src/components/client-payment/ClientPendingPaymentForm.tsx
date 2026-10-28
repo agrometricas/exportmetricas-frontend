@@ -14,7 +14,7 @@ import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransfe
 import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
 import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 import { ExportSentType } from '../../types/exportSent';
 import { returnTo } from '../../utils/exportSteps';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -114,9 +114,10 @@ const ClientPendingPaymentFields = ({
   isSubmitting: boolean;
 }): React.JSX.Element => {
   const { values } = useFormikContext<ValuesProps>();
-  const [clientSelect, setClientSelect] = useState<Partial<ClientType> | null>(
-    paymentSelected?.export!.client || null
-  );
+  const [clientSelect, setClientSelect] =
+    useState<Partial<ClientResponse> | null>(
+      paymentSelected?.export!.client || null
+    );
   const [boxBrand, setBoxBrand] = useState<Partial<BoxBrandType> | null>(
     paymentSelected?.export!.boxBrand || null
   );
@@ -139,7 +140,7 @@ const ClientPendingPaymentFields = ({
       <SelectClient
         name={'clientId'}
         setClientSelect={setClientSelect}
-        clientSelect={clientSelect as Partial<ClientType>}
+        clientSelect={clientSelect as Partial<ClientResponse>}
       />
 
       <FormSectionTitle>Cobro</FormSectionTitle>

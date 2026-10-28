@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { ThermographType } from '@/types/box-brand/container/thermograph';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listThermographs(): Promise<AxiosResponse> {
+function listThermographs(): Promise<AxiosResponse<ThermographType[]>> {
   return axios.get('/box-brand/thermograph');
 }
 
-export function useThermographs() {
+export function useThermographs(): UseQueryResult<ThermographType[], unknown> {
   const result = useQuery({
     queryKey: ['thermographs'],
     queryFn: () => listThermographs(),

@@ -1,14 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { InsecticideType } from '@/types/box-brand/additions/insecticide';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listInsecticides(): Promise<AxiosResponse> {
+function listInsecticides(): Promise<AxiosResponse<InsecticideType[]>> {
   return axios.get('/box-brand/insecticide');
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
-export function useInsecticides() {
+export function useInsecticides(): UseQueryResult<InsecticideType[], unknown> {
   const result = useQuery({
     queryKey: ['insecticides'],
     queryFn: () => listInsecticides(),

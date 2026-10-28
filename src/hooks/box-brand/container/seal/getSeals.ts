@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { SealType } from '@/types/box-brand/container/seal';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listSeals(): Promise<AxiosResponse> {
+function listSeals(): Promise<AxiosResponse<SealType[]>> {
   return axios.get('/box-brand/seal');
 }
 
-export function useSeals() {
+export function useSeals(): UseQueryResult<SealType[], unknown> {
   const result = useQuery({
     queryKey: ['seals'],
     queryFn: () => listSeals(),

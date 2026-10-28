@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { SachetType } from '@/types/box-brand/materials/sachet';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listSachets(): Promise<AxiosResponse> {
+function listSachets(): Promise<AxiosResponse<SachetType[]>> {
   return axios.get('/box-brand/sachet');
 }
 
-export function useSachets() {
+export function useSachets(): UseQueryResult<SachetType[], unknown> {
   const result = useQuery({
     queryKey: ['sachets'],
     queryFn: () => listSachets(),

@@ -3,7 +3,7 @@ import { useField } from 'formik';
 import React from 'react';
 import ClientByHarborSelectBase from './ClientByHarborSelectBase';
 import ClientSelectBase from './ClientSelectBase';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 
 interface InputFieldClientSelectProps {
   name: string;
@@ -11,7 +11,7 @@ interface InputFieldClientSelectProps {
   placeholder: string;
   harbor?: number;
   isHarbor?: boolean;
-  setClient?: (client: Partial<ClientType>) => void;
+  setClient?: (client: Partial<ClientResponse>) => void;
 }
 
 const InputFieldClientSelect: React.FC<InputFieldClientSelectProps> = ({

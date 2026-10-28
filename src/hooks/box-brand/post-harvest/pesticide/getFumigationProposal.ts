@@ -1,4 +1,8 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { FumigationProposal } from '@/types/suppliesProposal';
@@ -14,7 +18,7 @@ function getFumigationProposal(
 
 export function useFumigationProposal(
   boxQuantity: number
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<FumigationProposal[], unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['fumigationProposal', boxQuantity],

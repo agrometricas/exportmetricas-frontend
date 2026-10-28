@@ -1,5 +1,5 @@
 import { BoxBrandType } from './box-brand/boxBrand';
-import { ClientType } from './client';
+import { ClientResponse } from './client.response';
 import { CuttingType } from './cuttingType';
 import { ExportSentType } from './exportSent';
 import { HarborType } from './harbor';
@@ -24,7 +24,7 @@ export type ExportType = {
   businessId: number | '';
   harborDeparture: Partial<HarborType>;
   harborDestination: Partial<HarborType>;
-  client: Partial<ClientType>;
+  client: Partial<ClientResponse>;
   clientId: number | '';
   shipName: string;
   estimatedTravelTime: string;

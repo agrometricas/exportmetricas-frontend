@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { BookingResponse } from '../../types/booking';
@@ -8,7 +8,7 @@ function listBookings(): Promise<AxiosResponse<BookingResponse[]>> {
   return axios.get('/bookings');
 }
 
-export function useBookings(): ReturnType<typeof serializeQueryResult> {
+export function useBookings(): UseQueryResult<BookingResponse[], unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['bookings'],

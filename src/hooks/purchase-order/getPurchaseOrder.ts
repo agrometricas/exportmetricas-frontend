@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { PurchaseOrderResponse } from '../../types/purchaseOrder';
@@ -12,7 +12,7 @@ function getPurchaseOrder(
 
 export function usePurchaseOrder(
   id: string
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<PurchaseOrderResponse, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['purchaseOrder', id],

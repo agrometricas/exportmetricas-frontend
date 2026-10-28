@@ -2,6 +2,7 @@ import {
   useMutation,
   UseMutationResult,
   useQuery,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
@@ -14,7 +15,7 @@ import { serializeQueryResult } from '../../utils/serializeQueryResult';
 
 export function useBookingDocuments(
   bookingId: number
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<BookingDocument[], unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['bookingDocuments', bookingId],
@@ -25,7 +26,10 @@ export function useBookingDocuments(
   );
 }
 
-export function useDocumentTypes(): ReturnType<typeof serializeQueryResult> {
+export function useDocumentTypes(): UseQueryResult<
+  DocumentTypeOption[],
+  unknown
+> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['bookingDocumentTypes'],

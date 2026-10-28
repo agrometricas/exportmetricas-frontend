@@ -4,14 +4,14 @@ import React from 'react';
 import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useClients } from '../../hooks/export/client/getClients';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 
 interface ClientSelectBaseProps {
   name?: string;
   field?: FieldInputProps<number | ''>;
   placeholder: string;
-  setClient?: (client: Partial<ClientType>) => void;
-  onChange?: (newValue: Partial<ClientType>) => void;
+  setClient?: (client: Partial<ClientResponse>) => void;
+  onChange?: (newValue: Partial<ClientResponse>) => void;
 }
 
 const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
@@ -23,18 +23,20 @@ const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
 }) => {
   const { data, isLoading, error } = useClients();
 
-  const handleChange = (newValue: SingleValue<Partial<ClientType>>): void => {
+  const handleChange = (
+    newValue: SingleValue<Partial<ClientResponse>>
+  ): void => {
     if (setClient) {
-      setClient(newValue as Partial<ClientType>);
+      setClient(newValue as Partial<ClientResponse>);
     }
 
     if (onChange) {
-      onChange(newValue as Partial<ClientType>);
+      onChange(newValue as Partial<ClientResponse>);
     }
   };
 
   return (
-    <CatalogSelect<Partial<ClientType>>
+    <CatalogSelect<Partial<ClientResponse>>
       field={field}
       name={name}
       noOptionsMessage={() =>
@@ -42,11 +44,13 @@ const ClientSelectBase: React.FC<ClientSelectBaseProps> = ({
       }
       isLoading={isLoading}
       options={data}
-      getOptionLabel={(opt: Partial<ClientType>) => `${opt.businessName}`}
+      getOptionLabel={(opt: Partial<ClientResponse>) => `${opt.businessName}`}
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data?.find((opt: Partial<ClientType>) => opt.id === field?.value)
+          ? data?.find(
+              (opt: Partial<ClientResponse>) => opt.id === field?.value
+            )
           : undefined
       }
       placeholder={placeholder}

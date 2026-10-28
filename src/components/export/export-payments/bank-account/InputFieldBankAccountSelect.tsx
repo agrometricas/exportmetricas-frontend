@@ -2,13 +2,13 @@ import { Field } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React from 'react';
 import BankAccountSelectBase from './BankAccountSelectBase';
-import { BankAccountType } from '../../../../types/bankAccount';
+import { BankAccountResponse } from '../../../../types/bankAccount.response';
 
 interface InputFieldBankAccountSelectProps {
   name: string;
   label: string;
   placeholder: string;
-  setBankAccount?: (bankAccount: Partial<BankAccountType>) => void;
+  setBankAccount?: (bankAccount: Partial<BankAccountResponse>) => void;
 }
 
 const InputFieldBankAccountSelect: React.FC<

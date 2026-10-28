@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { StrippingType } from '@/types/box-brand/container/stripping';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listStrippings(): Promise<AxiosResponse> {
+function listStrippings(): Promise<AxiosResponse<StrippingType[]>> {
   return axios.get('/box-brand/stripping');
 }
 
-export function useStrippings() {
+export function useStrippings(): UseQueryResult<StrippingType[], unknown> {
   const result = useQuery({
     queryKey: ['strippings'],
     queryFn: () => listStrippings(),

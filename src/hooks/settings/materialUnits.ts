@@ -2,6 +2,7 @@ import {
   useMutation,
   UseMutationResult,
   useQuery,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
@@ -13,7 +14,10 @@ function getMaterialUnits(): Promise<AxiosResponse<MaterialUnitsResponse>> {
   return axios.get('/settings/material-units');
 }
 
-export function useMaterialUnits(): ReturnType<typeof serializeQueryResult> {
+export function useMaterialUnits(): UseQueryResult<
+  MaterialUnitsResponse,
+  unknown
+> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['materialUnits'],

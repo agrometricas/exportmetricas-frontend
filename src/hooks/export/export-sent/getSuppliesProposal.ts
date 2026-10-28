@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../../lib/axios';
 import { SuppliesProposal } from '../../../types/suppliesProposal';
@@ -12,7 +12,7 @@ function getSuppliesProposal(
 
 export function useSuppliesProposal(
   exportId: number | undefined
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<SuppliesProposal, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['suppliesProposal', exportId],
