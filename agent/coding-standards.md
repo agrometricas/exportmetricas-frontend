@@ -72,6 +72,13 @@ the backend proposes.
 - Every other list comes whole from the backend: its hook takes no paging
   params and its key is the list's name (plus the parent id, if it has one).
   Those tables paginate and filter in the browser.
+- A table that loads its own list spreads `...listTableOptions(query)`
+  (`utils/`) into `useMaterialReactTable`, with the query's `error`,
+  `isLoading` and `isFetching`: skeletons on the first load, the progress bar
+  while it reloads, and the error in the table's banner. Without it a list
+  that is loading or failed reads "No hay registros para mostrar".
+  `usePagedList` already applies it. A table that gets its rows by props does
+  not: the screen that loads them shows the wait.
 
 ## Mutations
 

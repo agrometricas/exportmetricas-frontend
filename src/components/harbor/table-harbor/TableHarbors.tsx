@@ -6,13 +6,14 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailHarbors from './DetailHarbors';
 import { useHarbors } from '../../../hooks/export/harbor/getHarbors';
 import { ClientType } from '../../../types/client';
 import { HarborResponse } from '../../../types/harbor.response';
 
 const TableHarbors = (): React.JSX.Element => {
-  const { data = [] } = useHarbors();
+  const { data = [], ...query } = useHarbors();
 
   const columns = useMemo<MRT_ColumnDef<HarborResponse>[]>(
     () => [
@@ -88,6 +89,7 @@ const TableHarbors = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

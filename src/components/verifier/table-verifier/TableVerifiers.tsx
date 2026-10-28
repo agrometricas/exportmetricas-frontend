@@ -6,12 +6,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailVerifiers from './DetailVerifiers';
 import { useVerifiers } from '../../../hooks/verifier/getVerifiers';
 import { VerifierResponse } from '../../../types/verifier/verifier.response';
 
 const TableVerifiers = (): React.JSX.Element => {
-  const { data = [] } = useVerifiers();
+  const { data = [], ...query } = useVerifiers();
 
   const columns = useMemo<MRT_ColumnDef<VerifierResponse>[]>(
     () => [
@@ -66,6 +67,7 @@ const TableVerifiers = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

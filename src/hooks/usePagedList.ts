@@ -7,7 +7,7 @@ import {
 import { useState } from 'react';
 import axios from '@/lib/axios';
 import { Page } from '@/types/page';
-import { serverErrorMessage } from '@/utils/serverErrorMessage';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { useDebouncedValue } from './useDebouncedValue';
 
 const TYPING_PAUSE_MS = 300;
@@ -42,21 +42,16 @@ export function usePagedList<T extends MRT_RowData>(
       ).data,
     placeholderData: keepPreviousData,
   });
+  const loadState = listTableOptions({ error, isLoading, isFetching });
 
   return {
     rows: data?.items ?? [],
     tableOptions: {
+      ...loadState,
       manualPagination: true,
       manualFiltering: true,
       enableSorting: false,
       rowCount: data?.total ?? 0,
-      // Without it a failed load reads as an empty list.
-      muiToolbarAlertBannerProps: error
-        ? {
-            color: 'error',
-            children: serverErrorMessage(error, 'No se pudo cargar la lista'),
-          }
-        : undefined,
       onPaginationChange: setPagination,
       onGlobalFilterChange: (updater): void => {
         const value =
@@ -64,13 +59,7 @@ export function usePagedList<T extends MRT_RowData>(
         setGlobalFilter(value ?? '');
         setPagination((current) => ({ ...current, pageIndex: 0 }));
       },
-      state: {
-        pagination,
-        globalFilter,
-        isLoading,
-        showAlertBanner: !!error,
-        showProgressBars: isFetching && !isLoading,
-      },
+      state: { ...loadState.state, pagination, globalFilter },
     },
   };
 }

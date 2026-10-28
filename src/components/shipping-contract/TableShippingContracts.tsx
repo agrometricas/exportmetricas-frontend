@@ -7,6 +7,7 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { useShippingContracts } from '../../hooks/shipping-contract/getShippingContracts';
 import {
   ShippingContractResponse,
@@ -15,7 +16,7 @@ import {
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 const TableShippingContracts = (): React.JSX.Element => {
-  const { data = [] } = useShippingContracts();
+  const { data = [], ...query } = useShippingContracts();
 
   const columns = useMemo<MRT_ColumnDef<ShippingContractResponse>[]>(
     () => [
@@ -116,6 +117,7 @@ const TableShippingContracts = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

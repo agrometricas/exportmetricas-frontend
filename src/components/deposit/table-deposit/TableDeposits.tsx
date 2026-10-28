@@ -6,12 +6,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailDeposits from './DetailDeposits';
 import { useDeposits } from '../../../hooks/deposit/getDeposits';
 import { DepositResponse } from '../../../types/deposit/deposit.response';
 
 const TableDeposits = (): React.JSX.Element => {
-  const { data = [] } = useDeposits();
+  const { data = [], ...query } = useDeposits();
 
   const columns = useMemo<MRT_ColumnDef<DepositResponse>[]>(
     () => [
@@ -122,6 +123,7 @@ const TableDeposits = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

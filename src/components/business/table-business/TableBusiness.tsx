@@ -8,12 +8,13 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailBusiness from './DetailBusiness';
 import { useBusinesses } from '../../../hooks/business/getAllBusiness';
 import { BusinessResponse } from '../../../types/merchant/merchant.response';
 
 const TableBusiness = (): React.JSX.Element => {
-  const { data = [] } = useBusinesses();
+  const { data = [], ...query } = useBusinesses();
 
   const columns = useMemo<MRT_ColumnDef<BusinessResponse>[]>(
     () => [
@@ -105,6 +106,7 @@ const TableBusiness = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
