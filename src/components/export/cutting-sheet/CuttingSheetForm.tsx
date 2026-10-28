@@ -10,6 +10,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import DisplayField from './DisplayField';
 import ReadOnlyDateGrid from './ReadOnlyDateGrid';
 import { useCreateCuttingSheet } from '../../../hooks/export/cuttingSheet/createCuttingSheet';
@@ -366,14 +367,14 @@ const CuttingSheetForm = ({
           },
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheets'],
+          queryKey: qk('cuttingSheets'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheetsPending'],
+          queryKey: qk('cuttingSheetsPending'),
         });
         formikHelpers.resetForm();
         PROGRESS_QUERIES.forEach((key) =>
-          queryClient.invalidateQueries({ queryKey: [key] })
+          queryClient.invalidateQueries({ queryKey: qk(key) })
         );
         router.push(
           returnTo('/dashboard/export/cutting-sheets', window.location.search)

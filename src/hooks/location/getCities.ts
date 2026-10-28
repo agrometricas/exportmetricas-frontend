@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 type CityResponse = {
@@ -17,7 +18,7 @@ export function useCities(countryId?: number): {
   refetch: () => void;
 } {
   const result: UseQueryResult<AxiosResponse<CityResponse>> = useQuery({
-    queryKey: ['cities', countryId],
+    queryKey: qk('cities', countryId),
     queryFn: () => axios.get(`/location/cities/${countryId}`),
     enabled: !!countryId,
   });

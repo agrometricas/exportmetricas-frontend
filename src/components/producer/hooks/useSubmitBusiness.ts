@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateBusiness } from '../../../hooks/business/createBusiness';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -59,7 +60,7 @@ export function useSubmitBusiness(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['businesses'],
+            queryKey: qk('businesses'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/producer/fincas');

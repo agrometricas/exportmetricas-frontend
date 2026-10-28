@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateSponge } from '@/hooks/box-brand/materials/sponge/createSponge';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddSpongeFormProps {
@@ -74,7 +75,7 @@ const AddSpongeForm = ({ onClose }: AddSpongeFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['sponges'],
+            queryKey: qk('sponges'),
           });
           actions.resetForm();
           if (onClose) onClose();

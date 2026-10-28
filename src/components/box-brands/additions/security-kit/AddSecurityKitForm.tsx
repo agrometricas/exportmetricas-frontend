@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateSecurityKit } from '../../../../hooks/box-brand/additions/security-kit/createSecurityKit';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -80,7 +81,7 @@ const AddSecurityKitForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['securityKits'],
+            queryKey: qk('securityKits'),
           });
           actions.resetForm();
           onClose?.();

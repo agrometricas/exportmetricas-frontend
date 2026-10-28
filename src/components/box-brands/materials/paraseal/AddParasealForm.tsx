@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateParaseal } from '@/hooks/box-brand/materials/paraseal/createParaseal';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddParasealFormProps {
@@ -76,7 +77,7 @@ const AddParasealForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['paraseals'],
+            queryKey: qk('paraseals'),
           });
           actions.resetForm();
           if (onClose) onClose();

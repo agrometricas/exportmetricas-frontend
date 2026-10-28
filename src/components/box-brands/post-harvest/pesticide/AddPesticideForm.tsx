@@ -6,6 +6,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreatePesticide } from '../../../../hooks/box-brand/post-harvest/pesticide/createPesticide';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -132,7 +133,7 @@ const AddPesticideForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['pesticides'],
+            queryKey: qk('pesticides'),
           });
           actions.resetForm();
           onClose?.();

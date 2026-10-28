@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { FumigationProposal } from '@/types/suppliesProposal';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -21,7 +22,7 @@ export function useFumigationProposal(
 ): UseQueryResult<FumigationProposal[], unknown> {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['fumigationProposal', boxQuantity],
+      queryKey: qk('fumigationProposal', boxQuantity),
       queryFn: () => getFumigationProposal(boxQuantity),
       enabled: boxQuantity > 0,
       placeholderData: keepPreviousData,

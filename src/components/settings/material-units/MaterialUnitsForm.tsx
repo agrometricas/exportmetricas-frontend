@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useMaterialUnits,
   useUpdateMaterialUnits,
@@ -59,7 +60,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['materialUnits'],
+            queryKey: qk('materialUnits'),
           });
         },
       }

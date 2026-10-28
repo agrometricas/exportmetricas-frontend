@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { SheetType } from '@/types/box-brand/additions/sheet';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -10,7 +11,7 @@ function listSheets(): Promise<AxiosResponse<SheetType[]>> {
 
 export function useSheets(): UseQueryResult<SheetType[], unknown> {
   const result = useQuery({
-    queryKey: ['sheets'],
+    queryKey: qk('sheets'),
     queryFn: () => listSheets(),
   });
 

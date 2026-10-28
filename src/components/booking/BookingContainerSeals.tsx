@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { useUpdateContainerSeals } from '../../hooks/booking/mutateBooking';
 import { BookingContainer } from '../../types/booking';
 import {
@@ -14,7 +15,12 @@ import {
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
-const AFFECTED_QUERIES = ['booking', 'bookings', 'exports', 'export'];
+const AFFECTED_QUERIES: QueryKeyName[] = [
+  'booking',
+  'bookings',
+  'exports',
+  'export',
+];
 
 function ContainerSealsRow({
   bookingId,
@@ -48,7 +54,7 @@ function ContainerSealsRow({
             closable: true,
           });
           AFFECTED_QUERIES.forEach((key) =>
-            queryClient.invalidateQueries({ queryKey: [key] })
+            queryClient.invalidateQueries({ queryKey: qk(key) })
           );
         },
       }

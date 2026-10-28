@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import {
   ContractUsage,
   ContractUsageCheck,
@@ -14,7 +15,7 @@ export function useContractUsage(week: string | null): {
   isLoading: boolean;
 } {
   const { data, isLoading } = useQuery({
-    queryKey: ['contractUsage', week],
+    queryKey: qk('contractUsage', week),
     queryFn: async () =>
       (await axios.get('/contract-usage', { params: { week } })).data,
     enabled: week !== null,
@@ -30,7 +31,7 @@ export function useContractUsageCheck(
     TYPING_PAUSE_MS
   );
   const { data } = useQuery({
-    queryKey: ['contractUsageCheck', settled],
+    queryKey: qk('contractUsageCheck', settled),
     queryFn: async () =>
       (
         await axios.get('/contract-usage/check', {

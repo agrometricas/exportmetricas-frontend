@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useDeleteBooking,
   useSaveBooking,
@@ -43,13 +44,13 @@ export function useSubmitBooking(booking?: BookingResponse): {
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['bookings'],
+      queryKey: qk('bookings'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['booking'],
+      queryKey: qk('booking'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['vessels'],
+      queryKey: qk('vessels'),
     });
     router.push(LIST_PATH);
   };

@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCertificate } from '@/hooks/utils/createCertificate';
+import { qk } from '@/lib/queryKeys';
 import { useExporter } from '../../hooks/useUserProfile';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import UploadLogoFile from '../producer/UploadLogoFile';
@@ -85,7 +86,7 @@ const AddCertificateForm = ({
     try {
       await createCertificate(values);
       queryClient.invalidateQueries({
-        queryKey: ['certificates'],
+        queryKey: qk('certificates'),
       });
 
       toaster.create({
@@ -97,7 +98,7 @@ const AddCertificateForm = ({
 
       if (onboardingStatus === 'done') {
         queryClient.invalidateQueries({
-          queryKey: ['certificates'],
+          queryKey: qk('certificates'),
         });
       }
 

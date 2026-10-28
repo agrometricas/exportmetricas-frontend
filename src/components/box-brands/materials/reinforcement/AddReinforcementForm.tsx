@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateReinforcement } from '@/hooks/box-brand/materials/reinforcement/createReinforcement';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddReinforcementFormProps {
@@ -77,7 +78,7 @@ const AddReinforcementForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['reinforcements'],
+            queryKey: qk('reinforcements'),
           });
           actions.resetForm();
           if (onClose) onClose();

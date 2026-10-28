@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCardboard } from '@/hooks/box-brand/materials/cardboard/createCardboard';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddCardboardFormProps {
@@ -76,7 +77,7 @@ const AddCardboardForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['cardboards'],
+            queryKey: qk('cardboards'),
           });
           actions.resetForm();
           if (onClose) onClose();

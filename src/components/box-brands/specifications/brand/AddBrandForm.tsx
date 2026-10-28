@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateBrand } from '@/hooks/box-brand/specifications/brand/createBrand';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
 
@@ -61,7 +62,7 @@ export default function AddBrandForm({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['brands'],
+            queryKey: qk('brands'),
           });
           actions.resetForm();
           onClose?.();

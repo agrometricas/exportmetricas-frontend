@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { QueryConfig } from '@/lib/react-query';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock.response';
@@ -30,7 +31,7 @@ export const useExporterMaterialStock = ({
   ExporterMaterialStock[]
 > => {
   const result = useQuery({
-    queryKey: ['exporterMaterialStock', exporterId],
+    queryKey: qk('exporterMaterialStock', exporterId),
     queryFn: () => getExporterMaterialStock({ exporterId }),
     enabled: exporterId > 0,
     placeholderData: keepPreviousData,

@@ -6,6 +6,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useUploadExporterLogo } from '../../../hooks/settings/uploadExporterLogo';
 import { useExporter } from '../../../hooks/useUserProfile';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -76,7 +77,7 @@ const UploadLogoForm = (): React.JSX.Element => {
             });
 
             queryClient.invalidateQueries({
-              queryKey: ['exporter'],
+              queryKey: qk('exporter'),
             });
             formikHelpers.resetForm();
             router.push('/dashboard');

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 import { Country } from '../../types/location/country';
 
@@ -16,7 +17,7 @@ export function useCountries(): {
   refetch: () => void;
 } {
   const serialized = serializeQueryResult(
-    useQuery({ queryKey: ['countries'], queryFn: listCountries })
+    useQuery({ queryKey: qk('countries'), queryFn: listCountries })
   );
 
   return {

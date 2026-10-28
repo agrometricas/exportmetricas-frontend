@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateBottom } from '../../../../hooks/box-brand/materials/bottom/createBottom';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -79,7 +80,7 @@ const AddBottomForm = ({ onClose }: AddBottomFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['bottoms'],
+            queryKey: qk('bottoms'),
           });
           actions.resetForm();
           onClose?.();

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BoardingCardType } from '@/types/box-brand/additions/boardingCard';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -13,7 +14,7 @@ export function useBoardingCards(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['boardingCards'],
+    queryKey: qk('boardingCards'),
     queryFn: () => listBoardingCards(),
   });
 

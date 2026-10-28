@@ -7,6 +7,7 @@ import { MdLocalShipping } from 'react-icons/md';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { QueryKeyName } from '@/lib/queryKeys';
 import { pendingExportColumns, pendingExportLabel } from './pendingColumns';
 import { useCreateExportSentBatch } from '../../hooks/export/export-sent/createExportSentBatch';
 import { useExportsPending } from '../../hooks/export/getExportsPending';
@@ -15,7 +16,7 @@ import { shipmentBatchSummary } from '../../utils/shipmentBatch';
 import BatchActionBar from '../ui/BatchActionBar';
 import PendingTable from '../ui/PendingTable';
 
-const SHIPMENT_QUERIES = [
+const SHIPMENT_QUERIES: QueryKeyName[] = [
   'exports',
   'export',
   'exportsPending',
@@ -26,7 +27,6 @@ const SHIPMENT_QUERIES = [
   'exportSentCostsPending',
   'clientPaymentsPending',
   'exporterMaterialStock',
-  'businessStock',
   'stockMovements',
   'exportProgress',
   'workQueue',

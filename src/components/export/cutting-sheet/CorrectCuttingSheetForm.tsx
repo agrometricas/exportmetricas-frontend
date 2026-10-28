@@ -19,6 +19,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCorrectCuttingSheet } from '../../../hooks/export/cuttingSheet/correctCuttingSheet';
 import { CuttingSheetResponse } from '../../../types/cuttingSheet.response';
@@ -101,7 +102,7 @@ const CorrectCuttingSheetForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['cuttingSheets'],
+            queryKey: qk('cuttingSheets'),
           });
           router.push('/dashboard/export/cutting-sheets');
         },

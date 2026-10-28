@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ShippingCompanyResponse } from '@/types/shippingCompany.response';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -15,7 +16,7 @@ export function useShippingCompanies(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['shipping-companies'],
+    queryKey: qk('shipping-companies'),
     queryFn: () => listShippingCompany(),
   });
 

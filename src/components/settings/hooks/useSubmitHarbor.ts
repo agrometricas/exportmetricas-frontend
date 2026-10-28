@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateHarbor } from '@/hooks/export/harbor/createHarbor';
+import { qk } from '@/lib/queryKeys';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import {
@@ -60,13 +61,13 @@ export function useSubmitHarbor(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['harbors'],
+            queryKey: qk('harbors'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['harborsByType'],
+            queryKey: qk('harborsByType'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['clients'],
+            queryKey: qk('clients'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/client/harbors');

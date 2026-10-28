@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateLabel } from '../../../../hooks/box-brand/materials/label/createLabel';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
@@ -116,7 +117,7 @@ const AddLabelForm = ({ onClose }: AddLabelFormProps): React.JSX.Element => {
         });
 
         queryClient.invalidateQueries({
-          queryKey: ['labels'],
+          queryKey: qk('labels'),
         });
         actions.resetForm();
         onClose?.();

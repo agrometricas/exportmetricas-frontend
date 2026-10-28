@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
 import { Tooltip } from '@/components/ui/tooltip';
+import { qk } from '@/lib/queryKeys';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import {
   useDeleteBoxType,
@@ -56,10 +57,10 @@ export default function BoxTypesManager(): React.JSX.Element {
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 4000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['boxTypes'],
+      queryKey: qk('boxTypes'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['boxBrands'],
+      queryKey: qk('boxBrands'),
     });
     setEditing(null);
   };

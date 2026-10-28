@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreatePackingTape } from '@/hooks/box-brand/materials/packingtape/createPackingTape';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddPackingTapeFormProps {
@@ -76,7 +77,7 @@ const AddPackingTapeForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['packingtapes'],
+            queryKey: qk('packingtapes'),
           });
           actions.resetForm();
           if (onClose) onClose();

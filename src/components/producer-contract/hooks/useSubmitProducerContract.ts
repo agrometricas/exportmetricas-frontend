@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useDeleteProducerContract,
   useSaveProducerContract,
@@ -46,10 +47,10 @@ export function useSubmitProducerContract(
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['producerContracts'],
+      queryKey: qk('producerContracts'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['producerContract'],
+      queryKey: qk('producerContract'),
     });
     router.push(LIST_PATH);
   };

@@ -18,6 +18,7 @@ import { Form, Formik, FormikHelpers, useField } from 'formik';
 import React, { useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import BookingDocumentChecklist from './BookingDocumentChecklist';
 import {
   useBookingDocuments,
@@ -50,7 +51,7 @@ import InputFieldSelector from '../ui/form/InputFieldSelector';
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const FILE_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
-const AFFECTED_QUERIES = [
+const AFFECTED_QUERIES: QueryKeyName[] = [
   'bookingDocuments',
   'bookingDocumentStatus',
   'documentBoard',
@@ -149,7 +150,7 @@ function DeleteDocumentButton({
         },
         onSuccess: () => {
           AFFECTED_QUERIES.forEach((key) =>
-            queryClient.invalidateQueries({ queryKey: [key] })
+            queryClient.invalidateQueries({ queryKey: qk(key) })
           );
           setIsOpen(false);
         },
@@ -249,7 +250,7 @@ export default function BookingDocuments({
             closable: true,
           });
           AFFECTED_QUERIES.forEach((key) =>
-            queryClient.invalidateQueries({ queryKey: [key] })
+            queryClient.invalidateQueries({ queryKey: qk(key) })
           );
           helpers.resetForm();
           setFileKey((key) => key + 1);

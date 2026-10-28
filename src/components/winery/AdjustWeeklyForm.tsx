@@ -20,6 +20,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useAdjustWeekly } from '../../hooks/winery/useAdjustWeekly';
 import { useStockMovementsByBusiness } from '../../hooks/winery/useStockMovementsByBusiness';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
@@ -152,7 +153,7 @@ const AdjustWeeklyForm = ({
         closable: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ['stockMovements'],
+        queryKey: qk('stockMovements'),
       });
     } catch (error) {
       toaster.create({

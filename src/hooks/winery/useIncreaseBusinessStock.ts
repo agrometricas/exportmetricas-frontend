@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BusinessMaterialStock } from '../../types/winery/businessMaterialStock';
 
 interface IncreaseStockDto {
@@ -35,7 +36,7 @@ export const useIncreaseBusinessStock = (
       increaseBusinessStock({ businessStockId, data }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['exporterMaterialStock'],
+        queryKey: qk('exporterMaterialStock'),
       });
     },
   });

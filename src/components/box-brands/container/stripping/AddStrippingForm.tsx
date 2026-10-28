@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateStripping } from '../../../../hooks/box-brand/container/stripping/createStripping';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -101,7 +102,7 @@ const AddStrippingForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['strippings'],
+            queryKey: qk('strippings'),
           });
           actions.resetForm();
           onClose?.();

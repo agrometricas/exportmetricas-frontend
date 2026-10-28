@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { OrderQuota, PurchaseOrderQuoteBody } from '@/types/purchaseOrder';
 import { useDebouncedValue } from '../useDebouncedValue';
 
@@ -15,7 +16,7 @@ export function usePurchaseOrderQuote(body: PurchaseOrderQuoteBody | null): {
   );
 
   const { data, isFetching } = useQuery({
-    queryKey: ['purchaseOrderQuote', settled],
+    queryKey: qk('purchaseOrderQuote', settled),
     queryFn: async () => {
       const response = await axios.post(
         '/purchase-orders/quote',

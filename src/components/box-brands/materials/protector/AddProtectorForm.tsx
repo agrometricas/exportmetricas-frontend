@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateProtector } from '../../../../hooks/box-brand/materials/protector/createProtector';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -90,7 +91,7 @@ const AddProtectorForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['protectors'],
+            queryKey: qk('protectors'),
           });
           actions.resetForm();
           onClose?.();

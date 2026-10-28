@@ -5,6 +5,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { MaterialUnitsResponse } from '../../types/materialUnits';
@@ -20,7 +21,7 @@ export function useMaterialUnits(): UseQueryResult<
 > {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['materialUnits'],
+      queryKey: qk('materialUnits'),
       queryFn: getMaterialUnits,
     })
   );

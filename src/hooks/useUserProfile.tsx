@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { qk } from '@/lib/queryKeys';
 import { env } from '../lib/env';
 
 export interface UserProfile {
@@ -64,7 +65,7 @@ export function useExporter(): {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['exporter', session?.refreshToken],
+    queryKey: qk('exporter', session?.refreshToken),
     queryFn: () => {
       if (!session) throw new Error('No hay sesión activa');
       return fetchExporter(session.refreshToken);
@@ -85,7 +86,7 @@ export function useExporter(): {
     error,
     reloadExporter: () =>
       queryClient.invalidateQueries({
-        queryKey: ['exporter'],
+        queryKey: qk('exporter'),
       }),
   };
 }

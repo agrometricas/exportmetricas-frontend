@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ExportSentConfirmedCost } from '../../../types/export-sent/exportSentConfirmedCost';
 
 const getConfirmedExportSents = async (): Promise<
@@ -14,7 +15,7 @@ export const useConfirmedExportSents = (): UseQueryResult<
   unknown
 > => {
   return useQuery({
-    queryKey: ['confirmedExportSents'],
+    queryKey: qk('confirmedExportSents'),
     queryFn: getConfirmedExportSents,
   });
 };

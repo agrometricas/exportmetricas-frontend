@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ClientResponse } from '@/types/client.response';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -22,7 +23,7 @@ export function useClientsByHarborId({
   id,
 }: Body): UseQueryResult<ClientResponse[], unknown> {
   const result = useQuery({
-    queryKey: ['clientsByHarbor', id],
+    queryKey: qk('clientsByHarbor', id),
     queryFn: () => listClientsByHarborId({ id }),
     placeholderData: keepPreviousData,
   });

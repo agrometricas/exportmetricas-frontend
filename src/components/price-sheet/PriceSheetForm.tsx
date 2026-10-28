@@ -16,6 +16,7 @@ import Link_Next from 'next/link';
 import React, { useEffect, useMemo } from 'react';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   priceKey,
   priceSheetBody,
@@ -299,16 +300,16 @@ export default function PriceSheetForm(): React.JSX.Element {
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['priceSheet'],
+          queryKey: qk('priceSheet'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['priceSheetQuote'],
+          queryKey: qk('priceSheetQuote'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['purchaseOrder'],
+          queryKey: qk('purchaseOrder'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['export/producer-payment/quote'],
+          queryKey: qk('export/producer-payment/quote'),
         });
       },
     });

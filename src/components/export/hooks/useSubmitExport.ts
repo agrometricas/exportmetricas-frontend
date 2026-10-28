@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateExport } from '@/hooks/export/createExport';
 import { useUpdateExport } from '@/hooks/export/updateExport';
+import { qk } from '@/lib/queryKeys';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { exportBody } from '../exportBody';
@@ -61,47 +62,47 @@ export function useSubmitExport({
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['exports'],
+          queryKey: qk('exports'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsPending'],
+          queryKey: qk('exportsPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheets'],
+          queryKey: qk('cuttingSheets'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheetsPending'],
+          queryKey: qk('cuttingSheetsPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['bookings'],
+          queryKey: qk('bookings'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['vessels'],
+          queryKey: qk('vessels'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['purchaseOrders'],
+          queryKey: qk('purchaseOrders'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['purchaseOrder'],
+          queryKey: qk('purchaseOrder'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['contractUsage'],
+          queryKey: qk('contractUsage'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['contractUsageCheck'],
+          queryKey: qk('contractUsageCheck'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportProgress'],
+          queryKey: qk('exportProgress'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['workQueue'],
+          queryKey: qk('workQueue'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['lastFarmExport'],
+          queryKey: qk('lastFarmExport'),
         });
         if (exportId) {
           queryClient.invalidateQueries({
-            queryKey: ['export', String(exportId)],
+            queryKey: qk('export', String(exportId)),
           });
         }
         formikHelpers.resetForm();

@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateVerifier } from '../../../hooks/verifier/createVerifier';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import {
@@ -48,7 +49,7 @@ export function useSubmitVerifier(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['verifiers'],
+            queryKey: qk('verifiers'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/box-brands/verifiers');

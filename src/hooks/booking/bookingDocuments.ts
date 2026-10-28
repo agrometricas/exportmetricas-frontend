@@ -5,6 +5,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../lib/axios';
 import {
   BookingDocument,
@@ -18,7 +19,7 @@ export function useBookingDocuments(
 ): UseQueryResult<BookingDocument[], unknown> {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['bookingDocuments', bookingId],
+      queryKey: qk('bookingDocuments', bookingId),
       queryFn: (): Promise<AxiosResponse<BookingDocument[]>> =>
         axios.get(`/bookings/${bookingId}/documents`),
       enabled: Boolean(bookingId),
@@ -32,7 +33,7 @@ export function useDocumentTypes(): UseQueryResult<
 > {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['bookingDocumentTypes'],
+      queryKey: qk('bookingDocumentTypes'),
       queryFn: (): Promise<AxiosResponse<DocumentTypeOption[]>> =>
         axios.get('/bookings/document-types'),
     })

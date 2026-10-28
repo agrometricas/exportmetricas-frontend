@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ExporterMaterialStock } from '../../types/winery/exporterMaterialStock';
 
 export const getExporterMaterialStock = async ({
@@ -34,7 +35,7 @@ export const useExporterMaterialStock = ({
   materialId: number;
 }): UseQueryResult<ExporterMaterialStock, unknown> => {
   return useQuery({
-    queryKey: ['exporterMaterialStock', exporterId, materialType, materialId],
+    queryKey: qk('exporterMaterialStock', exporterId, materialType, materialId),
     queryFn: () =>
       getExporterMaterialStock({ exporterId, materialType, materialId }),
     enabled: !!exporterId && !!materialType && !!materialId,

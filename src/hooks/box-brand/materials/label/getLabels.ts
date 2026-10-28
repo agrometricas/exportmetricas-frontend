@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { LabelType } from '@/types/box-brand/materials/label';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -10,7 +11,7 @@ function listLabels(): Promise<AxiosResponse<LabelType[]>> {
 
 export function useLabels(): UseQueryResult<LabelType[], unknown> {
   const result = useQuery({
-    queryKey: ['labels'],
+    queryKey: qk('labels'),
     queryFn: () => listLabels(),
   });
 

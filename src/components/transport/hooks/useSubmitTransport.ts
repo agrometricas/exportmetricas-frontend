@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateTransport } from '../../../hooks/transport/createTransport';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -51,7 +52,7 @@ export function useSubmitTransport(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['transports'],
+            queryKey: qk('transports'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/client/transports');

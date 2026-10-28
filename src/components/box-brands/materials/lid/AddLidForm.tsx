@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateLid } from '@/hooks/box-brand/materials/lid/createLid';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddLidFormProps {
@@ -76,7 +77,7 @@ const AddLidForm = ({ onClose }: AddLidFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['lids'],
+            queryKey: qk('lids'),
           });
           actions.resetForm();
           onClose?.();

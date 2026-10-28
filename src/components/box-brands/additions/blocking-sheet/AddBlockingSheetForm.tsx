@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateBlockingSheet } from '../../../../hooks/box-brand/additions/blocking-sheet/createBlockingSheet';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -92,7 +93,7 @@ const AddBlockingSheetForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['blockingSheets'],
+            queryKey: qk('blockingSheets'),
           });
           actions.resetForm();
           onClose?.();

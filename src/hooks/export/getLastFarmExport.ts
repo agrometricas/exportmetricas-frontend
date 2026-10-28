@@ -1,6 +1,7 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 import { LastFarmExportResponse } from '../../types/lastFarmExport';
 
@@ -20,7 +21,7 @@ export const useLastFarmExport = ({
   enabled?: boolean;
 }): UseQueryResult<LastFarmExportResponse> => {
   const result = useQuery({
-    queryKey: ['lastFarmExport', businessId],
+    queryKey: qk('lastFarmExport', businessId),
     queryFn: () => getLastFarmExport({ businessId: Number(businessId) }),
     enabled: enabled && Number(businessId) > 0,
   });

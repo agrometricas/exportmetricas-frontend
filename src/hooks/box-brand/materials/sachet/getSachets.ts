@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { SachetType } from '@/types/box-brand/materials/sachet';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -10,7 +11,7 @@ function listSachets(): Promise<AxiosResponse<SachetType[]>> {
 
 export function useSachets(): UseQueryResult<SachetType[], unknown> {
   const result = useQuery({
-    queryKey: ['sachets'],
+    queryKey: qk('sachets'),
     queryFn: () => listSachets(),
   });
 

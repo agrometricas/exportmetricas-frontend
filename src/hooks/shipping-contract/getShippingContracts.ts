@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../lib/axios';
 import { ShippingContractResponse } from '../../types/shippingContract';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -16,7 +17,7 @@ export function useShippingContracts(): UseQueryResult<
 > {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['shippingContracts'],
+      queryKey: qk('shippingContracts'),
       queryFn: listShippingContracts,
     })
   );

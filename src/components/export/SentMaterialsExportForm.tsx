@@ -12,6 +12,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import InputFieldSentInsecticides from './ui/InputFieldSentInsecticides';
 import InputFieldSentPesticides from './ui/InputFieldSentPesticides';
 import InputFieldSentQuantity from './ui/InputFieldSentQuantity';
@@ -213,32 +214,32 @@ const SentMaterialsExportForm = ({
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['exports'],
+          queryKey: qk('exports'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsSent'],
+          queryKey: qk('exportsSent'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsSentPending'],
+          queryKey: qk('exportsSentPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportsPending'],
+          queryKey: qk('exportsPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['clientPaymentsPending'],
+          queryKey: qk('clientPaymentsPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheets'],
+          queryKey: qk('cuttingSheets'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['cuttingSheetsPending'],
+          queryKey: qk('cuttingSheetsPending'),
         });
         queryClient.invalidateQueries({
-          queryKey: ['exportSentCostsPending'],
+          queryKey: qk('exportSentCostsPending'),
         });
         actions.resetForm();
         PROGRESS_QUERIES.forEach((key) =>
-          queryClient.invalidateQueries({ queryKey: [key] })
+          queryClient.invalidateQueries({ queryKey: qk(key) })
         );
         router.push(
           returnTo(

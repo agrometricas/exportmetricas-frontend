@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreatePallet } from '@/hooks/box-brand/materials/pallet/createPallet';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddPalletFormProps {
@@ -74,7 +75,7 @@ const AddPalletForm = ({ onClose }: AddPalletFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['pallets'],
+            queryKey: qk('pallets'),
           });
           actions.resetForm();
           if (onClose) onClose();

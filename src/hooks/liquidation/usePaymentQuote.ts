@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { useDebouncedValue } from '../useDebouncedValue';
 
 const TYPING_PAUSE_MS = 300;
@@ -13,14 +14,14 @@ export interface PaymentQuoteResult<Quote> {
 }
 
 export function usePaymentQuote<Params extends object, Quote>(
-  path: string,
+  path: QueryKeyName,
   params: Params | null
 ): PaymentQuoteResult<Quote> {
   const current = params ? JSON.stringify(params) : null;
   const settled = useDebouncedValue(current, TYPING_PAUSE_MS);
 
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: [path, settled],
+    queryKey: qk(path, settled),
     queryFn: async () => {
       const response = await axios.get(path, {
         params: JSON.parse(settled as string),
