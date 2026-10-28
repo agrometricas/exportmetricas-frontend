@@ -14,7 +14,7 @@ export function useExportProgress(
       queryKey: ['exportProgress', exportId],
       queryFn: (): Promise<AxiosResponse<ExportProgress>> =>
         axios.get(`/export/${exportId}/progress`),
-      enabled: Boolean(exportId)
+      enabled: Boolean(exportId),
     })
   );
 }
@@ -23,7 +23,8 @@ export function useWorkQueue(): ReturnType<typeof serializeQueryResult> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['workQueue'],
-      queryFn: (): Promise<AxiosResponse<WorkQueue>> => axios.get('/export/work-queue')
+      queryFn: (): Promise<AxiosResponse<WorkQueue>> =>
+        axios.get('/export/work-queue'),
     })
   );
 }

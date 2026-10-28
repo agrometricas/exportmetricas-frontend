@@ -4,30 +4,30 @@ import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 type CertificateResponse = {
-    id: number;
-    name: string;
-    certificateCode: string;
+  id: number;
+  name: string;
+  certificateCode: string;
 }[];
 
 export function useCertificates(): {
-    data: CertificateResponse | undefined;
-    isLoading: boolean;
-    isError: boolean;
-    error: unknown;
-    refetch: () => void;
+  data: CertificateResponse | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  error: unknown;
+  refetch: () => void;
 } {
-    const result: UseQueryResult<AxiosResponse<CertificateResponse>> = useQuery({
-        queryKey: ['certificates'],
-        queryFn: () => axios.get(`/certificate`)
-    });
+  const result: UseQueryResult<AxiosResponse<CertificateResponse>> = useQuery({
+    queryKey: ['certificates'],
+    queryFn: () => axios.get(`/certificate`),
+  });
 
-    const serialized = serializeQueryResult(result);
+  const serialized = serializeQueryResult(result);
 
-    return {
-        data: serialized.data,
-        isLoading: serialized.isLoading,
-        isError: serialized.isError,
-        error: serialized.error,
-        refetch: serialized.refetch,
-    };
+  return {
+    data: serialized.data,
+    isLoading: serialized.isLoading,
+    isError: serialized.isError,
+    error: serialized.error,
+    refetch: serialized.refetch,
+  };
 }

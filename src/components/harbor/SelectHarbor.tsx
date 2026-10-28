@@ -43,7 +43,11 @@ const SelectHarbor: React.FC<SelectHarborProps> = ({
         />
         <Box>
           <FormLabel>Tipo</FormLabel>
-          <Input readOnly={true} value={harbor?.type || ''} placeholder='Tipo de puerto' />
+          <Input
+            readOnly={true}
+            value={harbor?.type || ''}
+            placeholder='Tipo de puerto'
+          />
         </Box>
         <Box>
           <FormLabel>Dirección</FormLabel>

@@ -44,11 +44,8 @@ const ExportList = (): React.JSX.Element => {
 
   const headingColor = 'fg.heading';
 
-
   if (isLoading) {
-    return (
-      <LoadingState minH='40vh' />
-    );
+    return <LoadingState minH='40vh' />;
   }
 
   if (error) {
@@ -61,18 +58,24 @@ const ExportList = (): React.JSX.Element => {
   );
 
   return (
-    <VStack gap={4} align="stretch">
+    <VStack gap={4} align='stretch'>
       <Box
-        display="flex"
-        alignItems="center"
+        display='flex'
+        alignItems='center'
         gap={3}
-        justifyContent="space-between"
-        w="100%"
+        justifyContent='space-between'
+        w='100%'
       >
-        <Heading size="md" color={headingColor}>
+        <Heading size='md' color={headingColor}>
           Exportaciones pendientes
         </Heading>
-        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge
+          colorPalette='green'
+          variant='subtle'
+          px={3}
+          py={1}
+          borderRadius='full'
+        >
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
@@ -112,9 +115,9 @@ const ExportList = (): React.JSX.Element => {
 
       {items.length === 0 ? (
         <EmptyState
-            title="No hay exportaciones pendientes de envío"
-            description="Cada exportación nueva aparece aquí para registrar sus insumos."
-          />
+          title='No hay exportaciones pendientes de envío'
+          description='Cada exportación nueva aparece aquí para registrar sus insumos.'
+        />
       ) : (
         <PendingTable
           columns={columns}
@@ -123,8 +126,11 @@ const ExportList = (): React.JSX.Element => {
           selectedIds={selectedIds}
           onSelectedChange={setSelectedIds}
           renderAction={(item) => (
-            <Button size='sm' colorPalette='green' asChild><NextLink href={`${pathname}/${item.id}`}>Realizar envío
-                          </NextLink></Button>
+            <Button size='sm' colorPalette='green' asChild>
+              <NextLink href={`${pathname}/${item.id}`}>
+                Realizar envío
+              </NextLink>
+            </Button>
           )}
         />
       )}

@@ -22,7 +22,9 @@ export const initialValues: ValuesProps = {
   endDate: '',
 };
 
-export function valuesFromContract(contract: ProducerContractResponse): ValuesProps {
+export function valuesFromContract(
+  contract: ProducerContractResponse
+): ValuesProps {
   return {
     merchantId: contract.business.merchant?.id ?? '',
     businessId: contract.business.id,
@@ -34,14 +36,19 @@ export function valuesFromContract(contract: ProducerContractResponse): ValuesPr
   };
 }
 
-const validDate = (value?: string): boolean => !value || value !== INVALID_DAY_DATE;
+const validDate = (value?: string): boolean =>
+  !value || value !== INVALID_DAY_DATE;
 
 export const validationSchema = Yup.object({
   businessId: Yup.number().required('Selecciona la finca'),
   approvedHectares: Yup.number()
     .typeError('Debe ser un número')
     .moreThan(0, 'Debe ser mayor que 0')
-    .test('dos-decimales', 'Máximo dos decimales', (v) => v === undefined || /^\d+(\.\d{1,2})?$/.test(String(v)))
+    .test(
+      'dos-decimales',
+      'Máximo dos decimales',
+      (v) => v === undefined || /^\d+(\.\d{1,2})?$/.test(String(v))
+    )
     .required('Requerido'),
   approvedWeeklyBoxesPerHectare: Yup.number()
     .typeError('Debe ser un número')
@@ -59,7 +66,8 @@ export const validationSchema = Yup.object({
       'La fecha de fin no puede ser anterior a la de inicio',
       function (value) {
         const { startDate } = this.parent as ValuesProps;
-        if (!value || !startDate || !validDate(value) || !validDate(startDate)) return true;
+        if (!value || !startDate || !validDate(value) || !validDate(startDate))
+          return true;
         return new Date(value).getTime() >= new Date(startDate).getTime();
       }
     ),

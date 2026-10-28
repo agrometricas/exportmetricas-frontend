@@ -152,7 +152,7 @@ const AdjustWeeklyForm = ({
         closable: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ['stockMovements']
+        queryKey: ['stockMovements'],
       });
     } catch (error) {
       toaster.create({
@@ -281,7 +281,8 @@ const AdjustWeeklyForm = ({
                                     parseFloat(e.target.value)
                                   )
                                 }
-                                mt={1}>
+                                mt={1}
+                              >
                                 {costs.map((cost) => (
                                   <option key={cost} value={cost}>
                                     ${cost.toFixed(2)}
@@ -328,8 +329,7 @@ const AdjustWeeklyForm = ({
                                           m.type}
                                       </Badge>{' '}
                                       {m.quantity} unidades - (
-                                      {formatDayMonthYear(m.createdAt)}
-                                      )
+                                      {formatDayMonthYear(m.createdAt)})
                                     </Box>
                                   ))}
                                 </VStack>
@@ -355,8 +355,7 @@ const AdjustWeeklyForm = ({
                                       {!m.exportSentId
                                         ? null
                                         : `- (Envío #${m.exportSentId})`}{' '}
-                                      -{' '}
-                                      {formatDayMonthYear(m.createdAt)}
+                                      - {formatDayMonthYear(m.createdAt)}
                                     </Box>
                                   ))}
                                 </VStack>

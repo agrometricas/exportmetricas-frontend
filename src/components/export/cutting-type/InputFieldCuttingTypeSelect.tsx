@@ -14,7 +14,13 @@ interface InputFieldCuttingTypeSelectProps {
 
 const InputFieldCuttingTypeSelect: React.FC<
   InputFieldCuttingTypeSelectProps
-> = ({ name, label, placeholder, setCuttingType, flexDirection = 'column' }) => {
+> = ({
+  name,
+  label,
+  placeholder,
+  setCuttingType,
+  flexDirection = 'column',
+}) => {
   const [field, meta, helpers] = useField(name);
 
   return (

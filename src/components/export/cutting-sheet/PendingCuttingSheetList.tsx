@@ -15,12 +15,7 @@ import PendingTable from '../../ui/PendingTable';
 import { pendingExportColumns } from '../pendingColumns';
 
 const PendingCuttingSheetList = (): React.JSX.Element => {
-  const {
-    data = [],
-    isLoading,
-    error,
-    refetch,
-  } = useCuttingSheetsPending();
+  const { data = [], isLoading, error, refetch } = useCuttingSheetsPending();
 
   const pathname = usePathname();
   const columns = useMemo(
@@ -28,13 +23,10 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
     []
   );
 
-
   const headingColor = 'fg.heading';
 
   if (isLoading) {
-    return (
-      <LoadingState minH='40vh' />
-    );
+    return <LoadingState minH='40vh' />;
   }
 
   if (error) {
@@ -44,10 +36,24 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
   const items = data as Partial<ExportType>[];
 
   return (
-    <VStack gap={4} align="stretch">
-      <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
-        <Heading size="md" color={headingColor}>Lista de cortes pendientes</Heading>
-        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
+    <VStack gap={4} align='stretch'>
+      <Box
+        display='flex'
+        alignItems='center'
+        gap={3}
+        justifyContent='space-between'
+        w='100%'
+      >
+        <Heading size='md' color={headingColor}>
+          Lista de cortes pendientes
+        </Heading>
+        <Badge
+          colorPalette='green'
+          variant='subtle'
+          px={3}
+          py={1}
+          borderRadius='full'
+        >
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
@@ -56,9 +62,9 @@ const PendingCuttingSheetList = (): React.JSX.Element => {
 
       {items.length === 0 ? (
         <EmptyState
-            title="No hay hojas de corte pendientes"
-            description="Cada envío de insumos registrado aparece aquí para generar su hoja."
-          />
+          title='No hay hojas de corte pendientes'
+          description='Cada envío de insumos registrado aparece aquí para generar su hoja.'
+        />
       ) : (
         <PendingTable
           columns={columns}

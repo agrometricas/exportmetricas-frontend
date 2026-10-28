@@ -18,7 +18,9 @@ import {
 
 const LIST_PATH = '/dashboard/producer/contracts';
 
-export function useSubmitProducerContract(contract?: ProducerContractResponse): {
+export function useSubmitProducerContract(
+  contract?: ProducerContractResponse
+): {
   onSubmit: (values: ValuesProps, helpers: FormikHelpers<ValuesProps>) => void;
   onDelete: () => void;
   initialValues: ValuesProps;
@@ -44,10 +46,10 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['producerContracts']
+      queryKey: ['producerContracts'],
     });
     queryClient.invalidateQueries({
-      queryKey: ['producerContract']
+      queryKey: ['producerContract'],
     });
     router.push(LIST_PATH);
   };
@@ -60,7 +62,8 @@ export function useSubmitProducerContract(contract?: ProducerContractResponse): 
       },
       {
         onError: showError,
-        onSuccess: () => done(contract ? 'Contrato actualizado' : 'Contrato creado'),
+        onSuccess: () =>
+          done(contract ? 'Contrato actualizado' : 'Contrato creado'),
       }
     );
   };

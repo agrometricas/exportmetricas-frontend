@@ -21,9 +21,7 @@ export const importBoxBrands = (
   formData.append('file', file);
 
   return axios
-    .post<
-      ImportBoxBrandsResponse
-    >('/box-brand/upload-csv', formData, {
+    .post<ImportBoxBrandsResponse>('/box-brand/upload-csv', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

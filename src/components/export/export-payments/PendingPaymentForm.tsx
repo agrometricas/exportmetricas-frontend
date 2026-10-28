@@ -4,7 +4,10 @@ import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
@@ -217,9 +220,7 @@ const PendingPaymentFields = ({
 
   return (
     <Flex flexDirection='column' gap={3}>
-      <FormSectionTitle>
-        Productor
-      </FormSectionTitle>
+      <FormSectionTitle>Productor</FormSectionTitle>
 
       <SelectProducer
         name={'merchantId'}
@@ -227,9 +228,7 @@ const PendingPaymentFields = ({
         producerSelect={producerSelect as Partial<MerchantResponse>}
       />
 
-      <FormSectionTitle>
-        Puerto de salida
-      </FormSectionTitle>
+      <FormSectionTitle>Puerto de salida</FormSectionTitle>
 
       <SelectHarbor
         name={'departureHarborId'}
@@ -238,9 +237,7 @@ const PendingPaymentFields = ({
         type={'Nacional'}
       />
 
-      <FormSectionTitle>
-        Puerto de destino
-      </FormSectionTitle>
+      <FormSectionTitle>Puerto de destino</FormSectionTitle>
 
       <SelectHarbor
         name={'destinationHarborId'}
@@ -249,9 +246,7 @@ const PendingPaymentFields = ({
         type={'Internacional'}
       />
 
-      <FormSectionTitle>
-        Compra
-      </FormSectionTitle>
+      <FormSectionTitle>Compra</FormSectionTitle>
 
       <SelectBoxBrand
         name={'boxBrandId'}
@@ -278,9 +273,7 @@ const PendingPaymentFields = ({
         <ReadOnlyAmount label={'Subtotal1'} value={quote?.subtotal1} />
       </SelectBoxBrand>
 
-      <FormSectionTitle>
-        Gastos
-      </FormSectionTitle>
+      <FormSectionTitle>Gastos</FormSectionTitle>
 
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
         <Box>
@@ -326,15 +319,11 @@ const PendingPaymentFields = ({
         label={'Descripción de los gastos'}
       />
 
-      <FormSectionTitle>
-        Cuenta bancaria origen
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria origen</FormSectionTitle>
 
       <SelectBankAccount name={'sourceBankAccountId'} />
 
-      <FormSectionTitle>
-        Cuenta bancaria destino
-      </FormSectionTitle>
+      <FormSectionTitle>Cuenta bancaria destino</FormSectionTitle>
 
       <SelectBankAccount name={'destinationBankAccountId'} />
 
@@ -342,21 +331,25 @@ const PendingPaymentFields = ({
         <Box></Box>
         <ReadOnlyAmount label={'Monto'} value={quote?.amount} />
       </SimpleGrid>
-      <FormSectionTitle>
-        Subir transferencia
-      </FormSectionTitle>
+      <FormSectionTitle>Subir transferencia</FormSectionTitle>
       <UploadLogoFile name={'transferFile'} />
-      <FormActions start={<CheckboxForm
-          name='dataReviewed'
-          label='He revisado los datos agregados'
-        />}><Button
+      <FormActions
+        start={
+          <CheckboxForm
+            name='dataReviewed'
+            label='He revisado los datos agregados'
+          />
+        }
+      >
+        <Button
           type='submit'
           colorPalette='green'
           loading={isSubmitting}
           disabled={!isSettled}
         >
           Registrar pago
-        </Button></FormActions>
+        </Button>
+      </FormActions>
     </Flex>
   );
 };
@@ -371,7 +364,8 @@ const PendingPaymentForm = ({
     useState<ValuesProps>(initialValues);
   const { createProducerPayment, isPending: createLoading } =
     useCreateProducerPayment();
-  const { uploadTransferImage, isPending: isLoading } = useUploadTransferImage();
+  const { uploadTransferImage, isPending: isLoading } =
+    useUploadTransferImage();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -432,14 +426,21 @@ const PendingPaymentForm = ({
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['producerPayments']
+        queryKey: ['producerPayments'],
       });
       queryClient.invalidateQueries({
-        queryKey: ['exportsSentPending']
+        queryKey: ['exportsSentPending'],
       });
       actions.resetForm();
-      PROGRESS_QUERIES.forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
-      router.push(returnTo('/dashboard/liquidation/producer-payments', window.location.search));
+      PROGRESS_QUERIES.forEach((key) =>
+        queryClient.invalidateQueries({ queryKey: [key] })
+      );
+      router.push(
+        returnTo(
+          '/dashboard/liquidation/producer-payments',
+          window.location.search
+        )
+      );
     } catch (error: unknown) {
       toaster.create({
         title: 'Error',

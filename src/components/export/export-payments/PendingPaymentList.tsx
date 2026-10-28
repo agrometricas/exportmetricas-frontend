@@ -21,11 +21,8 @@ const PendingPaymentList = (): React.JSX.Element => {
 
   const headingColor = 'fg.heading';
 
-
   if (isLoading) {
-    return (
-      <LoadingState minH='40vh' />
-    );
+    return <LoadingState minH='40vh' />;
   }
 
   if (error) {
@@ -35,27 +32,33 @@ const PendingPaymentList = (): React.JSX.Element => {
   const items = data as Partial<ExportSentType>[];
 
   return (
-    <VStack gap={4} align="stretch">
+    <VStack gap={4} align='stretch'>
       <Box
-        display="flex"
-        alignItems="center"
+        display='flex'
+        alignItems='center'
         gap={3}
-        justifyContent="space-between"
-        w="100%"
+        justifyContent='space-between'
+        w='100%'
       >
-        <Heading size="md" color={headingColor}>
+        <Heading size='md' color={headingColor}>
           Pagos pendientes
         </Heading>
-        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge
+          colorPalette='green'
+          variant='subtle'
+          px={3}
+          py={1}
+          borderRadius='full'
+        >
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
 
       {items.length === 0 ? (
         <EmptyState
-            title="No hay pagos pendientes"
-            description="Un envío aparece aquí cuando sus costos están validados."
-          />
+          title='No hay pagos pendientes'
+          description='Un envío aparece aquí cuando sus costos están validados.'
+        />
       ) : (
         <PendingTable
           columns={columns}

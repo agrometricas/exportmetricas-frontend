@@ -1,4 +1,3 @@
- 
 import { Icon } from '@chakra-ui/react';
 import {
   ChakraStylesConfig,
@@ -59,7 +58,9 @@ const clusterBagComponents = {
     >
   ): React.JSX.Element => (
     <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild><MdOutlineArrowDropDownCircle /></Icon>
+      <Icon boxSize='13px' asChild>
+        <MdOutlineArrowDropDownCircle />
+      </Icon>
     </chakraComponents.DropdownIndicator>
   ),
 };
@@ -73,7 +74,6 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
   onChange,
 }) => {
   const { data, isLoading, error } = useClusterBags();
-
 
   const handleChange = (
     newValue: SingleValue<Partial<ClusterBagType>>
@@ -89,12 +89,11 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (provided) =>
-          (({
+          ({
             ...provided,
             zIndex: 100,
-          }) as CSSObjectWithLabel),
+          }) as CSSObjectWithLabel,
       }}
-
       chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error
@@ -111,7 +110,9 @@ const ClusterBagSelectBase: React.FC<ClusterBagSelectBaseProps> = ({
       onChange={(newValue) => handleChange(newValue)}
       value={
         field?.value
-          ? data?.find((opt: Partial<ClusterBagType>) => opt.id === field?.value)
+          ? data?.find(
+              (opt: Partial<ClusterBagType>) => opt.id === field?.value
+            )
           : null
       }
       placeholder={placeholder}

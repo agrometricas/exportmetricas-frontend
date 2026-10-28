@@ -94,7 +94,7 @@ export function useSubmitShippingCompany(): {
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['shipping-companies']
+          queryKey: ['shipping-companies'],
         });
         formikHelpers.resetForm();
         router.push('/dashboard/client/shipping-companies');

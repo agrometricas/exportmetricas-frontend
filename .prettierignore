@@ -1,0 +1,3 @@
+# The docs keep compact tables (|---|---|), as in the other repos: an aligned
+# table rewrites every row whenever one cell grows.
+*.md

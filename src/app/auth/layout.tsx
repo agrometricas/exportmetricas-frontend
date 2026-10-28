@@ -2,7 +2,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
-import { useColorModeValue } from "../../components/ui/color-mode";
+import { useColorModeValue } from '../../components/ui/color-mode';
 
 export default function AuthLayout({
   children,

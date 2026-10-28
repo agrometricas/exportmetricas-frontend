@@ -40,7 +40,10 @@ const ImportFilesDrawer: React.FC = () => {
             title: 'Importación completada con errores',
             description: (
               <div>
-                <div>Se importaron {successCount} filas con éxito, pero {errorCount} fallaron.</div>
+                <div>
+                  Se importaron {successCount} filas con éxito, pero{' '}
+                  {errorCount} fallaron.
+                </div>
                 <div>
                   Detalles:
                   {errors.slice(0, 3).map((err, i) => (
@@ -48,7 +51,9 @@ const ImportFilesDrawer: React.FC = () => {
                       Fila {err.row}: {err.message}
                     </div>
                   ))}
-                  {errors.length > 3 && <div>... y {errors.length - 3} más</div>}
+                  {errors.length > 3 && (
+                    <div>... y {errors.length - 3} más</div>
+                  )}
                 </div>
               </div>
             ),
@@ -91,7 +96,9 @@ const ImportFilesDrawer: React.FC = () => {
     }
   };
 
-  const handleBoxBrandChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleBoxBrandChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     if (event.target.files && event.target.files.length > 0) {
       handleBoxBrandFileChange(event.target.files[0]);
     }
@@ -133,53 +140,59 @@ const ImportFilesDrawer: React.FC = () => {
   const [materialField, , materialHelpers] = useField('import-material');
   const materialFileInputRef = useRef<HTMLInputElement>(null);
 
-  const { importBoxBrandMaterials, isPending: isLoadingMaterials } = useImportBoxBrandMaterials({
-    config: {
-      onSuccess: (data) => {
-        const { successCount, errorCount, errors } = data.details;
-        if (errorCount > 0) {
-          toaster.create({
-            title: 'Importación de materiales completada con errores',
-            description: (
-              <div>
-                <div>Se importaron {successCount} filas con éxito, pero {errorCount} fallaron.</div>
+  const { importBoxBrandMaterials, isPending: isLoadingMaterials } =
+    useImportBoxBrandMaterials({
+      config: {
+        onSuccess: (data) => {
+          const { successCount, errorCount, errors } = data.details;
+          if (errorCount > 0) {
+            toaster.create({
+              title: 'Importación de materiales completada con errores',
+              description: (
                 <div>
-                  Detalles:
-                  {errors.slice(0, 3).map((err, i) => (
-                    <div key={i}>
-                      Fila {err.row}: {err.message}
-                    </div>
-                  ))}
-                  {errors.length > 3 && <div>... y {errors.length - 3} más</div>}
+                  <div>
+                    Se importaron {successCount} filas con éxito, pero{' '}
+                    {errorCount} fallaron.
+                  </div>
+                  <div>
+                    Detalles:
+                    {errors.slice(0, 3).map((err, i) => (
+                      <div key={i}>
+                        Fila {err.row}: {err.message}
+                      </div>
+                    ))}
+                    {errors.length > 3 && (
+                      <div>... y {errors.length - 3} más</div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ),
-            type: 'warning',
-            duration: 5000,
-            closable: true,
-          });
-        } else {
+              ),
+              type: 'warning',
+              duration: 5000,
+              closable: true,
+            });
+          } else {
+            toaster.create({
+              title: 'Importación exitosa',
+              description: `Se importaron todas las filas correctamente (${successCount} en total).`,
+              type: 'success',
+              duration: 5000,
+              closable: true,
+            });
+          }
+          resetMaterialFile();
+        },
+        onError: (error) => {
           toaster.create({
-            title: 'Importación exitosa',
-            description: `Se importaron todas las filas correctamente (${successCount} en total).`,
-            type: 'success',
+            title: 'Error al importar materiales',
+            description: serverErrorMessage(error),
+            type: 'error',
             duration: 5000,
             closable: true,
           });
-        }
-        resetMaterialFile();
+        },
       },
-      onError: (error) => {
-        toaster.create({
-          title: 'Error al importar materiales',
-          description: serverErrorMessage(error),
-          type: 'error',
-          duration: 5000,
-          closable: true,
-        });
-      },
-    },
-  });
+    });
 
   const handleMaterialFileChange = (file: File): void => {
     if (file) {
@@ -193,7 +206,9 @@ const ImportFilesDrawer: React.FC = () => {
     }
   };
 
-  const handleMaterialChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleMaterialChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     if (event.target.files && event.target.files.length > 0) {
       handleMaterialFileChange(event.target.files[0]);
     }
@@ -228,7 +243,9 @@ const ImportFilesDrawer: React.FC = () => {
     materialHelpers.setValue(null);
   };
 
-  const handleDownloadTemplate = async (type: 'boxBrand' | 'material'): Promise<void> => {
+  const handleDownloadTemplate = async (
+    type: 'boxBrand' | 'material'
+  ): Promise<void> => {
     try {
       const url =
         type === 'boxBrand'
@@ -265,29 +282,35 @@ const ImportFilesDrawer: React.FC = () => {
 
   return (
     <Box>
-      <Button py="8px" px="16px" colorPalette='green' onClick={onOpen}>
+      <Button py='8px' px='16px' colorPalette='green' onClick={onOpen}>
         Importar archivos
       </Button>
 
-      <Drawer.Root open={open} placement='end' size='md' onOpenChange={e => {
-        if (!e.open) {
-          onClose();
-        }
-      }}>
+      <Drawer.Root
+        open={open}
+        placement='end'
+        size='md'
+        onOpenChange={(e) => {
+          if (!e.open) {
+            onClose();
+          }
+        }}
+      >
         <Portal>
-
           <Drawer.Backdrop />
           <Drawer.Positioner>
             <Drawer.Content>
               <Drawer.CloseTrigger />
               <Drawer.Body>
-                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar marcas de caja</Text>
-                <Text mb={4} fontSize="sm" color="fg.muted">
+                <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
+                  Importar marcas de caja
+                </Text>
+                <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
                     onClick={() => handleDownloadTemplate('boxBrand')}
-                    cursor="pointer"
+                    cursor='pointer'
                   >
                     Utiliza nuestra guía para marcas de caja.
                   </Link>
@@ -295,28 +318,29 @@ const ImportFilesDrawer: React.FC = () => {
                 {boxBrandFileName ? (
                   <Box
                     borderWidth='1px'
-                    borderColor="border"
-                    borderRadius="md"
+                    borderColor='border'
+                    borderRadius='md'
                     p={4}
                     bg='green.subtle'
-                    shadow="md"
+                    shadow='md'
                   >
-                    <HStack justify="space-between">
-                      <VStack align="start" gap={1}>
-                        <Text fontWeight="bold" fontSize="lg">
+                    <HStack justify='space-between'>
+                      <VStack align='start' gap={1}>
+                        <Text fontWeight='bold' fontSize='lg'>
                           Archivo de marcas seleccionado
                         </Text>
-                        <Text fontSize="sm" color="fg.muted">
+                        <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{boxBrandFileName}</b>
                         </Text>
-                        <Text fontSize="sm" color="fg.muted">
-                          Tamaño: <b>{(boxBrandFileSize / 1024).toFixed(2)} KB</b>
+                        <Text fontSize='sm' color='fg.muted'>
+                          Tamaño:{' '}
+                          <b>{(boxBrandFileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>
                       <Button
-                        size="sm"
-                        colorPalette="red"
-                        variant="outline"
+                        size='sm'
+                        colorPalette='red'
+                        variant='outline'
                         onClick={resetBoxBrandFile}
                       >
                         Quitar
@@ -324,25 +348,25 @@ const ImportFilesDrawer: React.FC = () => {
                     </HStack>
                   </Box>
                 ) : (
-                  <Field.Root id="import-boxBrand" width="100%">
+                  <Field.Root id='import-boxBrand' width='100%'>
                     <Box
                       onDragEnter={handleBoxBrandDragEnter}
                       onDragLeave={handleBoxBrandDragLeave}
                       onDragOver={handleBoxBrandDragOver}
                       onDrop={handleBoxBrandDrop}
-                      border="2px dashed"
+                      border='2px dashed'
                       borderColor={boxBrandDragging ? 'green.500' : 'gray.300'}
-                      borderRadius="md"
-                      textAlign="center"
+                      borderRadius='md'
+                      textAlign='center'
                       bg={boxBrandDragging ? 'green.50' : 'white'}
-                      cursor="pointer"
+                      cursor='pointer'
                     >
                       <Input
                         ref={boxBrandFileInputRef}
                         id={boxBrandField.name}
-                        type="file"
-                        accept=".csv"
-                        display="none"
+                        type='file'
+                        accept='.csv'
+                        display='none'
                         onChange={handleBoxBrandChange}
                       />
                       <Field.Label>
@@ -351,14 +375,18 @@ const ImportFilesDrawer: React.FC = () => {
                         ) : (
                           <Image
                             src={'/uploaded.png'}
-                            alt="Subida de archivo"
-                            maxW="150px"
+                            alt='Subida de archivo'
+                            maxW='150px'
                             pt={8}
                             my={2}
-                            mx="auto"
+                            mx='auto'
                           />
                         )}
-                        <Text textAlign="center" p={4} color={boxBrandDragging ? 'green.500' : 'gray.300'}>
+                        <Text
+                          textAlign='center'
+                          p={4}
+                          color={boxBrandDragging ? 'green.500' : 'gray.300'}
+                        >
                           {boxBrandDragging
                             ? 'Suelta aquí...'
                             : 'Arrastra y suelta un archivo aquí, o haz clic para seleccionar uno'}
@@ -367,13 +395,15 @@ const ImportFilesDrawer: React.FC = () => {
                     </Box>
                   </Field.Root>
                 )}
-                <Text fontSize={"xl"} fontWeight={"semibold"} mb={2} mt={4}>Importar materiales</Text>
-                <Text mb={4} fontSize="sm" color="fg.muted">
+                <Text fontSize={'xl'} fontWeight={'semibold'} mb={2} mt={4}>
+                  Importar materiales
+                </Text>
+                <Text mb={4} fontSize='sm' color='fg.muted'>
                   ¿Necesitas ayuda?{' '}
                   <Link
                     color='green.fg'
                     onClick={() => handleDownloadTemplate('material')}
-                    cursor="pointer"
+                    cursor='pointer'
                   >
                     Utiliza nuestra guía para materiales.
                   </Link>
@@ -381,28 +411,29 @@ const ImportFilesDrawer: React.FC = () => {
                 {materialFileName ? (
                   <Box
                     borderWidth='1px'
-                    borderColor="border"
-                    borderRadius="md"
+                    borderColor='border'
+                    borderRadius='md'
                     p={4}
                     bg='green.subtle'
-                    shadow="md"
+                    shadow='md'
                   >
-                    <HStack justify="space-between">
-                      <VStack align="start" gap={1}>
-                        <Text fontWeight="bold" fontSize="lg">
+                    <HStack justify='space-between'>
+                      <VStack align='start' gap={1}>
+                        <Text fontWeight='bold' fontSize='lg'>
                           Archivo de materiales seleccionado
                         </Text>
-                        <Text fontSize="sm" color="fg.muted">
+                        <Text fontSize='sm' color='fg.muted'>
                           Nombre: <b>{materialFileName}</b>
                         </Text>
-                        <Text fontSize="sm" color="fg.muted">
-                          Tamaño: <b>{(materialFileSize / 1024).toFixed(2)} KB</b>
+                        <Text fontSize='sm' color='fg.muted'>
+                          Tamaño:{' '}
+                          <b>{(materialFileSize / 1024).toFixed(2)} KB</b>
                         </Text>
                       </VStack>
                       <Button
-                        size="sm"
-                        colorPalette="red"
-                        variant="outline"
+                        size='sm'
+                        colorPalette='red'
+                        variant='outline'
                         onClick={resetMaterialFile}
                       >
                         Quitar
@@ -410,25 +441,25 @@ const ImportFilesDrawer: React.FC = () => {
                     </HStack>
                   </Box>
                 ) : (
-                  <Field.Root id="import-material" width="100%">
+                  <Field.Root id='import-material' width='100%'>
                     <Box
                       onDragEnter={handleMaterialDragEnter}
                       onDragLeave={handleMaterialDragLeave}
                       onDragOver={handleMaterialDragOver}
                       onDrop={handleMaterialDrop}
-                      border="2px dashed"
+                      border='2px dashed'
                       borderColor={materialDragging ? 'green.500' : 'gray.300'}
-                      borderRadius="md"
-                      textAlign="center"
+                      borderRadius='md'
+                      textAlign='center'
                       bg={materialDragging ? 'green.50' : 'white'}
-                      cursor="pointer"
+                      cursor='pointer'
                     >
                       <Input
                         ref={materialFileInputRef}
                         id={materialField.name}
-                        type="file"
-                        accept=".csv"
-                        display="none"
+                        type='file'
+                        accept='.csv'
+                        display='none'
                         onChange={handleMaterialChange}
                       />
                       <Field.Label>
@@ -437,14 +468,18 @@ const ImportFilesDrawer: React.FC = () => {
                         ) : (
                           <Image
                             src={'/uploaded.png'}
-                            alt="Subida de archivo"
-                            maxW="150px"
+                            alt='Subida de archivo'
+                            maxW='150px'
                             pt={8}
                             my={2}
-                            mx="auto"
+                            mx='auto'
                           />
                         )}
-                        <Text textAlign="center" p={4} color={materialDragging ? 'green.500' : 'gray.300'}>
+                        <Text
+                          textAlign='center'
+                          p={4}
+                          color={materialDragging ? 'green.500' : 'gray.300'}
+                        >
                           {materialDragging
                             ? 'Suelta aquí...'
                             : 'Arrastra y suelta un archivo aquí, o haz clic para seleccionar uno'}
@@ -456,12 +491,12 @@ const ImportFilesDrawer: React.FC = () => {
               </Drawer.Body>
 
               <Drawer.Footer>
-                <Button variant="outline" mr={3} onClick={onClose}>
+                <Button variant='outline' mr={3} onClick={onClose}>
                   Cancelar
                 </Button>
                 <Button
-                  py="8px"
-                  px="16px"
+                  py='8px'
+                  px='16px'
                   colorPalette='green'
                   onClick={handleUpload}
                   disabled={isDisabled}
@@ -472,7 +507,6 @@ const ImportFilesDrawer: React.FC = () => {
               </Drawer.Footer>
             </Drawer.Content>
           </Drawer.Positioner>
-
         </Portal>
       </Drawer.Root>
     </Box>

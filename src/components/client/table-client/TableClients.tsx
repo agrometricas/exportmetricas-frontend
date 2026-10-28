@@ -13,127 +13,140 @@ import { ClientResponse } from '../../../types/client.response';
 const TableClients = (): React.JSX.Element => {
   const { data = [] } = useClients();
 
-
-  const columns = useMemo<MRT_ColumnDef<ClientResponse>[]>(() => [
-    {
-      header: 'Cliente',
-      columns: [
-        {
-          accessorKey: 'businessName',
-          header: 'Nombre cliente',
-        },
-        {
-          accessorKey: 'businessId',
-          header: 'RUC',
-        },
-        {
-          accessorKey: 'type',
-          header: 'Tipo de negocio',
-        },
-        {
-          accessorKey: 'commercialType',
-          header: 'Tipo comercial',
-        },
-      ],
-    },
-    {
-      header: 'Contacto',
-      columns: [
-        {
-          accessorKey: 'email',
-          header: 'Correo electrónico',
-        },
-        {
-          accessorKey: 'phone',
-          header: 'Teléfono',
-        },
-        {
-          accessorKey: 'contacts',
-          header: 'Contactos',
-          Cell: ({ cell }): React.ReactNode => {
-            const contacts = cell.getValue<ClientResponse['contacts']>();
-            return (
-              <span>
-                {contacts?.map((c) => `${c.name} (${c.role})`).join(', ') || 'N/A'}
-              </span>
-            );
+  const columns = useMemo<MRT_ColumnDef<ClientResponse>[]>(
+    () => [
+      {
+        header: 'Cliente',
+        columns: [
+          {
+            accessorKey: 'businessName',
+            header: 'Nombre cliente',
           },
-        },
-      ],
-    },
-    {
-      header: 'Ubicación',
-      columns: [
-        {
-          accessorKey: 'address',
-          header: 'Dirección',
-        },
-        {
-          accessorKey: 'postalCode',
-          header: 'Código postal',
-        },
-        {
-          id: 'country.name',
-          accessorFn: (row) => row.country?.name ?? '',
-          header: 'País',
-        },
-        {
-          id: 'province.name',
-          accessorFn: (row) => row.province?.name ?? '',
-          header: 'Provincia',
-        },
-        {
-          id: 'city.name',
-          accessorFn: (row) => row.city?.name ?? '',
-          header: 'Ciudad',
-        },
-      ],
-    },
-    {
-      header: 'Envío',
-      columns: [
-        {
-          accessorKey: 'shippingMethod',
-          header: 'Método de envío',
-        },
-        {
-          accessorKey: 'harbors',
-          header: 'Puertos',
-          Cell: ({ cell }): React.ReactNode => {
-            const harbors = cell.getValue<ClientResponse['harbors']>();
-            return (
-              <span>
-                {harbors?.map((h) => h.name).join(', ') || 'N/A'}
-              </span>
-            );
+          {
+            accessorKey: 'businessId',
+            header: 'RUC',
           },
-        },
-        {
-          accessorKey: 'incoterms',
-          header: 'Incoterms',
-          Cell: ({ cell }): React.ReactNode => {
-            const incoterms = cell.getValue<ClientResponse['incoterms']>();
-            const count = incoterms?.length ?? 0;
-            return <span>{count > 0 ? `${count} asignado${count > 1 ? 's' : ''}` : 'Ninguno'}</span>;
+          {
+            accessorKey: 'type',
+            header: 'Tipo de negocio',
           },
-        },
-      ],
-    },
-    {
-      header: 'Certificados',
-      columns: [
-        {
-          accessorKey: 'certificates',
-          header: 'Certificados',
-          Cell: ({ cell }): React.ReactNode => {
-            const certs = cell.getValue<ClientResponse['certificates']>();
-            const count = certs?.length ?? 0;
-            return <span>{count > 0 ? `${count} asignado${count > 1 ? 's' : ''}` : 'Ninguno'}</span>;
+          {
+            accessorKey: 'commercialType',
+            header: 'Tipo comercial',
           },
-        },
-      ],
-    },
-  ], []);
+        ],
+      },
+      {
+        header: 'Contacto',
+        columns: [
+          {
+            accessorKey: 'email',
+            header: 'Correo electrónico',
+          },
+          {
+            accessorKey: 'phone',
+            header: 'Teléfono',
+          },
+          {
+            accessorKey: 'contacts',
+            header: 'Contactos',
+            Cell: ({ cell }): React.ReactNode => {
+              const contacts = cell.getValue<ClientResponse['contacts']>();
+              return (
+                <span>
+                  {contacts?.map((c) => `${c.name} (${c.role})`).join(', ') ||
+                    'N/A'}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+      {
+        header: 'Ubicación',
+        columns: [
+          {
+            accessorKey: 'address',
+            header: 'Dirección',
+          },
+          {
+            accessorKey: 'postalCode',
+            header: 'Código postal',
+          },
+          {
+            id: 'country.name',
+            accessorFn: (row) => row.country?.name ?? '',
+            header: 'País',
+          },
+          {
+            id: 'province.name',
+            accessorFn: (row) => row.province?.name ?? '',
+            header: 'Provincia',
+          },
+          {
+            id: 'city.name',
+            accessorFn: (row) => row.city?.name ?? '',
+            header: 'Ciudad',
+          },
+        ],
+      },
+      {
+        header: 'Envío',
+        columns: [
+          {
+            accessorKey: 'shippingMethod',
+            header: 'Método de envío',
+          },
+          {
+            accessorKey: 'harbors',
+            header: 'Puertos',
+            Cell: ({ cell }): React.ReactNode => {
+              const harbors = cell.getValue<ClientResponse['harbors']>();
+              return (
+                <span>{harbors?.map((h) => h.name).join(', ') || 'N/A'}</span>
+              );
+            },
+          },
+          {
+            accessorKey: 'incoterms',
+            header: 'Incoterms',
+            Cell: ({ cell }): React.ReactNode => {
+              const incoterms = cell.getValue<ClientResponse['incoterms']>();
+              const count = incoterms?.length ?? 0;
+              return (
+                <span>
+                  {count > 0
+                    ? `${count} asignado${count > 1 ? 's' : ''}`
+                    : 'Ninguno'}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+      {
+        header: 'Certificados',
+        columns: [
+          {
+            accessorKey: 'certificates',
+            header: 'Certificados',
+            Cell: ({ cell }): React.ReactNode => {
+              const certs = cell.getValue<ClientResponse['certificates']>();
+              const count = certs?.length ?? 0;
+              return (
+                <span>
+                  {count > 0
+                    ? `${count} asignado${count > 1 ? 's' : ''}`
+                    : 'Ninguno'}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+    ],
+    []
+  );
 
   const table = useMaterialReactTable({
     columns,

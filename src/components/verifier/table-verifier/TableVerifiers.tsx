@@ -13,53 +13,55 @@ import { VerifierResponse } from '../../../types/verifier/verifier.response';
 const TableVerifiers = (): React.JSX.Element => {
   const { data = [] } = useVerifiers();
 
-
-  const columns = useMemo<MRT_ColumnDef<VerifierResponse>[]>(() => [
-    {
-      header: 'Verificadora',
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Nombre',
-        },
-        {
-          accessorKey: 'ruc',
-          header: 'RUC',
-        },
-        {
-          accessorKey: 'address',
-          header: 'Dirección',
-        },
-      ],
-    },
-    {
-      header: 'Contacto',
-      columns: [
-        {
-          accessorKey: 'contacts',
-          header: 'Contactos',
-          Cell: ({ cell }): React.ReactNode => {
-            const contacts = cell.getValue<VerifierResponse['contacts']>();
-
-            if (!contacts?.length) return 'Ninguno';
-
-            return (
-              <span>
-                {contacts.map((contact, index) => (
-                  <span key={index}>
-                    <strong>Nombre:</strong> {contact.name},{' '}
-                    <strong>Correo:</strong> {contact.email},{' '}
-                    <strong>Teléfono:</strong> {contact.phone}
-                    {index < contacts.length - 1 && ' | '}
-                  </span>
-                ))}
-              </span>
-            );
+  const columns = useMemo<MRT_ColumnDef<VerifierResponse>[]>(
+    () => [
+      {
+        header: 'Verificadora',
+        columns: [
+          {
+            accessorKey: 'name',
+            header: 'Nombre',
           },
-        },
-      ],
-    },
-  ], []);
+          {
+            accessorKey: 'ruc',
+            header: 'RUC',
+          },
+          {
+            accessorKey: 'address',
+            header: 'Dirección',
+          },
+        ],
+      },
+      {
+        header: 'Contacto',
+        columns: [
+          {
+            accessorKey: 'contacts',
+            header: 'Contactos',
+            Cell: ({ cell }): React.ReactNode => {
+              const contacts = cell.getValue<VerifierResponse['contacts']>();
+
+              if (!contacts?.length) return 'Ninguno';
+
+              return (
+                <span>
+                  {contacts.map((contact, index) => (
+                    <span key={index}>
+                      <strong>Nombre:</strong> {contact.name},{' '}
+                      <strong>Correo:</strong> {contact.email},{' '}
+                      <strong>Teléfono:</strong> {contact.phone}
+                      {index < contacts.length - 1 && ' | '}
+                    </span>
+                  ))}
+                </span>
+              );
+            },
+          },
+        ],
+      },
+    ],
+    []
+  );
 
   const table = useMaterialReactTable({
     columns,

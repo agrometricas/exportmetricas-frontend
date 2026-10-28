@@ -24,7 +24,9 @@ export function useSaveProducerContract(): UseMutationResult<
   return useMutation({ mutationFn: saveProducerContract });
 }
 
-function deleteProducerContract(id: number): Promise<AxiosResponse<{ id: number }>> {
+function deleteProducerContract(
+  id: number
+): Promise<AxiosResponse<{ id: number }>> {
   return axios.delete(`/producer-contracts/${id}`);
 }
 

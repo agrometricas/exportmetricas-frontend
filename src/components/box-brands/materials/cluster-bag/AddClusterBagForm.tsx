@@ -1,4 +1,3 @@
- 
 import { Button, Flex } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
@@ -102,7 +101,6 @@ const AddClusterBagForm = ({
 
     createClusterBag(formData, {
       onError: (error) => {
-
         toaster.create({
           title: 'No se pudo guardar',
           description: serverErrorMessage(error),
@@ -110,7 +108,6 @@ const AddClusterBagForm = ({
           duration: 5000,
           closable: true,
         });
-
       },
       onSuccess: () => {
         toaster.create({
@@ -121,7 +118,7 @@ const AddClusterBagForm = ({
         });
 
         queryClient.invalidateQueries({
-          queryKey: ['clusterBags']
+          queryKey: ['clusterBags'],
         });
         actions.resetForm();
         onClose?.();
@@ -141,9 +138,7 @@ const AddClusterBagForm = ({
         {({}) => (
           <Form>
             <Flex flexDirection='column' gap={3}>
-              <FormSectionTitle>
-                Agregar cluster bag
-              </FormSectionTitle>
+              <FormSectionTitle>Agregar cluster bag</FormSectionTitle>
               <InputFieldText name={'name'} label={'Nombre'} />
               <InputFieldText name={'code'} label={'Código'} />
               <InputFieldText name={'dimensions'} label={'Dimensiones'} />

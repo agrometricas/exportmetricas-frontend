@@ -13,13 +13,8 @@ export type ExportBody = Omit<
 };
 
 export function exportBody(values: ValuesProps): ExportBody {
-  const {
-    weekCutting,
-    boxQuantity,
-    bookingId,
-    purchaseOrderLineId,
-    ...rest
-  } = values;
+  const { weekCutting, boxQuantity, bookingId, purchaseOrderLineId, ...rest } =
+    values;
   return {
     ...rest,
     bookingId: bookingId ? Number(bookingId) : null,

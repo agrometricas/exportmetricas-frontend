@@ -16,8 +16,14 @@ describe('unidad de una cantidad de la alícuota', () => {
 
 describe('cantidades de la alícuota', () => {
   it('el fondo se cuenta por caja y el pallet por contenedor', () => {
-    expect(QUANTITY_FIELDS.bottomTypeQuantity).toEqual({ type: 'BOTTOM', base: 'caja' });
-    expect(QUANTITY_FIELDS.palletsTypeQuantity).toEqual({ type: 'PALLET', base: 'contenedor' });
+    expect(QUANTITY_FIELDS.bottomTypeQuantity).toEqual({
+      type: 'BOTTOM',
+      base: 'caja',
+    });
+    expect(QUANTITY_FIELDS.palletsTypeQuantity).toEqual({
+      type: 'PALLET',
+      base: 'contenedor',
+    });
   });
 
   it('cubre los 28 materiales con cantidad en la alícuota', () => {

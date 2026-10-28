@@ -20,19 +20,26 @@ const InputFieldPassword: React.FC<InputFieldProps> = ({ name, label }) => {
         {label}
       </Field.Label>
       <InputGroup
-  endElement={<><IconButton
-            size='md'
-            variant='ghost'
-            aria-label={
-              showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-            }
-            onClick={toggleShowPassword}>{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}</IconButton></>}>
+        endElement={
+          <>
+            <IconButton
+              size='md'
+              variant='ghost'
+              aria-label={
+                showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+              }
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+            </IconButton>
+          </>
+        }
+      >
         <Input
           {...field}
           type={showPassword ? 'text' : 'password'}
           placeholder={label}
         />
-        
       </InputGroup>
       {meta.error && meta.touched && (
         <Field.ErrorText mt='8px' mb='16px'>

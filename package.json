@@ -10,8 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "smoke": "playwright test",
-    "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format": "prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore --ignore-path .prettierignore ."
   },
   "dependencies": {
     "@chakra-ui/react": "^3.37.0",

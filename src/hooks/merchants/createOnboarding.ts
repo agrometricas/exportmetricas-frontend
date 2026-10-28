@@ -31,6 +31,6 @@ export const useCreateOnboarding = (
 > => {
   return useMutation({
     mutationFn: createOnboarding,
-    ...config
+    ...config,
   });
 };

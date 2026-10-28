@@ -3,7 +3,9 @@ import { shipmentBatchSummary } from './shipmentBatch';
 
 describe('envío de insumos por lote', () => {
   it('dice cuántos envíos se registraron y cuántos quedaron pendientes', () => {
-    const ok = (exportId: number): { exportId: number; exportSentId: number } => ({
+    const ok = (
+      exportId: number
+    ): { exportId: number; exportSentId: number } => ({
       exportId,
       exportSentId: exportId + 100,
     });

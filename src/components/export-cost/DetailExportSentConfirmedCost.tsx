@@ -1,5 +1,14 @@
 'use client';
-import { Accordion, Box, Heading, SimpleGrid, Text, VStack, Flex, Separator } from '@chakra-ui/react';
+import {
+  Accordion,
+  Box,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+  Flex,
+  Separator,
+} from '@chakra-ui/react';
 import React from 'react';
 
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
@@ -23,7 +32,8 @@ export default function DetailExportSentConfirmedCost({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap={4}>
               <Box>
                 <Text fontWeight='bold'>ID exportación:</Text>
@@ -31,9 +41,7 @@ export default function DetailExportSentConfirmedCost({
               </Box>
               <Box>
                 <Text fontWeight='bold'>Fecha de corte:</Text>
-                <Text>
-                  {formatDayMonthYear(exportData.cuttingDate)}
-                </Text>
+                <Text>{formatDayMonthYear(exportData.cuttingDate)}</Text>
               </Box>
               <Box>
                 <Text fontWeight='bold'>Cajas exportadas:</Text>
@@ -73,7 +81,8 @@ export default function DetailExportSentConfirmedCost({
                 <Text>{exportData.client.businessName}</Text>
               </Box>
             </SimpleGrid>
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
 
       <Accordion.Item value='item-1'>
@@ -85,7 +94,8 @@ export default function DetailExportSentConfirmedCost({
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
         </Heading>
-        <Accordion.ItemContent pb={4}><Accordion.ItemBody>
+        <Accordion.ItemContent pb={4}>
+          <Accordion.ItemBody>
             {item.exportSentMaterials.length === 0 ? (
               <Text color='fg.muted'>
                 No se registraron materiales utilizados.
@@ -110,13 +120,16 @@ export default function DetailExportSentConfirmedCost({
                       <Box flex='1'>{mat.materialDetail.code}</Box>
                       <Box flex='1'>{m.quantity}</Box>
                       <Box flex='1'>${m.unitCost.toFixed(2)}</Box>
-                      <Box flex='1'>${(m.unitCost * m.quantity).toFixed(2)}</Box>
+                      <Box flex='1'>
+                        ${(m.unitCost * m.quantity).toFixed(2)}
+                      </Box>
                     </Flex>
                   );
                 })}
               </VStack>
             )}
-          </Accordion.ItemBody></Accordion.ItemContent>
+          </Accordion.ItemBody>
+        </Accordion.ItemContent>
       </Accordion.Item>
     </Accordion.Root>
   );

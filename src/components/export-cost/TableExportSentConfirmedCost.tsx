@@ -32,8 +32,7 @@ export default function TableExportSentConfirmedCost(): React.JSX.Element {
           {
             accessorKey: 'export.cuttingDate',
             header: 'Fecha corte',
-            Cell: ({ cell }) =>
-              formatDayMonthYear(cell.getValue<string>()),
+            Cell: ({ cell }) => formatDayMonthYear(cell.getValue<string>()),
           },
           {
             accessorKey: 'export.boxQuantity',

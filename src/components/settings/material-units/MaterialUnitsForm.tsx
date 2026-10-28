@@ -59,7 +59,7 @@ export default function MaterialUnitsForm(): React.JSX.Element {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['materialUnits']
+            queryKey: ['materialUnits'],
           });
         },
       }
@@ -67,7 +67,11 @@ export default function MaterialUnitsForm(): React.JSX.Element {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       <Form>
         <Flex flexDirection='column' gap={5}>
           <Text fontSize='sm' color='fg.muted'>

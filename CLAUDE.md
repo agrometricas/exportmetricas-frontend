@@ -47,7 +47,7 @@ npm run build          # build de producción
 npm run start          # sirve el build
 npm run lint           # ESLint 9 (eslint.config.mjs)
 npm run test           # Vitest (src/**/*.spec.ts)
-npm run format         # Prettier, solo verifica
+npm run format         # Prettier, solo verifica (los .md quedan fuera)
 npm run format:fix     # Prettier, corrige
 npm run smoke          # Playwright: abre cada pantalla contra una web y un backend que ya corren
 ```
@@ -80,11 +80,12 @@ avisa.
 ```bash
 npx tsc --noEmit       # tipos
 npm run lint
+npm run format
 npm run test
 npm run build
 ```
 
-`.github/workflows/ci.yml` corre esos cuatro en cada pull request a `main-2`.
+`.github/workflows/ci.yml` corre esos cinco en cada pull request a `main-2`.
 
 La prueba de humo dice que cada pantalla abre, no que su flujo funcione: para
 un cambio de interfaz, además de correrla, hay que ejercitar el flujo contra un

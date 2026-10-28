@@ -5,7 +5,10 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { FormSectionTitle, FormActions } from '@/components/ui/form/FormSection';
+import {
+  FormSectionTitle,
+  FormActions,
+} from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
 import SelectProducer from './SelectProducer';
 import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount';
@@ -103,7 +106,9 @@ const typesOpt = [
 
 const AddBankAccountForm = (): React.JSX.Element => {
   const pathname = usePathname();
-  const [producer, setProducer] = useState<Partial<MerchantResponse> | null>(null);
+  const [producer, setProducer] = useState<Partial<MerchantResponse> | null>(
+    null
+  );
   const isProducerPath = pathname === '/dashboard/producer/add-bank-account';
   const [client, setClient] = useState<Partial<ClientType> | null>(null);
   const isClientPath = pathname === '/dashboard/client/add-bank-account';
@@ -111,7 +116,8 @@ const AddBankAccountForm = (): React.JSX.Element => {
   const [initialValuesBankAccount, setInitialValuesBankAccount] =
     useState<ValuesProps>(initialValues);
 
-  const { mutate: createBankAccount, isPending: isLoading } = useCreateBankAccount();
+  const { mutate: createBankAccount, isPending: isLoading } =
+    useCreateBankAccount();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -159,12 +165,8 @@ const AddBankAccountForm = (): React.JSX.Element => {
     values: ValuesProps,
     formikHelpers: FormikHelpers<ValuesProps>
   ): Promise<void> => {
-    const { isClient,
-      isProducer,
-      merchantId,
-      clientId,
-      ...accountValues
-    } = values;
+    const { isClient, isProducer, merchantId, clientId, ...accountValues } =
+      values;
     createBankAccount(
       {
         ...accountValues,
@@ -184,7 +186,6 @@ const AddBankAccountForm = (): React.JSX.Element => {
             closable: true,
           });
 
-
           if (!!model && !!prop) {
             if (model === 'BankAccount' && prop === 'accountNumber') {
               formikHelpers.setFieldTouched(`${prop}`, true, false);
@@ -201,7 +202,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['merchants']
+            queryKey: ['merchants'],
           });
           formikHelpers.resetForm();
           setProducer(null);
@@ -228,9 +229,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
           <Flex flexDirection='column' gap={3}>
             {isProducerPath && (
               <>
-                <FormSectionTitle>
-                  Productor
-                </FormSectionTitle>
+                <FormSectionTitle>Productor</FormSectionTitle>
                 <SelectProducer
                   name={'merchantId'}
                   setProducerSelect={setProducer}
@@ -240,20 +239,24 @@ const AddBankAccountForm = (): React.JSX.Element => {
 
             {isClientPath && (
               <>
-                <FormSectionTitle>
-                  Cliente
-                </FormSectionTitle>
+                <FormSectionTitle>Cliente</FormSectionTitle>
                 <SelectClient name={'clientId'} setClientSelect={setClient} />
               </>
             )}
 
-            <FormSectionTitle>
-              Datos de cuenta bancaria
-            </FormSectionTitle>
+            <FormSectionTitle>Datos de cuenta bancaria</FormSectionTitle>
 
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
-              <InputFieldText name={'bank'} label={'Banco'} placeholder='Nombre del banco' />
-              <InputFieldText name={'owner'} label={'Propietario'} placeholder='Propietario de la cuenta' />
+              <InputFieldText
+                name={'bank'}
+                label={'Banco'}
+                placeholder='Nombre del banco'
+              />
+              <InputFieldText
+                name={'owner'}
+                label={'Propietario'}
+                placeholder='Propietario de la cuenta'
+              />
               <InputFieldText name={'ownerID'} label={'Identificación'} />
               <InputFieldText name={'accountNumber'} label={'N° de cuenta'} />
               <InputFieldSelector
@@ -264,13 +267,11 @@ const AddBankAccountForm = (): React.JSX.Element => {
               <InputFieldText name={'email'} label={'E-mail'} />
             </SimpleGrid>
 
-            <FormActions><Button
-                type='submit'
-                colorPalette='green'
-                loading={isLoading}
-              >
+            <FormActions>
+              <Button type='submit' colorPalette='green' loading={isLoading}>
                 Crear cuenta bancaria
-              </Button></FormActions>
+              </Button>
+            </FormActions>
           </Flex>
         </Form>
       )}

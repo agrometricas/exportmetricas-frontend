@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  Text,
-  } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, FieldArray } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
@@ -46,7 +39,7 @@ const validationSchema = Yup.object().shape({
     .min(1),
 });
 
-export default function ExportSentCostForm({ }: ExportSentCostFormProps): React.JSX.Element {
+export default function ExportSentCostForm({}: ExportSentCostFormProps): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = useParams<{ id: string }>();
@@ -93,7 +86,9 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): React.
       COST_CONFIRMATION_QUERIES.forEach((key) =>
         queryClient.invalidateQueries({ queryKey: [key] })
       );
-      router.push(returnTo('/dashboard/liquidation/export-costs', window.location.search));
+      router.push(
+        returnTo('/dashboard/liquidation/export-costs', window.location.search)
+      );
     } catch (error) {
       toaster.create({
         title: 'Error al actualizar los costos.',
@@ -144,17 +139,23 @@ export default function ExportSentCostForm({ }: ExportSentCostFormProps): React.
                       </Grid>
                     </Box>
                   ))}
-                  <FormActions start={<CheckboxForm
-                      name='dataReviewed'
-                      label='He revisado los datos agregados'
-                    />}><Button
+                  <FormActions
+                    start={
+                      <CheckboxForm
+                        name='dataReviewed'
+                        label='He revisado los datos agregados'
+                      />
+                    }
+                  >
+                    <Button
                       type='submit'
                       colorPalette='green'
                       loading={isSubmitting || isLoading}
                       disabled={values.materials.length === 0}
                     >
                       Confirmar validación de costos
-                    </Button></FormActions>
+                    </Button>
+                  </FormActions>
                 </Flex>
               )}
             />

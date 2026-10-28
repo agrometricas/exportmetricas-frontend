@@ -59,17 +59,14 @@ const ExportCostList = (): React.JSX.Element => {
   // again on every visit.
   useEffect(() => {
     queryClient.invalidateQueries({
-      queryKey: ['exportSentCostsPending']
+      queryKey: ['exportSentCostsPending'],
     });
   }, [queryClient]);
 
   const headingColor = 'fg.heading';
 
-
   if (isLoading) {
-    return (
-      <LoadingState minH='40vh' />
-    );
+    return <LoadingState minH='40vh' />;
   }
 
   if (error) {
@@ -82,12 +79,24 @@ const ExportCostList = (): React.JSX.Element => {
   );
 
   return (
-    <VStack gap={4} align="stretch">
-      <Box display="flex" alignItems="center" gap={3} justifyContent="space-between" w="100%">
-        <Heading size="md" color={headingColor}>
+    <VStack gap={4} align='stretch'>
+      <Box
+        display='flex'
+        alignItems='center'
+        gap={3}
+        justifyContent='space-between'
+        w='100%'
+      >
+        <Heading size='md' color={headingColor}>
           Costos de exportación pendientes
         </Heading>
-        <Badge colorPalette="green" variant="subtle" px={3} py={1} borderRadius="full">
+        <Badge
+          colorPalette='green'
+          variant='subtle'
+          px={3}
+          py={1}
+          borderRadius='full'
+        >
           {items.length} {items.length === 1 ? 'pendiente' : 'pendientes'}
         </Badge>
       </Box>
@@ -127,9 +136,9 @@ const ExportCostList = (): React.JSX.Element => {
 
       {items.length === 0 ? (
         <EmptyState
-            title="No hay costos por validar"
-            description="Cada envío de insumos registrado aparece aquí para revisar sus costos."
-          />
+          title='No hay costos por validar'
+          description='Cada envío de insumos registrado aparece aquí para revisar sus costos.'
+        />
       ) : (
         <PendingTable
           columns={columns}
