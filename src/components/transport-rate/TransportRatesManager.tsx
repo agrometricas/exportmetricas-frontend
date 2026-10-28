@@ -32,6 +32,7 @@ import {
   useSaveTransportRate,
 } from '../../hooks/transport-rate/mutateTransportRate';
 import { TransportRateResponse } from '../../types/transportRate';
+import { listTableOptions } from '../../utils/listTableOptions';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 import InputFieldProvinceSelect from '../location/InputFieldProvinceSelect';
 import InputFieldTransportSelect from '../transport/InputFiledTransportSelect';
@@ -42,7 +43,7 @@ const ECUADOR = 'EC';
 
 export default function TransportRatesManager(): React.JSX.Element {
   const queryClient = useQueryClient();
-  const { data = [] } = useTransportRates();
+  const { data = [], ...query } = useTransportRates();
   const { data: countries } = useCountries();
   const ecuadorId = countries?.find((c) => c.code === ECUADOR)?.id;
   const { mutate: save, isPending: isLoading } = useSaveTransportRate();
@@ -132,6 +133,7 @@ export default function TransportRatesManager(): React.JSX.Element {
   const table = useMaterialReactTable({
     columns,
     data: data as TransportRateResponse[],
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
