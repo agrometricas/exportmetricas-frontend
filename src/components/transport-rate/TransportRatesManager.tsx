@@ -19,6 +19,7 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo, useRef, useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   initialValues,
   transportRateBody,
@@ -65,7 +66,7 @@ export default function TransportRatesManager(): React.JSX.Element {
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 4000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['transportRates'],
+      queryKey: qk('transportRates'),
     });
     setEditing(null);
   };

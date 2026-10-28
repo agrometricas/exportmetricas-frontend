@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode, useMemo } from 'react';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { ColorModeProvider, useColorMode } from './ui/color-mode';
 import SidenavProvider from './ui/sidenav/sidenav-context';
 import { Toaster } from './ui/toaster';
@@ -23,18 +24,18 @@ interface Props {
 
 // They summarize data that almost any write changes, so no single form can
 // list them all.
-const KEYS_STALE_AFTER_ANY_WRITE = [
-  ['weekSummary'],
-  ['counterpartTotals'],
-  ['exportSent'],
+const KEYS_STALE_AFTER_ANY_WRITE: QueryKeyName[] = [
+  'weekSummary',
+  'counterpartTotals',
+  'exportSent',
 ];
 
 const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     // Not returned: the mutation would stay pending until the refetch ends.
     onSuccess: () => {
-      for (const queryKey of KEYS_STALE_AFTER_ANY_WRITE) {
-        void queryClient.invalidateQueries({ queryKey });
+      for (const key of KEYS_STALE_AFTER_ANY_WRITE) {
+        void queryClient.invalidateQueries({ queryKey: qk(key) });
       }
     },
   }),

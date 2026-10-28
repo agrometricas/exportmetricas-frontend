@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { CornerType } from '@/types/box-brand/materials/corner';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -10,7 +11,7 @@ function listCorners(): Promise<AxiosResponse<CornerType[]>> {
 
 export function useCorners(): UseQueryResult<CornerType[], unknown> {
   const result = useQuery({
-    queryKey: ['corners'],
+    queryKey: qk('corners'),
     queryFn: () => listCorners(),
   });
   return serializeQueryResult(result);

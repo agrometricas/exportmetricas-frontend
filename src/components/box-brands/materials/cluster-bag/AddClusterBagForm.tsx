@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateClusterBag } from '../../../../hooks/box-brand/materials/cluster-bag/createClusterBag';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
@@ -118,7 +119,7 @@ const AddClusterBagForm = ({
         });
 
         queryClient.invalidateQueries({
-          queryKey: ['clusterBags'],
+          queryKey: qk('clusterBags'),
         });
         actions.resetForm();
         onClose?.();

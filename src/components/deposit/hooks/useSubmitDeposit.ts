@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateDeposit } from '../../../hooks/deposit/createDeposit';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -55,7 +56,7 @@ export function useSubmitDeposit(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['deposits'],
+            queryKey: qk('deposits'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/client/deposits');

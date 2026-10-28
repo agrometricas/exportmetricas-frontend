@@ -9,6 +9,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useBoxBrand } from '../../../hooks/box-brand/getBoxBrand';
 import { useCreateCuttingType } from '../../../hooks/export/cutting-type/createCuttingType';
 import { useCuttingTypeOptions } from '../../../hooks/export/cutting-type/getCuttingTypeOptions';
@@ -127,10 +128,10 @@ const AddCuttingTypeForm = ({
   const onSaved = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['cuttingTypes'],
+      queryKey: qk('cuttingTypes'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['cuttingType'],
+      queryKey: qk('cuttingType'),
     });
     router.push('/dashboard/box-brands/cutting-types');
   };

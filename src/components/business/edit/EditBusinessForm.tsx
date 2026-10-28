@@ -18,6 +18,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   EditBusinessValues,
   editBusinessBody,
@@ -81,10 +82,10 @@ export default function EditBusinessForm({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['businesses'],
+            queryKey: qk('businesses'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['business'],
+            queryKey: qk('business'),
           });
           router.push(LIST_PATH);
         },

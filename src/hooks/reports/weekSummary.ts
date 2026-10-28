@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { WeekSummary, WeekSummaryFilters } from '@/types/weekSummary';
 
 export function useWeekSummary(
@@ -15,7 +16,7 @@ export function useWeekSummary(
 } {
   const { data, isLoading, isPlaceholderData, isError, error, refetch } =
     useQuery({
-      queryKey: ['weekSummary', week, filters],
+      queryKey: qk('weekSummary', week, filters),
       queryFn: async () =>
         (await axios.get('/reports/week', { params: { week, ...filters } }))
           .data,

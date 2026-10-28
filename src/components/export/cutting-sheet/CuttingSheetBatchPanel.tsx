@@ -23,6 +23,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { MdContentCut, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { useCuttingTypes } from '../../../hooks/export/cutting-type/getCuttingTypes';
 import { useCreateCuttingSheetBatch } from '../../../hooks/export/cuttingSheet/createCuttingSheetBatch';
 import { PendingSheet, SheetBatchRow } from '../../../types/cuttingSheetBatch';
@@ -44,7 +45,7 @@ import { formatDayMonthYear } from '../../../utils/dayMonthYear';
 import { toggleId } from '../../../utils/selection';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 
-const AFFECTED_QUERIES = [
+const AFFECTED_QUERIES: QueryKeyName[] = [
   'cuttingSheets',
   'cuttingSheetsPending',
   'exportProgress',
@@ -126,7 +127,7 @@ const CuttingSheetBatchPanel: React.FC<CuttingSheetBatchPanelProps> = ({
     try {
       const result = await mutateAsync(sheetBatchBody(selectedRows));
       AFFECTED_QUERIES.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({ queryKey: qk(key) })
       );
       const summary = sheetBatchSummary(result);
       toaster.create({

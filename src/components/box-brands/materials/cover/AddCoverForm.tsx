@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCover } from '@/hooks/box-brand/materials/cover/createCover';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddCoverFormProps {
@@ -74,7 +75,7 @@ const AddCoverForm = ({ onClose }: AddCoverFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['covers'],
+            queryKey: qk('covers'),
           });
           actions.resetForm();
           if (onClose) onClose();

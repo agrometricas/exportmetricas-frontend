@@ -32,6 +32,7 @@ import { toaster } from '@/components/ui/toaster';
 import { useCreateBoxBrand } from '@/hooks/box-brand/createBoxBrand';
 import { getBoxBrand } from '@/hooks/box-brand/getBoxBrand';
 import { useBoxBrands } from '@/hooks/box-brand/getBoxBrands';
+import { qk } from '@/lib/queryKeys';
 import { BoxBrandType } from '@/types/box-brand/boxBrand';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import BlockingSheetSelectBanContainer from './additions/blocking-sheet/BlockingSheetSelectBanContainer';
@@ -1256,7 +1257,7 @@ export default function AddBoxBrandsForm(): React.JSX.Element {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['boxBrands'],
+            queryKey: qk('boxBrands'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/box-brands/search');

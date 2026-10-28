@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateLatexRemover } from '../../../../hooks/box-brand/additions/latex-remover/createLatexRemover';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -106,7 +107,7 @@ const AddLatexRemoverForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['latexRemovers'],
+            queryKey: qk('latexRemovers'),
           });
           actions.resetForm();
           onClose?.();

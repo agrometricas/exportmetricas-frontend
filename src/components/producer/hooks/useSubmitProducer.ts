@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateMerchant } from '../../../hooks/merchants/createMerchant';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -67,7 +68,7 @@ export function useSubmitProducer(): {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['merchants'],
+            queryKey: qk('merchants'),
           });
           formikHelpers.resetForm();
           await update({ producerStatus: 'done' });

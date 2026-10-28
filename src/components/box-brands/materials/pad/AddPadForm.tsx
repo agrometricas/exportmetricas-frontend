@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreatePad } from '@/hooks/box-brand/materials/pad/createPad';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddPadFormProps {
@@ -74,7 +75,7 @@ const AddPadForm = ({ onClose }: AddPadFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['pads'],
+            queryKey: qk('pads'),
           });
           actions.resetForm();
           if (onClose) onClose();

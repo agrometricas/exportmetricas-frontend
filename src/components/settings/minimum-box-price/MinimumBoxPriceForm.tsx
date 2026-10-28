@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useMinimumBoxPrice,
   useUpdateMinimumBoxPrice,
@@ -57,16 +58,16 @@ export default function MinimumBoxPriceForm(): React.JSX.Element {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['minimumBoxPrice'],
+            queryKey: qk('minimumBoxPrice'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['priceSheet'],
+            queryKey: qk('priceSheet'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['priceSheetQuote'],
+            queryKey: qk('priceSheetQuote'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['export/producer-payment/quote'],
+            queryKey: qk('export/producer-payment/quote'),
           });
         },
       }

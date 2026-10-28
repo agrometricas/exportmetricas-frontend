@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateShippingCompany } from '@/hooks/export/shippingCompany/createShippingCompany';
+import { qk } from '@/lib/queryKeys';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
 import {
@@ -94,7 +95,7 @@ export function useSubmitShippingCompany(): {
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['shipping-companies'],
+          queryKey: qk('shipping-companies'),
         });
         formikHelpers.resetForm();
         router.push('/dashboard/client/shipping-companies');

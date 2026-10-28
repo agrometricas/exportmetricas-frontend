@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 type SpotPriceResponse = {
@@ -17,7 +18,7 @@ export function useSpotPrices(): {
   refetch: () => void;
 } {
   const result: UseQueryResult<AxiosResponse<SpotPriceResponse>> = useQuery({
-    queryKey: ['spotPrices'],
+    queryKey: qk('spotPrices'),
     queryFn: () => axios.get(`/spot-prices`),
   });
 

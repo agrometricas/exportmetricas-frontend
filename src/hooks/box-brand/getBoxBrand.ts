@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { QueryConfig } from '@/lib/react-query';
 import { BoxBrandType } from '@/types/box-brand/boxBrand';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -28,7 +29,7 @@ export const useBoxBrand = ({
   boxBrandId,
 }: UseBoxBrandOptions): UseQueryResult<BoxBrandType> => {
   const result = useQuery({
-    queryKey: ['boxBrand', boxBrandId],
+    queryKey: qk('boxBrand', boxBrandId),
     queryFn: () => getBoxBrand({ boxBrandId }),
     placeholderData: keepPreviousData,
   });

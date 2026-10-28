@@ -4,6 +4,7 @@ import {
   UseMutationResult,
 } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BusinessMaterialStock } from '@/types/winery/businessMaterialStock';
 
 interface AssignStockToBusinessDto {
@@ -31,7 +32,7 @@ export const useCreateBusinessStockAssignment = (): UseMutationResult<
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['exporterMaterialStock'],
+        queryKey: qk('exporterMaterialStock'),
       });
     },
   });

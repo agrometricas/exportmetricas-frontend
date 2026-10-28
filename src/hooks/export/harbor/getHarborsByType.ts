@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { HarborType } from '@/types/harbor';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -22,7 +23,7 @@ export function useHarborsByType({
   type: HarborKind;
 }): UseQueryResult<HarborType[], unknown> {
   const result = useQuery({
-    queryKey: ['harborsByType', type],
+    queryKey: qk('harborsByType', type),
     queryFn: () => listHarborsByType(type),
     placeholderData: keepPreviousData,
   });

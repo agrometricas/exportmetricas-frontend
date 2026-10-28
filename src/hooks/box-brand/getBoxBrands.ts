@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BoxBrandType } from '@/types/box-brand/boxBrand';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -10,7 +11,7 @@ function listBoxBrands(): Promise<AxiosResponse<BoxBrandType[]>> {
 
 export function useBoxBrands(): UseQueryResult<BoxBrandType[], unknown> {
   const result = useQuery({
-    queryKey: ['boxBrands'],
+    queryKey: qk('boxBrands'),
     queryFn: () => listBoxBrands(),
   });
 

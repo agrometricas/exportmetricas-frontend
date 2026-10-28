@@ -9,6 +9,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
 import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
@@ -263,17 +264,17 @@ const ClientPendingPaymentForm = ({
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['clientPayments'],
+        queryKey: qk('clientPayments'),
       });
       queryClient.invalidateQueries({
-        queryKey: ['exportsSentPending'],
+        queryKey: qk('exportsSentPending'),
       });
       queryClient.invalidateQueries({
-        queryKey: ['clientPaymentsPending'],
+        queryKey: qk('clientPaymentsPending'),
       });
       actions.resetForm();
       PROGRESS_QUERIES.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({ queryKey: qk(key) })
       );
       router.push(
         returnTo(

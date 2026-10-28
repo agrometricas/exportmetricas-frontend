@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { QueryConfig } from '@/lib/react-query';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 import { ExportResponse } from '../../types/export.response';
@@ -28,7 +29,7 @@ export const useExport = ({
   exportId,
 }: UseExportOptions): UseQueryResult<ExportResponse> => {
   const result = useQuery({
-    queryKey: ['export', exportId],
+    queryKey: qk('export', exportId),
     queryFn: () => getExport({ exportId }),
     placeholderData: keepPreviousData,
   });

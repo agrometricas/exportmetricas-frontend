@@ -19,6 +19,7 @@ import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useExporterUsers } from '../../hooks/exporter-user/getExporterUsers';
 import {
   useChangeRole,
@@ -111,7 +112,7 @@ export default function UsersManager(): React.JSX.Element {
 
   const refresh = (): void => {
     queryClient.invalidateQueries({
-      queryKey: ['exporterUsers'],
+      queryKey: qk('exporterUsers'),
     });
   };
 

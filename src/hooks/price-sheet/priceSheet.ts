@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ServerErrorResponse } from '@/types/errorResponse';
 import { PriceSheet, PriceSheetBody } from '@/types/priceSheet';
 import { useDebouncedValue } from '../useDebouncedValue';
@@ -18,7 +19,7 @@ export function usePriceSheet(week: string | null): {
   error: unknown;
 } {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['priceSheet', week],
+    queryKey: qk('priceSheet', week),
     queryFn: async () =>
       (await axios.get('/price-sheet', { params: { week } })).data,
     enabled: week !== null,
@@ -35,7 +36,7 @@ export function usePriceSheetQuote(body: PriceSheetBody | null): {
   const current = body ? JSON.stringify(body) : null;
   const settled = useDebouncedValue(current, TYPING_PAUSE_MS);
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: ['priceSheetQuote', settled],
+    queryKey: qk('priceSheetQuote', settled),
     queryFn: async () =>
       (await axios.post('/price-sheet/quote', JSON.parse(settled as string)))
         .data,

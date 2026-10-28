@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateMiniPallet } from '@/hooks/box-brand/materials/minipallet/createMiniPallet';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddMiniPalletFormProps {
@@ -76,7 +77,7 @@ const AddMiniPalletForm = ({
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['minipallets'],
+            queryKey: qk('minipallets'),
           });
           actions.resetForm();
           if (onClose) onClose();

@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../lib/axios';
 import { RouteInForce } from '../../types/booking';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -21,7 +22,7 @@ export function useRoutesInForce(
 ): UseQueryResult<RouteInForce[], unknown> {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['shippingRoutesInForce', shippingCompanyId, date],
+      queryKey: qk('shippingRoutesInForce', shippingCompanyId, date),
       queryFn: () =>
         listRoutesInForce(Number(shippingCompanyId), date as string),
       enabled: Boolean(shippingCompanyId) && Boolean(date),

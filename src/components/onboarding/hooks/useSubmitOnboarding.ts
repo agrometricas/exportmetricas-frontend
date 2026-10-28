@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateOnboarding } from '../../../hooks/merchants/createOnboarding';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -68,7 +69,7 @@ export function useSubmitOnboarding(): {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['merchants'],
+            queryKey: qk('merchants'),
           });
           formikHelpers.resetForm();
           await update({ onboardingStatus: 'done' });

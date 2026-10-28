@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 type IncotermResponse = {
@@ -16,7 +17,7 @@ export function useIncoterms(): {
   refetch: () => void;
 } {
   const result: UseQueryResult<AxiosResponse<IncotermResponse>> = useQuery({
-    queryKey: ['incoterms'],
+    queryKey: qk('incoterms'),
     queryFn: () => axios.get(`/incoterm`),
   });
 

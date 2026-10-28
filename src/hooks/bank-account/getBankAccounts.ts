@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BankAccountResponse } from '@/types/bankAccount.response';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -13,7 +14,7 @@ export function useBankAccounts(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['bankAccounts'],
+    queryKey: qk('bankAccounts'),
     queryFn: () => listBankAccount(),
   });
 

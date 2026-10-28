@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import { ExportType } from '@/types/export';
 import axios from '../../lib/axios';
 import { serializeQueryResult } from '../../utils/serializeQueryResult';
@@ -10,7 +11,7 @@ function listExportsPending(): Promise<AxiosResponse<ExportType[]>> {
 
 export function useExportsPending(): UseQueryResult<ExportType[], unknown> {
   const result = useQuery({
-    queryKey: ['exportsPending'],
+    queryKey: qk('exportsPending'),
     queryFn: () => listExportsPending(),
   });
 

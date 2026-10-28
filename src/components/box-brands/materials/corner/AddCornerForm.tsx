@@ -7,6 +7,7 @@ import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import InputFieldText from '@/components/ui/form/InputFieldText';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateCorner } from '@/hooks/box-brand/materials/corner/createCorner';
+import { qk } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 
 interface AddCornerFormProps {
@@ -74,7 +75,7 @@ const AddCornerForm = ({ onClose }: AddCornerFormProps): React.JSX.Element => {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['corners'],
+            queryKey: qk('corners'),
           });
           actions.resetForm();
           if (onClose) onClose();

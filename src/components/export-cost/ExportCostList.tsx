@@ -8,6 +8,7 @@ import { MdFactCheck } from 'react-icons/md';
 import EmptyState from '@/components/ui/states/EmptyState';
 import ErrorState from '@/components/ui/states/ErrorState';
 import LoadingState from '@/components/ui/states/LoadingState';
+import { qk } from '@/lib/queryKeys';
 import {
   COST_CONFIRMATION_QUERIES,
   useConfirmExportSentCosts,
@@ -59,7 +60,7 @@ const ExportCostList = (): React.JSX.Element => {
   // again on every visit.
   useEffect(() => {
     queryClient.invalidateQueries({
-      queryKey: ['exportSentCostsPending'],
+      queryKey: qk('exportSentCostsPending'),
     });
   }, [queryClient]);
 

@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateBand } from '../../../../hooks/box-brand/materials/band/createBand';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -100,7 +101,7 @@ const AddBandForm = ({ onClose }: AddBandFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['bands'],
+            queryKey: qk('bands'),
           });
           actions.resetForm();
           onClose?.();

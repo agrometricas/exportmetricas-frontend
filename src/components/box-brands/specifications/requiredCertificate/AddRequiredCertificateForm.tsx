@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateRequiredCertificate } from '../../../../hooks/box-brand/specifications/certificate/createRequiredCertificate';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -68,7 +69,7 @@ const AddCertificateForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['requiredCertificates'],
+            queryKey: qk('requiredCertificates'),
           });
           actions.resetForm();
           onClose?.();

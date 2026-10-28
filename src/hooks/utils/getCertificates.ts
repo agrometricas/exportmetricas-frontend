@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 type CertificateResponse = {
@@ -17,7 +18,7 @@ export function useCertificates(): {
   refetch: () => void;
 } {
   const result: UseQueryResult<AxiosResponse<CertificateResponse>> = useQuery({
-    queryKey: ['certificates'],
+    queryKey: qk('certificates'),
     queryFn: () => axios.get(`/certificate`),
   });
 

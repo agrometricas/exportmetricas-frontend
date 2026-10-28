@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { ExportSentType } from '@/types/exportSent';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -15,7 +16,7 @@ export function useCuttingSheetsPending(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['cuttingSheetsPending'],
+    queryKey: qk('cuttingSheetsPending'),
     queryFn: () => listCuttingSheetsPending(),
   });
 

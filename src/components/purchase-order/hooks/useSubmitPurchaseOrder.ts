@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useDeletePurchaseOrder,
   useSavePurchaseOrder,
@@ -42,10 +43,10 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
 
   const refresh = (): void => {
     queryClient.invalidateQueries({
-      queryKey: ['purchaseOrders'],
+      queryKey: qk('purchaseOrders'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['purchaseOrder'],
+      queryKey: qk('purchaseOrder'),
     });
   };
 

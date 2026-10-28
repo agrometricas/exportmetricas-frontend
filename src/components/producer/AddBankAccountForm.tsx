@@ -10,6 +10,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import SelectProducer from './SelectProducer';
 import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount';
 import { ClientResponse } from '../../types/client.response';
@@ -202,10 +203,10 @@ const AddBankAccountForm = (): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['merchants'],
+            queryKey: qk('merchants'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['bankAccounts'],
+            queryKey: qk('bankAccounts'),
           });
           formikHelpers.resetForm();
           setProducer(null);

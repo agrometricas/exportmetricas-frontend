@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../../lib/axios';
 import { Vessel } from '../../../types/vessel';
 import { serializeQueryResult } from '../../../utils/serializeQueryResult';
@@ -16,7 +17,7 @@ export function useVessels(
   const id = Number(shippingCompanyId);
   return serializeQueryResult(
     useQuery({
-      queryKey: ['vessels', id],
+      queryKey: qk('vessels', id),
       queryFn: () => listVessels(id),
       enabled: id > 0,
     })

@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 
 interface AdjustWeeklyDto {
   realStocks: { [exporterMaterialStockId: number]: number };
@@ -30,7 +31,7 @@ export const useAdjustWeekly = (
     mutationFn: (dto) => adjustWeekly(businessId, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['businessStock', businessId],
+        queryKey: qk('exporterMaterialStock'),
       });
     },
   });

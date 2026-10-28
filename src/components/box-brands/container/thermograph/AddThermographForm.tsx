@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateThermograph } from '../../../../hooks/box-brand/container/thermograph/createThermograph';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -91,7 +92,7 @@ const AddThermographForm = ({
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['thermographs'],
+            queryKey: qk('thermographs'),
           });
           actions.resetForm();
           onClose?.();

@@ -6,6 +6,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import SelectProducer from './SelectProducer';
 import UploadLogoFile from './UploadLogoFile';
 import { useUploadMerchantLogo } from '../../hooks/merchants/uploadMerchantLogo';
@@ -75,7 +76,7 @@ const UploadLogoForm = (): React.JSX.Element => {
             });
 
             queryClient.invalidateQueries({
-              queryKey: ['merchants'],
+              queryKey: qk('merchants'),
             });
             formikHelpers.resetForm();
             router.push('/dashboard/producer/producers');

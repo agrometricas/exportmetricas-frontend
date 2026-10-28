@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateSeal } from '../../../../hooks/box-brand/container/seal/createSeal';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldText from '../../../ui/form/InputFieldText';
@@ -89,7 +90,7 @@ const AddSealForm = ({ onClose }: AddSealFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['seals'],
+            queryKey: qk('seals'),
           });
           actions.resetForm();
           onClose?.();

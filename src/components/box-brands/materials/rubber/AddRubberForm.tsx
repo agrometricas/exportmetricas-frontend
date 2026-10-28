@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateRubber } from '../../../../hooks/box-brand/materials/rubber/createRubber';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -99,7 +100,7 @@ const AddRubberForm = ({ onClose }: AddRubberFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['rubbers'],
+            queryKey: qk('rubbers'),
           });
           actions.resetForm();
           onClose?.();

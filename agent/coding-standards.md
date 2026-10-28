@@ -42,6 +42,11 @@ the backend proposes.
   endpoint answers (`Promise<AxiosResponse<ClientResponse[]>>`) and the hook declares
   `UseQueryResult<ClientResponse[], unknown>`: a row from the API is typed as the
   response type (`types/*.response.ts`), not as a form's values.
+- A query key is built with `qk('name', ...params)` (`lib/queryKeys.ts`), in a
+  query and in an invalidation alike. The name has to be in `QUERY_KEYS`, so a
+  misspelled one does not compile; a new key goes there first.
+  `queryKeys.spec.ts` fails when a name in `QUERY_KEYS` is read by no query,
+  which is what an invalidation of a key nobody uses looks like.
 - v5 takes one options object (`useQuery({ queryKey, queryFn, ... })`,
   `useMutation({ mutationFn, ... })`) and keys are arrays:
   `invalidateQueries({ queryKey: ['exports'] })` also matches

@@ -9,6 +9,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import SelectBankAccount from './bank-account/SelectBankAccount';
 import { PROGRESS_QUERIES } from '../../../hooks/export/exportProgress';
 import { useCreateProducerPayment } from '../../../hooks/export/producerPayment/createProducerPayment';
@@ -426,14 +427,14 @@ const PendingPaymentForm = ({
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['producerPayments'],
+        queryKey: qk('producerPayments'),
       });
       queryClient.invalidateQueries({
-        queryKey: ['exportsSentPending'],
+        queryKey: qk('exportsSentPending'),
       });
       actions.resetForm();
       PROGRESS_QUERIES.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({ queryKey: qk(key) })
       );
       router.push(
         returnTo(

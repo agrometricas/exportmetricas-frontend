@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateStaple } from '../../../../hooks/box-brand/container/staple/createStaple';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -87,7 +88,7 @@ const AddStapleForm = ({ onClose }: AddStapleFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['staples'],
+            queryKey: qk('staples'),
           });
           actions.resetForm();
           onClose?.();

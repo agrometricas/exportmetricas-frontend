@@ -1,11 +1,12 @@
 import { UseMutationResult, useMutation } from '@tanstack/react-query';
+import { QueryKeyName } from '@/lib/queryKeys';
 import { CostConfirmationBatchResult } from '@/types/costConfirmationBatch';
 import axios from '../../../lib/axios';
 import { PROGRESS_QUERIES } from '../exportProgress';
 
 // A confirmed shipment leaves the review list and becomes payable to the
 // producer and collectable from the client.
-export const COST_CONFIRMATION_QUERIES = [
+export const COST_CONFIRMATION_QUERIES: QueryKeyName[] = [
   'exportSentCostsPending',
   'confirmedExportSents',
   'exportsSentPending',

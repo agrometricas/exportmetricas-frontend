@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateMettoLabel } from '../../../../hooks/box-brand/container/metto-label/createMettoLabel';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import UploadLogoFile from '../../../producer/UploadLogoFile';
@@ -105,7 +106,7 @@ const AddMettoLabelForm = ({
           closable: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['mettoLabels'],
+          queryKey: qk('mettoLabels'),
         });
         actions.resetForm();
         onClose?.();

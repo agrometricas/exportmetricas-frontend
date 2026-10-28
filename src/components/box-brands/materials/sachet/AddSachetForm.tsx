@@ -5,6 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useCreateSachet } from '../../../../hooks/box-brand/materials/sachet/createSachet';
 import { serverErrorMessage } from '../../../../utils/serverErrorMessage';
 import InputFieldNumber from '../../../ui/form/InputFieldNumber';
@@ -100,7 +101,7 @@ const AddSachetForm = ({ onClose }: AddSachetFormProps): React.JSX.Element => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ['sachets'],
+            queryKey: qk('sachets'),
           });
           actions.resetForm();
           onClose?.();

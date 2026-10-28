@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import { useBoxTypes } from '../../hooks/box-type/getBoxTypes';
 import { useUpdateBoxBrandCargo } from '../../hooks/box-type/mutateBoxType';
 import { BoxTypeResponse, CargoType } from '../../types/boxType';
@@ -73,10 +74,10 @@ export default function BoxBrandCargoModal({
                           closable: true,
                         });
                         queryClient.invalidateQueries({
-                          queryKey: ['boxBrands'],
+                          queryKey: qk('boxBrands'),
                         });
                         queryClient.invalidateQueries({
-                          queryKey: ['boxTypes'],
+                          queryKey: qk('boxTypes'),
                         });
                         onClose();
                       },

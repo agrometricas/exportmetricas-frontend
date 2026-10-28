@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BlockingSheetType } from '@/types/box-brand/additions/blockingSheet';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -13,7 +14,7 @@ export function useBlockingSheets(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['blockingSheets'],
+    queryKey: qk('blockingSheets'),
     queryFn: () => listBlockingSheets(),
   });
 

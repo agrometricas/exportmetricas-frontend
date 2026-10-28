@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
 import { useCreateClient } from '@/hooks/export/client/createClient';
+import { qk } from '@/lib/queryKeys';
 import { ServerErrorResponse } from '../../../types/errorResponse';
 import { clientTermsBody } from '../../../utils/clientTerms';
 import { serverErrorMessage } from '../../../utils/serverErrorMessage';
@@ -71,10 +72,10 @@ export function useSubmitClient(): {
             closable: true,
           });
           queryClient.invalidateQueries({
-            queryKey: ['clients'],
+            queryKey: qk('clients'),
           });
           queryClient.invalidateQueries({
-            queryKey: ['clientsByHarbor'],
+            queryKey: qk('clientsByHarbor'),
           });
           formikHelpers.resetForm();
           router.push('/dashboard/client/clients');

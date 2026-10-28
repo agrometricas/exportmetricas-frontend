@@ -5,6 +5,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { qk } from '@/lib/queryKeys';
 import axios from '../../lib/axios';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import {
@@ -23,7 +24,7 @@ export function useMinimumBoxPrice(): UseQueryResult<
 > {
   return serializeQueryResult(
     useQuery({
-      queryKey: ['minimumBoxPrice'],
+      queryKey: qk('minimumBoxPrice'),
       queryFn: getMinimumBoxPrice,
     })
   );

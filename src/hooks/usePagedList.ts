@@ -6,6 +6,7 @@ import {
 } from 'material-react-table';
 import { useState } from 'react';
 import axios from '@/lib/axios';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { Page } from '@/types/page';
 import { listTableOptions } from '@/utils/listTableOptions';
 import { useDebouncedValue } from './useDebouncedValue';
@@ -21,7 +22,7 @@ export interface PagedList<T extends MRT_RowData> {
 // The backend pages and searches; the table only asks for what it shows.
 // Sorting stays off: sorting one page in the browser would lie about the rest.
 export function usePagedList<T extends MRT_RowData>(
-  key: string,
+  key: QueryKeyName,
   url: string
 ): PagedList<T> {
   const [pagination, setPagination] = useState(FIRST_PAGE);
@@ -29,7 +30,13 @@ export function usePagedList<T extends MRT_RowData>(
   const search = useDebouncedValue(globalFilter.trim(), TYPING_PAUSE_MS);
 
   const { data, error, isLoading, isFetching } = useQuery({
-    queryKey: [key, 'page', pagination.pageIndex, pagination.pageSize, search],
+    queryKey: qk(
+      key,
+      'page',
+      pagination.pageIndex,
+      pagination.pageSize,
+      search
+    ),
     queryFn: async (): Promise<Page<T>> =>
       (
         await axios.get(url, {

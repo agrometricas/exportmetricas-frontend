@@ -13,13 +13,14 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { useCancelExport } from '../../hooks/export/cancelExport';
 import { ExportResponse } from '../../types/export.response';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 const REASON_MAX_LENGTH = 300;
 
-const AFFECTED_QUERIES = [
+const AFFECTED_QUERIES: QueryKeyName[] = [
   'exports',
   'export',
   'exportProgress',
@@ -31,7 +32,6 @@ const AFFECTED_QUERIES = [
   'exportSentCostsPending',
   'clientPaymentsPending',
   'exporterMaterialStock',
-  'businessStock',
   'stockMovements',
   'bookings',
   'purchaseOrders',
@@ -76,7 +76,7 @@ const CancelExportModal: React.FC<CancelExportModalProps> = ({
             closable: true,
           });
           AFFECTED_QUERIES.forEach((key) =>
-            queryClient.invalidateQueries({ queryKey: [key] })
+            queryClient.invalidateQueries({ queryKey: qk(key) })
           );
           close();
         },

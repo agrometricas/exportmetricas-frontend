@@ -4,6 +4,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { QueryConfig } from '@/lib/react-query';
 import { ExportSentMaterialResponse } from '@/types/export-sent/exportSentMaterial.response';
 
@@ -32,7 +33,7 @@ export const useExportSentMaterials = ({
   ExportSentMaterialResponse[]
 > => {
   return useQuery({
-    queryKey: ['exportSentMaterials', exportSentId],
+    queryKey: qk('exportSentMaterials', exportSentId),
     queryFn: () => getExportSentMaterials({ exportSentId }),
     placeholderData: keepPreviousData,
     ...config,

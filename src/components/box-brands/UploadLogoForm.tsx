@@ -6,6 +6,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { FormSectionTitle } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import SelectBoxBrand from './SelectBoxBrand';
 import { useUploadBoxBrandLogo } from '../../hooks/box-brand/uploadBoxBrandLogo';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -75,7 +76,7 @@ const UploadLogoForm = (): React.JSX.Element => {
             });
 
             queryClient.invalidateQueries({
-              queryKey: ['boxBrands'],
+              queryKey: qk('boxBrands'),
             });
             formikHelpers.resetForm();
             router.push('/dashboard/box-brands/search');

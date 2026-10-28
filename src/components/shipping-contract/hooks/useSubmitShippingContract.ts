@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   useDeleteShippingContract,
   useSaveShippingContract,
@@ -45,10 +46,10 @@ export function useSubmitShippingContract(
   const done = (title: string): void => {
     toaster.create({ title, type: 'success', duration: 5000, closable: true });
     queryClient.invalidateQueries({
-      queryKey: ['shippingContracts'],
+      queryKey: qk('shippingContracts'),
     });
     queryClient.invalidateQueries({
-      queryKey: ['shippingContract'],
+      queryKey: qk('shippingContract'),
     });
     router.push(LIST_PATH);
   };

@@ -182,6 +182,9 @@ raíz del repo.
   el resumen de la semana del Inicio (`weekSummary`), los totales por
   contraparte (`counterpartTotals`) y el detalle de un envío de insumos
   (`exportSent`). Resumen datos que cambian desde casi cualquier formulario.
+- Las claves se arman con `qk('nombre', …)` y los nombres válidos están en
+  `QUERY_KEYS` (`lib/queryKeys.ts`): una clave mal escrita no compila, y una
+  prueba revisa que cada nombre lo lea alguna consulta.
 - Helpers de tipos en `lib/react-query.ts`: `QueryConfig<fn>`,
   `MutationConfig<fn>`, `ExtractFnReturnType<fn>`.
 - Las claves de lista más usadas: `exports`, `exportsPending`, `exportsSent`,

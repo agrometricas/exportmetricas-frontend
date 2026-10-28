@@ -14,6 +14,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
 
 export interface BatchOutcome {
@@ -33,7 +34,7 @@ interface BatchActionBarProps<T> {
   confirmLabel: (count: number) => string;
   failuresTitle: string;
   errorTitle: string;
-  affectedQueries: string[];
+  affectedQueries: QueryKeyName[];
   isRunning: boolean;
   run: (ids: number[]) => Promise<BatchOutcome>;
   onFinished: (failedIds: number[]) => void;
@@ -72,7 +73,7 @@ function BatchActionBar<T>({
     try {
       const outcome = await run([...labels.keys()]);
       affectedQueries.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({ queryKey: qk(key) })
       );
       toaster.create({
         title: outcome.summary.title,

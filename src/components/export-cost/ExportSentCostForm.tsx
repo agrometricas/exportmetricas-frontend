@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormActions } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk } from '@/lib/queryKeys';
 import {
   COST_CONFIRMATION_QUERIES,
   confirmExportSentCostReview,
@@ -84,7 +85,7 @@ export default function ExportSentCostForm({}: ExportSentCostFormProps): React.J
         closable: true,
       });
       COST_CONFIRMATION_QUERIES.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({ queryKey: qk(key) })
       );
       router.push(
         returnTo('/dashboard/liquidation/export-costs', window.location.search)

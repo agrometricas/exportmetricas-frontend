@@ -11,6 +11,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import { useUpdateExportCustoms } from '../../hooks/export/updateExportCustoms';
 import { ExportResponse } from '../../types/export.response';
 import {
@@ -75,7 +76,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const AFFECTED_QUERIES = [
+const AFFECTED_QUERIES: QueryKeyName[] = [
   'exports',
   'export',
   'bookingDocumentStatus',
@@ -118,7 +119,7 @@ const ExportCustomsModal: React.FC<ExportCustomsModalProps> = ({
             closable: true,
           });
           AFFECTED_QUERIES.forEach((key) =>
-            queryClient.invalidateQueries({ queryKey: [key] })
+            queryClient.invalidateQueries({ queryKey: qk(key) })
           );
           onClose();
         },

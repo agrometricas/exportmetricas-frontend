@@ -19,6 +19,7 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { toaster } from '@/components/ui/toaster';
+import { qk, QueryKeyName } from '@/lib/queryKeys';
 import {
   exportPlanBody,
   pendingLines,
@@ -46,7 +47,7 @@ import InputFieldDayDateTime from '../ui/form/InputFieldDayDateTime';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
 
-const AFFECTED_QUERIES = [
+const AFFECTED_QUERIES: QueryKeyName[] = [
   'exports',
   'exportsPending',
   'cuttingSheets',
@@ -256,7 +257,7 @@ export default function ExportPlanForm({
           closable: true,
         });
         AFFECTED_QUERIES.forEach((key) =>
-          queryClient.invalidateQueries({ queryKey: [key] })
+          queryClient.invalidateQueries({ queryKey: qk(key) })
         );
         router.push(`/dashboard/export/purchase-orders/${order.id}`);
       },

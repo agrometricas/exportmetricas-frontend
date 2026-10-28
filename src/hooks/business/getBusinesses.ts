@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { BusinessType } from '@/types/merchant/business';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -20,7 +21,7 @@ export function useBusinessesByMerchantId({
   id,
 }: Body): UseQueryResult<BusinessType[], unknown> {
   const result = useQuery({
-    queryKey: ['businesses', id],
+    queryKey: qk('businesses', id),
     queryFn: () => listBusinesses({ id }),
     // Without a producer there are no farms to ask for.
     enabled: id > 0,

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { qk } from '@/lib/queryKeys';
 import { RequiredCertificateType } from '@/types/box-brand/specifications/requiredCertificate';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
@@ -15,7 +16,7 @@ export function useRequiredCertificates(): UseQueryResult<
   unknown
 > {
   const result = useQuery({
-    queryKey: ['requiredCertificates'],
+    queryKey: qk('requiredCertificates'),
     queryFn: () => listRequiredCertificates(),
   });
 
