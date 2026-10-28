@@ -7,11 +7,12 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
 import { BankAccountResponse } from '@/types/bankAccount.response';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailBankAccounts from './DetailBankAccounts';
 import { useBankAccounts } from '../../../hooks/bank-account/getBankAccounts';
 
 const TableBankAccounts = (): React.JSX.Element => {
-  const { data = [] } = useBankAccounts();
+  const { data = [], ...query } = useBankAccounts();
 
   const columns = useMemo<MRT_ColumnDef<BankAccountResponse>[]>(
     () => [
@@ -92,6 +93,7 @@ const TableBankAccounts = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

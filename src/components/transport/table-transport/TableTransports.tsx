@@ -6,12 +6,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailTransports from './DetailTransports';
 import { useTransports } from '../../../hooks/transport/getTransports';
 import { TransportResponse } from '../../../types/transport/transport.response';
 
 const TableTransports = (): React.JSX.Element => {
-  const { data = [] } = useTransports();
+  const { data = [], ...query } = useTransports();
 
   const columns = useMemo<MRT_ColumnDef<TransportResponse>[]>(
     () => [
@@ -81,6 +82,7 @@ const TableTransports = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

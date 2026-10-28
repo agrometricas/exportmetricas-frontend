@@ -8,13 +8,14 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailExportSentConfirmedCost from './DetailExportSentConfirmedCost';
 import { useConfirmedExportSents } from '../../hooks/export/export-sent/getConfirmedExportSents';
 import { ExportSentConfirmedCost } from '../../types/export-sent/exportSentConfirmedCost';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 export default function TableExportSentConfirmedCost(): React.JSX.Element {
-  const { data = [] } = useConfirmedExportSents();
+  const { data = [], ...query } = useConfirmedExportSents();
 
   const columns = useMemo<MRT_ColumnDef<ExportSentConfirmedCost>[]>(
     () => [
@@ -87,6 +88,7 @@ export default function TableExportSentConfirmedCost(): React.JSX.Element {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

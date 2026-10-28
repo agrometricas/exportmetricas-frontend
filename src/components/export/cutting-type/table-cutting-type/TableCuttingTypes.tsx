@@ -8,6 +8,7 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailCuttingTypes from './DetailCuttingTypes';
 import { useCuttingTypes } from '../../../../hooks/export/cutting-type/getCuttingTypes';
 
@@ -16,7 +17,7 @@ type CuttingTypeRow = React.ComponentProps<
 >['cuttingType'] & { id: number };
 
 const TableCuttingTypes = (): React.JSX.Element => {
-  const { data = [] } = useCuttingTypes();
+  const { data = [], ...query } = useCuttingTypes();
 
   const columns = useMemo<MRT_ColumnDef<CuttingTypeRow>[]>(
     () => [
@@ -138,6 +139,7 @@ const TableCuttingTypes = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

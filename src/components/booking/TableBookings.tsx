@@ -7,6 +7,7 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { useBookings } from '../../hooks/booking/getBookings';
 import { BookingResponse } from '../../types/booking';
 import {
@@ -17,7 +18,7 @@ import {
 const money = (value: string): string => `$${Number(value).toFixed(2)}`;
 
 const TableBookings = (): React.JSX.Element => {
-  const { data = [] } = useBookings();
+  const { data = [], ...query } = useBookings();
 
   const columns = useMemo<MRT_ColumnDef<BookingResponse>[]>(
     () => [
@@ -131,6 +132,7 @@ const TableBookings = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

@@ -7,13 +7,14 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { usePurchaseOrders } from '../../hooks/purchase-order/getPurchaseOrders';
 import { PurchaseOrderSummary } from '../../types/purchaseOrder';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 
 const TablePurchaseOrders = (): React.JSX.Element => {
-  const { data = [] } = usePurchaseOrders();
+  const { data = [], ...query } = usePurchaseOrders();
 
   const columns = useMemo<MRT_ColumnDef<PurchaseOrderSummary>[]>(
     () => [
@@ -112,6 +113,7 @@ const TablePurchaseOrders = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

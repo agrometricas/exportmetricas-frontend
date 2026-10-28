@@ -7,6 +7,7 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo, useState } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailBoxBrand from './DetailBoxBrand';
 import { useBoxBrands } from '../../../hooks/box-brand/getBoxBrands';
 import { BoxBrandType } from '../../../types/box-brand/boxBrand';
@@ -15,7 +16,7 @@ import { cargoTypeLabel } from '../../../utils/cargoType';
 import BoxBrandCargoModal, { CargoTarget } from '../BoxBrandCargoModal';
 
 const TableBoxBrand = (): React.JSX.Element => {
-  const { data = [] } = useBoxBrands();
+  const { data = [], ...query } = useBoxBrands();
   const [cargoTarget, setCargoTarget] = useState<CargoTarget | null>(null);
 
   const columns = useMemo<MRT_ColumnDef<Partial<BoxBrandType>>[]>(
@@ -114,6 +115,7 @@ const TableBoxBrand = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

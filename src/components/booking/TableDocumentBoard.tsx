@@ -15,13 +15,14 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { useDocumentBoard } from '../../hooks/booking/documentStatus';
 import { BookingDocumentStatus } from '../../types/shipmentStatus';
 import { formatDayMonthYearTime } from '../../utils/dayMonthYear';
 import { missingSummary, SEMAPHORE_COLOR } from '../../utils/shipmentStatus';
 
 const TableDocumentBoard = (): React.JSX.Element => {
-  const { data = [] } = useDocumentBoard();
+  const { data = [], ...query } = useDocumentBoard();
 
   const columns = useMemo<MRT_ColumnDef<BookingDocumentStatus>[]>(
     () => [
@@ -123,6 +124,7 @@ const TableDocumentBoard = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data: data as BookingDocumentStatus[],
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

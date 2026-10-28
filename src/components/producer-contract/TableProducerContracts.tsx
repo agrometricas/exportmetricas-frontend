@@ -7,12 +7,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
+import { listTableOptions } from '@/utils/listTableOptions';
 import { useProducerContracts } from '../../hooks/producer-contract/getProducerContracts';
 import { ProducerContractResponse } from '../../types/producerContract';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 
 const TableProducerContracts = (): React.JSX.Element => {
-  const { data = [] } = useProducerContracts();
+  const { data = [], ...query } = useProducerContracts();
 
   const columns = useMemo<MRT_ColumnDef<ProducerContractResponse>[]>(
     () => [
@@ -120,6 +121,7 @@ const TableProducerContracts = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

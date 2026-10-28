@@ -6,12 +6,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailShippingCompanies from './DetailShippingCompanies';
 import { useShippingCompanies } from '../../../hooks/export/shippingCompany/getShippingCompanies';
 import { ShippingCompanyResponse } from '../../../types/shippingCompany.response';
 
 const TableShippingCompanies = (): React.JSX.Element => {
-  const { data = [] } = useShippingCompanies();
+  const { data = [], ...query } = useShippingCompanies();
 
   const columns = useMemo<MRT_ColumnDef<ShippingCompanyResponse>[]>(
     () => [
@@ -93,6 +94,7 @@ const TableShippingCompanies = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,

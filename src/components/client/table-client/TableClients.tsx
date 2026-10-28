@@ -6,12 +6,13 @@ import {
 import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { listTableOptions } from '@/utils/listTableOptions';
 import DetailClients from './DetailClients';
 import { useClients } from '../../../hooks/export/client/getClients';
 import { ClientResponse } from '../../../types/client.response';
 
 const TableClients = (): React.JSX.Element => {
-  const { data = [] } = useClients();
+  const { data = [], ...query } = useClients();
 
   const columns = useMemo<MRT_ColumnDef<ClientResponse>[]>(
     () => [
@@ -151,6 +152,7 @@ const TableClients = (): React.JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
+    ...listTableOptions(query),
     enableColumnOrdering: false,
     enableColumnFilters: false,
     enableCellActions: false,
