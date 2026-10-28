@@ -19,6 +19,8 @@ export interface Client {
   businessName: string;
   businessId: string;
   commercialType: string;
+  city: City | null;
+  address: string;
   email: string;
   phone: string;
 }
