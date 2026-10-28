@@ -1,16 +1,7 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  SingleValue,
-  CSSObjectWithLabel,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useStrippings } from '../../../../hooks/box-brand/container/stripping/getStrippings';
 import { StrippingType } from '../../../../types/box-brand/container/stripping';
@@ -23,47 +14,6 @@ interface StrippingSelectBaseProps {
   setStripping?: (stripping: Partial<StrippingType>) => void;
   onChange?: (newValue: Partial<StrippingType>) => void;
 }
-
-const chakraStyles: ChakraStylesConfig<
-  Partial<StrippingType>,
-  false,
-  GroupBase<Partial<StrippingType>>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-    h: 'auto',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const strippingComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<
-      Partial<StrippingType>,
-      false,
-      GroupBase<Partial<StrippingType>>
-    >
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
   name,
@@ -83,36 +33,17 @@ const StrippingSelectBase: React.FC<StrippingSelectBaseProps> = ({
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<Partial<StrippingType>>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() =>
         !!error ? serverErrorMessage(error) : 'Ya no hay zuncho/s disponible/s'
       }
       isLoading={isLoading}
       readOnly={isReadOnly}
       options={data}
-      getOptionLabel={(opt: Partial<StrippingType>) => `${opt.name}`}
-      getOptionValue={(opt: Partial<StrippingType>) =>
-        opt.id ? opt.id.toString() : ''
-      }
       onChange={(newValue) => handleChange(newValue)}
-      value={
-        field?.value
-          ? data?.find((opt: Partial<StrippingType>) => opt.id === field?.value)
-          : null
-      }
       placeholder={placeholder}
-      components={strippingComponents}
     />
   );
 };

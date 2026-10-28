@@ -1,54 +1,9 @@
-import { Icon } from '@chakra-ui/react';
-import {
-  ChakraStylesConfig,
-  DropdownIndicatorProps,
-  Select as ChakraSelect,
-  GroupBase,
-  chakraComponents,
-  CSSObjectWithLabel,
-  SingleValue,
-} from 'chakra-react-select';
+import { SingleValue } from 'chakra-react-select';
 import { FieldInputProps } from 'formik';
 import React from 'react';
-import { MdOutlineArrowDropDownCircle } from 'react-icons/md';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useBrands } from '@/hooks/box-brand/specifications/brand/getBrands';
 import { BrandType } from '@/types/box-brand/specifications/brand';
-
-const chakraStyles: ChakraStylesConfig<
-  BrandType,
-  false,
-  GroupBase<BrandType>
-> = {
-  container: (provided) => ({
-    ...provided,
-    w: 'full',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: 'fg.muted',
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'fg.heading',
-  }),
-  option: (provided) => ({
-    ...provided,
-    borderBottom: '1px solid',
-    borderColor: 'border',
-  }),
-};
-
-const brandComponents = {
-  DropdownIndicator: (
-    props: DropdownIndicatorProps<BrandType, false, GroupBase<BrandType>>
-  ): React.JSX.Element => (
-    <chakraComponents.DropdownIndicator {...props}>
-      <Icon boxSize='13px' asChild>
-        <MdOutlineArrowDropDownCircle />
-      </Icon>
-    </chakraComponents.DropdownIndicator>
-  ),
-};
 
 const BrandSelectBase: React.FC<{
   setBrand?: (brand: BrandType) => void;
@@ -65,22 +20,12 @@ const BrandSelectBase: React.FC<{
   };
 
   return (
-    <ChakraSelect
-      {...field}
+    <CatalogSelect<BrandType>
+      field={field}
       name={name}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) =>
-          ({
-            ...provided,
-            zIndex: 100,
-          }) as CSSObjectWithLabel,
-      }}
-      chakraStyles={chakraStyles}
       noOptionsMessage={() => 'brand box not found'}
       isLoading={isLoading}
       options={data}
-      getOptionLabel={(brand: BrandType) => `${brand.name}`}
       getOptionValue={(brand: BrandType) => brand.id.toString()}
       onChange={(newValue) => handleChange(newValue)}
       value={
@@ -89,7 +34,6 @@ const BrandSelectBase: React.FC<{
           : undefined
       }
       placeholder={placeholder}
-      components={brandComponents}
     />
   );
 };
