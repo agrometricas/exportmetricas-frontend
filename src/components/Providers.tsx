@@ -4,7 +4,11 @@ import {
   ThemeProvider as MuiThemeProvider,
   THEME_ID,
 } from '@mui/material/styles';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  MutationCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode, useMemo } from 'react';
 import { ColorModeProvider, useColorMode } from './ui/color-mode';
@@ -17,7 +21,23 @@ interface Props {
   children: ReactNode;
 }
 
+// They summarize data that almost any write changes, so no single form can
+// list them all.
+const KEYS_STALE_AFTER_ANY_WRITE = [
+  ['weekSummary'],
+  ['counterpartTotals'],
+  ['exportSent'],
+];
+
 const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    // Not returned: the mutation would stay pending until the refetch ends.
+    onSuccess: () => {
+      for (const queryKey of KEYS_STALE_AFTER_ANY_WRITE) {
+        void queryClient.invalidateQueries({ queryKey });
+      }
+    },
+  }),
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
