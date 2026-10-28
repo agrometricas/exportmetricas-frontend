@@ -3,14 +3,14 @@ import { FieldInputProps } from 'formik';
 import React from 'react';
 import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { useBankAccounts } from '../../../../hooks/bank-account/getBankAccounts';
-import { BankAccountType } from '../../../../types/bankAccount';
+import { BankAccountResponse } from '../../../../types/bankAccount.response';
 
 interface BankAccountSelectBaseProps {
   name?: string;
   field?: FieldInputProps<number | ''>;
   placeholder: string;
-  setBankAccount?: (bankAccount: Partial<BankAccountType>) => void;
-  onChange?: (newValue: Partial<BankAccountType>) => void;
+  setBankAccount?: (bankAccount: Partial<BankAccountResponse>) => void;
+  onChange?: (newValue: Partial<BankAccountResponse>) => void;
 }
 
 const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
@@ -23,28 +23,28 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
   const { data, isLoading } = useBankAccounts();
 
   const handleChange = (
-    newValue: SingleValue<Partial<BankAccountType>>
+    newValue: SingleValue<Partial<BankAccountResponse>>
   ): void => {
     if (setBankAccount) {
-      setBankAccount(newValue as Partial<BankAccountType>);
+      setBankAccount(newValue as Partial<BankAccountResponse>);
     }
 
     if (onChange) {
-      onChange(newValue as Partial<BankAccountType>);
+      onChange(newValue as Partial<BankAccountResponse>);
     }
   };
 
   return (
-    <CatalogSelect<Partial<BankAccountType>>
+    <CatalogSelect<Partial<BankAccountResponse>>
       field={field}
       name={name}
       noOptionsMessage={() => 'bank account not found'}
       isLoading={isLoading}
       options={data}
-      getOptionLabel={(bankAccount: Partial<BankAccountType>) =>
+      getOptionLabel={(bankAccount: Partial<BankAccountResponse>) =>
         `${bankAccount.bank} - ${bankAccount.accountNumber} - ${bankAccount.owner} `
       }
-      getOptionValue={(bankAccount: Partial<BankAccountType>) =>
+      getOptionValue={(bankAccount: Partial<BankAccountResponse>) =>
         bankAccount.id !== undefined && bankAccount.id !== null
           ? bankAccount.id.toString()
           : ''
@@ -53,7 +53,7 @@ const BankAccountSelectBase: React.FC<BankAccountSelectBaseProps> = ({
       value={
         field?.value
           ? data?.find(
-              (opt: Partial<BankAccountType>) => opt.id === field?.value
+              (opt: Partial<BankAccountResponse>) => opt.id === field?.value
             )
           : undefined
       }

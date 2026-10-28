@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { ShippingContractResponse } from '../../types/shippingContract';
@@ -10,8 +10,9 @@ function listShippingContracts(): Promise<
   return axios.get('/shipping-contracts');
 }
 
-export function useShippingContracts(): ReturnType<
-  typeof serializeQueryResult
+export function useShippingContracts(): UseQueryResult<
+  ShippingContractResponse[],
+  unknown
 > {
   return serializeQueryResult(
     useQuery({

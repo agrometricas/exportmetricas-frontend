@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { ProtectorType } from '@/types/box-brand/materials/protector';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listProtectors(): Promise<AxiosResponse> {
+function listProtectors(): Promise<AxiosResponse<ProtectorType[]>> {
   return axios.get('/box-brand/protector');
 }
 
-export function useProtectors() {
+export function useProtectors(): UseQueryResult<ProtectorType[], unknown> {
   const result = useQuery({
     queryKey: ['protectors'],
     queryFn: () => listProtectors(),

@@ -1,15 +1,19 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { RequiredCertificateType } from '@/types/box-brand/specifications/requiredCertificate';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listRequiredCertificates(): Promise<AxiosResponse> {
+function listRequiredCertificates(): Promise<
+  AxiosResponse<RequiredCertificateType[]>
+> {
   return axios.get('/box-brand/certificate');
 }
 
-export function useRequiredCertificates() {
+export function useRequiredCertificates(): UseQueryResult<
+  RequiredCertificateType[],
+  unknown
+> {
   const result = useQuery({
     queryKey: ['requiredCertificates'],
     queryFn: () => listRequiredCertificates(),

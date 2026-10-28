@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { BookingDocumentStatus } from '../../types/shipmentStatus';
@@ -6,7 +6,7 @@ import { serializeQueryResult } from '../../utils/serializeQueryResult';
 
 export function useBookingDocumentStatus(
   bookingId: number
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<BookingDocumentStatus, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['bookingDocumentStatus', bookingId],
@@ -17,7 +17,10 @@ export function useBookingDocumentStatus(
   );
 }
 
-export function useDocumentBoard(): ReturnType<typeof serializeQueryResult> {
+export function useDocumentBoard(): UseQueryResult<
+  BookingDocumentStatus[],
+  unknown
+> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['documentBoard'],

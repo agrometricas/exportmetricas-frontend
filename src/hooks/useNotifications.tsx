@@ -4,29 +4,6 @@ import { useCuttingSheetsPending } from './export/cuttingSheet/getExportsSentPen
 import { useExportSentCostsPending } from './export/export-sent/getExportSentCostsPending';
 import { useExportsSentPending } from './export/export-sent/getExportsSentPending';
 import { useExportsPending } from './export/getExportsPending';
-// The pending lists come untyped from serializeQueryResult; these are the
-// fields read here.
-type PendingSheet = {
-  id: number;
-  export: { boxQuantity: number; weekDescription: string };
-};
-type PendingSupply = {
-  id: number;
-  boxQuantity: number;
-  client: { businessName: string };
-};
-type PendingPayment = {
-  id: number;
-  export: { merchant: { businessName: string; contractType: string } };
-};
-type PendingCollection = {
-  id: number;
-  export?: { client?: { businessName: string } };
-};
-type PendingCost = {
-  id: number;
-  export?: { merchant?: { businessName: string } };
-};
 
 export interface NotificationItem {
   message: string;
@@ -61,19 +38,19 @@ export function useNotifications(): {
   useEffect(() => {
     const newNotifications: NotificationItem[] = [];
 
-    if (cuttingSheets?.length > 0) {
+    if (cuttingSheets?.length) {
       newNotifications.push(
-        ...cuttingSheets.map((sheet: PendingSheet) => ({
+        ...cuttingSheets.map((sheet) => ({
           message: `Hoja de corte pendiente con ID ${sheet.id}`,
-          detail: `Cajas: ${sheet.export.boxQuantity}, ${sheet.export.weekDescription}`,
+          detail: `Cajas: ${sheet.export?.boxQuantity}, ${sheet.export?.weekDescription}`,
           href: `/dashboard/export/add-cutting-sheet/${sheet.id}`,
         }))
       );
     }
 
-    if (supplies?.length > 0) {
+    if (supplies?.length) {
       newNotifications.push(
-        ...supplies.map((supply: PendingSupply) => ({
+        ...supplies.map((supply) => ({
           message: `Envío de insumos pendiente con ID ${supply.id}`,
           detail: `Cajas: ${supply.boxQuantity}, Cliente: ${supply.client.businessName}`,
           href: `/dashboard/liquidation/add-supply-shipment/${supply.id}`,
@@ -81,19 +58,19 @@ export function useNotifications(): {
       );
     }
 
-    if (payments?.length > 0) {
+    if (payments?.length) {
       newNotifications.push(
-        ...payments.map((payment: PendingPayment) => ({
+        ...payments.map((payment) => ({
           message: `Pago pendiente al productor con ID ${payment.id}`,
-          detail: `Productor: ${payment.export.merchant.businessName}, ${payment.export.merchant.contractType} `,
+          detail: `Productor: ${payment.export?.merchant?.businessName}, ${payment.export?.merchant?.contractType} `,
           href: `/dashboard/liquidation/producer-pending-payments/${payment.id}`,
         }))
       );
     }
 
-    if (clientPayments?.length > 0) {
+    if (clientPayments?.length) {
       newNotifications.push(
-        ...clientPayments.map((clientPayment: PendingCollection) => ({
+        ...clientPayments.map((clientPayment) => ({
           message: `Cobro pendiente al cliente con ID ${clientPayment.id}`,
           detail: `Cliente: ${clientPayment.export?.client?.businessName}`,
           href: `/dashboard/liquidation/client-pending-payments/${clientPayment.id}`,
@@ -101,9 +78,9 @@ export function useNotifications(): {
       );
     }
 
-    if (exportSentCostsPendingData?.length > 0) {
+    if (exportSentCostsPendingData?.length) {
       newNotifications.push(
-        ...exportSentCostsPendingData.map((cost: PendingCost) => ({
+        ...exportSentCostsPendingData.map((cost) => ({
           message: `Costo de envío pendiente con ID ${cost.id}`,
           detail: `Productor: ${cost.export?.merchant?.businessName}`,
           href: `/dashboard/liquidation/add-export-cost/${cost.id}`,

@@ -1,19 +1,24 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { BusinessType } from '@/types/merchant/business';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
 interface Body {
   id: number;
 }
 
-function listBusinesses(body: Body): Promise<AxiosResponse> {
+function listBusinesses(body: Body): Promise<AxiosResponse<BusinessType[]>> {
   return axios.get(`/merchant/${body.id}/business`);
 }
 
-export function useBusinessesByMerchantId({ id }: Body) {
+export function useBusinessesByMerchantId({
+  id,
+}: Body): UseQueryResult<BusinessType[], unknown> {
   const result = useQuery({
     queryKey: ['businesses', id],
     queryFn: () => listBusinesses({ id }),

@@ -1,14 +1,16 @@
 import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldBankAccountSelect from './InputFieldBankAccountSelect';
-import { BankAccountType } from '../../../../types/bankAccount';
+import { BankAccountResponse } from '../../../../types/bankAccount.response';
 import { FormLabel } from '../../../ui/form/FormLabel';
 
 interface SelectBankAccountProps {
   name: string;
   label?: string;
-  bankAccountSelect?: Partial<BankAccountType>;
-  setBankAccountSelect?: (bankAccount: Partial<BankAccountType> | null) => void;
+  bankAccountSelect?: Partial<BankAccountResponse>;
+  setBankAccountSelect?: (
+    bankAccount: Partial<BankAccountResponse> | null
+  ) => void;
 }
 
 const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
@@ -18,7 +20,7 @@ const SelectBankAccount: React.FC<SelectBankAccountProps> = ({
   setBankAccountSelect,
 }) => {
   const [bankAccount, setBankAccount] =
-    useState<Partial<BankAccountType> | null>(null);
+    useState<Partial<BankAccountResponse> | null>(null);
 
   useEffect(() => {
     if (!!bankAccountSelect) {

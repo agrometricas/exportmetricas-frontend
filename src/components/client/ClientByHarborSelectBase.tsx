@@ -4,15 +4,15 @@ import React from 'react';
 import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { useClientsByHarborId } from '../../hooks/export/client/getClientsByHarborId';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 
 interface ClientByHarborSelectBaseProps {
   name?: string;
   field?: FieldInputProps<number | ''>;
   placeholder: string;
   harbor?: number;
-  setClient?: (client: Partial<ClientType>) => void;
-  onChange?: (newValue: Partial<ClientType>) => void;
+  setClient?: (client: Partial<ClientResponse>) => void;
+  onChange?: (newValue: Partial<ClientResponse>) => void;
 }
 
 const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
@@ -25,18 +25,20 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
 }) => {
   const { data, isLoading, error } = useClientsByHarborId({ id: harbor ?? 0 });
 
-  const handleChange = (newValue: SingleValue<Partial<ClientType>>): void => {
+  const handleChange = (
+    newValue: SingleValue<Partial<ClientResponse>>
+  ): void => {
     if (setClient) {
-      setClient(newValue as Partial<ClientType>);
+      setClient(newValue as Partial<ClientResponse>);
     }
 
     if (onChange) {
-      onChange(newValue as Partial<ClientType>);
+      onChange(newValue as Partial<ClientResponse>);
     }
   };
 
   return (
-    <CatalogSelect<Partial<ClientType>>
+    <CatalogSelect<Partial<ClientResponse>>
       field={field}
       name={name}
       noOptionsMessage={() =>
@@ -44,7 +46,7 @@ const ClientByHarborSelectBase: React.FC<ClientByHarborSelectBaseProps> = ({
       }
       isLoading={isLoading}
       options={data}
-      getOptionLabel={(opt: Partial<ClientType>) => `${opt.businessName}`}
+      getOptionLabel={(opt: Partial<ClientResponse>) => `${opt.businessName}`}
       onChange={(newValue) => handleChange(newValue)}
       placeholder={placeholder}
     />

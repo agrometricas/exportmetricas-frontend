@@ -8,18 +8,15 @@ import { MRT_Localization_ES } from 'material-react-table/locales/es';
 import Link_Next from 'next/link';
 import React, { useMemo } from 'react';
 import TableDetailPanel from '@/components/ui/TableDetailPanel';
+import { CuttingType } from '@/types/cuttingType';
 import { listTableOptions } from '@/utils/listTableOptions';
 import DetailCuttingTypes from './DetailCuttingTypes';
 import { useCuttingTypes } from '../../../../hooks/export/cutting-type/getCuttingTypes';
 
-type CuttingTypeRow = React.ComponentProps<
-  typeof DetailCuttingTypes
->['cuttingType'] & { id: number };
-
 const TableCuttingTypes = (): React.JSX.Element => {
   const { data = [], ...query } = useCuttingTypes();
 
-  const columns = useMemo<MRT_ColumnDef<CuttingTypeRow>[]>(
+  const columns = useMemo<MRT_ColumnDef<CuttingType>[]>(
     () => [
       {
         header: 'Corte y calidad',

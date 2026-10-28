@@ -3,14 +3,14 @@ import { useField } from 'formik';
 import React from 'react';
 import AddShippingCompanyModal from './AddShippingCompanyModal';
 import ShippingCompanyMultiSelectBase from './ShippingCompanyMultiSelectBase';
-import { ShippingCompanyType } from '../../types/shippingCompany';
+import { ShippingCompanyResponse } from '../../types/shippingCompany.response';
 
 interface InputFieldShippingCompanyMultiSelectProps {
   name: string;
   label: string;
   placeholder: string;
   setShippingCompanies?: (
-    shippingCompanies: Partial<ShippingCompanyType>[]
+    shippingCompanies: Partial<ShippingCompanyResponse>[]
   ) => void;
 }
 
@@ -30,7 +30,7 @@ const InputFieldShippingCompanyMultiSelect: React.FC<
         placeholder={placeholder}
         onChange={(newValues) =>
           helpers.setValue(
-            newValues.map((item: Partial<ShippingCompanyType>) => item.id)
+            newValues.map((item: Partial<ShippingCompanyResponse>) => item.id)
           )
         }
         field={field}

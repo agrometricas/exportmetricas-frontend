@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { ExporterUser } from '../../types/exporterUser';
@@ -12,7 +12,7 @@ function listExporterUsers(
 
 export function useExporterUsers(
   exporterId?: string
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<ExporterUser[], unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['exporterUsers', exporterId],

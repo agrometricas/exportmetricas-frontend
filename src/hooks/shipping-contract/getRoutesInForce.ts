@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { RouteInForce } from '../../types/booking';
@@ -18,7 +18,7 @@ function listRoutesInForce(
 export function useRoutesInForce(
   shippingCompanyId: number | '',
   date: string | null
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<RouteInForce[], unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['shippingRoutesInForce', shippingCompanyId, date],

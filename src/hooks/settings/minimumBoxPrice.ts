@@ -2,6 +2,7 @@ import {
   useMutation,
   UseMutationResult,
   useQuery,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
@@ -16,7 +17,10 @@ function getMinimumBoxPrice(): Promise<AxiosResponse<MinimumBoxPriceResponse>> {
   return axios.get('/settings/minimum-box-price');
 }
 
-export function useMinimumBoxPrice(): ReturnType<typeof serializeQueryResult> {
+export function useMinimumBoxPrice(): UseQueryResult<
+  MinimumBoxPriceResponse,
+  unknown
+> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['minimumBoxPrice'],

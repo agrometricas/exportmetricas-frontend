@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { LabelType } from '@/types/box-brand/materials/label';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listLabels(): Promise<AxiosResponse> {
+function listLabels(): Promise<AxiosResponse<LabelType[]>> {
   return axios.get('/box-brand/label');
 }
 
-export function useLabels() {
+export function useLabels(): UseQueryResult<LabelType[], unknown> {
   const result = useQuery({
     queryKey: ['labels'],
     queryFn: () => listLabels(),

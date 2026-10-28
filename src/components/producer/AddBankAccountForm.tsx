@@ -12,7 +12,7 @@ import {
 import { toaster } from '@/components/ui/toaster';
 import SelectProducer from './SelectProducer';
 import { useCreateBankAccount } from '../../hooks/bank-account/createBankAccount';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 import { ServerErrorResponse } from '../../types/errorResponse';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
@@ -110,7 +110,7 @@ const AddBankAccountForm = (): React.JSX.Element => {
     null
   );
   const isProducerPath = pathname === '/dashboard/producer/add-bank-account';
-  const [client, setClient] = useState<Partial<ClientType> | null>(null);
+  const [client, setClient] = useState<Partial<ClientResponse> | null>(null);
   const isClientPath = pathname === '/dashboard/client/add-bank-account';
 
   const [initialValuesBankAccount, setInitialValuesBankAccount] =

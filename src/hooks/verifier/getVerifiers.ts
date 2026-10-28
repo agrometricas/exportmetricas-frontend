@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
@@ -8,7 +8,7 @@ function listVerifiers(): Promise<AxiosResponse<VerifierResponse[]>> {
   return axios.get('/verifier');
 }
 
-export function useVerifiers(): ReturnType<typeof serializeQueryResult> {
+export function useVerifiers(): UseQueryResult<VerifierResponse[], unknown> {
   const result = useQuery({
     queryKey: ['verifiers'],
     queryFn: () => listVerifiers(),

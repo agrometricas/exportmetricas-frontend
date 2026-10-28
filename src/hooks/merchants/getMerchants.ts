@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
 import { MerchantResponse } from '@/types/merchant/merchant.response';
@@ -8,7 +8,7 @@ function listMerchants(): Promise<AxiosResponse<MerchantResponse[]>> {
   return axios.get<MerchantResponse[]>('/merchant');
 }
 
-export function useMerchants(): ReturnType<typeof serializeQueryResult> {
+export function useMerchants(): UseQueryResult<MerchantResponse[], unknown> {
   const result = useQuery({
     queryKey: ['merchants'],
     queryFn: () => listMerchants(),

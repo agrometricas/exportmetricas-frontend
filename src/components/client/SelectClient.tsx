@@ -1,15 +1,15 @@
 import { Box, Input, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InputFieldClientSelect from './InputFieldClientSelect';
-import { ClientType } from '../../types/client';
+import { ClientResponse } from '../../types/client.response';
 import { FormLabel } from '../ui/form/FormLabel';
 
 interface SelectClientProps {
   name: string;
   harbor?: number;
   isHarbor?: boolean;
-  clientSelect?: Partial<ClientType>;
-  setClientSelect?: (client: Partial<ClientType> | null) => void;
+  clientSelect?: Partial<ClientResponse>;
+  setClientSelect?: (client: Partial<ClientResponse> | null) => void;
 }
 
 const SelectClient: React.FC<SelectClientProps> = ({
@@ -19,7 +19,7 @@ const SelectClient: React.FC<SelectClientProps> = ({
   clientSelect,
   setClientSelect,
 }) => {
-  const [client, setClient] = useState<Partial<ClientType> | null>(null);
+  const [client, setClient] = useState<Partial<ClientResponse> | null>(null);
 
   useEffect(() => {
     if (!!clientSelect) {

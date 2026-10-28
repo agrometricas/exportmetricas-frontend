@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '../../lib/axios';
 import { ProducerContractResponse } from '../../types/producerContract';
@@ -12,7 +12,7 @@ function getProducerContract(
 
 export function useProducerContract(
   id: string
-): ReturnType<typeof serializeQueryResult> {
+): UseQueryResult<ProducerContractResponse, unknown> {
   return serializeQueryResult(
     useQuery({
       queryKey: ['producerContract', id],

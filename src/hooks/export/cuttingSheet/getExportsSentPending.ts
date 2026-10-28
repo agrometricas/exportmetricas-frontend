@@ -1,15 +1,19 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import axios from '@/lib/axios';
+import { ExportSentType } from '@/types/exportSent';
 import { serializeQueryResult } from '@/utils/serializeQueryResult';
 
-function listCuttingSheetsPending(): Promise<AxiosResponse> {
+function listCuttingSheetsPending(): Promise<
+  AxiosResponse<Partial<ExportSentType>[]>
+> {
   return axios.get('/export/cutting-sheet/pending');
 }
 
-export function useCuttingSheetsPending() {
+export function useCuttingSheetsPending(): UseQueryResult<
+  Partial<ExportSentType>[],
+  unknown
+> {
   const result = useQuery({
     queryKey: ['cuttingSheetsPending'],
     queryFn: () => listCuttingSheetsPending(),

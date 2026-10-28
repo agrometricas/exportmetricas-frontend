@@ -1,36 +1,12 @@
 import { Accordion, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { DetailField, DetailFields } from '@/components/ui/DetailFields';
+import { CuttingType } from '@/types/cuttingType';
 
 const DetailCuttingTypes = ({
   cuttingType,
 }: {
-  cuttingType: {
-    quality: string;
-    shipmentType: string;
-    leavesAtHarvest: number;
-    maxAgeAtCut: number;
-    minCaliber: number;
-    maxCaliber: number;
-    fingerLength: string;
-    saneos: string;
-    cunas: string;
-    clusterDetail: string;
-    labelDetail: string;
-    firstLine?: string;
-    secondLine?: string;
-    thirdLine?: string;
-    fourthLine?: string;
-    packagingPattern: string;
-    palletDetail: string;
-    cornerProtectorsDetail: string;
-    reinforcementsDetail: string;
-    plasticStrapsDetail: string;
-    staplesDetail: string;
-    blockingSheetsDetail: string;
-    transportDetail: string;
-    generalObservations?: string;
-  };
+  cuttingType: CuttingType;
 }): React.JSX.Element => {
   return (
     <Accordion.Root defaultValue={['item-0']} multiple>
