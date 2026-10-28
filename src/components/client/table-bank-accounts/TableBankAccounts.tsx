@@ -35,11 +35,13 @@ const TableBankAccounts = (): React.JSX.Element => {
           header: 'RUC',
         },
         {
-          accessorFn: (row) => row.merchant?.city?.name || 'N/A',
+          accessorFn: (row) =>
+            row.merchant?.city?.name || row.client?.city?.name || 'N/A',
           header: 'Ciudad',
         },
         {
-          accessorFn: (row) => row.merchant?.address || 'N/A',
+          accessorFn: (row) =>
+            row.merchant?.address || row.client?.address || 'N/A',
           header: 'Dirección',
         },
       ],
