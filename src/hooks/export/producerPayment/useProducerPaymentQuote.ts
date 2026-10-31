@@ -28,7 +28,7 @@ export interface MaterialsProposal {
 
 export interface PriceProposal {
   price: number;
-  source: 'PRICE_SHEET' | 'MINIMUM';
+  source: 'CONTRACT' | 'PRICE_SHEET' | 'MINIMUM';
   weekStart: string | null;
 }
 

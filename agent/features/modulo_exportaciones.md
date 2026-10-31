@@ -17,7 +17,6 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 |-------|-------|
 | `merchantId`, `businessId` | Productor y finca |
 | `boxBrandId`, `boxQuantity` | Alícuota y número de cajas |
-| `contractType` | `FOB`, `FAS` o `SPOT` |
 | `clientId` | |
 | `departureHarborId`, `destinationHarborId` | Puerto `Nacional` y puerto `Internacional` |
 | `shippingCompanyId`, `depositId`, `transportId`, `verifierId` | Opcionales |
@@ -28,16 +27,20 @@ El envío es lo que descuenta inventario y fija el costo de materiales.
 | `weekDaysOfWeek[]`, `weekBoxesOfDay[]` | Cajas por día de la semana de corte |
 | `weekTotal` | Igual a `boxQuantity` |
 | `bookingId`, `bookingContainerIds` | Booking opcional y los contenedores de él que carga la exportación; sin booking va `null` y `[]` |
-| `purchaseOrderLineId` | Solo cuando la exportación nace de una línea de orden de compra, y solo al crear. Ver [modulo_ordenes_compra](modulo_ordenes_compra.md) |
 
-Con la finca, la fecha de corte y las cajas puestas, el formulario pregunta a
-`GET /contract-usage/check` cómo queda la semana de la finca con esta
-exportación (al editar manda su `exportId` para no contarla dos veces) y lo
-dice debajo de la semana. Si pasa el cupo del contrato muestra el aviso del
-backend, sin bloquear el envío (`ExportQuotaCheck`).
+El formulario no elige el tipo de contrato: el backend decide si la exportación
+se compra de contrato (al precio del contrato de la finca) o *spot*, y lo
+guarda en `contractType` y `producerPrice`. Con la finca, la alícuota, la
+fecha de corte y las cajas puestas, el formulario pregunta a
+`GET /contract-usage/check` (con `boxBrandId` y, si hay booking, cuántos
+contenedores eligió en `bookingContainers`; al editar manda su `exportId` para
+no contarla dos veces) y muestra lo que vuelve debajo de la semana
+(`ExportQuotaCheck`): si va de contrato, a qué precio y cuántos contenedores de
+la finca lleva la semana, o la nota del backend que explica por qué va *spot*;
+y el aviso si pasa el cupo del MAGAP. Nada de eso bloquea el envío.
 
-Al crear una exportación desde cero (no al editar, al duplicar ni desde una
-orden de compra), con la finca elegida el formulario pregunta a
+Al crear una exportación desde cero (no al editar ni al duplicar), con la
+finca elegida el formulario pregunta a
 `GET /export/last?businessId=` cuál es la última exportación no cancelada de
 esa finca y ofrece copiarla: el botón lleva a
 `/dashboard/export/[id]/duplicate` (`LastFarmExportAlert`). La clave

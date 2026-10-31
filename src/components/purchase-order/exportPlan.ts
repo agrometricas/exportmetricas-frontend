@@ -1,9 +1,8 @@
 import { ExportPlanBody } from '../../types/exportPlan';
-import { PurchaseOrderLine } from '../../types/purchaseOrder';
 
 export interface PlanLineValues {
-  purchaseOrderLineId: number;
-  include: boolean;
+  businessId: number | '';
+  boxBrandId: number | '';
   cuttingDate: string;
   boxQuantity: number | '';
   bookingContainerIds: number[];
@@ -26,19 +25,33 @@ export interface PlanValues {
   numberOfVerifiers: number | '';
 }
 
-export const pendingLines = (lines: PurchaseOrderLine[]): PurchaseOrderLine[] =>
-  lines.filter((line) => !line.export);
+export const planLine = (boxBrandId: number | ''): PlanLineValues => ({
+  businessId: '',
+  boxBrandId,
+  cuttingDate: '',
+  boxQuantity: '',
+  bookingContainerIds: [],
+});
 
-export function planInitialValues(lines: PurchaseOrderLine[]): PlanValues {
+// What the client still has to get starts the first farm's boxes: the user
+// splits it among farms from there.
+export function planInitialValues({
+  clientId,
+  boxBrandId,
+  pendingBoxes,
+}: {
+  clientId: number | '';
+  boxBrandId: number | '';
+  pendingBoxes?: number;
+}): PlanValues {
   return {
-    lines: pendingLines(lines).map((line) => ({
-      purchaseOrderLineId: line.id,
-      include: true,
-      cuttingDate: '',
-      boxQuantity: line.boxQuantity,
-      bookingContainerIds: [],
-    })),
-    clientId: '',
+    lines: [
+      {
+        ...planLine(boxBrandId),
+        boxQuantity: pendingBoxes && pendingBoxes > 0 ? pendingBoxes : '',
+      },
+    ],
+    clientId,
     bookingId: '',
     shippingCompanyId: '',
     departureHarborId: '',
@@ -59,13 +72,9 @@ const optionalId = (value: number | ''): number | undefined =>
 const optionalText = (value: string): string | undefined =>
   value.trim() || undefined;
 
-export function exportPlanBody(
-  purchaseOrderId: number,
-  values: PlanValues
-): ExportPlanBody {
+export function exportPlanBody(values: PlanValues): ExportPlanBody {
   const withBooking = !!values.bookingId;
   return {
-    purchaseOrderId,
     clientId: Number(values.clientId),
     departureHarborId: Number(values.departureHarborId),
     destinationHarborId: Number(values.destinationHarborId),
@@ -79,15 +88,14 @@ export function exportPlanBody(
     transportId: optionalId(values.transportId),
     verifierId: optionalId(values.verifierId),
     bookingId: optionalId(values.bookingId),
-    lines: values.lines
-      .filter((line) => line.include)
-      .map((line) => ({
-        purchaseOrderLineId: line.purchaseOrderLineId,
-        cuttingDate: line.cuttingDate,
-        boxQuantity: Number(line.boxQuantity),
-        ...(withBooking && line.bookingContainerIds.length > 0
-          ? { bookingContainerIds: line.bookingContainerIds }
-          : {}),
-      })),
+    lines: values.lines.map((line) => ({
+      businessId: Number(line.businessId),
+      boxBrandId: Number(line.boxBrandId),
+      cuttingDate: line.cuttingDate,
+      boxQuantity: Number(line.boxQuantity),
+      ...(withBooking && line.bookingContainerIds.length > 0
+        ? { bookingContainerIds: line.bookingContainerIds }
+        : {}),
+    })),
   };
 }

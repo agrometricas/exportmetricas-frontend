@@ -10,7 +10,7 @@ function PriceSheetPage(): React.JSX.Element {
     <CardPage
       icon={MdRequestQuote}
       title='Hoja de precios'
-      description='El precio por caja de cada línea de las órdenes de compra de la semana: es el que propone el pago al productor.'
+      description='El precio por caja de las exportaciones spot de la semana; las de contrato llevan el de su contrato. Es el que propone el pago al productor.'
       width='wide'
     >
       <PriceSheetForm />

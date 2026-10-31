@@ -1,5 +1,3 @@
-import { PurchaseOrderLineType } from './purchaseOrder';
-
 interface Named {
   id: number;
   name: string;
@@ -17,19 +15,21 @@ export interface MinimumBoxPriceBody {
 }
 
 export interface PriceSheetLine {
-  lineId: number;
-  purchaseOrderId: number;
+  exportId: number;
   merchant: { id: number; businessName: string; contractType: string };
   business: Named;
   boxBrand: Named & { brandCode: string };
-  type: PurchaseOrderLineType;
+  client: { id: number; businessName: string };
+  cuttingDate: string | null;
+  type: 'CONTRACT' | 'SPOT';
+  editable: boolean;
   boxQuantity: number;
   price: string | null;
   proposedPrice: string;
   effectivePrice: string;
   total: string;
   belowMinimum: boolean;
-  export: { id: number; paidPrice: string | null } | null;
+  paidPrice: string | null;
 }
 
 export interface PriceSheet {
@@ -47,5 +47,5 @@ export interface PriceSheet {
 
 export interface PriceSheetBody {
   week: string;
-  prices: { lineId: number; price: number | null }[];
+  prices: { exportId: number; price: number | null }[];
 }

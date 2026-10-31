@@ -8,6 +8,8 @@ const values = {
   businessId: 50,
   approvedHectares: 12.5,
   approvedWeeklyBoxesPerHectare: 40,
+  weeklyContainers: 2,
+  price: 7.6,
   startDate: '2026-01-05T05:00:00.000Z',
 };
 
@@ -19,6 +21,8 @@ describe('cuerpo del contrato de productor', () => {
       businessId: 50,
       approvedHectares: 12.5,
       approvedWeeklyBoxesPerHectare: 40,
+      weeklyContainers: 2,
+      price: 7.6,
       contractType: null,
       startDate: '2026-01-05T05:00:00.000Z',
       endDate: null,

@@ -18,7 +18,6 @@ export interface ValuesProps {
   shipName: string;
   estimatedTravelTime: string;
   bookingNumber: string;
-  contractType: string;
   numberOfVerifiers: number | '';
   shippingCompanyId: number;
   departureHarborId: number;
@@ -28,7 +27,6 @@ export interface ValuesProps {
   verifierId: number;
   bookingId: number | '';
   bookingContainerIds: number[];
-  purchaseOrderLineId: number | '';
 }
 
 export const initialValues: ValuesProps = {
@@ -48,7 +46,6 @@ export const initialValues: ValuesProps = {
   shipName: '',
   estimatedTravelTime: '',
   bookingNumber: '',
-  contractType: '',
   numberOfVerifiers: '',
   shippingCompanyId: 0,
   departureHarborId: 0,
@@ -58,7 +55,6 @@ export const initialValues: ValuesProps = {
   verifierId: 0,
   bookingId: '',
   bookingContainerIds: [],
-  purchaseOrderLineId: '',
 };
 
 const weekCuttingSchema = Yup.object().shape({
@@ -138,11 +134,6 @@ export const validationSchema = Yup.object({
     otherwise: (schema) => schema.max(50, 'Debe tener 50 caracteres o menos'),
   }),
   bookingNumber: Yup.string()
-    .max(50, 'Debe tener 50 caracteres o menos')
-    .min(2, 'Debe tener 2 caracteres o más')
-    .trim()
-    .required('Requerido'),
-  contractType: Yup.string()
     .max(50, 'Debe tener 50 caracteres o menos')
     .min(2, 'Debe tener 2 caracteres o más')
     .trim()

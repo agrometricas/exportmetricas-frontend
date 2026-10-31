@@ -1,12 +1,12 @@
 export interface ExportPlanLineBody {
-  purchaseOrderLineId: number;
+  businessId: number;
+  boxBrandId: number;
   cuttingDate: string;
   boxQuantity: number;
   bookingContainerIds?: number[];
 }
 
 export interface ExportPlanBody {
-  purchaseOrderId: number;
   clientId: number;
   departureHarborId: number;
   destinationHarborId: number;
@@ -26,8 +26,12 @@ export interface ExportPlanBody {
 export interface ExportPlanResponse {
   exports: {
     id: number;
-    purchaseOrderLineId: number | null;
+    businessId: number;
+    boxBrandId: number;
     boxQuantity: number;
     cuttingDate: string | null;
+    contractType: string | null;
+    producerPrice: string | null;
+    note: string | null;
   }[];
 }

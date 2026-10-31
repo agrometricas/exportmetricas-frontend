@@ -11,7 +11,6 @@ import {
   Field,
 } from '@chakra-ui/react';
 import { FieldArray, Form, Formik } from 'formik';
-import Link_Next from 'next/link';
 import React, { useRef } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import {
@@ -19,32 +18,21 @@ import {
   FormActions,
 } from '@/components/ui/form/FormSection';
 import { useSubmitPurchaseOrder } from './hooks/useSubmitPurchaseOrder';
-import { purchaseOrderQuoteBody } from './purchaseOrderBody';
 import PurchaseOrderLineRow from './PurchaseOrderLineRow';
-import QuotaSummary from './QuotaSummary';
 import {
   emptyLine,
   isCompleteDay,
-  ValuesProps,
+  ORDER_TYPES,
 } from './schemas/purchaseOrder.schema';
-import { usePurchaseOrderQuote } from '../../hooks/purchase-order/usePurchaseOrderQuote';
 import { PurchaseOrderResponse } from '../../types/purchaseOrder';
 import { getWeekInfo } from '../../utils/getWeekInfo';
-import InputFieldProducerSelect from '../producer/InputFieldProducerSelect';
+import InputFieldClientSelect from '../client/InputFieldClientSelect';
 import InputFieldDayDate from '../ui/form/InputFieldDayDate';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
+import InputFieldSelector from '../ui/form/InputFieldSelector';
 
-function DraftQuota({ values }: { values: ValuesProps }): React.JSX.Element {
-  const { quota, isFetching } = usePurchaseOrderQuote(
-    purchaseOrderQuoteBody(values)
-  );
-  return <QuotaSummary quota={quota} isFetching={isFetching} />;
-}
-
-const weekText = (day: string): string =>
-  isCompleteDay(day)
-    ? getWeekInfo({ date: new Date(day) }).week
-    : 'Escribe cualquier día de la semana.';
+const weekText = (day: string, fallback: string): string =>
+  isCompleteDay(day) ? getWeekInfo({ date: new Date(day) }).week : fallback;
 
 export default function PurchaseOrderForm({
   order,
@@ -61,7 +49,6 @@ export default function PurchaseOrderForm({
   } = useSubmitPurchaseOrder(order);
   const confirm = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const exportedLines = order?.lines.filter((line) => line.export).length ?? 0;
 
   return (
     <Formik
@@ -73,49 +60,70 @@ export default function PurchaseOrderForm({
       {({ values, errors }) => (
         <Form>
           <Flex flexDirection='column' gap={3}>
-            <FormSectionTitle>Productor y semana</FormSectionTitle>
+            <FormSectionTitle>Cliente y semanas</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               {order ? (
-                <Field.Root>
-                  <Field.Label fontSize='sm' mb='8px'>
-                    Productor
-                  </Field.Label>
-                  <Input readOnly value={order.merchant.businessName} />
-                </Field.Root>
+                <>
+                  <Field.Root>
+                    <Field.Label fontSize='sm' mb='8px'>
+                      Cliente
+                    </Field.Label>
+                    <Input readOnly value={order.client.businessName} />
+                  </Field.Root>
+                  <Field.Root>
+                    <Field.Label fontSize='sm' mb='8px'>
+                      Tipo
+                    </Field.Label>
+                    <Input
+                      readOnly
+                      value={
+                        ORDER_TYPES.find((type) => type.id === order.type)
+                          ?.name ?? ''
+                      }
+                    />
+                  </Field.Root>
+                </>
               ) : (
-                <InputFieldProducerSelect
-                  name='merchantId'
-                  label='Productor'
-                  placeholder='Selecciona el productor'
-                />
+                <>
+                  <InputFieldClientSelect
+                    name='clientId'
+                    label='Cliente'
+                    placeholder='Selecciona el cliente'
+                  />
+                  <InputFieldSelector
+                    name='type'
+                    label='Tipo'
+                    options={ORDER_TYPES}
+                  />
+                </>
               )}
               <InputFieldDayDate
-                name='weekDay'
-                label='Semana'
-                helperText={weekText(values.weekDay)}
+                name='startDay'
+                label={values.type === 'SPOT' ? 'Semana' : 'Semana de inicio'}
+                helperText={weekText(
+                  values.startDay,
+                  'Escribe cualquier día de la semana.'
+                )}
               />
+              {values.type === 'CONTRACT' && (
+                <InputFieldDayDate
+                  name='endDay'
+                  label='Semana de fin (opcional)'
+                  helperText={weekText(
+                    values.endDay,
+                    'Sin semana de fin, el contrato queda abierto.'
+                  )}
+                />
+              )}
             </SimpleGrid>
             <InputFieldPlain name='notes' label='Notas' />
 
-            <FormSectionTitle>Líneas</FormSectionTitle>
+            <FormSectionTitle>Lo que pide</FormSectionTitle>
             <Text fontSize='sm' color='fg.muted'>
-              Cada línea es una finca, una alícuota y sus cajas. Márcala como
-              contrato si va contra el cupo del productor, o como spot.
+              {values.type === 'CONTRACT'
+                ? 'Cada alícuota con las cajas que pide todas las semanas y su precio de contrato.'
+                : 'Cada alícuota con las cajas que pide esa semana. Si todavía no se sabe el precio, déjalo vacío.'}
             </Text>
-            {order && exportedLines < order.lines.length && (
-              <Button
-                alignSelf='flex-start'
-                size='sm'
-                colorPalette='green'
-                asChild
-              >
-                <Link_Next
-                  href={`/dashboard/export/purchase-orders/${order.id}/plan`}
-                >
-                  Plan semanal: crear varias exportaciones
-                </Link_Next>
-              </Button>
-            )}
             <FieldArray name='lines'>
               {({ push, remove }) => (
                 <Flex direction='column' gap={3}>
@@ -123,8 +131,6 @@ export default function PurchaseOrderForm({
                     <PurchaseOrderLineRow
                       key={line.id ?? `new-${index}`}
                       index={index}
-                      merchant={Number(values.merchantId) || undefined}
-                      orderId={order?.id}
                       saved={order?.lines.find((s) => s.id === line.id)}
                       canRemove={values.lines.length > 1}
                       onRemove={() => remove(index)}
@@ -142,14 +148,11 @@ export default function PurchaseOrderForm({
                     onClick={() => push(emptyLine)}
                   >
                     <FiPlus />
-                    Agregar línea
+                    Agregar alícuota
                   </Button>
                 </Flex>
               )}
             </FieldArray>
-
-            <FormSectionTitle>Cupo de la semana</FormSectionTitle>
-            <DraftQuota values={values} />
 
             <FormActions>
               {order && (
@@ -158,12 +161,6 @@ export default function PurchaseOrderForm({
                   colorPalette='red'
                   onClick={confirm.onOpen}
                   loading={isDeleting}
-                  disabled={exportedLines > 0}
-                  title={
-                    exportedLines > 0
-                      ? 'Cancela sus exportaciones para eliminarla'
-                      : undefined
-                  }
                 >
                   Eliminar orden
                 </Button>
@@ -193,8 +190,8 @@ export default function PurchaseOrderForm({
                     </Dialog.Header>
                     <Dialog.Body>
                       <Box>
-                        Se eliminará la orden de {order?.merchant.businessName}{' '}
-                        con sus líneas.
+                        Se eliminará la orden de {order?.client.businessName}.
+                        Las exportaciones ya asignadas no se tocan.
                       </Box>
                     </Dialog.Body>
                     <Dialog.Footer>

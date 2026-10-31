@@ -70,6 +70,7 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
             <Table.ColumnHeader>Productor</Table.ColumnHeader>
             <Table.ColumnHeader>Finca</Table.ColumnHeader>
             <Table.ColumnHeader>Alícuota</Table.ColumnHeader>
+            <Table.ColumnHeader>Cliente</Table.ColumnHeader>
             <Table.ColumnHeader>Tipo</Table.ColumnHeader>
             <Table.ColumnHeader textAlign='end'>Cajas</Table.ColumnHeader>
             <Table.ColumnHeader>Precio por caja</Table.ColumnHeader>
@@ -79,10 +80,11 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
         </Table.Header>
         <Table.Body>
           {sheet.lines.map((line) => (
-            <Table.Row key={line.lineId}>
+            <Table.Row key={line.exportId}>
               <Table.Cell>{line.merchant.businessName}</Table.Cell>
               <Table.Cell>{line.business.name}</Table.Cell>
               <Table.Cell>{line.boxBrand.name}</Table.Cell>
+              <Table.Cell>{line.client.businessName}</Table.Cell>
               <Table.Cell>
                 <Badge
                   colorPalette={line.type === 'CONTRACT' ? 'green' : 'purple'}
@@ -93,11 +95,21 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
               </Table.Cell>
               <Table.Cell textAlign='end'>{line.boxQuantity}</Table.Cell>
               <Table.Cell minW='150px'>
-                <InputFieldPlain
-                  name={`prices.${priceKey(line.lineId)}`}
-                  inputMode='decimal'
-                  placeholder={line.proposedPrice}
-                />
+                {line.editable ? (
+                  <InputFieldPlain
+                    name={`prices.${priceKey(line.exportId)}`}
+                    inputMode='decimal'
+                    placeholder={line.proposedPrice}
+                  />
+                ) : (
+                  <Text fontSize='sm'>
+                    {line.price ? usd(line.price) : '—'}
+                    <Text as='span' color={mutedColor}>
+                      {' '}
+                      · del contrato
+                    </Text>
+                  </Text>
+                )}
                 {line.belowMinimum && (
                   <Badge colorPalette='red' variant='subtle' mt={1}>
                     Bajo el mínimo
@@ -108,28 +120,26 @@ function SheetTable({ sheet }: { sheet: PriceSheet }): React.JSX.Element {
                 {usd(line.total)}
               </Table.Cell>
               <Table.Cell>
-                {line.export ? (
-                  <Text fontSize='sm'>
-                    {line.export.id}
-                    {line.export.paidPrice && (
-                      <Text as='span' color={mutedColor}>
-                        {' '}
-                        · pagada a {usd(line.export.paidPrice)}
-                      </Text>
-                    )}
-                  </Text>
-                ) : (
-                  <Text fontSize='sm' color={mutedColor}>
-                    —
-                  </Text>
-                )}
+                <Text fontSize='sm'>
+                  <Link color='green.fg' asChild>
+                    <Link_Next href={`/dashboard/export/${line.exportId}`}>
+                      {line.exportId}
+                    </Link_Next>
+                  </Link>
+                  {line.paidPrice && (
+                    <Text as='span' color={mutedColor}>
+                      {' '}
+                      · pagada a {usd(line.paidPrice)}
+                    </Text>
+                  )}
+                </Text>
               </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
         <Table.Footer>
           <Table.Row>
-            <Table.ColumnHeader colSpan={4}>
+            <Table.ColumnHeader colSpan={5}>
               Total de la semana
             </Table.ColumnHeader>
             <Table.ColumnHeader textAlign='end'>
@@ -188,7 +198,8 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
               {usd(shown.minimum.fobBoxPrice)}
             </Text>
             <Text fontSize='xs' color={mutedColor}>
-              Una línea sin precio usa el mínimo del contrato de su productor.{' '}
+              Las de contrato llevan el precio del contrato de su finca. Una
+              spot sin precio usa el mínimo del contrato de su productor.{' '}
               {shown.minimum.isDefault && 'Es el de 2026: '}
               <Link color='green.fg' asChild>
                 <Link_Next href='/dashboard/settings/minimum-box-price'>
@@ -204,10 +215,10 @@ function SheetBody({ isSaving }: { isSaving: boolean }): React.JSX.Element {
       {isLoading && <LoadingState />}
       {shown && shown.lines.length === 0 && (
         <Text fontSize='sm' color={mutedColor}>
-          No hay órdenes de compra esa semana.{' '}
+          No hay exportaciones con corte esa semana.{' '}
           <Link color='green.fg' asChild>
-            <Link_Next href='/dashboard/export/add-purchase-order'>
-              Crear una orden
+            <Link_Next href='/dashboard/export/weekly-plan'>
+              Ver los pedidos de la semana
             </Link_Next>
           </Link>
         </Text>

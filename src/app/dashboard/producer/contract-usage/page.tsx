@@ -10,7 +10,7 @@ function ContractUsagePage(): React.JSX.Element {
     <CardPage
       icon={MdWarningAmber}
       title='Cupos de la semana'
-      description='Cajas exportadas por cada finca contra las aprobadas en su contrato'
+      description='Contenedores de contrato que usó cada finca y cajas exportadas contra su cupo del MAGAP'
       width='wide'
     >
       <ContractUsageView />

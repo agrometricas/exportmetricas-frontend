@@ -70,7 +70,7 @@ costos (N)** (`BatchActionBar`) los confirma tal como están, con
 | Campo | Origen en el formulario |
 |-------|-------------------------|
 | `exportSentId`, `merchantId`, `departureHarborId`, `destinationHarborId`, `boxBrandId`, `boxQuantity` | Precargados del envío elegido |
-| `price` | Propuesto por el backend (hoja de precios de la semana o precio mínimo), editable |
+| `price` | Propuesto por el backend (el precio fijado en la exportación o el mínimo), editable |
 | `transport`, `materials`, `others` | Los escribe el usuario |
 | `description` | Descripción de los gastos |
 | `sourceBankAccountId`, `destinationBankAccountId` | Selectores de cuenta |
@@ -78,7 +78,8 @@ costos (N)** (`BatchActionBar`) los confirma tal como están, con
 ### Cobro a cliente (campos que envía la web)
 
 `exportSentId`, `clientId`, `boxBrandId`, `boxQuantity`, `price`,
-`description?`, `sourceBankAccountId`, `destinationBankAccountId`.
+`description?`, `sourceBankAccountId`, `destinationBankAccountId`. El `price`
+arranca con el que propone el backend y es editable.
 
 ---
 
@@ -92,14 +93,19 @@ de cotización y el formulario los muestra en campos de solo lectura
 | Formulario | Ruta | Devuelve |
 |------------|------|----------|
 | Pago a productor | `GET /export/producer-payment/quote` | `price`, `priceProposal`, `transport`, `transportProposal`, `materials`, `materialsProposal`, `subtotal1`, `subtotal2`, `total`, `amount` |
-| Cobro a cliente | `GET /client-payment/quote` | `price`, `total` |
+| Cobro a cliente | `GET /client-payment/quote` | `price`, `total`, `priceProposal` |
 
 - La cotización se pide 300 ms después de la última tecla
 - Pedida sin `price`, devuelve el precio que el backend propone; ese valor
   llena el campo *Precio*, que el usuario puede cambiar. En el pago a
-  productor, debajo se dice de dónde sale (`priceProposal.source`): de la
-  hoja de precios de la semana, si la exportación nació de una línea con
-  precio, o el precio mínimo de la exportadora
+  productor, debajo se dice de dónde sale (`priceProposal.source`): el del
+  contrato de la finca, fijado al planificar la exportación (`CONTRACT`); el
+  de la hoja de precios si es *spot* (`PRICE_SHEET`); o el precio mínimo de la
+  exportadora
+- El cobro a cliente manda también el `exportSentId`: sin precio, el backend
+  propone el de la orden de compra del cliente para esa alícuota y semana,
+  primero el de su contrato y después el de su pedido *spot*, o el precio de
+  venta por defecto. Debajo del campo se dice cuál es
 - El pago a productor manda también el `exportSentId`. Pedida sin `transport`,
   la cotización propone el transporte con la tarifa del transportista para la
   provincia de la finca por contenedor, y trae el detalle en
@@ -127,20 +133,23 @@ moviéndolos al backend, no editando el componente.
 ### Hoja de precios
 
 Liquidación → **Hoja de Precios** (`/dashboard/liquidation/price-sheet`): las
-líneas de las órdenes de compra de la semana con su precio por caja.
+exportaciones con corte en la semana, con su cliente y su precio por caja al
+productor. Solo las *spot* se precian aquí; las de contrato muestran el precio
+de su contrato sin campo.
 
 - Se elige cualquier día de la semana (`DD/MM/AAAA`); arranca en la de hoy.
   La hoja sale de `GET /price-sheet?week=`.
-- Cada línea tiene su campo de precio. Vacío usa el mínimo del contrato de su
-  productor, que se ve como ejemplo en el campo.
-- Los totales por línea y de la semana, y los avisos de líneas de contrato
-  bajo el mínimo, los da el backend: mientras se escribe, la hoja se pide a
+- Cada exportación *spot* tiene su campo de precio. Vacío usa el mínimo del
+  contrato de su productor, que se ve como ejemplo en el campo.
+- Los totales por exportación y de la semana, y los avisos (precios de
+  contrato bajo el mínimo, *spot* sin precio), los da el backend: mientras se escribe, la hoja se pide a
   `POST /price-sheet/quote` con los precios escritos, 300 ms después de la
   última tecla (`usePriceSheetQuote`). *Guardar Precios* está apagado hasta
   que lo que se ve responde a lo escrito.
-- Guardar manda `PUT /price-sheet` con cada línea y su precio (`null` si está
-  vacía). Un aviso de bajo mínimo no impide guardar.
-- La línea muestra su exportación y, si ya se pagó, el precio del pago.
+- Guardar manda `PUT /price-sheet` con cada exportación *spot* y su precio
+  (`null` si está vacía); nunca una de contrato. Un aviso no impide guardar.
+- Cada fila enlaza a su exportación y, si ya se pagó, muestra el precio del
+  pago.
 
 ### Precio mínimo
 

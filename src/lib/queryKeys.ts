@@ -85,7 +85,7 @@ export const QUERY_KEYS = [
   'protectors',
   'provinces',
   'purchaseOrder',
-  'purchaseOrderQuote',
+  'purchaseOrderWeek',
   'purchaseOrders',
   'reinforcements',
   'requiredCertificates',

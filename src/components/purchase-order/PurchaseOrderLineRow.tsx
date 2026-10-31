@@ -1,194 +1,74 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  NativeSelect,
-  Grid,
-  Text,
-  Field,
-} from '@chakra-ui/react';
+import { Box, Grid, IconButton, Text, Field } from '@chakra-ui/react';
 import { useField } from 'formik';
-import Link_Next from 'next/link';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { FiTrash2 } from 'react-icons/fi';
-import { Tooltip } from '@/components/ui/tooltip';
-import { LINE_TYPES } from './schemas/purchaseOrder.schema';
 import { PurchaseOrderLine } from '../../types/purchaseOrder';
-import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import BoxBrandSelectBase from '../box-brands/BoxBrandSelectBase';
-import BusinessSelectBase from '../business/BusinessSelectBase';
 import InputFieldPlain from '../ui/form/InputFieldPlain';
 
 interface PurchaseOrderLineRowProps {
   index: number;
-  merchant: number | undefined;
-  orderId?: number;
   saved?: PurchaseOrderLine;
   canRemove: boolean;
   onRemove: () => void;
 }
 
-function SelectField({
-  name,
-  label,
-  children,
-}: {
-  name: string;
-  label: string;
-  children: (
-    field: ReturnType<typeof useField<number | ''>>
-  ) => React.ReactNode;
-}): React.JSX.Element {
-  const binding = useField<number | ''>(name);
-  const meta = binding[1];
-  return (
-    <Field.Root invalid={!!meta.error && meta.touched}>
-      <Field.Label fontSize='sm' mb='8px'>
-        {label}
-      </Field.Label>
-      {children(binding)}
-      <Field.ErrorText>{meta.error}</Field.ErrorText>
-    </Field.Root>
-  );
-}
-
-function ExportStatus({
-  orderId,
-  saved,
-}: {
-  orderId?: number;
-  saved?: PurchaseOrderLine;
-}): React.JSX.Element | null {
-  const mutedColor = 'fg.muted';
-  if (!saved || !orderId) {
-    return (
-      <Text fontSize='sm' color={mutedColor}>
-        Guarda la orden para crear la exportación de esta línea.
-      </Text>
-    );
-  }
-  if (saved.export) {
-    const cutting = formatDayMonthYear(saved.export.cuttingDate);
-    return (
-      <Flex align='center' gap={2} wrap='wrap'>
-        <Badge colorPalette='green' variant='subtle'>
-          Exportación {saved.export.id}
-        </Badge>
-        <Text fontSize='sm' color={mutedColor}>
-          {saved.export.boxQuantity} cajas{cutting ? ` · corte ${cutting}` : ''}
-        </Text>
-      </Flex>
-    );
-  }
-  return (
-    <Button size='sm' colorPalette='green' alignSelf='flex-start' asChild>
-      <Link_Next
-        href={`/dashboard/export/purchase-orders/${orderId}/export/${saved.id}`}
-      >
-        Crear exportación
-      </Link_Next>
-    </Button>
-  );
-}
-
 export default function PurchaseOrderLineRow({
   index,
-  merchant,
-  orderId,
   saved,
   canRemove,
   onRemove,
 }: PurchaseOrderLineRowProps): React.JSX.Element {
-  const borderColor = 'border';
   const prefix = `lines[${index}]`;
-  const [, , businessHelpers] = useField(`${prefix}.businessId`);
-  const previousMerchant = useRef(merchant);
-
-  // A farm belongs to one producer: changing the producer empties it.
-  useEffect(() => {
-    if (previousMerchant.current === merchant) return;
-    previousMerchant.current = merchant;
-    businessHelpers.setValue('');
-  }, [businessHelpers, merchant]);
-
-  const exported = Boolean(saved?.export);
+  const [field, meta, helpers] = useField<number | ''>(`${prefix}.boxBrandId`);
 
   return (
-    <Box borderWidth='1px' borderColor={borderColor} borderRadius='lg' p={4}>
+    <Box borderWidth='1px' borderColor='border' borderRadius='lg' p={4}>
       <Grid
-        templateColumns={{
-          base: '1fr',
-          md: '1fr 1fr',
-          xl: '2fr 2fr 1fr 1fr',
-        }}
+        templateColumns={{ base: '1fr', md: '2fr 1fr 1fr auto' }}
         gap={4}
+        alignItems='start'
       >
-        <SelectField name={`${prefix}.businessId`} label='Finca'>
-          {([field, , helpers]) => (
-            <BusinessSelectBase
-              field={field}
-              placeholder='Selecciona la finca'
-              merchant={merchant}
-              onChange={(value) => helpers.setValue(value?.id ?? '')}
-            />
-          )}
-        </SelectField>
-        <SelectField name={`${prefix}.boxBrandId`} label='Alícuota'>
-          {([field, , helpers]) => (
-            <BoxBrandSelectBase
-              field={field}
-              placeholder='Selecciona la alícuota'
-              onChange={(value) => helpers.setValue(value?.id ?? '')}
-            />
-          )}
-        </SelectField>
+        <Field.Root invalid={!!meta.error && meta.touched}>
+          <Field.Label fontSize='sm' mb='8px'>
+            Alícuota
+          </Field.Label>
+          <BoxBrandSelectBase
+            field={field}
+            placeholder='Selecciona la alícuota'
+            onChange={(value) => helpers.setValue(value?.id ?? '')}
+          />
+          <Field.ErrorText>{meta.error}</Field.ErrorText>
+        </Field.Root>
         <InputFieldPlain
           name={`${prefix}.boxQuantity`}
-          label='Cajas'
+          label='Cajas por semana'
           inputMode='numeric'
         />
-        <SelectField name={`${prefix}.type`} label='Tipo'>
-          {([field]) => (
-            <NativeSelect.Root>
-              <NativeSelect.Field
-                name={field.name}
-                value={field.value as string}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              >
-                {LINE_TYPES.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </NativeSelect.Field>
-              <NativeSelect.Indicator />
-            </NativeSelect.Root>
-          )}
-        </SelectField>
-      </Grid>
-      <Flex mt={3} justify='space-between' align='center' gap={3}>
-        <ExportStatus orderId={orderId} saved={saved} />
-        <Tooltip
-          content={
-            exported
-              ? 'Cancela la exportación para quitar la línea'
-              : 'Quitar la línea'
-          }
+        <InputFieldPlain
+          name={`${prefix}.price`}
+          label='Precio por caja (opcional)'
+          inputMode='decimal'
+        />
+        <IconButton
+          aria-label={`Quitar la alícuota ${index + 1}`}
+          variant='ghost'
+          colorPalette='red'
+          mt={{ base: 0, md: 7 }}
+          disabled={!canRemove}
+          onClick={onRemove}
         >
-          <IconButton
-            aria-label={`Quitar la línea ${index + 1}`}
-            variant='ghost'
-            colorPalette='red'
-            disabled={exported || !canRemove}
-            onClick={onRemove}
-          >
-            <FiTrash2 />
-          </IconButton>
-        </Tooltip>
-      </Flex>
+          <FiTrash2 />
+        </IconButton>
+      </Grid>
+      {saved && (
+        <Text fontSize='xs' color='fg.muted' mt={2}>
+          {saved.containers === 1
+            ? '1 contenedor por semana'
+            : `${saved.containers} contenedores por semana`}{' '}
+          de {saved.boxBrand.boxQuantity} cajas
+        </Text>
+      )}
     </Box>
   );
 }

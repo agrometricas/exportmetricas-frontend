@@ -28,6 +28,32 @@ describe('revisión del cupo al llenar una exportación', () => {
     ).toMatchObject({ exportId: 40 });
   });
 
+  it('con la alícuota pregunta si iría de contrato o spot, con los contenedores elegidos del booking', () => {
+    expect(
+      exportQuotaParams({
+        businessId: 5,
+        cuttingDate: WEDNESDAY,
+        boxQuantity: 1080,
+        boxBrandId: 11,
+        bookingId: 70,
+        bookingContainerIds: [1, 2],
+      })
+    ).toMatchObject({ boxBrandId: 11, bookingContainers: 2 });
+  });
+
+  it('sin booking no manda contenedores: los cuenta el backend por las cajas', () => {
+    expect(
+      exportQuotaParams({
+        businessId: 5,
+        cuttingDate: WEDNESDAY,
+        boxQuantity: 1080,
+        boxBrandId: 11,
+        bookingId: '',
+        bookingContainerIds: [1],
+      })
+    ).not.toHaveProperty('bookingContainers');
+  });
+
   it('espera finca, un día completo y cajas', () => {
     const complete = { businessId: 5, cuttingDate: WEDNESDAY, boxQuantity: 1 };
     expect(exportQuotaParams({ ...complete, businessId: '' })).toBeNull();

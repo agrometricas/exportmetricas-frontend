@@ -17,7 +17,7 @@ function EditProducerContractPage(): React.JSX.Element {
     <CardPage
       icon={MdOutlineAssignment}
       title='Editar contrato de productor'
-      description='Cambia el cupo o la vigencia del contrato'
+      description='Cambia lo pactado, el cupo o la vigencia del contrato'
     >
       {isLoading || !contract ? (
         <LoadingState />

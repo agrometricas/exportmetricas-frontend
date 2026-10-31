@@ -1,14 +1,16 @@
 # Módulo Órdenes de Compra
 
-> Reglas autoritativas del backend; aquí se anota cómo la web arma la orden,
-> muestra el cupo y crea la exportación de cada línea.
+> Reglas autoritativas del backend; aquí se anota cómo la web arma la orden
+> del cliente, muestra lo pedido contra lo asignado y asigna fincas.
 
 ### Propósito
 
-La orden de compra es lo que la exportadora le pide a un productor para una
-semana: por finca, qué alícuota y cuántas cajas, y si cada línea va contra el
-cupo del contrato del productor o es *spot*. De cada línea nace una
-exportación.
+La orden de compra es lo que **el cliente** pide: qué alícuotas y cuántas
+cajas de cada una por semana. Es de contrato, una porción fija que se repite
+cada semana mientras está vigente, o *spot*, lo que pide de más para una
+sola semana. La exportadora la cumple asignando fincas: cada finca asignada es
+una exportación de ese cliente, y el contrato de la finca decide si se le
+compra de contrato o *spot*.
 
 ---
 
@@ -16,11 +18,11 @@ exportación.
 
 | Ruta | Qué hace |
 |------|----------|
-| `export/purchase-orders` | Lista: semana, productor, cajas de contrato, spot y total, y cuántas líneas ya son exportación |
+| `export/purchase-orders` | Lista: cliente, tipo, semanas, cajas por semana, alícuotas, si está vigente esta semana y notas |
 | `export/add-purchase-order` | Crea la orden. Al guardar abre su página |
-| `export/purchase-orders/[id]` | Edita la orden; cada línea guardada tiene su botón **Crear exportación** o muestra la exportación que ya tiene |
-| `export/purchase-orders/[id]/export/[lineId]` | Formulario de exportación prellenado con la línea |
-| `export/purchase-orders/[id]/plan` | Plan semanal: crea de una vez las exportaciones de varias líneas |
+| `export/purchase-orders/[id]` | Edita la orden o la elimina |
+| `export/weekly-plan` | **Pedidos de la semana**: lo pedido contra lo asignado, por cliente y alícuota |
+| `export/weekly-plan/assign` | **Asignar fincas**: crea de una vez las exportaciones de varias fincas para un cliente |
 
 En el menú están bajo *Exportaciones*.
 
@@ -30,71 +32,75 @@ En el menú están bajo *Exportaciones*.
 
 | Campo | Notas |
 |-------|-------|
-| `merchantId` | Productor. Solo al crear: el backend no lo acepta al editar |
-| `weekStart` | Cualquier día de la semana en `DD/MM/AAAA`; el backend lo lleva al lunes. Debajo se muestra `getWeekInfo(día).week` |
+| `type` | `CONTRACT` o `SPOT`. Solo al crear |
+| `clientId` | Solo al crear: el backend no acepta el cliente ni el tipo al editar |
+| `startWeek` | Cualquier día de la semana en `DD/MM/AAAA`; el backend lo lleva al lunes. Debajo se muestra `getWeekInfo(día).week` |
+| `endWeek` | Solo en un contrato, opcional: sin él queda abierto. Un *spot* manda `null` |
 | `notes` | Opcional |
-| `lines[]` | `businessId`, `boxBrandId`, `boxQuantity`, `type` (`CONTRACT` o `SPOT`); al editar, la línea guardada lleva su `id` |
+| `lines[]` | `boxBrandId`, `boxQuantity` (cajas por semana) y `price` (precio de venta por caja, opcional: `null` vacío); al editar, la línea guardada lleva su `id` |
 
-- Al cambiar de productor, las fincas de las líneas se vacían.
-- Una línea que ya es exportación no se puede quitar: el botón está apagado.
-- **Eliminar** está apagado mientras alguna línea sea exportación.
-
-### Cupo de la semana
-
-El formulario no calcula el cupo: lo pide a `POST /purchase-orders/quote` con
-el productor, el día y las líneas completas, 300 ms después de la última tecla
-(`usePurchaseOrderQuote`). Muestra lo que vuelve: cajas de contrato, spot y
-total, una fila por finca con su cupo semanal, lo que lleva de contrato, lo que
-le queda y lo spot, y los avisos del backend. Los avisos no impiden guardar.
+- Una alícuota va una sola vez por orden; el esquema lo avisa antes de que lo
+  rechace el backend.
+- Una línea guardada dice cuántos contenedores por semana son, con el dato que
+  devuelve el backend (`containers`).
+- Eliminar la orden no toca las exportaciones ya asignadas.
+- El cuerpo lo arma `purchaseOrderBody` (`components/purchase-order/`).
 
 ---
 
-### Exportación de una línea
+### Pedidos de la semana
 
-La página de la línea carga la orden y, de las mismas listas que usan los
-selectores, el productor, la finca y la alícuota completos para mostrar sus
-datos. El formulario de exportación arranca con esos tres y las cajas de la
-línea, y manda `purchaseOrderLineId`. Al guardar vuelve a la orden.
+Se elige cualquier día de la semana (arranca en la de hoy, o en la del
+parámetro `week`). La tabla sale de `GET /purchase-orders/week?week=` sin
+calcular nada en el navegador:
 
-- La finca y la alícuota tienen que ser las de la línea; las cajas se pueden
-  ajustar.
-- Editar o duplicar una exportación nunca manda `purchaseOrderLineId`. Al
-  editar una que nació de una orden, un aviso enlaza a la orden.
-- Cancelar la exportación suelta la línea: vuelve a aparecer **Crear
-  exportación**.
+- Por cliente y alícuota: lo pedido, con cuánto es de contrato y cuánto
+  *spot*; lo asignado, con cada exportación (finca, cajas, corte y si es de
+  contrato o *spot*); y lo que falta, o *Completo*, o cuánto se asignó de más.
+- El pie y los avisos (asignado de más, asignado sin pedido) son los del
+  backend.
+- Cada fila lleva **Asignar fincas**, un enlace a `export/weekly-plan/assign`
+  con el cliente, la alícuota, la semana y lo que falta en la URL.
 
 ---
 
-### Plan semanal
+### Asignar fincas
 
-Desde la orden, **Plan semanal** abre un formulario con las líneas que aún no
-son exportación. Cada una se marca o se deja fuera, con su día de corte, sus
-cajas (arrancan con las pedidas) y, si hay booking, sus contenedores; un
-contenedor elegido en una línea queda deshabilitado en las otras. Los datos
-comunes —cliente, booking o naviera y puertos, nave, fecha máxima de ingreso,
-depósito, transporte y verificadora— se llenan una sola vez.
+`ExportPlanForm` (`components/purchase-order/`). Arranca con el cliente, una
+finca por llenar con la alícuota de la fila y las cajas que faltan.
 
+- Por finca: la finca (de todas las de la exportadora), la alícuota, el día de
+  corte, las cajas y, si hay booking, sus contenedores; un contenedor elegido
+  en una finca queda deshabilitado en las otras. **Agregar finca** suma otra
+  con la misma alícuota.
+- Debajo de cada finca se ve su contrato de esa semana, de
+  `GET /contract-usage?week=`: el precio y los contenedores que le quedan, o
+  *Sin contrato esa semana: va spot*. Es lo ya guardado: las fincas de este
+  mismo formulario las cuenta el backend al crear, en el orden de la lista.
+- Los datos comunes —booking o naviera y puertos, nave, fecha máxima de
+  ingreso, depósito, transporte y verificadora— se llenan una sola vez.
 - Manda `POST /export/plan` con el body de `exportPlanBody`
-  (`components/purchase-order/exportPlan.ts`): solo las líneas marcadas, y los
-  contenedores solo con booking.
-- El backend arma cada exportación y su grilla de la semana, valida que el día
-  sea de la semana de la orden y crea todas o ninguna; el mensaje de error dice
-  qué línea falló.
-- Al terminar vuelve a la orden. Invalida lo mismo que crear una exportación.
+  (`components/purchase-order/exportPlan.ts`): cada finca con su alícuota, su
+  día y sus cajas, y los contenedores solo con booking. No manda el tipo de
+  contrato ni el precio: los decide el backend.
+- El backend crea todas o ninguna; el mensaje de error dice qué falló. Al
+  terminar vuelve a *Pedidos de la semana*, y el aviso junta las notas del
+  backend de las que fueron *spot*.
 
 ---
 
 ### Precios
 
-El precio de cada línea no se escribe en la orden: va en la **Hoja de
-Precios** de Liquidación (ver [modulo_liquidacion](modulo_liquidacion.md)),
-que reúne las líneas de todas las órdenes de la semana. El pago al productor
-de la exportación de una línea propone ese precio.
+El precio de venta va en la orden y el cobro al cliente lo propone (ver
+[modulo_liquidacion](modulo_liquidacion.md)). El precio al productor no se
+escribe aquí: una exportación de contrato lleva el de su contrato y una *spot*
+se precia en la **Hoja de Precios** de Liquidación.
 
 ---
 
 ### Claves de consulta
 
-`purchaseOrders` (lista) y `purchaseOrder` (detalle). Las invalidan guardar o
-eliminar la orden, crear o editar una exportación, cancelarla y el plan
-semanal.
+`purchaseOrders` (lista), `purchaseOrder` (detalle) y `purchaseOrderWeek` (lo
+pedido contra lo asignado). Guardar o eliminar la orden invalida las tres;
+crear, editar o cancelar una exportación y asignar fincas invalidan
+`purchaseOrderWeek`, la hoja de precios y el uso de los contratos.

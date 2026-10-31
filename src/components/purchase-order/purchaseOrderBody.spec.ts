@@ -1,135 +1,79 @@
 import { describe, expect, it } from 'vitest';
-import { purchaseOrderBody, purchaseOrderQuoteBody } from './purchaseOrderBody';
-import {
-  validationSchema,
-  ValuesProps,
-  valuesFromOrder,
-} from './schemas/purchaseOrder.schema';
-import { PurchaseOrderResponse } from '../../types/purchaseOrder';
-import { INVALID_DAY_DATE } from '../ui/form/InputFieldDayDate';
+import { purchaseOrderBody } from './purchaseOrderBody';
+import { validationSchema, ValuesProps } from './schemas/purchaseOrder.schema';
 
-const THURSDAY = new Date(2026, 9, 22).toISOString();
-
+const MONDAY = '2026-10-19T05:00:00.000Z';
 const values: ValuesProps = {
-  merchantId: 3,
-  weekDay: THURSDAY,
-  notes: '  Entregar el miércoles  ',
+  type: 'CONTRACT',
+  clientId: 9,
+  startDay: MONDAY,
+  endDay: '',
+  notes: '  Programa de temporada ',
   lines: [
-    {
-      id: 300,
-      businessId: 5,
-      boxBrandId: 11,
-      boxQuantity: '1080',
-      type: 'CONTRACT',
-    },
-    { businessId: 5, boxBrandId: 12, boxQuantity: '540', type: 'SPOT' },
+    { boxBrandId: 11, boxQuantity: '1000', price: '9.50' },
+    { id: 7, boxBrandId: 12, boxQuantity: '700', price: '' },
   ],
 };
 
-describe('body de la orden de compra', () => {
-  it('al crear manda el productor, el día elegido y las líneas como números', () => {
+describe('cuerpo de la orden de compra del cliente', () => {
+  it('al crear manda el tipo, el cliente, la semana y las alícuotas; sin precio va nulo', () => {
     expect(purchaseOrderBody(values, { editing: false })).toEqual({
-      merchantId: 3,
-      weekStart: THURSDAY,
-      notes: 'Entregar el miércoles',
+      type: 'CONTRACT',
+      clientId: 9,
+      startWeek: MONDAY,
+      endWeek: null,
+      notes: 'Programa de temporada',
       lines: [
-        {
-          id: 300,
-          businessId: 5,
-          boxBrandId: 11,
-          boxQuantity: 1080,
-          type: 'CONTRACT',
-        },
-        { businessId: 5, boxBrandId: 12, boxQuantity: 540, type: 'SPOT' },
+        { boxBrandId: 11, boxQuantity: 1000, price: 9.5 },
+        { id: 7, boxBrandId: 12, boxQuantity: 700, price: null },
       ],
     });
   });
 
-  it('al editar no manda el productor, y las notas vacías van como null', () => {
-    const body = purchaseOrderBody(
-      { ...values, notes: '   ' },
-      { editing: true }
-    );
+  it('al editar no manda el tipo ni el cliente, que no cambian', () => {
+    const body = purchaseOrderBody(values, { editing: true });
 
-    expect(body).not.toHaveProperty('merchantId');
-    expect(body.notes).toBeNull();
-  });
-});
-
-describe('cupo del borrador', () => {
-  it('se pide con las líneas completas, sin id', () => {
-    expect(
-      purchaseOrderQuoteBody({
-        ...values,
-        lines: [
-          ...values.lines,
-          { businessId: 6, boxBrandId: '', boxQuantity: '20', type: 'SPOT' },
-          { businessId: 6, boxBrandId: 11, boxQuantity: '2.5', type: 'SPOT' },
-        ],
-      })
-    ).toEqual({
-      merchantId: 3,
-      weekStart: THURSDAY,
-      lines: [
-        { businessId: 5, boxBrandId: 11, boxQuantity: 1080, type: 'CONTRACT' },
-        { businessId: 5, boxBrandId: 12, boxQuantity: 540, type: 'SPOT' },
-      ],
-    });
+    expect(body).not.toHaveProperty('type');
+    expect(body).not.toHaveProperty('clientId');
   });
 
-  it('espera a tener productor y un día completo', () => {
-    expect(purchaseOrderQuoteBody({ ...values, merchantId: '' })).toBeNull();
+  it('un contrato con fin la manda; un spot nunca lleva semana de fin', () => {
+    const end = '2026-12-28T05:00:00.000Z';
+
     expect(
-      purchaseOrderQuoteBody({ ...values, weekDay: INVALID_DAY_DATE })
+      purchaseOrderBody({ ...values, endDay: end }, { editing: false }).endWeek
+    ).toBe(end);
+    expect(
+      purchaseOrderBody(
+        { ...values, type: 'SPOT', endDay: end },
+        { editing: false }
+      ).endWeek
     ).toBeNull();
   });
-});
 
-describe('formulario de la orden', () => {
-  it('al editar arranca con las líneas guardadas y el lunes de la semana', () => {
-    const order = {
-      id: 50,
-      weekStart: new Date(2026, 9, 19).toISOString(),
-      notes: null,
-      merchant: { id: 3, businessName: 'Agrícola Paredes' },
-      lines: [
-        {
-          id: 300,
-          type: 'SPOT',
-          boxQuantity: 540,
-          price: null,
-          business: { id: 5, name: 'Hacienda San Pedro' },
-          boxBrand: { id: 12, name: 'Segunda', brandCode: 'S22' },
-          export: null,
-        },
-      ],
-      totals: { contractBoxes: 0, spotBoxes: 540, boxes: 540 },
-      quota: [],
-      warnings: [],
-    } as PurchaseOrderResponse;
-
-    expect(valuesFromOrder(order)).toEqual({
-      merchantId: 3,
-      weekDay: new Date(2026, 9, 19).toISOString(),
-      notes: '',
-      lines: [
-        {
-          id: 300,
-          businessId: 5,
-          boxBrandId: 12,
-          boxQuantity: '540',
-          type: 'SPOT',
-        },
-      ],
-    });
+  it('una alícuota va una sola vez en la orden', async () => {
+    await expect(
+      validationSchema.validateAt('lines', {
+        ...values,
+        lines: [
+          { boxBrandId: 11, boxQuantity: '10', price: '' },
+          { boxBrandId: 11, boxQuantity: '20', price: '' },
+        ],
+      })
+    ).rejects.toThrow('Cada alícuota va una sola vez');
   });
 
-  it('rechaza cajas que no son un entero positivo', async () => {
+  it('el precio es opcional, con hasta dos decimales', async () => {
+    const line = (price: string): ValuesProps => ({
+      ...values,
+      lines: [{ boxBrandId: 11, boxQuantity: '10', price }],
+    });
+
     await expect(
-      validationSchema.validateAt('lines[0].boxQuantity', {
-        ...values,
-        lines: [{ ...values.lines[0], boxQuantity: '0' }],
-      })
-    ).rejects.toThrow('Entre 1 y 100000 cajas');
+      validationSchema.validateAt('lines', line(''))
+    ).resolves.toBeTruthy();
+    await expect(
+      validationSchema.validateAt('lines', line('9.555'))
+    ).rejects.toThrow('Un número con hasta dos decimales');
   });
 });

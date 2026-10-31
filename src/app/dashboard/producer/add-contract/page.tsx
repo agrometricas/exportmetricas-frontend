@@ -10,7 +10,7 @@ function AddProducerContractPage(): React.JSX.Element {
     <CardPage
       icon={MdOutlineAssignment}
       title='Agregar contrato de productor'
-      description='Registra el cupo semanal aprobado de una finca'
+      description='Lo que se le compra a una finca cada semana, a qué precio, y su cupo del MAGAP'
     >
       <ProducerContractForm />
     </CardPage>

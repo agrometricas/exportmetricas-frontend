@@ -163,12 +163,19 @@ const validationSchema = Yup.object({
     }),
 });
 
-const priceProposalText = (proposal: PriceProposal): string =>
-  proposal.source === 'PRICE_SHEET' && proposal.weekStart
-    ? `Propuesto: $${proposal.price.toFixed(2)} de la hoja de precios de la ${
-        getWeekInfo({ date: new Date(proposal.weekStart) }).week.split(' //')[0]
-      }`
-    : `Propuesto: $${proposal.price.toFixed(2)}, el precio mínimo de la exportadora`;
+function priceProposalText(proposal: PriceProposal): string {
+  const price = `Propuesto: $${proposal.price.toFixed(2)}`;
+  const week = proposal.weekStart
+    ? ` de la ${getWeekInfo({ date: new Date(proposal.weekStart) }).week.split(' //')[0]}`
+    : '';
+  if (proposal.source === 'CONTRACT') {
+    return `${price}, el del contrato de la finca, fijado al planificar la exportación`;
+  }
+  if (proposal.source === 'PRICE_SHEET') {
+    return `${price} de la hoja de precios${week}: la exportación es spot`;
+  }
+  return `${price}, el precio mínimo de la exportadora`;
+}
 
 const typed = (value: number | ''): number | undefined =>
   value === '' ? undefined : value;

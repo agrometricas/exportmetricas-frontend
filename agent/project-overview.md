@@ -53,7 +53,7 @@ pantalla:
 | `boxBrand` | Alícuota |
 | `brand` | Marca |
 | `cuttingType` | Tipo de corte |
-| `purchaseOrder` | Orden de compra |
+| `purchaseOrder` | Orden de compra (del cliente) |
 | `export` | Exportación |
 | `exportSent` / `supply-shipment` | Envío de insumos |
 | `cuttingSheet` | Hoja de corte |
@@ -67,9 +67,10 @@ pantalla:
 ## El embarque, paso a paso
 
 ```
-Orden de compra (opcional)     → cada línea da una exportación
-  ↓
-Exportación                    → aparece en "Agregar Envíos de Insumos"
+Orden de compra del cliente    → contrato semanal o pedido spot
+  ↓ Pedidos de la semana: se asignan fincas
+Exportación                    → de contrato o spot según la finca;
+                                 aparece en "Agregar Envíos de Insumos"
   ↓
 Envío de insumos               → aparece en "Agregar Hojas de Corte"
   ↓                              y en "Agregar Costos Validados"
@@ -91,7 +92,7 @@ consulta para pintar los contadores del menú lateral.
 | Productores y fincas | `producer/` | Productor | [modulo_productores](features/modulo_productores.md) |
 | Clientes y logística | `client/` | Comercialización | [modulo_comercializacion](features/modulo_comercializacion.md) |
 | Alícuotas y materiales | `box-brands/` | Materiales | [modulo_marcas_caja](features/modulo_marcas_caja.md) |
-| Órdenes de compra | `export/purchase-orders`, `export/add-purchase-order` | Exportaciones | [modulo_ordenes_compra](features/modulo_ordenes_compra.md) |
+| Órdenes de compra | `export/purchase-orders`, `export/add-purchase-order`, `export/weekly-plan` | Exportaciones | [modulo_ordenes_compra](features/modulo_ordenes_compra.md) |
 | Exportaciones y envíos | `export/`, `liquidation/add-supply-shipment`, `liquidation/exports-sent` | Exportaciones | [modulo_exportaciones](features/modulo_exportaciones.md) |
 | Hojas de corte | `export/add-cutting-sheet`, `export/cutting-sheets`, `box-brands/cutting-types`, `box-brands/verifiers` | Calidad | [modulo_hoja_corte](features/modulo_hoja_corte.md) |
 | Bodega | `winery/`, `/ajuste-materiales/*` | Bodega | [modulo_bodega](features/modulo_bodega.md) |

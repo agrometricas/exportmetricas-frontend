@@ -11,6 +11,8 @@ export function producerContractBody(
     ...(withBusiness ? { businessId: Number(values.businessId) } : {}),
     approvedHectares: Number(values.approvedHectares),
     approvedWeeklyBoxesPerHectare: Number(values.approvedWeeklyBoxesPerHectare),
+    weeklyContainers: Number(values.weeklyContainers),
+    price: Number(values.price),
     contractType: values.contractType || null,
     startDate: values.startDate,
     endDate: values.endDate || null,

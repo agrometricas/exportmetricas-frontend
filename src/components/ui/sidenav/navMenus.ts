@@ -95,6 +95,10 @@ export function getExportMenu(counts: {
       label: 'Agregar órdenes de compra',
       to: '/dashboard/export/add-purchase-order',
     },
+    {
+      label: 'Pedidos de la semana',
+      to: '/dashboard/export/weekly-plan',
+    },
 
     { label: 'Exportaciones', to: '/dashboard/export/search' },
     { label: 'Agregar exportaciones', to: '/dashboard/export/add-export' },
