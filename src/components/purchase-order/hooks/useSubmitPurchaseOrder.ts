@@ -48,6 +48,9 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
     queryClient.invalidateQueries({
       queryKey: qk('purchaseOrder'),
     });
+    queryClient.invalidateQueries({
+      queryKey: qk('purchaseOrderWeek'),
+    });
   };
 
   const onSubmit = (values: ValuesProps): void => {
@@ -65,8 +68,6 @@ export function useSubmitPurchaseOrder(order?: PurchaseOrderResponse): {
             closable: true,
           });
           refresh();
-          // A new order opens on its own page, where each line becomes an
-          // export.
           if (!order) router.push(`${LIST_PATH}/${data.id}`);
         },
       }

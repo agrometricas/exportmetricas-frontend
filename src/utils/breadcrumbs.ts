@@ -321,15 +321,23 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     return crumbs;
   }
 
-  const orderLine = cleanPath.match(
-    /^\/dashboard\/export\/purchase-orders\/(\d+)(\/export\/\d+|\/plan)?$/
+  const orderWeek = cleanPath.match(
+    /^\/dashboard\/export\/weekly-plan(\/assign)?$/
   );
-  if (orderLine) {
-    const orderHref = `/dashboard/export/purchase-orders/${orderLine[1]}`;
+  if (orderWeek) {
     push('Órdenes de compra', '/dashboard/export/purchase-orders', false);
-    push('Orden de compra', orderHref, !orderLine[2]);
-    if (orderLine[2] === '/plan') push('Plan semanal', cleanPath, true);
-    else if (orderLine[2]) push('Crear exportación', cleanPath, true);
+    push(
+      'Pedidos de la semana',
+      '/dashboard/export/weekly-plan',
+      !orderWeek[1]
+    );
+    if (orderWeek[1]) push('Asignar fincas', cleanPath, true);
+    return crumbs;
+  }
+
+  if (/^\/dashboard\/export\/purchase-orders\/\d+$/.test(cleanPath)) {
+    push('Órdenes de compra', '/dashboard/export/purchase-orders', false);
+    push('Orden de compra', cleanPath, true);
     return crumbs;
   }
 

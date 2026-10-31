@@ -21,6 +21,20 @@ describe('migas de pan', () => {
     expect(crumbs[1].href).toBe('/dashboard/box-brands/search');
   });
 
+  it('llevan de asignar fincas a los pedidos de la semana y a las órdenes de compra', () => {
+    expect(names('/dashboard/export/weekly-plan/assign')).toEqual([
+      'Inicio',
+      'Órdenes de compra',
+      'Pedidos de la semana',
+      'Asignar fincas',
+    ]);
+    expect(names('/dashboard/export/purchase-orders/7')).toEqual([
+      'Inicio',
+      'Órdenes de compra',
+      'Orden de compra',
+    ]);
+  });
+
   it('enlazan siempre dentro del panel', () => {
     const crumbs = generateBreadcrumbs('/dashboard/winery/stock-movements');
 

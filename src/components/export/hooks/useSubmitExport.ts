@@ -13,10 +13,7 @@ import { serverErrorMessage } from '@/utils/serverErrorMessage';
 import { exportBody } from '../exportBody';
 import { ValuesProps, validationSchema } from '../schemas/export.schema';
 
-export function useSubmitExport({
-  exportId,
-  purchaseOrderId,
-}: { exportId?: number; purchaseOrderId?: number } = {}): {
+export function useSubmitExport({ exportId }: { exportId?: number } = {}): {
   onSubmit: (
     values: ValuesProps,
     formikHelpers: FormikHelpers<ValuesProps>
@@ -80,10 +77,10 @@ export function useSubmitExport({
           queryKey: qk('vessels'),
         });
         queryClient.invalidateQueries({
-          queryKey: qk('purchaseOrders'),
+          queryKey: qk('purchaseOrderWeek'),
         });
         queryClient.invalidateQueries({
-          queryKey: qk('purchaseOrder'),
+          queryKey: qk('priceSheet'),
         });
         queryClient.invalidateQueries({
           queryKey: qk('contractUsage'),
@@ -106,11 +103,7 @@ export function useSubmitExport({
           });
         }
         formikHelpers.resetForm();
-        router.push(
-          purchaseOrderId
-            ? `/dashboard/export/purchase-orders/${purchaseOrderId}`
-            : '/dashboard/export/search'
-        );
+        router.push('/dashboard/export/search');
       },
     };
 

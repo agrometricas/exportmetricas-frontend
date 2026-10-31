@@ -112,6 +112,7 @@ export interface ExportResponse {
   weekTotal: number;
   numberOfVerifiers: number;
   contractType: string;
+  producerPrice?: string | null;
   cancelledAt: string | null;
   cancellationReason: string | null;
   aucpNumber?: string | null;
@@ -132,7 +133,6 @@ export interface ExportResponse {
     shippingLineSeal?: string | null;
     extraSeals?: string[];
   }[];
-  purchaseOrderLine?: { id: number; purchaseOrderId: number } | null;
   merchant: {
     id: number;
     businessName: string;

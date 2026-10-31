@@ -25,7 +25,7 @@ function ProducerContractsPage(): React.JSX.Element {
     <PageLayout
       icon={MdOutlineAssignment}
       title='Contratos de productor'
-      description='Cupo semanal aprobado de cada finca y su vigencia'
+      description='Lo pactado con cada finca: contenedores por semana, precio por caja, cupo del MAGAP y vigencia'
       actions={
         <>
           {/* Botón Agregar */}

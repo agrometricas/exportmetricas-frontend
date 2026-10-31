@@ -1,4 +1,4 @@
-import { Button, Text, VStack } from '@chakra-ui/react';
+import { Badge, Button, Text, VStack } from '@chakra-ui/react';
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -13,6 +13,9 @@ import { PurchaseOrderSummary } from '../../types/purchaseOrder';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 
+const weekLabel = (iso: string): string =>
+  getWeekInfo({ date: new Date(iso) }).week.split(' //')[0];
+
 const TablePurchaseOrders = (): React.JSX.Element => {
   const { data = [], ...query } = usePurchaseOrders();
 
@@ -22,57 +25,65 @@ const TablePurchaseOrders = (): React.JSX.Element => {
         header: 'Orden',
         columns: [
           {
-            accessorKey: 'weekStart',
-            size: 170,
-            header: 'Semana',
+            accessorKey: 'client.businessName',
+            size: 180,
+            header: 'Cliente',
+          },
+          {
+            accessorKey: 'type',
+            size: 100,
+            header: 'Tipo',
+            Cell: ({ cell }): React.JSX.Element =>
+              cell.getValue<string>() === 'CONTRACT' ? (
+                <Badge colorPalette='green'>Contrato</Badge>
+              ) : (
+                <Badge colorPalette='orange'>Spot</Badge>
+              ),
+          },
+          {
+            accessorKey: 'startWeek',
+            size: 190,
+            header: 'Semanas',
             Cell: ({ row }): React.JSX.Element => (
               <VStack align='start' gap={0}>
                 <Text fontSize='sm' fontWeight='semibold'>
-                  {
-                    getWeekInfo({
-                      date: new Date(row.original.weekStart),
-                    }).week.split(' //')[0]
-                  }
+                  {weekLabel(row.original.startWeek)}
                 </Text>
                 <Text fontSize='xs' color='fg.muted'>
-                  desde el {formatDayMonthYear(row.original.weekStart)}
+                  {row.original.type === 'SPOT'
+                    ? `desde el ${formatDayMonthYear(row.original.startWeek)}`
+                    : row.original.endWeek
+                      ? `hasta la ${weekLabel(row.original.endWeek)}`
+                      : 'sin fecha de fin'}
                 </Text>
               </VStack>
             ),
           },
-          {
-            accessorKey: 'merchant.businessName',
-            size: 170,
-            header: 'Productor',
-          },
         ],
       },
       {
-        header: 'Cajas',
+        header: 'Pedido',
         columns: [
           {
-            accessorKey: 'totals.contractBoxes',
-            size: 100,
-            header: 'Contrato',
+            accessorKey: 'weeklyBoxes',
+            size: 120,
+            header: 'Cajas/semana',
           },
-          { accessorKey: 'totals.spotBoxes', size: 90, header: 'Spot' },
-          { accessorKey: 'totals.boxes', size: 90, header: 'Total' },
-        ],
-      },
-      {
-        header: 'Avance',
-        columns: [
+          { accessorKey: 'lineCount', size: 100, header: 'Alícuotas' },
           {
-            id: 'exported',
-            size: 150,
-            header: 'Exportaciones',
-            accessorFn: (row) => row.exportedLines,
-            Cell: ({ row }): React.JSX.Element => (
-              <Text fontSize='sm'>
-                {row.original.exportedLines} de {row.original.lineCount}{' '}
-                {row.original.lineCount === 1 ? 'línea' : 'líneas'}
-              </Text>
-            ),
+            accessorKey: 'inForce',
+            size: 110,
+            header: 'Estado',
+            Cell: ({ cell }): React.JSX.Element =>
+              cell.getValue<boolean>() ? (
+                <Badge colorPalette='green' variant='subtle'>
+                  Vigente
+                </Badge>
+              ) : (
+                <Badge colorPalette='gray' variant='subtle'>
+                  No vigente
+                </Badge>
+              ),
           },
           {
             accessorKey: 'notes',

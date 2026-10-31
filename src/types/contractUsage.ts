@@ -10,10 +10,20 @@ export interface FarmUsage {
   exportedBoxes: number;
   contractBoxes: number;
   spotBoxes: number;
-  unplannedBoxes: number;
   remaining: number | null;
   exceeded: boolean;
-  exports: { id: number; boxQuantity: number; cuttingDate: string | null }[];
+  weeklyContainers: number | null;
+  contractContainers: number;
+  spotContainers: number;
+  remainingContainers: number | null;
+  price: string | null;
+  exports: {
+    id: number;
+    boxQuantity: number;
+    containers: number;
+    cuttingDate: string | null;
+    contractType: string | null;
+  }[];
 }
 
 export interface ContractUsage {
@@ -31,6 +41,19 @@ export interface ContractUsageCheck {
   remaining: number | null;
   exceeded: boolean;
   warning: string | null;
+  purchase: PurchaseTerms | null;
+}
+
+export interface PurchaseTerms {
+  contractType: string;
+  producerPrice: string | null;
+  containers: number;
+  contract: {
+    weeklyContainers: number | null;
+    usedContainers: number;
+    price: string;
+  } | null;
+  note: string | null;
 }
 
 export interface ContractUsageCheckParams {
@@ -38,4 +61,6 @@ export interface ContractUsageCheckParams {
   cuttingDate: string;
   boxQuantity: number;
   exportId?: number;
+  boxBrandId?: number;
+  bookingContainers?: number;
 }

@@ -4,6 +4,7 @@ import {
   Flex,
   Input,
   SimpleGrid,
+  Text,
   useDisclosure,
   Dialog,
   Portal,
@@ -79,7 +80,26 @@ export default function ProducerContractForm({
               </>
             )}
 
-            <FormSectionTitle>Cupo aprobado</FormSectionTitle>
+            <FormSectionTitle>Lo pactado con la finca</FormSectionTitle>
+            <Text fontSize='sm' color='fg.muted'>
+              Las exportaciones de la finca usan estos contenedores cada semana
+              al precio del contrato; las que pasan de ahí se compran spot.
+            </Text>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
+              <InputFieldNumber
+                name='weeklyContainers'
+                label='Contenedores por semana'
+                unit='contenedores'
+              />
+              <InputFieldNumber
+                name='price'
+                label='Precio por caja'
+                isDecimal
+                isDolar
+              />
+            </SimpleGrid>
+
+            <FormSectionTitle>Cupo aprobado por el MAGAP</FormSectionTitle>
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
               <InputFieldNumber
                 name='approvedHectares'

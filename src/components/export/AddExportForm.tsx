@@ -1,5 +1,5 @@
 'use client';
-import { Alert, Button, Flex, SimpleGrid, Box, Text } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, Box, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/form/FormSection';
 import DateGrid from './cutting-sheet/DateGrid';
 import ExportBookingSelect from './ExportBookingSelect';
-import { exportFormValues, exportFromLineValues } from './exportFormValues';
+import { exportFormValues } from './exportFormValues';
 import { useSubmitExport } from './hooks/useSubmitExport';
 import LastFarmExportAlert from './LastFarmExportAlert';
 import { initialValues as emptyValues } from './schemas/export.schema';
@@ -18,7 +18,6 @@ import { ClientResponse } from '../../types/client.response';
 import { ExportResponse } from '../../types/export.response';
 import { BusinessType } from '../../types/merchant/business';
 import { MerchantResponse } from '../../types/merchant/merchant.response';
-import { PurchaseOrderLine } from '../../types/purchaseOrder';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 import { getWeekInfo } from '../../utils/getWeekInfo';
 import SelectBoxBrand from '../box-brands/SelectBoxBrand';
@@ -37,7 +36,6 @@ import InputFieldDayDate, {
 } from '../ui/form/InputFieldDayDate';
 import InputFieldDayDateTime from '../ui/form/InputFieldDayDateTime';
 import InputFieldNumber from '../ui/form/InputFieldNumber';
-import InputFieldSelector from '../ui/form/InputFieldSelector';
 import InputFieldText from '../ui/form/InputFieldText';
 import UnsavedChangesGuard from '../ui/form/UnsavedChangesGuard';
 import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
@@ -47,37 +45,22 @@ import InputFieldVerifierSelect from '../verifier/InputFieldVerifierSelect';
 const cuttingDay = (value: Date | string | ''): Date | null =>
   value && value !== INVALID_DAY_DATE ? new Date(value) : null;
 
-export interface ExportFromLine {
-  orderId: number;
-  week: string;
-  line: PurchaseOrderLine;
-  merchant: Partial<MerchantResponse>;
-  business?: Partial<BusinessType>;
-  boxBrand?: Partial<BoxBrandType>;
-}
-
 interface AddExportFormProps {
   source?: ExportResponse;
   editing?: boolean;
-  fromLine?: ExportFromLine;
 }
 
-const AddExportForm: React.FC<AddExportFormProps> = ({
-  source,
-  editing,
-  fromLine,
-}) => {
+const AddExportForm: React.FC<AddExportFormProps> = ({ source, editing }) => {
   const { onSubmit, validationSchema, isLoading } = useSubmitExport({
     exportId: editing ? source?.id : undefined,
-    purchaseOrderId: fromLine?.orderId,
   });
-  const initialValues = useMemo(() => {
-    if (source) return exportFormValues(source, { withContainers: !!editing });
-    if (fromLine) {
-      return exportFromLineValues(Number(fromLine.merchant.id), fromLine.line);
-    }
-    return emptyValues;
-  }, [source, editing, fromLine]);
+  const initialValues = useMemo(
+    () =>
+      source
+        ? exportFormValues(source, { withContainers: !!editing })
+        : emptyValues,
+    [source, editing]
+  );
   const { data: shippingCompanies = [] } = useShippingCompanies();
   const shippingCompanyById = (
     id: number
@@ -85,11 +68,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
     (shippingCompanies as Partial<ShippingCompanyType>[]).find(
       (company) => company.id === id
     ) ?? null;
-  const ContractOpt = [
-    { name: 'FOB (FREE ON BOARD)', id: 'FOB' },
-    { name: 'FAS (FREE ALONGSIDE SHIP)', id: 'FAS' },
-    { name: 'SPOT (ES VENTA AL CORTO PLAZO)', id: 'SPOT' },
-  ];
 
   return (
     <Formik
@@ -101,25 +79,11 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
         <Form>
           <UnsavedChangesGuard isDirty={dirty && !isSubmitting} />
           <Flex flexDirection='column' gap={3}>
-            {fromLine && (
-              <Alert.Root status='info' borderRadius='md'>
-                <Alert.Indicator />
-                <Alert.Description>
-                  Nace de la orden de compra de la {fromLine.week}:{' '}
-                  {fromLine.line.business.name}, {fromLine.line.boxBrand.name},{' '}
-                  {fromLine.line.boxQuantity} cajas de{' '}
-                  {fromLine.line.type === 'CONTRACT' ? 'contrato' : 'spot'}. La
-                  finca y la alícuota son las de la línea; las cajas se pueden
-                  ajustar.
-                </Alert.Description>
-              </Alert.Root>
-            )}
             <FormSectionTitle>Productor</FormSectionTitle>
             <SelectProducer
               name='merchantId'
               producerSelect={
-                (source?.merchant as Partial<MerchantResponse> | undefined) ??
-                fromLine?.merchant
+                source?.merchant as Partial<MerchantResponse> | undefined
               }
             />
             <FormSectionTitle>Finca</FormSectionTitle>
@@ -127,19 +91,15 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
               name='businessId'
               merchant={values.merchantId || undefined}
               businessSelect={
-                (source?.business as Partial<BusinessType> | undefined) ??
-                fromLine?.business
+                source?.business as Partial<BusinessType> | undefined
               }
             />
-            {!source && !fromLine && (
-              <LastFarmExportAlert businessId={values.businessId} />
-            )}
+            {!source && <LastFarmExportAlert businessId={values.businessId} />}
             <FormSectionTitle>Marca de caja</FormSectionTitle>
             <SelectBoxBrand
               name='boxBrandId'
               boxBrandSelect={
-                (source?.boxBrand as Partial<BoxBrandType> | undefined) ??
-                fromLine?.boxBrand
+                source?.boxBrand as Partial<BoxBrandType> | undefined
               }
             />
             <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
@@ -147,11 +107,6 @@ const AddExportForm: React.FC<AddExportFormProps> = ({
                 name='boxQuantity'
                 label='Cantidad de cajas'
                 unit='cajas'
-              />
-              <InputFieldSelector
-                name={'contractType'}
-                label={'Tipo de contrato'}
-                options={ContractOpt}
               />
               <Box />
             </SimpleGrid>

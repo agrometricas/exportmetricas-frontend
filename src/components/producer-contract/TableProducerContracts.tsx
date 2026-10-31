@@ -29,6 +29,27 @@ const TableProducerContracts = (): React.JSX.Element => {
         ],
       },
       {
+        header: 'Pactado por semana',
+        columns: [
+          {
+            accessorKey: 'weeklyContainers',
+            size: 120,
+            header: 'Contenedores',
+            Cell: ({ cell }): React.JSX.Element => (
+              <span>{cell.getValue<number | null>() ?? 'Sin dato'}</span>
+            ),
+          },
+          {
+            accessorKey: 'price',
+            size: 100,
+            header: 'Precio/caja',
+            Cell: ({ cell }): React.JSX.Element => (
+              <span>{`$${Number(cell.getValue<string>()).toFixed(2)}`}</span>
+            ),
+          },
+        ],
+      },
+      {
         header: 'Cupo semanal aprobado',
         columns: [
           {

@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { exportBody } from './exportBody';
-import { exportFormValues, exportFromLineValues } from './exportFormValues';
+import { exportFormValues } from './exportFormValues';
 import { validationSchema } from './schemas/export.schema';
 import { ExportResponse } from '../../types/export.response';
-import { PurchaseOrderLine } from '../../types/purchaseOrder';
 
 function exportResponse(
   overrides: Partial<ExportResponse> = {}
@@ -68,7 +67,6 @@ describe('formulario prellenado desde una exportación', () => {
       verifierId: 34,
       shipName: 'MSC Oslo',
       bookingNumber: 'BK-7781',
-      contractType: 'FOB',
       numberOfVerifiers: 2,
     });
     expect(values.cuttingDate).toEqual(new Date('2025-06-04T05:00:00.000Z'));
@@ -113,7 +111,6 @@ describe('formulario prellenado desde una exportación', () => {
       shipName: 'MSC Oslo',
       estimatedTravelTime: '18 días',
       bookingNumber: 'BK-7781',
-      contractType: 'FOB',
       numberOfVerifiers: 2,
       shippingCompanyId: 31,
       departureHarborId: 61,
@@ -173,41 +170,8 @@ describe('formulario prellenado desde una exportación', () => {
   });
 });
 
-describe('exportación que nace de una línea de orden de compra', () => {
-  const line: PurchaseOrderLine = {
-    id: 300,
-    type: 'CONTRACT',
-    boxQuantity: 1080,
-    price: null,
-    business: { id: 5, name: 'Hacienda San Pedro' },
-    boxBrand: { id: 11, name: 'Premium 22XU', brandCode: 'P22XU' },
-    export: null,
-  };
-
-  it('arranca con el productor, la finca, la alícuota y las cajas de la línea, y la manda en el body', () => {
-    const values = exportFromLineValues(3, line);
-
-    expect(values).toMatchObject({
-      merchantId: 3,
-      businessId: 5,
-      boxBrandId: 11,
-      boxQuantity: 1080,
-      purchaseOrderLineId: 300,
-      bookingId: '',
-    });
-    expect(exportBody(values).purchaseOrderLineId).toBe(300);
-  });
-
-  it('editar o duplicar no manda la línea: una línea tiene una sola exportación', () => {
-    const source = exportResponse({
-      purchaseOrderLine: { id: 300, purchaseOrderId: 50 },
-    });
-
-    expect(exportBody(exportFormValues(source))).not.toHaveProperty(
-      'purchaseOrderLineId'
-    );
-    expect(
-      exportBody(exportFormValues(source, { withContainers: false }))
-    ).not.toHaveProperty('purchaseOrderLineId');
-  });
+it('el tipo de contrato no va en el body: lo decide el contrato de la finca', () => {
+  expect(exportBody(exportFormValues(exportResponse()))).not.toHaveProperty(
+    'contractType'
+  );
 });

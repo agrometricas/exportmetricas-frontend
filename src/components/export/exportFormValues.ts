@@ -1,6 +1,5 @@
-import { initialValues, ValuesProps } from './schemas/export.schema';
+import { ValuesProps } from './schemas/export.schema';
 import { ExportResponse } from '../../types/export.response';
-import { PurchaseOrderLine } from '../../types/purchaseOrder';
 
 const WEEK_DAYS = 7;
 
@@ -35,7 +34,6 @@ export function exportFormValues(
     shipName: source.shipName ?? '',
     estimatedTravelTime: source.estimatedTravelTime ?? '',
     bookingNumber: source.bookingNumber ?? '',
-    contractType: source.contractType ?? '',
     numberOfVerifiers: source.numberOfVerifiers ?? 0,
     shippingCompanyId: source.shippingCompany?.id ?? 0,
     departureHarborId: source.harborDeparture.id,
@@ -47,20 +45,5 @@ export function exportFormValues(
     bookingContainerIds: withContainers
       ? (source.containers ?? []).map((container) => container.id)
       : [],
-    purchaseOrderLineId: '',
-  };
-}
-
-export function exportFromLineValues(
-  merchantId: number,
-  line: PurchaseOrderLine
-): ValuesProps {
-  return {
-    ...initialValues,
-    merchantId,
-    businessId: line.business.id,
-    boxBrandId: line.boxBrand.id,
-    boxQuantity: line.boxQuantity,
-    purchaseOrderLineId: line.id,
   };
 }

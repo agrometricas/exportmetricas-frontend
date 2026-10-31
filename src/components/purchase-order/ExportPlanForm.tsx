@@ -1,19 +1,24 @@
 import {
+  Alert,
   Badge,
   Box,
   Button,
   Checkbox,
   Flex,
+  Grid,
+  IconButton,
   NativeSelect,
   SimpleGrid,
   Text,
   Field,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Form, Formik, useFormikContext } from 'formik';
+import { FieldArray, Form, Formik, useField, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
+import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import * as Yup from 'yup';
+import CatalogSelect from '@/components/ui/form/CatalogSelect';
 import {
   FormSectionTitle,
   FormActions,
@@ -22,19 +27,22 @@ import { toaster } from '@/components/ui/toaster';
 import { qk, QueryKeyName } from '@/lib/queryKeys';
 import {
   exportPlanBody,
-  pendingLines,
   planInitialValues,
+  planLine,
   PlanValues,
 } from './exportPlan';
 import { useBookings } from '../../hooks/booking/getBookings';
+import { useBusinesses } from '../../hooks/business/getAllBusiness';
+import { useContractUsage } from '../../hooks/contract-usage/contractUsage';
 import { useCreateExportPlan } from '../../hooks/export/createExportPlan';
 import { useShippingCompanies } from '../../hooks/export/shippingCompany/getShippingCompanies';
 import { BookingResponse } from '../../types/booking';
-import { PurchaseOrderResponse } from '../../types/purchaseOrder';
+import { FarmUsage } from '../../types/contractUsage';
 import { ShippingCompanyType } from '../../types/shippingCompany';
 import { formatDayMonthYear } from '../../utils/dayMonthYear';
 import { serverErrorMessage } from '../../utils/serverErrorMessage';
-import SelectClient from '../client/SelectClient';
+import BoxBrandSelectBase from '../box-brands/BoxBrandSelectBase';
+import InputFieldClientSelect from '../client/InputFieldClientSelect';
 import InputFieldDepositSelect from '../deposit/InputFieldDepositSelect';
 import InputFieldHarborShippingCompany from '../shipping-company/InputFieldHarborShippingCompany';
 import InputFieldShipName from '../shipping-company/InputFieldShipName';
@@ -53,10 +61,11 @@ const AFFECTED_QUERIES: QueryKeyName[] = [
   'cuttingSheets',
   'cuttingSheetsPending',
   'bookings',
-  'purchaseOrders',
-  'purchaseOrder',
+  'purchaseOrderWeek',
+  'priceSheet',
   'contractUsage',
   'contractUsageCheck',
+  'lastFarmExport',
   'vessels',
 ];
 
@@ -66,29 +75,24 @@ const validationSchema = Yup.object({
   lines: Yup.array()
     .of(
       Yup.object({
-        include: Yup.boolean(),
-        cuttingDate: Yup.string().when('include', {
-          is: true,
-          then: (schema) =>
-            schema
-              .required('Requerido')
-              .notOneOf([INVALID_DAY_DATE], 'Fecha inválida, use DD/MM/AAAA'),
-        }),
-        boxQuantity: Yup.number().when('include', {
-          is: true,
-          then: (schema) =>
-            schema
-              .typeError('Debe ser un número')
-              .integer('Debe ser un número entero')
-              .moreThan(0, 'Debe ser mayor que 0')
-              .max(10000, 'Hasta 10000 cajas')
-              .required('Requerido'),
-        }),
+        businessId: Yup.number()
+          .typeError('Selecciona la finca')
+          .required('Selecciona la finca'),
+        boxBrandId: Yup.number()
+          .typeError('Selecciona la alícuota')
+          .required('Selecciona la alícuota'),
+        cuttingDate: Yup.string()
+          .required('Requerido')
+          .notOneOf([INVALID_DAY_DATE], 'Fecha inválida, use DD/MM/AAAA'),
+        boxQuantity: Yup.number()
+          .typeError('Debe ser un número')
+          .integer('Debe ser un número entero')
+          .moreThan(0, 'Debe ser mayor que 0')
+          .max(10000, 'Hasta 10000 cajas')
+          .required('Requerido'),
       })
     )
-    .test('alguna', 'Elige al menos una línea', (lines) =>
-      (lines ?? []).some((line) => line.include)
-    ),
+    .min(1, 'Asigna al menos una finca'),
   clientId: id,
   departureHarborId: id,
   destinationHarborId: id,
@@ -167,7 +171,7 @@ function LineContainers({
   const elsewhere = new Set(
     values.lines
       .filter((_, i) => i !== index)
-      .flatMap((line) => (line.include ? line.bookingContainerIds : []))
+      .flatMap((line) => line.bookingContainerIds)
   );
   const free = booking.containers.filter((c) => !c.exportId);
 
@@ -205,41 +209,170 @@ function LineContainers({
   );
 }
 
-export default function ExportPlanForm({
-  order,
+function FarmContract({
+  farm,
 }: {
-  order: PurchaseOrderResponse;
+  farm: FarmUsage | undefined;
+}): React.JSX.Element {
+  if (!farm || farm.price === null) {
+    return (
+      <Badge colorPalette='orange' variant='subtle'>
+        Sin contrato esa semana: va spot
+      </Badge>
+    );
+  }
+  if (farm.remainingContainers === null) {
+    return (
+      <Badge colorPalette='green' variant='subtle'>
+        Contrato a ${farm.price}, sin tope de contenedores
+      </Badge>
+    );
+  }
+  return (
+    <Badge
+      colorPalette={farm.remainingContainers > 0 ? 'green' : 'orange'}
+      variant='subtle'
+    >
+      Contrato a ${farm.price}: le quedan{' '}
+      {Math.max(0, farm.remainingContainers)} de {farm.weeklyContainers}{' '}
+      contenedores
+    </Badge>
+  );
+}
+
+function PlanLine({
+  index,
+  farms,
+  usage,
+  booking,
+  canRemove,
+  onRemove,
+}: {
+  index: number;
+  farms: { id: number; name: string }[];
+  usage: FarmUsage[];
+  booking: BookingResponse | undefined;
+  canRemove: boolean;
+  onRemove: () => void;
+}): React.JSX.Element {
+  const prefix = `lines[${index}]`;
+  const [farmField, farmMeta, farmHelpers] = useField<number | ''>(
+    `${prefix}.businessId`
+  );
+  const [brandField, brandMeta, brandHelpers] = useField<number | ''>(
+    `${prefix}.boxBrandId`
+  );
+
+  return (
+    <Box borderWidth='1px' borderColor='border' borderRadius='lg' p={4}>
+      <Grid
+        templateColumns={{
+          base: '1fr',
+          md: '1fr 1fr',
+          xl: '2fr 2fr 1fr 1fr auto',
+        }}
+        gap={4}
+        alignItems='start'
+      >
+        <Field.Root invalid={!!farmMeta.error && farmMeta.touched}>
+          <Field.Label fontSize='sm' mb='8px'>
+            Finca
+          </Field.Label>
+          <CatalogSelect<{ id: number; name: string }>
+            field={farmField}
+            options={farms}
+            placeholder='Selecciona la finca'
+            onChange={(value) => farmHelpers.setValue(value?.id ?? '')}
+          />
+          <Field.ErrorText>{farmMeta.error}</Field.ErrorText>
+        </Field.Root>
+        <Field.Root invalid={!!brandMeta.error && brandMeta.touched}>
+          <Field.Label fontSize='sm' mb='8px'>
+            Alícuota
+          </Field.Label>
+          <BoxBrandSelectBase
+            field={brandField}
+            placeholder='Selecciona la alícuota'
+            onChange={(value) => brandHelpers.setValue(value?.id ?? '')}
+          />
+          <Field.ErrorText>{brandMeta.error}</Field.ErrorText>
+        </Field.Root>
+        <InputFieldDayDate
+          name={`${prefix}.cuttingDate`}
+          label='Día de corte'
+        />
+        <InputFieldPlain
+          name={`${prefix}.boxQuantity`}
+          label='Cajas'
+          unit='cajas'
+          inputMode='numeric'
+        />
+        <IconButton
+          aria-label={`Quitar la finca ${index + 1}`}
+          variant='ghost'
+          colorPalette='red'
+          mt={{ base: 0, xl: 7 }}
+          disabled={!canRemove}
+          onClick={onRemove}
+        >
+          <FiTrash2 />
+        </IconButton>
+      </Grid>
+      {farmField.value && (
+        <Box mt={3}>
+          <FarmContract
+            farm={usage.find((farm) => farm.business.id === farmField.value)}
+          />
+        </Box>
+      )}
+      {booking && (
+        <Box mt={3}>
+          <Text fontSize='sm' fontWeight='semibold' mb={2}>
+            Contenedores de esta finca
+          </Text>
+          <LineContainers index={index} booking={booking} />
+        </Box>
+      )}
+    </Box>
+  );
+}
+
+export default function ExportPlanForm({
+  clientId,
+  boxBrandId,
+  pendingBoxes,
+  week,
+}: {
+  clientId: number | '';
+  boxBrandId: number | '';
+  pendingBoxes?: number;
+  week: string | null;
 }): React.JSX.Element {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const lineBorder = 'border';
   const { mutate: create, isPending: isLoading } = useCreateExportPlan();
   const { data: bookingData } = useBookings();
   const bookings = (bookingData ?? []) as BookingResponse[];
   const { data: shippingCompanies = [] } = useShippingCompanies();
+  const { data: farmData = [] } = useBusinesses();
+  const { usage } = useContractUsage(week);
   const shippingCompanyById = (
     companyId: number | ''
   ): Partial<ShippingCompanyType> | null =>
     (shippingCompanies as Partial<ShippingCompanyType>[]).find(
       (company) => company.id === companyId
     ) ?? null;
-  const lines = pendingLines(order.lines);
+  const farms = farmData.map((farm) => ({ id: farm.id, name: farm.name }));
   const initialValues = useMemo(
-    () => planInitialValues(order.lines),
-    [order.lines]
+    () => planInitialValues({ clientId, boxBrandId, pendingBoxes }),
+    [clientId, boxBrandId, pendingBoxes]
   );
-
-  if (lines.length === 0) {
-    return (
-      <Text>
-        Todas las líneas de esta orden ya son exportación: no queda nada que
-        planificar.
-      </Text>
-    );
-  }
+  const back = week
+    ? `/dashboard/export/weekly-plan?week=${encodeURIComponent(week)}`
+    : '/dashboard/export/weekly-plan';
 
   const onSubmit = (values: PlanValues): void => {
-    create(exportPlanBody(order.id, values), {
+    create(exportPlanBody(values), {
       onError: (error) => {
         toaster.create({
           title: 'No se creó ninguna exportación',
@@ -250,16 +383,23 @@ export default function ExportPlanForm({
         });
       },
       onSuccess: ({ data }) => {
+        const notes = data.exports
+          .map((e) => e.note)
+          .filter((note): note is string => Boolean(note));
         toaster.create({
-          title: `Se crearon ${data.exports.length} exportaciones`,
-          type: 'success',
-          duration: 5000,
+          title:
+            data.exports.length === 1
+              ? 'Se creó 1 exportación'
+              : `Se crearon ${data.exports.length} exportaciones`,
+          description: notes.length > 0 ? notes.join(' ') : undefined,
+          type: notes.length > 0 ? 'warning' : 'success',
+          duration: notes.length > 0 ? 10000 : 5000,
           closable: true,
         });
         AFFECTED_QUERIES.forEach((key) =>
           queryClient.invalidateQueries({ queryKey: qk(key) })
         );
-        router.push(`/dashboard/export/purchase-orders/${order.id}`);
+        router.push(back);
       },
     });
   };
@@ -269,90 +409,67 @@ export default function ExportPlanForm({
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      enableReinitialize
     >
       {({ values, errors, setFieldValue }) => {
         const booking = bookings.find((b) => b.id === values.bookingId);
-        const included = values.lines.filter((line) => line.include).length;
         return (
           <Form>
             <Flex direction='column' gap={3}>
-              <FormSectionTitle>Líneas</FormSectionTitle>
-              <Text fontSize='sm' color='fg.muted'>
-                Cada línea marcada será una exportación con todas sus cajas en
-                el día de corte. El día tiene que ser de la semana de la orden.
-              </Text>
-              {lines.map((line, index) => (
-                <Box
-                  key={line.id}
-                  borderWidth='1px'
-                  borderColor={lineBorder}
-                  borderRadius='lg'
-                  p={4}
-                >
-                  <Flex gap={3} align='center' wrap='wrap' mb={3}>
-                    <Checkbox.Root
+              <FormSectionTitle>Cliente</FormSectionTitle>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} gap={5}>
+                <InputFieldClientSelect
+                  name='clientId'
+                  label='Cliente'
+                  placeholder='Selecciona el cliente'
+                />
+              </SimpleGrid>
+
+              <FormSectionTitle>Fincas</FormSectionTitle>
+              <Alert.Root status='info' borderRadius='md'>
+                <Alert.Indicator />
+                <Alert.Description fontSize='sm'>
+                  Cada finca será una exportación con todas sus cajas en el día
+                  de corte. Se compra de contrato mientras le queden
+                  contenedores pactados esa semana, en el orden de la lista; lo
+                  que pase va spot y se precia en la hoja semanal.
+                </Alert.Description>
+              </Alert.Root>
+              <FieldArray name='lines'>
+                {({ push, remove }) => (
+                  <Flex direction='column' gap={3}>
+                    {values.lines.map((_, index) => (
+                      <PlanLine
+                        key={index}
+                        index={index}
+                        farms={farms}
+                        usage={usage?.farms ?? []}
+                        booking={booking}
+                        canRemove={values.lines.length > 1}
+                        onRemove={() => remove(index)}
+                      />
+                    ))}
+                    {typeof errors.lines === 'string' && (
+                      <Text color='red.fg' fontSize='sm'>
+                        {errors.lines}
+                      </Text>
+                    )}
+                    <Button
+                      alignSelf='flex-start'
+                      variant='outline'
                       colorPalette='green'
-                      onCheckedChange={(event) =>
-                        setFieldValue(
-                          `lines[${index}].include`,
-                          event.checked === true
-                        )
-                      }
-                      checked={values.lines[index].include}
-                    >
-                      <Checkbox.HiddenInput />
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                      <Checkbox.Label>
-                        {line.business.name}· {line.boxBrand.name}
-                      </Checkbox.Label>
-                    </Checkbox.Root>
-                    <Badge
-                      colorPalette={
-                        line.type === 'CONTRACT' ? 'green' : 'orange'
+                      onClick={() =>
+                        push(planLine(values.lines[0]?.boxBrandId ?? ''))
                       }
                     >
-                      {line.type === 'CONTRACT' ? 'Contrato' : 'Spot'}
-                    </Badge>
-                    <Text fontSize='sm' color='fg.muted'>
-                      Pedidas: {line.boxQuantity} cajas
-                    </Text>
+                      <FiPlus />
+                      Agregar finca
+                    </Button>
                   </Flex>
-                  {values.lines[index].include && (
-                    <Flex direction='column' gap={3}>
-                      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
-                        <InputFieldDayDate
-                          name={`lines[${index}].cuttingDate`}
-                          label='Día de corte'
-                        />
-                        <InputFieldPlain
-                          name={`lines[${index}].boxQuantity`}
-                          label='Cajas'
-                          unit='cajas'
-                          inputMode='numeric'
-                        />
-                      </SimpleGrid>
-                      {booking && (
-                        <Box>
-                          <Text fontSize='sm' fontWeight='semibold' mb={2}>
-                            Contenedores de esta línea
-                          </Text>
-                          <LineContainers index={index} booking={booking} />
-                        </Box>
-                      )}
-                    </Flex>
-                  )}
-                </Box>
-              ))}
-              {typeof errors.lines === 'string' && (
-                <Text color='red.fg' fontSize='sm'>
-                  {errors.lines}
-                </Text>
-              )}
+                )}
+              </FieldArray>
 
               <FormSectionTitle>Datos comunes</FormSectionTitle>
-              <SelectClient name='clientId' />
               <PlanBookingSelect bookings={bookings} />
               {!values.bookingId && (
                 <>
@@ -432,19 +549,14 @@ export default function ExportPlanForm({
               </SimpleGrid>
 
               <Text fontSize='sm' color='fg.muted' mt={2}>
-                Se crean todas o ninguna: si una línea no pasa, no se guarda
+                Se crean todas o ninguna: si una finca no pasa, no se guarda
                 nada y el mensaje dice cuál.
               </Text>
               <FormActions>
-                <Button
-                  type='submit'
-                  colorPalette='green'
-                  loading={isLoading}
-                  disabled={included === 0}
-                >
-                  {included === 1
+                <Button type='submit' colorPalette='green' loading={isLoading}>
+                  {values.lines.length === 1
                     ? 'Crear 1 exportación'
-                    : `Crear ${included} exportaciones`}
+                    : `Crear ${values.lines.length} exportaciones`}
                 </Button>
               </FormActions>
             </Flex>

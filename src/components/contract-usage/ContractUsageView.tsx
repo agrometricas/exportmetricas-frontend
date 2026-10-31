@@ -29,9 +29,9 @@ function WeekUsage(): React.JSX.Element {
         />
       </SimpleGrid>
       <Text fontSize='sm' color={mutedColor}>
-        Cuentan todas las cajas que cada finca exportó en la semana (de
-        contrato, spot o sin orden de compra) contra las aprobadas por semana en
-        su contrato vigente.
+        Las exportaciones de contrato usan los contenedores pactados con cada
+        finca; las spot no. Contra el cupo del MAGAP cuentan todas las cajas que
+        la finca exportó en la semana.
       </Text>
       {isLoading && <LoadingState />}
       {usage?.warnings.map((warning) => (

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, Formik, useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -12,7 +12,10 @@ import { toaster } from '@/components/ui/toaster';
 import { qk } from '@/lib/queryKeys';
 import { useCreateClientPayment } from '../../hooks/client-payment/createClientPayment';
 import { useUploadTransferImage } from '../../hooks/client-payment/uploadTransferImage';
-import { useClientPaymentQuote } from '../../hooks/client-payment/useClientPaymentQuote';
+import {
+  SalePriceProposal,
+  useClientPaymentQuote,
+} from '../../hooks/client-payment/useClientPaymentQuote';
 import { PROGRESS_QUERIES } from '../../hooks/export/exportProgress';
 import { BoxBrandType } from '../../types/box-brand/boxBrand';
 import { ClientResponse } from '../../types/client.response';
@@ -107,6 +110,12 @@ const validationSchema = Yup.object({
     }),
 });
 
+const SALE_PRICE_SOURCE: Record<SalePriceProposal['source'], string> = {
+  CONTRACT: 'el del contrato del cliente para esta alícuota',
+  SPOT: 'el de su pedido spot de la semana',
+  DEFAULT: 'el precio de venta por defecto',
+};
+
 const ClientPendingPaymentFields = ({
   paymentSelected,
   isSubmitting,
@@ -124,7 +133,14 @@ const ClientPendingPaymentFields = ({
   );
 
   const sale =
-    values.boxQuantity === '' ? null : { boxQuantity: values.boxQuantity };
+    values.boxQuantity === ''
+      ? null
+      : {
+          boxQuantity: values.boxQuantity,
+          ...(paymentSelected.id
+            ? { exportSentId: Number(paymentSelected.id) }
+            : {}),
+        };
   // Asked without a price, the backend answers with the one it proposes.
   const { quote: proposal } = useClientPaymentQuote(sale);
   const { quote, isSettled } = useClientPaymentQuote(
@@ -153,13 +169,21 @@ const ClientPendingPaymentFields = ({
         boxBrandSelect={boxBrand as Partial<BoxBrandType>}
         setBoxBrandSelect={setBoxBrand}
       >
-        <InputFieldNumber
-          name={'price'}
-          label={'Precio'}
-          value={proposal?.price ?? ''}
-          isDecimal
-          isDolar
-        />
+        <Box>
+          <InputFieldNumber
+            name={'price'}
+            label={'Precio'}
+            value={proposal?.price ?? ''}
+            isDecimal
+            isDolar
+          />
+          {proposal?.priceProposal && (
+            <Text fontSize='sm' color='fg.muted' mt={1}>
+              Propuesto: ${proposal.priceProposal.price.toFixed(2)},{' '}
+              {SALE_PRICE_SOURCE[proposal.priceProposal.source]}
+            </Text>
+          )}
+        </Box>
         <Box></Box>
         <ReadOnlyAmount label={'Total'} value={quote?.total} />
       </SelectBoxBrand>

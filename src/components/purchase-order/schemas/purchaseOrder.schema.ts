@@ -1,81 +1,96 @@
 import * as Yup from 'yup';
 import {
-  PurchaseOrderLineType,
   PurchaseOrderResponse,
+  PurchaseOrderType,
 } from '../../../types/purchaseOrder';
 import { startOfLocalDay } from '../../../utils/dayMonthYear';
 import { INVALID_DAY_DATE } from '../../ui/form/InputFieldDayDate';
 
 export interface LineValues {
   id?: number;
-  businessId: number | '';
   boxBrandId: number | '';
   boxQuantity: string;
-  type: PurchaseOrderLineType;
+  price: string;
 }
 
 export interface ValuesProps {
-  merchantId: number | '';
-  weekDay: string;
+  type: PurchaseOrderType;
+  clientId: number | '';
+  startDay: string;
+  endDay: string;
   notes: string;
   lines: LineValues[];
 }
 
 export const emptyLine: LineValues = {
-  businessId: '',
   boxBrandId: '',
   boxQuantity: '',
-  type: 'CONTRACT',
+  price: '',
 };
 
 export const initialValues: ValuesProps = {
-  merchantId: '',
-  weekDay: '',
+  type: 'CONTRACT',
+  clientId: '',
+  startDay: '',
+  endDay: '',
   notes: '',
   lines: [emptyLine],
 };
 
 export function valuesFromOrder(order: PurchaseOrderResponse): ValuesProps {
   return {
-    merchantId: order.merchant.id,
-    weekDay: startOfLocalDay(order.weekStart),
+    type: order.type,
+    clientId: order.client.id,
+    startDay: startOfLocalDay(order.startWeek),
+    endDay:
+      order.type === 'CONTRACT' && order.endWeek
+        ? startOfLocalDay(order.endWeek)
+        : '',
     notes: order.notes ?? '',
     lines: order.lines.map((line) => ({
       id: line.id,
-      businessId: line.business.id,
       boxBrandId: line.boxBrand.id,
       boxQuantity: String(line.boxQuantity),
-      type: line.type,
+      price: line.price ? Number(line.price).toFixed(2) : '',
     })),
   };
 }
 
-export const LINE_TYPES: { id: PurchaseOrderLineType; name: string }[] = [
-  { id: 'CONTRACT', name: 'Contrato' },
-  { id: 'SPOT', name: 'Spot' },
+export const ORDER_TYPES: { id: PurchaseOrderType; name: string }[] = [
+  { id: 'CONTRACT', name: 'Contrato: se repite cada semana' },
+  { id: 'SPOT', name: 'Spot: solo una semana' },
 ];
 
 export const isCompleteDay = (value: string): boolean =>
   Boolean(value) && value !== INVALID_DAY_DATE;
 
+const validDay = (value?: string): boolean =>
+  !value || value !== INVALID_DAY_DATE;
+
 export const validationSchema = Yup.object({
-  merchantId: Yup.number()
-    .typeError('Selecciona el productor')
-    .required('Selecciona el productor'),
-  weekDay: Yup.string()
+  type: Yup.string().oneOf(['CONTRACT', 'SPOT']).required(),
+  clientId: Yup.number()
+    .typeError('Selecciona el cliente')
+    .required('Selecciona el cliente'),
+  startDay: Yup.string()
     .required('Requerido')
+    .test('fecha', 'Fecha inválida, use DD/MM/AAAA', validDay),
+  endDay: Yup.string()
+    .test('fecha', 'Fecha inválida, use DD/MM/AAAA', validDay)
     .test(
-      'fecha',
-      'Fecha inválida, use DD/MM/AAAA',
-      (value) => !value || value !== INVALID_DAY_DATE
+      'despues-del-inicio',
+      'La semana de fin no puede ser anterior a la de inicio',
+      function (value) {
+        const { startDay } = this.parent as ValuesProps;
+        if (!value || !isCompleteDay(value) || !isCompleteDay(startDay))
+          return true;
+        return new Date(value).getTime() >= new Date(startDay).getTime();
+      }
     ),
   notes: Yup.string().max(500, 'Máximo 500 caracteres'),
   lines: Yup.array()
     .of(
       Yup.object({
-        businessId: Yup.number()
-          .typeError('Selecciona la finca')
-          .required('Selecciona la finca'),
         boxBrandId: Yup.number()
           .typeError('Selecciona la alícuota')
           .required('Selecciona la alícuota'),
@@ -86,8 +101,23 @@ export const validationSchema = Yup.object({
             const boxes = Number(value);
             return boxes >= 1 && boxes <= 100000;
           }),
-        type: Yup.string().oneOf(['CONTRACT', 'SPOT']).required(),
+        price: Yup.string()
+          .matches(/^\d+(\.\d{1,2})?$/, {
+            message: 'Un número con hasta dos decimales',
+            excludeEmptyString: true,
+          })
+          .test(
+            'rango',
+            'Mayor que 0 y hasta 1000',
+            (value) => !value || (Number(value) > 0 && Number(value) <= 1000)
+          ),
       })
     )
-    .min(1, 'La orden necesita al menos una línea'),
+    .min(1, 'La orden necesita al menos una alícuota')
+    .test('sin-repetir', 'Cada alícuota va una sola vez', (lines) => {
+      const ids = (lines ?? [])
+        .map((line) => line.boxBrandId)
+        .filter((id) => id !== undefined && id !== null);
+      return new Set(ids).size === ids.length;
+    }),
 });

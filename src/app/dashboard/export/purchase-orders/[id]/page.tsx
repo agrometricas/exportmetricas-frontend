@@ -21,7 +21,7 @@ function PurchaseOrderPage(): React.JSX.Element {
       title='Orden de compra'
       description={
         order
-          ? `${order.merchant.businessName} · ${getWeekInfo({ date: new Date(order.weekStart) }).week}`
+          ? `${order.client.businessName} · ${order.type === 'CONTRACT' ? 'contrato' : 'spot'} desde la ${getWeekInfo({ date: new Date(order.startWeek) }).week.split(' //')[0]}`
           : 'Cargando la orden'
       }
       width='wide'

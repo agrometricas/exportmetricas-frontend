@@ -52,9 +52,17 @@ el alta y la edición de la finca, y el campo redondea a dos decimales al salir.
 
 ### Contratos de productor
 
-El cupo que el MAGAP aprueba para una finca: hectáreas aprobadas y cajas
-aprobadas por hectárea a la semana, con fecha de inicio y una de fin opcional
-(sin fin, el contrato queda abierto). El tipo FAS o FOB es opcional.
+Lo pactado con una finca: **contenedores por semana** (`weeklyContainers`) y
+**precio por caja** (`price`), los dos obligatorios; y el cupo que el MAGAP
+aprueba: hectáreas aprobadas y cajas aprobadas por hectárea a la semana. Lleva
+fecha de inicio y una de fin opcional (sin fin, el contrato queda abierto). El
+tipo FAS o FOB es opcional.
+
+- Las exportaciones de la finca usan esos contenedores cada semana al precio
+  del contrato; lo que pasa va *spot*. Lo decide el backend (ver
+  [modulo_ordenes_compra](modulo_ordenes_compra.md)).
+- La lista muestra los contenedores (*Sin dato* en un contrato que no los
+  tiene) y el precio.
 
 - El formulario elige productor y finca; el cuerpo lleva solo `businessId` (el
   backend saca el productor de la finca). Al editar, la finca no cambia y no se
@@ -74,12 +82,14 @@ aprobadas por hectárea a la semana, con fecha de inicio y una de fin opcional
 ### Cupos de la semana
 
 Productor → **Cupos de la Semana** (`/dashboard/producer/contract-usage`):
-cada finca con contrato vigente o con exportaciones en la semana elegida, con
-su cupo semanal, lo exportado y lo que queda. Sale de `GET
+cada finca con contrato vigente o con exportaciones en la semana elegida: los
+contenedores de contrato que usó de los pactados (con el precio y los spot
+debajo), su cupo del MAGAP, lo exportado y lo que queda. Sale de `GET
 /contract-usage?week=` y no se calcula nada en el navegador.
 
-- Cuentan todas las cajas exportadas de la finca: de contrato, spot o sin orden
-  de compra; debajo del total se ve esa división.
+- Solo las exportaciones de contrato usan los contenedores pactados.
+- Contra el cupo del MAGAP cuentan todas las cajas exportadas de la finca, de
+  contrato y spot; debajo del total se ve esa división.
 - Las fincas que pasaron su cupo van primero, con la alerta del backend. Una
   finca sin contrato vigente dice *Sin contrato* y no alerta.
 - La misma alerta, de la semana en curso, sale en Inicio para `MASTER`,

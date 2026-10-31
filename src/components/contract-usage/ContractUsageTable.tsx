@@ -21,6 +21,22 @@ function Status({ farm }: { farm: FarmUsage }): React.JSX.Element {
   );
 }
 
+function ContractContainers({ farm }: { farm: FarmUsage }): React.JSX.Element {
+  if (farm.price === null) return <Text>—</Text>;
+  return (
+    <>
+      <Text fontWeight='semibold'>
+        {farm.weeklyContainers === null
+          ? `${farm.contractContainers} usados, sin tope`
+          : `${farm.contractContainers} de ${farm.weeklyContainers}`}
+      </Text>
+      <Text fontSize='xs' color='fg.muted'>
+        a ${farm.price} · spot {farm.spotContainers}
+      </Text>
+    </>
+  );
+}
+
 export default function ContractUsageTable({
   farms,
 }: {
@@ -42,8 +58,9 @@ export default function ContractUsageTable({
             <Table.ColumnHeader>Productor</Table.ColumnHeader>
             <Table.ColumnHeader>Finca</Table.ColumnHeader>
             <Table.ColumnHeader textAlign='end'>
-              Cupo semanal
+              Contenedores de contrato
             </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign='end'>Cupo MAGAP</Table.ColumnHeader>
             <Table.ColumnHeader textAlign='end'>Exportado</Table.ColumnHeader>
             <Table.ColumnHeader textAlign='end'>Queda</Table.ColumnHeader>
             <Table.ColumnHeader>Estado</Table.ColumnHeader>
@@ -55,13 +72,15 @@ export default function ContractUsageTable({
               <Table.Cell>{farm.merchant?.businessName ?? '—'}</Table.Cell>
               <Table.Cell>{farm.business.name}</Table.Cell>
               <Table.Cell textAlign='end'>
+                <ContractContainers farm={farm} />
+              </Table.Cell>
+              <Table.Cell textAlign='end'>
                 {farm.approvedWeeklyBoxes ?? '—'}
               </Table.Cell>
               <Table.Cell textAlign='end'>
                 <Text fontWeight='semibold'>{farm.exportedBoxes}</Text>
                 <Text fontSize='xs' color={mutedColor}>
-                  contrato {farm.contractBoxes} · spot {farm.spotBoxes} · sin
-                  orden {farm.unplannedBoxes}
+                  contrato {farm.contractBoxes} · spot {farm.spotBoxes}
                 </Text>
               </Table.Cell>
               <Table.Cell

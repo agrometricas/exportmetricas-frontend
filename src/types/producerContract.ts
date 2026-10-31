@@ -5,6 +5,8 @@ export interface ProducerContractResponse {
   approvedHectares: string;
   approvedWeeklyBoxesPerHectare: number;
   approvedWeeklyBoxes: number;
+  weeklyContainers: number | null;
+  price: string;
   contractType: ProducerContractType | null;
   startDate: string;
   endDate: string | null;
@@ -21,6 +23,8 @@ export interface ProducerContractBody {
   businessId?: number;
   approvedHectares: number;
   approvedWeeklyBoxesPerHectare: number;
+  weeklyContainers: number;
+  price: number;
   contractType: ProducerContractType | null;
   startDate: string;
   endDate: string | null;

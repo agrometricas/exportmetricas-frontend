@@ -25,7 +25,7 @@ function PurchaseOrdersPage(): React.JSX.Element {
     <PageLayout
       icon={MdOutlineAssignment}
       title='Órdenes de compra'
-      description='Lo que se le pide a cada productor por semana, y las exportaciones que nacen de cada línea'
+      description='Lo que pide cada cliente: contratos que se repiten cada semana y pedidos spot'
       actions={
         isMobile ? (
           <IconButton
